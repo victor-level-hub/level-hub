@@ -225,7 +225,7 @@
   }
   .tour-tooltip {
     position: fixed;
-    background: var(--bg-card);
+    background: var(--bg-panel); /* v75-93: --bg-card não existe → painel sólido */
     border: 2px solid var(--accent-orange);
     border-radius: 6px;
     padding: 18px 20px 16px;
@@ -737,6 +737,64 @@
     white-space: nowrap;
     text-align: right;
   }
+  /* ═══ Briefing Changelog (v75-93) — O que mudou nesta versão ═══ */
+  .briefing-changelog-inner {
+    background: linear-gradient(135deg, rgba(125, 168, 199, 0.06) 0%, rgba(15, 23, 41, 0) 60%), var(--bg-darkest);
+    border: 1px solid rgba(125, 168, 199, 0.18);
+    border-radius: 14px;
+    padding: 20px 22px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .briefing-changelog-inner:hover {
+    border-color: rgba(125, 168, 199, 0.32);
+  }
+  .briefing-changelog-title {
+    color: #7da8c7 !important;
+    font-size: 20px !important;
+  }
+  .briefing-changelog-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #7da8c7;
+    background: rgba(125, 168, 199, 0.12);
+    border: 1px solid rgba(125, 168, 199, 0.3);
+    border-radius: 999px;
+    padding: 4px 10px;
+    height: fit-content;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .briefing-changelog-list {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .briefing-changelog-list li {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    padding-left: 22px;
+    position: relative;
+  }
+  .briefing-changelog-list li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7da8c7;
+  }
+  .briefing-changelog-list li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
   .briefing-stats-delta .num {
     font-size: 18px;
     font-weight: 700;
@@ -9611,6 +9669,24 @@
         </div>
       </div>
 
+      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-93) ═══ -->
+      <div class="briefing-stats" style="margin-top:32px">
+        <div class="briefing-stats-inner briefing-changelog-inner">
+          <div class="briefing-stats-head">
+            <div>
+              <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
+              <div class="briefing-stats-title briefing-changelog-title">v75-93 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
+            </div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">NOVO</div>
+          </div>
+          <ul class="briefing-changelog-list">
+            <li data-i18n-html="briefing.changelog.item1"><strong>Adicionar Dificuldade</strong> voltou a funcionar. Antes clicavas no botão e nada acontecia.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Eventos no Ar</strong> atualizados — Freerun: Ascent saiu (encerrado), <strong>Ranked Series Season 03</strong> entrou no lugar.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Tour de boas-vindas</strong> já não fica transparente. Antes o texto do fundo atravessava o card e atrapalhava a leitura.</li>
+          </ul>
+        </div>
+      </div>
+
       <!-- ═══ STATS SPARKLINE (v75-63) — só renderiza se houver snapshots ═══ -->
       <div class="briefing-stats" id="briefing-stats-card" style="display:none;margin-top:32px">
         <div class="briefing-stats-inner">
@@ -14201,7 +14277,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-91</strong><span class="ver-tag">Marketplace · perfil do autor + tab Minhas</span>
+        LEVEL · <strong>v75-93</strong><span class="ver-tag">Changelog · Ranked Series · Tour sólido</span>
       </div>
       <script>
         (function(){
@@ -15332,6 +15408,12 @@ window.I18N = {
 
     // — Painel Hoje · Active events block —
     'briefing.eventsTitle':   'EVENTOS NO AR',
+    'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
+    'briefing.changelog.date':  '25 Mai 2026',
+    'briefing.changelog.pill':  'NOVO',
+    'briefing.changelog.item1': '<strong>Adicionar Dificuldade</strong> voltou a funcionar. Antes clicavas no botão e nada acontecia.',
+    'briefing.changelog.item2': '<strong>Eventos no Ar</strong> atualizados — Freerun: Ascent saiu (encerrado), <strong>Ranked Series Season 03</strong> entrou no lugar.',
+    'briefing.changelog.item3': '<strong>Tour de boas-vindas</strong> já não fica transparente. Antes o texto do fundo atravessava o card e atrapalhava a leitura.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -15356,8 +15438,8 @@ window.I18N = {
     // — Event card descriptions (dynamic via renderEvents) —
     'briefing.event.navigator.mode':  'MP · Zombies · Endgame · Warzone',
     'briefing.event.navigator.desc':  'Evento gratuito do <strong>Mês de Apoio aos Veteranos</strong>. Completa 7 desafios em qualquer modo (MP, Zombies, Endgame ou Warzone) pra desbloquear o <strong>Katana</strong> (arma corpo-a-corpo), o camo animado <strong>Liftoff</strong>, calling cards e mais.',
-    'briefing.event.freerun.mode':    'MP Exclusivo · Movimentação',
-    'briefing.event.freerun.desc':    'Desafio de movimento (parkour, slides, wall jumps) no modo <strong>Freerun</strong>. Sobe a torre da Guild Ascent contra o tempo, em 10 zonas crescentes. Recompensas: 2 camos (<strong>Cyberize, Networked</strong>), calling cards, charm e blueprint pra Kogot-7.',
+    'briefing.event.ranked.mode':     'MP Competitivo · Ruleset CDL',
+    'briefing.event.ranked.desc':     'Temporada ranked oficial da Season 03. Vitórias dão <strong>blueprint do M15 Mod 0</strong> (10 wins) e <strong>Large Decal</strong> (100 wins). Cada rank atingido (<strong>Silver, Gold, Platinum, Diamond, Crimson, Iridescent</strong>) libera Calling Card + Weapon Camo exclusivo. Top 250 leva o Calling Card de Champion.',
     'briefing.event.robocop.mode':    'CM · MP · Zombies · WZ',
     'briefing.event.robocop.desc':    'Crossover com o filme RoboCop. Ganha XP em qualquer modo pra subir 2 trilhas: <strong>Free</strong> (Siren energy weapon, skins, blueprints) e <strong>Premium</strong> (1100 COD Points / ~$10 — desbloqueia o operador <strong>RoboCop</strong> + 3 skins).',
 
@@ -16591,6 +16673,12 @@ window.I18N = {
 
     // — Briefing · Active events block —
     'briefing.eventsTitle':   'LIVE EVENTS',
+    'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
+    'briefing.changelog.date':  'May 25, 2026',
+    'briefing.changelog.pill':  'NEW',
+    'briefing.changelog.item1': '<strong>Add Struggle</strong> button works again. Clicks were doing nothing before.',
+    'briefing.changelog.item2': '<strong>Live Events</strong> refreshed — Freerun: Ascent is out (event ended), <strong>Ranked Series Season 03</strong> is in.',
+    'briefing.changelog.item3': '<strong>Welcome tour</strong> is no longer transparent. Background text used to bleed through the card and hurt readability.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -16615,8 +16703,8 @@ window.I18N = {
     // — Event card descriptions —
     'briefing.event.navigator.mode':  'MP · Zombies · Endgame · Warzone',
     'briefing.event.navigator.desc':  'Free event for <strong>Veterans Support Month</strong>. Complete 7 challenges in any mode (MP, Zombies, Endgame or Warzone) to unlock the <strong>Katana</strong> (melee weapon), the animated camo <strong>Liftoff</strong>, calling cards and more.',
-    'briefing.event.freerun.mode':    'MP Exclusive · Movement',
-    'briefing.event.freerun.desc':    'Movement challenge (parkour, slides, wall jumps) in the <strong>Freerun</strong> mode. Climb the Guild Ascent tower against the clock, across 10 escalating zones. Rewards: 2 camos (<strong>Cyberize, Networked</strong>), calling cards, charm and a Kogot-7 blueprint.',
+    'briefing.event.ranked.mode':     'Competitive MP · CDL ruleset',
+    'briefing.event.ranked.desc':     'Official Ranked Play season for Season 03. Wins grant the <strong>M15 Mod 0 blueprint</strong> (10 wins) and the <strong>Large Decal</strong> (100 wins). Each rank reached (<strong>Silver, Gold, Platinum, Diamond, Crimson, Iridescent</strong>) unlocks an exclusive Calling Card + Weapon Camo. Top 250 earns the Champion Calling Card.',
     'briefing.event.robocop.mode':    'CM · MP · Zombies · WZ',
     'briefing.event.robocop.desc':    'Crossover with the RoboCop movie. Earn XP in any mode to climb 2 tracks: <strong>Free</strong> (Siren energy weapon, skins, blueprints) and <strong>Premium</strong> (1100 COD Points / ~$10 — unlocks the <strong>RoboCop</strong> operator + 3 skins).',
 
@@ -27627,6 +27715,28 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     'use strict';
     if (typeof LevelDB === 'undefined') return;
 
+    // v75-92: i18n da Etapa 10 (Struggles) vive em window.I18N, não em CBI18N.
+    // Este stub resolve a key olhando primeiro em window.I18N (onde as chaves str.* moram),
+    // com fallback pra window.cbt (CBI18N) e finalmente pra key bruta.
+    // Suporta substituição posicional {0},{1},... a partir dos args extras.
+    function cbt(key) {
+      var lang = 'pt';
+      try { lang = localStorage.getItem('bo7hub_lang_v1') || 'pt'; } catch (e) {}
+      var s;
+      try {
+        var dict = (window.I18N && window.I18N[lang]) || (window.I18N && window.I18N.pt) || null;
+        if (dict && dict[key] !== undefined) s = dict[key];
+      } catch (e) {}
+      if (s === undefined && typeof window !== 'undefined' && typeof window.cbt === 'function') {
+        try { s = window.cbt.apply(null, arguments); } catch (e) {}
+      }
+      if (s === undefined) s = key;
+      for (var i = 1; i < arguments.length; i++) {
+        s = String(s).split('{' + (i - 1) + '}').join(String(arguments[i]));
+      }
+      return s;
+    }
+
     // ── Pre-defined struggle catalog ────────────────────────────────────
     const STRUGGLE_CATALOG = [
       {
@@ -30396,6 +30506,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }
       return s;
     }
+    // v75-92: expor cbt() pro escopo global pra ser acessível de outras IIFEs (ex.: Etapa 10 Struggles)
+    try { window.cbt = cbt; } catch (e) {}
 
     // ----- Current loadout state -----
     let state = createEmptyState();
@@ -31791,13 +31903,13 @@ ${cbt('share.t.footer')}`;
         endIso: '2026-05-21T17:00:00Z'
       },
       {
-        id: 'freerun',
-        name: 'Freerun: Ascent',
-        modeKey: 'briefing.event.freerun.mode',
-        descKey: 'briefing.event.freerun.desc',
-        img: 'https://imgs.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/body/bo7/bo7-s03-reloaded/BO7-S03-RELOADED-ANNOUNCEMENT-046.webp',
-        // May 14, 2026 10am PT (17:00 UTC)
-        endIso: '2026-05-14T17:00:00Z'
+        id: 'ranked',
+        name: 'Ranked Series · Season 03',
+        modeKey: 'briefing.event.ranked.mode',
+        descKey: 'briefing.event.ranked.desc',
+        img: 'https://imgs.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/body/bo7/bo7-s03-reloaded/BO7-S03-RELOADED-ANNOUNCEMENT-048.webp',
+        // June 4, 2026 10am PT (17:00 UTC) — fim oficial da Season 03
+        endIso: '2026-06-04T17:00:00Z'
       },
       {
         id: 'robocop',
