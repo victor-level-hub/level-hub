@@ -9695,22 +9695,22 @@
         </div>
       </div>
 
-      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-93) ═══ -->
+      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-95) ═══ -->
       <div class="briefing-stats" style="margin-top:32px">
         <div class="briefing-stats-inner briefing-changelog-inner">
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v75-93 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v75-95 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">NOVO</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Bugs corrigidos · eventos atualizados</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Dá pra registrar tuas dificuldades de novo, o tour de boas-vindas fica legível mesmo com textos atrás, e os eventos da home refletem o que está ativo agora.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo de dificuldades agora vive na cloud</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">As 8 dificuldades base que aparecem no catálogo (Atiro primeiro mas morro, K/D baixo, etc.) saíram do código fixo e foram pra uma tabela no DB. Editáveis no painel ADMIN sem novo deploy.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Adicionar Dificuldade</strong> voltou a funcionar. Antes clicavas no botão e nada acontecia.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Eventos no Ar</strong> atualizados — Freerun: Ascent saiu (encerrado), <strong>Ranked Series Season 03</strong> entrou no lugar.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Tour de boas-vindas</strong> já não fica transparente. Antes o texto do fundo atravessava o card e atrapalhava a leitura.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>cat_struggles</strong> nova no Supabase — 8 dificuldades em PT e EN, lidas por aqui via cache local de 24h. Se a cloud falhar, o Hub continua funcionando com a versão hardcoded.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Painel ADMIN · Dificuldades</strong> em Configurações ▸ Operador — adiciona, edita e desativa. Mesmo padrão de Mapas, Armas e Builds curadas.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Idiomas separados.</strong> Cada dificuldade tem versão PT e EN independentes. Troca o idioma no canto superior direito e o catálogo recarrega.</li>
           </ul>
         </div>
       </div>
@@ -14188,6 +14188,29 @@
           </div>
           </div><!-- /opp-admin-only CRUD Builds -->
 
+          <!-- ═══ ADMIN · CRUD Dificuldades (v75-95) ════════════════ -->
+          <div class="opp-admin-only">
+          <div class="opp-section-title" style="margin-top:24px">
+            {{i:target}} ADMIN · Dificuldades (cat_struggles)
+          </div>
+          <div class="opp-actions-list">
+            <div class="opp-action-item" style="flex-direction:column;align-items:stretch">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div class="opp-action-icon">{{i:database}}</div>
+                <div class="opp-action-body" style="flex:1">
+                  <div class="opp-action-title">Catálogo de dificuldades no DB</div>
+                  <div class="opp-action-desc">Tabela <code>cat_struggles</code>. As 8 dificuldades base do catálogo, em PT e EN. Hub lê via cache 24h e cai pro fallback hardcoded se a cloud falhar. <span id="opp-struggles-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">Configure o secret de admin pra carregar.</span></div>
+                </div>
+                <button class="opp-action-btn" id="opp-btn-struggle-new">+ Nova dificuldade</button>
+                <button class="opp-action-btn secondary" id="opp-btn-struggles-refresh">{{i:refresh-cw}}</button>
+              </div>
+              <div id="opp-struggles-list" style="background:var(--bg-darkest);border-radius:6px;padding:8px;max-height:380px;overflow-y:auto;font-family:'JetBrains Mono', monospace;font-size:11px">
+                <div style="padding:18px;text-align:center;color:var(--text-muted)">Configure o secret de admin acima pra carregar a lista.</div>
+              </div>
+            </div>
+          </div>
+          </div><!-- /opp-admin-only CRUD Dificuldades -->
+
           <!-- ═══ Onboarding (v75-87) ═══════════════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.tour.section">
             {{i:help-circle}} Onboarding
@@ -14306,7 +14329,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-94</strong><span class="ver-tag">Cloud assets · Tour scroll · Label backup</span>
+        LEVEL · <strong>v75-95</strong><span class="ver-tag">Catálogo de dificuldades · DB cloud</span>
       </div>
       <script>
         (function(){
@@ -15237,6 +15260,66 @@
       </div>
     </div>
 
+    <!-- =================================================================== -->
+    <!-- MODAL: ADMIN · EDIT/CREATE STRUGGLE (v75-95)                        -->
+    <!-- =================================================================== -->
+    <div class="modal-overlay" id="modal-admin-struggle">
+      <div class="modal-box" style="max-width:720px">
+        <div class="modal-header">
+          <div class="modal-title"><span id="admin-struggle-modal-title">Editar dificuldade</span></div>
+          <button class="modal-close" data-close-modal="modal-admin-struggle">×</button>
+        </div>
+        <div class="modal-body" style="max-height:75vh;overflow-y:auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <div class="form-label">ID <span style="color:var(--accent-orange)">*</span> <span style="color:var(--text-muted);font-size:10px">(snake_case)</span></div>
+              <input type="text" id="admin-struggle-id" class="form-input" placeholder="ex: shoot_first_die" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Language <span style="color:var(--accent-orange)">*</span></div>
+              <select id="admin-struggle-language" class="form-input">
+                <option value="pt">pt</option>
+                <option value="en">en</option>
+              </select>
+            </div>
+            <div style="grid-column:1/-1">
+              <div class="form-label">Título <span style="color:var(--accent-orange)">*</span> <span style="color:var(--text-muted);font-size:10px">(aparece como card no Catálogo)</span></div>
+              <input type="text" id="admin-struggle-title" class="form-input" placeholder="ex: Atiro primeiro, acerto os tiros, mas morro mesmo assim" maxlength="160"/>
+            </div>
+            <div>
+              <div class="form-label">Icon <span style="color:var(--text-muted);font-size:10px">(lucide-like)</span></div>
+              <input type="text" id="admin-struggle-icon" class="form-input" placeholder="target" maxlength="40" value="lightbulb"/>
+            </div>
+            <div>
+              <div class="form-label">Sort order</div>
+              <input type="number" id="admin-struggle-sort" class="form-input" placeholder="ex: 10" min="0" max="9999" value="0"/>
+            </div>
+            <div style="grid-column:1/-1">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text-secondary)">
+                <input type="checkbox" id="admin-struggle-is-active" style="width:16px;height:16px;accent-color:var(--accent-orange)" checked>
+                Ativa <span style="color:var(--text-muted);font-size:10px">(aparece pro usuário)</span>
+              </label>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:18px 0">
+          <div class="form-label">Possível causa (root cause) <span style="color:var(--text-muted);font-size:10px">(uma ou duas frases)</span></div>
+          <textarea id="admin-struggle-root-cause" class="form-input" rows="3" placeholder="Provavelmente é uma combinação de..." style="font-family:inherit;font-size:12px"></textarea>
+
+          <div class="form-label" style="margin-top:12px">Dicas <span style="color:var(--text-muted);font-size:10px">(uma por linha · HTML &lt;strong&gt; permitido)</span></div>
+          <textarea id="admin-struggle-tips" class="form-input" rows="8" placeholder="&lt;strong&gt;Pré-aima na altura do pescoço&lt;/strong&gt;, nunca no peito. Headshots multiplicam dano.
+&lt;strong&gt;Equipa Dexterity&lt;/strong&gt; (perk) — reduz flinch.
+..." style="font-family:'JetBrains Mono', monospace; font-size: 11px"></textarea>
+
+          <div id="admin-struggle-error" style="display:none;margin-top:12px;padding:8px 12px;background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:4px;color:#ff5252;font-size:11px;font-family:'JetBrains Mono',monospace"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" data-close-modal="modal-admin-struggle" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
+          <button class="btn-action btn-save" id="admin-struggle-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -15441,11 +15524,11 @@ window.I18N = {
     'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
     'briefing.changelog.date':  '25 Mai 2026',
     'briefing.changelog.pill':  'NOVO',
-    'briefing.changelog.headline': 'Imagens na cloud · ajustes de tour e backup',
-    'briefing.changelog.summary':  'Tuas imagens dos cards (estilos, mapas, prestiges, etc.) agora vivem na cloud em vez de só no navegador — chega de reconfigurar a cada troca de PC e de erro de storage cheio. Mais dois ajustes visuais.',
-    'briefing.changelog.item1': '<strong>Imagens dos cards na cloud</strong>. Botão novo em <strong>Configurações ▸ Imagens</strong>: clica em "Migrar pra cloud" pra subir as 11 imagens que tens hoje. Daqui pra frente os uploads vão automaticamente.',
-    'briefing.changelog.item2': '<strong>Tour de boas-vindas rola a tela</strong> automaticamente quando o item destacado (Marketplace, Configurações) está mais abaixo na sidebar.',
-    'briefing.changelog.item3': '<strong>Indicador de Backup mais claro</strong>. O badge no canto superior direito agora mostra "BACKUP · Nunca" em vez de só "Nunca" solto.',
+    'briefing.changelog.headline': 'Catálogo de dificuldades agora vive na cloud',
+    'briefing.changelog.summary':  'As 8 dificuldades base que aparecem no catálogo (Atiro primeiro mas morro, K/D baixo, etc.) saíram do código fixo e foram pra uma tabela no DB. Editáveis no painel ADMIN sem novo deploy.',
+    'briefing.changelog.item1': '<strong>cat_struggles</strong> nova no Supabase — 8 dificuldades em PT e EN, lidas por aqui via cache local de 24h. Se a cloud falhar, o Hub continua funcionando com a versão hardcoded.',
+    'briefing.changelog.item2': '<strong>Painel ADMIN · Dificuldades</strong> em Configurações ▸ Operador — adiciona, edita e desativa. Mesmo padrão de Mapas, Armas e Builds curadas.',
+    'briefing.changelog.item3': '<strong>Idiomas separados.</strong> Cada dificuldade tem versão PT e EN independentes. Troca o idioma no canto superior direito e o catálogo recarrega.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -16715,11 +16798,11 @@ window.I18N = {
     'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
     'briefing.changelog.date':  'May 25, 2026',
     'briefing.changelog.pill':  'NEW',
-    'briefing.changelog.headline': 'Cloud images · tour and backup polish',
-    'briefing.changelog.summary':  'Your card images (styles, maps, prestiges, etc.) now live in the cloud instead of just in your browser — no more reconfiguring on a new PC, no more storage-full errors. Two more visual tweaks.',
-    'briefing.changelog.item1': '<strong>Card images in the cloud</strong>. New button in <strong>Settings ▸ Images</strong>: click "Migrate to cloud" to upload the images you have today. From now on uploads go automatically.',
-    'briefing.changelog.item2': '<strong>Welcome tour auto-scrolls</strong> when the highlighted item (Marketplace, Settings) sits further down the sidebar.',
-    'briefing.changelog.item3': '<strong>Clearer Backup indicator</strong>. The badge on the top right now shows "BACKUP · Never" instead of just "Never".',
+    'briefing.changelog.headline': 'Struggle catalog now lives in the cloud',
+    'briefing.changelog.summary':  'The 8 base difficulties in the catalog ("I shoot first but die", low K/D, etc.) moved out of hardcoded JS into a DB table. Editable in the ADMIN panel without a new deploy.',
+    'briefing.changelog.item1': '<strong>New cat_struggles table</strong> on Supabase — 8 difficulties in PT and EN, fetched here via a 24h local cache. If the cloud fails, the Hub keeps working with the hardcoded version.',
+    'briefing.changelog.item2': '<strong>ADMIN · Difficulties panel</strong> under Settings ▸ Operator — add, edit and deactivate. Same pattern as Maps, Weapons and Curated builds.',
+    'briefing.changelog.item3': '<strong>Languages are separate.</strong> Each difficulty has independent PT and EN rows. Switch language in the top right and the catalog reloads.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -27787,8 +27870,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       return s;
     }
 
-    // ── Pre-defined struggle catalog ────────────────────────────────────
-    const STRUGGLE_CATALOG = [
+    // ── Pre-defined struggle catalog (v75-95) ───────────────────────────
+    // Originalmente hardcoded. Agora é fallback quando a cloud (cat_struggles)
+    // não responde. O loader IIFE (no fim do script) substitui in-place a partir
+    // do cache local ou do PostgREST anon.
+    // ── PT fallback (8 dificuldades base) ───────────────────────────────
+    const STRUGGLE_CATALOG_FALLBACK_PT = [
       {
         id: 'shoot_first_die',
         title: 'Atiro primeiro, acerto os tiros, mas morro mesmo assim',
@@ -27894,6 +27981,137 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         ]
       }
     ];
+
+    // ── EN fallback (mesmas 8 entries) ──────────────────────────────────
+    const STRUGGLE_CATALOG_FALLBACK_EN = [
+      {
+        id: 'shoot_first_die',
+        title: 'I shoot first, hit my shots, but still die',
+        icon: 'target',
+        why: 'Usually a combination of aiming at the chest (not neck/head) + flinch (recoil that pulls your aim when hit) + ADS sensitivity too high + missing the Dexterity perk.',
+        tips: [
+          '<strong>Pre-aim at neck/head height</strong>, never at the chest. Headshots multiply damage and shorten TTK (time-to-kill).',
+          '<strong>Equip Dexterity</strong> (perk) — reduces flinch when hit while moving.',
+          '<strong>Lower the ADS Multiplier to 0.85</strong> in controller settings.',
+          'Practice <strong>strafe shooting</strong>: move left/right while firing, makes it harder for the enemy to land headshots.',
+          'Avoid <strong>static peeking</strong> — always leave cover while moving.'
+        ]
+      },
+      {
+        id: 'slow_movement',
+        title: "I'm too slow when running / moving",
+        icon: 'wind',
+        why: 'Movement in BO7 depends on perks (Lightweight, Tac Sprinter) + build attachments (mobility stocks/grips) + proper slide-cancel and dive-to-fire use.',
+        tips: [
+          '<strong>Unlock Lightweight</strong> (L45) — more movement speed. Worth a Permanent Unlock.',
+          '<strong>Equip Tac Sprinter</strong> (L11) — tactical sprint with no time limit.',
+          'Use attachments with <strong>"Mobility" in the name</strong>: Quickstep Foregrip, Itinerant Light Stock, Selene Rover Grip.',
+          'Learn <strong>slide-cancel</strong>: short slide + jump cancels the slow recovery and keeps you fast.',
+          'Avoid "Control" or "Heavy" stocks — they tank mobility.'
+        ]
+      },
+      {
+        id: 'weak_midrange',
+        title: "My weapon doesn't kill well at mid range",
+        icon: 'target',
+        why: 'SMGs and shotguns drop damage hard past ~15-20m. ARs need solid Range and Bullet Velocity attachments to stay lethal.',
+        tips: [
+          "If you're running an <strong>SMG</strong>, consider swapping to an <strong>AR</strong> (Sturmwolf 45, Voyak KT-3) for mid-range.",
+          'Equip <strong>Monolithic Suppressor</strong> (+range) or a <strong>long barrel</strong> — usually Perigee Barrel for SMGs.',
+          '<strong>High-Velocity Ammo</strong> (.45/.40/.762 Overpressured) — +Bullet Velocity = bullet arrives sooner.',
+          'Use <strong>red dot or holographic sight</strong> (1x-2x) instead of iron sights for mid-range.',
+          'Practice <strong>burst-fire</strong>: 3-5 shots, release, again. Cuts accumulated recoil.'
+        ]
+      },
+      {
+        id: 'minimap_blind',
+        title: 'I struggle to find enemies by reading the mini-map',
+        icon: 'map',
+        why: "In BO6/BO7 the mini-map only reveals enemies when: (a) they fire without a suppressor, (b) a UAV is active, or (c) you run the tracker perk. Without that, you're effectively blind.",
+        tips: [
+          "<strong>Skip the suppressor</strong> if you want to appear on the enemy minimap (it's a disadvantage); but <strong>listen carefully</strong> for unsuppressed enemy shots.",
+          'Call in or earn a <strong>UAV</strong> as a scorestreak — cheap (400 score) and reveals everyone.',
+          'Equip <strong>Tracker</strong> (perk L32) — see enemy footsteps on the ground.',
+          'Learn the <strong>common routes</strong> of the maps you play — anticipate.',
+          '<strong>Use directional audio</strong>: headset on, audio set to "Boost High". Footsteps help more than the minimap.'
+        ]
+      },
+      {
+        id: 'losing_close_fights',
+        title: 'I lose close-range / point-blank fights',
+        icon: 'swords',
+        why: 'CQB (close quarters battle) is decided by: weapon TTK, ADS speed, hipfire spread (accuracy firing without aiming), and movement. SMG with Sanctum Speed + no ADS is the rush meta.',
+        tips: [
+          'In CQB, <strong>hipfire (shooting without ADS)</strong> is faster. Equip a laser like <strong>EAM ScatterLine</strong> or similar (Steady Aim).',
+          '<strong>Sanctum Speed Grip</strong> or Quickdraw Grip = instant ADS.',
+          'Slide into tight corridors — the opponent has a harder time landing shots.',
+          'Practice <strong>dropshot</strong>: go prone (crouch button) when they start shooting you — it throws off their aim.',
+          'In extreme cases, swap SMG for <strong>Shotgun (Echo 12, Akita)</strong> — one-shot kill if you connect.'
+        ]
+      },
+      {
+        id: 'dying_to_streaks',
+        title: 'I die too often to killstreaks (UAV, choppers, missiles)',
+        icon: 'plane',
+        why: "Killstreaks are the #1 cause of death for beginners. Without the right defensive perks, you're easy prey.",
+        tips: [
+          '<strong>Equip Ghost</strong> (L26) — invisible to UAV/Scout Pulse while moving. Essential for Rushers.',
+          '<strong>Flak Jacket</strong> (L21) — reduces explosive damage (missiles, grenades).',
+          '<strong>Cold-Blooded</strong> (L17) — invisible to thermal and AI targeting.',
+          'Learn to <strong>shoot down UAV/Counter-UAV</strong> with a Launcher (A.R.C. M1 or your launcher secondary).',
+          'When you hear <strong>"Enemy UAV inbound"</strong>, get inside buildings or rely on Ghost.'
+        ]
+      },
+      {
+        id: 'bad_at_objectives',
+        title: "I can't capture / hold objectives",
+        icon: 'flag',
+        why: 'Objective modes (Hardpoint, Domination) demand defensive positioning + surviving on the point, not isolated kills.',
+        tips: [
+          '<strong>Tactical Mask</strong> (L5) — survive flashbangs/concussions on the point.',
+          '<strong>Trophy System</strong> (L6) — destroys lethals/tacticals thrown at your point.',
+          '<strong>Smoke</strong> (L35) — use it to contest defended points.',
+          "Don't go <strong>straight to the point</strong> — clear flanks first. Dying head-on is wasted time.",
+          'In Hardpoint, stay <strong>near the next point before</strong> rotation — you arrive with the advantage.'
+        ]
+      },
+      {
+        id: 'high_deaths_low_kills',
+        title: 'My K/D is low (I die too much, kill too little)',
+        icon: 'trending-down',
+        why: 'Usually a mix of aggression without cover + low awareness + wrong weapon/perk choices for your playstyle.',
+        tips: [
+          '<strong>Define your playstyle</strong>: are you Rusher, Slayer, Anchor? The build must match it.',
+          'Play in <strong>groups of 2-3</strong> — coordinated flanking beats lone-wolf.',
+          'Learn maps with the <strong>best holding angles</strong> and the hot spots.',
+          '<strong>Stop pushing wounded</strong>: if you took heavy damage, back off and heal before chasing more kills.',
+          'Review your replays/highlights — see where you usually die and adjust.'
+        ]
+      }
+    ];
+
+    // Mutable catalog used by renderStruggles/renderPicker/openRateModal.
+    // Trocado in-place pelo loader (cat_struggles cache+fetch). PT por default.
+    function pickStruggleFallback(lang) {
+      return (lang === 'en' ? STRUGGLE_CATALOG_FALLBACK_EN : STRUGGLE_CATALOG_FALLBACK_PT).slice();
+    }
+    let STRUGGLE_CATALOG = pickStruggleFallback((function () {
+      try { return localStorage.getItem('bo7hub_lang_v1') || 'pt'; } catch (e) { return 'pt'; }
+    })());
+    try { window.STRUGGLE_CATALOG = STRUGGLE_CATALOG; } catch (e) {}
+
+    // Substitui o catálogo em memória sem trocar a referência (preserva closures).
+    // O loader externo (cat_struggles cache+fetch) chama isto via window.applyStruggleCatalog().
+    function applyStruggleCatalog(newCatalog) {
+      if (!Array.isArray(newCatalog) || newCatalog.length === 0) return;
+      STRUGGLE_CATALOG.length = 0;
+      newCatalog.forEach(function (c) { STRUGGLE_CATALOG.push(c); });
+      try { window.STRUGGLE_CATALOG = STRUGGLE_CATALOG; } catch (e) {}
+      // Re-render via evento existente (renderStruggles está bound a ele).
+      try { document.dispatchEvent(new CustomEvent('level:struggles-change')); } catch (e) {}
+    }
+    try { window.applyStruggleCatalog = applyStruggleCatalog; } catch (e) {}
+    try { window.pickStruggleFallback = pickStruggleFallback; } catch (e) {}
 
     // Motivational messages by improvement delta
     const MOTIVATIONAL = {
@@ -35047,6 +35265,421 @@ ${cbt('share.t.footer')}`;
     document.addEventListener('DOMContentLoaded', initBuilds);
   } else {
     initBuilds();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · CAT_STRUGGLES LOADER (v75-95)
+// ═══════════════════════════════════════════════════════════════════
+// Lê o catálogo de dificuldades de Supabase via PostgREST anon
+// (cat_struggles?language=eq.{lang}&is_active=eq.true&order=sort_order).
+// Cache local de 24h em 'level.cache.struggles.{lang}'.
+// Fallback final: STRUGGLE_CATALOG_FALLBACK_PT / EN no escopo do Hub.
+// Chama window.applyStruggleCatalog() pra trocar in-place + re-render.
+// Re-fetch quando o idioma muda (event 'languagechange').
+// ═══════════════════════════════════════════════════════════════════
+(function levelStrugglesLoader() {
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const TTL_MS = 24 * 60 * 60 * 1000; // 24h
+  const CACHE_PREFIX = 'level.cache.struggles.';
+
+  function getLang() {
+    try { return localStorage.getItem('bo7hub_lang_v1') || 'pt'; } catch (e) { return 'pt'; }
+  }
+
+  function cacheKey(lang) { return CACHE_PREFIX + lang; }
+
+  function readCache(lang) {
+    try {
+      const raw = localStorage.getItem(cacheKey(lang));
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if (!obj || !Array.isArray(obj.data) || !Number.isFinite(obj.fetchedAt)) return null;
+      if (Date.now() - obj.fetchedAt > TTL_MS) return null; // expirou
+      return obj.data;
+    } catch (e) { return null; }
+  }
+
+  function writeCache(lang, data) {
+    try {
+      localStorage.setItem(cacheKey(lang), JSON.stringify({
+        fetchedAt: Date.now(),
+        data: data
+      }));
+    } catch (e) {}
+  }
+
+  // Converte row do DB (root_cause, tips[]) para o shape esperado pelo Hub (why, tips[]).
+  function dbRowToCatItem(row) {
+    return {
+      id:    String(row.id || ''),
+      title: String(row.title || ''),
+      icon:  String(row.icon || 'lightbulb'),
+      why:   String(row.root_cause || ''),
+      tips:  Array.isArray(row.tips) ? row.tips.slice() : []
+    };
+  }
+
+  async function fetchFromDB(lang) {
+    const url = SUPABASE_URL +
+      '/rest/v1/cat_struggles' +
+      '?select=id,title,icon,root_cause,tips,sort_order' +
+      '&language=eq.' + encodeURIComponent(lang) +
+      '&is_active=eq.true' +
+      '&order=sort_order.asc';
+    const r = await fetch(url, {
+      headers: {
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'apikey': ANON_KEY,
+        'Accept': 'application/json'
+      }
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const rows = await r.json();
+    if (!Array.isArray(rows)) throw new Error('payload não é array');
+    return rows.map(dbRowToCatItem);
+  }
+
+  function applyToHub(catalog) {
+    if (typeof window.applyStruggleCatalog === 'function') {
+      window.applyStruggleCatalog(catalog);
+    }
+  }
+
+  function applyFallback(lang) {
+    if (typeof window.pickStruggleFallback === 'function') {
+      applyToHub(window.pickStruggleFallback(lang));
+    }
+  }
+
+  // Pipeline principal: cache → fetch → fallback
+  async function load(lang) {
+    // 1. Cache local quente (< 24h)
+    const cached = readCache(lang);
+    if (cached && cached.length > 0) {
+      applyToHub(cached);
+      // Não precisa fetch agora — cache válido.
+      return;
+    }
+    // 2. Fetch do DB
+    try {
+      const fresh = await fetchFromDB(lang);
+      if (fresh.length > 0) {
+        writeCache(lang, fresh);
+        applyToHub(fresh);
+        console.log('[LEVEL] cat_struggles carregado da cloud: ' + fresh.length + ' itens (' + lang + ')');
+        return;
+      }
+      // DB respondeu vazio — usa fallback hardcoded
+      console.warn('[LEVEL] cat_struggles vazio no DB pra "' + lang + '", usando fallback hardcoded');
+      applyFallback(lang);
+    } catch (err) {
+      console.warn('[LEVEL] cat_struggles fetch falhou (' + (err && err.message ? err.message : err) + '), usando fallback hardcoded');
+      applyFallback(lang);
+    }
+  }
+
+  // Boot — carrega no idioma atual
+  function init() {
+    load(getLang());
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Reage à troca de idioma
+  window.addEventListener('languagechange', function (ev) {
+    const lang = (ev && ev.detail && ev.detail.lang) ? ev.detail.lang : getLang();
+    load(lang);
+  });
+
+  // Expõe trigger manual (botão refresh do painel admin chama isso)
+  try {
+    window.LevelStrugglesLoader = {
+      refresh: function () { return load(getLang()); },
+      clearCache: function () {
+        try {
+          localStorage.removeItem(cacheKey('pt'));
+          localStorage.removeItem(cacheKey('en'));
+        } catch (e) {}
+      }
+    };
+  } catch (e) {}
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · ADMIN CRUD — cat_struggles (v75-95)
+// ═══════════════════════════════════════════════════════════════════
+// CRUD admin de dificuldades via edge function `admin-cat-struggles`.
+// Pattern idêntico ao adminCrudMaps/Weapons/Builds — IIFE separada.
+// ═══════════════════════════════════════════════════════════════════
+(function adminCrudStruggles() {
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const ENDPOINT = SUPABASE_URL + '/functions/v1/admin-cat-struggles';
+  const SECRET_LS_KEY = 'level.admin.secret';
+
+  let currentStruggles = [];
+
+  function getSecret() {
+    try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; }
+  }
+  function setStatus(elId, text, color) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = text;
+    if (color) el.style.color = color;
+  }
+  function escapeHtmlS(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  async function callAdmin(action, payload) {
+    const secret = getSecret();
+    if (!secret) throw new Error('Secret de admin não configurado');
+    const body = Object.assign({ action: action }, payload || {});
+    const r = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'apikey': ANON_KEY,
+        'Content-Type': 'application/json',
+        'x-level-admin-secret': secret
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const msg = data.error || ('HTTP ' + r.status);
+      throw new Error(msg);
+    }
+    return data;
+  }
+
+  function renderStrugglesList() {
+    const wrap = document.getElementById('opp-struggles-list');
+    if (!wrap) return;
+    if (!currentStruggles.length) {
+      wrap.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted)">Nenhuma dificuldade carregada. Clica em "+ Nova dificuldade" pra começar.</div>';
+      return;
+    }
+    const rows = currentStruggles.map(function (s) {
+      const tipsCount = Array.isArray(s.tips) ? s.tips.length : 0;
+      const activeBadge = s.is_active
+        ? '<span style="color:#4caf50;margin-left:6px">ATIVA</span>'
+        : '<span style="color:var(--text-muted);margin-left:6px">INATIVA</span>';
+      const langBadge = '<span style="color:var(--accent-cyan);font-size:10px;margin-left:6px">' + escapeHtmlS(s.language) + '</span>';
+      const sortBadge = (s.sort_order != null) ? '<span style="color:var(--text-muted);font-size:10px;margin-right:6px">' + s.sort_order + '</span>' : '';
+      const compositeKey = s.id + '|' + s.language; // PK composta — atributo só
+      return (
+        '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--border)">' +
+          '<div style="flex:1;min-width:0;overflow:hidden">' +
+            '<div style="display:flex;align-items:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+              sortBadge +
+              '<strong style="color:var(--text-primary)">' + escapeHtmlS(s.id) + '</strong>' +
+              langBadge + activeBadge +
+            '</div>' +
+            '<div style="color:var(--text-secondary);font-size:10px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+              escapeHtmlS(s.title) +
+            '</div>' +
+            '<div style="color:var(--text-muted);font-size:10px;margin-top:2px">icon: ' + escapeHtmlS(s.icon || '—') + ' · ' + tipsCount + ' dicas</div>' +
+          '</div>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px" data-admin-struggle-edit="' + escapeHtmlS(compositeKey) + '">Editar</button>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px;color:#ff5252;border-color:rgba(244,67,54,0.4)" data-admin-struggle-delete="' + escapeHtmlS(compositeKey) + '">×</button>' +
+        '</div>'
+      );
+    }).join('');
+    wrap.innerHTML = rows;
+  }
+
+  async function loadStruggles() {
+    setStatus('opp-struggles-status', 'A carregar dificuldades...', 'var(--text-muted)');
+    try {
+      const data = await callAdmin('list', {});
+      currentStruggles = data.struggles || [];
+      renderStrugglesList();
+      setStatus('opp-struggles-status', currentStruggles.length + ' dificuldades carregadas (PT + EN)', 'var(--text-secondary)');
+    } catch (err) {
+      const wrap = document.getElementById('opp-struggles-list');
+      if (wrap) wrap.innerHTML = '<div style="padding:18px;text-align:center;color:#ff5252">' + escapeHtmlS(err.message) + '</div>';
+      setStatus('opp-struggles-status', 'Erro: ' + err.message, '#ff5252');
+    }
+  }
+
+  async function saveStruggle() {
+    const errEl = document.getElementById('admin-struggle-error');
+    errEl.style.display = 'none';
+
+    const id = (document.getElementById('admin-struggle-id').value || '').trim().toLowerCase();
+    const language = (document.getElementById('admin-struggle-language').value || 'pt').trim().toLowerCase();
+    const title = (document.getElementById('admin-struggle-title').value || '').trim();
+    if (!id || !title) {
+      errEl.textContent = 'ID e Título são obrigatórios.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[a-z0-9_]+$/.test(id)) {
+      errEl.textContent = 'ID deve ser snake_case (apenas a-z, 0-9, _).';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (language !== 'pt' && language !== 'en') {
+      errEl.textContent = "Language deve ser 'pt' ou 'en'.";
+      errEl.style.display = 'block';
+      return;
+    }
+
+    // Parse tips: 1 por linha, filtra vazias
+    const rawTips = document.getElementById('admin-struggle-tips').value || '';
+    const tips = rawTips.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+
+    const payload = {
+      id: id,
+      language: language,
+      title: title,
+      icon: (document.getElementById('admin-struggle-icon').value || 'lightbulb').trim() || 'lightbulb',
+      root_cause: (document.getElementById('admin-struggle-root-cause').value || '').trim(),
+      tips: tips,
+      sort_order: parseInt(document.getElementById('admin-struggle-sort').value, 10) || 0,
+      is_active: document.getElementById('admin-struggle-is-active').checked
+    };
+
+    const saveBtn = document.getElementById('admin-struggle-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'A salvar...';
+    try {
+      await callAdmin('upsert', { struggle: payload });
+      closeAdminStruggleModal();
+      await loadStruggles();
+      // Invalida cache local pro idioma editado e recarrega o Hub
+      try {
+        localStorage.removeItem('level.cache.struggles.' + language);
+      } catch (e) {}
+      if (window.LevelStrugglesLoader && typeof window.LevelStrugglesLoader.refresh === 'function') {
+        window.LevelStrugglesLoader.refresh();
+      }
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Dificuldade salva', message: id + ' (' + language + ')', variant: 'success' });
+      }
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Salvar';
+    }
+  }
+
+  async function deleteStruggle(compositeKey) {
+    const parts = String(compositeKey).split('|');
+    const id = parts[0];
+    const language = parts[1];
+    const target = currentStruggles.find(function (x) { return x.id === id && x.language === language; });
+    const title = target ? target.title : id;
+    let confirmed = false;
+    if (window.LevelModal && window.LevelModal.confirm) {
+      try {
+        confirmed = await window.LevelModal.confirm({
+          title: 'Deletar dificuldade',
+          message: 'Tens certeza que queres deletar "' + title + '" (' + id + ' / ' + language + ')? Vai sumir do catálogo para usuários novos. Não pode ser desfeito.',
+          variant: 'danger',
+          confirmLabel: 'Deletar'
+        });
+      } catch (e) { confirmed = false; }
+    } else {
+      confirmed = confirm('Deletar "' + title + '" (' + language + ')? Não pode ser desfeito.');
+    }
+    if (!confirmed) return;
+    try {
+      await callAdmin('delete', { id: id, language: language });
+      await loadStruggles();
+      // Invalida cache local pro idioma deletado
+      try {
+        localStorage.removeItem('level.cache.struggles.' + language);
+      } catch (e) {}
+      if (window.LevelStrugglesLoader && typeof window.LevelStrugglesLoader.refresh === 'function') {
+        window.LevelStrugglesLoader.refresh();
+      }
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Dificuldade deletada', message: id + ' (' + language + ')', variant: 'info' });
+      }
+    } catch (err) {
+      if (window.LevelModal && window.LevelModal.alert) {
+        window.LevelModal.alert({ title: 'Falha ao deletar', message: err.message, variant: 'error' });
+      } else {
+        alert('Erro: ' + err.message);
+      }
+    }
+  }
+
+  function openAdminStruggleModal(sData) {
+    document.getElementById('admin-struggle-modal-title').textContent = sData ? 'Editar dificuldade' : 'Nova dificuldade';
+    document.getElementById('admin-struggle-id').value = sData ? sData.id : '';
+    document.getElementById('admin-struggle-id').readOnly = !!sData;
+    document.getElementById('admin-struggle-language').value = sData ? (sData.language || 'pt') : 'pt';
+    document.getElementById('admin-struggle-language').disabled = !!sData; // PK composta — não muda em edit
+    document.getElementById('admin-struggle-title').value = sData ? (sData.title || '') : '';
+    document.getElementById('admin-struggle-icon').value = sData ? (sData.icon || 'lightbulb') : 'lightbulb';
+    document.getElementById('admin-struggle-sort').value = sData ? (sData.sort_order != null ? sData.sort_order : 0) : 0;
+    document.getElementById('admin-struggle-is-active').checked = sData ? !!sData.is_active : true;
+    document.getElementById('admin-struggle-root-cause').value = sData ? (sData.root_cause || '') : '';
+    document.getElementById('admin-struggle-tips').value = sData && Array.isArray(sData.tips)
+      ? sData.tips.join('\n')
+      : '';
+    const errEl = document.getElementById('admin-struggle-error');
+    if (errEl) errEl.style.display = 'none';
+
+    const overlay = document.getElementById('modal-admin-struggle');
+    if (overlay) overlay.classList.add('active');
+  }
+  function closeAdminStruggleModal() {
+    const overlay = document.getElementById('modal-admin-struggle');
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  function initStruggles() {
+    const newBtn = document.getElementById('opp-btn-struggle-new');
+    const refreshBtn = document.getElementById('opp-btn-struggles-refresh');
+
+    if (newBtn) newBtn.addEventListener('click', function () { openAdminStruggleModal(null); });
+    if (refreshBtn) refreshBtn.addEventListener('click', loadStruggles);
+
+    const list = document.getElementById('opp-struggles-list');
+    if (list) {
+      list.addEventListener('click', function (e) {
+        const editBtn = e.target.closest('[data-admin-struggle-edit]');
+        if (editBtn) {
+          const ck = editBtn.getAttribute('data-admin-struggle-edit');
+          const parts = String(ck).split('|');
+          const s = currentStruggles.find(function (x) { return x.id === parts[0] && x.language === parts[1]; });
+          if (s) openAdminStruggleModal(s);
+          return;
+        }
+        const delBtn = e.target.closest('[data-admin-struggle-delete]');
+        if (delBtn) {
+          deleteStruggle(delBtn.getAttribute('data-admin-struggle-delete'));
+          return;
+        }
+      });
+    }
+
+    const modalSaveBtn = document.getElementById('admin-struggle-save-btn');
+    if (modalSaveBtn) modalSaveBtn.addEventListener('click', saveStruggle);
+
+    if (getSecret() && window.LevelAdmin && window.LevelAdmin.isAdmin()) {
+      loadStruggles();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStruggles);
+  } else {
+    initStruggles();
   }
 })();
 
