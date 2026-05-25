@@ -13539,6 +13539,29 @@
           </div>
           </div><!-- /opp-admin-only CRUD Armas -->
 
+          <!-- ═══ ADMIN · CRUD Builds Curadas (v75-85) ═══════════════ -->
+          <div class="opp-admin-only">
+          <div class="opp-section-title" style="margin-top:24px">
+            {{i:zap}} ADMIN · Builds curadas (cat_default_builds)
+          </div>
+          <div class="opp-actions-list">
+            <div class="opp-action-item" style="flex-direction:column;align-items:stretch">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div class="opp-action-icon">{{i:database}}</div>
+                <div class="opp-action-body" style="flex:1">
+                  <div class="opp-action-title">Catálogo de builds no DB</div>
+                  <div class="opp-action-desc">Tabela <code>cat_default_builds</code>. Builds curadas (codenomes tipo CICADA, ESCA DOOM, ANTARES) que aparecem como seed em novos usuários. <span id="opp-builds-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">Configure o secret de admin pra carregar.</span></div>
+                </div>
+                <button class="opp-action-btn" id="opp-btn-build-new">+ Nova build</button>
+                <button class="opp-action-btn secondary" id="opp-btn-builds-refresh">{{i:refresh-cw}}</button>
+              </div>
+              <div id="opp-builds-list" style="background:var(--bg-darkest);border-radius:6px;padding:8px;max-height:380px;overflow-y:auto;font-family:'JetBrains Mono', monospace;font-size:11px">
+                <div style="padding:18px;text-align:center;color:var(--text-muted)">Configure o secret de admin acima pra carregar a lista.</div>
+              </div>
+            </div>
+          </div>
+          </div><!-- /opp-admin-only CRUD Builds -->
+
           <!-- ═══ PWA Install (v75-58) ════════════════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.pwa.section">
             {{i:device-mobile}} Instalar como app
@@ -13642,7 +13665,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-84</strong><span class="ver-tag">CRUD admin · armas (cat_default_weapons)</span>
+        LEVEL · <strong>v75-85</strong><span class="ver-tag">CRUD admin · builds curadas</span>
       </div>
       <script>
         (function(){
@@ -14496,6 +14519,79 @@
         <div class="modal-actions">
           <button class="btn-action btn-reset" data-close-modal="modal-admin-weapon" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
           <button class="btn-action btn-save" id="admin-weapon-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL: ADMIN · EDIT/CREATE BUILD (v75-85)                           -->
+    <!-- =================================================================== -->
+    <div class="modal-overlay" id="modal-admin-build">
+      <div class="modal-box" style="max-width:680px">
+        <div class="modal-header">
+          <div class="modal-title"><span id="admin-build-modal-title">Editar build</span></div>
+          <button class="modal-close" data-close-modal="modal-admin-build">×</button>
+        </div>
+        <div class="modal-body" style="max-height:70vh;overflow-y:auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <div class="form-label">ID <span style="color:var(--accent-orange)">*</span> <span style="color:var(--text-muted);font-size:10px">(prefixo bld_)</span></div>
+              <input type="text" id="admin-build-id" class="form-input" placeholder="ex: bld_cicada_sturmwolf45" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Codename <span style="color:var(--accent-orange)">*</span></div>
+              <input type="text" id="admin-build-name" class="form-input" placeholder="ex: CICADA 3301-45" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Weapon base ID <span style="color:var(--accent-orange)">*</span></div>
+              <input type="text" id="admin-build-weapon-base" class="form-input" placeholder="ex: wpn_sturmwolf45" maxlength="40"/>
+            </div>
+            <div>
+              <div class="form-label">Slot count <span style="color:var(--text-muted);font-size:10px">(1-8)</span></div>
+              <input type="number" id="admin-build-slot-count" class="form-input" min="1" max="8" value="5"/>
+            </div>
+            <div>
+              <div class="form-label">Build code <span style="color:var(--text-muted);font-size:10px">(do jogo · opcional)</span></div>
+              <input type="text" id="admin-build-code" class="form-input" placeholder="ex: S07-43S8E-MGLI4-5511" maxlength="40"/>
+            </div>
+            <div>
+              <div class="form-label">Sort order</div>
+              <input type="number" id="admin-build-sort" class="form-input" placeholder="ex: 1" min="0" max="999"/>
+            </div>
+            <div>
+              <div class="form-label">Mastery <span style="color:var(--text-muted);font-size:10px">(opcional)</span></div>
+              <input type="text" id="admin-build-mastery" class="form-input" placeholder="ex: ms_camo_gold" maxlength="40"/>
+            </div>
+            <div>
+              <div class="form-label">Weapon prestige <span style="color:var(--text-muted);font-size:10px">(opcional)</span></div>
+              <input type="text" id="admin-build-weapon-prestige" class="form-input" placeholder="ex: wpr_master" maxlength="40"/>
+            </div>
+            <div>
+              <div class="form-label">Loadout slot <span style="color:var(--text-muted);font-size:10px">(opcional)</span></div>
+              <input type="text" id="admin-build-loadout-slot" class="form-input" placeholder="ex: primary" maxlength="40"/>
+            </div>
+            <div>
+              <div class="form-label">Base ID <span style="color:var(--text-muted);font-size:10px">(opcional)</span></div>
+              <input type="text" id="admin-build-base-id" class="form-input" maxlength="40"/>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:18px 0">
+          <div class="form-label">Attachments <span style="color:var(--text-muted);font-size:10px">(1 por linha · linha vazia = slot vazio · máx 8)</span></div>
+          <textarea id="admin-build-attachments" class="form-input" rows="6" placeholder="FANG HoverPoint ELO&#10;Compensator Tac&#10;&#10;VAS Convergence Foregrip&#10;Extended Mag II&#10;&#10;Sanctum Speed Stock&#10;"></textarea>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:18px 0">
+          <div class="form-label">Description <span style="color:var(--text-muted);font-size:10px">(opcional)</span></div>
+          <textarea id="admin-build-description" class="form-input" rows="2" placeholder="Notas sobre a build, contexto, etc"></textarea>
+
+          <div class="form-label" style="margin-top:12px">Stats <span style="color:var(--text-muted);font-size:10px">(JSON · opcional)</span></div>
+          <textarea id="admin-build-stats" class="form-input" rows="3" placeholder='{"range_pct": 27, "ttk_ms": 300}' style="font-family:'JetBrains Mono', monospace; font-size: 11px"></textarea>
+
+          <div id="admin-build-error" style="display:none;margin-top:12px;padding:8px 12px;background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:4px;color:#ff5252;font-size:11px;font-family:'JetBrains Mono',monospace"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" data-close-modal="modal-admin-build" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
+          <button class="btn-action btn-save" id="admin-build-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
         </div>
       </div>
     </div>
@@ -33211,6 +33307,284 @@ ${cbt('share.t.footer')}`;
     document.addEventListener('DOMContentLoaded', initWeapons);
   } else {
     initWeapons();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · ADMIN CRUD — cat_default_builds (v75-85)
+// ═══════════════════════════════════════════════════════════════════
+// CRUD admin de builds curadas via edge function `admin-cat-default-builds`.
+// Pattern idêntico ao adminCrudMaps/Weapons — IIFE separada por simplicidade.
+// ═══════════════════════════════════════════════════════════════════
+(function adminCrudBuilds() {
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const ENDPOINT = SUPABASE_URL + '/functions/v1/admin-cat-default-builds';
+  const SECRET_LS_KEY = 'level.admin.secret';
+
+  let currentBuilds = [];
+
+  function getSecret() {
+    try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; }
+  }
+  function setStatus(elId, text, color) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = text;
+    if (color) el.style.color = color;
+  }
+  function escapeHtmlB(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  async function callAdmin(action, payload) {
+    const secret = getSecret();
+    if (!secret) throw new Error('Secret de admin não configurado');
+    const body = Object.assign({ action: action }, payload || {});
+    const r = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'apikey': ANON_KEY,
+        'Content-Type': 'application/json',
+        'x-level-admin-secret': secret
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const msg = data.error || ('HTTP ' + r.status);
+      throw new Error(msg);
+    }
+    return data;
+  }
+
+  function renderBuildsList() {
+    const wrap = document.getElementById('opp-builds-list');
+    if (!wrap) return;
+    if (!currentBuilds.length) {
+      wrap.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted)">Nenhuma build carregada. Clica em "+ Nova build" pra começar.</div>';
+      return;
+    }
+    const rows = currentBuilds.map(b => {
+      const attFilled = (b.attachments || []).filter(a => a && String(a).trim()).length;
+      const total = b.slot_count || 8;
+      const sortBadge = (b.sort_order != null) ? '<span style="color:var(--text-muted);font-size:10px;margin-right:6px">' + b.sort_order + '</span>' : '';
+      const codeStr = b.build_code ? ' <span style="color:var(--accent-cyan);font-size:10px;margin-left:6px">' + escapeHtmlB(b.build_code) + '</span>' : '';
+      return (
+        '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--border)">' +
+          '<div style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' +
+            sortBadge +
+            '<strong style="color:var(--text-primary)">' + escapeHtmlB(b.name) + '</strong>' +
+            codeStr +
+            '<div style="color:var(--text-secondary);font-size:10px;margin-top:2px">' +
+              escapeHtmlB(b.id) + ' · base: ' + escapeHtmlB(b.weapon_base_id || '?') +
+              ' · ' + attFilled + '/' + total + ' attach.' +
+            '</div>' +
+          '</div>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px" data-admin-build-edit="' + escapeHtmlB(b.id) + '">Editar</button>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px;color:#ff5252;border-color:rgba(244,67,54,0.4)" data-admin-build-delete="' + escapeHtmlB(b.id) + '">×</button>' +
+        '</div>'
+      );
+    }).join('');
+    wrap.innerHTML = rows;
+  }
+
+  async function loadBuilds() {
+    setStatus('opp-builds-status', 'A carregar builds...', 'var(--text-muted)');
+    try {
+      const data = await callAdmin('list', {});
+      currentBuilds = data.builds || [];
+      renderBuildsList();
+      setStatus('opp-builds-status', currentBuilds.length + ' builds carregadas', 'var(--text-secondary)');
+    } catch (err) {
+      const wrap = document.getElementById('opp-builds-list');
+      if (wrap) wrap.innerHTML = '<div style="padding:18px;text-align:center;color:#ff5252">' + escapeHtmlB(err.message) + '</div>';
+      setStatus('opp-builds-status', 'Erro: ' + err.message, '#ff5252');
+    }
+  }
+
+  async function saveBuild() {
+    const errEl = document.getElementById('admin-build-error');
+    errEl.style.display = 'none';
+
+    const id = (document.getElementById('admin-build-id').value || '').trim().toLowerCase();
+    const name = (document.getElementById('admin-build-name').value || '').trim();
+    const weaponBase = (document.getElementById('admin-build-weapon-base').value || '').trim().toLowerCase();
+    if (!id || !name || !weaponBase) {
+      errEl.textContent = 'ID, Codename e Weapon base ID são obrigatórios.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[a-z0-9_]+$/.test(id)) {
+      errEl.textContent = 'ID deve ser snake_case (apenas a-z, 0-9, _).';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[a-z0-9_]+$/.test(weaponBase)) {
+      errEl.textContent = 'Weapon base ID deve ser snake_case (apenas a-z, 0-9, _).';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    // Parse attachments: 1 por linha, mantém vazias pra preservar slots
+    const rawAtt = document.getElementById('admin-build-attachments').value || '';
+    const attachments = rawAtt.split('\n').map(s => s.trim()).slice(0, 8);
+    while (attachments.length < (parseInt(document.getElementById('admin-build-slot-count').value, 10) || 5)) {
+      attachments.push('');
+    }
+
+    // Parse stats JSON
+    let stats = {};
+    const rawStats = (document.getElementById('admin-build-stats').value || '').trim();
+    if (rawStats) {
+      try {
+        stats = JSON.parse(rawStats);
+        if (typeof stats !== 'object' || Array.isArray(stats)) throw new Error('stats deve ser objeto JSON');
+      } catch (e) {
+        errEl.textContent = 'Stats JSON inválido: ' + e.message;
+        errEl.style.display = 'block';
+        return;
+      }
+    }
+
+    const payload = {
+      id: id,
+      name: name,
+      weapon_base_id: weaponBase,
+      slot_count:  parseInt(document.getElementById('admin-build-slot-count').value, 10) || 5,
+      attachments: attachments,
+      build_code:  (document.getElementById('admin-build-code').value || '').trim() || null,
+      sort_order:  parseInt(document.getElementById('admin-build-sort').value, 10) || 0,
+      mastery:     (document.getElementById('admin-build-mastery').value || '').trim() || null,
+      weapon_prestige: (document.getElementById('admin-build-weapon-prestige').value || '').trim() || null,
+      loadout_slot:    (document.getElementById('admin-build-loadout-slot').value || '').trim() || null,
+      base_id:         (document.getElementById('admin-build-base-id').value || '').trim() || null,
+      description: (document.getElementById('admin-build-description').value || '').trim() || null,
+      stats: stats
+    };
+
+    const saveBtn = document.getElementById('admin-build-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'A salvar...';
+    try {
+      await callAdmin('upsert', { build: payload });
+      closeAdminBuildModal();
+      await loadBuilds();
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Build salva', message: name + ' · OK', variant: 'success' });
+      }
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Salvar';
+    }
+  }
+
+  async function deleteBuild(id) {
+    const b = currentBuilds.find(x => x.id === id);
+    const name = b ? b.name : id;
+    let confirmed = false;
+    if (window.LevelModal && window.LevelModal.confirm) {
+      try {
+        confirmed = await window.LevelModal.confirm({
+          title: 'Deletar build',
+          message: 'Tens certeza que queres deletar "' + name + '" (id: ' + id + ')? Vai remover do catálogo default. Não pode ser desfeito.',
+          variant: 'danger',
+          confirmLabel: 'Deletar'
+        });
+      } catch (e) { confirmed = false; }
+    } else {
+      confirmed = confirm('Deletar "' + name + '"? Não pode ser desfeito.');
+    }
+    if (!confirmed) return;
+    try {
+      await callAdmin('delete', { id: id });
+      await loadBuilds();
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Build deletada', message: name, variant: 'info' });
+      }
+    } catch (err) {
+      if (window.LevelModal && window.LevelModal.alert) {
+        window.LevelModal.alert({ title: 'Falha ao deletar', message: err.message, variant: 'error' });
+      } else {
+        alert('Erro: ' + err.message);
+      }
+    }
+  }
+
+  function openAdminBuildModal(bData) {
+    document.getElementById('admin-build-modal-title').textContent = bData ? 'Editar build' : 'Nova build';
+    document.getElementById('admin-build-id').value = bData ? bData.id : '';
+    document.getElementById('admin-build-id').readOnly = !!bData;
+    document.getElementById('admin-build-name').value = bData ? (bData.name || '') : '';
+    document.getElementById('admin-build-weapon-base').value = bData ? (bData.weapon_base_id || '') : '';
+    document.getElementById('admin-build-slot-count').value = bData ? (bData.slot_count || 5) : 5;
+    document.getElementById('admin-build-code').value = bData ? (bData.build_code || '') : '';
+    document.getElementById('admin-build-sort').value = bData ? (bData.sort_order != null ? bData.sort_order : '') : '';
+    document.getElementById('admin-build-mastery').value = bData ? (bData.mastery || '') : '';
+    document.getElementById('admin-build-weapon-prestige').value = bData ? (bData.weapon_prestige || '') : '';
+    document.getElementById('admin-build-loadout-slot').value = bData ? (bData.loadout_slot || '') : '';
+    document.getElementById('admin-build-base-id').value = bData ? (bData.base_id || '') : '';
+    document.getElementById('admin-build-description').value = bData ? (bData.description || '') : '';
+    document.getElementById('admin-build-attachments').value = bData && Array.isArray(bData.attachments)
+      ? bData.attachments.join('\n')
+      : '';
+    document.getElementById('admin-build-stats').value = bData && bData.stats
+      ? JSON.stringify(bData.stats, null, 2)
+      : '';
+    const errEl = document.getElementById('admin-build-error');
+    if (errEl) errEl.style.display = 'none';
+
+    const overlay = document.getElementById('modal-admin-build');
+    if (overlay) overlay.classList.add('active');
+  }
+  function closeAdminBuildModal() {
+    const overlay = document.getElementById('modal-admin-build');
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  function initBuilds() {
+    const newBtn = document.getElementById('opp-btn-build-new');
+    const refreshBtn = document.getElementById('opp-btn-builds-refresh');
+
+    if (newBtn) newBtn.addEventListener('click', () => openAdminBuildModal(null));
+    if (refreshBtn) refreshBtn.addEventListener('click', loadBuilds);
+
+    const list = document.getElementById('opp-builds-list');
+    if (list) {
+      list.addEventListener('click', (e) => {
+        const editBtn = e.target.closest('[data-admin-build-edit]');
+        if (editBtn) {
+          const id = editBtn.getAttribute('data-admin-build-edit');
+          const b = currentBuilds.find(x => x.id === id);
+          if (b) openAdminBuildModal(b);
+          return;
+        }
+        const delBtn = e.target.closest('[data-admin-build-delete]');
+        if (delBtn) {
+          const id = delBtn.getAttribute('data-admin-build-delete');
+          deleteBuild(id);
+          return;
+        }
+      });
+    }
+
+    const modalSaveBtn = document.getElementById('admin-build-save-btn');
+    if (modalSaveBtn) modalSaveBtn.addEventListener('click', saveBuild);
+
+    if (getSecret() && window.LevelAdmin && window.LevelAdmin.isAdmin()) {
+      loadBuilds();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBuilds);
+  } else {
+    initBuilds();
   }
 })();
 </script>
