@@ -205,6 +205,117 @@
     border-left: 3px solid var(--accent-orange);
   }
 
+  /* ─── Onboarding tour v75-87 ───────────────────────────────────── */
+  .tour-active { overflow: hidden; }
+  .tour-spotlight {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-radius: 6px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.78);
+    pointer-events: none;
+    z-index: 9998;
+    transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .tour-spotlight.no-anchor {
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.85);
+  }
+  .tour-tooltip {
+    position: fixed;
+    background: var(--bg-card);
+    border: 2px solid var(--accent-orange);
+    border-radius: 6px;
+    padding: 18px 20px 16px;
+    width: calc(100% - 32px);
+    max-width: 360px;
+    z-index: 10000;
+    box-shadow: 0 10px 32px rgba(0,0,0,0.55);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s, transform 0.25s, top 0.35s cubic-bezier(0.4, 0, 0.2, 1), left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  .tour-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .tour-tooltip-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .tour-tooltip-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+  .tour-tooltip-body {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  .tour-tooltip-body strong { color: var(--accent-orange); }
+  .tour-tooltip-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .tour-tooltip-progress {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+  }
+  .tour-tooltip-dot {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .tour-tooltip-dot.active { background: var(--accent-orange); }
+  .tour-tooltip-dot.done   { background: rgba(240,185,82,0.5); }
+  .tour-btn {
+    background: var(--accent-orange);
+    color: var(--bg-darkest);
+    border: 0;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .tour-btn:hover { background: #ffa84a; }
+  .tour-btn-skip {
+    background: transparent;
+    color: var(--text-muted);
+    border: 0;
+    padding: 8px 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .tour-btn-skip:hover { color: var(--text-secondary); }
+  @media (max-width: 720px) {
+    .tour-tooltip { max-width: calc(100vw - 32px); }
+  }
+  /* ─── End tour ─── */
   /* ─── Nav badge (counter de votos não vistos no Marketplace) v75-67 ─── */
   .nav-badge {
     margin-left: auto;
@@ -8833,6 +8944,252 @@
     background: var(--accent-orange);
     color: var(--bg-darkest);
   }
+  /* ─── Ranking público v75-86 ────────────────────────────────── */
+  .mkt-stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, rgba(240,185,82,0.06) 0%, rgba(240,185,82,0.02) 100%);
+    border: 1px solid rgba(240,185,82,0.2);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  .mkt-stats-bar .mkt-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .mkt-stats-bar .mkt-stat-num {
+    color: var(--accent-orange);
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Rajdhani', sans-serif;
+  }
+  .mkt-stats-bar .mkt-stat-lbl {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 10px;
+  }
+  .mkt-stats-bar .mkt-stat-author {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+  .mkt-podium {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .mkt-podium-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 14px 14px 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    min-height: 180px;
+  }
+  .mkt-podium-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .mkt-podium-card.rank-1 {
+    border-color: #f0b952;
+    background: linear-gradient(180deg, rgba(240,185,82,0.12) 0%, var(--bg-card) 60%);
+  }
+  .mkt-podium-card.rank-2 {
+    border-color: #c4c4d0;
+    background: linear-gradient(180deg, rgba(196,196,208,0.10) 0%, var(--bg-card) 60%);
+  }
+  .mkt-podium-card.rank-3 {
+    border-color: #cd7f32;
+    background: linear-gradient(180deg, rgba(205,127,50,0.10) 0%, var(--bg-card) 60%);
+  }
+  .mkt-podium-medal {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: var(--bg-darkest);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .mkt-podium-card.rank-1 .mkt-podium-medal { background: #f0b952; }
+  .mkt-podium-card.rank-2 .mkt-podium-medal { background: #c4c4d0; }
+  .mkt-podium-card.rank-3 .mkt-podium-medal { background: #cd7f32; color: #fff; }
+  .mkt-podium-codename {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+    margin-bottom: 2px;
+  }
+  .mkt-podium-author {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .mkt-podium-author strong { color: var(--accent-cyan); }
+  .mkt-podium-weapon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .mkt-podium-weapon strong { color: var(--text-primary); }
+  .mkt-podium-desc {
+    flex: 1;
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px;
+  }
+  .mkt-podium-score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .mkt-podium-score-num {
+    color: var(--accent-orange);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  @media (max-width: 720px) {
+    .mkt-podium { grid-template-columns: 1fr; }
+    .mkt-stats-bar { gap: 10px; padding: 8px 12px; }
+    .mkt-stats-bar .mkt-stat-num { font-size: 14px; }
+  }
+  /* ─── Weapon leaderboard v75-87 ──────────────────────────────── */
+  .mkt-weapon-leaderboard {
+    margin-bottom: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .mkt-leaderboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.02);
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .mkt-leaderboard-header:hover { background: rgba(255,255,255,0.04); }
+  .mkt-leaderboard-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .mkt-leaderboard-title .icon { color: var(--accent-cyan); }
+  .mkt-leaderboard-toggle {
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    transition: transform 0.2s;
+  }
+  .mkt-weapon-leaderboard.open .mkt-leaderboard-toggle { transform: rotate(90deg); }
+  .mkt-leaderboard-body {
+    display: none;
+    padding: 4px 10px 10px;
+  }
+  .mkt-weapon-leaderboard.open .mkt-leaderboard-body { display: block; }
+  .mkt-wl-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 70px 60px 90px;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .mkt-wl-row:last-child { border-bottom: none; }
+  .mkt-wl-rank {
+    color: var(--accent-orange);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+  }
+  .mkt-wl-rank.top1 { color: #f0b952; }
+  .mkt-wl-rank.top2 { color: #c4c4d0; }
+  .mkt-wl-rank.top3 { color: #cd7f32; }
+  .mkt-wl-name {
+    color: var(--text-primary);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mkt-wl-count, .mkt-wl-score {
+    text-align: right;
+    color: var(--text-muted);
+    font-size: 10px;
+  }
+  .mkt-wl-count strong, .mkt-wl-score strong {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .mkt-wl-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .mkt-wl-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-orange) 0%, #ffa84a 100%);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+  @media (max-width: 720px) {
+    .mkt-wl-row {
+      grid-template-columns: 24px 1fr 60px;
+      gap: 6px;
+    }
+    .mkt-wl-score, .mkt-wl-bar { display: none; }
+  }
   /* ═══ END MARKETPLACE ═════════════════════════════════════════════ */
 
   </style>
@@ -12318,6 +12675,36 @@
         <p data-i18n="sec.marketplace.intro">Builds compartilhadas pela comunidade do LEVEL. Filtra por arma, modo ou ordem, vota nas que funcionam, e importa pro teu arsenal pessoal com um clique.</p>
       </div>
 
+      <!-- Ranking stats + pódio (v75-86) -->
+      <div id="mkt-stats-bar" class="mkt-stats-bar" style="display:none">
+        <div class="mkt-stat">
+          <span class="mkt-stat-num" id="mkt-stat-builds">0</span>
+          <span class="mkt-stat-lbl" data-i18n="mkt.stat.builds">builds</span>
+        </div>
+        <div class="mkt-stat">
+          <span class="mkt-stat-num" id="mkt-stat-votes">0</span>
+          <span class="mkt-stat-lbl" data-i18n="mkt.stat.votes">votos · soma</span>
+        </div>
+        <div class="mkt-stat" id="mkt-stat-author-wrap" style="display:none">
+          <span class="mkt-stat-lbl" data-i18n="mkt.stat.topAuthor">autor #1:</span>
+          <span class="mkt-stat-author" id="mkt-stat-author">—</span>
+        </div>
+      </div>
+      <div id="mkt-podium" class="mkt-podium" style="display:none"></div>
+
+      <!-- Top armas da comunidade (v75-87) -->
+      <div id="mkt-weapon-leaderboard" class="mkt-weapon-leaderboard" style="display:none">
+        <div class="mkt-leaderboard-header" id="mkt-wl-header">
+          <div class="mkt-leaderboard-title">
+            <span class="icon">{{i:bar-chart-3}}</span>
+            <span data-i18n="mkt.wl.title">Top armas da comunidade</span>
+            <span style="color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.3px" id="mkt-wl-summary"></span>
+          </div>
+          <span class="mkt-leaderboard-toggle">▶</span>
+        </div>
+        <div class="mkt-leaderboard-body" id="mkt-wl-body"></div>
+      </div>
+
       <div class="mkt-toolbar">
         <span class="mkt-toolbar-label" data-i18n="mkt.tb.weapon">Arma</span>
         <select id="mkt-filter-weapon">
@@ -13562,6 +13949,21 @@
           </div>
           </div><!-- /opp-admin-only CRUD Builds -->
 
+          <!-- ═══ Onboarding (v75-87) ═══════════════════════════════ -->
+          <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.tour.section">
+            {{i:help-circle}} Onboarding
+          </div>
+          <div class="opp-actions-list">
+            <div class="opp-action-item">
+              <div class="opp-action-icon">{{i:play}}</div>
+              <div class="opp-action-body">
+                <div class="opp-action-title" data-i18n="opp.tour.title">Refazer tour do Hub</div>
+                <div class="opp-action-desc" data-i18n="opp.tour.desc">Repassa as 4 seções principais (Minhas Armas, Construtor, Marketplace, Configurações) em 30 segundos.</div>
+              </div>
+              <button class="opp-action-btn" id="opp-btn-tour-replay" data-i18n="opp.tour.btn">Iniciar tour</button>
+            </div>
+          </div>
+
           <!-- ═══ PWA Install (v75-58) ════════════════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.pwa.section">
             {{i:device-mobile}} Instalar como app
@@ -13665,7 +14067,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-85</strong><span class="ver-tag">CRUD admin · builds curadas</span>
+        LEVEL · <strong>v75-87</strong><span class="ver-tag">Onboarding tour + weapon leaderboard</span>
       </div>
       <script>
         (function(){
@@ -14668,8 +15070,39 @@ window.I18N = {
     'mkt.state.searchEmpty':  '{{i:search}} Nenhuma build casa com "{q}"',
     'mkt.tb.refresh':         '{{i:refresh-cw}} Atualizar',
     'mkt.state.loading':      'A carregar builds da comunidade...',
+    'mkt.stat.builds':        'builds',
+    'mkt.stat.votes':         'votos · soma',
+    'mkt.stat.topAuthor':     'autor #1:',
+    'mkt.podium.medal.1':     '#1',
+    'mkt.podium.medal.2':     '#2',
+    'mkt.podium.medal.3':     '#3',
+    'mkt.wl.title':           'Top armas da comunidade',
+    'mkt.wl.summary':         '{n} armas · clique pra ver ranking',
+    'mkt.wl.col.builds':      'builds',
+    'mkt.wl.col.score':       'score',
     'mkt.state.empty':        'Nenhuma build publicada ainda nesta categoria.',
     'mkt.state.empty.cta':    'Sê o primeiro: vai em <strong>Meus Loadouts</strong> e clica em "Publicar".',
+
+    // — Onboarding tour (v75-87) —
+    'tour.step1.title':       'Bem-vindo ao LEVEL',
+    'tour.step1.body':        'Tactical Hub para BO7. Vou mostrar as <strong>4 seções principais</strong> em 30 segundos. Podes pular a qualquer momento.',
+    'tour.step2.title':       'Minhas Armas',
+    'tour.step2.body':        'Aqui cadastras tuas armas com <strong>level e prestige</strong>. É a base de tudo — sem arsenal aqui, o resto não funciona.',
+    'tour.step3.title':       'Construtor de Loadout',
+    'tour.step3.body':        'Monta builds do zero. A IA analisa estilo, attachments e perks, dá <strong>score 0-10</strong> e sugere ajustes. Salva no teu arsenal pessoal.',
+    'tour.step4.title':       'Marketplace',
+    'tour.step4.body':        'Builds compartilhadas pela comunidade. <strong>Vota</strong>, importa pro teu arsenal, ou publica as tuas e ganha visibilidade.',
+    'tour.step5.title':       'Configurações',
+    'tour.step5.body':        'Backup na cloud, idioma PT/EN, perfil de operador, avatar com IA. Recomendado: configurar <strong>Backup na cloud</strong> primeiro.',
+    'tour.step6.title':       'Boa caçada, operador',
+    'tour.step6.body':        'Pronto. Podes refazer este tour a qualquer momento em <strong>Configurações ▸ Operador ▸ Refazer tour</strong>.',
+    'tour.btn.next':          'Próximo →',
+    'tour.btn.done':          'Começar',
+    'tour.btn.skip':          'Pular tour',
+    'opp.tour.section':       'Onboarding',
+    'opp.tour.title':         'Refazer tour do Hub',
+    'opp.tour.desc':          'Repassa as 4 seções principais (Minhas Armas, Construtor, Marketplace, Configurações) em 30 segundos.',
+    'opp.tour.btn':           'Iniciar tour',
     'mkt.pub.title':          '{{i:upload}} Publicar no Marketplace',
     'mkt.pub.selected':       'Build selecionada',
     'mkt.pub.desc.label':     'Descrição <span style="color:var(--text-secondary);font-weight:400">(opcional, max 500)</span>',
@@ -15889,8 +16322,39 @@ window.I18N = {
     'mkt.state.searchEmpty':  '{{i:search}} No build matches "{q}"',
     'mkt.tb.refresh':         '{{i:refresh-cw}} Refresh',
     'mkt.state.loading':      'Loading community builds...',
+    'mkt.stat.builds':        'builds',
+    'mkt.stat.votes':         'votes · sum',
+    'mkt.stat.topAuthor':     'top author:',
+    'mkt.podium.medal.1':     '#1',
+    'mkt.podium.medal.2':     '#2',
+    'mkt.podium.medal.3':     '#3',
+    'mkt.wl.title':           'Top weapons of the community',
+    'mkt.wl.summary':         '{n} weapons · click to expand',
+    'mkt.wl.col.builds':      'builds',
+    'mkt.wl.col.score':       'score',
     'mkt.state.empty':        'No builds published in this category yet.',
     'mkt.state.empty.cta':    'Be the first: go to <strong>My Loadouts</strong> and click "Publish".',
+
+    // — Onboarding tour (v75-87) —
+    'tour.step1.title':       'Welcome to LEVEL',
+    'tour.step1.body':        'BO7 Tactical Hub. Let me show you the <strong>4 main sections</strong> in 30 seconds. You can skip anytime.',
+    'tour.step2.title':       'My Weapons',
+    'tour.step2.body':        'Where you catalog your weapons with <strong>level and prestige</strong>. Foundation of everything — without arsenal here, nothing else works.',
+    'tour.step3.title':       'Loadout Builder',
+    'tour.step3.body':        'Build loadouts from scratch. AI analyzes style, attachments and perks, gives a <strong>0-10 score</strong> and suggests tweaks. Saves to your personal arsenal.',
+    'tour.step4.title':       'Marketplace',
+    'tour.step4.body':        'Builds shared by the community. <strong>Vote</strong>, import to your arsenal, or publish yours and get visibility.',
+    'tour.step5.title':       'Settings',
+    'tour.step5.body':        'Cloud backup, PT/EN language, operator profile, AI avatar. Recommended: set up <strong>Cloud backup</strong> first.',
+    'tour.step6.title':       'Happy hunting, operator',
+    'tour.step6.body':        'You\u2019re set. You can replay this tour anytime in <strong>Settings ▸ Operator ▸ Replay tour</strong>.',
+    'tour.btn.next':          'Next →',
+    'tour.btn.done':          'Start',
+    'tour.btn.skip':          'Skip tour',
+    'opp.tour.section':       'Onboarding',
+    'opp.tour.title':         'Replay Hub tour',
+    'opp.tour.desc':          'Revisit the 4 main sections (My Weapons, Builder, Marketplace, Settings) in 30 seconds.',
+    'opp.tour.btn':           'Start tour',
     'mkt.pub.title':          '{{i:upload}} Publish to Marketplace',
     'mkt.pub.selected':       'Selected build',
     'mkt.pub.desc.label':     'Description <span style="color:var(--text-secondary);font-weight:400">(optional, max 500)</span>',
@@ -24900,10 +25364,14 @@ const ATTACHMENT_ICONS = {
         const loadingEl = document.getElementById('mkt-loading');
         const emptyEl   = document.getElementById('mkt-empty');
         const gridEl    = document.getElementById('mkt-grid');
+        const statsEl   = document.getElementById('mkt-stats-bar');
+        const podiumEl  = document.getElementById('mkt-podium');
         if (!gridEl) return;
         loadingEl.style.display = 'block';
         emptyEl.style.display = 'none';
         gridEl.innerHTML = '';
+        if (statsEl)  statsEl.style.display  = 'none';
+        if (podiumEl) podiumEl.style.display = 'none';
         try {
           // v75-66: resolve mineUserId em paralelo com fetch builds pra cards "TUA"
           // aparecerem desde o 1º render. Não bloqueia se falhar.
@@ -24919,11 +25387,167 @@ const ATTACHMENT_ICONS = {
             emptyEl.style.display = 'block';
             return;
           }
+          // v75-86: ranking público — stats globais + pódio top 3
+          renderStatsBar(builds);
+          renderPodium(builds);
+          // v75-87: leaderboard por arma
+          renderWeaponLeaderboard(builds);
           renderGrid();
           renderWeaponFilterOptions(builds);
         } catch (err) {
           loadingEl.textContent = 'Erro: ' + (err.message || 'falha ao carregar');
         }
+      }
+
+      // v75-87: leaderboard de armas mais usadas pela comunidade
+      function renderWeaponLeaderboard(builds) {
+        const wrap = document.getElementById('mkt-weapon-leaderboard');
+        const body = document.getElementById('mkt-wl-body');
+        const summary = document.getElementById('mkt-wl-summary');
+        if (!wrap || !body) return;
+
+        // Esconde se há filtro de arma ativo (não faz sentido ver ranking filtrado)
+        const hasWeaponFilter = !!(STATE.filters && STATE.filters.weapon);
+        if (hasWeaponFilter || !builds || builds.length < 2) {
+          wrap.style.display = 'none';
+          return;
+        }
+
+        // Agrega por weapon_catalog_id
+        const byWeapon = {};
+        builds.forEach(function (b) {
+          const w = (b.weapon_catalog_id || '').trim();
+          if (!w) return;
+          if (!byWeapon[w]) byWeapon[w] = { id: w, count: 0, score: 0 };
+          byWeapon[w].count += 1;
+          byWeapon[w].score += (b.upvotes || 0) - (b.downvotes || 0);
+        });
+        const entries = Object.values(byWeapon).sort(function (a, b) {
+          // Primário: contagem. Secundário: score.
+          if (b.count !== a.count) return b.count - a.count;
+          return b.score - a.score;
+        });
+        if (!entries.length) {
+          wrap.style.display = 'none';
+          return;
+        }
+
+        const topCount = entries[0].count;
+        const top10 = entries.slice(0, 10);
+
+        if (summary) {
+          summary.textContent = mt('mkt.wl.summary', '{n} armas · clique pra ver ranking').replace('{n}', entries.length);
+        }
+
+        body.innerHTML = top10.map(function (e, i) {
+          const rank = i + 1;
+          const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+          const pct = Math.round((e.count / topCount) * 100);
+          const scoreStr = (e.score >= 0 ? '+' : '') + e.score;
+          return '' +
+            '<div class="mkt-wl-row">' +
+              '<div class="mkt-wl-rank ' + rankClass + '">#' + rank + '</div>' +
+              '<div class="mkt-wl-name">' + escHtml(e.id) + '</div>' +
+              '<div class="mkt-wl-count"><strong>' + e.count + '</strong> ' + mt('mkt.wl.col.builds', 'builds') + '</div>' +
+              '<div class="mkt-wl-score"><strong>' + scoreStr + '</strong></div>' +
+              '<div class="mkt-wl-bar"><div class="mkt-wl-bar-fill" style="width:' + pct + '%"></div></div>' +
+            '</div>';
+        }).join('');
+
+        wrap.style.display = 'block';
+      }
+
+      // v75-86: barra de stats globais (builds totais, votos somados, autor #1)
+      function renderStatsBar(builds) {
+        const bar = document.getElementById('mkt-stats-bar');
+        if (!bar) return;
+        const totalBuilds = builds.length;
+        const totalVotes = builds.reduce(function (acc, b) {
+          return acc + (b.upvotes || 0) - (b.downvotes || 0);
+        }, 0);
+        // Autor com maior soma de votos líquidos
+        const byAuthor = {};
+        builds.forEach(function (b) {
+          const a = (b.author_name || '').trim();
+          if (!a) return;
+          const score = (b.upvotes || 0) - (b.downvotes || 0);
+          byAuthor[a] = (byAuthor[a] || 0) + score;
+        });
+        let topAuthor = null;
+        let topScore  = -Infinity;
+        Object.keys(byAuthor).forEach(function (a) {
+          if (byAuthor[a] > topScore) { topAuthor = a; topScore = byAuthor[a]; }
+        });
+
+        document.getElementById('mkt-stat-builds').textContent = totalBuilds;
+        document.getElementById('mkt-stat-votes').textContent = (totalVotes >= 0 ? '+' : '') + totalVotes;
+
+        const authorWrap = document.getElementById('mkt-stat-author-wrap');
+        const authorEl   = document.getElementById('mkt-stat-author');
+        if (topAuthor && topScore > 0) {
+          authorEl.textContent = topAuthor + ' (' + topScore + ')';
+          authorWrap.style.display = '';
+        } else {
+          authorWrap.style.display = 'none';
+        }
+
+        bar.style.display = 'flex';
+      }
+
+      // v75-86: pódio dos 3 builds mais votados (só renderiza se sort=top E
+      // não há filtro/busca ativos, pra não confundir com listagem filtrada).
+      function renderPodium(builds) {
+        const podium = document.getElementById('mkt-podium');
+        if (!podium) return;
+        const sort = (STATE.filters && STATE.filters.sort) || 'top';
+        const hasFilter = !!(
+          (STATE.filters && (STATE.filters.weapon || STATE.filters.mode || (STATE.filters.search || '').trim()))
+        );
+        if (sort !== 'top' || hasFilter || builds.length < 3) {
+          podium.style.display = 'none';
+          podium.innerHTML = '';
+          return;
+        }
+        // Top 3 por score líquido (já vem ordenado pelo fetch se sort=top, mas re-ordena por garantia)
+        const top3 = builds.slice().sort(function (a, b) {
+          const sa = (a.upvotes || 0) - (a.downvotes || 0);
+          const sb = (b.upvotes || 0) - (b.downvotes || 0);
+          return sb - sa;
+        }).slice(0, 3);
+        // Só mostra pódio se o #1 tem pelo menos 1 voto líquido positivo
+        const topScore = (top3[0].upvotes || 0) - (top3[0].downvotes || 0);
+        if (topScore < 1) {
+          podium.style.display = 'none';
+          podium.innerHTML = '';
+          return;
+        }
+
+        podium.innerHTML = top3.map(function (b, i) {
+          const rank = i + 1;
+          const score = (b.upvotes || 0) - (b.downvotes || 0);
+          const medal = mt('mkt.podium.medal.' + rank, '#' + rank);
+          const author = b.author_name ? escHtml(b.author_name) : 'Anon';
+          const weapon = escHtml(b.weapon_catalog_id || '?');
+          const desc = b.description ? escHtml(b.description) : '';
+          return '' +
+            '<div class="mkt-podium-card rank-' + rank + '" data-podium-build-id="' + escHtml(b.id) + '">' +
+              '<div class="mkt-podium-medal">' + medal + '</div>' +
+              '<div class="mkt-podium-codename">' + escHtml(b.codename || 'BUILD') + '</div>' +
+              '<div class="mkt-podium-author">por <strong>' + author + '</strong></div>' +
+              '<div class="mkt-podium-weapon"><strong>' + weapon + '</strong>' +
+                (b.game_mode ? ' · ' + escHtml(b.game_mode) : '') +
+              '</div>' +
+              (desc ? '<div class="mkt-podium-desc">' + desc + '</div>' : '<div class="mkt-podium-desc" style="opacity:0.5;font-style:italic">—</div>') +
+              '<div class="mkt-podium-score">' +
+                '<span style="color:var(--text-muted)">' + mt('mkt.podium.score', 'score') + '</span>' +
+                '<span class="mkt-podium-score-num">' + (score >= 0 ? '+' : '') + score + '</span>' +
+              '</div>' +
+            '</div>';
+        }).join('');
+        if (window.renderIconsText) {
+          podium.innerHTML = window.renderIconsText(podium.innerHTML);
+        }
+        podium.style.display = 'grid';
       }
 
       function renderWeaponFilterOptions(builds) {
@@ -25247,6 +25871,43 @@ const ATTACHMENT_ICONS = {
         }
         // Publish confirm
         if (e.target.closest('#btn-confirm-publish')) { confirmPublish(); return; }
+        // v75-86: click no card do pódio → rola até o card no grid + highlight breve
+        const podiumCard = e.target.closest('[data-podium-build-id]');
+        if (podiumCard) {
+          const id = podiumCard.getAttribute('data-podium-build-id');
+          const target = document.querySelector('.mkt-card[data-build-id="' + id + '"]');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.transition = 'box-shadow 0.3s';
+            target.style.boxShadow = '0 0 0 2px var(--accent-orange)';
+            setTimeout(function () { target.style.boxShadow = ''; }, 1400);
+          }
+          return;
+        }
+        // v75-87: toggle do weapon leaderboard
+        if (e.target.closest('#mkt-wl-header')) {
+          const wrap = document.getElementById('mkt-weapon-leaderboard');
+          if (wrap) wrap.classList.toggle('open');
+          return;
+        }
+        // v75-87: click numa linha do leaderboard → aplica filtro daquela arma
+        const wlRow = e.target.closest('.mkt-wl-row');
+        if (wlRow) {
+          const nameEl = wlRow.querySelector('.mkt-wl-name');
+          if (nameEl) {
+            const wId = (nameEl.textContent || '').trim();
+            const sel = document.getElementById('mkt-filter-weapon');
+            if (sel && wId) {
+              STATE.filters.weapon = wId;
+              sel.value = wId;
+              loadAndRender();
+              // Rola até o topo do grid
+              const gridEl = document.getElementById('mkt-grid');
+              if (gridEl) gridEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+          return;
+        }
       });
 
       document.addEventListener('change', function (e) {
@@ -25263,6 +25924,8 @@ const ATTACHMENT_ICONS = {
         if (e.target.id === 'mkt-search') {
           STATE.filters.search = e.target.value;
           renderGrid();
+          // v75-86: pódio esconde quando busca ativa
+          renderPodium(STATE.builds || []);
         }
       });
 
@@ -33585,6 +34248,264 @@ ${cbt('share.t.footer')}`;
     document.addEventListener('DOMContentLoaded', initBuilds);
   } else {
     initBuilds();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · ONBOARDING TOUR (v75-87)
+// ═══════════════════════════════════════════════════════════════════
+// Tour de 6 passos pra primeira impressão do Hub.
+// Auto-inicia no primeiro acesso (flag localStorage 'level.onboarding.completed').
+// Re-executável via Configurações ▸ Operador ▸ Refazer tour.
+// ═══════════════════════════════════════════════════════════════════
+(function levelOnboardingTour() {
+  const COMPLETED_KEY = 'level.onboarding.completed';
+  const AUTO_DELAY_MS = 800; // dá tempo do Hub renderizar antes de iniciar
+
+  function mtTour(k, fallback) {
+    if (typeof window.mt === 'function') return window.mt(k, fallback);
+    return fallback;
+  }
+
+  // ─── Definição dos passos ──────────────────────────────────────
+  // anchorSelector: null = centro da tela
+  function getSteps() {
+    return [
+      { titleKey: 'tour.step1.title', bodyKey: 'tour.step1.body', anchor: null },
+      { titleKey: 'tour.step2.title', bodyKey: 'tour.step2.body', anchor: '[data-section="myweapons"]' },
+      { titleKey: 'tour.step3.title', bodyKey: 'tour.step3.body', anchor: '[data-section="constructor"]' },
+      { titleKey: 'tour.step4.title', bodyKey: 'tour.step4.body', anchor: '[data-section="marketplace"]' },
+      { titleKey: 'tour.step5.title', bodyKey: 'tour.step5.body', anchor: '[data-section="settings"]' },
+      { titleKey: 'tour.step6.title', bodyKey: 'tour.step6.body', anchor: null }
+    ];
+  }
+
+  let currentStep = 0;
+  let overlayEl = null;
+  let spotlightEl = null;
+  let tooltipEl = null;
+
+  function buildDom() {
+    if (spotlightEl) return;
+    spotlightEl = document.createElement('div');
+    spotlightEl.className = 'tour-spotlight';
+    document.body.appendChild(spotlightEl);
+
+    tooltipEl = document.createElement('div');
+    tooltipEl.className = 'tour-tooltip';
+    document.body.appendChild(tooltipEl);
+
+    // Click no fundo escuro = não fecha (forçar interação com botões pra evitar fechamento acidental)
+  }
+
+  function destroyDom() {
+    if (spotlightEl) { spotlightEl.remove(); spotlightEl = null; }
+    if (tooltipEl)   { tooltipEl.remove();   tooltipEl   = null; }
+    document.body.classList.remove('tour-active');
+    document.removeEventListener('keydown', onKeydown);
+    window.removeEventListener('resize', repositionCurrent);
+  }
+
+  function onKeydown(e) {
+    if (e.key === 'Escape') {
+      skipTour();
+    } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
+      nextStep();
+    }
+  }
+
+  function escHtmlTour(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  function repositionCurrent() {
+    renderStep(currentStep, /*animate=*/ false);
+  }
+
+  // ─── Render do passo atual ─────────────────────────────────────
+  function renderStep(idx, animate) {
+    const steps = getSteps();
+    const step = steps[idx];
+    if (!step) return;
+
+    const total = steps.length;
+    const title = mtTour(step.titleKey, '');
+    const body  = mtTour(step.bodyKey, '');
+    const isLast = (idx === total - 1);
+    const stepLabel = (idx + 1) + ' / ' + total;
+    const nextLabel = isLast ? mtTour('tour.btn.done', 'Começar') : mtTour('tour.btn.next', 'Próximo →');
+    const skipLabel = mtTour('tour.btn.skip', 'Pular tour');
+
+    // Posicionar spotlight
+    let anchorRect = null;
+    if (step.anchor) {
+      const el = document.querySelector(step.anchor);
+      if (el) {
+        // Garante que sidebar está visível em mobile
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar && window.innerWidth <= 720) {
+          sidebar.classList.add('open');
+        }
+        anchorRect = el.getBoundingClientRect();
+      }
+    }
+
+    if (anchorRect && anchorRect.width > 0 && anchorRect.height > 0) {
+      const pad = 6;
+      const top    = Math.max(0, anchorRect.top - pad);
+      const left   = Math.max(0, anchorRect.left - pad);
+      const width  = anchorRect.width + pad * 2;
+      const height = anchorRect.height + pad * 2;
+      spotlightEl.classList.remove('no-anchor');
+      spotlightEl.style.top    = top + 'px';
+      spotlightEl.style.left   = left + 'px';
+      spotlightEl.style.width  = width + 'px';
+      spotlightEl.style.height = height + 'px';
+    } else {
+      // Sem âncora: centro escuro completo
+      spotlightEl.classList.add('no-anchor');
+      spotlightEl.style.top    = '50vh';
+      spotlightEl.style.left   = '50vw';
+      spotlightEl.style.width  = '0px';
+      spotlightEl.style.height = '0px';
+    }
+
+    // Conteúdo do tooltip
+    const dots = [];
+    for (let i = 0; i < total; i++) {
+      const cls = i < idx ? 'done' : (i === idx ? 'active' : '');
+      dots.push('<div class="tour-tooltip-dot ' + cls + '"></div>');
+    }
+    tooltipEl.innerHTML =
+      '<div class="tour-tooltip-step">' + escHtmlTour(stepLabel) + '</div>' +
+      '<div class="tour-tooltip-title">' + escHtmlTour(title) + '</div>' +
+      '<div class="tour-tooltip-body">' + body + '</div>' +
+      '<div class="tour-tooltip-actions">' +
+        '<div class="tour-tooltip-progress">' + dots.join('') + '</div>' +
+        '<button class="tour-btn-skip" data-tour-action="skip">' + escHtmlTour(skipLabel) + '</button>' +
+        '<button class="tour-btn" data-tour-action="next">' + escHtmlTour(nextLabel) + '</button>' +
+      '</div>';
+
+    // Posicionar tooltip
+    positionTooltip(anchorRect);
+
+    if (animate !== false) {
+      requestAnimationFrame(function () {
+        tooltipEl.classList.add('visible');
+      });
+    } else {
+      tooltipEl.classList.add('visible');
+    }
+  }
+
+  function positionTooltip(anchorRect) {
+    if (!tooltipEl) return;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const tipW = Math.min(360, W - 32);
+    const tipH = tooltipEl.offsetHeight || 220; // fallback
+    const margin = 16;
+
+    let top, left;
+    if (!anchorRect || anchorRect.width === 0) {
+      // centro da tela
+      top = Math.max(margin, (H - tipH) / 2);
+      left = Math.max(margin, (W - tipW) / 2);
+    } else {
+      // Tenta colocar à direita do elemento
+      const rightSpace = W - (anchorRect.right + margin);
+      const leftSpace  = anchorRect.left - margin;
+      const belowSpace = H - (anchorRect.bottom + margin);
+
+      if (rightSpace >= tipW + margin) {
+        // direita
+        left = anchorRect.right + margin;
+        top  = Math.max(margin, Math.min(H - tipH - margin, anchorRect.top + (anchorRect.height - tipH) / 2));
+      } else if (leftSpace >= tipW + margin) {
+        // esquerda
+        left = anchorRect.left - tipW - margin;
+        top  = Math.max(margin, Math.min(H - tipH - margin, anchorRect.top + (anchorRect.height - tipH) / 2));
+      } else if (belowSpace >= tipH + margin) {
+        // embaixo
+        top  = anchorRect.bottom + margin;
+        left = Math.max(margin, Math.min(W - tipW - margin, anchorRect.left));
+      } else {
+        // em cima
+        top  = Math.max(margin, anchorRect.top - tipH - margin);
+        left = Math.max(margin, Math.min(W - tipW - margin, anchorRect.left));
+      }
+    }
+    tooltipEl.style.top  = top + 'px';
+    tooltipEl.style.left = left + 'px';
+    tooltipEl.style.width = tipW + 'px';
+  }
+
+  function nextStep() {
+    const total = getSteps().length;
+    if (currentStep < total - 1) {
+      currentStep += 1;
+      renderStep(currentStep, true);
+    } else {
+      completeTour();
+    }
+  }
+
+  function skipTour() {
+    completeTour();
+  }
+
+  function completeTour() {
+    try { localStorage.setItem(COMPLETED_KEY, '1'); } catch (e) { /* ignore */ }
+    destroyDom();
+  }
+
+  function startTour() {
+    currentStep = 0;
+    document.body.classList.add('tour-active');
+    buildDom();
+    document.addEventListener('keydown', onKeydown);
+    window.addEventListener('resize', repositionCurrent);
+    renderStep(0, true);
+  }
+
+  // ─── Auto-start no primeiro boot ───────────────────────────────
+  function maybeAutoStart() {
+    try {
+      const done = localStorage.getItem(COMPLETED_KEY);
+      if (done) return;
+    } catch (e) { /* ignore */ }
+    // Espera o Hub renderizar pra os elementos âncora existirem
+    setTimeout(startTour, AUTO_DELAY_MS);
+  }
+
+  // ─── Wiring ────────────────────────────────────────────────────
+  document.addEventListener('click', function (e) {
+    const action = e.target.closest('[data-tour-action]');
+    if (action) {
+      const a = action.getAttribute('data-tour-action');
+      if (a === 'next') nextStep();
+      else if (a === 'skip') skipTour();
+      return;
+    }
+    // Botão "Refazer tour" em Config
+    if (e.target.closest('#opp-btn-tour-replay')) {
+      try { localStorage.removeItem(COMPLETED_KEY); } catch (err) { /* ignore */ }
+      startTour();
+    }
+  });
+
+  // Expõe API global pra debug
+  window.LevelTour = {
+    start: startTour,
+    reset: function () { try { localStorage.removeItem(COMPLETED_KEY); } catch (e) {} },
+    complete: completeTour
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', maybeAutoStart);
+  } else {
+    maybeAutoStart();
   }
 })();
 </script>
