@@ -14067,7 +14067,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-87</strong><span class="ver-tag">Onboarding tour + weapon leaderboard</span>
+        LEVEL · <strong>v75-88</strong><span class="ver-tag">Fix tour · espera consent + spotlight nav</span>
       </div>
       <script>
         (function(){
@@ -15085,7 +15085,7 @@ window.I18N = {
 
     // — Onboarding tour (v75-87) —
     'tour.step1.title':       'Bem-vindo ao LEVEL',
-    'tour.step1.body':        'Tactical Hub para BO7. Vou mostrar as <strong>4 seções principais</strong> em 30 segundos. Podes pular a qualquer momento.',
+    'tour.step1.body':        'Tactical Hub para BO7. Esta é tua <strong>navegação principal</strong> — vou mostrar as 4 seções essenciais em 30 segundos. Podes pular a qualquer momento.',
     'tour.step2.title':       'Minhas Armas',
     'tour.step2.body':        'Aqui cadastras tuas armas com <strong>level e prestige</strong>. É a base de tudo — sem arsenal aqui, o resto não funciona.',
     'tour.step3.title':       'Construtor de Loadout',
@@ -16337,7 +16337,7 @@ window.I18N = {
 
     // — Onboarding tour (v75-87) —
     'tour.step1.title':       'Welcome to LEVEL',
-    'tour.step1.body':        'BO7 Tactical Hub. Let me show you the <strong>4 main sections</strong> in 30 seconds. You can skip anytime.',
+    'tour.step1.body':        'BO7 Tactical Hub. This is your <strong>main navigation</strong> — let me show you the 4 essential sections in 30 seconds. You can skip anytime.',
     'tour.step2.title':       'My Weapons',
     'tour.step2.body':        'Where you catalog your weapons with <strong>level and prestige</strong>. Foundation of everything — without arsenal here, nothing else works.',
     'tour.step3.title':       'Loadout Builder',
@@ -31736,6 +31736,8 @@ ${cbt('share.t.footer')}`;
     };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); } catch {}
     updateStatusText();
+    // v75-88: avisa o resto do Hub (ex: onboarding tour) que o consent foi resolvido
+    try { window.dispatchEvent(new CustomEvent('level-consent-given', { detail: payload })); } catch {}
     return payload;
   }
 
@@ -34271,7 +34273,7 @@ ${cbt('share.t.footer')}`;
   // anchorSelector: null = centro da tela
   function getSteps() {
     return [
-      { titleKey: 'tour.step1.title', bodyKey: 'tour.step1.body', anchor: null },
+      { titleKey: 'tour.step1.title', bodyKey: 'tour.step1.body', anchor: '.sidebar nav' },
       { titleKey: 'tour.step2.title', bodyKey: 'tour.step2.body', anchor: '[data-section="myweapons"]' },
       { titleKey: 'tour.step3.title', bodyKey: 'tour.step3.body', anchor: '[data-section="constructor"]' },
       { titleKey: 'tour.step4.title', bodyKey: 'tour.step4.body', anchor: '[data-section="marketplace"]' },
@@ -34470,13 +34472,39 @@ ${cbt('share.t.footer')}`;
   }
 
   // ─── Auto-start no primeiro boot ───────────────────────────────
+  function hasConsent() {
+    try {
+      const raw = localStorage.getItem('bo7hub_cookie_consent');
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      return !!(parsed && parsed.accepted);
+    } catch (e) { return false; }
+  }
+
   function maybeAutoStart() {
     try {
       const done = localStorage.getItem(COMPLETED_KEY);
       if (done) return;
     } catch (e) { /* ignore */ }
-    // Espera o Hub renderizar pra os elementos âncora existirem
-    setTimeout(startTour, AUTO_DELAY_MS);
+
+    // v75-88: NÃO inicia o tour enquanto cookie banner estiver visível.
+    // Se já tem consent: segue fluxo normal (delay curto pra Hub renderizar).
+    // Se não tem: aguarda evento 'level-consent-given' do banner.
+    if (hasConsent()) {
+      setTimeout(startTour, AUTO_DELAY_MS);
+    } else {
+      window.addEventListener('level-consent-given', function onConsent() {
+        window.removeEventListener('level-consent-given', onConsent);
+        // Delay maior aqui (1100ms) pra dar tempo do banner deslizar pra fora suavemente
+        setTimeout(function () {
+          // Re-check: usuário pode ter completado/pulado o tour antes via console
+          try {
+            if (localStorage.getItem(COMPLETED_KEY)) return;
+          } catch (e) { /* ignore */ }
+          startTour();
+        }, 1100);
+      });
+    }
   }
 
   // ─── Wiring ────────────────────────────────────────────────────
