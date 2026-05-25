@@ -9695,22 +9695,22 @@
         </div>
       </div>
 
-      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-95) ═══ -->
+      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-96) ═══ -->
       <div class="briefing-stats" style="margin-top:32px">
         <div class="briefing-stats-inner briefing-changelog-inner">
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v75-95 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v75-96 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">NOVO</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo de dificuldades agora vive na cloud</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">As 8 dificuldades base que aparecem no catálogo (Atiro primeiro mas morro, K/D baixo, etc.) saíram do código fixo e foram pra uma tabela no DB. Editáveis no painel ADMIN sem novo deploy.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Codenames curados — 125 nomes pra builds</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Quando crias uma build nova, agora tens um botão "Sugerir codename" que abre uma lista curada de 125 nomes (Erebus, Thanatos, Wraith…) organizados por mitologia, cyberpunk, anime, armas, astronomia e mais. Filtro por categoria e clique pra preencher.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>cat_struggles</strong> nova no Supabase — 8 dificuldades em PT e EN, lidas por aqui via cache local de 24h. Se a cloud falhar, o Hub continua funcionando com a versão hardcoded.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Painel ADMIN · Dificuldades</strong> em Configurações ▸ Operador — adiciona, edita e desativa. Mesmo padrão de Mapas, Armas e Builds curadas.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Idiomas separados.</strong> Cada dificuldade tem versão PT e EN independentes. Troca o idioma no canto superior direito e o catálogo recarrega.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Botão "Sugerir"</strong> ao lado do campo nome em <em>Nova Arma Montada</em>, <em>Salvar Loadout</em> e no admin de builds curadas. Filtro por categoria, vibe e tags.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Painel ADMIN · Codenames</strong> em Configurações ▸ Operador. Adiciona, edita, desativa. Mesmo padrão de Mapas, Armas, Builds curadas e Dificuldades.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Cloud-first.</strong> Catálogo lê de <code>cat_codenames</code> com cache 24h. Se a cloud falhar, o botão avisa que a lista vai estar disponível na próxima carga — sem quebrar a UI.</li>
           </ul>
         </div>
       </div>
@@ -12986,7 +12986,10 @@
         </div>
         <div class="modal-body">
           <div class="form-label" data-i18n="mod.save.nameLabel">Nome do loadout</div>
-          <input type="text" id="save-name" class="form-input" placeholder="ex: CICADA 3301-45 / Rusher Hardpoint" data-i18n-attr="placeholder:mod.save.namePlaceholder" maxlength="60"/>
+          <div style="display:flex;gap:6px;align-items:stretch">
+            <input type="text" id="save-name" class="form-input" placeholder="ex: CICADA 3301-45 / Rusher Hardpoint" data-i18n-attr="placeholder:mod.save.namePlaceholder" maxlength="60" style="flex:1"/>
+            <button type="button" class="btn-action btn-save" data-suggest-codename-target="save-name" style="flex:0 0 auto;min-width:auto;padding:8px 14px;font-size:11px;white-space:nowrap" data-i18n="cn.suggest.btn">Sugerir</button>
+          </div>
           <div class="form-label" data-i18n-html="mod.save.notesLabel">Notas pessoais <span style="color:var(--text-secondary)">(opcional)</span></div>
           <textarea id="save-notes" class="form-input" rows="3" placeholder="ex: melhor pra mapas pequenos, troquei pra .40 conversion" data-i18n-attr="placeholder:mod.save.notesPlaceholder"></textarea>
         </div>
@@ -14211,6 +14214,29 @@
           </div>
           </div><!-- /opp-admin-only CRUD Dificuldades -->
 
+          <!-- ═══ ADMIN · CRUD Codenames (v75-96) ═══════════════════ -->
+          <div class="opp-admin-only">
+          <div class="opp-section-title" style="margin-top:24px">
+            {{i:tag}} ADMIN · Codenames (cat_codenames)
+          </div>
+          <div class="opp-actions-list">
+            <div class="opp-action-item" style="flex-direction:column;align-items:stretch">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div class="opp-action-icon">{{i:database}}</div>
+                <div class="opp-action-body" style="flex:1">
+                  <div class="opp-action-title">Catálogo de codenames no DB</div>
+                  <div class="opp-action-desc">Tabela <code>cat_codenames</code>. 125 nomes curados (mitologia, cyberpunk, armas, astronomia...) usados pelo botão "Sugerir codename" em builds e loadouts. <span id="opp-codenames-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">Configure o secret de admin pra carregar.</span></div>
+                </div>
+                <button class="opp-action-btn" id="opp-btn-codename-new">+ Novo codename</button>
+                <button class="opp-action-btn secondary" id="opp-btn-codenames-refresh">{{i:refresh-cw}}</button>
+              </div>
+              <div id="opp-codenames-list" style="background:var(--bg-darkest);border-radius:6px;padding:8px;max-height:380px;overflow-y:auto;font-family:'JetBrains Mono', monospace;font-size:11px">
+                <div style="padding:18px;text-align:center;color:var(--text-muted)">Configure o secret de admin acima pra carregar a lista.</div>
+              </div>
+            </div>
+          </div>
+          </div><!-- /opp-admin-only CRUD Codenames -->
+
           <!-- ═══ Onboarding (v75-87) ═══════════════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.tour.section">
             {{i:help-circle}} Onboarding
@@ -14329,7 +14355,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-95</strong><span class="ver-tag">Catálogo de dificuldades · DB cloud</span>
+        LEVEL · <strong>v75-96</strong><span class="ver-tag">Codenames curados · admin + sugestão</span>
       </div>
       <script>
         (function(){
@@ -14688,7 +14714,10 @@
           <div class="build-modal-section">
             <div class="build-modal-section-label">Identificação</div>
             <div class="form-label">Nome da build *</div>
-            <input type="text" id="build-name" class="form-input" placeholder="ex: CICADA close-range, Voyak long-range" maxlength="40"/>
+            <div style="display:flex;gap:6px;align-items:stretch">
+              <input type="text" id="build-name" class="form-input" placeholder="ex: CICADA close-range, Voyak long-range" maxlength="40" style="flex:1"/>
+              <button type="button" class="btn-action btn-save" data-suggest-codename-target="build-name" style="flex:0 0 auto;min-width:auto;padding:8px 14px;font-size:11px;white-space:nowrap" data-i18n="cn.suggest.btn">Sugerir</button>
+            </div>
 
             <div class="form-label" style="margin-top:10px">Arma base *</div>
             <select id="build-base" class="form-input">
@@ -15204,7 +15233,10 @@
             </div>
             <div>
               <div class="form-label">Codename <span style="color:var(--accent-orange)">*</span></div>
-              <input type="text" id="admin-build-name" class="form-input" placeholder="ex: CICADA 3301-45" maxlength="60"/>
+              <div style="display:flex;gap:6px;align-items:stretch">
+                <input type="text" id="admin-build-name" class="form-input" placeholder="ex: CICADA 3301-45" maxlength="60" style="flex:1"/>
+                <button type="button" class="btn-action btn-save" data-suggest-codename-target="admin-build-name" style="flex:0 0 auto;min-width:auto;padding:8px 14px;font-size:11px;white-space:nowrap" data-i18n="cn.suggest.btn">Sugerir</button>
+              </div>
             </div>
             <div>
               <div class="form-label">Weapon base ID <span style="color:var(--accent-orange)">*</span></div>
@@ -15316,6 +15348,125 @@
         <div class="modal-actions">
           <button class="btn-action btn-reset" data-close-modal="modal-admin-struggle" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
           <button class="btn-action btn-save" id="admin-struggle-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL: ADMIN · EDIT/CREATE CODENAME (v75-96)                        -->
+    <!-- =================================================================== -->
+    <div class="modal-overlay" id="modal-admin-codename">
+      <div class="modal-box" style="max-width:680px">
+        <div class="modal-header">
+          <div class="modal-title"><span id="admin-codename-modal-title">Editar codename</span></div>
+          <button class="modal-close" data-close-modal="modal-admin-codename">×</button>
+        </div>
+        <div class="modal-body" style="max-height:75vh;overflow-y:auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <div class="form-label">ID <span style="color:var(--accent-orange)">*</span> <span style="color:var(--text-muted);font-size:10px">(snake_case)</span></div>
+              <input type="text" id="admin-codename-id" class="form-input" placeholder="ex: thanatos" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Nome <span style="color:var(--accent-orange)">*</span></div>
+              <input type="text" id="admin-codename-name" class="form-input" placeholder="ex: Thanatos" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Categoria <span style="color:var(--accent-orange)">*</span></div>
+              <select id="admin-codename-category" class="form-input">
+                <option value="mythology_greek">mythology_greek</option>
+                <option value="mythology_norse">mythology_norse</option>
+                <option value="mythology_egyptian">mythology_egyptian</option>
+                <option value="mythology_mesoamerican">mythology_mesoamerican</option>
+                <option value="mythology_hindu">mythology_hindu</option>
+                <option value="mythology_japanese">mythology_japanese</option>
+                <option value="mythology_sumerian">mythology_sumerian</option>
+                <option value="cinema_villain">cinema_villain</option>
+                <option value="cinema_hero">cinema_hero</option>
+                <option value="horror">horror</option>
+                <option value="anime">anime</option>
+                <option value="games">games</option>
+                <option value="literature_dark">literature_dark</option>
+                <option value="weapon_violence_en">weapon_violence_en</option>
+                <option value="weapon_violence_es">weapon_violence_es</option>
+                <option value="weapon_violence_it">weapon_violence_it</option>
+                <option value="astronomy">astronomy</option>
+                <option value="military_op">military_op</option>
+                <option value="military_callsign">military_callsign</option>
+                <option value="nature_force">nature_force</option>
+                <option value="cyberpunk">cyberpunk</option>
+                <option value="precision">precision</option>
+              </select>
+            </div>
+            <div>
+              <div class="form-label">Idioma <span style="color:var(--text-muted);font-size:10px">(pt/en/es/it/lat/ja/grego)</span></div>
+              <select id="admin-codename-language" class="form-input">
+                <option value="pt">pt</option>
+                <option value="en">en</option>
+                <option value="es">es</option>
+                <option value="it">it</option>
+                <option value="lat">lat</option>
+                <option value="ja">ja</option>
+                <option value="grego">grego</option>
+              </select>
+            </div>
+            <div style="grid-column:1/-1">
+              <div class="form-label">Vibe <span style="color:var(--accent-orange)">*</span> <span style="color:var(--text-muted);font-size:10px">(curta, 1-3 palavras)</span></div>
+              <input type="text" id="admin-codename-vibe" class="form-input" placeholder="ex: execução limpa" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Source <span style="color:var(--text-muted);font-size:10px">(opcional)</span></div>
+              <input type="text" id="admin-codename-source" class="form-input" placeholder="ex: mitologia grega" maxlength="80"/>
+            </div>
+            <div>
+              <div class="form-label">Sort order</div>
+              <input type="number" id="admin-codename-sort" class="form-input" placeholder="ex: 10" min="0" max="9999" value="0"/>
+            </div>
+            <div style="grid-column:1/-1">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text-secondary)">
+                <input type="checkbox" id="admin-codename-is-active" style="width:16px;height:16px;accent-color:var(--accent-orange)" checked>
+                Ativa <span style="color:var(--text-muted);font-size:10px">(aparece no "Sugerir")</span>
+              </label>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:18px 0">
+          <div class="form-label">Descrição <span style="color:var(--text-muted);font-size:10px">(uma frase contextual, opcional)</span></div>
+          <textarea id="admin-codename-description" class="form-input" rows="2" placeholder="ex: Morte inevitável, calma e fria" style="font-family:inherit;font-size:12px"></textarea>
+
+          <div class="form-label" style="margin-top:12px">Tags <span style="color:var(--text-muted);font-size:10px">(separadas por vírgula, máx 20)</span></div>
+          <input type="text" id="admin-codename-tags" class="form-input" placeholder="ex: death, greek, clean" maxlength="240"/>
+
+          <div id="admin-codename-error" style="display:none;margin-top:12px;padding:8px 12px;background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:4px;color:#ff5252;font-size:11px;font-family:'JetBrains Mono',monospace"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" data-close-modal="modal-admin-codename" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
+          <button class="btn-action btn-save" id="admin-codename-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL: "SUGERIR CODENAME" (user-facing, v75-96)                     -->
+    <!-- =================================================================== -->
+    <div class="modal-overlay" id="modal-suggest-codename">
+      <div class="modal-box" style="max-width:720px">
+        <div class="modal-header">
+          <div class="modal-title">{{i:tag}} <span data-i18n="cn.suggest.title">Sugerir codename</span></div>
+          <button class="modal-close" data-close-modal="modal-suggest-codename">×</button>
+        </div>
+        <div class="modal-body" style="max-height:75vh;overflow-y:auto">
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+            <input type="text" id="suggest-codename-search" class="form-input" data-i18n-attr="placeholder:cn.suggest.searchPh" placeholder="Buscar por nome, vibe, tag..." style="flex:1;min-width:200px"/>
+            <select id="suggest-codename-category" class="form-input" style="flex:0 0 auto;min-width:180px">
+              <option value="" data-i18n="cn.suggest.allCategories">Todas as categorias</option>
+            </select>
+          </div>
+          <div id="suggest-codename-status" style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--text-muted);margin-bottom:8px" data-i18n="cn.suggest.loading">A carregar catálogo...</div>
+          <div id="suggest-codename-list" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));gap:8px"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" data-close-modal="modal-suggest-codename" style="flex:0 0 auto;min-width:auto;padding:10px 18px" data-i18n="cn.suggest.cancel">Fechar</button>
         </div>
       </div>
     </div>
@@ -15524,11 +15675,11 @@ window.I18N = {
     'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
     'briefing.changelog.date':  '25 Mai 2026',
     'briefing.changelog.pill':  'NOVO',
-    'briefing.changelog.headline': 'Catálogo de dificuldades agora vive na cloud',
-    'briefing.changelog.summary':  'As 8 dificuldades base que aparecem no catálogo (Atiro primeiro mas morro, K/D baixo, etc.) saíram do código fixo e foram pra uma tabela no DB. Editáveis no painel ADMIN sem novo deploy.',
-    'briefing.changelog.item1': '<strong>cat_struggles</strong> nova no Supabase — 8 dificuldades em PT e EN, lidas por aqui via cache local de 24h. Se a cloud falhar, o Hub continua funcionando com a versão hardcoded.',
-    'briefing.changelog.item2': '<strong>Painel ADMIN · Dificuldades</strong> em Configurações ▸ Operador — adiciona, edita e desativa. Mesmo padrão de Mapas, Armas e Builds curadas.',
-    'briefing.changelog.item3': '<strong>Idiomas separados.</strong> Cada dificuldade tem versão PT e EN independentes. Troca o idioma no canto superior direito e o catálogo recarrega.',
+    'briefing.changelog.headline': 'Codenames curados — 125 nomes pra builds',
+    'briefing.changelog.summary':  'Quando crias uma build nova, agora tens um botão "Sugerir codename" que abre uma lista curada de 125 nomes (Erebus, Thanatos, Wraith…) organizados por mitologia, cyberpunk, anime, armas, astronomia e mais. Filtro por categoria e clique pra preencher.',
+    'briefing.changelog.item1': '<strong>Botão "Sugerir"</strong> ao lado do campo nome em <em>Nova Arma Montada</em>, <em>Salvar Loadout</em> e no admin de builds curadas. Filtro por categoria, vibe e tags.',
+    'briefing.changelog.item2': '<strong>Painel ADMIN · Codenames</strong> em Configurações ▸ Operador. Adiciona, edita, desativa. Mesmo padrão de Mapas, Armas, Builds curadas e Dificuldades.',
+    'briefing.changelog.item3': '<strong>Cloud-first.</strong> Catálogo lê de <code>cat_codenames</code> com cache 24h. Se a cloud falhar, o botão avisa que a lista vai estar disponível na próxima carga — sem quebrar a UI.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -16449,6 +16600,15 @@ window.I18N = {
     'set.tab.prestiges': 'Prestiges',
     'set.tab.maps_all': 'Mapas · Todos',
       'str.tab.catalog':         'Catálogo',
+      // — Codename suggest modal (v75-96) —
+      'cn.suggest.title':         'Sugerir codename',
+      'cn.suggest.searchPh':      'Buscar por nome, vibe, tag...',
+      'cn.suggest.allCategories': 'Todas as categorias',
+      'cn.suggest.loading':       'A carregar catálogo...',
+      'cn.suggest.empty':         'Nenhum codename encontrado com este filtro.',
+      'cn.suggest.cancel':        'Fechar',
+      'cn.suggest.fallbackErr':   'Catálogo não carregou. Tenta de novo em alguns segundos.',
+      'cn.suggest.btn':           'Sugerir',
       'str.tab.ai':              'Descrever com IA',
       'str.catalog.hint':        'Escolhe a dificuldade que mais se aplica. Cada uma vai vir com dicas específicas e um histórico onde podes registrar tua evolução.',
       'str.ai.hint':             'Descreve <strong>com tuas palavras</strong> a dificuldade que estás tendo em partida. A IA vai analisar e gerar dicas específicas pro teu caso.',
@@ -16798,11 +16958,11 @@ window.I18N = {
     'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
     'briefing.changelog.date':  'May 25, 2026',
     'briefing.changelog.pill':  'NEW',
-    'briefing.changelog.headline': 'Struggle catalog now lives in the cloud',
-    'briefing.changelog.summary':  'The 8 base difficulties in the catalog ("I shoot first but die", low K/D, etc.) moved out of hardcoded JS into a DB table. Editable in the ADMIN panel without a new deploy.',
-    'briefing.changelog.item1': '<strong>New cat_struggles table</strong> on Supabase — 8 difficulties in PT and EN, fetched here via a 24h local cache. If the cloud fails, the Hub keeps working with the hardcoded version.',
-    'briefing.changelog.item2': '<strong>ADMIN · Difficulties panel</strong> under Settings ▸ Operator — add, edit and deactivate. Same pattern as Maps, Weapons and Curated builds.',
-    'briefing.changelog.item3': '<strong>Languages are separate.</strong> Each difficulty has independent PT and EN rows. Switch language in the top right and the catalog reloads.',
+    'briefing.changelog.headline': 'Curated codenames — 125 names for your builds',
+    'briefing.changelog.summary':  'When you create a new build, there\'s now a "Suggest codename" button that opens a curated list of 125 names (Erebus, Thanatos, Wraith…) organized by mythology, cyberpunk, anime, weapons, astronomy and more. Filter by category and click to fill in.',
+    'briefing.changelog.item1': '<strong>"Suggest" button</strong> next to the name field in <em>New Build</em>, <em>Save Loadout</em> and in the curated builds admin. Filter by category, vibe and tags.',
+    'briefing.changelog.item2': '<strong>ADMIN · Codenames panel</strong> under Settings ▸ Operator. Add, edit, deactivate. Same pattern as Maps, Weapons, Curated builds and Difficulties.',
+    'briefing.changelog.item3': '<strong>Cloud-first.</strong> Catalog reads from <code>cat_codenames</code> with a 24h cache. If the cloud fails, the button warns that the list will be available on the next load — without breaking the UI.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17723,6 +17883,15 @@ window.I18N = {
     'set.tab.prestiges': 'Prestiges',
     'set.tab.maps_all': 'Maps · All',
       'str.tab.catalog':         'Catalog',
+      // — Codename suggest modal (v75-96) —
+      'cn.suggest.title':         'Suggest codename',
+      'cn.suggest.searchPh':      'Search by name, vibe, tag...',
+      'cn.suggest.allCategories': 'All categories',
+      'cn.suggest.loading':       'Loading catalog...',
+      'cn.suggest.empty':         'No codename found with this filter.',
+      'cn.suggest.cancel':        'Close',
+      'cn.suggest.fallbackErr':   'Catalog did not load. Try again in a few seconds.',
+      'cn.suggest.btn':           'Suggest',
       'str.tab.ai':              'Describe with AI',
       'str.catalog.hint':        'Pick the difficulty that fits best. Each one comes with specific tips and a history where you can track your progress.',
       'str.ai.hint':             'Describe <strong>in your own words</strong> the difficulty you are having in matches. The AI will analyze and generate tips specific to your case.',
@@ -35680,6 +35849,593 @@ ${cbt('share.t.footer')}`;
     document.addEventListener('DOMContentLoaded', initStruggles);
   } else {
     initStruggles();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · CAT_CODENAMES LOADER (v75-96)
+// ═══════════════════════════════════════════════════════════════════
+// Lê o catálogo de codenames de Supabase via PostgREST anon
+// (cat_codenames?is_active=eq.true&order=sort_order).
+// Cache local de 24h em 'level.cache.codenames'.
+// Sem fallback hardcoded (125 rows inline seria pesado) — se a cloud falhar
+// E nada estiver em cache, expõe window.CODENAMES_CATALOG como array vazio
+// e o modal "Sugerir" mostra mensagem de fallbackErr.
+// ═══════════════════════════════════════════════════════════════════
+(function levelCodenamesLoader() {
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const TTL_MS = 24 * 60 * 60 * 1000;
+  const CACHE_KEY = 'level.cache.codenames';
+
+  // Estado em memória — começa vazio, populado pelo cache OU pelo fetch
+  if (!Array.isArray(window.CODENAMES_CATALOG)) {
+    window.CODENAMES_CATALOG = [];
+  }
+
+  function readCache() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if (!obj || !Array.isArray(obj.data) || !Number.isFinite(obj.fetchedAt)) return null;
+      if (Date.now() - obj.fetchedAt > TTL_MS) return null;
+      return obj.data;
+    } catch (e) { return null; }
+  }
+  function writeCache(data) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        fetchedAt: Date.now(),
+        data: data
+      }));
+    } catch (e) {}
+  }
+
+  async function fetchFromDB() {
+    const url = SUPABASE_URL +
+      '/rest/v1/cat_codenames' +
+      '?select=id,name,language,category,vibe,description,source,tags,sort_order' +
+      '&is_active=eq.true' +
+      '&order=sort_order.asc';
+    const r = await fetch(url, {
+      headers: {
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'apikey': ANON_KEY,
+        'Accept': 'application/json'
+      }
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const rows = await r.json();
+    if (!Array.isArray(rows)) throw new Error('payload não é array');
+    return rows;
+  }
+
+  function apply(catalog) {
+    window.CODENAMES_CATALOG = Array.isArray(catalog) ? catalog : [];
+    try { document.dispatchEvent(new CustomEvent('level:codenames-change')); } catch (e) {}
+  }
+
+  async function load(forceRefresh) {
+    if (!forceRefresh) {
+      const cached = readCache();
+      if (cached && cached.length > 0) {
+        apply(cached);
+        return;
+      }
+    }
+    try {
+      const fresh = await fetchFromDB();
+      if (fresh.length > 0) {
+        writeCache(fresh);
+        apply(fresh);
+        console.log('[LEVEL] cat_codenames carregado da cloud: ' + fresh.length + ' itens');
+        return;
+      }
+      console.warn('[LEVEL] cat_codenames vazio no DB');
+      apply([]);
+    } catch (err) {
+      console.warn('[LEVEL] cat_codenames fetch falhou: ' + (err && err.message ? err.message : err));
+      // Mantém o que estiver em window.CODENAMES_CATALOG (pode ser cache expirado ou vazio)
+    }
+  }
+
+  function init() { load(false); }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  try {
+    window.LevelCodenamesLoader = {
+      refresh: function () { return load(true); },
+      clearCache: function () {
+        try { localStorage.removeItem(CACHE_KEY); } catch (e) {}
+      }
+    };
+  } catch (e) {}
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · "SUGERIR CODENAME" MODAL (v75-96)
+// ═══════════════════════════════════════════════════════════════════
+// Modal compartilhado pelos botões [data-suggest-codename-target="<inputId>"].
+// Abre, renderiza catálogo (window.CODENAMES_CATALOG), filtra por busca +
+// categoria, e ao clicar num codename preenche o input alvo + fecha modal.
+// ═══════════════════════════════════════════════════════════════════
+(function levelCodenameSuggest() {
+  let targetInputId = null;
+  let filterCategory = '';
+  let filterQuery = '';
+
+  function mt(key, fallback) {
+    try {
+      const lang = localStorage.getItem('bo7hub_lang_v1') || 'pt';
+      const dict = (window.I18N && window.I18N[lang]) || (window.I18N && window.I18N.pt) || {};
+      return dict[key] || fallback;
+    } catch (e) { return fallback; }
+  }
+
+  function escapeHtmlC(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  function categoryLabel(cat) {
+    // Humaniza ex: mythology_greek → Mitologia · Grega
+    if (!cat) return '—';
+    const parts = cat.split('_');
+    if (parts[0] === 'mythology') {
+      const which = parts.slice(1).join(' ');
+      return 'Mitologia · ' + which.charAt(0).toUpperCase() + which.slice(1);
+    }
+    if (parts[0] === 'weapon' && parts[1] === 'violence') {
+      return 'Violência · ' + (parts[2] || '').toUpperCase();
+    }
+    if (parts[0] === 'military') {
+      return 'Militar · ' + (parts.slice(1).join(' '));
+    }
+    if (parts[0] === 'cinema') {
+      return 'Cinema · ' + (parts.slice(1).join(' '));
+    }
+    if (parts[0] === 'literature') {
+      return 'Literatura · ' + (parts.slice(1).join(' '));
+    }
+    if (parts[0] === 'nature') {
+      return 'Natureza · ' + (parts.slice(1).join(' '));
+    }
+    return cat.charAt(0).toUpperCase() + cat.slice(1).replace(/_/g, ' ');
+  }
+
+  function uniqueCategoriesFromCatalog() {
+    const set = new Set();
+    (window.CODENAMES_CATALOG || []).forEach(function (c) {
+      if (c && c.category) set.add(c.category);
+    });
+    return Array.from(set).sort();
+  }
+
+  function rebuildCategorySelect() {
+    const sel = document.getElementById('suggest-codename-category');
+    if (!sel) return;
+    const prev = sel.value;
+    const allLabel = mt('cn.suggest.allCategories', 'Todas as categorias');
+    const cats = uniqueCategoriesFromCatalog();
+    let html = '<option value="">' + escapeHtmlC(allLabel) + '</option>';
+    cats.forEach(function (cat) {
+      html += '<option value="' + escapeHtmlC(cat) + '">' + escapeHtmlC(categoryLabel(cat)) + '</option>';
+    });
+    sel.innerHTML = html;
+    if (prev && cats.indexOf(prev) >= 0) sel.value = prev;
+  }
+
+  function renderList() {
+    const list = document.getElementById('suggest-codename-list');
+    const status = document.getElementById('suggest-codename-status');
+    if (!list || !status) return;
+
+    const all = Array.isArray(window.CODENAMES_CATALOG) ? window.CODENAMES_CATALOG : [];
+    if (all.length === 0) {
+      status.textContent = mt('cn.suggest.fallbackErr', 'Catálogo não carregou. Tenta de novo em alguns segundos.');
+      status.style.color = '#ff5252';
+      list.innerHTML = '';
+      return;
+    }
+
+    const q = String(filterQuery || '').trim().toLowerCase();
+    const filtered = all.filter(function (c) {
+      if (filterCategory && c.category !== filterCategory) return false;
+      if (q) {
+        const hay = (
+          (c.name || '') + ' ' +
+          (c.vibe || '') + ' ' +
+          (c.description || '') + ' ' +
+          (Array.isArray(c.tags) ? c.tags.join(' ') : '')
+        ).toLowerCase();
+        if (hay.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      status.textContent = mt('cn.suggest.empty', 'Nenhum codename encontrado com este filtro.');
+      status.style.color = 'var(--text-muted)';
+      list.innerHTML = '';
+      return;
+    }
+
+    status.textContent = filtered.length + ' / ' + all.length;
+    status.style.color = 'var(--text-muted)';
+
+    list.innerHTML = filtered.map(function (c) {
+      const vibe = c.vibe ? '<div style="color:var(--text-secondary);font-size:10px;margin-top:3px">' + escapeHtmlC(c.vibe) + '</div>' : '';
+      const desc = c.description ? '<div style="color:var(--text-muted);font-size:10px;margin-top:4px;line-height:1.3">' + escapeHtmlC(c.description) + '</div>' : '';
+      const catBadge = '<div style="color:var(--accent-cyan);font-size:9px;text-transform:uppercase;letter-spacing:0.5px;margin-top:6px">' + escapeHtmlC(categoryLabel(c.category)) + '</div>';
+      return (
+        '<button type="button" class="suggest-codename-item" data-codename-pick="' + escapeHtmlC(c.name) + '" ' +
+          'style="background:var(--bg-darkest);border:1px solid var(--border);border-radius:6px;padding:10px 12px;text-align:left;cursor:pointer;transition:border-color 0.15s,background 0.15s" ' +
+          'onmouseover="this.style.borderColor=\'var(--accent-orange)\';this.style.background=\'rgba(240,185,82,0.05)\'" ' +
+          'onmouseout="this.style.borderColor=\'var(--border)\';this.style.background=\'var(--bg-darkest)\'">' +
+          '<div style="color:var(--text-primary);font-weight:600;font-size:13px">' + escapeHtmlC(c.name) + '</div>' +
+          vibe + desc + catBadge +
+        '</button>'
+      );
+    }).join('');
+  }
+
+  function openModal(inputId) {
+    targetInputId = inputId;
+    filterQuery = '';
+    filterCategory = '';
+    const searchEl = document.getElementById('suggest-codename-search');
+    const catEl = document.getElementById('suggest-codename-category');
+    if (searchEl) searchEl.value = '';
+    if (catEl) catEl.value = '';
+    rebuildCategorySelect();
+    renderList();
+    const overlay = document.getElementById('modal-suggest-codename');
+    if (overlay) overlay.classList.add('active');
+    // Foca na busca pra o user digitar direto
+    setTimeout(function () { if (searchEl) searchEl.focus(); }, 100);
+  }
+
+  function closeModal() {
+    const overlay = document.getElementById('modal-suggest-codename');
+    if (overlay) overlay.classList.remove('active');
+    targetInputId = null;
+  }
+
+  function pickCodename(name) {
+    if (!targetInputId || !name) return;
+    const input = document.getElementById(targetInputId);
+    if (input) {
+      input.value = name;
+      // Dispara eventos pra outros listeners reagirem (ex: validação, contadores)
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    closeModal();
+  }
+
+  function init() {
+    // Click handler global pros botões "Sugerir"
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('[data-suggest-codename-target]');
+      if (btn) {
+        e.preventDefault();
+        openModal(btn.getAttribute('data-suggest-codename-target'));
+        // Garante que o catálogo está fresco se cache expirou
+        if ((!window.CODENAMES_CATALOG || window.CODENAMES_CATALOG.length === 0)
+            && window.LevelCodenamesLoader && window.LevelCodenamesLoader.refresh) {
+          window.LevelCodenamesLoader.refresh().then(function () {
+            rebuildCategorySelect();
+            renderList();
+          });
+        }
+        return;
+      }
+      const pick = e.target.closest('[data-codename-pick]');
+      if (pick) {
+        e.preventDefault();
+        pickCodename(pick.getAttribute('data-codename-pick'));
+        return;
+      }
+    });
+
+    // Filtros
+    const searchEl = document.getElementById('suggest-codename-search');
+    if (searchEl) {
+      searchEl.addEventListener('input', function (e) {
+        filterQuery = e.target.value || '';
+        renderList();
+      });
+    }
+    const catEl = document.getElementById('suggest-codename-category');
+    if (catEl) {
+      catEl.addEventListener('change', function (e) {
+        filterCategory = e.target.value || '';
+        renderList();
+      });
+    }
+
+    // Re-render quando o catálogo carregar/refrescar
+    document.addEventListener('level:codenames-change', function () {
+      // Só re-render se o modal estiver aberto
+      const overlay = document.getElementById('modal-suggest-codename');
+      if (overlay && overlay.classList.contains('active')) {
+        rebuildCategorySelect();
+        renderList();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · ADMIN CRUD — cat_codenames (v75-96)
+// ═══════════════════════════════════════════════════════════════════
+// CRUD admin de codenames via edge function `admin-cat-codenames`.
+// Pattern idêntico aos outros adminCrud* — IIFE isolada.
+// ═══════════════════════════════════════════════════════════════════
+(function adminCrudCodenames() {
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const ENDPOINT = SUPABASE_URL + '/functions/v1/admin-cat-codenames';
+  const SECRET_LS_KEY = 'level.admin.secret';
+
+  let currentCodenames = [];
+
+  function getSecret() {
+    try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; }
+  }
+  function setStatus(elId, text, color) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = text;
+    if (color) el.style.color = color;
+  }
+  function escapeHtmlCn(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  async function callAdmin(action, payload) {
+    const secret = getSecret();
+    if (!secret) throw new Error('Secret de admin não configurado');
+    const body = Object.assign({ action: action }, payload || {});
+    const r = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'apikey': ANON_KEY,
+        'Content-Type': 'application/json',
+        'x-level-admin-secret': secret
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const msg = data.error || ('HTTP ' + r.status);
+      throw new Error(msg);
+    }
+    return data;
+  }
+
+  function renderCodenamesList() {
+    const wrap = document.getElementById('opp-codenames-list');
+    if (!wrap) return;
+    if (!currentCodenames.length) {
+      wrap.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted)">Nenhum codename carregado. Clica em "+ Novo codename" pra começar.</div>';
+      return;
+    }
+    const rows = currentCodenames.map(function (c) {
+      const activeBadge = c.is_active
+        ? '<span style="color:#4caf50">ATIVO</span>'
+        : '<span style="color:var(--text-muted)">INATIVO</span>';
+      const sortBadge = (c.sort_order != null) ? '<span style="color:var(--text-muted);font-size:10px;margin-right:6px">' + c.sort_order + '</span>' : '';
+      const tagCount = Array.isArray(c.tags) ? c.tags.length : 0;
+      return (
+        '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--border)">' +
+          '<div style="flex:1;min-width:0;overflow:hidden">' +
+            '<div style="display:flex;align-items:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' +
+              sortBadge +
+              '<strong style="color:var(--text-primary)">' + escapeHtmlCn(c.name) + '</strong>' +
+              '<span style="color:var(--accent-cyan);font-size:10px;margin-left:6px">' + escapeHtmlCn(c.language) + '</span>' +
+              '<span style="margin-left:6px">' + activeBadge + '</span>' +
+            '</div>' +
+            '<div style="color:var(--text-secondary);font-size:10px;margin-top:2px">' +
+              escapeHtmlCn(c.id) + ' · ' + escapeHtmlCn(c.category) + ' · ' + escapeHtmlCn(c.vibe || '—') +
+            '</div>' +
+            '<div style="color:var(--text-muted);font-size:10px;margin-top:2px">' + tagCount + ' tags' +
+              (c.source ? ' · src: ' + escapeHtmlCn(c.source) : '') +
+            '</div>' +
+          '</div>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px" data-admin-codename-edit="' + escapeHtmlCn(c.id) + '">Editar</button>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px;color:#ff5252;border-color:rgba(244,67,54,0.4)" data-admin-codename-delete="' + escapeHtmlCn(c.id) + '">×</button>' +
+        '</div>'
+      );
+    }).join('');
+    wrap.innerHTML = rows;
+  }
+
+  async function loadCodenames() {
+    setStatus('opp-codenames-status', 'A carregar codenames...', 'var(--text-muted)');
+    try {
+      const data = await callAdmin('list', {});
+      currentCodenames = data.codenames || [];
+      renderCodenamesList();
+      setStatus('opp-codenames-status', currentCodenames.length + ' codenames carregados', 'var(--text-secondary)');
+    } catch (err) {
+      const wrap = document.getElementById('opp-codenames-list');
+      if (wrap) wrap.innerHTML = '<div style="padding:18px;text-align:center;color:#ff5252">' + escapeHtmlCn(err.message) + '</div>';
+      setStatus('opp-codenames-status', 'Erro: ' + err.message, '#ff5252');
+    }
+  }
+
+  async function saveCodename() {
+    const errEl = document.getElementById('admin-codename-error');
+    errEl.style.display = 'none';
+
+    const id = (document.getElementById('admin-codename-id').value || '').trim().toLowerCase();
+    const name = (document.getElementById('admin-codename-name').value || '').trim();
+    const category = (document.getElementById('admin-codename-category').value || '').trim();
+    const vibe = (document.getElementById('admin-codename-vibe').value || '').trim();
+    if (!id || !name || !category || !vibe) {
+      errEl.textContent = 'ID, Nome, Categoria e Vibe são obrigatórios.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[a-z0-9_]+$/.test(id)) {
+      errEl.textContent = 'ID deve ser snake_case (apenas a-z, 0-9, _).';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    // Tags: comma-separated → array, limpa, max 20
+    const rawTags = document.getElementById('admin-codename-tags').value || '';
+    const tags = rawTags.split(',').map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 20);
+
+    const payload = {
+      id: id,
+      name: name,
+      language: document.getElementById('admin-codename-language').value || 'pt',
+      category: category,
+      vibe: vibe,
+      description: (document.getElementById('admin-codename-description').value || '').trim() || null,
+      source: (document.getElementById('admin-codename-source').value || '').trim() || null,
+      tags: tags,
+      is_active: document.getElementById('admin-codename-is-active').checked,
+      sort_order: parseInt(document.getElementById('admin-codename-sort').value, 10) || 0
+    };
+
+    const saveBtn = document.getElementById('admin-codename-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'A salvar...';
+    try {
+      await callAdmin('upsert', { codename: payload });
+      closeAdminCodenameModal();
+      await loadCodenames();
+      // Invalida cache e força reload do catálogo público
+      if (window.LevelCodenamesLoader) {
+        window.LevelCodenamesLoader.clearCache();
+        window.LevelCodenamesLoader.refresh();
+      }
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Codename salvo', message: name, variant: 'success' });
+      }
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Salvar';
+    }
+  }
+
+  async function deleteCodename(id) {
+    const target = currentCodenames.find(function (x) { return x.id === id; });
+    const name = target ? target.name : id;
+    let confirmed = false;
+    if (window.LevelModal && window.LevelModal.confirm) {
+      try {
+        confirmed = await window.LevelModal.confirm({
+          title: 'Deletar codename',
+          message: 'Tens certeza que queres deletar "' + name + '" (id: ' + id + ')? Não pode ser desfeito.',
+          variant: 'danger',
+          confirmLabel: 'Deletar'
+        });
+      } catch (e) { confirmed = false; }
+    } else {
+      confirmed = confirm('Deletar "' + name + '"? Não pode ser desfeito.');
+    }
+    if (!confirmed) return;
+    try {
+      await callAdmin('delete', { id: id });
+      await loadCodenames();
+      if (window.LevelCodenamesLoader) {
+        window.LevelCodenamesLoader.clearCache();
+        window.LevelCodenamesLoader.refresh();
+      }
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Codename deletado', message: name, variant: 'info' });
+      }
+    } catch (err) {
+      if (window.LevelModal && window.LevelModal.alert) {
+        window.LevelModal.alert({ title: 'Falha ao deletar', message: err.message, variant: 'error' });
+      } else {
+        alert('Erro: ' + err.message);
+      }
+    }
+  }
+
+  function openAdminCodenameModal(cData) {
+    document.getElementById('admin-codename-modal-title').textContent = cData ? 'Editar codename' : 'Novo codename';
+    document.getElementById('admin-codename-id').value = cData ? cData.id : '';
+    document.getElementById('admin-codename-id').readOnly = !!cData;
+    document.getElementById('admin-codename-name').value = cData ? (cData.name || '') : '';
+    document.getElementById('admin-codename-category').value = cData ? (cData.category || 'mythology_greek') : 'mythology_greek';
+    document.getElementById('admin-codename-language').value = cData ? (cData.language || 'pt') : 'pt';
+    document.getElementById('admin-codename-vibe').value = cData ? (cData.vibe || '') : '';
+    document.getElementById('admin-codename-source').value = cData ? (cData.source || '') : '';
+    document.getElementById('admin-codename-sort').value = cData ? (cData.sort_order != null ? cData.sort_order : 0) : 0;
+    document.getElementById('admin-codename-is-active').checked = cData ? !!cData.is_active : true;
+    document.getElementById('admin-codename-description').value = cData ? (cData.description || '') : '';
+    document.getElementById('admin-codename-tags').value = cData && Array.isArray(cData.tags) ? cData.tags.join(', ') : '';
+    const errEl = document.getElementById('admin-codename-error');
+    if (errEl) errEl.style.display = 'none';
+
+    const overlay = document.getElementById('modal-admin-codename');
+    if (overlay) overlay.classList.add('active');
+  }
+  function closeAdminCodenameModal() {
+    const overlay = document.getElementById('modal-admin-codename');
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  function initCodenames() {
+    const newBtn = document.getElementById('opp-btn-codename-new');
+    const refreshBtn = document.getElementById('opp-btn-codenames-refresh');
+
+    if (newBtn) newBtn.addEventListener('click', function () { openAdminCodenameModal(null); });
+    if (refreshBtn) refreshBtn.addEventListener('click', loadCodenames);
+
+    const list = document.getElementById('opp-codenames-list');
+    if (list) {
+      list.addEventListener('click', function (e) {
+        const editBtn = e.target.closest('[data-admin-codename-edit]');
+        if (editBtn) {
+          const id = editBtn.getAttribute('data-admin-codename-edit');
+          const c = currentCodenames.find(function (x) { return x.id === id; });
+          if (c) openAdminCodenameModal(c);
+          return;
+        }
+        const delBtn = e.target.closest('[data-admin-codename-delete]');
+        if (delBtn) {
+          deleteCodename(delBtn.getAttribute('data-admin-codename-delete'));
+          return;
+        }
+      });
+    }
+
+    const modalSaveBtn = document.getElementById('admin-codename-save-btn');
+    if (modalSaveBtn) modalSaveBtn.addEventListener('click', saveCodename);
+
+    if (getSecret() && window.LevelAdmin && window.LevelAdmin.isAdmin()) {
+      loadCodenames();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCodenames);
+  } else {
+    initCodenames();
   }
 })();
 
