@@ -4695,6 +4695,8 @@
   .map-badge.size-medium { background: rgba(240,185,82,0.18); color: var(--accent-orange); }
   .map-badge.size-large  { background: rgba(125,168,199,0.18); color: #9cc; }
   .map-badge.season-s1   { background: rgba(76,175,80,0.18);  color: #8c8; }
+  .map-badge.season-s2   { background: rgba(33,150,243,0.18); color: #8bf; }
+  .map-badge.season-s3   { background: rgba(240,185,82,0.18); color: var(--accent-orange); }
   .map-badge.classic     { background: rgba(155,89,182,0.18); color: #c8c; }
   .map-card-body {
     padding: 12px 16px;
@@ -8944,6 +8946,129 @@
     background: var(--accent-orange);
     color: var(--bg-darkest);
   }
+  /* ─── Marketplace · Scope toggle + Author stats (v75-91) ─────── */
+  .mkt-card-time {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: help;
+  }
+  .mkt-scope-toggle {
+    display: inline-flex;
+    gap: 0;
+    background: var(--bg-darkest);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px;
+    margin-right: 4px;
+  }
+  .mkt-scope-btn {
+    background: transparent;
+    border: 0;
+    color: var(--text-muted);
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .mkt-scope-btn:hover { color: var(--text-secondary); }
+  .mkt-scope-btn.active {
+    background: var(--accent-orange);
+    color: var(--bg-darkest);
+  }
+  .mkt-author-stats {
+    margin-bottom: 16px;
+    padding: 14px 18px;
+    background: linear-gradient(90deg, rgba(0,184,212,0.10) 0%, rgba(0,184,212,0.02) 100%);
+    border: 1px solid rgba(0,184,212,0.25);
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+  }
+  .mkt-author-stats-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,184,212,0.15);
+    border-radius: 50%;
+    color: var(--accent-cyan);
+  }
+  .mkt-author-stats-icon svg { width: 22px; height: 22px; }
+  .mkt-author-stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .mkt-author-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .mkt-author-stat-num {
+    color: var(--accent-cyan);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .mkt-author-stat-num.muted { color: var(--text-muted); }
+  .mkt-author-stat-lbl {
+    color: var(--text-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .mkt-author-stats-rank {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .mkt-author-stats-rank-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent-orange);
+    line-height: 1;
+  }
+  .mkt-author-stats-rank-lbl {
+    color: var(--text-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .mkt-author-empty-cta {
+    padding: 28px 22px;
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .mkt-author-empty-cta strong { color: var(--accent-orange); }
+  @media (max-width: 720px) {
+    .mkt-author-stats {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      text-align: center;
+    }
+    .mkt-author-stats-icon { margin: 0 auto; }
+    .mkt-author-stats-grid { justify-content: center; }
+    .mkt-author-stats-rank { text-align: center; }
+  }
+  /* ─── End Marketplace scope + stats ─── */
+
   /* ─── Ranking público v75-86 ────────────────────────────────── */
   .mkt-stats-bar {
     display: flex;
@@ -12705,7 +12830,15 @@
         <div class="mkt-leaderboard-body" id="mkt-wl-body"></div>
       </div>
 
+      <!-- Stats do autor (v75-91) - aparece só quando o usuário tem builds publicadas -->
+      <div id="mkt-author-stats" class="mkt-author-stats" style="display:none"></div>
+
       <div class="mkt-toolbar">
+        <!-- Toggle Minhas vs Todas (v75-91) -->
+        <div class="mkt-scope-toggle" role="tablist">
+          <button class="mkt-scope-btn active" data-mkt-scope="all" data-i18n="mkt.tb.scope.all">Todas</button>
+          <button class="mkt-scope-btn" data-mkt-scope="mine" data-i18n="mkt.tb.scope.mine">Minhas</button>
+        </div>
         <span class="mkt-toolbar-label" data-i18n="mkt.tb.weapon">Arma</span>
         <select id="mkt-filter-weapon">
           <option value="" data-i18n="mkt.tb.weapon.all">Todas</option>
@@ -14068,7 +14201,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-89</strong><span class="ver-tag">Auto-backup polish · countdown + circuit breaker</span>
+        LEVEL · <strong>v75-91</strong><span class="ver-tag">Marketplace · perfil do autor + tab Minhas</span>
       </div>
       <script>
         (function(){
@@ -15070,6 +15203,17 @@ window.I18N = {
     'mkt.tb.search.ph':       'Buscar build, autor, tag...',
     'mkt.state.searchEmpty':  '{{i:search}} Nenhuma build casa com "{q}"',
     'mkt.tb.refresh':         '{{i:refresh-cw}} Atualizar',
+    // v75-91: scope toggle + author stats
+    'mkt.tb.scope.all':       'Todas',
+    'mkt.tb.scope.mine':      'Minhas',
+    'mkt.author.label.builds':    'builds publicadas',
+    'mkt.author.label.votes':     'votos líquidos',
+    'mkt.author.label.top':       'melhor build',
+    'mkt.author.rank.lbl':        'rank entre autores',
+    'mkt.author.rank.none':       'sem rank ainda',
+    'mkt.author.empty.title':     'Ainda não publicaste nenhuma build',
+    'mkt.author.empty.body':      'Vai em <strong>Meus Loadouts</strong>, escolhe uma build e clica em <strong>Publicar no Marketplace</strong>. Vai aparecer aqui com tuas estatísticas de autor.',
+    'mkt.author.needSync':        'Faz pelo menos um Backup na cloud em Configurações ▸ Operador pra ver tuas builds publicadas aqui.',
     'mkt.state.loading':      'A carregar builds da comunidade...',
     'mkt.stat.builds':        'builds',
     'mkt.stat.votes':         'votos · soma',
@@ -16322,6 +16466,17 @@ window.I18N = {
     'mkt.tb.search.ph':       'Search build, author, tag...',
     'mkt.state.searchEmpty':  '{{i:search}} No build matches "{q}"',
     'mkt.tb.refresh':         '{{i:refresh-cw}} Refresh',
+    // v75-91: scope toggle + author stats
+    'mkt.tb.scope.all':       'All',
+    'mkt.tb.scope.mine':      'Mine',
+    'mkt.author.label.builds':    'builds published',
+    'mkt.author.label.votes':     'net votes',
+    'mkt.author.label.top':       'top build',
+    'mkt.author.rank.lbl':        'rank among authors',
+    'mkt.author.rank.none':       'no rank yet',
+    'mkt.author.empty.title':     'You haven\u2019t published any builds yet',
+    'mkt.author.empty.body':      'Go to <strong>My Loadouts</strong>, pick a build and click <strong>Publish to Marketplace</strong>. It will show up here with your author stats.',
+    'mkt.author.needSync':        'Do at least one Cloud backup in Settings \u25b8 Operator to see your published builds here.',
     'mkt.state.loading':      'Loading community builds...',
     'mkt.stat.builds':        'builds',
     'mkt.stat.votes':         'votes · sum',
@@ -20503,6 +20658,19 @@ window.BO7_ASSETS = (function() {
     // Cache local em localStorage['level.cache.maps'] (offline-first fallback).
     // Hub faz fetch em fetchDefaultWeaponsFromServer; este array é populado em runtime.
     let MAPS_CATALOG = [];
+    // v75-90: invalida cache uma vez se IDs antigos (com prefixo 'map_') estiverem persistidos.
+    // bootstrap-defaults v5 agora serve IDs raw sem prefixo. Vai refazer o fetch e atualizar.
+    try {
+      const _bumpKey = 'level.cache.maps.v75-90.cleared';
+      if (!localStorage.getItem(_bumpKey)) {
+        const cached = JSON.parse(localStorage.getItem('level.cache.maps') || 'null');
+        if (Array.isArray(cached) && cached.some(m => m && typeof m.id === 'string' && m.id.startsWith('map_'))) {
+          localStorage.removeItem('level.cache.maps');
+          console.log('[LEVEL v75-90] cache de mapas com prefixo antigo limpo');
+        }
+        localStorage.setItem(_bumpKey, '1');
+      }
+    } catch (e) {}
     try {
       // Tenta cache local primeiro pra ter conteúdo já no primeiro paint (antes do fetch).
       const cachedMaps = JSON.parse(localStorage.getItem('level.cache.maps') || 'null');
@@ -22136,7 +22304,10 @@ const ATTACHMENT_ICONS = {
         let html = '';
         html += '<span class="map-badge size-' + m.size + '">' + (sizeLabels[m.size] || m.size) + '</span>';
         html += '<span class="map-badge">' + (typeLabels[m.type] || m.type) + '</span>';
+        // v75-90: badges de season (S1, S2, S3)
         if (m.season === 's1') html += '<span class="map-badge season-s1">S1</span>';
+        else if (m.season === 's2') html += '<span class="map-badge season-s2">S2</span>';
+        else if (m.season === 's3') html += '<span class="map-badge season-s3">S3</span>';
         if (m.classic) html += '<span class="map-badge classic">BO2</span>';
         return html;
       }
@@ -25390,7 +25561,7 @@ const ATTACHMENT_ICONS = {
       };
 
       const LS_VOTES = 'level.mkt.votes';
-      const STATE = { builds: [], filters: { weapon: '', mode: '', sort: 'top', search: '' }, mineUserId: null };
+      const STATE = { builds: [], filters: { weapon: '', mode: '', sort: 'top', search: '', scope: 'all' }, mineUserId: null };
 
       // ── Helpers ────────────────────────────────────────────────────
       function getLocalId() {
@@ -25409,6 +25580,21 @@ const ATTACHMENT_ICONS = {
         return String(s == null ? '' : s)
           .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      // v75-91: tempo relativo nos cards ("há 2d", "há 12min")
+      function formatRelativeTime(iso) {
+        if (!iso) return '';
+        if (typeof window.CloudSync !== 'undefined' && typeof window.CloudSync.formatRelative === 'function') {
+          return window.CloudSync.formatRelative(iso);
+        }
+        // Fallback simples
+        try {
+          const diff = Date.now() - new Date(iso).getTime();
+          if (diff < 60000) return 'agora';
+          if (diff < 3600000) return Math.floor(diff/60000) + 'min';
+          if (diff < 86400000) return Math.floor(diff/3600000) + 'h';
+          return Math.floor(diff/86400000) + 'd';
+        } catch (e) { return ''; }
       }
       function extractCodename(loadoutName) {
         // "CICADA 3301-45 / Rusher Hardpoint" → "CICADA 3301-45"
@@ -25490,11 +25676,96 @@ const ATTACHMENT_ICONS = {
           renderPodium(builds);
           // v75-87: leaderboard por arma
           renderWeaponLeaderboard(builds);
+          // v75-91: card de stats do autor
+          renderAuthorStats(builds);
           renderGrid();
           renderWeaponFilterOptions(builds);
         } catch (err) {
           loadingEl.textContent = 'Erro: ' + (err.message || 'falha ao carregar');
         }
+      }
+
+      // v75-91: card de stats do autor (Marketplace ▸ Minhas)
+      function renderAuthorStats(builds) {
+        const wrap = document.getElementById('mkt-author-stats');
+        if (!wrap) return;
+        // Só renderiza quando estamos no scope "Minhas"
+        const scope = (STATE.filters && STATE.filters.scope) || 'all';
+        if (scope !== 'mine') {
+          wrap.style.display = 'none';
+          return;
+        }
+        // Sem user identificado: não renderiza header (o grid mostra CTA)
+        if (!STATE.mineUserId) {
+          wrap.style.display = 'none';
+          return;
+        }
+
+        const mine = (builds || []).filter(function (b) { return b.owner_user_id === STATE.mineUserId; });
+        if (!mine.length) {
+          // Não renderiza card aqui — o grid empty CTA já mostra mensagem
+          wrap.style.display = 'none';
+          return;
+        }
+
+        const totalBuilds = mine.length;
+        const totalVotes = mine.reduce(function (acc, b) {
+          return acc + (b.upvotes || 0) - (b.downvotes || 0);
+        }, 0);
+        // Melhor build do autor por score líquido
+        const topBuild = mine.slice().sort(function (a, b) {
+          const sa = (a.upvotes || 0) - (a.downvotes || 0);
+          const sb = (b.upvotes || 0) - (b.downvotes || 0);
+          return sb - sa;
+        })[0];
+        const topName = topBuild ? topBuild.codename : '—';
+
+        // Ranking entre autores (por soma de votos líquidos)
+        const byAuthorId = {};
+        (builds || []).forEach(function (b) {
+          const owner = b.owner_user_id;
+          if (!owner) return;
+          const score = (b.upvotes || 0) - (b.downvotes || 0);
+          byAuthorId[owner] = (byAuthorId[owner] || 0) + score;
+        });
+        const authorsRanked = Object.keys(byAuthorId)
+          .map(function (uid) { return { uid: uid, score: byAuthorId[uid] }; })
+          .filter(function (a) { return a.score > 0; })
+          .sort(function (a, b) { return b.score - a.score; });
+        const myRankIdx = authorsRanked.findIndex(function (a) { return a.uid === STATE.mineUserId; });
+
+        let rankHtml;
+        if (myRankIdx >= 0) {
+          rankHtml = '<div class="mkt-author-stats-rank-num">#' + (myRankIdx + 1) + '</div>' +
+                     '<div class="mkt-author-stats-rank-lbl">' + mt('mkt.author.rank.lbl', 'rank entre autores') + '</div>';
+        } else {
+          rankHtml = '<div class="mkt-author-stats-rank-num muted" style="color:var(--text-muted);font-size:20px">—</div>' +
+                     '<div class="mkt-author-stats-rank-lbl">' + mt('mkt.author.rank.none', 'sem rank ainda') + '</div>';
+        }
+
+        wrap.innerHTML =
+          '<div class="mkt-author-stats-icon">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+              '<path d="M3 21 V8 L12 3 L21 8 V21"/>' +
+              '<path d="M9 21 V12 H15 V21"/>' +
+            '</svg>' +
+          '</div>' +
+          '<div class="mkt-author-stats-grid">' +
+            '<div class="mkt-author-stat">' +
+              '<div class="mkt-author-stat-num">' + totalBuilds + '</div>' +
+              '<div class="mkt-author-stat-lbl">' + mt('mkt.author.label.builds', 'builds publicadas') + '</div>' +
+            '</div>' +
+            '<div class="mkt-author-stat">' +
+              '<div class="mkt-author-stat-num">' + (totalVotes >= 0 ? '+' : '') + totalVotes + '</div>' +
+              '<div class="mkt-author-stat-lbl">' + mt('mkt.author.label.votes', 'votos líquidos') + '</div>' +
+            '</div>' +
+            '<div class="mkt-author-stat">' +
+              '<div class="mkt-author-stat-num" style="font-size:16px;font-family:\'JetBrains Mono\',monospace;color:var(--text-primary)">' + escHtml(topName) + '</div>' +
+              '<div class="mkt-author-stat-lbl">' + mt('mkt.author.label.top', 'melhor build') + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="mkt-author-stats-rank">' + rankHtml + '</div>';
+        wrap.style.display = 'grid';
       }
 
       // v75-87: leaderboard de armas mais usadas pela comunidade
@@ -25672,15 +25943,41 @@ const ATTACHMENT_ICONS = {
         const votes = getLocalVotes();
         // v75-70: filtro por texto (codename + descrição + author + tags) client-side
         const q = (STATE.filters.search || '').trim().toLowerCase();
-        const filtered = q ? STATE.builds.filter(function (b) {
+        // v75-91: filtro por scope (mine vs all)
+        const scope = STATE.filters.scope || 'all';
+        let base = STATE.builds;
+        if (scope === 'mine') {
+          if (!STATE.mineUserId) {
+            // Não há user identificado: pede backup primeiro
+            gridEl.innerHTML = '<div class="mkt-author-empty-cta" style="grid-column:1/-1">' +
+              '<div style="margin-bottom:8px;font-family:\'Rajdhani\',sans-serif;font-size:16px;color:var(--text-primary);font-weight:600">' +
+                mt('mkt.author.empty.title', 'Ainda não publicaste nenhuma build') +
+              '</div>' +
+              '<div>' + mt('mkt.author.needSync', 'Faz pelo menos um Backup na cloud em Configurações ▸ Operador pra ver tuas builds publicadas aqui.') + '</div>' +
+            '</div>';
+            return;
+          }
+          base = STATE.builds.filter(function (b) { return b.owner_user_id === STATE.mineUserId; });
+        }
+        const filtered = q ? base.filter(function (b) {
           const hay = [
             b.codename, b.description, b.author_name,
             Array.isArray(b.tags) ? b.tags.join(' ') : ''
           ].filter(Boolean).join(' ').toLowerCase();
           return hay.indexOf(q) !== -1;
-        }) : STATE.builds;
+        }) : base;
 
         if (!filtered.length) {
+          // v75-91: mensagem específica pra "Minhas" vazio
+          if (scope === 'mine') {
+            gridEl.innerHTML = '<div class="mkt-author-empty-cta" style="grid-column:1/-1">' +
+              '<div style="margin-bottom:8px;font-family:\'Rajdhani\',sans-serif;font-size:16px;color:var(--text-primary);font-weight:600">' +
+                mt('mkt.author.empty.title', 'Ainda não publicaste nenhuma build') +
+              '</div>' +
+              '<div>' + mt('mkt.author.empty.body', 'Vai em <strong>Meus Loadouts</strong> e clica em <strong>Publicar no Marketplace</strong>.') + '</div>' +
+            '</div>';
+            return;
+          }
           gridEl.innerHTML = '<div class="mkt-empty" style="grid-column:1/-1"><div class="mkt-empty-icon">{{i:search}}</div><div>' +
             mt('mkt.state.searchEmpty', 'Nenhuma build casa com "{q}"').replace('{q}', escHtml(q)) +
             '</div></div>';
@@ -25713,7 +26010,11 @@ const ATTACHMENT_ICONS = {
             '<div class="mkt-card" data-build-id="' + escHtml(b.id) + '">' +
               '<div class="mkt-card-header">' +
                 '<div class="mkt-card-codename">' + escHtml(b.codename || 'BUILD') + mineBadge + '</div>' +
-                '<div class="mkt-card-author">por <strong>' + escHtml(b.author_name || 'Anon') + '</strong></div>' +
+                '<div class="mkt-card-author">por <strong>' + escHtml(b.author_name || 'Anon') + '</strong>' +
+                  (b.published_at
+                    ? ' · <span class="mkt-card-time" title="' + escHtml(b.published_at) + '">' + formatRelativeTime(b.published_at) + '</span>'
+                    : '') +
+                '</div>' +
               '</div>' +
               '<div class="mkt-card-body">' +
                 '<div class="mkt-card-weapon">' +
@@ -25979,6 +26280,34 @@ const ATTACHMENT_ICONS = {
             target.style.transition = 'box-shadow 0.3s';
             target.style.boxShadow = '0 0 0 2px var(--accent-orange)';
             setTimeout(function () { target.style.boxShadow = ''; }, 1400);
+          }
+          return;
+        }
+        // v75-91: scope toggle (Todas / Minhas)
+        const scopeBtn = e.target.closest('[data-mkt-scope]');
+        if (scopeBtn) {
+          const scope = scopeBtn.getAttribute('data-mkt-scope');
+          if (scope && scope !== STATE.filters.scope) {
+            STATE.filters.scope = scope;
+            // Toggle visual
+            document.querySelectorAll('.mkt-scope-btn').forEach(function (btn) {
+              btn.classList.toggle('active', btn.getAttribute('data-mkt-scope') === scope);
+            });
+            // Stats globais escondem em "Minhas" pra dar espaço ao card de autor
+            const statsBar = document.getElementById('mkt-stats-bar');
+            const podium = document.getElementById('mkt-podium');
+            const wl = document.getElementById('mkt-weapon-leaderboard');
+            if (scope === 'mine') {
+              if (statsBar) statsBar.style.display = 'none';
+              if (podium)   podium.style.display = 'none';
+              if (wl)       wl.style.display = 'none';
+            } else {
+              if (statsBar) renderStatsBar(STATE.builds);
+              if (podium)   renderPodium(STATE.builds);
+              if (wl)       renderWeaponLeaderboard(STATE.builds);
+            }
+            renderAuthorStats(STATE.builds);
+            renderGrid();
           }
           return;
         }
@@ -28487,7 +28816,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     function getUserImage(itemId) {
       if (!itemId) return null;
       const map = loadUserImages();
-      return map[itemId] || null;
+      // v75-90: fallback de prefixo map_ pra compatibilidade com versões antigas.
+      // Hub atual usa 'blackheart' (sem prefixo), mas versões pré-v75-90 usavam 'map_blackheart'.
+      // Tenta ID exato primeiro, depois variantes.
+      if (map[itemId]) return map[itemId];
+      if (itemId.startsWith('map_') && map[itemId.slice(4)]) return map[itemId.slice(4)];
+      if (!itemId.startsWith('map_') && map['map_' + itemId]) return map['map_' + itemId];
+      return null;
     }
     function setUserImage(itemId, dataUrl) {
       const map = loadUserImages();
@@ -34363,7 +34698,14 @@ ${cbt('share.t.footer')}`;
   const AUTO_DELAY_MS = 800; // dá tempo do Hub renderizar antes de iniciar
 
   function mtTour(k, fallback) {
-    if (typeof window.mt === 'function') return window.mt(k, fallback);
+    // v75-90: mt() é local em cada IIFE — lê window.I18N direto.
+    try {
+      const lang = (function () {
+        try { return localStorage.getItem('bo7hub_lang_v1') || 'pt'; } catch (e) { return 'pt'; }
+      })();
+      const dict = (window.I18N && window.I18N[lang]) || (window.I18N && window.I18N.pt) || {};
+      if (dict[k] !== undefined) return dict[k];
+    } catch (e) { /* ignore */ }
     return fallback;
   }
 
