@@ -9703,23 +9703,22 @@
         </div>
       </div>
 
-      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-98) ═══ -->
+      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-99) ═══ -->
       <div class="briefing-stats" style="margin-top:32px">
         <div class="briefing-stats-inner briefing-changelog-inner">
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v75-98 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v75-99 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">POLISH</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">FIX</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Codenames com imagem + polish do modal Sugerir</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O modal "Sugerir codename" agora mostra uma imagem ao lado de cada nome. Os codenames têm um novo campo <code>image_url</code> no DB que aceita URL externa (Wikimedia, Imgur…). Edita pelo painel admin de Codenames. Se não tiver imagem, o card mostra um placeholder elegante com a inicial.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Capturar via Celular religado + análise mais inteligente</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O QR Code do "Capturar via Celular" estava a apontar pro <code>level-capture.netlify.app</code>, que ficou offline (Netlify Free plan estourou junto com o Hub principal). Migrado pro Worker do Cloudflare <code>bo7-capture.victor-abap.workers.dev</code>, que já estava no ar e ligado ao mesmo Supabase. Também 2 fixes na <em>NOSSA ANÁLISE</em> dos cards de build.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Nova coluna <code>image_url</code></strong> em <code>cat_codenames</code> e novo campo no admin. Aceita https://, data:image/... base64 ou caminhos relativos.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Card "Sugerir"</strong> redesenhado com imagem 64×64 à esquerda, nome em destaque, vibe e descrição em colunas. Mais leitura, menos scroll.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Polish:</strong> vibe agora começa com maiúscula e descrição termina com ponto final, automaticamente no render (não muda o que está no DB).</li>
-            <li data-i18n-html="briefing.changelog.item4"><strong>Fix crítico CRUD:</strong> deletar/editar build, loadout ou dificuldade agora funciona consistentemente. Antes, 2 handlers globais (struggles e loadouts salvos) reagiam a cliques em botões de QUALQUER card — o modal certo às vezes era trocado pelo errado dependendo da ordem de inicialização. Agora cada handler só escuta seu próprio container.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>QR Code do modal "Capturar via Celular"</strong> volta a funcionar. Escaneia, abre o uploader no celular, tira foto da arma, e o Hub recebe via Supabase realtime — fluxo idêntico ao anterior.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Análise não sugere attachment já equipado.</strong> Antes, variações de case, whitespace ou hífen entre o que está na build e no catálogo (en-dash vs hyphen) faziam o filtro de "já equipado" falhar — então o motor recomendava trocar uma peça pela mesma. Comparação agora é tolerante a essas variações.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Não cobra slot vazio quando tá quase cheia.</strong> A sugestão "preencher slot vazio" agora só aparece se faltarem 2 ou mais slots. Build em 7/8 não recebe mais essa cobrança — foco volta pra qualidade dos slots que já tens.</li>
           </ul>
         </div>
       </div>
@@ -14417,7 +14416,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-98</strong><span class="ver-tag">Codenames com imagem · polish</span>
+        LEVEL · <strong>v75-99</strong><span class="ver-tag">Capturar via Celular religado · Cloudflare</span>
       </div>
       <script>
         (function(){
@@ -15765,12 +15764,12 @@ window.I18N = {
     'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
     'briefing.changelog.date':  '25 Mai 2026',
     'briefing.changelog.pill':  'NOVO',
-    'briefing.changelog.headline': 'Codenames com imagem + polish do modal Sugerir',
-    'briefing.changelog.summary':  'O modal "Sugerir codename" agora mostra uma imagem ao lado de cada nome. Os codenames têm um novo campo <code>image_url</code> no DB que aceita URL externa (Wikimedia, Imgur…). Edita pelo painel admin de Codenames. Se não tiver imagem, o card mostra um placeholder elegante com a inicial.',
-    'briefing.changelog.item1': '<strong>Nova coluna <code>image_url</code></strong> em <code>cat_codenames</code> e novo campo no admin. Aceita https://, data:image/... base64 ou caminhos relativos.',
-    'briefing.changelog.item2': '<strong>Card "Sugerir"</strong> redesenhado com imagem 64×64 à esquerda, nome em destaque, vibe e descrição em colunas. Mais leitura, menos scroll.',
-    'briefing.changelog.item3': '<strong>Polish:</strong> vibe agora começa com maiúscula e descrição termina com ponto final, automaticamente no render (não muda o que está no DB).',
-    'briefing.changelog.item4': '<strong>Fix crítico CRUD:</strong> deletar/editar build, loadout ou dificuldade agora funciona consistentemente. Antes, 2 handlers globais (struggles e loadouts salvos) reagiam a cliques em botões de QUALQUER card — o modal certo às vezes era trocado pelo errado dependendo da ordem de inicialização. Agora cada handler só escuta seu próprio container.',
+    'briefing.changelog.headline': 'Capturar via Celular religado + análise mais inteligente',
+    'briefing.changelog.summary':  'O QR Code do "Capturar via Celular" estava a apontar pro <code>level-capture.netlify.app</code>, que ficou offline (Netlify Free plan estourou junto com o Hub principal). Migrado pro Worker do Cloudflare <code>bo7-capture.victor-abap.workers.dev</code>, que já estava no ar e ligado ao mesmo Supabase. Também 2 fixes na <em>NOSSA ANÁLISE</em> dos cards de build.',
+    'briefing.changelog.item1': '<strong>QR Code do modal "Capturar via Celular"</strong> volta a funcionar. Escaneia, abre o uploader no celular, tira foto da arma, e o Hub recebe via Supabase realtime — fluxo idêntico ao anterior.',
+    'briefing.changelog.item2': '<strong>Análise não sugere attachment já equipado.</strong> Antes, variações de case, whitespace ou hífen entre o que está na build e no catálogo (en-dash vs hyphen) faziam o filtro de "já equipado" falhar — então o motor recomendava trocar uma peça pela mesma. Comparação agora é tolerante a essas variações.',
+    'briefing.changelog.item3': '<strong>Não cobra slot vazio quando tá quase cheia.</strong> A sugestão "preencher slot vazio" agora só aparece se faltarem 2 ou mais slots. Build em 7/8 não recebe mais essa cobrança — foco volta pra qualidade dos slots que já tens.',
+    'briefing.changelog.item4': '',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17071,12 +17070,12 @@ window.I18N = {
     'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
     'briefing.changelog.date':  'May 25, 2026',
     'briefing.changelog.pill':  'NEW',
-    'briefing.changelog.headline': 'Codenames with images + Suggest modal polish',
-    'briefing.changelog.summary':  'The "Suggest codename" modal now shows an image next to each name. Codenames have a new <code>image_url</code> field in the DB that accepts external URLs (Wikimedia, Imgur…). Edit it from the Codenames admin panel. If no image is set, the card shows an elegant placeholder with the initial.',
-    'briefing.changelog.item1': '<strong>New <code>image_url</code> column</strong> on <code>cat_codenames</code> and a new field in the admin. Accepts https://, data:image/... base64 or relative paths.',
-    'briefing.changelog.item2': '<strong>"Suggest" card</strong> redesigned with a 64×64 image on the left, name front and center, vibe and description in columns. More readable, less scroll.',
-    'briefing.changelog.item3': '<strong>Polish:</strong> vibe now starts with a capital and descriptions end with a period, automatically at render time (doesn\'t mutate the DB).',
-    'briefing.changelog.item4': '<strong>Critical CRUD fix:</strong> deleting/editing a build, loadout or difficulty now works consistently. Before, 2 global handlers (struggles and saved loadouts) were reacting to clicks on buttons inside ANY card — the right modal sometimes got replaced by the wrong one depending on init order. Each handler now only listens within its own container.',
+    'briefing.changelog.headline': 'Mobile Capture back online + smarter analysis',
+    'briefing.changelog.summary':  'The "Capture from Phone" QR code was pointing at <code>level-capture.netlify.app</code>, which went offline (Netlify Free plan ran out — same blast radius as the main Hub). Switched to the Cloudflare Worker <code>bo7-capture.victor-abap.workers.dev</code>, which was already deployed and wired to the same Supabase project. Plus 2 fixes to the <em>OUR ANALYSIS</em> tab on build cards.',
+    'briefing.changelog.item1': '<strong>"Capture from Phone" QR code</strong> works again. Scan, the uploader opens on your phone, take the picture, and the Hub picks it up via Supabase realtime — same flow as before.',
+    'briefing.changelog.item2': '<strong>Analysis no longer suggests an attachment that\'s already equipped.</strong> Before, subtle differences in case, whitespace or dash variant (en-dash vs hyphen) between the build and the catalog made the "already equipped" filter miss — so the engine recommended swapping a part for itself. Comparison is now tolerant to those variants.',
+    'briefing.changelog.item3': '<strong>Won\'t nag about empty slots when nearly full.</strong> The "fill empty slot" suggestion now only shows up if 2 or more slots are empty. Builds at 7/8 stop getting nagged — focus goes back to the quality of the slots you already have.',
+    'briefing.changelog.item4': '',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -22377,11 +22376,24 @@ const ATTACHMENT_ICONS = {
       const catalog = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[base.id] : null;
       if (!catalog) return 'Catálogo desta arma ainda em construção — análise automática indisponível por enquanto.';
 
+      // v75-99: Normaliza nomes de attachment pra comparação tolerante a
+      // whitespace, case, e variantes de dash (hyphen, en-dash, em-dash).
+      // Necessário porque builds antigas / importadas podem ter caracteres
+      // ligeiramente diferentes do catálogo atual.
+      function normalizeAttName(s) {
+        return String(s == null ? '' : s)
+          .trim()
+          .toLowerCase()
+          .replace(/[\u2010-\u2015]/g, '-')   // dash variants → hyphen
+          .replace(/\s+/g, ' ');               // collapse whitespace
+      }
+
       const weaponLevel = base.maxed ? (base.levelMax || 99) : (base.level || 0);
       const totals = { recoil: 0, mobility: 0, handling: 0, range: 0, mag: 0 };
       let equippedCount = 0;
       const emptySlots = [];
       const equippedNames = [];
+      const equippedNamesNorm = [];
 
       // v75-26: Itera sempre os 8 slots possíveis. Build de 5 (Warzone) terá 3
       // slots vazios — não é erro, é o padrão. Slot vazio só vira "sugestão"
@@ -22393,6 +22405,7 @@ const ATTACHMENT_ICONS = {
           continue;
         }
         equippedNames.push(attName);
+        equippedNamesNorm.push(normalizeAttName(attName));
         equippedCount++;
         const att = catalog.attachments.find(a => a.name === attName);
         if (!att || !att.stats) continue;
@@ -22455,7 +22468,8 @@ const ATTACHMENT_ICONS = {
         if (!cfg) return [];
         const candidates = [];
         for (const att of catalog.attachments) {
-          if (equippedNames.indexOf(att.name) >= 0) continue;
+          // v75-99: comparação tolerante a whitespace/case/dash variants
+          if (equippedNamesNorm.indexOf(normalizeAttName(att.name)) >= 0) continue;
           if (att.unlockLevel != null && att.unlockLevel > weaponLevel) continue;
           if (!att.stats) continue;
           let score = 0;
@@ -22478,7 +22492,9 @@ const ATTACHMENT_ICONS = {
 
       // v75-26: Só cobra preencher slot vazio se a build for setada pra 8 slots
       // (com Gunfighter Wildcard). Build de 5 = Warzone/MP padrão, não cobra.
-      if (emptySlots.length && build.slotCount === 8) {
+      // v75-99: E só sugere se faltarem ≥ 2 slots — quando tá quase cheia (7/8)
+      // o ganho marginal não vale o ruído.
+      if (emptySlots.length >= 2 && build.slotCount === 8) {
         suggestions.push('<strong>' + emptySlots.length + ' slot(s) vazio(s)</strong> (' + emptySlots.slice(0,3).join(', ') + (emptySlots.length > 3 ? '...' : '') + ') — preencher esses primeiro é o ganho mais rápido.');
       }
 
@@ -24273,7 +24289,7 @@ const ATTACHMENT_ICONS = {
   //   - Edge Function generate-avatar (Supabase) que chama Nano Banana 2
   //   - Buckets avatar-selfies (24h TTL) + avatar-generated (permanente)
   //   - Tabela avatar_sessions com fluxo token → QR → upload → realtime push
-  //   - Fluxo QR code → level-capture.netlify.app → bucket → Edge → Hub
+  //   - Fluxo QR code → bo7-capture Worker (Cloudflare) → bucket → Edge → Hub
   //   - IndexedDB binário (atualmente usa LevelDB.player.photo em base64)
   //
   // Por enquanto, os botões "Gerar QR code", "Regenerar" e "Aprovar" da tab
@@ -33940,7 +33956,7 @@ ${cbt('share.t.footer')}`;
   // ── Config ──
   const SUPABASE_URL  = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
-  const CAPTURE_URL   = 'https://level-capture.netlify.app';
+  const CAPTURE_URL   = 'https://bo7-capture.victor-abap.workers.dev';
   const ANALYZE_FN_URL = `${SUPABASE_URL}/functions/v1/analyze-capture`;
 
   let _supabase = null;
