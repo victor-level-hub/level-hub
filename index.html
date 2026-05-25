@@ -765,6 +765,21 @@
     white-space: nowrap;
     text-transform: uppercase;
   }
+  .briefing-changelog-headline {
+    font-family: 'Black Ops One', monospace;
+    font-size: 15px;
+    color: var(--text-primary);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin: 4px 0 6px;
+  }
+  .briefing-changelog-summary {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0 0 14px;
+    max-width: 720px;
+  }
   .briefing-changelog-list {
     list-style: none;
     margin: 6px 0 0;
@@ -2430,6 +2445,16 @@
     flex-shrink: 0;
     transition: background 0.2s, box-shadow 0.2s;
   }
+  /* v75-94: label "BACKUP" antes do dot · contextualiza o estado */
+  .header-sync-prefix {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-right: 1px;
+    flex-shrink: 0;
+  }
   /* Estados */
   .header-sync-status[data-state="never"] .header-sync-dot { background: #5C6478; }
   .header-sync-status[data-state="fresh"] .header-sync-dot {
@@ -2453,7 +2478,7 @@
     .header-sync-dot { width: 7px; height: 7px; }
     /* Em mobile estreito esconde o label, mantém só o dot */
     @media (max-width: 480px) {
-      .header-sync-label { display: none; }
+      .header-sync-label, .header-sync-prefix { display: none; }
       .header-sync-status { padding: 6px; }
     }
   }
@@ -9572,8 +9597,9 @@
           <div class="app-header-intro" id="app-header-intro"></div>
         </div>
       </div>
-      <!-- v75-68: sync status indicator -->
+      <!-- v75-68: sync status indicator (label v75-94) -->
       <div class="header-sync-status" id="header-sync-status" data-state="never" title="Estado do backup na cloud">
+        <span class="header-sync-prefix" data-i18n="hdr.sync.prefix">BACKUP</span>
         <span class="header-sync-dot" aria-hidden="true"></span>
         <span class="header-sync-label" id="header-sync-label">—</span>
       </div>
@@ -9679,6 +9705,8 @@
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">NOVO</div>
           </div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Bugs corrigidos · eventos atualizados</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Dá pra registrar tuas dificuldades de novo, o tour de boas-vindas fica legível mesmo com textos atrás, e os eventos da home refletem o que está ativo agora.</div>
           <ul class="briefing-changelog-list">
             <li data-i18n-html="briefing.changelog.item1"><strong>Adicionar Dificuldade</strong> voltou a funcionar. Antes clicavas no botão e nada acontecia.</li>
             <li data-i18n-html="briefing.changelog.item2"><strong>Eventos no Ar</strong> atualizados — Freerun: Ascent saiu (encerrado), <strong>Ranked Series Season 03</strong> entrou no lugar.</li>
@@ -13765,6 +13793,7 @@
           <strong id="set-storage-count">0</strong>
           <span data-i18n="set.info.imgs"> imagens</span>
         </div>
+        <button class="settings-btn" id="set-migrate-cloud-btn" data-i18n="set.btn.migrateCloud">{{i:cloud-upload}} Migrar pra cloud</button>
         <button class="settings-btn" id="set-export-btn" data-i18n="set.btn.export">{{i:download}} Exportar backup (.json)</button>
         <button class="settings-btn" id="set-import-btn" data-i18n="set.btn.import">{{i:upload}} Importar backup</button>
         <button class="settings-btn danger" id="set-clear-btn" data-i18n="set.btn.clear">{{i:trash-2}} Limpar tudo</button>
@@ -14277,7 +14306,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-93</strong><span class="ver-tag">Changelog · Ranked Series · Tour sólido</span>
+        LEVEL · <strong>v75-94</strong><span class="ver-tag">Cloud assets · Tour scroll · Label backup</span>
       </div>
       <script>
         (function(){
@@ -15355,6 +15384,7 @@ window.I18N = {
     'mkt.toast.downvoted':     '▼ Voto negativo em {name}',
     'mkt.badge.mine':          'MINHA',
     // — Header sync status (v75-68) —
+    'hdr.sync.prefix':         'BACKUP',
     'hdr.sync.never':          'Nunca',
     'hdr.sync.synced':         'Sincronizado',
     'hdr.sync.syncing':        'Sincronizando...',
@@ -15411,9 +15441,11 @@ window.I18N = {
     'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
     'briefing.changelog.date':  '25 Mai 2026',
     'briefing.changelog.pill':  'NOVO',
-    'briefing.changelog.item1': '<strong>Adicionar Dificuldade</strong> voltou a funcionar. Antes clicavas no botão e nada acontecia.',
-    'briefing.changelog.item2': '<strong>Eventos no Ar</strong> atualizados — Freerun: Ascent saiu (encerrado), <strong>Ranked Series Season 03</strong> entrou no lugar.',
-    'briefing.changelog.item3': '<strong>Tour de boas-vindas</strong> já não fica transparente. Antes o texto do fundo atravessava o card e atrapalhava a leitura.',
+    'briefing.changelog.headline': 'Imagens na cloud · ajustes de tour e backup',
+    'briefing.changelog.summary':  'Tuas imagens dos cards (estilos, mapas, prestiges, etc.) agora vivem na cloud em vez de só no navegador — chega de reconfigurar a cada troca de PC e de erro de storage cheio. Mais dois ajustes visuais.',
+    'briefing.changelog.item1': '<strong>Imagens dos cards na cloud</strong>. Botão novo em <strong>Configurações ▸ Imagens</strong>: clica em "Migrar pra cloud" pra subir as 11 imagens que tens hoje. Daqui pra frente os uploads vão automaticamente.',
+    'briefing.changelog.item2': '<strong>Tour de boas-vindas rola a tela</strong> automaticamente quando o item destacado (Marketplace, Configurações) está mais abaixo na sidebar.',
+    'briefing.changelog.item3': '<strong>Indicador de Backup mais claro</strong>. O badge no canto superior direito agora mostra "BACKUP · Nunca" em vez de só "Nunca" solto.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -16403,7 +16435,13 @@ window.I18N = {
     'set.toast.tooLarge': 'Arquivo muito grande (max 5 MB)',
     'set.toast.invalidType': 'Formato inválido (use PNG, JPG ou WebP)',
     'set.toast.invalidBackup': 'Arquivo de backup inválido',
-    'set.toast.storageError': 'Erro ao salvar (storage cheio?)',
+    'set.toast.storageError': 'Sem espaço no navegador. Clica em "Migrar pra cloud" pra liberar espaço.',
+    'set.btn.migrateCloud': '{{i:cloud-upload}} Migrar pra cloud',
+    'set.confirm.migrate.title': 'Migrar imagens pra cloud',
+    'set.confirm.migrate.msg':   'Vou enviar {n} imagens locais pro Supabase. Continuar?',
+    'set.confirm.migrate.btn':   'Migrar',
+    'set.toast.noLocalImgs':     'Nenhuma imagem local pra migrar.',
+    'set.toast.migrateDone':     '{ok}/{total} imagens migradas. {fail} falharam.',
     'con.step3w.title': 'Wildcard',
     'con.step3w.hint': 'a carta · 1 por loadout',
     'con.step3.label': 'Selecione a build primária *',
@@ -16624,6 +16662,7 @@ window.I18N = {
     'mkt.toast.downvoted':     '▼ Downvote on {name}',
     'mkt.badge.mine':          'MINE',
     // — Header sync status (v75-68) —
+    'hdr.sync.prefix':         'BACKUP',
     'hdr.sync.never':          'Never',
     'hdr.sync.synced':         'Synced',
     'hdr.sync.syncing':        'Syncing...',
@@ -16676,9 +16715,11 @@ window.I18N = {
     'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
     'briefing.changelog.date':  'May 25, 2026',
     'briefing.changelog.pill':  'NEW',
-    'briefing.changelog.item1': '<strong>Add Struggle</strong> button works again. Clicks were doing nothing before.',
-    'briefing.changelog.item2': '<strong>Live Events</strong> refreshed — Freerun: Ascent is out (event ended), <strong>Ranked Series Season 03</strong> is in.',
-    'briefing.changelog.item3': '<strong>Welcome tour</strong> is no longer transparent. Background text used to bleed through the card and hurt readability.',
+    'briefing.changelog.headline': 'Cloud images · tour and backup polish',
+    'briefing.changelog.summary':  'Your card images (styles, maps, prestiges, etc.) now live in the cloud instead of just in your browser — no more reconfiguring on a new PC, no more storage-full errors. Two more visual tweaks.',
+    'briefing.changelog.item1': '<strong>Card images in the cloud</strong>. New button in <strong>Settings ▸ Images</strong>: click "Migrate to cloud" to upload the images you have today. From now on uploads go automatically.',
+    'briefing.changelog.item2': '<strong>Welcome tour auto-scrolls</strong> when the highlighted item (Marketplace, Settings) sits further down the sidebar.',
+    'briefing.changelog.item3': '<strong>Clearer Backup indicator</strong>. The badge on the top right now shows "BACKUP · Never" instead of just "Never".',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17668,7 +17709,13 @@ window.I18N = {
     'set.toast.tooLarge': 'File too large (max 5 MB)',
     'set.toast.invalidType': 'Invalid format (use PNG, JPG or WebP)',
     'set.toast.invalidBackup': 'Invalid backup file',
-    'set.toast.storageError': 'Save error (storage full?)',
+    'set.toast.storageError': 'Browser storage is full. Click "Migrate to cloud" to free up space.',
+    'set.btn.migrateCloud': '{{i:cloud-upload}} Migrate to cloud',
+    'set.confirm.migrate.title': 'Migrate images to cloud',
+    'set.confirm.migrate.msg':   'I will upload {n} local images to Supabase. Continue?',
+    'set.confirm.migrate.btn':   'Migrate',
+    'set.toast.noLocalImgs':     'No local images to migrate.',
+    'set.toast.migrateDone':     '{ok}/{total} images migrated. {fail} failed.',
     'con.step3w.title': 'Wildcard',
     'con.step3w.hint': 'the card · 1 per loadout',
     'con.step3.label': 'Select the primary build *',
@@ -24171,6 +24218,9 @@ const ATTACHMENT_ICONS = {
 
     const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+    // v75-94: expor pra outras IIFEs (ex: user-assets cloud) acessarem
+    try { window.LEVEL_SUPABASE_URL = SUPABASE_URL; } catch (e) {}
+    try { window.LEVEL_SUPABASE_ANON_KEY = SUPABASE_ANON_KEY; } catch (e) {}
 
     const LS_LOCAL_ID  = 'level.sync.local_id';
     const LS_LAST_SYNC = 'level.sync.lastSync';
@@ -28923,23 +28973,162 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         return false;
       }
     }
+    // ═══════════════════════════════════════════════════════════════
+    // v75-94: LEVEL · USER ASSETS CLOUD
+    // Cache em memória de signed URLs vindas do Supabase Storage.
+    // getUserImage tenta primeiro a cloud, cai pro localStorage como fallback.
+    // ═══════════════════════════════════════════════════════════════
+    const CLOUD_URL_CACHE = {};   // { itemId: signed_url }
+    const TAB_TO_CATSUB = {
+      style:           ['construtor', 'estilos'],
+      wildcards:       ['construtor', 'wildcards'],
+      perks1:          ['construtor', 'perks-slot1'],
+      perks2:          ['construtor', 'perks-slot2'],
+      perks3:          ['construtor', 'perks-slot3'],
+      melee:           ['construtor', 'melee'],
+      fieldup:         ['construtor', 'field-upgrade'],
+      tactical:        ['construtor', 'tactical'],
+      lethal:          ['construtor', 'lethal'],
+      weapons_smg:     ['armamento', 'smg'],
+      weapons_ar:      ['armamento', 'ar'],
+      weapons_sniper:  ['armamento', 'sniper'],
+      weapons_pistol:  ['armamento', 'pistol'],
+      weapons_launcher:['armamento', 'launcher'],
+      weapons_special: ['armamento', 'special'],
+      weapons_all:     ['armamento', null],  // fallback resolvido por class na hora
+      prestiges:       ['prestiges',  null],
+      maps_all:        ['mapas',      null],
+      streaks:         ['vantagens',  'scorestreaks'],
+      specialties:     ['vantagens',  'especialidades'],
+      extra_equipment: ['vantagens',  'equipamento-extra'],
+      avatar:          ['operador',   'avatar'],
+    };
+    function _deriveCatSub(tabId, itemId) {
+      const cs = TAB_TO_CATSUB[tabId];
+      if (!cs) return null;
+      let category = cs[0], subcategory = cs[1];
+      // Refinar arma sem subcategory pelo class
+      if (category === 'armamento' && !subcategory) {
+        const arr = window.DEFAULT_WEAPONS || [];
+        const w = arr.find(function (w) { return w.id === itemId; });
+        if (w && w.class) subcategory = String(w.class).toLowerCase();
+      }
+      return { category: category, subcategory: subcategory };
+    }
+    function _cloudEndpoint() {
+      // SUPABASE_URL é definida em outra IIFE; lê via window
+      const base = (window.LEVEL_SUPABASE_URL || 'https://cqkhqtgmolmrfgzozocr.supabase.co');
+      return base + '/functions/v1/user-asset';
+    }
+    function _cloudHeaders() {
+      const anon = window.LEVEL_SUPABASE_ANON_KEY || '';
+      return {
+        'Authorization': 'Bearer ' + anon,
+        'apikey':        anon,
+        'Content-Type':  'application/json',
+      };
+    }
+    function _getLocalIdSafe() {
+      try {
+        let id = localStorage.getItem('level.sync.local_id');
+        if (!id) {
+          // v75-94: cria local_id na hora se ainda não existe (auto-bootstrap pra user-assets cloud)
+          id = 'u_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+          localStorage.setItem('level.sync.local_id', id);
+        }
+        return id;
+      } catch (e) { return null; }
+    }
+    async function cloudListAssets() {
+      const localId = _getLocalIdSafe();
+      if (!localId) return null;
+      try {
+        const res = await fetch(_cloudEndpoint(), {
+          method: 'POST', headers: _cloudHeaders(),
+          body: JSON.stringify({ action: 'list', local_id: localId }),
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data && Array.isArray(data.items)) {
+          // limpa e repopula
+          Object.keys(CLOUD_URL_CACHE).forEach(function (k) { delete CLOUD_URL_CACHE[k]; });
+          data.items.forEach(function (it) {
+            if (it.signed_url) CLOUD_URL_CACHE[it.item_id] = it.signed_url;
+          });
+          return data.items;
+        }
+      } catch (e) { console.warn('[user-assets] list falhou:', e.message); }
+      return null;
+    }
+    async function cloudUploadAsset(itemId, dataUrl, category, subcategory) {
+      const localId = _getLocalIdSafe();
+      if (!localId) throw new Error('local_id ausente — faz Backup na cloud primeiro');
+      const res = await fetch(_cloudEndpoint(), {
+        method: 'POST', headers: _cloudHeaders(),
+        body: JSON.stringify({
+          action: 'upload', local_id: localId,
+          item: { item_id: itemId, category: category, subcategory: subcategory },
+          dataUrl: dataUrl,
+        }),
+      });
+      const data = await res.json().catch(function () { return null; });
+      if (!res.ok || !data || data.error) {
+        throw new Error((data && data.error) || ('HTTP ' + res.status));
+      }
+      if (data.signed_url) CLOUD_URL_CACHE[itemId] = data.signed_url;
+      return data;
+    }
+    async function cloudDeleteAsset(itemId) {
+      const localId = _getLocalIdSafe();
+      if (!localId) return false;
+      try {
+        const res = await fetch(_cloudEndpoint(), {
+          method: 'POST', headers: _cloudHeaders(),
+          body: JSON.stringify({ action: 'delete', local_id: localId, item_id: itemId }),
+        });
+        delete CLOUD_URL_CACHE[itemId];
+        return res.ok;
+      } catch (e) { return false; }
+    }
+    // Dispara list no boot, sem await — UI usa fallback localStorage até cache popular
+    setTimeout(function () { cloudListAssets().then(function () {
+      if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange();
+    }); }, 500);
+
     function getUserImage(itemId) {
       if (!itemId) return null;
+      // 1. Tenta cloud cache primeiro
+      if (CLOUD_URL_CACHE[itemId]) return CLOUD_URL_CACHE[itemId];
+      if (itemId.startsWith('map_') && CLOUD_URL_CACHE[itemId.slice(4)]) return CLOUD_URL_CACHE[itemId.slice(4)];
+      if (!itemId.startsWith('map_') && CLOUD_URL_CACHE['map_' + itemId]) return CLOUD_URL_CACHE['map_' + itemId];
+      // 2. Fallback localStorage (compat + offline)
       const map = loadUserImages();
-      // v75-90: fallback de prefixo map_ pra compatibilidade com versões antigas.
-      // Hub atual usa 'blackheart' (sem prefixo), mas versões pré-v75-90 usavam 'map_blackheart'.
-      // Tenta ID exato primeiro, depois variantes.
       if (map[itemId]) return map[itemId];
       if (itemId.startsWith('map_') && map[itemId.slice(4)]) return map[itemId.slice(4)];
       if (!itemId.startsWith('map_') && map['map_' + itemId]) return map['map_' + itemId];
       return null;
     }
     function setUserImage(itemId, dataUrl) {
+      // Tenta cloud primeiro (resolvendo category pela tab ativa)
+      try {
+        const cs = _deriveCatSub(settingsActiveTab, itemId);
+        if (cs && _getLocalIdSafe()) {
+          cloudUploadAsset(itemId, dataUrl, cs.category, cs.subcategory)
+            .then(function () { if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange(); })
+            .catch(function (err) {
+              console.warn('[user-assets] cloud upload falhou, mantendo só local:', err.message);
+            });
+          // Retorna true otimisticamente — cache local segue como backup
+        }
+      } catch (e) {}
+      // Sempre salva também no localStorage (fallback + compat)
       const map = loadUserImages();
       map[itemId] = dataUrl;
       return saveUserImages(map);
     }
     function removeUserImage(itemId) {
+      // Cloud delete (best-effort)
+      try { cloudDeleteAsset(itemId); } catch (e) {}
       const map = loadUserImages();
       delete map[itemId];
       return saveUserImages(map);
@@ -28948,6 +29137,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       try { localStorage.removeItem(USER_IMG_KEY); return true; }
       catch (e) { return false; }
     }
+    // Expor pra UI de migração
+    window.levelUserAssets = {
+      refresh:  cloudListAssets,
+      upload:   cloudUploadAsset,
+      del:      cloudDeleteAsset,
+      cache:    CLOUD_URL_CACHE,
+      deriveCatSub: _deriveCatSub,
+    };
 
     // ── FIX v63: Expor funções de imagem no window pra que código fora ──
     // desta IIFE (ex.: renderPrestigeEmblem, BO7_ASSETS shim) consiga
@@ -30100,6 +30297,61 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         if (!(await LevelModal.confirm({ title: 'Limpar imagens', message: cbt('set.confirm.clear'), variant: 'danger', confirmText: 'Limpar tudo' }))) return;
         clearUserImages();
         if (typeof showToast === 'function') showToast(cbt('set.toast.cleared'), 'success');
+        refreshAfterImageChange();
+        return;
+      }
+      // v75-94: Migrar todas as imagens do localStorage pra cloud
+      if (e.target.id === 'set-migrate-cloud-btn') {
+        const btn = e.target;
+        const map = loadUserImages();
+        const ids = Object.keys(map);
+        if (!ids.length) {
+          if (typeof showToast === 'function') showToast(cbt('set.toast.noLocalImgs') || 'Nenhuma imagem local pra migrar.', 'info');
+          return;
+        }
+        const ok = await LevelModal.confirm({
+          title: cbt('set.confirm.migrate.title') || 'Migrar imagens pra cloud',
+          message: (cbt('set.confirm.migrate.msg') || 'Vou enviar {n} imagens locais pro Supabase. Continuar?').replace('{n}', ids.length),
+          confirmText: cbt('set.confirm.migrate.btn') || 'Migrar'
+        });
+        if (!ok) return;
+
+        btn.disabled = true;
+        const origHtml = btn.innerHTML;
+        let done = 0, fail = 0;
+        for (const itemId of ids) {
+          const dataUrl = map[itemId];
+          if (typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) { fail++; continue; }
+          // Descobrir category/subcategory pelo SETTINGS_CATEGORIES: procura tab que contém esse item
+          let cs = null;
+          for (const cat of SETTINGS_CATEGORIES) {
+            try {
+              const items = cat.source ? cat.source() : [];
+              if (Array.isArray(items) && items.some(function (it) { return it && it.id === itemId; })) {
+                cs = _deriveCatSub(cat.id, itemId);
+                break;
+              }
+            } catch (e) {}
+          }
+          // Fallback: tenta pelo prefixo do id
+          if (!cs) {
+            if (/^p\d+_|^master$/.test(itemId)) cs = { category: 'prestiges', subcategory: null };
+            else cs = { category: 'mapas', subcategory: null };
+          }
+          btn.innerHTML = '<span>Migrando ' + (done + fail + 1) + ' / ' + ids.length + '...</span>';
+          try {
+            await cloudUploadAsset(itemId, dataUrl, cs.category, cs.subcategory);
+            done++;
+          } catch (err) {
+            console.warn('[migrate] falhou em', itemId, err.message);
+            fail++;
+          }
+        }
+        btn.innerHTML = origHtml;
+        btn.disabled = false;
+        const msg = (cbt('set.toast.migrateDone') || '{ok}/{total} imagens migradas. {fail} falharam.')
+          .replace('{ok}', done).replace('{total}', ids.length).replace('{fail}', fail);
+        if (typeof showToast === 'function') showToast(msg, fail === 0 ? 'success' : 'info');
         refreshAfterImageChange();
         return;
       }
@@ -34878,10 +35130,28 @@ ${cbt('share.t.footer')}`;
   }
 
   // ─── Render do passo atual ─────────────────────────────────────
-  function renderStep(idx, animate) {
+  // v75-94: parâmetro extra _afterScroll evita loop recursivo
+  function renderStep(idx, animate, _afterScroll) {
     const steps = getSteps();
     const step = steps[idx];
     if (!step) return;
+
+    // v75-94: se o âncora está fora do viewport (ex: Marketplace, Configurações
+    // que ficam mais abaixo na sidebar), rola pra centro antes de medir.
+    // O guard _afterScroll previne loop se scrollIntoView não conseguir centrar.
+    if (step.anchor && !_afterScroll) {
+      const _el = document.querySelector(step.anchor);
+      if (_el) {
+        const _r = _el.getBoundingClientRect();
+        const _outOfView = _r.top < 60 || _r.bottom > window.innerHeight - 60;
+        if (_outOfView) {
+          if (tooltipEl) tooltipEl.classList.remove('visible');
+          _el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          setTimeout(function () { renderStep(idx, animate, true); }, 380);
+          return;
+        }
+      }
+    }
 
     const total = steps.length;
     const title = mtTour(step.titleKey, '');
