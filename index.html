@@ -9521,6 +9521,14 @@
           <span class="nav-desc" data-i18n="nav.myloadouts.desc">Salvos · avaliações · share</span>
         </span>
       </button>
+      <!-- v75-97: PRE-MATCH ADVISOR ── escolhe loadout antes da partida -->
+      <button class="nav-item nav-item--featured" data-section="prematch">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3 v3 M12 18 v3 M3 12 h3 M18 12 h3"/><path d="M7.5 7.5 L10 10 M14 14 L16.5 16.5 M7.5 16.5 L10 14 M14 10 L16.5 7.5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg></span>
+        <span class="nav-text">
+          <span class="nav-label" data-i18n="nav.prematch.label">Pré-Match</span>
+          <span class="nav-desc" data-i18n="nav.prematch.desc">Loadout certo · mapa + modo</span>
+        </span>
+      </button>
       <!-- ─── END FEATURED GROUP ─── -->
       <button class="nav-item" data-section="marketplace">
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 L4.5 4 H19.5 L21 9"/><path d="M3 9 V19 a1 1 0 0 0 1 1 H20 a1 1 0 0 0 1 -1 V9"/><path d="M9 9 V5"/><path d="M15 9 V5"/><path d="M9 13 H15"/></svg></span>
@@ -9695,22 +9703,22 @@
         </div>
       </div>
 
-      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-96) ═══ -->
+      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-97) ═══ -->
       <div class="briefing-stats" style="margin-top:32px">
         <div class="briefing-stats-inner briefing-changelog-inner">
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v75-96 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v75-97 · <span data-i18n="briefing.changelog.date">25 Mai 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">NOVO</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Codenames curados — 125 nomes pra builds</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Quando crias uma build nova, agora tens um botão "Sugerir codename" que abre uma lista curada de 125 nomes (Erebus, Thanatos, Wraith…) organizados por mitologia, cyberpunk, anime, armas, astronomia e mais. Filtro por categoria e clique pra preencher.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pre-Match Advisor — qual loadout usar antes da partida</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Nova seção <strong>Pré-Match</strong> na sidebar. Escolhes o mapa e o modo (TDM, Domination, Hardpoint, etc.) e o Hub ranqueia teus loadouts cadastrados de cima pra baixo, com explicação curta do porquê cada um pontua o que pontua.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Botão "Sugerir"</strong> ao lado do campo nome em <em>Nova Arma Montada</em>, <em>Salvar Loadout</em> e no admin de builds curadas. Filtro por categoria, vibe e tags.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Painel ADMIN · Codenames</strong> em Configurações ▸ Operador. Adiciona, edita, desativa. Mesmo padrão de Mapas, Armas, Builds curadas e Dificuldades.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Cloud-first.</strong> Catálogo lê de <code>cat_codenames</code> com cache 24h. Se a cloud falhar, o botão avisa que a lista vai estar disponível na próxima carga — sem quebrar a UI.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Motor de scoring determinístico</strong> — pondera classe da arma vs tamanho/tipo do mapa, modo de jogo, teu estilo (Rusher), recomendação curada por mapa e qualidade da build (attachments, score IA).</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Top 3 + razões</strong>. O melhor loadout aparece em destaque com até 4 motivos curtos ("SMG dominante em CQB", "match estilo Rusher", "build com 5/5 acessórios"). Os outros 2 vêm em cards compactos.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Fix crítico:</strong> botões "Sugerir codename", "+ Novo X" e "Editar" nos painéis admin (Mapas, Armas, Builds, Dificuldades, Codenames) agora abrem o modal — antes nada acontecia. Também alinha em altura o botão "Sugerir" com o input ao lado.</li>
           </ul>
         </div>
       </div>
@@ -12895,6 +12903,59 @@
 
 
     <!-- =================================================================== -->
+    <!-- SECTION: PRE-MATCH ADVISOR (v75-97)                                  -->
+    <!-- =================================================================== -->
+    <section class="section" id="section-prematch">
+      <div class="section-header">
+        <div class="breadcrumb" data-i18n="sec.prematch.crumb">P / Pré-Match</div>
+        <h2 data-i18n="sec.prematch.h2">PRÉ-MATCH ADVISOR</h2>
+        <p data-i18n="sec.prematch.intro">Escolhe o mapa que vai entrar e o modo da partida. O Hub ranqueia teus loadouts cadastrados e mostra qual usar — com explicação curta de por que cada um pontua o que pontua.</p>
+      </div>
+
+      <!-- ─── Filtros: mapa + modo ─── -->
+      <div class="prematch-filters" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:18px">
+        <div>
+          <div class="form-label" data-i18n="pm.filter.mapLabel">Mapa</div>
+          <select id="pm-map-select" class="form-input">
+            <option value="" data-i18n="pm.filter.mapAny">— Sem mapa específico —</option>
+          </select>
+        </div>
+        <div>
+          <div class="form-label" data-i18n="pm.filter.modeLabel">Modo</div>
+          <select id="pm-mode-select" class="form-input">
+            <option value="" data-i18n="pm.filter.modeAny">— Sem modo específico —</option>
+            <option value="tdm">Team Deathmatch (TDM)</option>
+            <option value="dom">Domination (DOM)</option>
+            <option value="hp">Hardpoint (HP)</option>
+            <option value="kc">Kill Confirmed (KC)</option>
+            <option value="snd">Search &amp; Destroy (S&amp;D)</option>
+            <option value="ffa">Free For All (FFA)</option>
+            <option value="ctf">Capture the Flag (CTF)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ─── Resultado: meta + top pick + alternativos ─── -->
+      <div id="pm-result-wrap">
+        <div id="pm-meta" style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-muted); margin-bottom:12px"></div>
+
+        <!-- Top pick destacado -->
+        <div id="pm-top-pick" style="display:none; background:linear-gradient(135deg, rgba(240,185,82,0.08), rgba(240,185,82,0.02)); border:1px solid var(--accent-orange); border-radius:10px; padding:18px; margin-bottom:14px"></div>
+
+        <!-- Alternativos -->
+        <div id="pm-alternates" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px"></div>
+
+        <!-- Empty state (sem loadouts cadastrados) -->
+        <div id="pm-empty" style="display:none; padding:40px 24px; text-align:center; background:var(--bg-panel); border:1px dashed var(--border); border-radius:10px">
+          <div style="font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--text-secondary); margin-bottom:10px" data-i18n="pm.empty.title">Sem loadouts cadastrados ainda</div>
+          <div style="font-size:12px; color:var(--text-muted); margin-bottom:18px; line-height:1.5" data-i18n="pm.empty.body">Pré-Match ranqueia loadouts que tu já criou e salvou. Vai pro <strong>Construtor</strong>, monta um build, analisa e clica em Salvar. Depois volta aqui.</div>
+          <button class="btn-action btn-save" style="padding:10px 22px" onclick="document.querySelector('[data-section=&quot;constructor&quot;]').click()" data-i18n="pm.empty.cta">→ Ir pro Construtor</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =================================================================== -->
     <!-- SECTION: MARKETPLACE (v75-54) — builds compartilhadas da comunidade  -->
     <!-- =================================================================== -->
     <section class="section" id="section-marketplace">
@@ -12988,7 +13049,7 @@
           <div class="form-label" data-i18n="mod.save.nameLabel">Nome do loadout</div>
           <div style="display:flex;gap:6px;align-items:stretch">
             <input type="text" id="save-name" class="form-input" placeholder="ex: CICADA 3301-45 / Rusher Hardpoint" data-i18n-attr="placeholder:mod.save.namePlaceholder" maxlength="60" style="flex:1"/>
-            <button type="button" class="btn-action btn-save" data-suggest-codename-target="save-name" style="flex:0 0 auto;min-width:auto;padding:8px 14px;font-size:11px;white-space:nowrap" data-i18n="cn.suggest.btn">Sugerir</button>
+            <button type="button" class="btn-action btn-save" data-suggest-codename-target="save-name" style="flex:0 0 auto;min-width:auto;padding:0 18px;font-size:11px;white-space:nowrap;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" data-i18n="cn.suggest.btn">Sugerir</button>
           </div>
           <div class="form-label" data-i18n-html="mod.save.notesLabel">Notas pessoais <span style="color:var(--text-secondary)">(opcional)</span></div>
           <textarea id="save-notes" class="form-input" rows="3" placeholder="ex: melhor pra mapas pequenos, troquei pra .40 conversion" data-i18n-attr="placeholder:mod.save.notesPlaceholder"></textarea>
@@ -14355,7 +14416,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-96</strong><span class="ver-tag">Codenames curados · admin + sugestão</span>
+        LEVEL · <strong>v75-97</strong><span class="ver-tag">Pre-Match Advisor · loadout certo pro mapa</span>
       </div>
       <script>
         (function(){
@@ -14716,7 +14777,7 @@
             <div class="form-label">Nome da build *</div>
             <div style="display:flex;gap:6px;align-items:stretch">
               <input type="text" id="build-name" class="form-input" placeholder="ex: CICADA close-range, Voyak long-range" maxlength="40" style="flex:1"/>
-              <button type="button" class="btn-action btn-save" data-suggest-codename-target="build-name" style="flex:0 0 auto;min-width:auto;padding:8px 14px;font-size:11px;white-space:nowrap" data-i18n="cn.suggest.btn">Sugerir</button>
+              <button type="button" class="btn-action btn-save" data-suggest-codename-target="build-name" style="flex:0 0 auto;min-width:auto;padding:0 18px;font-size:11px;white-space:nowrap;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" data-i18n="cn.suggest.btn">Sugerir</button>
             </div>
 
             <div class="form-label" style="margin-top:10px">Arma base *</div>
@@ -15235,7 +15296,7 @@
               <div class="form-label">Codename <span style="color:var(--accent-orange)">*</span></div>
               <div style="display:flex;gap:6px;align-items:stretch">
                 <input type="text" id="admin-build-name" class="form-input" placeholder="ex: CICADA 3301-45" maxlength="60" style="flex:1"/>
-                <button type="button" class="btn-action btn-save" data-suggest-codename-target="admin-build-name" style="flex:0 0 auto;min-width:auto;padding:8px 14px;font-size:11px;white-space:nowrap" data-i18n="cn.suggest.btn">Sugerir</button>
+                <button type="button" class="btn-action btn-save" data-suggest-codename-target="admin-build-name" style="flex:0 0 auto;min-width:auto;padding:0 18px;font-size:11px;white-space:nowrap;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center" data-i18n="cn.suggest.btn">Sugerir</button>
               </div>
             </div>
             <div>
@@ -15522,6 +15583,28 @@ window.I18N = {
     'nav.constructor.label':  'Loadout',
     'nav.constructor.desc':   'Monte do zero · análise IA',
     'nav.myloadouts.label':   'Meus Loadouts',
+    // — Pre-Match Advisor (v75-97) —
+    'nav.prematch.label':     'Pré-Match',
+    'nav.prematch.desc':      'Loadout certo · mapa + modo',
+    'sec.prematch.crumb':     'P / Pré-Match',
+    'sec.prematch.h2':        'PRÉ-MATCH ADVISOR',
+    'sec.prematch.intro':     'Escolhe o mapa que vai entrar e o modo da partida. O Hub ranqueia teus loadouts cadastrados e mostra qual usar — com explicação curta de por que cada um pontua o que pontua.',
+    'pm.filter.mapLabel':     'Mapa',
+    'pm.filter.mapAny':       '— Sem mapa específico —',
+    'pm.filter.modeLabel':    'Modo',
+    'pm.filter.modeAny':      '— Sem modo específico —',
+    'pm.meta.analyzing':      'A analisar {n} loadouts...',
+    'pm.meta.ranked':         '{n} loadouts ranqueados',
+    'pm.empty.title':         'Sem loadouts cadastrados ainda',
+    'pm.empty.body':          'Pré-Match ranqueia loadouts que tu já criou e salvou. Vai pro <strong>Construtor</strong>, monta um build, analisa e clica em Salvar. Depois volta aqui.',
+    'pm.empty.cta':           '→ Ir pro Construtor',
+    'pm.topPick.label':       'MELHOR ESCOLHA',
+    'pm.alt.label':           'TAMBÉM CONSIDERA',
+    'pm.score.label':         'Pontos',
+    'pm.reasons.label':       'Por que',
+    'pm.action.use':          'Editar este loadout',
+    'pm.action.useShort':     'Editar',
+    'pm.noMatch':             'Nenhum loadout ainda — bora cadastrar?',
     'nav.marketplace.label':  'Marketplace',
     'nav.marketplace.desc':   'Builds da comunidade',
     // — Marketplace (v75-57 i18n) —
@@ -15675,11 +15758,11 @@ window.I18N = {
     'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
     'briefing.changelog.date':  '25 Mai 2026',
     'briefing.changelog.pill':  'NOVO',
-    'briefing.changelog.headline': 'Codenames curados — 125 nomes pra builds',
-    'briefing.changelog.summary':  'Quando crias uma build nova, agora tens um botão "Sugerir codename" que abre uma lista curada de 125 nomes (Erebus, Thanatos, Wraith…) organizados por mitologia, cyberpunk, anime, armas, astronomia e mais. Filtro por categoria e clique pra preencher.',
-    'briefing.changelog.item1': '<strong>Botão "Sugerir"</strong> ao lado do campo nome em <em>Nova Arma Montada</em>, <em>Salvar Loadout</em> e no admin de builds curadas. Filtro por categoria, vibe e tags.',
-    'briefing.changelog.item2': '<strong>Painel ADMIN · Codenames</strong> em Configurações ▸ Operador. Adiciona, edita, desativa. Mesmo padrão de Mapas, Armas, Builds curadas e Dificuldades.',
-    'briefing.changelog.item3': '<strong>Cloud-first.</strong> Catálogo lê de <code>cat_codenames</code> com cache 24h. Se a cloud falhar, o botão avisa que a lista vai estar disponível na próxima carga — sem quebrar a UI.',
+    'briefing.changelog.headline': 'Pre-Match Advisor — qual loadout usar antes da partida',
+    'briefing.changelog.summary':  'Nova seção <strong>Pré-Match</strong> na sidebar. Escolhes o mapa e o modo (TDM, Domination, Hardpoint, etc.) e o Hub ranqueia teus loadouts cadastrados de cima pra baixo, com explicação curta do porquê cada um pontua o que pontua.',
+    'briefing.changelog.item1': '<strong>Motor de scoring determinístico</strong> — pondera classe da arma vs tamanho/tipo do mapa, modo de jogo, teu estilo (Rusher), recomendação curada por mapa e qualidade da build (attachments, score IA).',
+    'briefing.changelog.item2': '<strong>Top 3 + razões</strong>. O melhor loadout aparece em destaque com até 4 motivos curtos ("SMG dominante em CQB", "match estilo Rusher", "build com 5/5 acessórios"). Os outros 2 vêm em cards compactos.',
+    'briefing.changelog.item3': '<strong>Fix crítico:</strong> botões "Sugerir codename", "+ Novo X" e "Editar" nos painéis admin (Mapas, Armas, Builds, Dificuldades, Codenames) agora abrem o modal — antes nada acontecia. Também alinha em altura o botão "Sugerir" com o input ao lado.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -16807,6 +16890,28 @@ window.I18N = {
     'nav.constructor.desc':   'Build from scratch · AI analysis',
     'nav.myloadouts.label':   'My Loadouts',
     'nav.myloadouts.desc':    'Saved · ratings · share',
+    // — Pre-Match Advisor (v75-97) —
+    'nav.prematch.label':     'Pre-Match',
+    'nav.prematch.desc':      'Right loadout · map + mode',
+    'sec.prematch.crumb':     'P / Pre-Match',
+    'sec.prematch.h2':        'PRE-MATCH ADVISOR',
+    'sec.prematch.intro':     'Pick the map you\'re queuing into and the mode. The Hub ranks your saved loadouts and tells you which to run — with a short explanation of why each one scores what it scores.',
+    'pm.filter.mapLabel':     'Map',
+    'pm.filter.mapAny':       '— No specific map —',
+    'pm.filter.modeLabel':    'Mode',
+    'pm.filter.modeAny':      '— No specific mode —',
+    'pm.meta.analyzing':      'Analyzing {n} loadouts...',
+    'pm.meta.ranked':         '{n} loadouts ranked',
+    'pm.empty.title':         'No saved loadouts yet',
+    'pm.empty.body':          'Pre-Match ranks loadouts you already created and saved. Head to the <strong>Builder</strong>, build a loadout, analyze it and hit Save. Then come back here.',
+    'pm.empty.cta':           '→ Go to Builder',
+    'pm.topPick.label':       'BEST PICK',
+    'pm.alt.label':           'ALSO CONSIDER',
+    'pm.score.label':         'Score',
+    'pm.reasons.label':       'Why',
+    'pm.action.use':          'Edit this loadout',
+    'pm.action.useShort':     'Edit',
+    'pm.noMatch':             'No loadouts yet — want to create one?',
     'nav.maps.label':         'Maps',
     'nav.maps.desc':          'Right weapon per MP map',
     'nav.marketplace.label':  'Marketplace',
@@ -16958,11 +17063,11 @@ window.I18N = {
     'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
     'briefing.changelog.date':  'May 25, 2026',
     'briefing.changelog.pill':  'NEW',
-    'briefing.changelog.headline': 'Curated codenames — 125 names for your builds',
-    'briefing.changelog.summary':  'When you create a new build, there\'s now a "Suggest codename" button that opens a curated list of 125 names (Erebus, Thanatos, Wraith…) organized by mythology, cyberpunk, anime, weapons, astronomy and more. Filter by category and click to fill in.',
-    'briefing.changelog.item1': '<strong>"Suggest" button</strong> next to the name field in <em>New Build</em>, <em>Save Loadout</em> and in the curated builds admin. Filter by category, vibe and tags.',
-    'briefing.changelog.item2': '<strong>ADMIN · Codenames panel</strong> under Settings ▸ Operator. Add, edit, deactivate. Same pattern as Maps, Weapons, Curated builds and Difficulties.',
-    'briefing.changelog.item3': '<strong>Cloud-first.</strong> Catalog reads from <code>cat_codenames</code> with a 24h cache. If the cloud fails, the button warns that the list will be available on the next load — without breaking the UI.',
+    'briefing.changelog.headline': 'Pre-Match Advisor — which loadout for the next match',
+    'briefing.changelog.summary':  'New <strong>Pre-Match</strong> section in the sidebar. Pick the map and the mode (TDM, Domination, Hardpoint, etc.) and the Hub ranks your saved loadouts top to bottom, with a short explanation of why each one scores what it scores.',
+    'briefing.changelog.item1': '<strong>Deterministic scoring engine</strong> — weighs weapon class against map size/type, game mode, your playstyle (Rusher), per-map curated picks and build quality (attachments, AI score).',
+    'briefing.changelog.item2': '<strong>Top 3 + reasons</strong>. The best loadout shows up featured with up to 4 short reasons ("SMG dominates CQB", "Rusher style match", "build with 5/5 attachments"). The next 2 follow in compact cards.',
+    'briefing.changelog.item3': '<strong>Critical fix:</strong> "Suggest codename", "+ New X" and "Edit" buttons across the admin panels (Maps, Weapons, Builds, Difficulties, Codenames) now open their modal — they did nothing before. Also vertically aligns the "Suggest" button with its input.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -34829,11 +34934,11 @@ ${cbt('share.t.footer')}`;
     if (errEl) errEl.style.display = 'none';
 
     const overlay = document.getElementById('modal-admin-map');
-    if (overlay) overlay.classList.add('active');
+    if (overlay) overlay.classList.add('visible');
   }
   function closeAdminMapModal() {
     const overlay = document.getElementById('modal-admin-map');
-    if (overlay) overlay.classList.remove('active');
+    if (overlay) overlay.classList.remove('visible');
     editingId = null;
   }
 
@@ -35111,11 +35216,11 @@ ${cbt('share.t.footer')}`;
     if (errEl) errEl.style.display = 'none';
 
     const overlay = document.getElementById('modal-admin-weapon');
-    if (overlay) overlay.classList.add('active');
+    if (overlay) overlay.classList.add('visible');
   }
   function closeAdminWeaponModal() {
     const overlay = document.getElementById('modal-admin-weapon');
-    if (overlay) overlay.classList.remove('active');
+    if (overlay) overlay.classList.remove('visible');
   }
 
   function initWeapons() {
@@ -35389,11 +35494,11 @@ ${cbt('share.t.footer')}`;
     if (errEl) errEl.style.display = 'none';
 
     const overlay = document.getElementById('modal-admin-build');
-    if (overlay) overlay.classList.add('active');
+    if (overlay) overlay.classList.add('visible');
   }
   function closeAdminBuildModal() {
     const overlay = document.getElementById('modal-admin-build');
-    if (overlay) overlay.classList.remove('active');
+    if (overlay) overlay.classList.remove('visible');
   }
 
   function initBuilds() {
@@ -35804,11 +35909,11 @@ ${cbt('share.t.footer')}`;
     if (errEl) errEl.style.display = 'none';
 
     const overlay = document.getElementById('modal-admin-struggle');
-    if (overlay) overlay.classList.add('active');
+    if (overlay) overlay.classList.add('visible');
   }
   function closeAdminStruggleModal() {
     const overlay = document.getElementById('modal-admin-struggle');
-    if (overlay) overlay.classList.remove('active');
+    if (overlay) overlay.classList.remove('visible');
   }
 
   function initStruggles() {
@@ -36096,14 +36201,14 @@ ${cbt('share.t.footer')}`;
     rebuildCategorySelect();
     renderList();
     const overlay = document.getElementById('modal-suggest-codename');
-    if (overlay) overlay.classList.add('active');
+    if (overlay) overlay.classList.add('visible');
     // Foca na busca pra o user digitar direto
     setTimeout(function () { if (searchEl) searchEl.focus(); }, 100);
   }
 
   function closeModal() {
     const overlay = document.getElementById('modal-suggest-codename');
-    if (overlay) overlay.classList.remove('active');
+    if (overlay) overlay.classList.remove('visible');
     targetInputId = null;
   }
 
@@ -36164,7 +36269,7 @@ ${cbt('share.t.footer')}`;
     document.addEventListener('level:codenames-change', function () {
       // Só re-render se o modal estiver aberto
       const overlay = document.getElementById('modal-suggest-codename');
-      if (overlay && overlay.classList.contains('active')) {
+      if (overlay && overlay.classList.contains('visible')) {
         rebuildCategorySelect();
         renderList();
       }
@@ -36392,11 +36497,11 @@ ${cbt('share.t.footer')}`;
     if (errEl) errEl.style.display = 'none';
 
     const overlay = document.getElementById('modal-admin-codename');
-    if (overlay) overlay.classList.add('active');
+    if (overlay) overlay.classList.add('visible');
   }
   function closeAdminCodenameModal() {
     const overlay = document.getElementById('modal-admin-codename');
-    if (overlay) overlay.classList.remove('active');
+    if (overlay) overlay.classList.remove('visible');
   }
 
   function initCodenames() {
@@ -36437,6 +36542,467 @@ ${cbt('share.t.footer')}`;
   } else {
     initCodenames();
   }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · PRE-MATCH ADVISOR (v75-97)
+// ═══════════════════════════════════════════════════════════════════
+// Ranqueia loadouts salvos do user (level.loadouts no localStorage) contra
+// um (mapa, modo) escolhidos. Motor determinístico de scoring 0-100.
+//
+// Pesos:
+//   • classe arma vs tamanho/tipo mapa  (até 40)
+//   • classe arma vs modo de jogo       (até 25)
+//   • estilo do user (Rusher etc.)      (até 20)
+//   • match curado do mapa (cat_maps)   (até 15)
+//   • qualidade da build (attach+score) (até 10)
+// Total: 0-110, clamped a 0-100.
+// ═══════════════════════════════════════════════════════════════════
+(function levelPreMatchAdvisor() {
+  // ── helpers ────────────────────────────────────────────────────────
+  function mt(key, fallback, vars) {
+    var s = fallback;
+    try {
+      var lang = localStorage.getItem('bo7hub_lang_v1') || 'pt';
+      var dict = (window.I18N && window.I18N[lang]) || (window.I18N && window.I18N.pt) || {};
+      if (dict[key]) s = dict[key];
+    } catch (e) {}
+    if (vars && typeof s === 'string') {
+      Object.keys(vars).forEach(function (k) {
+        s = s.split('{' + k + '}').join(String(vars[k]));
+      });
+    }
+    return s;
+  }
+  function escapeHtmlPM(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+    });
+  }
+
+  // ── domain helpers ─────────────────────────────────────────────────
+  function getLoadouts() {
+    try {
+      var raw = JSON.parse(localStorage.getItem('level.loadouts') || '[]');
+      return Array.isArray(raw) ? raw : [];
+    } catch (e) { return []; }
+  }
+  function getPlayer() {
+    try {
+      var raw = JSON.parse(localStorage.getItem('level.player') || '{}');
+      return raw || {};
+    } catch (e) { return {}; }
+  }
+  function normalizeWeaponClass(raw) {
+    if (!raw) return null;
+    var c = String(raw).toLowerCase().trim();
+    if (c === 'smt') c = 'smg'; // alias PT
+    if (c === 'ar' || c === 'rifle' || c === 'assault') return 'ar';
+    if (c === 'smg' || c === 'submachine' || c === 'submachine gun') return 'smg';
+    if (c === 'sniper') return 'sniper';
+    if (c === 'mr' || c === 'marksman') return 'marksman';
+    if (c === 'lmg') return 'lmg';
+    if (c === 'shotgun') return 'shotgun';
+    if (c === 'pistol') return 'pistol';
+    if (c === 'launcher') return 'launcher';
+    if (c === 'melee') return 'melee';
+    if (c === 'special') return 'special';
+    return c || null;
+  }
+  function normalizeStyle(raw) {
+    if (!raw) return null;
+    var s = String(raw).toLowerCase().trim();
+    if (s.indexOf('rush') === 0) return 'rusher';
+    if (s.indexOf('slay') === 0) return 'slayer';
+    if (s.indexOf('anc') === 0 || s.indexOf('lurk') === 0) return 'anchor';
+    if (s.indexOf('tact') === 0) return 'tactical';
+    return s;
+  }
+  function loadoutWeaponClass(l) {
+    // Tenta config.weaponclass primeiro, depois deduz pelo nome
+    var c = l && l.config && l.config.weaponclass;
+    var n = normalizeWeaponClass(c);
+    if (n) return n;
+    // Fallback: olha o nome ou primaryName procurando palavras-chave
+    var hay = ((l && l.name) || '') + ' ' + ((l && l.config && l.config.primaryName) || '');
+    var low = String(hay).toLowerCase();
+    if (low.indexOf('sniper') >= 0 || low.indexOf('strider') >= 0 || low.indexOf('hawker') >= 0 || low.indexOf('shadow') >= 0 || low.indexOf('xr-3') >= 0) return 'sniper';
+    if (low.indexOf('smg') >= 0 || low.indexOf('sturmwolf') >= 0 || low.indexOf('kogot') >= 0 || low.indexOf('vst') >= 0 || low.indexOf('rev-') >= 0) return 'smg';
+    if (low.indexOf(' ar ') >= 0 || low.indexOf('voyak') >= 0 || low.indexOf('mk35') >= 0 || low.indexOf('peacekeeper') >= 0 || low.indexOf('maddox') >= 0 || low.indexOf('m15') >= 0) return 'ar';
+    return null;
+  }
+
+  // ── scoring engine ─────────────────────────────────────────────────
+  // Retorna { score: 0-100, reasons: [..short strings] }
+  function scoreLoadout(loadout, map, mode, playerStyle) {
+    var reasons = [];
+    var score = 0;
+    var wc = loadoutWeaponClass(loadout);
+    var lang = (function(){ try { return localStorage.getItem('bo7hub_lang_v1') || 'pt'; } catch(e){ return 'pt'; }})();
+    var isPT = lang !== 'en';
+
+    // 1. Classe arma vs tamanho/tipo do mapa (até 40)
+    if (map && wc) {
+      var size = String(map.size || '').toLowerCase();
+      var mtype = String(map.map_type || '').toLowerCase();
+      var fit = 0;
+      var why = '';
+      // Tabela: weapon class × (size, type)
+      if (wc === 'smg') {
+        if (size === 'small' && mtype === 'cqb')      { fit = 40; why = isPT ? 'SMG dominante em CQB pequeno' : 'SMG dominant in small CQB'; }
+        else if (size === 'small')                     { fit = 32; why = isPT ? 'SMG forte em mapa pequeno' : 'SMG strong on small map'; }
+        else if (mtype === 'cqb')                      { fit = 28; why = isPT ? 'SMG cobre bem CQB' : 'SMG handles CQB well'; }
+        else if (size === 'medium' && mtype === 'hybrid') { fit = 16; why = isPT ? 'SMG arrisca em mid-range' : 'SMG risky at mid-range'; }
+        else if (size === 'large')                     { fit = 4;  why = isPT ? 'SMG fica curto em mapa grande' : 'SMG falls short on large map'; }
+        else                                           { fit = 18; }
+      } else if (wc === 'ar') {
+        if (mtype === 'hybrid')                        { fit = 38; why = isPT ? 'AR cobre bem mapa híbrido' : 'AR covers hybrid map well'; }
+        else if (size === 'medium')                    { fit = 36; why = isPT ? 'AR ideal em mapa médio' : 'AR ideal on medium map'; }
+        else if (size === 'large' && mtype === 'long') { fit = 30; why = isPT ? 'AR de range em mapa grande' : 'Range AR on large map'; }
+        else if (size === 'small' && mtype === 'cqb')  { fit = 18; why = isPT ? 'AR aceitável em CQB' : 'AR usable in CQB'; }
+        else                                           { fit = 24; }
+      } else if (wc === 'sniper') {
+        if (size === 'large' && mtype === 'long')      { fit = 40; why = isPT ? 'Sniper rei em mapa longo' : 'Sniper rules long-range map'; }
+        else if (mtype === 'long')                     { fit = 32; why = isPT ? 'Sniper viável nas lanes longas' : 'Sniper viable on long lanes'; }
+        else if (size === 'large')                     { fit = 26; why = isPT ? 'Sniper funciona em mapa grande' : 'Sniper works on large map'; }
+        else if (size === 'small' && mtype === 'cqb')  { fit = 2;  why = isPT ? 'Sniper sofre em CQB' : 'Sniper struggles in CQB'; }
+        else                                           { fit = 14; }
+      } else if (wc === 'lmg') {
+        if (size === 'large')                          { fit = 30; why = isPT ? 'LMG holding em mapa grande' : 'LMG anchors large map'; }
+        else if (size === 'medium')                    { fit = 24; why = isPT ? 'LMG segura mid-range' : 'LMG holds mid-range'; }
+        else                                           { fit = 12; }
+      } else if (wc === 'shotgun') {
+        if (size === 'small' && mtype === 'cqb')       { fit = 36; why = isPT ? 'Shotgun one-shot em CQB' : 'Shotgun one-shot in CQB'; }
+        else if (mtype === 'cqb')                      { fit = 24; why = isPT ? 'Shotgun em CQB' : 'Shotgun in CQB'; }
+        else                                           { fit = 6;  why = isPT ? 'Shotgun limitado fora de CQB' : 'Shotgun limited outside CQB'; }
+      } else if (wc === 'marksman') {
+        if (size === 'medium' || mtype === 'hybrid')   { fit = 26; why = isPT ? 'Marksman bom em mid-range' : 'Marksman good at mid-range'; }
+        else                                           { fit = 14; }
+      } else {
+        fit = 16;
+      }
+      score += fit;
+      if (why) reasons.push({ text: why, weight: fit });
+    } else if (wc) {
+      // Sem mapa específico — neutro
+      score += 16;
+    }
+
+    // 2. Classe arma vs modo de jogo (até 25)
+    if (mode && wc) {
+      var modeScore = 0;
+      var modeWhy = '';
+      var modeTable = {
+        'tdm':  { smg: 22, ar: 22, sniper: 18, lmg: 16, shotgun: 16, marksman: 16 },
+        'dom':  { smg: 20, ar: 25, sniper: 12, lmg: 22, shotgun: 14, marksman: 18 },
+        'hp':   { smg: 25, ar: 20, sniper: 8,  lmg: 14, shotgun: 18, marksman: 12 },
+        'kc':   { smg: 25, ar: 22, sniper: 10, lmg: 14, shotgun: 20, marksman: 14 },
+        'snd':  { smg: 18, ar: 23, sniper: 22, lmg: 14, shotgun: 12, marksman: 22 },
+        'ffa':  { smg: 22, ar: 22, sniper: 16, lmg: 12, shotgun: 18, marksman: 16 },
+        'ctf':  { smg: 22, ar: 20, sniper: 14, lmg: 18, shotgun: 14, marksman: 14 }
+      };
+      var modeNames = isPT
+        ? { tdm: 'TDM', dom: 'Domination', hp: 'Hardpoint', kc: 'Kill Confirmed', snd: 'S&D', ffa: 'FFA', ctf: 'CTF' }
+        : { tdm: 'TDM', dom: 'Domination', hp: 'Hardpoint', kc: 'Kill Confirmed', snd: 'S&D', ffa: 'FFA', ctf: 'CTF' };
+      var row = modeTable[mode];
+      if (row && (wc in row)) {
+        modeScore = row[wc];
+        if (modeScore >= 22) {
+          modeWhy = isPT ? ('Match top pra ' + modeNames[mode]) : ('Top match for ' + modeNames[mode]);
+        } else if (modeScore >= 16) {
+          modeWhy = isPT ? ('Funciona em ' + modeNames[mode]) : ('Works in ' + modeNames[mode]);
+        } else {
+          modeWhy = isPT ? ('Arriscado em ' + modeNames[mode]) : ('Risky in ' + modeNames[mode]);
+        }
+      }
+      score += modeScore;
+      if (modeWhy) reasons.push({ text: modeWhy, weight: modeScore });
+    } else if (wc) {
+      score += 12; // neutro
+    }
+
+    // 3. Estilo do user match (até 20)
+    if (playerStyle && wc) {
+      var styleScore = 0;
+      var styleWhy = '';
+      var st = playerStyle;
+      if (st === 'rusher') {
+        if (wc === 'smg' || wc === 'shotgun')        { styleScore = 20; styleWhy = isPT ? 'Match estilo Rusher' : 'Rusher style match'; }
+        else if (wc === 'ar')                         { styleScore = 8; }
+        else                                          { styleScore = 2; }
+      } else if (st === 'slayer') {
+        if (wc === 'ar' || wc === 'smg')              { styleScore = 18; styleWhy = isPT ? 'Match estilo Slayer' : 'Slayer style match'; }
+        else                                          { styleScore = 8; }
+      } else if (st === 'anchor') {
+        if (wc === 'lmg' || wc === 'sniper')          { styleScore = 20; styleWhy = isPT ? 'Match estilo Anchor' : 'Anchor style match'; }
+        else if (wc === 'ar' || wc === 'marksman')    { styleScore = 14; }
+        else                                          { styleScore = 4; }
+      } else if (st === 'tactical') {
+        if (wc === 'ar' || wc === 'marksman' || wc === 'sniper') { styleScore = 16; styleWhy = isPT ? 'Match estilo Tactical' : 'Tactical style match'; }
+        else                                          { styleScore = 8; }
+      } else {
+        styleScore = 10;
+      }
+      score += styleScore;
+      if (styleWhy) reasons.push({ text: styleWhy, weight: styleScore });
+    }
+
+    // 4. Recomendação curada do mapa (até 15)
+    if (map && wc) {
+      var pri = String(map.primary_weapon_id || '').toLowerCase();
+      var sec = String(map.secondary_weapon_id || '').toLowerCase();
+      var allWeapons = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
+      var loName = String((loadout.config && loadout.config.primaryName) || '').toLowerCase();
+      // Match exato no primaryName
+      if (pri && loName.indexOf(pri.replace(/_/g, ' ')) >= 0) {
+        score += 15;
+        reasons.push({ text: isPT ? 'Recomendação curada do mapa' : 'Map\'s curated pick', weight: 15 });
+      } else if (sec && loName.indexOf(sec.replace(/_/g, ' ')) >= 0) {
+        score += 10;
+        reasons.push({ text: isPT ? 'Pick secundário do mapa' : 'Map\'s secondary pick', weight: 10 });
+      } else {
+        // Match por classe — checa se a classe da arma primária recomendada bate
+        var priWeapon = allWeapons.find(function (w) { return w && (w.id || '').toLowerCase().indexOf(pri) >= 0; });
+        if (priWeapon && normalizeWeaponClass(priWeapon.class) === wc) {
+          score += 7;
+          reasons.push({ text: isPT ? 'Classe match com pick do mapa' : 'Class match with map pick', weight: 7 });
+        }
+      }
+    }
+
+    // 5. Qualidade da build (até 10)
+    var attaches = (loadout.config && Array.isArray(loadout.config.attachments))
+      ? loadout.config.attachments.filter(function (a) { return a && String(a).trim(); }).length
+      : 0;
+    if (attaches >= 5) {
+      score += 5;
+      reasons.push({ text: isPT ? ('Build com ' + attaches + '/' + (loadout.config.slotCount || 5) + ' acessórios') : ('Build with ' + attaches + '/' + (loadout.config.slotCount || 5) + ' attachments'), weight: 5 });
+    } else if (attaches >= 3) {
+      score += 2;
+    }
+    var aiScore = loadout.config && typeof loadout.config.score === 'number' ? loadout.config.score : null;
+    if (aiScore != null && aiScore >= 70) {
+      score += 5;
+      reasons.push({ text: isPT ? ('Análise IA: ' + Math.round(aiScore) + '/100') : ('AI score: ' + Math.round(aiScore) + '/100'), weight: 5 });
+    } else if (aiScore != null && aiScore >= 50) {
+      score += 2;
+    }
+
+    // Clamp + ordena reasons por weight (mais relevantes primeiro)
+    score = Math.max(0, Math.min(100, Math.round(score)));
+    reasons.sort(function (a, b) { return b.weight - a.weight; });
+    return {
+      score: score,
+      reasons: reasons.slice(0, 4).map(function (r) { return r.text; })
+    };
+  }
+
+  // ── UI rendering ───────────────────────────────────────────────────
+  function classBadge(wc) {
+    if (!wc) return '';
+    var label = String(wc).toUpperCase();
+    return '<span style="display:inline-block;padding:2px 7px;border-radius:3px;background:rgba(240,185,82,0.15);color:var(--accent-orange);font-family:\'JetBrains Mono\', monospace;font-size:10px;font-weight:600">' + escapeHtmlPM(label) + '</span>';
+  }
+  function scoreBar(score) {
+    var pct = Math.max(0, Math.min(100, score));
+    var color = pct >= 70 ? 'var(--accent-orange)' : (pct >= 45 ? 'var(--accent-cyan)' : 'var(--text-muted)');
+    return (
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<div style="flex:1;height:6px;background:var(--bg-darkest);border-radius:3px;overflow:hidden">' +
+          '<div style="width:' + pct + '%;height:100%;background:' + color + ';transition:width 0.3s"></div>' +
+        '</div>' +
+        '<strong style="color:' + color + ';font-family:\'JetBrains Mono\', monospace;font-size:13px;min-width:40px;text-align:right">' + pct + '</strong>' +
+      '</div>'
+    );
+  }
+  function renderTopPickCard(entry) {
+    var l = entry.loadout;
+    var wc = loadoutWeaponClass(l);
+    var primary = (l.config && l.config.primaryName) || '—';
+    var reasonsHtml = entry.reasons.length
+      ? entry.reasons.map(function (r) {
+          return '<li style="margin-bottom:6px;line-height:1.4">' + escapeHtmlPM(r) + '</li>';
+        }).join('')
+      : '<li style="color:var(--text-muted)">—</li>';
+    return (
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px;flex-wrap:wrap">' +
+        '<div style="flex:1;min-width:200px">' +
+          '<div style="font-family:\'JetBrains Mono\', monospace;font-size:10px;letter-spacing:1.5px;color:var(--accent-orange);margin-bottom:6px">' + escapeHtmlPM(mt('pm.topPick.label', 'MELHOR ESCOLHA')) + '</div>' +
+          '<div style="font-size:20px;font-weight:700;color:var(--text-primary);margin-bottom:4px">' + escapeHtmlPM(l.name || 'Loadout') + '</div>' +
+          '<div style="font-size:12px;color:var(--text-secondary)">' + classBadge(wc) + ' <span style="margin-left:8px">' + escapeHtmlPM(primary) + '</span></div>' +
+        '</div>' +
+        '<div style="flex:0 0 180px">' + scoreBar(entry.score) + '</div>' +
+      '</div>' +
+      '<div style="margin-top:10px">' +
+        '<div style="font-family:\'JetBrains Mono\', monospace;font-size:10px;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px">' + escapeHtmlPM(mt('pm.reasons.label', 'Por que')) + '</div>' +
+        '<ul style="margin:0;padding:0 0 0 18px;font-size:12px;color:var(--text-secondary)">' + reasonsHtml + '</ul>' +
+      '</div>' +
+      '<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">' +
+        '<button class="btn-action btn-save" style="padding:8px 16px;font-size:11px" data-pm-edit-loadout="' + escapeHtmlPM(l.id || '') + '">' + escapeHtmlPM(mt('pm.action.use', 'Editar este loadout')) + '</button>' +
+      '</div>'
+    );
+  }
+  function renderAlternateCard(entry) {
+    var l = entry.loadout;
+    var wc = loadoutWeaponClass(l);
+    var primary = (l.config && l.config.primaryName) || '—';
+    var reasonsHtml = entry.reasons.slice(0, 2).map(function (r) {
+      return '<li style="margin-bottom:4px;line-height:1.35">' + escapeHtmlPM(r) + '</li>';
+    }).join('');
+    return (
+      '<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px">' +
+        '<div>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:3px">' + escapeHtmlPM(l.name || 'Loadout') + '</div>' +
+          '<div style="font-size:11px;color:var(--text-muted)">' + classBadge(wc) + ' <span style="margin-left:6px">' + escapeHtmlPM(primary) + '</span></div>' +
+        '</div>' +
+        scoreBar(entry.score) +
+        '<ul style="margin:0;padding:0 0 0 16px;font-size:11px;color:var(--text-secondary)">' + (reasonsHtml || '<li style="color:var(--text-muted)">—</li>') + '</ul>' +
+        '<button class="btn-action secondary" style="padding:6px 12px;font-size:10px;align-self:flex-start" data-pm-edit-loadout="' + escapeHtmlPM(l.id || '') + '">' + escapeHtmlPM(mt('pm.action.useShort', 'Editar')) + '</button>' +
+      '</div>'
+    );
+  }
+
+  // ── orchestration ─────────────────────────────────────────────────
+  function populateMapSelect() {
+    var sel = document.getElementById('pm-map-select');
+    if (!sel) return;
+    var maps = Array.isArray(window.MAPS_CATALOG) ? window.MAPS_CATALOG.slice() : [];
+    maps.sort(function (a, b) {
+      var sa = a && a.sort_order != null ? a.sort_order : 9999;
+      var sb = b && b.sort_order != null ? b.sort_order : 9999;
+      if (sa !== sb) return sa - sb;
+      return String((a && a.name) || '').localeCompare(String((b && b.name) || ''));
+    });
+    // Mantém o "sem mapa" como primeira opção; recria as outras
+    var firstOpt = sel.querySelector('option[value=""]');
+    sel.innerHTML = '';
+    if (firstOpt) sel.appendChild(firstOpt);
+    else {
+      var fb = document.createElement('option');
+      fb.value = '';
+      fb.textContent = mt('pm.filter.mapAny', '— Sem mapa específico —');
+      sel.appendChild(fb);
+    }
+    maps.forEach(function (m) {
+      if (!m || !m.id) return;
+      var opt = document.createElement('option');
+      opt.value = m.id;
+      var meta = [];
+      if (m.size) meta.push(String(m.size));
+      if (m.map_type) meta.push(String(m.map_type));
+      opt.textContent = (m.name || m.id) + (meta.length ? ' · ' + meta.join('/') : '');
+      sel.appendChild(opt);
+    });
+  }
+
+  function analyze() {
+    var meta = document.getElementById('pm-meta');
+    var topWrap = document.getElementById('pm-top-pick');
+    var altWrap = document.getElementById('pm-alternates');
+    var emptyWrap = document.getElementById('pm-empty');
+    if (!meta || !topWrap || !altWrap || !emptyWrap) return;
+
+    var loadouts = getLoadouts();
+    if (!loadouts.length) {
+      topWrap.style.display = 'none';
+      altWrap.innerHTML = '';
+      meta.textContent = '';
+      emptyWrap.style.display = 'block';
+      return;
+    }
+    emptyWrap.style.display = 'none';
+
+    var mapSel = document.getElementById('pm-map-select');
+    var modeSel = document.getElementById('pm-mode-select');
+    var mapId = mapSel ? mapSel.value : '';
+    var mode = modeSel ? modeSel.value : '';
+    var map = null;
+    if (mapId && Array.isArray(window.MAPS_CATALOG)) {
+      map = window.MAPS_CATALOG.find(function (m) { return m && m.id === mapId; }) || null;
+    }
+    var player = getPlayer();
+    var playerStyle = normalizeStyle(player.playstyle);
+
+    // Score todos
+    var scored = loadouts.map(function (l) {
+      var r = scoreLoadout(l, map, mode, playerStyle);
+      return { loadout: l, score: r.score, reasons: r.reasons };
+    });
+    scored.sort(function (a, b) { return b.score - a.score; });
+
+    meta.textContent = mt('pm.meta.ranked', '{n} loadouts ranqueados', { n: scored.length });
+
+    var top = scored[0];
+    topWrap.style.display = 'block';
+    topWrap.innerHTML = renderTopPickCard(top);
+
+    var alternates = scored.slice(1, 3);
+    altWrap.innerHTML = alternates.map(renderAlternateCard).join('');
+  }
+
+  // ── boot ───────────────────────────────────────────────────────────
+  function init() {
+    populateMapSelect();
+
+    var mapSel = document.getElementById('pm-map-select');
+    var modeSel = document.getElementById('pm-mode-select');
+    if (mapSel) mapSel.addEventListener('change', analyze);
+    if (modeSel) modeSel.addEventListener('change', analyze);
+
+    // Re-analyze quando a seção é ativada
+    document.querySelectorAll('[data-section="prematch"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        // Pequeno delay pra UI ficar visível antes de calcular
+        setTimeout(analyze, 50);
+      });
+    });
+
+    // Re-analyze quando MAPS_CATALOG é populado tardiamente (bootstrap-defaults)
+    var lastMapCount = -1;
+    var checkMaps = setInterval(function () {
+      var cur = Array.isArray(window.MAPS_CATALOG) ? window.MAPS_CATALOG.length : 0;
+      if (cur !== lastMapCount && cur > 0) {
+        populateMapSelect();
+        lastMapCount = cur;
+      }
+      if (cur > 0 && lastMapCount > 0) clearInterval(checkMaps);
+    }, 1000);
+    setTimeout(function () { clearInterval(checkMaps); }, 15000); // para de checar após 15s
+
+    // Click handler pros botões "Editar este loadout"
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-pm-edit-loadout]');
+      if (!btn) return;
+      var id = btn.getAttribute('data-pm-edit-loadout');
+      if (!id) return;
+      // Navega pra Meus Loadouts e tenta abrir
+      var navBtn = document.querySelector('[data-section="myloadouts"]');
+      if (navBtn) navBtn.click();
+      // Best-effort: scroll pro card daquele loadout
+      setTimeout(function () {
+        var card = document.querySelector('[data-loadout-id="' + id + '"]');
+        if (card && card.scrollIntoView) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    });
+
+    // Análise inicial
+    analyze();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Expõe pra debugging / re-trigger manual
+  try {
+    window.LevelPreMatch = {
+      analyze: analyze,
+      score:   scoreLoadout
+    };
+  } catch (e) {}
 })();
 
 // ═══════════════════════════════════════════════════════════════════
