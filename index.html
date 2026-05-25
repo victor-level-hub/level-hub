@@ -13815,6 +13815,7 @@
               <div class="opp-action-body">
                 <div class="opp-action-title" data-i18n="opp.cloud.auto.title">Backup automático</div>
                 <div class="opp-action-desc" data-i18n="opp.cloud.auto.desc">Quando ativo, o Hub faz backup em segundo plano a cada 5 minutos, silenciosamente. Útil pra não perder mudanças se o navegador limpar o localStorage. Desligado por padrão.</div>
+                <div id="opp-autosync-next" style="margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px"></div>
               </div>
               <label class="opp-autosync-toggle" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none">
                 <input type="checkbox" id="opp-autosync-checkbox" style="width:18px;height:18px;accent-color:var(--accent-orange);cursor:pointer">
@@ -14067,7 +14068,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-88</strong><span class="ver-tag">Fix tour · espera consent + spotlight nav</span>
+        LEVEL · <strong>v75-89</strong><span class="ver-tag">Auto-backup polish · countdown + circuit breaker</span>
       </div>
       <script>
         (function(){
@@ -24232,43 +24233,136 @@ const ATTACHMENT_ICONS = {
     }
     window.renderCloudSyncStatus = renderCloudSyncStatus;
 
-    // ── Auto-sync opt-in (v75-54) ──────────────────────────────────
+    // ── Auto-sync opt-in (v75-54 · polish v75-89) ──────────────────
     // Toggle em Configurações ▸ Operador ▸ Backup automático.
-    // Quando ativo: chama pushAll() a cada 5min, silenciosamente (sem modal).
-    const LS_AUTO = 'level.sync.autoSync';
+    // Quando ativo: chama pushAll() a cada 5min, silenciosamente.
+    // v75-89: + boot render do checkbox + push imediato ao ativar +
+    //         countdown visual + circuit breaker em 5 falhas consecutivas.
+    const LS_AUTO     = 'level.sync.autoSync';
+    const LS_NEXT_AT  = 'level.sync.autoSync.nextAt';
+    const LS_FAILS    = 'level.sync.autoSync.fails';
     const AUTO_INTERVAL_MS = 5 * 60 * 1000;
+    const MAX_FAILS   = 5;
     let autoTimer = null;
+    let countdownTimer = null;
 
     function isAutoSyncEnabled() {
       try { return localStorage.getItem(LS_AUTO) === '1'; } catch (e) { return false; }
     }
+    function getNextAt() {
+      try {
+        const v = parseInt(localStorage.getItem(LS_NEXT_AT) || '0', 10);
+        return isNaN(v) ? 0 : v;
+      } catch (e) { return 0; }
+    }
+    function setNextAt(ts) {
+      try { localStorage.setItem(LS_NEXT_AT, String(ts)); } catch (e) {}
+    }
+    function getFails() {
+      try { return parseInt(localStorage.getItem(LS_FAILS) || '0', 10) || 0; } catch (e) { return 0; }
+    }
+    function setFails(n) {
+      try { localStorage.setItem(LS_FAILS, String(n)); } catch (e) {}
+    }
     function setAutoSyncEnabled(on) {
       try { localStorage.setItem(LS_AUTO, on ? '1' : '0'); } catch (e) {}
-      applyAutoSync();
+      if (on) {
+        // v75-89: reset failures ao reativar manualmente
+        setFails(0);
+      }
+      applyAutoSync(on /* forcePushNow */);
     }
+
     async function silentPush() {
       try {
         await pushAll();
+        setFails(0);
+        setNextAt(Date.now() + AUTO_INTERVAL_MS);
         if (typeof renderCloudSyncStatus === 'function') renderCloudSyncStatus();
+        renderAutoSyncStatus();
         console.log('[CloudSync] auto-sync OK');
       } catch (e) {
-        console.warn('[CloudSync] auto-sync falhou (silencioso):', e.message || e);
+        const fails = getFails() + 1;
+        setFails(fails);
+        console.warn('[CloudSync] auto-sync falhou (' + fails + '/' + MAX_FAILS + '):', e.message || e);
+        if (fails >= MAX_FAILS) {
+          // Circuit breaker: desativa e avisa
+          console.error('[CloudSync] auto-sync DESATIVADO após ' + MAX_FAILS + ' falhas consecutivas');
+          try { localStorage.setItem(LS_AUTO, '0'); } catch (err) {}
+          applyAutoSync(false);
+          renderAutoSyncCheckbox();
+          renderAutoSyncStatus(true /* showFailureWarning */);
+        } else {
+          setNextAt(Date.now() + AUTO_INTERVAL_MS);
+          renderAutoSyncStatus();
+        }
       }
     }
-    function applyAutoSync() {
+
+    function applyAutoSync(forcePushNow) {
       if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+      if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
       if (isAutoSyncEnabled()) {
         autoTimer = setInterval(silentPush, AUTO_INTERVAL_MS);
+        // v75-89: countdown UI atualiza a cada 30s
+        countdownTimer = setInterval(renderAutoSyncStatus, 30 * 1000);
+        if (forcePushNow) {
+          // v75-89: push imediato pra usuário ver que funciona
+          setNextAt(Date.now() + AUTO_INTERVAL_MS);
+          renderAutoSyncStatus();
+          silentPush();
+        } else {
+          // Boot com autosync já ativo: agenda próxima sem disparar imediatamente
+          if (!getNextAt() || getNextAt() < Date.now()) {
+            setNextAt(Date.now() + AUTO_INTERVAL_MS);
+          }
+          renderAutoSyncStatus();
+        }
         console.log('[CloudSync] auto-sync ATIVO (a cada 5min)');
       } else {
+        renderAutoSyncStatus();
         console.log('[CloudSync] auto-sync DESATIVADO');
       }
     }
+
     function renderAutoSyncCheckbox() {
       const cb = document.getElementById('opp-autosync-checkbox');
       if (cb) cb.checked = isAutoSyncEnabled();
     }
     window.renderAutoSyncCheckbox = renderAutoSyncCheckbox;
+
+    // v75-89: feedback visual de próximo backup + falhas
+    function renderAutoSyncStatus(showFailureWarning) {
+      const el = document.getElementById('opp-autosync-next');
+      if (!el) return;
+      if (showFailureWarning) {
+        el.style.color = '#ff5252';
+        el.textContent = '⚠ Desativado após ' + MAX_FAILS + ' falhas. Verifica tua conexão e re-ativa.';
+        return;
+      }
+      if (!isAutoSyncEnabled()) {
+        el.textContent = '';
+        return;
+      }
+      const fails = getFails();
+      const nextAt = getNextAt();
+      const remainingMs = nextAt - Date.now();
+      let baseTxt;
+      if (remainingMs <= 0) {
+        baseTxt = 'Próximo backup: em breve...';
+      } else {
+        const mins = Math.max(1, Math.round(remainingMs / 60000));
+        baseTxt = 'Próximo backup: em ~' + mins + 'min';
+      }
+      if (fails > 0) {
+        el.style.color = '#f0b952';
+        el.textContent = baseTxt + ' · ' + fails + ' falha(s) recente(s)';
+      } else {
+        el.style.color = 'var(--text-muted)';
+        el.textContent = baseTxt;
+      }
+    }
+    window.renderAutoSyncStatus = renderAutoSyncStatus;
 
     document.addEventListener('change', function (e) {
       if (e.target && e.target.id === 'opp-autosync-checkbox') {
@@ -24277,10 +24371,14 @@ const ATTACHMENT_ICONS = {
     });
 
     // Inicializa no boot
+    function bootAutoSync() {
+      renderAutoSyncCheckbox();
+      applyAutoSync(false /* don't force push */);
+    }
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', applyAutoSync);
+      document.addEventListener('DOMContentLoaded', bootAutoSync);
     } else {
-      applyAutoSync();
+      bootAutoSync();
     }
   })();
 
