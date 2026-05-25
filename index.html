@@ -13516,6 +13516,29 @@
           </div>
           </div><!-- /opp-admin-only CRUD Mapas -->
 
+          <!-- ═══ ADMIN · CRUD Armas (v75-84) ═══════════════════════ -->
+          <div class="opp-admin-only">
+          <div class="opp-section-title" style="margin-top:24px">
+            {{i:crosshair}} ADMIN · Armas (cat_default_weapons)
+          </div>
+          <div class="opp-actions-list">
+            <div class="opp-action-item" style="flex-direction:column;align-items:stretch">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div class="opp-action-icon">{{i:database}}</div>
+                <div class="opp-action-body" style="flex:1">
+                  <div class="opp-action-title">Catálogo de armas no DB</div>
+                  <div class="opp-action-desc">Tabela <code>cat_default_weapons</code>. Adiciona/edita armas que aparecem no arsenal inicial dos novos usuários. Mudanças aplicam ao próximo refresh do Hub via bootstrap-defaults. <span id="opp-weapons-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">Configure o secret de admin pra carregar.</span></div>
+                </div>
+                <button class="opp-action-btn" id="opp-btn-weapon-new">+ Nova arma</button>
+                <button class="opp-action-btn secondary" id="opp-btn-weapons-refresh">{{i:refresh-cw}}</button>
+              </div>
+              <div id="opp-weapons-list" style="background:var(--bg-darkest);border-radius:6px;padding:8px;max-height:380px;overflow-y:auto;font-family:'JetBrains Mono', monospace;font-size:11px">
+                <div style="padding:18px;text-align:center;color:var(--text-muted)">Configure o secret de admin acima pra carregar a lista.</div>
+              </div>
+            </div>
+          </div>
+          </div><!-- /opp-admin-only CRUD Armas -->
+
           <!-- ═══ PWA Install (v75-58) ════════════════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.pwa.section">
             {{i:device-mobile}} Instalar como app
@@ -13619,7 +13642,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-83</strong><span class="ver-tag">Polish: modes 6v6/2v2 · delete snapshot</span>
+        LEVEL · <strong>v75-84</strong><span class="ver-tag">CRUD admin · armas (cat_default_weapons)</span>
       </div>
       <script>
         (function(){
@@ -14393,6 +14416,86 @@
         <div class="modal-actions">
           <button class="btn-action btn-reset" data-close-modal="modal-admin-map" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
           <button class="btn-action btn-save" id="admin-map-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL: ADMIN · EDIT/CREATE WEAPON (v75-84)                          -->
+    <!-- =================================================================== -->
+    <div class="modal-overlay" id="modal-admin-weapon">
+      <div class="modal-box" style="max-width:680px">
+        <div class="modal-header">
+          <div class="modal-title"><span id="admin-weapon-modal-title">Editar arma</span></div>
+          <button class="modal-close" data-close-modal="modal-admin-weapon">×</button>
+        </div>
+        <div class="modal-body" style="max-height:70vh;overflow-y:auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <div class="form-label">ID <span style="color:var(--accent-orange)">*</span> <span style="color:var(--text-muted);font-size:10px">(prefixo wpn_)</span></div>
+              <input type="text" id="admin-weapon-id" class="form-input" placeholder="ex: wpn_sturmwolf45" maxlength="40"/>
+            </div>
+            <div>
+              <div class="form-label">Nome <span style="color:var(--accent-orange)">*</span></div>
+              <input type="text" id="admin-weapon-name" class="form-input" placeholder="ex: Sturmwolf 45" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Classe <span style="color:var(--accent-orange)">*</span></div>
+              <select id="admin-weapon-class" class="form-input">
+                <option value="SMG">SMG</option>
+                <option value="AR">AR</option>
+                <option value="LMG">LMG</option>
+                <option value="Sniper">Sniper</option>
+                <option value="Marksman">Marksman</option>
+                <option value="Shotgun">Shotgun</option>
+                <option value="Pistol">Pistol</option>
+                <option value="Launcher">Launcher</option>
+                <option value="Melee">Melee</option>
+                <option value="Special">Special</option>
+              </select>
+            </div>
+            <div>
+              <div class="form-label">Sort order</div>
+              <input type="number" id="admin-weapon-sort" class="form-input" placeholder="ex: 1" min="0" max="999"/>
+            </div>
+            <div>
+              <div class="form-label">Prestige <span style="color:var(--text-muted);font-size:10px">(0-12)</span></div>
+              <input type="number" id="admin-weapon-prestige" class="form-input" min="0" max="12" value="0"/>
+            </div>
+            <div>
+              <div class="form-label">Level atual <span style="color:var(--text-muted);font-size:10px">(0-250)</span></div>
+              <input type="number" id="admin-weapon-level" class="form-input" min="0" max="250" value="0"/>
+            </div>
+            <div>
+              <div class="form-label">Level Max <span style="color:var(--text-muted);font-size:10px">(1-250)</span></div>
+              <input type="number" id="admin-weapon-level-max" class="form-input" min="1" max="250" value="47"/>
+            </div>
+            <div></div>
+            <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:14px;padding-top:6px">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text-secondary)">
+                <input type="checkbox" id="admin-weapon-is-active" style="width:16px;height:16px;accent-color:var(--accent-orange)">
+                Ativa <span style="color:var(--text-muted);font-size:10px">(equipada)</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text-secondary)">
+                <input type="checkbox" id="admin-weapon-master" style="width:16px;height:16px;accent-color:var(--accent-orange)">
+                Master
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text-secondary)">
+                <input type="checkbox" id="admin-weapon-maxed" style="width:16px;height:16px;accent-color:var(--accent-orange)">
+                Maxed
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text-secondary)">
+                <input type="checkbox" id="admin-weapon-is-new" style="width:16px;height:16px;accent-color:var(--accent-orange)">
+                Nova <span style="color:var(--text-muted);font-size:10px">(badge NEW)</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="admin-weapon-error" style="display:none;margin-top:12px;padding:8px 12px;background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:4px;color:#ff5252;font-size:11px;font-family:'JetBrains Mono',monospace"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" data-close-modal="modal-admin-weapon" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
+          <button class="btn-action btn-save" id="admin-weapon-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
         </div>
       </div>
     </div>
@@ -32862,6 +32965,252 @@ ${cbt('share.t.footer')}`;
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · ADMIN CRUD — cat_default_weapons (v75-84)
+// ═══════════════════════════════════════════════════════════════════
+// CRUD admin de armas via edge function `admin-cat-default-weapons`.
+// Reusa o secret de admin (localStorage['level.admin.secret']).
+// Pattern idêntico ao adminCrudMaps — mantido em IIFE separada por
+// simplicidade. Refactor pra módulo compartilhado fica em débito.
+// ═══════════════════════════════════════════════════════════════════
+(function adminCrudWeapons() {
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const ENDPOINT = SUPABASE_URL + '/functions/v1/admin-cat-default-weapons';
+  const SECRET_LS_KEY = 'level.admin.secret';
+
+  let currentWeapons = [];
+
+  function getSecret() {
+    try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; }
+  }
+  function setStatus(elId, text, color) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = text;
+    if (color) el.style.color = color;
+  }
+  function escapeHtmlW(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  async function callAdmin(action, payload) {
+    const secret = getSecret();
+    if (!secret) throw new Error('Secret de admin não configurado');
+    const body = Object.assign({ action: action }, payload || {});
+    const r = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'apikey': ANON_KEY,
+        'Content-Type': 'application/json',
+        'x-level-admin-secret': secret
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const msg = data.error || ('HTTP ' + r.status);
+      throw new Error(msg);
+    }
+    return data;
+  }
+
+  function renderWeaponsList() {
+    const wrap = document.getElementById('opp-weapons-list');
+    if (!wrap) return;
+    if (!currentWeapons.length) {
+      wrap.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted)">Nenhuma arma carregada. Clica em "+ Nova arma" pra começar.</div>';
+      return;
+    }
+    const rows = currentWeapons.map(w => {
+      const badges = [];
+      if (w.is_active) badges.push('<span style="color:#4caf50">ATIVA</span>');
+      if (w.master)    badges.push('<span style="color:var(--accent-orange)">MASTER</span>');
+      if (w.maxed)     badges.push('<span style="color:var(--accent-cyan)">MAXED</span>');
+      if (w.is_new)    badges.push('<span style="color:#ff5252">NEW</span>');
+      const badgeStr = badges.length ? ' <span style="margin-left:6px">' + badges.join(' · ') + '</span>' : '';
+      const sortBadge = (w.sort_order != null) ? '<span style="color:var(--text-muted);font-size:10px;margin-right:6px">' + w.sort_order + '</span>' : '';
+      return (
+        '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--border)">' +
+          '<div style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' +
+            sortBadge +
+            '<strong style="color:var(--text-primary)">' + escapeHtmlW(w.name) + '</strong>' +
+            '<span style="color:var(--text-muted);font-size:10px;margin-left:6px">' + escapeHtmlW(w.id) + ' · ' + escapeHtmlW(w.class || '?') + '</span>' +
+            badgeStr +
+            '<div style="color:var(--text-secondary);font-size:10px;margin-top:2px">P' + (w.prestige|0) + ' · Lv ' + (w.level|0) + '/' + (w.level_max|0) + '</div>' +
+          '</div>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px" data-admin-weapon-edit="' + escapeHtmlW(w.id) + '">Editar</button>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px;color:#ff5252;border-color:rgba(244,67,54,0.4)" data-admin-weapon-delete="' + escapeHtmlW(w.id) + '">×</button>' +
+        '</div>'
+      );
+    }).join('');
+    wrap.innerHTML = rows;
+  }
+
+  async function loadWeapons() {
+    setStatus('opp-weapons-status', 'A carregar armas...', 'var(--text-muted)');
+    try {
+      const data = await callAdmin('list', {});
+      currentWeapons = data.weapons || [];
+      renderWeaponsList();
+      setStatus('opp-weapons-status', currentWeapons.length + ' armas carregadas', 'var(--text-secondary)');
+    } catch (err) {
+      const wrap = document.getElementById('opp-weapons-list');
+      if (wrap) wrap.innerHTML = '<div style="padding:18px;text-align:center;color:#ff5252">' + escapeHtmlW(err.message) + '</div>';
+      setStatus('opp-weapons-status', 'Erro: ' + err.message, '#ff5252');
+    }
+  }
+
+  async function saveWeapon() {
+    const errEl = document.getElementById('admin-weapon-error');
+    errEl.style.display = 'none';
+
+    const id = (document.getElementById('admin-weapon-id').value || '').trim().toLowerCase();
+    const name = (document.getElementById('admin-weapon-name').value || '').trim();
+    if (!id || !name) {
+      errEl.textContent = 'ID e Nome são obrigatórios.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[a-z0-9_]+$/.test(id)) {
+      errEl.textContent = 'ID deve ser snake_case (apenas a-z, 0-9, _).';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const payload = {
+      id: id,
+      name: name,
+      class: document.getElementById('admin-weapon-class').value,
+      prestige:   parseInt(document.getElementById('admin-weapon-prestige').value, 10) || 0,
+      level:      parseInt(document.getElementById('admin-weapon-level').value, 10) || 0,
+      level_max:  parseInt(document.getElementById('admin-weapon-level-max').value, 10) || 47,
+      sort_order: parseInt(document.getElementById('admin-weapon-sort').value, 10) || 0,
+      is_active:  document.getElementById('admin-weapon-is-active').checked,
+      master:     document.getElementById('admin-weapon-master').checked,
+      maxed:      document.getElementById('admin-weapon-maxed').checked,
+      is_new:     document.getElementById('admin-weapon-is-new').checked
+    };
+
+    const saveBtn = document.getElementById('admin-weapon-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'A salvar...';
+    try {
+      await callAdmin('upsert', { weapon: payload });
+      closeAdminWeaponModal();
+      await loadWeapons();
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Arma salva', message: name + ' · OK', variant: 'success' });
+      }
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Salvar';
+    }
+  }
+
+  async function deleteWeapon(id) {
+    const w = currentWeapons.find(x => x.id === id);
+    const name = w ? w.name : id;
+    let confirmed = false;
+    if (window.LevelModal && window.LevelModal.confirm) {
+      try {
+        confirmed = await window.LevelModal.confirm({
+          title: 'Deletar arma',
+          message: 'Tens certeza que queres deletar "' + name + '" (id: ' + id + ')? Vai remover do catálogo default. Usuários novos não vão mais ver essa arma. Não pode ser desfeito.',
+          variant: 'danger',
+          confirmLabel: 'Deletar'
+        });
+      } catch (e) { confirmed = false; }
+    } else {
+      confirmed = confirm('Deletar "' + name + '"? Não pode ser desfeito.');
+    }
+    if (!confirmed) return;
+    try {
+      await callAdmin('delete', { id: id });
+      await loadWeapons();
+      if (window.LevelModal && window.LevelModal.toast) {
+        window.LevelModal.toast({ title: 'Arma deletada', message: name, variant: 'info' });
+      }
+    } catch (err) {
+      if (window.LevelModal && window.LevelModal.alert) {
+        window.LevelModal.alert({ title: 'Falha ao deletar', message: err.message, variant: 'error' });
+      } else {
+        alert('Erro: ' + err.message);
+      }
+    }
+  }
+
+  function openAdminWeaponModal(wData) {
+    document.getElementById('admin-weapon-modal-title').textContent = wData ? 'Editar arma' : 'Nova arma';
+    document.getElementById('admin-weapon-id').value = wData ? wData.id : '';
+    document.getElementById('admin-weapon-id').readOnly = !!wData;
+    document.getElementById('admin-weapon-name').value = wData ? (wData.name || '') : '';
+    document.getElementById('admin-weapon-class').value = wData ? (wData.class || 'SMG') : 'SMG';
+    document.getElementById('admin-weapon-prestige').value = wData ? (wData.prestige|0) : 0;
+    document.getElementById('admin-weapon-level').value = wData ? (wData.level|0) : 0;
+    document.getElementById('admin-weapon-level-max').value = wData ? (wData.level_max|0 || 47) : 47;
+    document.getElementById('admin-weapon-sort').value = wData ? (wData.sort_order != null ? wData.sort_order : '') : '';
+    document.getElementById('admin-weapon-is-active').checked = wData ? !!wData.is_active : false;
+    document.getElementById('admin-weapon-master').checked   = wData ? !!wData.master    : false;
+    document.getElementById('admin-weapon-maxed').checked    = wData ? !!wData.maxed     : false;
+    document.getElementById('admin-weapon-is-new').checked   = wData ? !!wData.is_new    : false;
+    const errEl = document.getElementById('admin-weapon-error');
+    if (errEl) errEl.style.display = 'none';
+
+    const overlay = document.getElementById('modal-admin-weapon');
+    if (overlay) overlay.classList.add('active');
+  }
+  function closeAdminWeaponModal() {
+    const overlay = document.getElementById('modal-admin-weapon');
+    if (overlay) overlay.classList.remove('active');
+  }
+
+  function initWeapons() {
+    const newBtn = document.getElementById('opp-btn-weapon-new');
+    const refreshBtn = document.getElementById('opp-btn-weapons-refresh');
+
+    if (newBtn) newBtn.addEventListener('click', () => openAdminWeaponModal(null));
+    if (refreshBtn) refreshBtn.addEventListener('click', loadWeapons);
+
+    const list = document.getElementById('opp-weapons-list');
+    if (list) {
+      list.addEventListener('click', (e) => {
+        const editBtn = e.target.closest('[data-admin-weapon-edit]');
+        if (editBtn) {
+          const id = editBtn.getAttribute('data-admin-weapon-edit');
+          const w = currentWeapons.find(x => x.id === id);
+          if (w) openAdminWeaponModal(w);
+          return;
+        }
+        const delBtn = e.target.closest('[data-admin-weapon-delete]');
+        if (delBtn) {
+          const id = delBtn.getAttribute('data-admin-weapon-delete');
+          deleteWeapon(id);
+          return;
+        }
+      });
+    }
+
+    const modalSaveBtn = document.getElementById('admin-weapon-save-btn');
+    if (modalSaveBtn) modalSaveBtn.addEventListener('click', saveWeapon);
+
+    if (getSecret() && window.LevelAdmin && window.LevelAdmin.isAdmin()) {
+      loadWeapons();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWeapons);
+  } else {
+    initWeapons();
   }
 })();
 </script>
