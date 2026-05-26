@@ -14556,7 +14556,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.0.1</strong><span class="ver-tag">Docs legais externos · Privacidade · Termos · Cookies</span>
+        LEVEL · <strong>v2.0.2</strong><span class="ver-tag">Captura via celular migrada Netlify → Cloudflare Pages</span>
       </div>
       <script>
         (function(){
@@ -24398,7 +24398,7 @@ const ATTACHMENT_ICONS = {
   //   - Edge Function generate-avatar (Supabase) que chama Nano Banana 2
   //   - Buckets avatar-selfies (24h TTL) + avatar-generated (permanente)
   //   - Tabela avatar_sessions com fluxo token → QR → upload → realtime push
-  //   - Fluxo QR code → level-capture.netlify.app → bucket → Edge → Hub
+  //   - Fluxo QR code → level-capture.pages.dev → bucket → Edge → Hub
   //   - IndexedDB binário (atualmente usa LevelDB.player.photo em base64)
   //
   // Por enquanto, os botões "Gerar QR code", "Regenerar" e "Aprovar" da tab
@@ -33964,7 +33964,7 @@ ${cbt('share.t.footer')}`;
   // ── Config ──
   const SUPABASE_URL  = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
-  const CAPTURE_URL   = 'https://level-capture.netlify.app';
+  const CAPTURE_URL   = 'https://level-capture.pages.dev';
   const ANALYZE_FN_URL = `${SUPABASE_URL}/functions/v1/analyze-capture`;
 
   let _supabase = null;
