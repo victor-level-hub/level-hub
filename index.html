@@ -5843,6 +5843,8 @@
     border-color: var(--accent-orange);
   }
   .build-card .bc-btn.primary:hover { background: #ff8155; }
+  /* v2.0.0: lápis precisa herdar cor do texto (preto), senão fica laranja-sobre-laranja → invisível */
+  .build-card .bc-btn.primary .lvl-icon { color: var(--bg-darkest); }
   /* v75-95: Delete vermelho discreto sempre visível (não só no hover) */
   .build-card .bc-btn.danger {
     color: #c97a7a;
@@ -9943,22 +9945,22 @@
         </div>
       </div>
 
-      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v75-100) ═══ -->
+      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v2.0.0) ═══ -->
       <div class="briefing-stats" style="margin-top:32px">
         <div class="briefing-stats-inner briefing-changelog-inner">
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v75-100 · <span data-i18n="briefing.changelog.date">26 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.0.0 · <span data-i18n="briefing.changelog.date">26 Mai 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">FEATURE</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">i18n</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Análise por IA híbrida · 9 slots fixos · Build Code via imagem</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">A aba <em>Nossa Análise</em> sai das regras fixas em código e passa a chamar Gemini 2.5 Flash com aprovação manual. Motor determinístico do Hub calcula stats agregados e pré-filtra candidatos; IA devolve análise curada com sugestões ranqueadas. Schema fechado + validação server-side garantem zero alucinação. Builds agora sempre com 9 slots fixos (Optic → Fire Mods).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">SemVer adotado · i18n EN completo no Construtor e Meus Loadouts</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Hub migra do esquema antigo <strong>v75-XX</strong> para <strong>SemVer</strong> (MAJOR.MINOR.PATCH). Esta versão (v2.0.0) sucede a v75-100 — o salto direto pra v2 reconhece os 100+ patches no histórico. Foco da release: zerar as strings ainda hardcoded em PT no fluxo de Loadout (Construtor) e Meus Loadouts. Toda UI dinâmica desse fluxo agora respeita o toggle PT/EN.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Aprovação manual da análise IA.</strong> A aba "Nossa Análise" não renderiza mais automaticamente. Card "Aprova a análise IA da arma?" com botão "Analisar agora". A análise vai pro cache (botão "Re-analisar" no rodapé pra refazer). Futuramente cobra R$&nbsp;0,20.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>9 slots fixos sempre.</strong> Removido toggle 5/8 slots. Builds têm sempre 9 attachments: OPTIC, MUZZLE, BARREL, UNDERBARREL, MAGAZINE, REAR GRIP, STOCK, LASER, FIRE MODS — nessa ordem, vazios incluídos. Card mostra slot vazio como "— vazio —".</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Build Code do jogo capturado via imagem.</strong> Novo campo "Build Code do jogo" (formato BO7 <code>S07-XXXXX-XXXXX-XXXX</code>) no formulário. Vision API detecta automaticamente se aparece no print e pré-preenche o campo. Botão "Sugerir" alinhado, botões Editar/Duplicar/Deletar com ícones, Deletar com vermelho discreto.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>i18n EN completo no Construtor.</strong> Optgroups de attachments (Destravados / Travados / Especiais), estado "vazio", contagem "faltam N", placeholders dos inputs e modal de Reset agora respondem ao toggle PT/EN. Sem mais bolhas de PT vazando no idioma EN.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>i18n EN completo em Meus Loadouts.</strong> Botão "Publicar" no card, modal de "Apagar loadout" e painel de info da build secundária (incluindo "(arma deletada)") agora traduzidos. Toast de limite de perks também passa pelo dicionário.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>SemVer ativo.</strong> A partir desta versão: PATCH (v2.0.x) pra bugfix/visual/copy, MINOR (v2.x.0) pra feature nova, MAJOR (vX.0.0) pra quebra de compat. Detector de versão no footer continua funcionando — toast vai mostrar o novo formato na próxima atualização.</li>
           </ul>
         </div>
       </div>
@@ -14554,7 +14556,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
       </button>
       <div class="footer-version">
-        LEVEL · <strong>v75-100</strong><span class="ver-tag">Análise IA híbrida · approval manual · Build Code via imagem</span>
+        LEVEL · <strong>v2.0.0</strong><span class="ver-tag">SemVer · i18n EN completo · Loadout + Meus Loadouts</span>
       </div>
       <script>
         (function(){
@@ -15682,12 +15684,12 @@ window.I18N = {
     'briefing.eventsTitle':   'EVENTOS NO AR',
     'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
     'briefing.changelog.date':  '26 Mai 2026',
-    'briefing.changelog.pill':  'FEATURE',
-    'briefing.changelog.headline': 'Análise por IA híbrida · 9 slots fixos · Build Code via imagem',
-    'briefing.changelog.summary':  'A aba <em>Nossa Análise</em> sai das regras fixas em código e passa a chamar Gemini 2.5 Flash com aprovação manual. Motor determinístico do Hub calcula stats agregados e pré-filtra candidatos; IA devolve análise curada com sugestões ranqueadas. Schema fechado + validação server-side garantem zero alucinação. Builds agora sempre com 9 slots fixos (Optic → Fire Mods).',
-    'briefing.changelog.item1': '<strong>Aprovação manual da análise IA.</strong> A aba "Nossa Análise" não renderiza mais automaticamente. Card "Aprova a análise IA da arma?" com botão "Analisar agora". A análise vai pro cache (botão "Re-analisar" no rodapé pra refazer). Futuramente cobra R$&nbsp;0,20.',
-    'briefing.changelog.item2': '<strong>9 slots fixos sempre.</strong> Removido toggle 5/8 slots. Builds têm sempre 9 attachments: OPTIC, MUZZLE, BARREL, UNDERBARREL, MAGAZINE, REAR GRIP, STOCK, LASER, FIRE MODS — nessa ordem, vazios incluídos. Card mostra slot vazio como "— vazio —".',
-    'briefing.changelog.item3': '<strong>Build Code do jogo capturado via imagem.</strong> Novo campo "Build Code do jogo" (formato BO7 <code>S07-XXXXX-XXXXX-XXXX</code>) no formulário. Vision API detecta automaticamente se aparece no print e pré-preenche o campo. Botão "Sugerir" alinhado, botões Editar/Duplicar/Deletar com ícones, Deletar com vermelho discreto.',
+    'briefing.changelog.pill':  'i18n',
+    'briefing.changelog.headline': 'SemVer adotado · i18n EN completo no Construtor e Meus Loadouts',
+    'briefing.changelog.summary':  'Hub migra do esquema antigo <strong>v75-XX</strong> para <strong>SemVer</strong> (MAJOR.MINOR.PATCH). Esta versão (v2.0.0) sucede a v75-100 — o salto direto pra v2 reconhece os 100+ patches no histórico. Foco da release: zerar as strings ainda hardcoded em PT no fluxo de Loadout (Construtor) e Meus Loadouts. Toda UI dinâmica desse fluxo agora respeita o toggle PT/EN.',
+    'briefing.changelog.item1': '<strong>i18n EN completo no Construtor.</strong> Optgroups de attachments (Destravados / Travados / Especiais), estado "vazio", contagem "faltam N", placeholders dos inputs e modal de Reset agora respondem ao toggle PT/EN. Sem mais bolhas de PT vazando no idioma EN.',
+    'briefing.changelog.item2': '<strong>i18n EN completo em Meus Loadouts.</strong> Botão "Publicar" no card, modal de "Apagar loadout" e painel de info da build secundária (incluindo "(arma deletada)") agora traduzidos. Toast de limite de perks também passa pelo dicionário.',
+    'briefing.changelog.item3': '<strong>SemVer ativo.</strong> A partir desta versão: PATCH (v2.0.x) pra bugfix/visual/copy, MINOR (v2.x.0) pra feature nova, MAJOR (vX.0.0) pra quebra de compat. Detector de versão no footer continua funcionando — toast vai mostrar o novo formato na próxima atualização.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -16956,12 +16958,12 @@ window.I18N = {
     'briefing.eventsTitle':   'LIVE EVENTS',
     'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
     'briefing.changelog.date':  'May 26, 2026',
-    'briefing.changelog.pill':  'FEATURE',
-    'briefing.changelog.headline': 'Hybrid AI analysis · 9 fixed slots · Build Code via image',
-    'briefing.changelog.summary':  'The <em>Our Analysis</em> tab moves off hardcoded rules and calls Gemini 2.5 Flash with manual approval. The Hub\'s deterministic engine computes aggregate stats and pre-filters candidates; the AI returns a curated analysis with ranked suggestions. Closed schema + server-side validation ensure zero hallucination. Builds now always have 9 fixed slots (Optic → Fire Mods).',
-    'briefing.changelog.item1': '<strong>Manual AI analysis approval.</strong> The "Our Analysis" tab no longer renders automatically. Card "Approve AI analysis for this weapon?" with "Analyze now" button. Result is cached (with a "Re-analyze" button in the footer). Will eventually cost R$&nbsp;0.20.',
-    'briefing.changelog.item2': '<strong>9 fixed slots always.</strong> Removed 5/8 slot toggle. Builds always have 9 attachments: OPTIC, MUZZLE, BARREL, UNDERBARREL, MAGAZINE, REAR GRIP, STOCK, LASER, FIRE MODS — in that order, empties included. Card shows empty slots as "— empty —".',
-    'briefing.changelog.item3': '<strong>Game build code captured via image.</strong> New "Game Build Code" field (BO7 format <code>S07-XXXXX-XXXXX-XXXX</code>) on the form. Vision API auto-detects if visible in the screenshot and pre-fills the field. "Suggest" button aligned, Edit/Duplicate/Delete buttons with icons, Delete with discreet red.',
+    'briefing.changelog.pill':  'i18n',
+    'briefing.changelog.headline': 'SemVer adopted · full EN i18n in Builder and My Loadouts',
+    'briefing.changelog.summary':  'Hub migrates from the old <strong>v75-XX</strong> scheme to <strong>SemVer</strong> (MAJOR.MINOR.PATCH). This release (v2.0.0) follows v75-100 — the direct jump to v2 acknowledges 100+ patches in the history. Release focus: zero out the strings still hardcoded in PT across the Loadout (Builder) and My Loadouts flow. All dynamic UI in that flow now honors the PT/EN toggle.',
+    'briefing.changelog.item1': '<strong>Full EN i18n in the Builder.</strong> Attachment optgroups (Unlocked / Locked / Specials), empty state, "N to go" countdown, input placeholders and the Reset modal now respond to the PT/EN toggle. No more PT leaking into the EN language.',
+    'briefing.changelog.item2': '<strong>Full EN i18n in My Loadouts.</strong> "Publish" button on the card, "Delete loadout" modal and secondary build info panel (including "(weapon deleted)") are now translated. The perk-limit toast also goes through the dictionary.',
+    'briefing.changelog.item3': '<strong>SemVer active.</strong> From this version on: PATCH (v2.0.x) for bugfix/visual/copy, MINOR (v2.x.0) for new features, MAJOR (vX.0.0) for breaking changes. The footer version detector keeps working — the toast will show the new format on the next update.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -29398,7 +29400,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         looper:          { name: 'Looper', desc: 're-earn scorestreaks within the same life' },
         vendetta:        { name: 'Vendetta', desc: "on respawn, marks your killer's last position · extra score for revenge" },
         tracker:         { name: 'Tracker', desc: 'tracks nearby enemies on the minimap and shows footsteps · ADS auto-pings' },
-        quartermaster:   { name: 'Quartermaster', desc: 'recharges equipment uses over time' }
+        quartermaster:   { name: 'Quartermaster', desc: 'recharges equipment uses over time' },
+        guardian:        { name: 'Guardian', desc: 'faster healing while capturing/holding objectives · revives teammates faster' }
       },
       fieldup: {
         trophy:        { name: 'Trophy System', desc: 'destroys grenades and lethals' },
@@ -31099,7 +31102,24 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'toast.share.psn': '\u2713 Copiado \u00b7 abre PSN App e cola na mensagem',
         'toast.share.clipboard': '\u2713 Texto copiado',
         'toast.share.json': '\u2713 JSON copiado \u00b7 pra import futuro',
-        'toast.share.native': 'Web Share n\u00e3o dispon\u00edvel \u00b7 copiado pra clipboard'
+        'toast.share.native': 'Web Share n\u00e3o dispon\u00edvel \u00b7 copiado pra clipboard',
+        // v2.0.0 — i18n EN para Loadout + Meus Loadouts (strings hardcoded em JS)
+        'con.attach.empty': '\u2014 vazio \u2014',
+        'con.attach.unlocked': '{{i:check}} Destravados',
+        'con.attach.locked': '{{i:lock}} Travados',
+        'con.attach.specials': '{{i:star}} Especiais',
+        'con.attach.lockedMissing': 'faltam {0}',
+        'con.attach.noneInCatalog': '(sem attachments deste tipo no cat\u00e1logo)',
+        'con.attach.placeholder': 'ex: FANG HoverPoint ELO',
+        'con.attach.placeholderUniversal': 'ex: FANG HoverPoint ELO (universal)',
+        'bip.weaponDeleted': '(arma deletada)',
+        'con.perks.limit': 'Limite de {0} perks. Remova um pra adicionar outro.',
+        'con.confirm.reset.title': 'Resetar Construtor',
+        'con.confirm.reset.btn': 'Resetar',
+        'con.confirm.delete.title': 'Apagar loadout',
+        'con.confirm.delete.btn': 'Apagar',
+        'card.btn.publish': 'Publicar',
+        'card.btn.publishTitle': 'Publicar no Marketplace'
       },
       en: {
         'tooltip.best': '\u2713 Works well with', 'tooltip.avoid': '\u2717 Avoids',
@@ -31232,7 +31252,24 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'toast.share.psn': '\u2713 Copied \u00b7 open the PSN App and paste into the message',
         'toast.share.clipboard': '\u2713 Text copied',
         'toast.share.json': '\u2713 JSON copied \u00b7 for future import',
-        'toast.share.native': 'Web Share not available \u00b7 copied to clipboard'
+        'toast.share.native': 'Web Share not available \u00b7 copied to clipboard',
+        // v2.0.0 — i18n EN for Loadout + My Loadouts (JS hardcoded strings)
+        'con.attach.empty': '\u2014 empty \u2014',
+        'con.attach.unlocked': '{{i:check}} Unlocked',
+        'con.attach.locked': '{{i:lock}} Locked',
+        'con.attach.specials': '{{i:star}} Specials',
+        'con.attach.lockedMissing': '{0} to go',
+        'con.attach.noneInCatalog': '(no attachments of this type in the catalog)',
+        'con.attach.placeholder': 'e.g. FANG HoverPoint ELO',
+        'con.attach.placeholderUniversal': 'e.g. FANG HoverPoint ELO (universal)',
+        'bip.weaponDeleted': '(weapon deleted)',
+        'con.perks.limit': 'Limit of {0} perks. Remove one to add another.',
+        'con.confirm.reset.title': 'Reset Builder',
+        'con.confirm.reset.btn': 'Reset',
+        'con.confirm.delete.title': 'Delete loadout',
+        'con.confirm.delete.btn': 'Delete',
+        'card.btn.publish': 'Publish',
+        'card.btn.publishTitle': 'Publish to Marketplace'
       }
     };
 
@@ -31647,9 +31684,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           const locked   = matching.filter(a => a.unlockLevel != null && a.unlockLevel > weaponLevel);
           const special  = matching.filter(a => a.unlockLevel == null);
 
-          let opts = '<option value="">— vazio —</option>';
+          let opts = '<option value="">' + cbt('con.attach.empty') + '</option>';
           if (unlocked.length > 0) {
-            opts += '<optgroup label="{{i:check}} Destravados">';
+            opts += '<optgroup label="' + cbt('con.attach.unlocked') + '">';
             unlocked.slice().sort((a,b) => a.unlockLevel - b.unlockLevel).forEach(a => {
               const sel = state.attachments[i] === a.name ? ' selected' : '';
               opts += '<option value="' + escapeAttr(a.name) + '"' + sel + '>L' + a.unlockLevel + ' · ' + escapeAttr(a.name) + '</option>';
@@ -31657,14 +31694,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             opts += '</optgroup>';
           }
           if (locked.length > 0) {
-            opts += '<optgroup label="{{i:lock}} Travados">';
+            opts += '<optgroup label="' + cbt('con.attach.locked') + '">';
             locked.slice().sort((a,b) => a.unlockLevel - b.unlockLevel).forEach(a => {
-              opts += '<option value="" disabled>L' + a.unlockLevel + ' · ' + escapeAttr(a.name) + ' (faltam ' + (a.unlockLevel - weaponLevel) + ')</option>';
+              opts += '<option value="" disabled>L' + a.unlockLevel + ' · ' + escapeAttr(a.name) + ' (' + cbt('con.attach.lockedMissing', a.unlockLevel - weaponLevel) + ')</option>';
             });
             opts += '</optgroup>';
           }
           if (special.length > 0) {
-            opts += '<optgroup label="{{i:star}} Especiais">';
+            opts += '<optgroup label="' + cbt('con.attach.specials') + '">';
             special.forEach(a => {
               const sel = state.attachments[i] === a.name ? ' selected' : '';
               opts += '<option value="' + escapeAttr(a.name) + '"' + sel + '>' + escapeAttr(a.name) + ' · ' + escapeAttr(a.special) + '</option>';
@@ -31672,15 +31709,15 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             opts += '</optgroup>';
           }
           if (matching.length === 0) {
-            opts = '<option value="">(sem attachments deste tipo no catálogo)</option>';
+            opts = '<option value="">' + cbt('con.attach.noneInCatalog') + '</option>';
           }
           inputHtml = '<select class="attach-slot-input attach-slot-select" data-slot="' + i + '">' + opts + '</select>';
         } else if (catalog && !slotFilter) {
           // Slot has no catalog filtering (e.g. Optic) — keep text input but note
-          inputHtml = '<input type="text" class="attach-slot-input" data-slot="' + i + '" placeholder="ex: FANG HoverPoint ELO (universal)" value="' + escapeAttr(state.attachments[i] || '') + '"/>';
+          inputHtml = '<input type="text" class="attach-slot-input" data-slot="' + i + '" placeholder="' + escapeAttr(cbt('con.attach.placeholderUniversal')) + '" value="' + escapeAttr(state.attachments[i] || '') + '"/>';
         } else {
           // No catalog → fallback text input
-          inputHtml = '<input type="text" class="attach-slot-input" data-slot="' + i + '" placeholder="ex: FANG HoverPoint ELO" value="' + escapeAttr(state.attachments[i] || '') + '"/>';
+          inputHtml = '<input type="text" class="attach-slot-input" data-slot="' + i + '" placeholder="' + escapeAttr(cbt('con.attach.placeholder')) + '" value="' + escapeAttr(state.attachments[i] || '') + '"/>';
         }
 
         out.push('<div class="attach-slot-card ' + filled + '"><div class="attach-slot-label">SLOT ' + (i+1) + ' · ' + slotLabel + '</div>' + inputHtml + '</div>');
@@ -31754,7 +31791,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         } else if (state.perks.length < limit) {
           state.perks.push(perk);
         } else {
-          showToast(`Limite de ${limit} perks. Remova um pra adicionar outro.`, 'error');
+          showToast(cbt('con.perks.limit', limit), 'error');
           return;
         }
         document.getElementById('opt-perks').innerHTML =
@@ -31881,7 +31918,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       for (let i = 0; i < build.slotCount; i++) {
         const v = build.attachments[i] || '';
         const empty = v ? '' : ' empty';
-        attRows.push('<div class="bip-att' + empty + '"><strong>' + SLOT_LBL[i] + ':</strong> ' + escapeHtmlConstructor(v || '— vazio —') + '</div>');
+        attRows.push('<div class="bip-att' + empty + '"><strong>' + SLOT_LBL[i] + ':</strong> ' + escapeHtmlConstructor(v || cbt('con.attach.empty')) + '</div>');
       }
 
       // Imagem da arma (Configurações ▸ Armas). Sem upload, placeholder limpo.
@@ -31921,7 +31958,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           '<div class="bip-name">' + escapeHtmlConstructor(build.name) + '</div>' +
           '<div class="bip-meta">' + (base ? base.class : '?') + ' · ' + build.slotCount + ' slots</div>' +
         '</div>' +
-        '<div class="bip-base">' + escapeHtmlConstructor(base ? base.name : '(arma deletada)') + ' · <strong>' + lvlStr + '</strong></div>';
+        '<div class="bip-base">' + escapeHtmlConstructor(base ? base.name : cbt('bip.weaponDeleted')) + ' · <strong>' + lvlStr + '</strong></div>';
     }
 
     async function populateBuildsDropdowns() {
@@ -32232,7 +32269,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // ----- Buttons: analyze / reset / save -----
     document.getElementById('btn-analyze').addEventListener('click', analyzeLoadout);
     document.getElementById('btn-reset').addEventListener('click', async () => {
-      if (await LevelModal.confirm({ title: 'Resetar Construtor', message: cbt('confirm.resetBuilder'), variant: 'danger', confirmText: 'Resetar' })) {
+      if (await LevelModal.confirm({ title: cbt('con.confirm.reset.title'), message: cbt('confirm.resetBuilder'), variant: 'danger', confirmText: cbt('con.confirm.reset.btn') })) {
         state = createEmptyState();
         // ETAPA 6: build-based — guard old removed elements
         const pn = document.getElementById('primary-weapon-name');
@@ -32372,7 +32409,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           <div class="saved-card-actions">
             <button class="saved-action-btn primary" data-action="view" data-id="${l.id}">${cbt('card.btn.view')}</button>
             <button class="saved-action-btn" data-action="share" data-id="${l.id}">${cbt('card.btn.share')}</button>
-            <button class="saved-action-btn mkt-pub" data-action="publish" data-id="${l.id}" title="Publicar no Marketplace">Publicar</button>
+            <button class="saved-action-btn mkt-pub" data-action="publish" data-id="${l.id}" title="${cbt('card.btn.publishTitle')}">${cbt('card.btn.publish')}</button>
             <button class="saved-action-btn danger" data-action="delete" data-id="${l.id}">${cbt('card.btn.delete')}</button>
           </div>
         </div>
@@ -32401,7 +32438,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const all = loadAll();
       const target = all.find(l => l.id === id);
       if (!target) return;
-      if (!(await LevelModal.confirm({ title: 'Apagar loadout', message: cbt('confirm.deleteLoadout', target.name), variant: 'danger', confirmText: 'Apagar' }))) return;
+      if (!(await LevelModal.confirm({ title: cbt('con.confirm.delete.title'), message: cbt('confirm.deleteLoadout', target.name), variant: 'danger', confirmText: cbt('con.confirm.delete.btn') }))) return;
       const filtered = all.filter(l => l.id !== id);
       saveAll(filtered);
       showToast(cbt('toast.loadoutDeleted'), 'success');
