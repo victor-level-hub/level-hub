@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-current-lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08101f">
+  <meta name="robots" content="index, follow">
+  <title>LEVEL · Documentos Legais</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@200;300;400;500;600&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       LEVEL · Documentos Legais
+       Estética: Dusk + Amber (idêntica ao hub principal)
+       ============================================================ */
+
+    :root {
+      --bg-darkest: #08101f;
+      --bg-dark: #0F1729;
+      --bg-panel: #141C30;
+      --bg-row: #1A2540;
+      --bg-row-hover: #243050;
+      --border: rgba(255, 255, 255, 0.05);
+      --border-bright: #3F4D6B;
+      --text-primary: #E8E2D7;
+      --text-secondary: #95A0B5;
+      --text-muted: #5C6478;
+      --accent-orange: #F0B952;
+      --accent-orange-dim: #C89740;
+      --accent-cyan: #7DA8C7;
+      --accent-cyan-dim: #5A88A8;
+      --status-ok: #4ade80;
+      --status-warn: #fbbf24;
+      --status-critical: #ef4444;
+      --radius-card: 12px;
+      --radius-btn: 10px;
+      --radius-pill: 999px;
+      --radius-tag: 4px;
+      --max-w: 880px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ===== SCROLLBAR (igual ao hub) ===== */
+    html, body { scrollbar-width: thin; scrollbar-color: rgba(125,168,199,0.35) rgba(0,0,0,0.35); }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.35); border-left: 1px solid rgba(125,168,199,0.08); }
+    ::-webkit-scrollbar-thumb { background: rgba(125,168,199,0.28); border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; transition: background .2s ease; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(240,185,82,0.6); background-clip: padding-box; box-shadow: inset 0 0 6px rgba(240,185,82,0.35); }
+    ::-webkit-scrollbar-thumb:active { background: var(--accent-orange); background-clip: padding-box; }
+
+    /* ===== BODY + BACKGROUND (idêntico ao hub) ===== */
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--bg-darkest);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image:
+        linear-gradient(rgba(255, 107, 53, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 107, 53, 0.015) 1px, transparent 1px),
+        radial-gradient(ellipse at top, rgba(79, 195, 247, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(255, 107, 53, 0.03) 0%, transparent 50%);
+      background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px);
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    a { color: var(--accent-cyan); text-decoration: none; transition: color .15s; }
+    a:hover { color: var(--accent-orange); }
+
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 36px 28px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    .header {
+      border-bottom: 1px solid var(--border-bright);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .logo {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 26px;
+      letter-spacing: 4px;
+      color: var(--accent-orange);
+      text-decoration: none;
+      text-shadow: 0 0 24px rgba(240,185,82,0.25);
+    }
+    .logo:hover { color: var(--accent-orange); }
+
+    .back-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-tag);
+      background: var(--bg-panel);
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .back-link:hover {
+      color: var(--accent-orange);
+      border-color: var(--accent-orange);
+      background: var(--bg-row);
+    }
+
+    .lang-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-tag);
+      overflow: hidden;
+      background: var(--bg-panel);
+    }
+    .lang-toggle button {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      padding: 8px 16px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 0;
+      cursor: pointer;
+      transition: color .15s, background .15s;
+    }
+    .lang-toggle button.active {
+      background: var(--accent-orange);
+      color: var(--bg-darkest);
+    }
+    .lang-toggle button:hover:not(.active) { color: var(--text-primary); background: var(--bg-row); }
+
+    .title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       TABS (estilo nav do hub)
+       ============================================================ */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border-bright);
+      margin: 0 0 28px;
+      position: sticky;
+      top: 0;
+      background: var(--bg-darkest);
+      z-index: 10;
+    }
+    .tabs button {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 16px 8px;
+      cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .tabs button:hover { color: var(--text-primary); background: rgba(125,168,199,0.04); }
+    .tabs button.active {
+      color: var(--accent-orange);
+      border-bottom-color: var(--accent-orange);
+    }
+
+    .tab-pane { display: none; animation: fadeIn .2s ease; }
+    .tab-pane.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ============================================================
+       META + NOTICE
+       ============================================================ */
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin: 0 0 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-tag);
+      letter-spacing: 1px;
+    }
+    .meta strong {
+      color: var(--accent-orange);
+      font-weight: 700;
+    }
+    .meta span { color: var(--text-muted); }
+
+    .notice {
+      border-radius: var(--radius-card);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+    }
+    .notice.warn { border-left: 3px solid var(--accent-orange); }
+    .notice.info { border-left: 3px solid var(--accent-cyan); }
+    .notice strong {
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    .notice.warn strong { color: var(--accent-orange); }
+    .notice.info strong { color: var(--accent-cyan); }
+
+    /* ============================================================
+       SECTION (panel style do hub)
+       ============================================================ */
+    section.policy {
+      margin-bottom: 24px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      scroll-margin-top: 80px;
+    }
+
+    .panel-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(180deg, var(--bg-row) 0%, var(--bg-panel) 100%);
+    }
+    .panel-icon {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--accent-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-orange);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1px;
+      border-radius: var(--radius-tag);
+      flex-shrink: 0;
+    }
+    .panel-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .panel-body {
+      padding: 18px 22px 20px;
+    }
+    .panel-body p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-size: 14.5px;
+    }
+    .panel-body p:last-child { margin-bottom: 0; }
+    .panel-body strong { color: var(--text-primary); font-weight: 600; }
+    .panel-body em {
+      font-style: normal;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .group-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent-cyan);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 16px 0 8px;
+      font-weight: 500;
+    }
+
+    .panel-body ul {
+      margin: 8px 0 14px;
+      padding-left: 0;
+      list-style: none;
+    }
+    .panel-body ul li {
+      color: var(--text-secondary);
+      padding: 5px 0 5px 22px;
+      position: relative;
+      font-size: 14px;
+    }
+    .panel-body ul li::before {
+      content: "▸";
+      color: var(--accent-orange);
+      position: absolute;
+      left: 4px;
+      font-size: 10px;
+      top: 10px;
+    }
+
+    /* ============================================================
+       DATA TABLE (estilo row do hub)
+       ============================================================ */
+    .data-table {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-tag);
+      overflow: hidden;
+      margin: 14px 0 6px;
+      font-size: 13px;
+      border-collapse: collapse;
+      background: var(--bg-dark);
+    }
+    .data-table th, .data-table td {
+      padding: 11px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .data-table th {
+      background: var(--bg-row);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--accent-orange);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .data-table td { color: var(--text-secondary); }
+    .data-table tr:last-child td { border-bottom: 0; }
+    .data-table tr:hover td { background: var(--bg-row-hover); }
+    .data-table strong { color: var(--text-primary); }
+
+    /* ============================================================
+       CONTACT CARD
+       ============================================================ */
+    .contact-card {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-tag);
+      padding: 14px 18px;
+      margin-top: 10px;
+      font-size: 13.5px;
+    }
+    .contact-card div { margin-bottom: 6px; color: var(--text-secondary); }
+    .contact-card div:last-child { margin-bottom: 0; }
+    .contact-card strong { color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-right: 6px; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 50px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border-bright);
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 2px;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+    .doc-footer strong { color: var(--accent-orange); }
+
+    /* ===== LANG SWITCHER ===== */
+    [data-lang="en"] { display: none; }
+    html[data-current-lang="en"] [data-lang="pt"] { display: none; }
+    html[data-current-lang="en"] [data-lang="en"] { display: block; }
+    html[data-current-lang="en"] [data-lang="en"].inline { display: inline; }
+    html[data-current-lang="pt"] [data-lang="pt"].inline { display: inline; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .wrap { padding: 24px 16px 60px; }
+      .title { font-size: 22px; letter-spacing: 2px; }
+      .header-top { flex-direction: column; align-items: flex-start; }
+      .tabs button { font-size: 9.5px; padding: 13px 4px; letter-spacing: 1.5px; }
+      .meta { gap: 10px; font-size: 10px; }
+      .panel-body { padding: 14px 16px 16px; }
+      .panel-header { padding: 12px 16px; }
+      .panel-header h2 { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="header">
+      <div class="header-top">
+        <div class="header-left">
+          <a href="/" class="logo">LEVEL</a>
+          <a href="/" class="back-link">
+            <span data-lang="pt">‹ Voltar ao Hub</span>
+            <span data-lang="en">‹ Back to Hub</span>
+          </a>
+        </div>
+        <div class="lang-toggle" role="group" aria-label="Language toggle">
+          <button type="button" data-set-lang="pt" class="active">PT</button>
+          <button type="button" data-set-lang="en">EN</button>
+        </div>
+      </div>
+
+      <h1 class="title">
+        <span data-lang="pt">Documentos Legais</span>
+        <span data-lang="en">Legal Documents</span>
+      </h1>
+      <div class="subtitle">
+        <span data-lang="pt">Privacidade · Termos · Cookies</span>
+        <span data-lang="en">Privacy · Terms · Cookies</span>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         TABS
+         ============================================================ -->
+    <nav class="tabs" role="tablist">
+      <button type="button" class="tab-btn active" data-tab="privacy" role="tab">
+        <span data-lang="pt">Privacidade</span>
+        <span data-lang="en">Privacy</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="terms" role="tab">
+        <span data-lang="pt">Termos de Uso</span>
+        <span data-lang="en">Terms of Use</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="cookies" role="tab">
+        <span data-lang="pt">Cookies</span>
+        <span data-lang="en">Cookies</span>
+      </button>
+    </nav>
+
+    <!-- ============================================================
+         TAB 1: PRIVACIDADE
+         ============================================================ -->
+    <main class="tab-pane active" data-pane="privacy" role="tabpanel">
+
+      <div class="meta">
+        <div><span data-lang="pt">Documento</span><span data-lang="en">Document</span>: <strong>POLICY-PRIV-001</strong></div>
+        <div><span data-lang="pt">Versão</span><span data-lang="en">Version</span>: <strong>1.1</strong></div>
+        <div><span data-lang="pt">Vigência</span><span data-lang="en">Effective</span>: <strong>26/05/2026</strong></div>
+      </div>
+
+      <div class="notice warn">
+        <strong data-lang="pt">Aviso de fase</strong>
+        <strong data-lang="en">Phase notice</strong>
+        <span data-lang="pt">O LEVEL encontra-se em fase pré-comercial. O serviço é gratuito e operado por pessoa singular residente em Portugal. Quando da constituição de pessoa coletiva em Portugal, esta política será atualizada e a alteração comunicada com 30 dias de antecedência.</span>
+        <span data-lang="en">LEVEL is currently in a pre-commercial phase. The service is provided free of charge and operated by an individual resident in Portugal. Upon incorporation of a legal entity in Portugal, this policy will be updated and the change communicated 30 days in advance.</span>
+      </div>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">01</div>
+          <h2><span data-lang="pt">Quem somos</span><span data-lang="en">Who we are</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <p>O <strong>LEVEL</strong> é uma ferramenta digital de coaching tático para o jogo <em>Call of Duty: Black Ops 7</em>, operada de forma independente. O LEVEL <strong>não é afiliado, patrocinado nem endossado</strong> pela Activision Publishing, Inc. ou qualquer das suas subsidiárias.</p>
+            <p>O responsável pelo tratamento dos seus dados pessoais (Controlador, nos termos do art. 4.º, n.º 7 do RGPD; <em>Controlador</em>, nos termos do art. 5.º, VI da LGPD) é:</p>
+            <div class="contact-card">
+              <div><strong>Operador</strong> Operador do LEVEL (pessoa singular, residente em Portugal)</div>
+              <div><strong>Contato</strong> <a href="mailto:contato@level.gg">contato@level.gg</a></div>
+              <div><strong>Privacidade</strong> <a href="mailto:privacidade@level.gg">privacidade@level.gg</a></div>
+            </div>
+            <p style="font-size:12.5px;color:var(--text-muted);margin-top:12px;">A identidade fiscal completa será publicada nesta política após constituição da pessoa coletiva. Para exercício de direitos sob o RGPD, o e-mail acima é o canal oficial.</p>
+          </div>
+          <div data-lang="en">
+            <p><strong>LEVEL</strong> is an independent digital tactical coaching tool for the game <em>Call of Duty: Black Ops 7</em>. LEVEL <strong>is not affiliated with, sponsored by, or endorsed by</strong> Activision Publishing, Inc. or any of its subsidiaries.</p>
+            <p>The entity responsible for processing your personal data (Data Controller under GDPR Art. 4(7); <em>Controlador</em> under LGPD Art. 5, VI) is:</p>
+            <div class="contact-card">
+              <div><strong>Operator</strong> LEVEL Operator (individual, resident in Portugal)</div>
+              <div><strong>Contact</strong> <a href="mailto:contato@level.gg">contato@level.gg</a></div>
+              <div><strong>Privacy</strong> <a href="mailto:privacidade@level.gg">privacidade@level.gg</a></div>
+            </div>
+            <p style="font-size:12.5px;color:var(--text-muted);margin-top:12px;">The full legal entity identification will be published in this policy upon company incorporation. To exercise rights under GDPR, the e-mail above is the official channel.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">02</div>
+          <h2><span data-lang="pt">Dados que coletamos</span><span data-lang="en">Data we collect</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <p>Coletamos apenas os dados necessários à operação do LEVEL. <strong>Não coletamos dados sensíveis</strong> na acepção do art. 5.º, II da LGPD nem do art. 9.º do RGPD (origem racial, opinião política, religião, saúde, orientação sexual, dados genéticos ou biométricos).</p>
+            <table class="data-table">
+              <thead><tr><th>Categoria</th><th>Exemplos</th><th>Origem</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Identificação</strong></td><td>E-mail, nome de exibição, foto de perfil (opcional)</td><td>Você fornece no cadastro</td></tr>
+                <tr><td><strong>Autenticação</strong></td><td>Hash de senha, tokens de sessão, identificador de provedor (Google/Discord, se usado)</td><td>Gerado no login</td></tr>
+                <tr><td><strong>Dados de jogo</strong></td><td>Armas, acessórios, loadouts, builds, codenomes, anotações de prestígio e level</td><td>Você insere manualmente ou via captura de imagem</td></tr>
+                <tr><td><strong>Imagens enviadas</strong></td><td>Capturas de tela do jogo, foto facial opcional para avatar IA</td><td>Você envia voluntariamente</td></tr>
+                <tr><td><strong>Dados de uso</strong></td><td>Páginas acessadas, ações realizadas, idioma preferido, fuso horário</td><td>Coletados automaticamente</td></tr>
+                <tr><td><strong>Dados técnicos</strong></td><td>Endereço IP, tipo de navegador, sistema operacional, identificador de sessão</td><td>Coletados automaticamente</td></tr>
+                <tr><td><strong>Dados de pagamento (futuro)</strong></td><td>Status de assinatura, últimos 4 dígitos do cartão, histórico de cobrança</td><td>Processados via Stripe — <strong>nunca armazenamos o número completo do cartão</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div data-lang="en">
+            <p>We collect only data necessary for LEVEL's operation. <strong>We do not collect sensitive personal data</strong> as defined in GDPR Art. 9 nor LGPD Art. 5, II (racial origin, political opinions, religion, health, sexual orientation, genetic or biometric data).</p>
+            <table class="data-table">
+              <thead><tr><th>Category</th><th>Examples</th><th>Source</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Identification</strong></td><td>E-mail, display name, profile picture (optional)</td><td>You provide at sign-up</td></tr>
+                <tr><td><strong>Authentication</strong></td><td>Password hash, session tokens, provider identifier (Google/Discord, if used)</td><td>Generated at login</td></tr>
+                <tr><td><strong>Gameplay data</strong></td><td>Weapons, attachments, loadouts, builds, codenames, prestige and level notes</td><td>You enter manually or via image capture</td></tr>
+                <tr><td><strong>Uploaded images</strong></td><td>Game screenshots, optional facial photo for AI avatar</td><td>You voluntarily upload</td></tr>
+                <tr><td><strong>Usage data</strong></td><td>Pages accessed, actions performed, preferred language, time zone</td><td>Collected automatically</td></tr>
+                <tr><td><strong>Technical data</strong></td><td>IP address, browser type, operating system, session identifier</td><td>Collected automatically</td></tr>
+                <tr><td><strong>Payment data (future)</strong></td><td>Subscription status, last 4 digits of card, billing history</td><td>Processed via Stripe — <strong>we never store the full card number</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">03</div>
+          <h2><span data-lang="pt">Como usamos os dados</span><span data-lang="en">How we use your data</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <p>Usamos os seus dados estritamente para as seguintes finalidades:</p>
+            <ul>
+              <li><strong>Operar o serviço:</strong> autenticar o seu login, salvar e sincronizar os seus loadouts, armas e configurações entre dispositivos.</li>
+              <li><strong>Funcionalidade de IA (Le Vél):</strong> processar as suas armas, loadouts e estilo de jogo para gerar análises e recomendações personalizadas.</li>
+              <li><strong>Suporte ao utilizador:</strong> responder dúvidas, resolver problemas técnicos, processar pedidos de cancelamento ou reembolso.</li>
+              <li><strong>Faturamento (quando aplicável):</strong> processar assinaturas, emitir recibos, prevenir fraudes em pagamentos.</li>
+              <li><strong>Melhoria do produto:</strong> analisar padrões de uso agregados e anónimos para identificar erros e priorizar funcionalidades.</li>
+              <li><strong>Comunicações operacionais:</strong> enviar e-mails de confirmação de cadastro, alterações de plano e atualizações de política. <strong>Marketing apenas mediante opt-in explícito.</strong></li>
+              <li><strong>Obrigações legais:</strong> cumprir exigências regulatórias aplicáveis em Portugal e na União Europeia.</li>
+            </ul>
+            <p><strong>Não vendemos os seus dados</strong> a anunciantes, brokers de dados ou terceiros, sob nenhuma circunstância.</p>
+          </div>
+          <div data-lang="en">
+            <p>We use your data strictly for the following purposes:</p>
+            <ul>
+              <li><strong>Operate the service:</strong> authenticate your login, save and sync your loadouts, weapons and settings across devices.</li>
+              <li><strong>AI functionality (Le Vél):</strong> process your weapons, loadouts and playstyle to generate personalized analysis and recommendations.</li>
+              <li><strong>User support:</strong> respond to inquiries, resolve technical issues, process cancellation or refund requests.</li>
+              <li><strong>Billing (when applicable):</strong> process subscriptions, issue receipts, prevent payment fraud.</li>
+              <li><strong>Product improvement:</strong> analyze aggregated and anonymized usage patterns to identify bugs and prioritize features.</li>
+              <li><strong>Operational communications:</strong> send sign-up confirmations, plan changes and policy updates. <strong>Marketing only with explicit opt-in.</strong></li>
+              <li><strong>Legal obligations:</strong> comply with applicable regulatory requirements in Portugal and the European Union.</li>
+            </ul>
+            <p><strong>We do not sell your data</strong> to advertisers, data brokers or third parties, under any circumstance.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">04</div>
+          <h2><span data-lang="pt">Base legal</span><span data-lang="en">Legal basis</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <p>Tratamos os seus dados com base nas hipóteses previstas no <strong>art. 6.º do RGPD</strong> (União Europeia) e no <strong>art. 7.º da LGPD</strong> (Brasil):</p>
+            <ul>
+              <li><strong>Execução de contrato</strong> — fornecer o serviço LEVEL ao qual você aderiu (mesmo no plano gratuito).</li>
+              <li><strong>Consentimento</strong> — envio de comunicações de marketing, uso de cookies não essenciais e geração de avatar com foto facial.</li>
+              <li><strong>Obrigação legal</strong> — cumprir exigências fiscais, contábeis e regulatórias quando aplicáveis.</li>
+              <li><strong>Legítimo interesse</strong> — prevenção de fraude, segurança da plataforma e análise de uso agregado.</li>
+            </ul>
+            <p>O consentimento é recolhido no momento do cadastro, mediante marcações explícitas (<em>checkboxes</em>) e registado com data/hora no nosso banco de dados. <strong>Pode revogar o consentimento a qualquer momento</strong>, sem afetar a licitude dos tratamentos anteriores.</p>
+          </div>
+          <div data-lang="en">
+            <p>We process your data based on the legal grounds set out in <strong>GDPR Art. 6</strong> (European Union) and <strong>LGPD Art. 7</strong> (Brazil):</p>
+            <ul>
+              <li><strong>Contract performance</strong> — to provide the LEVEL service you signed up for (including the free plan).</li>
+              <li><strong>Consent</strong> — marketing communications, non-essential cookies and AI avatar generation using facial photo.</li>
+              <li><strong>Legal obligation</strong> — to comply with applicable tax, accounting and regulatory requirements.</li>
+              <li><strong>Legitimate interest</strong> — fraud prevention, platform security and aggregated usage analysis.</li>
+            </ul>
+            <p>Consent is collected at sign-up, via explicit checkboxes and timestamped in our database. <strong>You may withdraw consent at any time</strong>, without affecting the lawfulness of prior processing.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">05</div>
+          <h2><span data-lang="pt">Compartilhamento com terceiros</span><span data-lang="en">Sharing with third parties</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <p>Compartilhamos dados estritamente com os <strong>Subcontratantes</strong> (RGPD) / <strong>Operadores</strong> (LGPD) abaixo, vinculados contratualmente a processá-los apenas conforme as nossas instruções:</p>
+            <table class="data-table">
+              <thead><tr><th>Subcontratante</th><th>Finalidade</th><th>Localização</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Cloudflare, Inc.</strong></td><td>Hospedagem do site (Pages), banco de dados (D1), armazenamento de objetos (R2), backend serverless (Workers) e autenticação</td><td>EUA / Rede global distribuída</td></tr>
+                <tr><td><strong>Google LLC (Gemini API)</strong></td><td>Processamento de imagens e geração de análises por IA</td><td>EUA / Global</td></tr>
+                <tr><td><strong>Stripe Payments Europe Ltd.</strong></td><td>Processamento de pagamentos (quando aplicável)</td><td>Irlanda / EUA</td></tr>
+                <tr><td><strong>Autoridades públicas</strong></td><td>Apenas mediante ordem judicial ou exigência legal expressa</td><td>Portugal / Global</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div data-lang="en">
+            <p>We share data strictly with the <strong>Processors</strong> (GDPR) / <strong>Operadores</strong> (LGPD) listed below, contractually bound to process data only according to our instructions:</p>
+            <table class="data-table">
+              <thead><tr><th>Processor</th><th>Purpose</th><th>Location</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Cloudflare, Inc.</strong></td><td>Website hosting (Pages), database (D1), object storage (R2), serverless backend (Workers) and authentication</td><td>USA / Global distributed network</td></tr>
+                <tr><td><strong>Google LLC (Gemini API)</strong></td><td>Image processing and AI-generated analysis</td><td>USA / Global</td></tr>
+                <tr><td><strong>Stripe Payments Europe Ltd.</strong></td><td>Payment processing (when applicable)</td><td>Ireland / USA</td></tr>
+                <tr><td><strong>Public authorities</strong></td><td>Only upon court order or express legal requirement</td><td>Portugal / Global</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">06</div>
+          <h2><span data-lang="pt">Transferência internacional</span><span data-lang="en">International data transfers</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <p>A nossa infraestrutura é hospedada pela <strong>Cloudflare</strong>, com sede nos EUA e rede global distribuída de pontos de presença. Parte dos Subcontratantes (Google, Stripe) também opera a partir dos EUA. Por essa razão, os seus dados podem ser transferidos para fora do Espaço Económico Europeu.</p>
+            <p>Garantimos a legalidade destas transferências por meio de:</p>
+            <ul>
+              <li><strong>Cláusulas Contratuais Padrão (SCC)</strong> aprovadas pela Comissão Europeia, vinculando cada Subcontratante a padrões equivalentes ao RGPD.</li>
+              <li>Adesão de Cloudflare, Google e Stripe ao <em>EU-U.S. Data Privacy Framework</em>, mecanismo aprovado pela Comissão Europeia para transferências aos EUA.</li>
+              <li>Conformidade com o art. 33 da LGPD para transferências envolvendo dados de titulares no Brasil.</li>
+            </ul>
+          </div>
+          <div data-lang="en">
+            <p>Our infrastructure is hosted by <strong>Cloudflare</strong>, headquartered in the USA with a globally distributed network of points of presence. Some Processors (Google, Stripe) also operate from the USA. Therefore, your data may be transferred outside the European Economic Area.</p>
+            <p>We ensure the legality of these transfers through:</p>
+            <ul>
+              <li><strong>Standard Contractual Clauses (SCCs)</strong> approved by the European Commission, binding each Processor to GDPR-equivalent standards.</li>
+              <li>Cloudflare, Google and Stripe's adherence to the <em>EU-U.S. Data Privacy Framework</em>, a mechanism approved by the European Commission for transfers to the USA.</li>
+              <li>Compliance with LGPD Art. 33 for transfers involving data of Brazilian subjects.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">07</div>
+          <h2><span data-lang="pt">Tempo de retenção</span><span data-lang="en">Retention period</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <ul>
+              <li><strong>Dados de conta ativa:</strong> mantidos enquanto a sua conta estiver ativa.</li>
+              <li><strong>Após exclusão da conta:</strong> dados pessoais apagados em até <strong>30 dias</strong>, exceto quando obrigação legal aplicável determine prazo distinto.</li>
+              <li><strong>Logs técnicos e de segurança:</strong> até <strong>12 meses</strong>.</li>
+              <li><strong>Cópias de segurança (<em>backups</em>):</strong> sobrescritas no ciclo de 90 dias subsequente à exclusão dos dados primários.</li>
+            </ul>
+          </div>
+          <div data-lang="en">
+            <ul>
+              <li><strong>Active account data:</strong> retained while your account remains active.</li>
+              <li><strong>After account deletion:</strong> personal data erased within <strong>30 days</strong>, unless an applicable legal obligation requires a different period.</li>
+              <li><strong>Technical and security logs:</strong> up to <strong>12 months</strong>.</li>
+              <li><strong>Backups:</strong> overwritten within the 90-day cycle following primary data erasure.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">08</div>
+          <h2><span data-lang="pt">Os seus direitos</span><span data-lang="en">Your rights</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <p>Nos termos dos arts. 15.º a 22.º do RGPD e do art. 18.º da LGPD, você tem direito a:</p>
+            <ul>
+              <li><strong>Acesso</strong> — obter confirmação e cópia dos dados que tratamos.</li>
+              <li><strong>Retificação</strong> — corrigir dados incorretos ou desatualizados.</li>
+              <li><strong>Eliminação (esquecimento)</strong> — apagar a sua conta e dados associados.</li>
+              <li><strong>Portabilidade</strong> — receber os seus dados em formato estruturado (JSON) para transferir a outro serviço.</li>
+              <li><strong>Oposição</strong> — opor-se a tratamentos baseados em legítimo interesse.</li>
+              <li><strong>Revogação de consentimento</strong> — retirar consentimentos previamente fornecidos.</li>
+              <li><strong>Revisão de decisões automatizadas</strong> — solicitar revisão humana de decisões totalmente automatizadas que o afetem.</li>
+              <li><strong>Reclamação</strong> — apresentar queixa à <strong>CNPD</strong> (Portugal) ou à <strong>ANPD</strong> (Brasil).</li>
+            </ul>
+            <p>O LEVEL disponibiliza no menu <em>Configurações da Conta</em> as opções de download de dados e exclusão de conta. Para outras solicitações, envie e-mail para <a href="mailto:privacidade@level.gg">privacidade@level.gg</a>. Respondemos em até <strong>15 dias</strong> (LGPD) ou <strong>30 dias</strong> (RGPD).</p>
+          </div>
+          <div data-lang="en">
+            <p>Under GDPR Arts. 15-22 and LGPD Art. 18, you have the right to:</p>
+            <ul>
+              <li><strong>Access</strong> — obtain confirmation and a copy of the data we process.</li>
+              <li><strong>Rectification</strong> — correct inaccurate or outdated data.</li>
+              <li><strong>Erasure (right to be forgotten)</strong> — delete your account and associated data.</li>
+              <li><strong>Portability</strong> — receive your data in a structured format (JSON) for transfer to another service.</li>
+              <li><strong>Object</strong> — object to processing based on legitimate interest.</li>
+              <li><strong>Withdraw consent</strong> — withdraw consents previously given.</li>
+              <li><strong>Review of automated decisions</strong> — request human review of fully automated decisions affecting you.</li>
+              <li><strong>Lodge a complaint</strong> — file a complaint with the <strong>CNPD</strong> (Portugal) or the <strong>ANPD</strong> (Brazil).</li>
+            </ul>
+            <p>LEVEL provides data download and account deletion options in the <em>Account Settings</em> menu. For other requests, e-mail <a href="mailto:privacidade@level.gg">privacidade@level.gg</a>. We respond within <strong>15 days</strong> (LGPD) or <strong>30 days</strong> (GDPR).</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">09</div>
+          <h2><span data-lang="pt">Segurança</span><span data-lang="en">Security</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <ul>
+              <li>Transmissão criptografada via <strong>HTTPS/TLS 1.3</strong> em toda a aplicação.</li>
+              <li>Senhas armazenadas com <em>hash</em> <strong>bcrypt</strong> ou equivalente — nunca em texto puro.</li>
+              <li>Acesso à infraestrutura protegido por autenticação multifator.</li>
+              <li>Pagamentos processados pelo Stripe sob certificação <strong>PCI DSS Nível 1</strong>.</li>
+              <li>Em caso de incidente envolvendo os seus dados, notificaremos você e as autoridades competentes em até <strong>72 horas</strong>, conforme art. 33 do RGPD e art. 48 da LGPD.</li>
+            </ul>
+          </div>
+          <div data-lang="en">
+            <ul>
+              <li>Encrypted transmission via <strong>HTTPS/TLS 1.3</strong> throughout the application.</li>
+              <li>Passwords stored using <strong>bcrypt</strong> hashing or equivalent — never in plain text.</li>
+              <li>Infrastructure access protected by multi-factor authentication.</li>
+              <li>Payments processed by Stripe under <strong>PCI DSS Level 1</strong> certification.</li>
+              <li>In case of an incident involving your data, we will notify you and the competent authorities within <strong>72 hours</strong>, per GDPR Art. 33 and LGPD Art. 48.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">10</div>
+          <h2><span data-lang="pt">Crianças e adolescentes</span><span data-lang="en">Children and minors</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>O LEVEL destina-se a utilizadores com <strong>16 anos ou mais</strong>, em linha com a classificação etária do jogo e com o art. 8.º do RGPD. Não recolhemos conscientemente dados de menores de 16 anos. Identificado um cadastro de menor sem autorização do responsável legal, a conta será excluída e os dados eliminados.</p></div>
+          <div data-lang="en"><p>LEVEL is intended for users <strong>aged 16 or older</strong>, consistent with the game's age rating and GDPR Art. 8. We do not knowingly collect data from children under 16. If we identify an account registered by a minor without parental authorization, the account will be deleted and the data erased.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">11</div>
+          <h2><span data-lang="pt">Alterações nesta política</span><span data-lang="en">Changes to this policy</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Podemos atualizar esta Política para refletir alterações legais, técnicas ou comerciais. Mudanças materiais serão comunicadas por e-mail e por banner no LEVEL com pelo menos <strong>30 dias de antecedência</strong>.</p></div>
+          <div data-lang="en"><p>We may update this Policy to reflect legal, technical or business changes. Material changes will be communicated by e-mail and via a banner on LEVEL with at least <strong>30 days' notice</strong>.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header">
+          <div class="panel-icon">12</div>
+          <h2><span data-lang="pt">Contato</span><span data-lang="en">Contact</span></h2>
+        </div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <div class="contact-card">
+              <div><strong>Privacidade</strong> <a href="mailto:privacidade@level.gg">privacidade@level.gg</a></div>
+              <div><strong>Suporte</strong> <a href="mailto:contato@level.gg">contato@level.gg</a></div>
+              <div><strong>Resposta em até</strong> 15 dias (LGPD) / 30 dias (RGPD)</div>
+            </div>
+            <p style="margin-top:14px;font-size:12.5px;color:var(--text-muted);">
+              <strong style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;letter-spacing:1.5px;">Autoridades:</strong> Portugal — CNPD: <a href="https://www.cnpd.pt" target="_blank" rel="noopener">cnpd.pt</a> · Brasil — ANPD: <a href="https://www.gov.br/anpd" target="_blank" rel="noopener">gov.br/anpd</a>
+            </p>
+          </div>
+          <div data-lang="en">
+            <div class="contact-card">
+              <div><strong>Privacy</strong> <a href="mailto:privacidade@level.gg">privacidade@level.gg</a></div>
+              <div><strong>Support</strong> <a href="mailto:contato@level.gg">contato@level.gg</a></div>
+              <div><strong>Response within</strong> 15 days (LGPD) / 30 days (GDPR)</div>
+            </div>
+            <p style="margin-top:14px;font-size:12.5px;color:var(--text-muted);">
+              <strong style="color:var(--accent-cyan);font-family:'JetBrains Mono',monospace;letter-spacing:1.5px;">Authorities:</strong> Portugal — CNPD: <a href="https://www.cnpd.pt" target="_blank" rel="noopener">cnpd.pt</a> · Brazil — ANPD: <a href="https://www.gov.br/anpd" target="_blank" rel="noopener">gov.br/anpd</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================
+         TAB 2: TERMOS
+         ============================================================ -->
+    <main class="tab-pane" data-pane="terms" role="tabpanel">
+
+      <div class="meta">
+        <div><span data-lang="pt">Documento</span><span data-lang="en">Document</span>: <strong>POLICY-TERMS-001</strong></div>
+        <div><span data-lang="pt">Versão</span><span data-lang="en">Version</span>: <strong>1.1</strong></div>
+        <div><span data-lang="pt">Vigência</span><span data-lang="en">Effective</span>: <strong>26/05/2026</strong></div>
+      </div>
+
+      <div class="notice info">
+        <strong data-lang="pt">Importante</strong>
+        <strong data-lang="en">Important</strong>
+        <span data-lang="pt">Ao criar uma conta ou usar o LEVEL, você confirma ter lido e aceito integralmente estes Termos de Uso e a Política de Privacidade. Se não concordar com qualquer disposição, não utilize o serviço.</span>
+        <span data-lang="en">By creating an account or using LEVEL, you confirm that you have read and fully accepted these Terms of Use and the Privacy Policy. If you do not agree with any provision, do not use the service.</span>
+      </div>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">01</div><h2><span data-lang="pt">Aceitação dos Termos</span><span data-lang="en">Acceptance of Terms</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Estes Termos de Uso (<strong>"Termos"</strong>) regem o acesso e a utilização do LEVEL, ferramenta digital independente de coaching tático para o jogo <em>Call of Duty: Black Ops 7</em>. A aceitação é registada eletronicamente no momento do cadastro (<em>checkboxes</em>) e mantida em base de dados com data, hora e versão do documento.</p></div>
+          <div data-lang="en"><p>These Terms of Use (<strong>"Terms"</strong>) govern access to and use of LEVEL, an independent digital tactical coaching tool for <em>Call of Duty: Black Ops 7</em>. Acceptance is recorded electronically at sign-up (via checkboxes) and stored in the database with date, time and document version.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">02</div><h2><span data-lang="pt">Sobre o LEVEL</span><span data-lang="en">About LEVEL</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>O LEVEL é uma ferramenta independente, criada por terceiros, que auxilia jogadores a registar, organizar e analisar <em>loadouts</em> (configurações de armas), construções de armas e estatísticas de progressão pessoal no jogo. O LEVEL <strong>não interage diretamente com o jogo</strong>, não modifica arquivos do jogo, não automatiza ações dentro do jogo e não fornece qualquer vantagem competitiva no jogo.</p></div>
+          <div data-lang="en"><p>LEVEL is an independent third-party tool that helps players record, organize and analyze loadouts (weapon configurations), weapon builds and personal progression statistics in the game. LEVEL <strong>does not interact directly with the game</strong>, does not modify game files, does not automate in-game actions and does not provide any competitive in-game advantage.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">03</div><h2><span data-lang="pt">Não-afiliação com Activision</span><span data-lang="en">Non-affiliation with Activision</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>O LEVEL <strong>não é afiliado, patrocinado, licenciado nem endossado</strong> pela Activision Publishing, Inc., suas subsidiárias ou parceiros. As marcas <em>Call of Duty</em>, <em>Black Ops</em>, nomes de armas, mapas, modos e quaisquer outros ativos do jogo são propriedade dos seus respetivos titulares. O uso descritivo destes nomes no LEVEL serve exclusivamente para identificar o jogo a que a ferramenta se refere.</p></div>
+          <div data-lang="en"><p>LEVEL is <strong>not affiliated with, sponsored by, licensed by, or endorsed by</strong> Activision Publishing, Inc., its subsidiaries or partners. The <em>Call of Duty</em>, <em>Black Ops</em> trademarks, weapon names, maps, modes and any other game assets are the property of their respective owners. Descriptive use of these names within LEVEL serves solely to identify the game the tool refers to.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">04</div><h2><span data-lang="pt">Elegibilidade</span><span data-lang="en">Eligibility</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Para criar conta e usar o LEVEL, você deve ter pelo menos <strong>16 anos</strong>. Se for menor desta idade, não está autorizado a utilizar o serviço. A criação de conta requer um endereço de e-mail válido e a aceitação explícita destes Termos e da Política de Privacidade.</p></div>
+          <div data-lang="en"><p>To create an account and use LEVEL, you must be at least <strong>16 years old</strong>. If you are under this age, you are not authorized to use the service. Account creation requires a valid e-mail address and explicit acceptance of these Terms and the Privacy Policy.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">05</div><h2><span data-lang="pt">Conta de utilizador</span><span data-lang="en">User account</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Você é responsável por:</p><ul><li>Fornecer informações verdadeiras e atualizadas no cadastro.</li><li>Manter a confidencialidade da sua senha e credenciais de acesso.</li><li>Todas as atividades realizadas a partir da sua conta.</li><li>Notificar-nos imediatamente em caso de uso não autorizado da conta.</li></ul><p>O LEVEL não é responsável por perdas decorrentes da partilha de credenciais com terceiros.</p></div>
+          <div data-lang="en"><p>You are responsible for:</p><ul><li>Providing true and up-to-date information at sign-up.</li><li>Maintaining the confidentiality of your password and access credentials.</li><li>All activities performed from your account.</li><li>Notifying us immediately in the event of unauthorized account use.</li></ul><p>LEVEL is not responsible for losses arising from credential sharing with third parties.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">06</div><h2><span data-lang="pt">Conteúdo do utilizador</span><span data-lang="en">User content</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Conteúdo gerado por você no LEVEL — <em>loadouts</em>, construções de armas, codenomes e anotações — permanece da sua titularidade. Ao guardá-los no LEVEL, você concede ao Operador uma licença limitada, não exclusiva e gratuita para armazenar, processar e exibir esse conteúdo no âmbito estrito da prestação do serviço.</p><p>Você não deve publicar conteúdo que: (a) viole direitos de terceiros; (b) seja ofensivo, ilegal, discriminatório ou enganador; (c) contenha código malicioso; (d) viole estes Termos.</p></div>
+          <div data-lang="en"><p>Content you generate in LEVEL — loadouts, weapon builds, codenames and notes — remains your property. By saving them in LEVEL, you grant the Operator a limited, non-exclusive, royalty-free license to store, process and display such content strictly within the scope of service provision.</p><p>You must not post content that: (a) infringes third-party rights; (b) is offensive, illegal, discriminatory or misleading; (c) contains malicious code; (d) violates these Terms.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">07</div><h2><span data-lang="pt">Uso aceitável</span><span data-lang="en">Acceptable use</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Você concorda em <strong>não</strong>:</p><ul><li>Utilizar o LEVEL para qualquer finalidade ilegal ou não autorizada.</li><li>Tentar contornar mecanismos de segurança, autenticação ou limites de uso.</li><li>Realizar engenharia reversa, descompilar ou extrair o código-fonte do LEVEL.</li><li>Executar <em>scraping</em> (extração automatizada em massa de dados) ou enviar tráfego automatizado sem autorização escrita.</li><li>Revender, sublicenciar ou redistribuir o serviço ou os seus conteúdos.</li><li>Usar o LEVEL para criar produtos ou serviços concorrentes.</li></ul></div>
+          <div data-lang="en"><p>You agree <strong>not to</strong>:</p><ul><li>Use LEVEL for any illegal or unauthorized purpose.</li><li>Attempt to bypass security, authentication or usage limits.</li><li>Reverse engineer, decompile or extract LEVEL's source code.</li><li>Perform automated scraping or send automated traffic without written authorization.</li><li>Resell, sublicense or redistribute the service or its contents.</li><li>Use LEVEL to create competing products or services.</li></ul></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">08</div><h2><span data-lang="pt">Inteligência Artificial (Le Vél)</span><span data-lang="en">Artificial Intelligence (Le Vél)</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>O LEVEL inclui funcionalidade de coaching assistido por IA (<strong>Le Vél</strong>), que gera análises e recomendações automatizadas a partir dos dados que você fornece. Por se tratar de conteúdo gerado por modelos probabilísticos, as análises:</p><ul><li>Não substituem julgamento humano nem aconselhamento profissional.</li><li>Podem conter imprecisões, generalizações ou erros.</li><li>São sugestões, nunca instruções obrigatórias.</li><li>Não garantem qualquer resultado específico no jogo.</li></ul><p>Você é o único responsável por avaliar e decidir se aplica ou não as recomendações no seu jogo.</p></div>
+          <div data-lang="en"><p>LEVEL includes an AI-assisted coaching feature (<strong>Le Vél</strong>) that generates automated analysis and recommendations from the data you provide. As content generated by probabilistic models, such analyses:</p><ul><li>Do not replace human judgment or professional advice.</li><li>May contain inaccuracies, generalizations or errors.</li><li>Are suggestions, never mandatory instructions.</li><li>Do not guarantee any specific in-game outcome.</li></ul><p>You are solely responsible for evaluating and deciding whether to apply the recommendations in your game.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">09</div><h2><span data-lang="pt">Sem garantia de desempenho</span><span data-lang="en">No performance guarantee</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>O LEVEL <strong>não garante</strong> melhoria de desempenho, número de eliminações, conquista de prestígios, vitórias em partidas ou qualquer outro resultado mensurável no jogo. O serviço é informativo e organizacional. O desempenho em jogo depende de fatores externos ao LEVEL, incluindo habilidade individual, hardware, conexão de rede e adversários.</p></div>
+          <div data-lang="en"><p>LEVEL <strong>does not guarantee</strong> improvement in performance, number of eliminations, prestige achievements, match victories or any other measurable in-game outcome. The service is informational and organizational. In-game performance depends on factors outside LEVEL's control, including individual skill, hardware, network connection and opponents.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">10</div><h2><span data-lang="pt">Propriedade intelectual</span><span data-lang="en">Intellectual property</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Todo o código, design, interface, marca, logotipo, codenomes de construções, ilustrações e textos próprios do LEVEL são propriedade exclusiva do Operador, protegidos por direito autoral e legislação de marca aplicável. É vedada qualquer reprodução, distribuição ou utilização comercial sem autorização prévia e por escrito.</p></div>
+          <div data-lang="en"><p>All code, design, interface, brand, logo, build codenames, illustrations and proprietary text of LEVEL are the exclusive property of the Operator, protected by copyright and applicable trademark law. Any reproduction, distribution or commercial use without prior written authorization is prohibited.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">11</div><h2><span data-lang="pt">Disponibilidade do serviço</span><span data-lang="en">Service availability</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>O LEVEL é oferecido <strong>"no estado em que se encontra"</strong> (<em>as-is</em>), podendo apresentar indisponibilidades pontuais para manutenção, atualizações ou por causas alheias ao Operador (falhas de fornecedores de infraestrutura, ataques cibernéticos, casos fortuitos). O Operador empenhar-se-á em manter a continuidade do serviço, sem garantir nível mínimo de disponibilidade neste estágio.</p></div>
+          <div data-lang="en"><p>LEVEL is offered <strong>"as-is"</strong> and may be subject to occasional unavailability for maintenance, updates or causes beyond the Operator's control (infrastructure provider failures, cyberattacks, force majeure). The Operator will endeavor to maintain service continuity but does not guarantee a minimum availability level at this stage.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">12</div><h2><span data-lang="pt">Suspensão e encerramento</span><span data-lang="en">Suspension and termination</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>O Operador pode suspender ou encerrar a sua conta, com ou sem notificação prévia, em caso de:</p><ul><li>Violação destes Termos.</li><li>Atividade fraudulenta, abusiva ou ilegal.</li><li>Risco de segurança à plataforma ou a outros utilizadores.</li><li>Exigência legal ou ordem de autoridade competente.</li></ul><p>Você pode encerrar a sua conta a qualquer momento por meio da opção <em>"Excluir conta"</em> nas Configurações da Conta.</p></div>
+          <div data-lang="en"><p>The Operator may suspend or terminate your account, with or without prior notice, in the event of:</p><ul><li>Violation of these Terms.</li><li>Fraudulent, abusive or illegal activity.</li><li>Security risk to the platform or other users.</li><li>Legal requirement or order from a competent authority.</li></ul><p>You may close your account at any time via the <em>"Delete account"</em> option in Account Settings.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">13</div><h2><span data-lang="pt">Limitação de responsabilidade</span><span data-lang="en">Limitation of liability</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Na máxima medida permitida pela lei aplicável, o Operador não responderá por danos indiretos, incidentais, especiais, consequenciais ou punitivos, incluindo perda de lucros, perda de dados, interrupção de serviço, lesões pessoais, danos morais ou quaisquer perdas decorrentes do uso ou da impossibilidade de uso do LEVEL. Esta limitação não exclui responsabilidades que, nos termos da lei aplicável, não possam ser limitadas (incluindo direitos do consumidor).</p></div>
+          <div data-lang="en"><p>To the maximum extent permitted by applicable law, the Operator shall not be liable for indirect, incidental, special, consequential or punitive damages, including loss of profits, data loss, service interruption, personal injury, moral damages or any losses arising from the use of or inability to use LEVEL. This limitation does not exclude liabilities that, under applicable law, cannot be limited (including consumer rights).</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">14</div><h2><span data-lang="pt">Alterações dos Termos</span><span data-lang="en">Changes to the Terms</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Estes Termos podem ser atualizados. Alterações materiais serão comunicadas com pelo menos <strong>30 dias de antecedência</strong> por e-mail e por banner no LEVEL. Se você não concordar com as alterações, pode encerrar a sua conta antes da data de vigência. O uso continuado após essa data implica aceitação da nova versão.</p></div>
+          <div data-lang="en"><p>These Terms may be updated. Material changes will be communicated at least <strong>30 days in advance</strong> by e-mail and via a banner on LEVEL. If you do not agree with the changes, you may close your account before the effective date. Continued use after that date constitutes acceptance of the new version.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">15</div><h2><span data-lang="pt">Lei aplicável e foro</span><span data-lang="en">Governing law and jurisdiction</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Estes Termos regem-se pelas leis de <strong>Portugal</strong>. Eventuais litígios são submetidos ao foro do <strong>Tribunal Judicial da Comarca de Leiria, Portugal</strong>, salvo regra de jurisdição imperativa diversa em favor do consumidor. Utilizadores residentes na União Europeia podem recorrer à plataforma <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">RLL (Resolução de Litígios em Linha)</a> da Comissão Europeia.</p></div>
+          <div data-lang="en"><p>These Terms are governed by the laws of <strong>Portugal</strong>. Disputes are submitted to the jurisdiction of the <strong>Judicial Court of Leiria, Portugal</strong>, except where mandatory consumer jurisdiction rules apply. Users residing in the European Union may resort to the European Commission's <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ODR (Online Dispute Resolution)</a> platform.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">16</div><h2><span data-lang="pt">Disposições gerais</span><span data-lang="en">General provisions</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Caso qualquer disposição destes Termos seja considerada inválida ou inexequível, as demais permanecerão em pleno vigor. A inação do Operador no exercício de qualquer direito não configura renúncia. Estes Termos constituem o acordo integral entre você e o Operador relativamente ao LEVEL, prevalecendo sobre quaisquer entendimentos anteriores.</p></div>
+          <div data-lang="en"><p>If any provision of these Terms is deemed invalid or unenforceable, the remaining provisions shall remain in full force. The Operator's failure to exercise any right shall not constitute a waiver. These Terms constitute the entire agreement between you and the Operator regarding LEVEL, superseding any prior understandings.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">17</div><h2><span data-lang="pt">Contato</span><span data-lang="en">Contact</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><div class="contact-card"><div><strong>Suporte</strong> <a href="mailto:contato@level.gg">contato@level.gg</a></div><div><strong>Privacidade</strong> <a href="mailto:privacidade@level.gg">privacidade@level.gg</a></div></div></div>
+          <div data-lang="en"><div class="contact-card"><div><strong>Support</strong> <a href="mailto:contato@level.gg">contato@level.gg</a></div><div><strong>Privacy</strong> <a href="mailto:privacidade@level.gg">privacidade@level.gg</a></div></div></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================
+         TAB 3: COOKIES
+         ============================================================ -->
+    <main class="tab-pane" data-pane="cookies" role="tabpanel">
+
+      <div class="meta">
+        <div><span data-lang="pt">Documento</span><span data-lang="en">Document</span>: <strong>POLICY-COOKIES-001</strong></div>
+        <div><span data-lang="pt">Versão</span><span data-lang="en">Version</span>: <strong>1.1</strong></div>
+        <div><span data-lang="pt">Vigência</span><span data-lang="en">Effective</span>: <strong>26/05/2026</strong></div>
+      </div>
+
+      <div class="notice info">
+        <strong data-lang="pt">Resumo rápido</strong>
+        <strong data-lang="en">Quick summary</strong>
+        <span data-lang="pt">O LEVEL utiliza apenas tecnologias estritamente necessárias para autenticação, segurança e preferências de interface. Na primeira visita exibe um banner de consentimento com opções <em>Aceitar tudo</em> / <em>Apenas essenciais</em>. <strong>Não utilizamos cookies de marketing, publicidade nem rastreamento de terceiros.</strong></span>
+        <span data-lang="en">LEVEL uses only strictly necessary technologies for authentication, security and interface preferences. On first visit, a consent banner is shown with <em>Accept all</em> / <em>Essential only</em> options. <strong>We do not use marketing, advertising or third-party tracking cookies.</strong></span>
+      </div>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">01</div><h2><span data-lang="pt">O que são cookies e armazenamento local</span><span data-lang="en">What cookies and local storage are</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p><strong>Cookies</strong> são pequenos arquivos que um site grava no seu navegador para reconhecê-lo em visitas futuras. <strong>localStorage</strong> e <strong>IndexedDB</strong> são tecnologias semelhantes, mas mais espaçosas, que armazenam dados diretamente no seu dispositivo, sem envio automático a cada requisição.</p></div>
+          <div data-lang="en"><p><strong>Cookies</strong> are small files a website stores in your browser to recognize you on future visits. <strong>localStorage</strong> and <strong>IndexedDB</strong> are similar but more capacious technologies that store data directly on your device, without being automatically sent on every request.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">02</div><h2><span data-lang="pt">O que o LEVEL utiliza</span><span data-lang="en">What LEVEL uses</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt">
+            <div class="group-title">Estritamente necessários (sem consentimento)</div>
+            <table class="data-table">
+              <thead><tr><th>Item</th><th>Finalidade</th><th>Duração</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Token de sessão (cookie)</strong></td><td>Manter o seu login ativo</td><td>Sessão</td></tr>
+                <tr><td><strong>Token CSRF (cookie)</strong></td><td>Prevenir ataques de falsificação de requisição</td><td>Sessão</td></tr>
+                <tr><td><strong>level_lang (localStorage)</strong></td><td>Lembrar idioma preferido</td><td>Persistente</td></tr>
+                <tr><td><strong>level_loadouts (localStorage)</strong></td><td>Cache local dos seus loadouts e configurações de interface</td><td>Persistente</td></tr>
+                <tr><td><strong>level_theme (localStorage)</strong></td><td>Lembrar preferência de tema</td><td>Persistente</td></tr>
+                <tr><td><strong>cf-auth (cookie/localStorage)</strong></td><td>Autenticação junto ao Subcontratante Cloudflare</td><td>Conforme política do provedor</td></tr>
+              </tbody>
+            </table>
+            <div class="group-title">Analytics e marketing</div>
+            <p><strong>Não utilizamos.</strong> Não há Google Analytics, Facebook Pixel, TikTok Pixel ou pixels de qualquer rede de publicidade. Caso passemos a utilizar análise de uso no futuro, solicitaremos o seu consentimento prévio por banner com opções granulares (aceitar tudo, recusar tudo, escolher categorias).</p>
+          </div>
+          <div data-lang="en">
+            <div class="group-title">Strictly necessary (no consent required)</div>
+            <table class="data-table">
+              <thead><tr><th>Item</th><th>Purpose</th><th>Duration</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Session token (cookie)</strong></td><td>Keep your login active</td><td>Session</td></tr>
+                <tr><td><strong>CSRF token (cookie)</strong></td><td>Prevent request forgery attacks</td><td>Session</td></tr>
+                <tr><td><strong>level_lang (localStorage)</strong></td><td>Remember preferred language</td><td>Persistent</td></tr>
+                <tr><td><strong>level_loadouts (localStorage)</strong></td><td>Local cache of your loadouts and UI settings</td><td>Persistent</td></tr>
+                <tr><td><strong>level_theme (localStorage)</strong></td><td>Remember theme preference</td><td>Persistent</td></tr>
+                <tr><td><strong>cf-auth (cookie/localStorage)</strong></td><td>Authentication with Cloudflare Processor</td><td>Per provider policy</td></tr>
+              </tbody>
+            </table>
+            <div class="group-title">Analytics and marketing</div>
+            <p><strong>We do not use any.</strong> No Google Analytics, Facebook Pixel, TikTok Pixel or pixels from any advertising network. Should we adopt usage analytics in the future, we will request your prior consent via a banner with granular options (accept all, reject all, choose categories).</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">03</div><h2><span data-lang="pt">Banner de consentimento</span><span data-lang="en">Consent banner</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Ao aceder ao LEVEL pela primeira vez, é exibido um banner de consentimento com duas opções: <strong>"Aceitar e continuar"</strong> (aceita todas as categorias de cookies, presentes e futuras) e <strong>"Apenas essenciais"</strong> (aceita apenas os cookies estritamente necessários). Atualmente o LEVEL utiliza apenas cookies estritamente necessários — o banner é mantido para garantir transparência e respeitar a sua escolha caso novas categorias venham a ser introduzidas. A sua escolha pode ser revista a qualquer momento, limpando os cookies do navegador, o que fará o banner reaparecer.</p></div>
+          <div data-lang="en"><p>When you first access LEVEL, a consent banner is displayed with two options: <strong>"Accept and continue"</strong> (accepts all cookie categories, present and future) and <strong>"Essential only"</strong> (accepts only strictly necessary cookies). LEVEL currently uses only strictly necessary cookies — the banner is maintained to ensure transparency and respect your choice should new categories be introduced. Your choice can be reviewed at any time by clearing browser cookies, which will cause the banner to reappear.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">04</div><h2><span data-lang="pt">Como gerir e apagar</span><span data-lang="en">How to manage and erase</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Você pode, a qualquer momento:</p><ul><li><strong>Apagar dados locais do LEVEL:</strong> opção <em>"Apagar dados locais"</em> nas Configurações da Conta.</li><li><strong>Limpar cookies pelo navegador:</strong> menu de configurações do navegador → privacidade → limpar dados de navegação.</li><li><strong>Bloquear cookies:</strong> configurar o navegador para recusar cookies de sites específicos.</li></ul><p style="font-size:12.5px;color:var(--text-muted);">Bloquear cookies estritamente necessários impedirá o login e a sincronização dos seus loadouts.</p></div>
+          <div data-lang="en"><p>You may at any time:</p><ul><li><strong>Erase LEVEL local data:</strong> <em>"Erase local data"</em> option in Account Settings.</li><li><strong>Clear cookies via browser:</strong> browser settings → privacy → clear browsing data.</li><li><strong>Block cookies:</strong> configure the browser to refuse cookies from specific sites.</li></ul><p style="font-size:12.5px;color:var(--text-muted);">Blocking strictly necessary cookies will prevent login and loadout synchronization.</p></div>
+        </div>
+      </section>
+
+      <section class="policy">
+        <div class="panel-header"><div class="panel-icon">05</div><h2><span data-lang="pt">Alterações desta política</span><span data-lang="en">Changes to this policy</span></h2></div>
+        <div class="panel-body">
+          <div data-lang="pt"><p>Caso o LEVEL passe a utilizar cookies de outras categorias (analítica, marketing, personalização), implementaremos previamente um banner de consentimento com opções granulares, conforme exigência do RGPD e da LGPD.</p></div>
+          <div data-lang="en"><p>If LEVEL begins using cookies in other categories (analytics, marketing, personalization), we will first implement a consent banner with granular options, as required by GDPR and LGPD.</p></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="doc-footer">
+      <div>LEVEL · <span data-lang="pt">Documentos Legais</span><span data-lang="en">Legal Documents</span> · <strong>v2.0</strong></div>
+      <div>
+        <span data-lang="pt">Vigentes a partir de 26/05/2026</span>
+        <span data-lang="en">Effective from 2026/05/26</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      // ===== LANGUAGE =====
+      const LANG_KEY = 'level_legal_lang';
+      const html = document.documentElement;
+      const langButtons = document.querySelectorAll('[data-set-lang]');
+
+      function setLang(lang) {
+        const target = (lang === 'en') ? 'en' : 'pt';
+        html.setAttribute('data-current-lang', target);
+        html.setAttribute('lang', target === 'en' ? 'en' : 'pt-BR');
+        langButtons.forEach(b => b.classList.toggle('active', b.dataset.setLang === target));
+        try { localStorage.setItem(LANG_KEY, target); } catch (e) {}
+      }
+
+      // Initial language: localStorage > URL ?lang= > hub lang > browser
+      let initialLang = 'pt';
+      try {
+        const stored = localStorage.getItem(LANG_KEY);
+        const hubLang = localStorage.getItem('bo7hub_lang_v1');
+        const urlLang = new URLSearchParams(location.search).get('lang');
+        if (stored === 'en' || stored === 'pt') initialLang = stored;
+        else if (urlLang === 'en' || urlLang === 'pt') initialLang = urlLang;
+        else if (hubLang === 'en' || hubLang === 'pt') initialLang = hubLang;
+        else if ((navigator.language || '').toLowerCase().startsWith('en')) initialLang = 'en';
+      } catch (e) {}
+      setLang(initialLang);
+      langButtons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang)));
+
+      // ===== TABS =====
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+
+      function setTab(name) {
+        const valid = ['privacy', 'terms', 'cookies'].includes(name) ? name : 'privacy';
+        tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === valid));
+        tabPanes.forEach(p => p.classList.toggle('active', p.dataset.pane === valid));
+        try { history.replaceState(null, '', '#' + valid); } catch (e) {}
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+
+      const initialTab = (location.hash || '').replace('#', '') || 'privacy';
+      setTab(initialTab);
+      tabButtons.forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+    })();
+  </script>
+</body>
+</html>
