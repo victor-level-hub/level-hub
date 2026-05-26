@@ -14552,11 +14552,11 @@
         <span data-i18n="footer.ipNotice">Call of Duty®, Black Ops® e ativos relacionados são marcas registradas de Activision Publishing, Inc.</span><br>
         <span data-i18n="footer.fanMade">Projeto fan-made · uso pessoal não-comercial</span> · <a href="https://www.activision.com/legal/copyright-policy" target="_blank" rel="noopener noreferrer" style="color:var(--accent-orange);text-decoration:none;border-bottom:1px dotted var(--accent-orange)" data-i18n="footer.copyrightLink">Política de Copyright →</a>
       </div>
-      <button class="privacy-pill" id="open-cookie-policy" type="button" data-i18n-attr="aria-label:footer.privacyAria">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.privacyPill">Privacidade & Cookies</span>
-      </button>
+      <a class="privacy-pill" id="open-cookie-policy" href="legal.html" target="_blank" rel="noopener" data-i18n-attr="aria-label:footer.legalAria">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
+      </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.0.0</strong><span class="ver-tag">SemVer · i18n EN completo · Loadout + Meus Loadouts</span>
+        LEVEL · <strong>v2.0.1</strong><span class="ver-tag">Docs legais externos · Privacidade · Termos · Cookies</span>
       </div>
       <script>
         (function(){
@@ -15805,8 +15805,8 @@ window.I18N = {
     'footer.ipNotice':        'Call of Duty®, Black Ops® e ativos relacionados são marcas registradas de Activision Publishing, Inc.',
     'footer.fanMade':         'Projeto fan-made · uso pessoal não-comercial',
     'footer.copyrightLink':   'Política de Copyright →',
-    'footer.privacyPill':     'Privacidade & Cookies',
-    'footer.privacyAria':     'Abrir política de privacidade e cookies',
+    'footer.legalLink':       'Privacidade · Termos · Cookies',
+    'footer.legalAria':       'Abrir documentos legais (privacidade, termos e cookies)',
 
     // — Cookie banner —
     'cookie.title':           'Privacidade & Armazenamento Local',
@@ -17079,8 +17079,8 @@ window.I18N = {
     'footer.ipNotice':        'Call of Duty®, Black Ops® and related assets are registered trademarks of Activision Publishing, Inc.',
     'footer.fanMade':         'Fan-made project · personal non-commercial use',
     'footer.copyrightLink':   'Copyright Policy →',
-    'footer.privacyPill':     'Privacy & Cookies',
-    'footer.privacyAria':     'Open privacy & cookies policy',
+    'footer.legalLink':       'Privacy · Terms · Cookies',
+    'footer.legalAria':       'Open legal documents (privacy, terms and cookies)',
 
     // — Cookie banner —
     'cookie.title':           'Privacy & Local Storage',
@@ -33130,7 +33130,7 @@ ${cbt('share.t.footer')}`;
   if (btnAccept) btnAccept.addEventListener('click', () => { writeConsent('all'); hideBanner(); });
   if (btnEssential) btnEssential.addEventListener('click', () => { writeConsent('essential'); hideBanner(); });
   if (btnOpenPolicy) btnOpenPolicy.addEventListener('click', (e) => { e.preventDefault(); openPolicyModal(); });
-  if (btnFooterPill) btnFooterPill.addEventListener('click', openPolicyModal);
+  // v2.0.1: footer pill agora é link <a> para legal.html (página externa). Listener removido.
   if (btnPolicyAcc) btnPolicyAcc.addEventListener('click', () => { writeConsent('all'); hideBanner(); closePolicyModal(); });
   if (btnPolicyRev) btnPolicyRev.addEventListener('click', () => {
     clearConsent();
