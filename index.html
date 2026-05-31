@@ -10037,16 +10037,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.2.0 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.2.1 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo sincroniza com o servidor automaticamente</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O catálogo de acessórios passa a se atualizar sozinho a partir da base central, em segundo plano, sem travar a abertura do Hub. O intervalo de atualização é controlado de forma centralizada.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Sincronização do catálogo agora reconhece as armas</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">A sincronização do catálogo com o servidor não estava a casar as armas, por uma diferença interna de identificadores. Agora casa: os acessórios vindos do servidor chegam às armas corretas.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Sync automático no arranque.</strong> O Hub abre na hora com o catálogo em cache e, se já passou do intervalo, busca a versão mais recente do servidor por trás.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Funciona offline.</strong> Se o servidor não responder, o Hub continua com o catálogo guardado — nada trava.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Intervalo centralizado.</strong> A frequência da atualização é definida na base central, não por dispositivo.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Ponte de identificadores.</strong> O servidor e o Hub usavam nomes internos diferentes para a mesma arma; uma tradução interna passa a ligá-los corretamente.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Sync agora propaga.</strong> Os acessórios do servidor finalmente chegam ao catálogo do Hub, o que antes falhava em silêncio.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Próximo passo.</strong> Os nomes exibidos ainda vêm da fonte antiga; a correção dos nomes pelo teu jogo é a etapa seguinte.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13329,6 +13329,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.2.1</span>
+                <span class="vh-date">31 Mai 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Ponte de identificadores entre Hub e Supabase: o Hub usa ids com prefixo (wpn_peacekeeper) e o banco usa ids curtos (peacekeeper). O merge do catálogo falhava em silêncio porque os ids não casavam. Adicionado WPN_ID_MAP (25 armas) que traduz no merge — o sync do catálogo finalmente propaga os acessórios do servidor. Ponte temporária, a aposentar na migração das tabelas hub_*.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.2.0</span>
                 <span class="vh-date">31 Mai 2026</span>
                 <span class="vh-kind">feature</span>
@@ -14734,7 +14743,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.2.0</strong><span class="ver-tag">Catálogo sincroniza com o servidor automaticamente</span>
+        LEVEL · <strong>v2.2.1</strong><span class="ver-tag">Sync do catálogo agora casa as armas (ponte de ids)</span>
       </div>
       <script>
         (function(){
@@ -15865,12 +15874,12 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '31 Mai 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Catálogo sincroniza com o servidor automaticamente',
-    'briefing.changelog.summary':  'O catálogo de acessórios passa a se atualizar sozinho a partir da base central, em segundo plano, sem travar a abertura do Hub. O intervalo de atualização é controlado de forma centralizada.',
-    'briefing.changelog.item1': '<strong>Sync automático no arranque.</strong> O Hub abre na hora com o catálogo em cache e, se já passou do intervalo, busca a versão mais recente do servidor por trás.',
-    'briefing.changelog.item2': '<strong>Funciona offline.</strong> Se o servidor não responder, o Hub continua com o catálogo guardado — nada trava.',
-    'briefing.changelog.item3': '<strong>Intervalo centralizado.</strong> A frequência da atualização é definida na base central, não por dispositivo.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Sincronização do catálogo agora reconhece as armas',
+    'briefing.changelog.summary':  'A sincronização do catálogo com o servidor não estava a casar as armas, por uma diferença interna de identificadores. Agora casa: os acessórios vindos do servidor chegam às armas corretas.',
+    'briefing.changelog.item1': '<strong>Ponte de identificadores.</strong> O servidor e o Hub usavam nomes internos diferentes para a mesma arma; uma tradução interna passa a ligá-los corretamente.',
+    'briefing.changelog.item2': '<strong>Sync agora propaga.</strong> Os acessórios do servidor finalmente chegam ao catálogo do Hub, o que antes falhava em silêncio.',
+    'briefing.changelog.item3': '<strong>Próximo passo.</strong> Os nomes exibidos ainda vêm da fonte antiga; a correção dos nomes pelo teu jogo é a etapa seguinte.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17142,12 +17151,12 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'May 31, 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Catalog syncs with the server automatically',
-    'briefing.changelog.summary':  'The attachment catalog now updates itself from the central database, in the background, without blocking the Hub from opening. The update interval is controlled centrally.',
-    'briefing.changelog.item1': '<strong>Automatic sync on startup.</strong> The Hub opens instantly with the cached catalog and, if the interval has passed, fetches the latest version from the server in the background.',
-    'briefing.changelog.item2': '<strong>Works offline.</strong> If the server does not respond, the Hub keeps the stored catalog — nothing breaks.',
-    'briefing.changelog.item3': '<strong>Centralized interval.</strong> The update frequency is set in the central database, not per device.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Catalog sync now recognizes the weapons',
+    'briefing.changelog.summary':  'The catalog sync with the server was not matching weapons, due to an internal identifier mismatch. Now it matches: attachments from the server reach the correct weapons.',
+    'briefing.changelog.item1': '<strong>Identifier bridge.</strong> The server and the Hub used different internal names for the same weapon; an internal translation now links them correctly.',
+    'briefing.changelog.item2': '<strong>Sync now propagates.</strong> Attachments from the server finally reach the Hub catalog, which previously failed silently.',
+    'briefing.changelog.item3': '<strong>Next step.</strong> Displayed names still come from the old source; fixing names from your game is the next stage.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -25398,6 +25407,28 @@ const ATTACHMENT_ICONS = {
       'apikey': SUPABASE_ANON_KEY,
     };
 
+    // ── PONTE TEMPORÁRIA DE IDS (31/Mai/26) ───────────────────────────
+    // O Supabase usa ids curtos (peacekeeper) e o Hub usa wpn_* (wpn_peacekeeper).
+    // Este mapa traduz Supabase → Hub no merge do catálogo.
+    // APOSENTAR quando as tabelas hub_* migrarem pro Supabase e os ids forem
+    // alinhados de vez (Opção B). Até lá, é a ponte que faz o sync casar.
+    const WPN_ID_MAP = {
+      ak: 'wpn_ak27', carbon: 'wpn_carbon57', dravec: 'wpn_dravec45',
+      ds20: 'wpn_ds20', egrt: 'wpn_egrt17', hawker_hx: 'wpn_hawkerhx',
+      kogot: 'wpn_kogot7', m15: 'wpn_m15', maddox: 'wpn_maddoxrfb',
+      mk35: 'wpn_mk35isr', mpc: 'wpn_mpc25', mxr: 'wpn_mxr17',
+      peacekeeper: 'wpn_peacekeeper', razor_max: 'wpn_razor9mm', rev_46: 'wpn_rev46',
+      rk_9: 'wpn_rk9', ryden: 'wpn_ryden45k', shadow: 'wpn_shadowsk',
+      strider: 'wpn_strider300', sturmwolf_45: 'wpn_sturmwolf45', voyak: 'wpn_voyakkt3',
+      vs_recon: 'wpn_vsrecon', vst: 'wpn_vst', x9: 'wpn_x9maverick', xr_3: 'wpn_xr3ion',
+    };
+    // Traduz id do banco → id do Hub. Se já vier com prefixo wpn_, passa direto.
+    function mapWeaponId(dbId) {
+      if (!dbId) return dbId;
+      if (WEAPON_UNLOCKS && WEAPON_UNLOCKS[dbId]) return dbId; // já é id do Hub
+      return WPN_ID_MAP[dbId] || dbId;
+    }
+
     // Busca tudo de cat_attachments paginando (range header)
     async function fetchAllAttachments() {
       const all = [];
@@ -25468,7 +25499,7 @@ const ATTACHMENT_ICONS = {
       if (typeof WEAPON_UNLOCKS === 'undefined') return { added: 0, updated: 0 };
       let added = 0, updated = 0;
       rows.forEach(function (row) {
-        const wid = row.weapon_id;
+        const wid = mapWeaponId(row.weapon_id);
         if (!wid || !WEAPON_UNLOCKS[wid]) return;
         const cats = WEAPON_UNLOCKS[wid].attachments = WEAPON_UNLOCKS[wid].attachments || {};
         const slot = row.slot || (row.meta && row.meta.slot) || 'Other';
