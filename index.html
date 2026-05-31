@@ -7388,6 +7388,18 @@
     color: var(--accent-orange);
   }
   .opp-source-kind.is-capture { background: rgba(46, 204, 113, 0.14); color: #2ecc71; }
+  .opp-source-cov {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 4px;
+  }
+  .opp-source-cov.is-full  { background: rgba(46, 204, 113, 0.12); color: #2ecc71; }
+  .opp-source-cov.is-build { background: rgba(180, 180, 180, 0.12); color: var(--text-muted); }
+  .opp-source-score-num.is-na { color: var(--text-muted); }
   .opp-source-meta {
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
@@ -10116,16 +10128,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.3.1 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.4.0 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura tolera nome cortado e pede foto melhor</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Nomes longos de acessórios correm na tela e às vezes são lidos cortados. Agora o Hub reconhece um nome cortado como o mesmo acessório, em vez de tratar como divergência. E quando a leitura está difícil, pede outra foto melhor.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo de acessórios reconstruído do zero</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O catálogo de acessórios no Supabase foi reconstruído inteiro: 1333 itens em 25/25 armas, sem buracos. A Peacekeeper, que vinha sem nenhum acessório do servidor, agora traz os 69 dela. O sync do catálogo passa a puxar essa base nova no boot.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Texto cortado reconhecido.</strong> Se o que foi lido é o começo de um nome conhecido, conta como o mesmo acessório — o corte não vira falsa divergência.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Pede foto melhor.</strong> Quando vários acessórios não batem com nenhuma fonte, o Hub avisa e pede outra imagem mais nítida, esperando os nomes longos terminarem de correr.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Sem falso match.</strong> A tolerância exige um trecho mínimo, para dois acessórios que só começam igual não serem confundidos.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>1333 acessórios verificados.</strong> Base refeita a partir de Game8 (lançamento) e CODMunity (Seasons 1-3), com prestige de todas as 25 armas conferido.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Peacekeeper resolvida.</strong> O descasamento de ids entre Hub e banco que deixava a Peacekeeper com 0 acessórios foi fechado — o sync agora casa as 25 armas.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Cada item sabe de onde veio.</strong> Toda linha carrega a fonte (Game8/CODMunity) e a data, base para o desempate por acurácia quando a captura diverge.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13408,6 +13420,24 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.4.0</span>
+                <span class="vh-date">31 Mai 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Catálogo de acessórios reconstruído do zero no Supabase: cat_attachments saiu de 1103 linhas (só CODMunity antigo) para 1333 verificadas, cobrindo 25/25 armas e 30 prestiges sem buracos. Fontes: Game8 (8 armas do lançamento nov/2025) + CODMunity (17 armas, Seasons 1-3), com fonte e data por linha. Troca atômica em produção (delete do antigo + insert da base nova numa migration transacional — Hub nunca ficou vazio). O CatalogSync já casava ids curtos do banco (peacekeeper) com os ids do Hub (wpn_peacekeeper) pela ponte WPN_ID_MAP; com a base nova alinhada, a Peacekeeper deixou de vir com 0 acessórios e agora traz os 69. Próximo passo registrado: fazer o merge substituir por arma (não só somar) para aposentar resíduos do catálogo hardcoded antigo.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.3.2</span>
+                <span class="vh-date">31 Mai 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Área ADMIN · Fontes de dados agora mostra a etiqueta de cobertura (catálogo completo vs build recomendada) e a contagem de verificações de cada fonte. Fontes de build mostram "—" em vez de 0% de acurácia, já que não são medidas por item. Explica visualmente o placar de scores.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.3.1</span>
                 <span class="vh-date">31 Mai 2026</span>
                 <span class="vh-kind">fix</span>
@@ -14863,7 +14893,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.3.1</strong><span class="ver-tag">Captura tolera texto cortado e pede foto melhor</span>
+        LEVEL · <strong>v2.4.0</strong><span class="ver-tag">Catálogo de acessórios reconstruído (1333 itens) no Supabase</span>
       </div>
       <script>
         (function(){
@@ -15995,11 +16025,11 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '31 Mai 2026',
     'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Captura tolera nome cortado e pede foto melhor',
-    'briefing.changelog.summary':  'Nomes longos de acessórios correm na tela e às vezes são lidos cortados. Agora o Hub reconhece um nome cortado como o mesmo acessório, em vez de tratar como divergência. E quando a leitura está difícil, pede outra foto melhor.',
-    'briefing.changelog.item1': '<strong>Texto cortado reconhecido.</strong> Se o que foi lido é o começo de um nome conhecido, conta como o mesmo acessório — o corte não vira falsa divergência.',
-    'briefing.changelog.item2': '<strong>Pede foto melhor.</strong> Quando vários acessórios não batem com nenhuma fonte, o Hub avisa e pede outra imagem mais nítida, esperando os nomes longos terminarem de correr.',
-    'briefing.changelog.item3': '<strong>Sem falso match.</strong> A tolerância exige um trecho mínimo, para dois acessórios que só começam igual não serem confundidos.',
+    'briefing.changelog.headline': 'Fontes de dados mostram o tipo de cobertura',
+    'briefing.changelog.summary':  'A área de fontes (admin) agora distingue fontes de catálogo completo das de build recomendada, e mostra quantas verificações cada uma teve — explicando por que algumas têm acurácia medida e outras não.',
+    'briefing.changelog.item1': '<strong>Etiqueta de cobertura.</strong> Cada fonte aparece como <em>catálogo</em> (mensurável por completude) ou <em>build</em> (apenas sugere, não se mede por item).',
+    'briefing.changelog.item2': '<strong>Contagem de verificações.</strong> O número de comparações feitas com cada fonte fica visível, dando contexto ao score de acurácia.',
+    'briefing.changelog.item3': '<strong>Score só onde faz sentido.</strong> Fontes de build mostram um traço em vez de 0%, para não parecerem ruins por algo que não fazem.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17278,11 +17308,11 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'May 31, 2026',
     'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Capture tolerates cut-off names and asks for a better photo',
-    'briefing.changelog.summary':  'Long attachment names scroll on screen and are sometimes read cut off. The Hub now recognizes a cut-off name as the same attachment, instead of treating it as a mismatch. And when reading is hard, it asks for a better photo.',
-    'briefing.changelog.item1': '<strong>Cut-off text recognized.</strong> If what was read is the start of a known name, it counts as the same attachment — the cut no longer becomes a false mismatch.',
-    'briefing.changelog.item2': '<strong>Asks for a better photo.</strong> When several attachments do not match any source, the Hub warns and asks for a sharper image, waiting for long names to finish scrolling.',
-    'briefing.changelog.item3': '<strong>No false match.</strong> The tolerance requires a minimum fragment, so two attachments that only start the same are not confused.',
+    'briefing.changelog.headline': 'Data sources show their coverage type',
+    'briefing.changelog.summary':  'The sources area (admin) now distinguishes full-catalog sources from recommended-build ones, and shows how many checks each had — explaining why some have measured accuracy and others do not.',
+    'briefing.changelog.item1': '<strong>Coverage label.</strong> Each source shows as <em>catalog</em> (measurable by completeness) or <em>build</em> (only suggests, not measured per item).',
+    'briefing.changelog.item2': '<strong>Check count.</strong> The number of comparisons made with each source is visible, giving context to the accuracy score.',
+    'briefing.changelog.item3': '<strong>Score only where it fits.</strong> Build sources show a dash instead of 0%, so they do not look bad for something they do not do.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -25813,21 +25843,32 @@ const ATTACHMENT_ICONS = {
       }
       const html = sources.map(function (s) {
         const score = Number(s.accuracy_score || 0);
+        const isFull = (s.coverage_type || 'full_catalog') === 'full_catalog';
         const scoreCls = score >= 90 ? 'is-high' : (score <= 0 ? 'is-zero' : '');
         const kindCls = s.kind === 'capture' ? ' is-capture' : '';
         const verified = s.last_verified ? ('verificada ' + fmtSourceDate(s.last_verified)) : 'nunca verificada';
         const updated = s.source_updated ? ('fonte atualizada ' + fmtSourceDate(s.source_updated)) : 'sem data da fonte';
+        const checks = Number(s.checks_total || 0);
+        // Etiqueta de cobertura: catálogo completo (mensurável) vs build (não medida por item)
+        const covLabel = isFull ? 'catálogo' : 'build';
+        const covCls = isFull ? ' is-full' : ' is-build';
+        // Fontes de build não recebem score por item — mostra N/D em vez de 0%
+        const scoreHtml = isFull
+          ? '<div class="opp-source-score-num ' + scoreCls + '">' + score.toFixed(0) + '<span style="font-size:10px">%</span></div>' +
+            '<div class="opp-source-score-label">' + (checks > 0 ? checks + ' verif.' : 'sem dados') + '</div>'
+          : '<div class="opp-source-score-num is-na">—</div>' +
+            '<div class="opp-source-score-label">build</div>';
         return '' +
           '<div class="opp-source-card">' +
             '<div class="opp-source-main">' +
               '<div class="opp-source-name">' + esc(s.name || s.id) +
                 '<span class="opp-source-kind' + kindCls + '">' + esc(s.kind || 'site') + '</span>' +
+                '<span class="opp-source-cov' + covCls + '">' + covLabel + '</span>' +
               '</div>' +
               '<div class="opp-source-meta">' + updated + ' · ' + verified + '</div>' +
             '</div>' +
             '<div class="opp-source-score">' +
-              '<div class="opp-source-score-num ' + scoreCls + '">' + score.toFixed(0) + '<span style="font-size:10px">%</span></div>' +
-              '<div class="opp-source-score-label">acurácia</div>' +
+              scoreHtml +
             '</div>' +
           '</div>';
       }).join('');
