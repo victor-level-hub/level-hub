@@ -4455,6 +4455,19 @@
     color: var(--text-muted);
     text-decoration: line-through;
   }
+  /* v2.1.2: lido pela câmera mas não no catálogo (catálogo desatualizado).
+     NÃO riscado — é um attachment válido que vai pro construtor como texto livre. */
+  .ca-attach-match.is-fromcam {
+    color: var(--accent-cyan, #00b8d4);
+    font-style: italic;
+  }
+  .ca-attach-match.is-fromcam::after {
+    content: ' • lido da câmera';
+    font-size: 9px;
+    opacity: 0.6;
+    font-style: normal;
+    letter-spacing: 0.5px;
+  }
   /* v75-95: slot vazio mostrado mas em cinza claro, sem strike */
   .ca-attach-row.is-empty .ca-attach-slot {
     opacity: 0.55;
@@ -10024,16 +10037,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.1.1 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.1.2 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura de arma via celular funcionando</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Esta versão (v2.1.1) corrige o <strong>QR code de importação de arma</strong>, que apontava para o domínio errado. O QR agora abre a página de captura correta e o fluxo celular → IA → Hub volta a funcionar de ponta a ponta.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura importa mesmo com catálogo desatualizado</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Quando a arma é reconhecida mas os acessórios não estão no catálogo (porque o jogo recebeu patch), a importação não trava mais. Os acessórios entram no construtor com o nome lido pela câmera.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>QR corrigido.</strong> O código apontava para o domínio da página de avatar; agora aponta para a página de captura de arma correta, com o parâmetro certo.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Fluxo end-to-end validado.</strong> Página de captura, tabela e bucket confirmados no mesmo backend do Hub — o token gerado no PC é reconhecido no celular.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Histórico de Versões.</strong> Adicionado na v2.1.0: link abaixo deste bloco abre a relação completa de versões.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Importa sempre que a arma é reconhecida.</strong> Acessórios fora do catálogo deixam de bloquear o botão e de pedir "refazer o print".</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Nome lido pela câmera.</strong> Acessórios não catalogados entram no construtor com o nome que a câmera leu, marcados de forma discreta.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Catálogo migrando para o servidor.</strong> Primeiros passos da migração do catálogo para a base central, para manter os nomes sempre atualizados.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13316,6 +13329,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.1.2</span>
+                <span class="vh-date">31 Mai 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Captura importa mesmo quando os acessórios não estão no catálogo (catálogo desatualizado por patch do jogo): a arma reconhecida sempre abre no construtor, e os acessórios entram com o nome lido pela câmera. Início da migração do catálogo para o Supabase (campos novos em cat_weapons e cat_attachments, tabela admin_config).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.1.1</span>
                 <span class="vh-date">31 Mai 2026</span>
                 <span class="vh-kind">fix</span>
@@ -14703,7 +14725,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.1.1</strong><span class="ver-tag">QR de captura de arma corrigido (domínio)</span>
+        LEVEL · <strong>v2.1.2</strong><span class="ver-tag">Captura importa mesmo com catálogo desatualizado</span>
       </div>
       <script>
         (function(){
@@ -15835,11 +15857,11 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '31 Mai 2026',
     'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Captura de arma via celular funcionando',
-    'briefing.changelog.summary':  'Esta versão (v2.1.1) corrige o <strong>QR code de importação de arma</strong>, que apontava para o domínio errado. O QR agora abre a página de captura correta e o fluxo celular → IA → Hub volta a funcionar de ponta a ponta.',
-    'briefing.changelog.item1': '<strong>QR corrigido.</strong> O código apontava para o domínio da página de avatar; agora aponta para a página de captura de arma correta, com o parâmetro certo.',
-    'briefing.changelog.item2': '<strong>Fluxo end-to-end validado.</strong> Página de captura, tabela e bucket confirmados no mesmo backend do Hub — o token gerado no PC é reconhecido no celular.',
-    'briefing.changelog.item3': '<strong>Histórico de Versões.</strong> Adicionado na v2.1.0: link abaixo deste bloco abre a relação completa de versões.',
+    'briefing.changelog.headline': 'Captura importa mesmo com catálogo desatualizado',
+    'briefing.changelog.summary':  'Quando a arma é reconhecida mas os acessórios não estão no catálogo (porque o jogo recebeu patch), a importação não trava mais. Os acessórios entram no construtor com o nome lido pela câmera.',
+    'briefing.changelog.item1': '<strong>Importa sempre que a arma é reconhecida.</strong> Acessórios fora do catálogo deixam de bloquear o botão e de pedir "refazer o print".',
+    'briefing.changelog.item2': '<strong>Nome lido pela câmera.</strong> Acessórios não catalogados entram no construtor com o nome que a câmera leu, marcados de forma discreta.',
+    'briefing.changelog.item3': '<strong>Catálogo migrando para o servidor.</strong> Primeiros passos da migração do catálogo para a base central, para manter os nomes sempre atualizados.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17112,11 +17134,11 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'May 31, 2026',
     'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Mobile weapon capture working',
-    'briefing.changelog.summary':  'This release (v2.1.1) fixes the <strong>weapon-import QR code</strong>, which pointed to the wrong domain. The QR now opens the correct capture page and the phone → AI → Hub flow works end to end again.',
-    'briefing.changelog.item1': '<strong>QR fixed.</strong> The code pointed to the avatar page domain; it now points to the correct weapon capture page, with the right parameter.',
-    'briefing.changelog.item2': '<strong>End-to-end flow validated.</strong> Capture page, table and bucket confirmed on the same backend as the Hub — the token generated on the PC is recognized on the phone.',
-    'briefing.changelog.item3': '<strong>Version History.</strong> Added in v2.1.0: the link below this block opens the full list of versions.',
+    'briefing.changelog.headline': 'Capture imports even with an outdated catalog',
+    'briefing.changelog.summary':  'When the weapon is recognized but the attachments are not in the catalog (because the game got patched), importing no longer blocks. Attachments enter the builder with the name read by the camera.',
+    'briefing.changelog.item1': '<strong>Imports whenever the weapon is recognized.</strong> Attachments outside the catalog no longer block the button or ask to "retake the shot".',
+    'briefing.changelog.item2': '<strong>Name read by the camera.</strong> Uncatalogued attachments enter the builder with the name the camera read, marked subtly.',
+    'briefing.changelog.item3': '<strong>Catalog moving to the server.</strong> First steps of migrating the catalog to the central database, to keep names always up to date.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -34639,6 +34661,12 @@ ${cbt('share.t.footer')}`;
           matchedAttachments.push({ slot: m.attachment.slot, name: m.attachment.name });
         }
       }
+      // Sem match no catálogo (ex: catálogo desatualizado): usa o nome lido pela Vision.
+      // O attachment ainda vai pro construtor — só marcamos visualmente como "lido da câmera".
+      if (!matchedName && detected.name) {
+        cls = 'is-fromcam';
+        matchedAttachments.push({ slot: slotName, name: detected.name });
+      }
       const display = matchedName || detected.name || '(?)';
       attachHtml += `
         <div class="ca-attach-row">
@@ -34649,13 +34677,14 @@ ${cbt('share.t.footer')}`;
     });
     attachHtml += '</div>';
 
-    // Ações
+    // Ações — importa sempre que a ARMA casa. Attachments sem match vão com o nome lido pela Vision.
     const canImport = matchedWeapon && weaponScore >= 0.3;
+    const importIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;vertical-align:-2px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
     const actionsHtml = `
       <div class="ca-actions">
         ${canImport
-          ? `<button class="ca-btn" data-ca-action="import" data-idx="${idx}">📥 Abrir no Construtor</button>`
-          : `<div class="ca-unmatched-warn">⚠ Não consegui mapear pro catálogo. Tenta refazer o print com mais contexto.</div>`
+          ? `<button class="ca-btn" data-ca-action="import" data-idx="${idx}">${importIcon}Abrir no Construtor</button>`
+          : `<div class="ca-unmatched-warn">Não reconheci a arma neste print. Tenta um print que mostre o nome da arma no topo do Gunsmith.</div>`
         }
       </div>
     `;
