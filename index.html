@@ -4514,6 +4514,20 @@
     font-style: italic;
     margin-top: 6px;
   }
+  .ca-quality-warn {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: rgba(0, 184, 212, 0.07);
+    border: 1px solid rgba(0, 184, 212, 0.35);
+    color: var(--accent-cyan, #00b8d4);
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+  .ca-quality-warn svg { color: var(--accent-cyan, #00b8d4); }
 
   /* ─────────────────────────────────────────────────────────────────────
      IMPORT VIA SCREENSHOT — Passo C (drop zone, preview, A/B/C states)
@@ -10102,16 +10116,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.3.0 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.3.1 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo de fontes de dados com score de acurácia</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Primeira peça do sistema que mantém os nomes dos acessórios sempre corretos: um registo das fontes de dados, cada uma com a sua acurácia medida e data de verificação. Numa divergência, a fonte mais confiável vence.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura tolera nome cortado e pede foto melhor</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Nomes longos de acessórios correm na tela e às vezes são lidos cortados. Agora o Hub reconhece um nome cortado como o mesmo acessório, em vez de tratar como divergência. E quando a leitura está difícil, pede outra foto melhor.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Fontes com score.</strong> Cada fonte de dados tem uma acurácia de 0 a 100; a captura do próprio jogo é a referência máxima.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Área de admin.</strong> Em Configurações, uma secção lista as fontes, os seus scores e quando foram verificadas pela última vez.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Fundação do próximo passo.</strong> É a base para a captura corrigir os nomes com segurança, sem uma leitura errada contaminar o catálogo.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Texto cortado reconhecido.</strong> Se o que foi lido é o começo de um nome conhecido, conta como o mesmo acessório — o corte não vira falsa divergência.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Pede foto melhor.</strong> Quando vários acessórios não batem com nenhuma fonte, o Hub avisa e pede outra imagem mais nítida, esperando os nomes longos terminarem de correr.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Sem falso match.</strong> A tolerância exige um trecho mínimo, para dois acessórios que só começam igual não serem confundidos.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13394,6 +13408,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.3.1</span>
+                <span class="vh-date">31 Mai 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Matching da captura tolera texto cortado: nomes longos de acessórios que correm na tela (marquee) e são lidos parcialmente passam a casar por prefixo/conteúdo (piso 0.85-0.9) em vez de virar falsa divergência — com trecho mínimo (5-6 chars) pra evitar falso match entre acessórios que só começam igual. Novo aviso de baixa qualidade: quando a arma casa mas metade ou mais dos acessórios não bate com nenhuma fonte, o card pede outra foto mais nítida (sem bloquear a importação).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.3.0</span>
                 <span class="vh-date">31 Mai 2026</span>
                 <span class="vh-kind">feature</span>
@@ -14840,7 +14863,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.3.0</strong><span class="ver-tag">Catálogo de fontes de dados com score de acurácia</span>
+        LEVEL · <strong>v2.3.1</strong><span class="ver-tag">Captura tolera texto cortado e pede foto melhor</span>
       </div>
       <script>
         (function(){
@@ -15971,12 +15994,12 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '31 Mai 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Catálogo de fontes de dados com score de acurácia',
-    'briefing.changelog.summary':  'Primeira peça do sistema que mantém os nomes dos acessórios sempre corretos: um registo das fontes de dados, cada uma com a sua acurácia medida e data de verificação. Numa divergência, a fonte mais confiável vence.',
-    'briefing.changelog.item1': '<strong>Fontes com score.</strong> Cada fonte de dados tem uma acurácia de 0 a 100; a captura do próprio jogo é a referência máxima.',
-    'briefing.changelog.item2': '<strong>Área de admin.</strong> Em Configurações, uma secção lista as fontes, os seus scores e quando foram verificadas pela última vez.',
-    'briefing.changelog.item3': '<strong>Fundação do próximo passo.</strong> É a base para a captura corrigir os nomes com segurança, sem uma leitura errada contaminar o catálogo.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Captura tolera nome cortado e pede foto melhor',
+    'briefing.changelog.summary':  'Nomes longos de acessórios correm na tela e às vezes são lidos cortados. Agora o Hub reconhece um nome cortado como o mesmo acessório, em vez de tratar como divergência. E quando a leitura está difícil, pede outra foto melhor.',
+    'briefing.changelog.item1': '<strong>Texto cortado reconhecido.</strong> Se o que foi lido é o começo de um nome conhecido, conta como o mesmo acessório — o corte não vira falsa divergência.',
+    'briefing.changelog.item2': '<strong>Pede foto melhor.</strong> Quando vários acessórios não batem com nenhuma fonte, o Hub avisa e pede outra imagem mais nítida, esperando os nomes longos terminarem de correr.',
+    'briefing.changelog.item3': '<strong>Sem falso match.</strong> A tolerância exige um trecho mínimo, para dois acessórios que só começam igual não serem confundidos.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17254,12 +17277,12 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'May 31, 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Data source catalog with accuracy score',
-    'briefing.changelog.summary':  'First piece of the system that keeps attachment names always correct: a registry of data sources, each with its measured accuracy and verification date. On a conflict, the most reliable source wins.',
-    'briefing.changelog.item1': '<strong>Sources with score.</strong> Each data source has an accuracy from 0 to 100; the game capture itself is the top reference.',
-    'briefing.changelog.item2': '<strong>Admin area.</strong> In Settings, a section lists the sources, their scores and when they were last verified.',
-    'briefing.changelog.item3': '<strong>Foundation for the next step.</strong> It is the base for capture to fix names safely, without one bad read contaminating the catalog.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Capture tolerates cut-off names and asks for a better photo',
+    'briefing.changelog.summary':  'Long attachment names scroll on screen and are sometimes read cut off. The Hub now recognizes a cut-off name as the same attachment, instead of treating it as a mismatch. And when reading is hard, it asks for a better photo.',
+    'briefing.changelog.item1': '<strong>Cut-off text recognized.</strong> If what was read is the start of a known name, it counts as the same attachment — the cut no longer becomes a false mismatch.',
+    'briefing.changelog.item2': '<strong>Asks for a better photo.</strong> When several attachments do not match any source, the Hub warns and asks for a sharper image, waiting for long names to finish scrolling.',
+    'briefing.changelog.item3': '<strong>No false match.</strong> The tolerance requires a minimum fragment, so two attachments that only start the same are not confused.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -34509,6 +34532,25 @@ ${cbt('share.t.footer')}`;
     if (!na || !nb) return 0;
     if (na === nb) return 1.0;
 
+    // ── Tolerância a texto CORTADO (marquee) ──────────────────────
+    // Nomes longos "correm" na tela e a Vision às vezes lê só um pedaço
+    // (ex: "redwell shade x supp" de "redwell shade x suppressor").
+    // Se o lido é prefixo do real (ou vice-versa), é o MESMO item cortado,
+    // não uma discrepância. Exige um trecho mínimo pra evitar falso-positivo.
+    const shorter = na.length <= nb.length ? na : nb;
+    const longer  = na.length <= nb.length ? nb : na;
+    if (shorter.length >= 5 && longer.startsWith(shorter)) {
+      // Quanto mais do nome real o trecho cobre, mais perto de 1.0.
+      const coverage = shorter.length / longer.length;
+      // Piso alto: mesmo um prefixo curto legítimo vale como match forte.
+      return Math.max(0.9, coverage);
+    }
+    // Trecho central contido (corte nas duas pontas, ex: "...shade x supp...")
+    if (shorter.length >= 6 && longer.includes(shorter)) {
+      const coverage = shorter.length / longer.length;
+      return Math.max(0.85, coverage);
+    }
+
     // Componente 1: tokens compartilhados (Jaccard com fuzzy)
     const ta = na.split(' ').filter(t => t.length > 1);
     const tb = nb.split(' ').filter(t => t.length > 1);
@@ -34896,6 +34938,8 @@ ${cbt('share.t.footer')}`;
 
     const detectedAttachments = visionWeapon.attachments || [];
     const matchedAttachments = []; // { slot, name } — pra pré-popular o construtor
+    let fromcamCount = 0;   // attachments lidos mas SEM match no catálogo
+    let detectedCount = 0;  // total de attachments que a Vision detectou
 
     // Indexa o que a Vision detectou por slot (normalizado pra match tolerante)
     function normSlot(s) {
@@ -34923,6 +34967,7 @@ ${cbt('share.t.footer')}`;
       }
 
       // Slot com detecção: tenta match no catálogo
+      detectedCount++;
       let matchedName = '';
       let cls = 'is-unmatched';
       if (matchedWeapon) {
@@ -34937,6 +34982,7 @@ ${cbt('share.t.footer')}`;
       // O attachment ainda vai pro construtor — só marcamos visualmente como "lido da câmera".
       if (!matchedName && detected.name) {
         cls = 'is-fromcam';
+        fromcamCount++;
         matchedAttachments.push({ slot: slotName, name: detected.name });
       }
       const display = matchedName || detected.name || '(?)';
@@ -34948,6 +34994,20 @@ ${cbt('share.t.footer')}`;
       `;
     });
     attachHtml += '</div>';
+
+    // Aviso de baixa qualidade de leitura: a ARMA casou, mas vários acessórios
+    // não bateram com nenhuma fonte. Provável leitura ruim (foto tremida, corte,
+    // brilho) — pedimos mais imagens de melhor qualidade em vez de gravar lixo.
+    // Dispara quando metade ou mais dos acessórios detectados ficou sem match,
+    // e havia pelo menos 2 acessórios pra avaliar.
+    let qualityWarnHtml = '';
+    if (matchedWeapon && detectedCount >= 2 && fromcamCount >= Math.ceil(detectedCount / 2)) {
+      const warnIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;margin-top:1px"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+      const warnMsg = lang === 'en'
+        ? 'I had trouble reading the attachments (' + fromcamCount + ' of ' + detectedCount + ' did not match any known name). Try sending another photo — sharper, well-lit, and waiting for long names to finish scrolling. More than one angle helps.'
+        : 'Tive dificuldade em ler os acessórios (' + fromcamCount + ' de ' + detectedCount + ' não bateram com nenhum nome conhecido). Tenta enviar outra foto — mais nítida, bem iluminada, e esperando os nomes longos terminarem de correr na tela. Mais de um ângulo ajuda.';
+      qualityWarnHtml = '<div class="ca-quality-warn">' + warnIcon + '<span>' + warnMsg + '</span></div>';
+    }
 
     // Ações — importa sempre que a ARMA casa. Attachments sem match vão com o nome lido pela Vision.
     const canImport = matchedWeapon && weaponScore >= 0.3;
@@ -34961,7 +35021,7 @@ ${cbt('share.t.footer')}`;
       </div>
     `;
 
-    card.innerHTML = headerHtml + attachHtml + actionsHtml;
+    card.innerHTML = headerHtml + attachHtml + qualityWarnHtml + actionsHtml;
     // Guarda dados pra usar quando clicar
     card._approvalData = {
       matchedWeapon,
