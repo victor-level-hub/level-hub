@@ -10037,16 +10037,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.1.2 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.2.0 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura importa mesmo com catálogo desatualizado</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Quando a arma é reconhecida mas os acessórios não estão no catálogo (porque o jogo recebeu patch), a importação não trava mais. Os acessórios entram no construtor com o nome lido pela câmera.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo sincroniza com o servidor automaticamente</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O catálogo de acessórios passa a se atualizar sozinho a partir da base central, em segundo plano, sem travar a abertura do Hub. O intervalo de atualização é controlado de forma centralizada.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Importa sempre que a arma é reconhecida.</strong> Acessórios fora do catálogo deixam de bloquear o botão e de pedir "refazer o print".</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Nome lido pela câmera.</strong> Acessórios não catalogados entram no construtor com o nome que a câmera leu, marcados de forma discreta.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Catálogo migrando para o servidor.</strong> Primeiros passos da migração do catálogo para a base central, para manter os nomes sempre atualizados.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Sync automático no arranque.</strong> O Hub abre na hora com o catálogo em cache e, se já passou do intervalo, busca a versão mais recente do servidor por trás.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Funciona offline.</strong> Se o servidor não responder, o Hub continua com o catálogo guardado — nada trava.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Intervalo centralizado.</strong> A frequência da atualização é definida na base central, não por dispositivo.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13329,6 +13329,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.2.0</span>
+                <span class="vh-date">31 Mai 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Catálogo de acessórios sincroniza automaticamente com o Supabase no arranque: aplica o cache local na hora e, se passou do intervalo (definido em admin_config, padrão 7 dias), repuxa do servidor em segundo plano. Offline-safe — cai no catálogo guardado se o servidor não responder.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.1.2</span>
                 <span class="vh-date">31 Mai 2026</span>
                 <span class="vh-kind">fix</span>
@@ -14725,7 +14734,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.1.2</strong><span class="ver-tag">Captura importa mesmo com catálogo desatualizado</span>
+        LEVEL · <strong>v2.2.0</strong><span class="ver-tag">Catálogo sincroniza com o servidor automaticamente</span>
       </div>
       <script>
         (function(){
@@ -15856,12 +15865,12 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '31 Mai 2026',
-    'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Captura importa mesmo com catálogo desatualizado',
-    'briefing.changelog.summary':  'Quando a arma é reconhecida mas os acessórios não estão no catálogo (porque o jogo recebeu patch), a importação não trava mais. Os acessórios entram no construtor com o nome lido pela câmera.',
-    'briefing.changelog.item1': '<strong>Importa sempre que a arma é reconhecida.</strong> Acessórios fora do catálogo deixam de bloquear o botão e de pedir "refazer o print".',
-    'briefing.changelog.item2': '<strong>Nome lido pela câmera.</strong> Acessórios não catalogados entram no construtor com o nome que a câmera leu, marcados de forma discreta.',
-    'briefing.changelog.item3': '<strong>Catálogo migrando para o servidor.</strong> Primeiros passos da migração do catálogo para a base central, para manter os nomes sempre atualizados.',
+    'briefing.changelog.pill':  'feature',
+    'briefing.changelog.headline': 'Catálogo sincroniza com o servidor automaticamente',
+    'briefing.changelog.summary':  'O catálogo de acessórios passa a se atualizar sozinho a partir da base central, em segundo plano, sem travar a abertura do Hub. O intervalo de atualização é controlado de forma centralizada.',
+    'briefing.changelog.item1': '<strong>Sync automático no arranque.</strong> O Hub abre na hora com o catálogo em cache e, se já passou do intervalo, busca a versão mais recente do servidor por trás.',
+    'briefing.changelog.item2': '<strong>Funciona offline.</strong> Se o servidor não responder, o Hub continua com o catálogo guardado — nada trava.',
+    'briefing.changelog.item3': '<strong>Intervalo centralizado.</strong> A frequência da atualização é definida na base central, não por dispositivo.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17133,12 +17142,12 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'May 31, 2026',
-    'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Capture imports even with an outdated catalog',
-    'briefing.changelog.summary':  'When the weapon is recognized but the attachments are not in the catalog (because the game got patched), importing no longer blocks. Attachments enter the builder with the name read by the camera.',
-    'briefing.changelog.item1': '<strong>Imports whenever the weapon is recognized.</strong> Attachments outside the catalog no longer block the button or ask to "retake the shot".',
-    'briefing.changelog.item2': '<strong>Name read by the camera.</strong> Uncatalogued attachments enter the builder with the name the camera read, marked subtly.',
-    'briefing.changelog.item3': '<strong>Catalog moving to the server.</strong> First steps of migrating the catalog to the central database, to keep names always up to date.',
+    'briefing.changelog.pill':  'feature',
+    'briefing.changelog.headline': 'Catalog syncs with the server automatically',
+    'briefing.changelog.summary':  'The attachment catalog now updates itself from the central database, in the background, without blocking the Hub from opening. The update interval is controlled centrally.',
+    'briefing.changelog.item1': '<strong>Automatic sync on startup.</strong> The Hub opens instantly with the cached catalog and, if the interval has passed, fetches the latest version from the server in the background.',
+    'briefing.changelog.item2': '<strong>Works offline.</strong> If the server does not respond, the Hub keeps the stored catalog — nothing breaks.',
+    'briefing.changelog.item3': '<strong>Centralized interval.</strong> The update frequency is set in the central database, not per device.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -25495,13 +25504,57 @@ const ATTACHMENT_ICONS = {
       } catch (e) {}
     }
 
-    // Aplica override do localStorage no boot, se houver
-    function applyOnBoot() {
+    // Lê o intervalo de sync (em dias) da config central de admin no Supabase.
+    // Fallback: 7 dias se a config não existir ou a rede falhar.
+    async function fetchSyncIntervalDays() {
+      const FALLBACK = 7;
+      try {
+        const r = await fetch(SUPABASE_URL + '/rest/v1/admin_config?key=eq.catalog_sync_interval_days&select=value', {
+          headers: AUTH_HEADERS,
+        });
+        if (!r.ok) return FALLBACK;
+        const rows = await r.json();
+        const days = rows && rows[0] && rows[0].value && rows[0].value.days;
+        return (typeof days === 'number' && days > 0) ? days : FALLBACK;
+      } catch (e) {
+        return FALLBACK;
+      }
+    }
+
+    // true se nunca sincronizou ou se já passou do intervalo configurado.
+    function isSyncDue(intervalDays) {
+      const ts = getOverrideTs();
+      if (!ts) return true;
+      const last = new Date(ts).getTime();
+      if (isNaN(last)) return true;
+      const ageMs = Date.now() - last;
+      return ageMs >= intervalDays * 24 * 60 * 60 * 1000;
+    }
+
+    // Boot em 2 etapas: (1) aplica cache local na hora (offline-safe),
+    // (2) em background, se passou do intervalo, repuxa do Supabase.
+    async function applyOnBoot() {
+      // Etapa 1 — cache local imediato
       const rows = loadOverride();
       if (rows && rows.length) {
         const summary = mergeRowsIntoUnlocks(rows);
-        console.log('[CatalogSync] override do localStorage aplicado:',
+        console.log('[CatalogSync] cache local aplicado:',
                     rows.length, 'rows ·', summary.added, 'novos +', summary.updated, 'atualizados');
+      }
+      // Etapa 2 — refresh em background se expirou (não bloqueia o boot)
+      try {
+        const intervalDays = await fetchSyncIntervalDays();
+        if (isSyncDue(intervalDays)) {
+          console.log('[CatalogSync] sync vencido (intervalo ' + intervalDays + 'd) — repuxando do Supabase...');
+          const summary = await refresh();
+          console.log('[CatalogSync] sync automático:', summary.fetched, 'rows ·',
+                      summary.added, 'novos +', summary.updated, 'atualizados');
+          if (typeof window.renderCatalogStatus === 'function') window.renderCatalogStatus();
+        } else {
+          console.log('[CatalogSync] cache dentro do intervalo (' + intervalDays + 'd) — sem refresh.');
+        }
+      } catch (e) {
+        console.warn('[CatalogSync] sync automático falhou (usando cache):', e);
       }
     }
 
@@ -25516,6 +25569,7 @@ const ATTACHMENT_ICONS = {
       clearOverride: clearOverride,
       countLocal: countLocal,
       getOverrideTs: getOverrideTs,
+      fetchSyncIntervalDays: fetchSyncIntervalDays,
     };
 
     // ── UI wiring: botão "Atualizar catálogo" ──────────────────────
