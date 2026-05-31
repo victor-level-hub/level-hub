@@ -809,6 +809,79 @@
     color: var(--text-primary);
     font-weight: 600;
   }
+  /* Link discreto "Histórico de Versões" abaixo do changelog */
+  .changelog-history-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.18s;
+    text-transform: uppercase;
+  }
+  .changelog-history-link:hover { color: #7da8c7; }
+  .changelog-history-link svg { width: 13px; height: 13px; opacity: 0.8; }
+  /* Modal histórico — lista de versões */
+  .vh-list { display: flex; flex-direction: column; gap: 0; }
+  .vh-entry {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(125, 168, 199, 0.12);
+  }
+  .vh-entry:last-child { border-bottom: 0; }
+  .vh-entry-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .vh-ver {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 15px;
+    color: #7da8c7;
+  }
+  .vh-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+  .vh-kind {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: 1px solid rgba(125, 168, 199, 0.3);
+    color: #7da8c7;
+    background: rgba(125, 168, 199, 0.1);
+  }
+  .vh-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .vh-note {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    background: rgba(125, 168, 199, 0.05);
+    border: 1px dashed rgba(125, 168, 199, 0.25);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 8px;
+  }
 
   .briefing-stats-delta .num {
     font-size: 18px;
@@ -9951,17 +10024,21 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.0.0 · <span data-i18n="briefing.changelog.date">26 Mai 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.1.1 · <span data-i18n="briefing.changelog.date">31 Mai 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">i18n</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">SemVer adotado · i18n EN completo no Construtor e Meus Loadouts</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Hub migra do esquema antigo <strong>v75-XX</strong> para <strong>SemVer</strong> (MAJOR.MINOR.PATCH). Esta versão (v2.0.0) sucede a v75-100 — o salto direto pra v2 reconhece os 100+ patches no histórico. Foco da release: zerar as strings ainda hardcoded em PT no fluxo de Loadout (Construtor) e Meus Loadouts. Toda UI dinâmica desse fluxo agora respeita o toggle PT/EN.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura de arma via celular funcionando</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Esta versão (v2.1.1) corrige o <strong>QR code de importação de arma</strong>, que apontava para o domínio errado. O QR agora abre a página de captura correta e o fluxo celular → IA → Hub volta a funcionar de ponta a ponta.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>i18n EN completo no Construtor.</strong> Optgroups de attachments (Destravados / Travados / Especiais), estado "vazio", contagem "faltam N", placeholders dos inputs e modal de Reset agora respondem ao toggle PT/EN. Sem mais bolhas de PT vazando no idioma EN.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>i18n EN completo em Meus Loadouts.</strong> Botão "Publicar" no card, modal de "Apagar loadout" e painel de info da build secundária (incluindo "(arma deletada)") agora traduzidos. Toast de limite de perks também passa pelo dicionário.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>SemVer ativo.</strong> A partir desta versão: PATCH (v2.0.x) pra bugfix/visual/copy, MINOR (v2.x.0) pra feature nova, MAJOR (vX.0.0) pra quebra de compat. Detector de versão no footer continua funcionando — toast vai mostrar o novo formato na próxima atualização.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>QR corrigido.</strong> O código apontava para o domínio da página de avatar; agora aponta para a página de captura de arma correta, com o parâmetro certo.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Fluxo end-to-end validado.</strong> Página de captura, tabela e bucket confirmados no mesmo backend do Hub — o token gerado no PC é reconhecido no celular.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Histórico de Versões.</strong> Adicionado na v2.1.0: link abaixo deste bloco abre a relação completa de versões.</li>
           </ul>
+          <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
+            <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
+          </button>
         </div>
       </div>
 
@@ -13226,6 +13303,76 @@
 
 
     <!-- =================================================================== -->
+    <!-- MODAL: HISTÓRICO DE VERSÕES                                         -->
+    <!-- =================================================================== -->
+    <div class="modal-overlay" id="modal-version-history">
+      <div class="modal-box" style="max-width: 640px">
+        <div class="modal-header">
+          <div class="modal-title" data-i18n="vh.title">Histórico de Versões</div>
+          <button class="modal-close" data-close-modal="modal-version-history">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.1.1</span>
+                <span class="vh-date">31 Mai 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">QR de importação de arma corrigido: apontava para o domínio da página de avatar; agora aponta para a página de captura de arma correta (bo7-capture). Fluxo celular → IA → Hub validado de ponta a ponta no mesmo backend Supabase.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.1.0</span>
+                <span class="vh-date">30 Mai 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Histórico de Versões adicionado (este modal). Bloco "O QUE MUDOU" passa a refletir a versão corrente a cada release.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.0.2</span>
+                <span class="vh-date">30 Mai 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc">Captura via celular migrada de Netlify para Cloudflare Pages (limite do Netlify atingido).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.0.1</span>
+                <span class="vh-date">28 Mai 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc">Ajustes pós-migração SemVer: correções visuais e de cópia no Painel Hoje.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.0.0</span>
+                <span class="vh-date">26 Mai 2026</span>
+                <span class="vh-kind">major</span>
+              </div>
+              <p class="vh-desc">SemVer adotado (sucede a v75-100). i18n EN completo no Construtor e em Meus Loadouts — optgroups de attachments, estados, contagens, placeholders, modais e toasts agora respeitam o toggle PT/EN.</p>
+            </div>
+
+            <div class="vh-note" data-i18n-html="vh.legacyNote">
+              <strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>
+              As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" data-close-modal="modal-version-history" style="flex:0 0 auto; min-width:auto; padding:10px 18px" data-i18n="mod.close">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
     <!-- MODAL: SAVE                                                         -->
     <!-- =================================================================== -->
     <div class="modal-overlay" id="modal-save">
@@ -14556,7 +14703,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.0.2</strong><span class="ver-tag">Captura via celular migrada Netlify → Cloudflare Pages</span>
+        LEVEL · <strong>v2.1.1</strong><span class="ver-tag">QR de captura de arma corrigido (domínio)</span>
       </div>
       <script>
         (function(){
@@ -15683,13 +15830,16 @@ window.I18N = {
     // — Painel Hoje · Active events block —
     'briefing.eventsTitle':   'EVENTOS NO AR',
     'briefing.changelog.label': 'O QUE MUDOU NESTA VERSÃO',
-    'briefing.changelog.date':  '26 Mai 2026',
-    'briefing.changelog.pill':  'i18n',
-    'briefing.changelog.headline': 'SemVer adotado · i18n EN completo no Construtor e Meus Loadouts',
-    'briefing.changelog.summary':  'Hub migra do esquema antigo <strong>v75-XX</strong> para <strong>SemVer</strong> (MAJOR.MINOR.PATCH). Esta versão (v2.0.0) sucede a v75-100 — o salto direto pra v2 reconhece os 100+ patches no histórico. Foco da release: zerar as strings ainda hardcoded em PT no fluxo de Loadout (Construtor) e Meus Loadouts. Toda UI dinâmica desse fluxo agora respeita o toggle PT/EN.',
-    'briefing.changelog.item1': '<strong>i18n EN completo no Construtor.</strong> Optgroups de attachments (Destravados / Travados / Especiais), estado "vazio", contagem "faltam N", placeholders dos inputs e modal de Reset agora respondem ao toggle PT/EN. Sem mais bolhas de PT vazando no idioma EN.',
-    'briefing.changelog.item2': '<strong>i18n EN completo em Meus Loadouts.</strong> Botão "Publicar" no card, modal de "Apagar loadout" e painel de info da build secundária (incluindo "(arma deletada)") agora traduzidos. Toast de limite de perks também passa pelo dicionário.',
-    'briefing.changelog.item3': '<strong>SemVer ativo.</strong> A partir desta versão: PATCH (v2.0.x) pra bugfix/visual/copy, MINOR (v2.x.0) pra feature nova, MAJOR (vX.0.0) pra quebra de compat. Detector de versão no footer continua funcionando — toast vai mostrar o novo formato na próxima atualização.',
+    'briefing.changelog.historyLink': 'Histórico de Versões',
+    'vh.title': 'Histórico de Versões',
+    'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
+    'briefing.changelog.date':  '31 Mai 2026',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Captura de arma via celular funcionando',
+    'briefing.changelog.summary':  'Esta versão (v2.1.1) corrige o <strong>QR code de importação de arma</strong>, que apontava para o domínio errado. O QR agora abre a página de captura correta e o fluxo celular → IA → Hub volta a funcionar de ponta a ponta.',
+    'briefing.changelog.item1': '<strong>QR corrigido.</strong> O código apontava para o domínio da página de avatar; agora aponta para a página de captura de arma correta, com o parâmetro certo.',
+    'briefing.changelog.item2': '<strong>Fluxo end-to-end validado.</strong> Página de captura, tabela e bucket confirmados no mesmo backend do Hub — o token gerado no PC é reconhecido no celular.',
+    'briefing.changelog.item3': '<strong>Histórico de Versões.</strong> Adicionado na v2.1.0: link abaixo deste bloco abre a relação completa de versões.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -16957,13 +17107,16 @@ window.I18N = {
     // — Briefing · Active events block —
     'briefing.eventsTitle':   'LIVE EVENTS',
     'briefing.changelog.label': 'WHAT CHANGED IN THIS VERSION',
-    'briefing.changelog.date':  'May 26, 2026',
-    'briefing.changelog.pill':  'i18n',
-    'briefing.changelog.headline': 'SemVer adopted · full EN i18n in Builder and My Loadouts',
-    'briefing.changelog.summary':  'Hub migrates from the old <strong>v75-XX</strong> scheme to <strong>SemVer</strong> (MAJOR.MINOR.PATCH). This release (v2.0.0) follows v75-100 — the direct jump to v2 acknowledges 100+ patches in the history. Release focus: zero out the strings still hardcoded in PT across the Loadout (Builder) and My Loadouts flow. All dynamic UI in that flow now honors the PT/EN toggle.',
-    'briefing.changelog.item1': '<strong>Full EN i18n in the Builder.</strong> Attachment optgroups (Unlocked / Locked / Specials), empty state, "N to go" countdown, input placeholders and the Reset modal now respond to the PT/EN toggle. No more PT leaking into the EN language.',
-    'briefing.changelog.item2': '<strong>Full EN i18n in My Loadouts.</strong> "Publish" button on the card, "Delete loadout" modal and secondary build info panel (including "(weapon deleted)") are now translated. The perk-limit toast also goes through the dictionary.',
-    'briefing.changelog.item3': '<strong>SemVer active.</strong> From this version on: PATCH (v2.0.x) for bugfix/visual/copy, MINOR (v2.x.0) for new features, MAJOR (vX.0.0) for breaking changes. The footer version detector keeps working — the toast will show the new format on the next update.',
+    'briefing.changelog.historyLink': 'Version History',
+    'vh.title': 'Version History',
+    'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
+    'briefing.changelog.date':  'May 31, 2026',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Mobile weapon capture working',
+    'briefing.changelog.summary':  'This release (v2.1.1) fixes the <strong>weapon-import QR code</strong>, which pointed to the wrong domain. The QR now opens the correct capture page and the phone → AI → Hub flow works end to end again.',
+    'briefing.changelog.item1': '<strong>QR fixed.</strong> The code pointed to the avatar page domain; it now points to the correct weapon capture page, with the right parameter.',
+    'briefing.changelog.item2': '<strong>End-to-end flow validated.</strong> Capture page, table and bucket confirmed on the same backend as the Hub — the token generated on the PC is recognized on the phone.',
+    'briefing.changelog.item3': '<strong>Version History.</strong> Added in v2.1.0: the link below this block opens the full list of versions.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -31818,6 +31971,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (closeBtn) {
         document.getElementById(closeBtn.dataset.closeModal).classList.remove('visible');
       }
+
+      // open modal (genérico)
+      const openBtn = e.target.closest('[data-open-modal]');
+      if (openBtn) {
+        const m = document.getElementById(openBtn.dataset.openModal);
+        if (m) m.classList.add('visible');
+      }
     });
 
     // attachment input/select (Etapa 4C: handles both <input> and <select>)
@@ -33964,7 +34124,7 @@ ${cbt('share.t.footer')}`;
   // ── Config ──
   const SUPABASE_URL  = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
-  const CAPTURE_URL   = 'https://level-capture.pages.dev';
+  const CAPTURE_URL   = 'https://bo7-capture.victor-abap.workers.dev';
   const ANALYZE_FN_URL = `${SUPABASE_URL}/functions/v1/analyze-capture`;
 
   let _supabase = null;
