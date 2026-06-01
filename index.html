@@ -29076,7 +29076,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
 
     // ── Pre-defined struggle catalog ────────────────────────────────────
-    const STRUGGLE_CATALOG = [
+    // Catálogo de dificuldades. Hardcoded serve de FALLBACK; no boot é
+    // substituído pelo conteúdo do banco (cat_struggles) via loadStrugglesCatalog().
+    let STRUGGLE_CATALOG = [
       {
         id: 'shoot_first_die',
         title: 'Atiro primeiro, acerto os tiros, mas morro mesmo assim',
@@ -29717,15 +29719,55 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // Re-render on changes
     document.addEventListener('level:struggles-change', renderStruggles);
 
+    // ── Carrega o catálogo de dificuldades do banco (cat_struggles) ──
+    // Substitui o STRUGGLE_CATALOG hardcoded pelas dificuldades do Supabase,
+    // filtradas pela língua atual. Mantém o formato esperado pelo resto do
+    // código (id, title, icon, why, tips). Em caso de falha, mantém o fallback.
+    async function loadStrugglesCatalog() {
+      try {
+        const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+        const lang = (function () {
+          try { return localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'; }
+          catch (e) { return 'pt'; }
+        })();
+        const url = SUPABASE_URL + '/rest/v1/cat_struggles'
+          + '?select=id,title,icon,root_cause,tips,sort_order'
+          + '&language=eq.' + lang
+          + '&is_active=eq.true'
+          + '&order=sort_order.asc';
+        const res = await fetch(url, {
+          headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY }
+        });
+        if (!res.ok) { console.warn('[struggles] banco respondeu', res.status, '— mantendo fallback'); return; }
+        const rows = await res.json();
+        if (!Array.isArray(rows) || rows.length === 0) { console.warn('[struggles] banco vazio — mantendo fallback'); return; }
+        // Mapeia formato do banco → formato do Hub (root_cause → why)
+        STRUGGLE_CATALOG = rows.map(r => ({
+          id: r.id,
+          title: r.title,
+          icon: r.icon || 'lightbulb',
+          why: r.root_cause || '',
+          tips: Array.isArray(r.tips) ? r.tips : []
+        }));
+        console.log('[struggles] catálogo carregado do banco:', STRUGGLE_CATALOG.length, 'dificuldades (' + lang + ')');
+      } catch (e) {
+        console.warn('[struggles] falha ao carregar do banco — mantendo fallback:', e);
+      }
+    }
+
     // Boot
-    function boot() { renderStruggles(); }
+    async function boot() {
+      await loadStrugglesCatalog();
+      renderStruggles();
+    }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', boot);
     } else {
       boot();
     }
 
-    window.LevelEtapa10 = { renderStruggles };
+    window.LevelEtapa10 = { renderStruggles, loadStrugglesCatalog };
   })();
 
   // Sync app-header (sticky top) from a section's breadcrumb + h2 elements.
