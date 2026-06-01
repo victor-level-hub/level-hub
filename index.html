@@ -25493,10 +25493,50 @@ const ATTACHMENT_ICONS = {
       buildSnapshot: buildSnapshot,
       pushAll: pushAll,
       pullAll: pullAll,
+      autoPullIfEmpty: autoPullIfEmpty,
       getLastSync: getLastSync,
       formatRelative: formatRelative,
       SUPABASE_URL: SUPABASE_URL,
     };
+
+    // ── Pull automático ao logar — SÓ se o local estiver vazio ─────
+    // Seguro contra conflito: num dispositivo novo/limpo (sem armas
+    // locais) puxa o estado do banco. Se já há dados locais, NÃO toca
+    // (evita sobrescrever mudanças não-sincronizadas). Sync manual
+    // continua disponível pros casos de divergência.
+    function _localIsEmpty() {
+      try {
+        var w = JSON.parse(localStorage.getItem('level.weapons') || '[]');
+        var l = JSON.parse(localStorage.getItem('level.loadouts') || '[]');
+        return (!Array.isArray(w) || w.length === 0) &&
+               (!Array.isArray(l) || l.length === 0);
+      } catch (e) { return false; } // na dúvida, NÃO faz pull (mais seguro)
+    }
+
+    async function autoPullIfEmpty() {
+      if (!_localIsEmpty()) {
+        console.log('[CloudSync] local tem dados — pull automático pulado (usa sync manual)');
+        return { skipped: true, reason: 'local_not_empty' };
+      }
+      try {
+        console.log('[CloudSync] local vazio — pull automático ao logar');
+        var r = await pullAll({ full: true });
+        // dispositivo estava vazio e agora tem o dado do banco no
+        // localStorage — recarrega pra renderizar tudo do zero.
+        // (só ocorre em login novo/limpo, usuário não perde nada)
+        try { setTimeout(function () { location.reload(); }, 300); } catch (e) {}
+        return { pulled: true, result: r };
+      } catch (e) {
+        console.warn('[CloudSync] auto-pull falhou:', e.message || e);
+        return { error: e.message || String(e) };
+      }
+    }
+
+    // Dispara no login (evento do controlador de Auth)
+    window.addEventListener('level-auth-ready', function () {
+      autoPullIfEmpty();
+    });
+
 
     // ── UI wiring: handlers dos botões no operator-panel ───────────
     // (os botões são adicionados via str_replace no HTML do operator-panel)
