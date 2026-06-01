@@ -9831,6 +9831,178 @@
 </head>
 <body>
 
+<!-- ============================================================ -->
+<!-- LEVEL AUTH GATE (v95) — overlay de autenticação              -->
+<!-- Cobre o Hub inteiro quando deslogado. Some quando logado.    -->
+<!-- ============================================================ -->
+<style>
+  #level-auth-gate {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #0a0a0a;
+    display: none; align-items: center; justify-content: center;
+    padding: 24px; overflow-y: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  #level-auth-gate.show { display: flex; }
+  #level-auth-gate .lag-card {
+    width: 100%; max-width: 420px;
+    background: var(--bg-elev, #181818);
+    border: 1px solid var(--border, #2a2a2a);
+    border-radius: 14px; padding: 32px 28px;
+  }
+  #level-auth-gate .lag-logo {
+    font-family: 'Courier New', monospace; font-size: 24px; font-weight: 800;
+    letter-spacing: 6px; color: var(--accent, #ff9800); text-align: center;
+  }
+  #level-auth-gate .lag-sub {
+    font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 2px;
+    color: var(--text-muted, #6e6e6e); text-transform: uppercase;
+    text-align: center; margin-top: 6px; margin-bottom: 8px;
+  }
+  #level-auth-gate .lag-tagline {
+    text-align: center; color: var(--text-secondary, #b8b8b8);
+    font-size: 13px; line-height: 1.6; margin: 14px 0 24px;
+  }
+  #level-auth-gate .lag-features {
+    display: flex; gap: 10px; margin: 0 0 24px;
+  }
+  #level-auth-gate .lag-feat {
+    flex: 1; text-align: center; padding: 12px 6px;
+    border: 1px solid var(--border, #2a2a2a); border-radius: 8px;
+  }
+  #level-auth-gate .lag-feat .lag-feat-t {
+    font-size: 12px; font-weight: 600; color: var(--text, #f1f1f1); margin-top: 4px;
+  }
+  #level-auth-gate .lag-feat .lag-feat-d {
+    font-size: 10px; color: var(--text-muted, #6e6e6e); line-height: 1.4; margin-top: 2px;
+  }
+  #level-auth-gate .lag-feat svg { width: 20px; height: 20px; stroke: var(--accent, #ff9800); }
+  #level-auth-gate label.lag-label {
+    display: block; font-size: 13px; color: var(--text-secondary, #b8b8b8);
+    margin: 14px 0 6px;
+  }
+  #level-auth-gate .lag-label-row {
+    display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0 6px;
+  }
+  #level-auth-gate .lag-label-row label { font-size: 13px; color: var(--text-secondary, #b8b8b8); }
+  #level-auth-gate .lag-link {
+    background: none; border: 0; color: var(--accent, #ff9800);
+    font-size: 12px; cursor: pointer; padding: 0; font-family: inherit;
+  }
+  #level-auth-gate input.lag-input {
+    width: 100%; padding: 12px 14px;
+    background: var(--bg, #0a0a0a); color: var(--text, #f1f1f1);
+    border: 1px solid var(--border, #2a2a2a); border-radius: 8px;
+    font-size: 14px; font-family: inherit;
+  }
+  #level-auth-gate input.lag-input:focus { outline: none; border-color: var(--accent, #ff9800); }
+  #level-auth-gate .lag-btn {
+    width: 100%; padding: 14px; margin-top: 22px;
+    background: var(--accent, #ff9800); color: #000;
+    border: 0; border-radius: 8px;
+    font-family: 'Courier New', monospace; font-size: 14px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  }
+  #level-auth-gate .lag-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  #level-auth-gate .lag-btn-ghost {
+    background: transparent; color: var(--text-secondary, #b8b8b8);
+    border: 1px solid var(--border, #2a2a2a);
+  }
+  #level-auth-gate .lag-switch {
+    text-align: center; margin-top: 16px; font-size: 13px; color: var(--text-secondary, #b8b8b8);
+  }
+  #level-auth-gate .lag-switch button {
+    background: none; border: 0; color: var(--accent, #ff9800);
+    cursor: pointer; font-size: 13px; font-family: inherit; padding: 0;
+  }
+  #level-auth-gate .lag-msg {
+    margin-top: 16px; padding: 12px 14px; border-radius: 8px;
+    font-size: 13px; line-height: 1.5; display: none;
+  }
+  #level-auth-gate .lag-msg.show { display: block; }
+  #level-auth-gate .lag-msg.err {
+    background: rgba(231,76,60,0.1); border: 1px solid var(--danger, #e74c3c); color: #e74c3c;
+  }
+  #level-auth-gate .lag-msg.ok {
+    background: rgba(74,222,128,0.1); border: 1px solid var(--success, #4ade80); color: #4ade80;
+  }
+  #level-auth-gate .lag-screen { display: none; }
+  #level-auth-gate .lag-screen.active { display: block; }
+</style>
+
+<div id="level-auth-gate" role="dialog" aria-modal="true" aria-label="Acesso ao LEVEL">
+  <div class="lag-card">
+
+    <div class="lag-logo">L · E · V · E · L</div>
+    <div class="lag-sub">Tactical Hub · BO7</div>
+
+    <!-- TELA: LANDING -->
+    <div class="lag-screen active" id="lag-landing">
+      <div class="lag-tagline">Le Vél, seu coach personalizado de CoD.<br>Análise tática calibrada pro seu estilo, arsenal e progressão.</div>
+      <div class="lag-features">
+        <div class="lag-feat">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/></svg>
+          <div class="lag-feat-t">Loadouts</div>
+          <div class="lag-feat-d">score e ajustes</div>
+        </div>
+        <div class="lag-feat">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+          <div class="lag-feat-t">Armas</div>
+          <div class="lag-feat-d">compara builds</div>
+        </div>
+        <div class="lag-feat">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg>
+          <div class="lag-feat-t">Evolução</div>
+          <div class="lag-feat-d">causa e plano</div>
+        </div>
+      </div>
+      <button class="lag-btn" onclick="LEVEL_AUTH.showScreen('signup')">Criar conta</button>
+      <button class="lag-btn lag-btn-ghost" onclick="LEVEL_AUTH.showScreen('login')">Entrar</button>
+    </div>
+
+    <!-- TELA: CADASTRO -->
+    <div class="lag-screen" id="lag-signup">
+      <label class="lag-label" for="lag-su-email">E-mail</label>
+      <input class="lag-input" type="email" id="lag-su-email" autocomplete="email" placeholder="operador@email.com">
+      <label class="lag-label" for="lag-su-pass">Senha</label>
+      <input class="lag-input" type="password" id="lag-su-pass" autocomplete="new-password" placeholder="mínimo 8 caracteres">
+      <label class="lag-label" for="lag-su-pass2">Confirmar senha</label>
+      <input class="lag-input" type="password" id="lag-su-pass2" autocomplete="new-password">
+      <label class="lag-label" for="lag-su-birth">Data de nascimento</label>
+      <input class="lag-input" type="date" id="lag-su-birth">
+      <button class="lag-btn" id="lag-su-btn" onclick="LEVEL_AUTH.doSignup()">Criar conta</button>
+      <div class="lag-msg" id="lag-su-msg"></div>
+      <div class="lag-switch">Já tem conta? <button onclick="LEVEL_AUTH.showScreen('login')">Entrar</button></div>
+    </div>
+
+    <!-- TELA: LOGIN -->
+    <div class="lag-screen" id="lag-login">
+      <label class="lag-label" for="lag-li-email">E-mail</label>
+      <input class="lag-input" type="email" id="lag-li-email" autocomplete="email" placeholder="operador@email.com">
+      <div class="lag-label-row">
+        <label for="lag-li-pass">Senha</label>
+        <button class="lag-link" onclick="LEVEL_AUTH.showScreen('reset')">Esqueci a senha</button>
+      </div>
+      <input class="lag-input" type="password" id="lag-li-pass" autocomplete="current-password">
+      <button class="lag-btn" id="lag-li-btn" onclick="LEVEL_AUTH.doLogin()">Entrar</button>
+      <div class="lag-msg" id="lag-li-msg"></div>
+      <div class="lag-switch">Não tem conta? <button onclick="LEVEL_AUTH.showScreen('signup')">Criar</button></div>
+    </div>
+
+    <!-- TELA: RESGATAR SENHA -->
+    <div class="lag-screen" id="lag-reset">
+      <div class="lag-tagline">Informa o e-mail da conta. Enviamos um link pra definir uma nova senha.</div>
+      <label class="lag-label" for="lag-rs-email">E-mail</label>
+      <input class="lag-input" type="email" id="lag-rs-email" autocomplete="email" placeholder="operador@email.com">
+      <button class="lag-btn" id="lag-rs-btn" onclick="LEVEL_AUTH.doReset()">Enviar link</button>
+      <div class="lag-msg" id="lag-rs-msg"></div>
+      <div class="lag-switch"><button onclick="LEVEL_AUTH.showScreen('login')">Voltar ao login</button></div>
+    </div>
+
+  </div>
+</div>
+<!-- ============ FIM LEVEL AUTH GATE ============ -->
+
 <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">{{i:menu}}</button>
 
 <div class="app">
@@ -25159,9 +25331,26 @@ const ATTACHMENT_ICONS = {
         window.dispatchEvent(new CustomEvent('level-cloud-syncing', { detail: { direction: 'push' } }));
       } catch (e) {}
       const snapshot = await buildSnapshot();
+      // v95: sync-push v2 exige JWT do Auth (não mais a chave anon).
+      // Pega o token da sessão LEVEL_AUTH; sem login, aborta com mensagem clara.
+      var _accessToken = null;
+      try {
+        if (window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+          var _c = await window.LEVEL_AUTH.getClient();
+          var _s = await _c.auth.getSession();
+          _accessToken = _s && _s.data && _s.data.session ? _s.data.session.access_token : null;
+        }
+      } catch (e) {}
+      if (!_accessToken) {
+        throw new Error('Sem sessão ativa. Faz login antes de sincronizar.');
+      }
       const r = await fetch(SUPABASE_URL + '/functions/v1/sync-push', {
         method: 'POST',
-        headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
+        headers: {
+          'Authorization': 'Bearer ' + _accessToken,
+          'apikey': SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(snapshot),
       });
       const data = await r.json().catch(() => ({}));
@@ -25191,9 +25380,25 @@ const ATTACHMENT_ICONS = {
         if (lastSync) body.since = lastSync;
       }
       // v75-54: sync-pull v2 aceita 'since' opcional pra sync incremental.
+      // v95: sync-pull v2 exige JWT do Auth (não mais a chave anon).
+      var _pullToken = null;
+      try {
+        if (window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+          var _pc = await window.LEVEL_AUTH.getClient();
+          var _ps = await _pc.auth.getSession();
+          _pullToken = _ps && _ps.data && _ps.data.session ? _ps.data.session.access_token : null;
+        }
+      } catch (e) {}
+      if (!_pullToken) {
+        throw new Error('Sem sessão ativa. Faz login antes de sincronizar.');
+      }
       const r = await fetch(SUPABASE_URL + '/functions/v1/sync-pull', {
         method: 'POST',
-        headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
+        headers: {
+          'Authorization': 'Bearer ' + _pullToken,
+          'apikey': SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(body),
       });
       const data = await r.json().catch(() => ({}));
@@ -30021,10 +30226,19 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const base = (window.LEVEL_SUPABASE_URL || 'https://cqkhqtgmolmrfgzozocr.supabase.co');
       return base + '/functions/v1/user-asset';
     }
-    function _cloudHeaders() {
+    async function _cloudHeaders() {
+      // v95: user-asset v2 exige JWT do Auth (não mais chave anon)
+      var accessToken = null;
+      try {
+        if (window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+          var c = await window.LEVEL_AUTH.getClient();
+          var s = await c.auth.getSession();
+          accessToken = s && s.data && s.data.session ? s.data.session.access_token : null;
+        }
+      } catch (e) {}
       const anon = window.LEVEL_SUPABASE_ANON_KEY || '';
       return {
-        'Authorization': 'Bearer ' + anon,
+        'Authorization': 'Bearer ' + (accessToken || anon),
         'apikey':        anon,
         'Content-Type':  'application/json',
       };
@@ -30045,7 +30259,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (!localId) return null;
       try {
         const res = await fetch(_cloudEndpoint(), {
-          method: 'POST', headers: _cloudHeaders(),
+          method: 'POST', headers: await _cloudHeaders(),
           body: JSON.stringify({ action: 'list', local_id: localId }),
         });
         if (!res.ok) return null;
@@ -30065,7 +30279,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const localId = _getLocalIdSafe();
       if (!localId) throw new Error('local_id ausente — faz Backup na cloud primeiro');
       const res = await fetch(_cloudEndpoint(), {
-        method: 'POST', headers: _cloudHeaders(),
+        method: 'POST', headers: await _cloudHeaders(),
         body: JSON.stringify({
           action: 'upload', local_id: localId,
           item: { item_id: itemId, category: category, subcategory: subcategory },
@@ -30084,7 +30298,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (!localId) return false;
       try {
         const res = await fetch(_cloudEndpoint(), {
-          method: 'POST', headers: _cloudHeaders(),
+          method: 'POST', headers: await _cloudHeaders(),
           body: JSON.stringify({ action: 'delete', local_id: localId, item_id: itemId }),
         });
         delete CLOUD_URL_CACHE[itemId];
@@ -36482,6 +36696,204 @@ ${cbt('share.t.footer')}`;
 })();
 </script>
 
+
+
+<!-- ============================================================ -->
+<!-- LEVEL AUTH CONTROLLER (v95) — sessão real via Supabase Auth  -->
+<!-- ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  var SUPABASE_URL = (window.LEVEL_SUPABASE_URL) || 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  var SUPABASE_ANON_KEY = (window.LEVEL_SUPABASE_ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+
+  var _client = null;
+  var _session = null;
+
+  function gate() { return document.getElementById('level-auth-gate'); }
+
+  function showGate(show) {
+    var g = gate();
+    if (!g) return;
+    g.classList.toggle('show', !!show);
+  }
+
+  function showScreen(name) {
+    ['landing','signup','login','reset'].forEach(function (s) {
+      var el = document.getElementById('lag-' + s);
+      if (el) el.classList.toggle('active', s === name);
+    });
+    ['su','li','rs'].forEach(function (p) { msg(p, '', null); });
+  }
+
+  function msg(prefix, text, kind) {
+    var el = document.getElementById('lag-' + prefix + '-msg');
+    if (!el) return;
+    el.textContent = text || '';
+    el.className = 'lag-msg' + (text ? ' show ' + (kind || 'err') : '');
+  }
+
+  function setBusy(btnId, busy, labelIdle) {
+    var b = document.getElementById(btnId);
+    if (!b) return;
+    b.disabled = !!busy;
+    if (busy) { b.dataset.idle = b.textContent; b.textContent = 'Aguarda...'; }
+    else if (b.dataset.idle) { b.textContent = labelIdle || b.dataset.idle; }
+  }
+
+  // Idade a partir da data de nascimento (gate 18+ universal)
+  function ageFrom(dateStr) {
+    if (!dateStr) return null;
+    var d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d.getTime())) return null;
+    var now = new Date();
+    var age = now.getFullYear() - d.getFullYear();
+    var m = now.getMonth() - d.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--;
+    return age;
+  }
+
+  async function getClient() {
+    if (_client) return _client;
+    var mod = await import('https://esm.sh/@supabase/supabase-js@2.45.4');
+    _client = mod.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, storageKey: 'level.auth.session' }
+    });
+    return _client;
+  }
+
+  function friendly(err) {
+    var m = (err && (err.message || err.error_description || err.msg)) || String(err || '');
+    var l = m.toLowerCase();
+    if (l.indexOf('invalid login') >= 0 || l.indexOf('invalid credentials') >= 0) return 'E-mail ou senha incorretos.';
+    if (l.indexOf('already registered') >= 0 || l.indexOf('already been registered') >= 0) return 'Esse e-mail já tem conta. Tenta entrar.';
+    if (l.indexOf('password should be') >= 0 || l.indexOf('weak password') >= 0) return 'Senha fraca demais. Usa pelo menos 8 caracteres.';
+    if (l.indexOf('rate limit') >= 0 || l.indexOf('too many') >= 0) return 'Muitas tentativas. Espera um minuto e tenta de novo.';
+    if (l.indexOf('email not confirmed') >= 0) return 'Confirma teu e-mail antes de entrar (verifica a caixa de entrada).';
+    if (l.indexOf('network') >= 0 || l.indexOf('fetch') >= 0) return 'Falha de conexão. Verifica a internet e tenta de novo.';
+    return m || 'Algo deu errado. Tenta de novo.';
+  }
+
+  async function doSignup() {
+    var email = (document.getElementById('lag-su-email').value || '').trim();
+    var pass  = document.getElementById('lag-su-pass').value || '';
+    var pass2 = document.getElementById('lag-su-pass2').value || '';
+    var birth = document.getElementById('lag-su-birth').value || '';
+
+    if (!email) return msg('su', 'Informa o e-mail.', 'err');
+    if (pass.length < 8) return msg('su', 'A senha precisa de pelo menos 8 caracteres.', 'err');
+    if (pass !== pass2) return msg('su', 'As senhas não batem.', 'err');
+    var age = ageFrom(birth);
+    if (age === null) return msg('su', 'Informa a data de nascimento.', 'err');
+    if (age < 18) return msg('su', 'O LEVEL é para maiores de 18 anos.', 'err');
+
+    setBusy('lag-su-btn', true);
+    try {
+      var c = await getClient();
+      var res = await c.auth.signUp({
+        email: email, password: pass,
+        options: { data: { birth_date: birth } }
+      });
+      if (res.error) throw res.error;
+      // Confirm email está OFF: signUp já devolve sessão ativa.
+      if (res.data && res.data.session) {
+        _session = res.data.session;
+        onAuthed();
+      } else {
+        // Caso Confirm email seja religado no futuro
+        msg('su', 'Conta criada. Confirma pelo link enviado ao teu e-mail.', 'ok');
+      }
+    } catch (err) {
+      msg('su', friendly(err), 'err');
+    } finally {
+      setBusy('lag-su-btn', false, 'Criar conta');
+    }
+  }
+
+  async function doLogin() {
+    var email = (document.getElementById('lag-li-email').value || '').trim();
+    var pass  = document.getElementById('lag-li-pass').value || '';
+    if (!email || !pass) return msg('li', 'Preenche e-mail e senha.', 'err');
+
+    setBusy('lag-li-btn', true);
+    try {
+      var c = await getClient();
+      var res = await c.auth.signInWithPassword({ email: email, password: pass });
+      if (res.error) throw res.error;
+      _session = res.data.session;
+      onAuthed();
+    } catch (err) {
+      msg('li', friendly(err), 'err');
+    } finally {
+      setBusy('lag-li-btn', false, 'Entrar');
+    }
+  }
+
+  async function doReset() {
+    var email = (document.getElementById('lag-rs-email').value || '').trim();
+    if (!email) return msg('rs', 'Informa o e-mail.', 'err');
+    setBusy('lag-rs-btn', true);
+    try {
+      var c = await getClient();
+      var res = await c.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
+      if (res.error) throw res.error;
+      msg('rs', 'Se existe conta com esse e-mail, enviamos o link. Verifica a caixa de entrada.', 'ok');
+    } catch (err) {
+      msg('rs', friendly(err), 'err');
+    } finally {
+      setBusy('lag-rs-btn', false, 'Enviar link');
+    }
+  }
+
+  async function doLogout() {
+    try { var c = await getClient(); await c.auth.signOut(); } catch (e) {}
+    _session = null;
+    showScreen('landing');
+    showGate(true);
+  }
+
+  function onAuthed() {
+    showGate(false);
+    try { window.dispatchEvent(new CustomEvent('level-auth-ready', { detail: { session: _session } })); } catch (e) {}
+  }
+
+  async function boot() {
+    try {
+      var c = await getClient();
+      var s = await c.auth.getSession();
+      _session = (s && s.data && s.data.session) || null;
+    } catch (e) { _session = null; }
+
+    if (_session) {
+      showGate(false);
+      try { window.dispatchEvent(new CustomEvent('level-auth-ready', { detail: { session: _session } })); } catch (e) {}
+    } else {
+      showScreen('landing');
+      showGate(true);
+    }
+  }
+
+  // API pública
+  window.LEVEL_AUTH = {
+    showScreen: showScreen,
+    doSignup: doSignup,
+    doLogin: doLogin,
+    doReset: doReset,
+    logout: doLogout,
+    getSession: function () { return _session; },
+    getUserId: function () { return _session && _session.user ? _session.user.id : null; },
+    getClient: getClient
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+<!-- ============ FIM LEVEL AUTH CONTROLLER ============ -->
 
 </body>
 </html>
