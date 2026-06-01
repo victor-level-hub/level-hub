@@ -4479,8 +4479,51 @@
   }
   .ca-actions {
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 10px;
     flex-wrap: wrap;
+  }
+  .ca-weapon-pick {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ca-pick-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+  }
+  .ca-weapon-select {
+    background: var(--bg-darkest, #0a0a0a);
+    color: var(--text-primary, #f1f1f1);
+    border: 1px solid var(--border-bright, #2a2a2a);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .ca-weapon-select:focus {
+    outline: none;
+    border-color: var(--accent-master, #ff8a1f);
+  }
+  .ca-select-flash {
+    border-color: var(--accent-master, #ff8a1f) !important;
+    box-shadow: 0 0 12px rgba(255,138,31,0.5) !important;
+  }
+  .ca-pick-hint {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .ca-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
   }
   .ca-btn {
     background: var(--accent-master);
@@ -35302,15 +35345,44 @@ ${cbt('share.t.footer')}`;
       qualityWarnHtml = '<div class="ca-quality-warn">' + warnIcon + '<span>' + warnMsg + '</span></div>';
     }
 
-    // Ações — importa sempre que a ARMA casa. Attachments sem match vão com o nome lido pela Vision.
-    const canImport = matchedWeapon && weaponScore >= 0.3;
+    // Ações — v96: SEMPRE oferece um seletor de arma + botão importar.
+    // Se casou, vem pré-selecionado; se não, o usuário escolhe da lista.
+    // Nunca trava: os attachments lidos vão pro construtor de qualquer forma.
     const importIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;vertical-align:-2px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+
+    // Monta o <select> com todas as armas do catálogo, agrupadas por classe.
+    // Pré-seleciona o match automático (se houver score razoável).
+    const allWeapons = (typeof DEFAULT_WEAPONS !== 'undefined') ? DEFAULT_WEAPONS.slice() : [];
+    allWeapons.sort((a, b) => (a.class + a.name).localeCompare(b.class + b.name));
+    const preselectId = (matchedWeapon && weaponScore >= 0.3) ? matchedWeapon.id : '';
+    const selectLabel = lang === 'en' ? 'Weapon:' : 'Arma:';
+    const choosePlaceholder = lang === 'en' ? '— choose the weapon —' : '— escolhe a arma —';
+    const importLabel = lang === 'en' ? 'Open in Builder' : 'Abrir no Construtor';
+    const hintMsg = (matchedWeapon && weaponScore >= 0.3)
+      ? (lang === 'en' ? 'Auto-detected. Change if wrong.' : 'Detetada automaticamente. Corrige se estiver errada.')
+      : (lang === 'en' ? "I couldn't match the weapon name. Pick it from the list — the attachments were read fine." : 'Não casei o nome da arma. Escolhe da lista — os acessórios foram lidos na mesma.');
+
+    let optionsHtml = '<option value="">' + escapeHtml(choosePlaceholder) + '</option>';
+    let lastClass = '';
+    allWeapons.forEach(w => {
+      if (w.class !== lastClass) {
+        if (lastClass) optionsHtml += '</optgroup>';
+        optionsHtml += '<optgroup label="' + escapeHtml(w.class) + '">';
+        lastClass = w.class;
+      }
+      const sel = (w.id === preselectId) ? ' selected' : '';
+      optionsHtml += '<option value="' + escapeHtml(w.id) + '"' + sel + '>' + escapeHtml(w.name) + '</option>';
+    });
+    if (lastClass) optionsHtml += '</optgroup>';
+
     const actionsHtml = `
       <div class="ca-actions">
-        ${canImport
-          ? `<button class="ca-btn" data-ca-action="import" data-idx="${idx}">${importIcon}Abrir no Construtor</button>`
-          : `<div class="ca-unmatched-warn">Não reconheci a arma neste print. Tenta um print que mostre o nome da arma no topo do Gunsmith.</div>`
-        }
+        <div class="ca-weapon-pick">
+          <label class="ca-pick-label">${escapeHtml(selectLabel)}</label>
+          <select class="ca-weapon-select" data-idx="${idx}">${optionsHtml}</select>
+          <div class="ca-pick-hint">${escapeHtml(hintMsg)}</div>
+        </div>
+        <button class="ca-btn" data-ca-action="import" data-idx="${idx}"${preselectId ? '' : ' disabled'}>${importIcon}${escapeHtml(importLabel)}</button>
       </div>
     `;
 
@@ -35593,10 +35665,50 @@ ${cbt('share.t.footer')}`;
     const importBtn = e.target.closest('[data-ca-action="import"]');
     if (importBtn) {
       const card = importBtn.closest('.ca-card');
-      if (card) importIntoBuilder(card);
+      if (card) {
+        // v96: resolve a arma a partir do <select> (match automático OU escolha manual)
+        const sel = card.querySelector('.ca-weapon-select');
+        const chosenId = sel ? sel.value : '';
+        if (!chosenId) {
+          // sem arma escolhida — não importa
+          if (sel) { sel.focus(); sel.classList.add('ca-select-flash'); setTimeout(() => sel.classList.remove('ca-select-flash'), 700); }
+          return;
+        }
+        const list = (typeof DEFAULT_WEAPONS !== 'undefined') ? DEFAULT_WEAPONS : [];
+        const chosen = list.find(w => w.id === chosenId);
+        if (chosen && card._approvalData) {
+          card._approvalData.matchedWeapon = chosen;
+          // re-mapeia os attachments lidos contra a arma escolhida (pra casar nomes do catálogo)
+          try {
+            const vw = card._approvalData.visionWeapon;
+            if (vw && Array.isArray(vw.attachments)) {
+              const remapped = [];
+              vw.attachments.forEach(a => {
+                const m = matchAttachment(a, chosen.id);
+                if (m && m.attachment && m.score >= 0.35) {
+                  remapped.push({ slot: m.attachment.slot, name: m.attachment.name });
+                } else if (a.name) {
+                  remapped.push({ slot: a.slot, name: a.name });
+                }
+              });
+              card._approvalData.matchedAttachments = remapped;
+            }
+          } catch (err) { console.warn('[mc] remap attachments falhou:', err); }
+        }
+        importIntoBuilder(card);
+      }
       return;
     }
   });
+
+  // v96: change no seletor de arma → habilita/desabilita o botão importar
+  document.addEventListener('change', function (e) {
+    const sel = e.target.closest && e.target.closest('.ca-weapon-select');
+    if (!sel) return;
+    const card = sel.closest('.ca-card');
+    if (!card) return;
+    const btn = card.querySelector('[data-ca-action="import"]');
+    if (btn) btn.disabled = !sel.value;
 </script>
 
 <script>

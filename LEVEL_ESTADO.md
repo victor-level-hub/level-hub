@@ -46,7 +46,7 @@ chamam `index.html` dentro do próprio repo (padrão do Netlify). São arquivos 
 | Frente | O que é | Repo / Deploy | Roda em |
 |--------|---------|---------------|---------|
 | **HUB** (principal) | App completo (~36 mil linhas), HTML puro single-file | `victor-level-hub/level-hub` → Netlify `le-vel-hub` → **le-vel.games** | PC |
-| **Captura de arma** | Página leve, tira foto de arma/loadout via QR | `victor-level-hub/bo7-capture` → **level-capture.netlify.app** | Telemóvel |
+| **Captura de arma** | Página leve, tira foto de arma/loadout via QR | `victor-level-hub/bo7-capture` → **Cloudflare Worker** `bo7-capture.victor-abap.workers.dev` | Telemóvel |
 | **Captura de avatar** | Página leve, tira selfie pra gerar avatar | `level-capture-avatar.html` | Telemóvel |
 
 ### CONVENÇÃO DE ENTREGA DE ARQUIVOS (regra fixa)
@@ -65,8 +65,9 @@ chamam `index.html` dentro do próprio repo (padrão do Netlify). São arquivos 
 - **Domínio:** le-vel.games
 - **Hub:** GitHub `victor-level-hub/level-hub`, branch `main` → auto-deploy Netlify
   `le-vel-hub` a cada push no `main`.
-- **Captura mobile:** GitHub `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
-  (QR às vezes em `level-capture.pages.dev`).
+- **Captura mobile (arma):** GitHub `victor-level-hub/bo7-capture` → **Cloudflare Worker**
+  `bo7-capture.victor-abap.workers.dev` (migrou do Netlify p/ Workers; descoberto 1/Jun). URL do QR:
+  `bo7-capture.victor-abap.workers.dev/?token=...&type=weapon`. Claude NÃO tem o código deste Worker.
 
 ### Supabase
 - **Conta:** GitHub `victor-abap-pt`
@@ -187,7 +188,10 @@ Implementado o **caminho B**: autenticação real com Supabase Auth, identidade 
 
 **Com verify_jwt = FALSE (modelo antigo, por local_id ou token de captura):**
 - sync-pull-v2 (v5) — função antiga/duplicada do modelo local_id (a sync-pull canônica é v6, migrada p/ auth.uid).
-- analyze-capture (v10) — Gemini Vision em prints de arma → vision_result. Instrumentado em ana_gemini_usage.
+- analyze-capture (v11) — Gemini Vision em prints de arma → vision_result. Instrumentado em ana_gemini_usage.
+  v11 (1/Jun): prompt distingue CODENAME de loadout (ANTARES, VIRTUE, KNIFE) do NOME REAL da arma
+  (que está no Gunsmith); pós-processa pra devolver SÓ a arma principal (a com attachments),
+  descartando slots de secundária/faca vazios. Schema ganhou `is_primary`.
 - generate-avatar (v5), avatar-session-create (v6), avatar-session-approve (v4), upload-avatar-selfie (v4).
 - bootstrap-defaults (v7) — seeds iniciais.
 - record-player-snapshot (v5), get-gemini-usage (v4).
@@ -233,6 +237,15 @@ Implementado o **caminho B**: autenticação real com Supabase Auth, identidade 
   Construtor (8KB).
 - **Bug recorrente conhecido:** navegação tab-based é frágil (clicar arma já voltou pra aba
   Loadout). Atenção a mudanças de navegação.
+- **Modal "ARMAS DETECTADAS" (importação de captura, v96, 1/Jun):** agora SEMPRE mostra um
+  seletor de arma (`<select>` do catálogo) + botão "Abrir no Construtor". Vem pré-selecionado no
+  match automático; se a Vision não casa o nome (ex: leu "VOYAK XT-3" em vez de "Voyak KT-3"), o
+  usuário escolhe da lista e importa na mesma — os attachments lidos são re-mapeados contra a arma
+  escolhida. Antes só mostrava botão se a arma casava no catálogo (travava sem opção de salvar).
+  Funções: matchWeapon (fuzzy bestMatch), matchAttachment, buildApprovalCard, importIntoBuilder.
+- **Dica de uso da captura:** fotografar a tela do GUNSMITH (nome da arma no topo + attachments),
+  não a tela de seleção de loadout (que só mostra codenames). Print nítido, bem iluminado, esperar
+  nomes longos pararem de rolar. A precisão da leitura depende da qualidade do print (limite do Gemini).
 
 ---
 
