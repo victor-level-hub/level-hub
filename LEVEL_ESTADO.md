@@ -109,7 +109,11 @@ Implementado o **caminho B**: autenticação real com Supabase Auth, identidade 
   `supabase-js@2.45.4` via esm.sh, com `persistSession: true`, storageKey `level.auth.session`.
 - O overlay cobre o Hub com fundo opaco (NÃO mexe na visibility do `.app` — fazer isso
   quebrava o layout do menu; bug corrigido em 1/Jun).
-- `pushAll` e `_cloudHeaders` agora enviam o **token de Auth** (não mais a chave anon).
+- `pushAll`, `pullAll` e `_cloudHeaders` agora enviam o **token de Auth** (não mais a chave anon).
+- `autoPullIfEmpty`: no login (evento `level-auth-ready`), se o dispositivo está vazio
+  (sem armas/loadouts locais), puxa o estado do banco automaticamente e recarrega. Cobre
+  "logo num computador novo e vejo tudo", sem clique. Se já há dados locais, NÃO faz pull
+  (evita sobrescrever mudanças não-sincronizadas) — sync manual continua disponível.
 
 ### Migração de dados (feita 1/Jun)
 - Dado de jogo do Victor migrado do localStorage para o banco sob o `auth.uid`.
@@ -119,11 +123,20 @@ Implementado o **caminho B**: autenticação real com Supabase Auth, identidade 
   do push. NÃO foi feita a "virada de chave" (Hub passar a viver do banco) — isso é projeto à parte.
 
 ### PENDÊNCIAS de Auth
-- **`pullAll` ainda usa o modelo antigo `local_id`** — só o push foi migrado. O pull é
-  destrutivo (sobrescreve o local), por isso ficou para depois. Próximo passo natural do sync.
+- **Sync bidirecional validado** (push + pull sob auth.uid, testado 1/Jun). Todas as três
+  Edge Functions migradas e no ar: sync-push v6, sync-pull v6, user-asset v4 (todas verify_jwt).
+- **Auto-sync ao MUDAR + estratégia de CONFLITO (frente grande, próxima):** o objetivo é
+  "sempre sincronizado, invisível" (estilo Notion/Google Docs) — pull-ao-logar mesmo com
+  dados locais + push-ao-mudar automático. O nó é o conflito: dois dispositivos que mexem
+  offline e depois sincronizam — quem vence? Hoje há LWW (last-write-wins) no sync-push, mas
+  pull automático cego sobre dados locais divergentes APAGA mudanças não-sincronizadas. Por
+  isso o auto-pull atual só age em dispositivo vazio. Resolver conflito de verdade (LWW
+  consistente / merge / perguntar ao usuário) é pré-requisito pro automático completo e seguro.
 - **Capturas de telemóvel (arma e avatar) ainda NÃO usam Auth** — identificam-se por token
-  de sessão de captura (do QR) + chave anon, sem login. Quando o fluxo multi-dispositivo for
-  foco, decidir como o telemóvel prova ser o mesmo operador (provavelmente passar o auth.uid no QR).
+  de sessão de captura (do QR) + chave anon, sem login. Plano: o QR passa a levar o auth.uid()
+  (createSession no Hub já aceita userId). Falta migrar as Edge Functions de captura e as
+  páginas (bo7-capture e level-capture-avatar.html — Claude não tem esses arquivos ainda).
+- **Confirm email:** religar antes de abrir ao público (hoje OFF p/ testes).
 - **RLS do bucket user-assets:** dispensável. Todo acesso ao bucket passa pela Edge Function
   com service-role (que bypassa RLS); o cliente nunca toca o bucket direto. Segurança está na
   função (só devolve assets do userId correto), não em política de Storage.
@@ -169,10 +182,11 @@ Implementado o **caminho B**: autenticação real com Supabase Auth, identidade 
 **Com verify_jwt = TRUE (migradas pra auth.uid em 1/Jun):**
 - **sync-push** (v6) — recebe snapshot do Hub, grava sob auth.uid via auth_user_id. LWW por
   chave natural, upserts, deletes. Bug de perfil-vazio corrigido (v2.1: preenche perfil null sem LWW).
+- **sync-pull** (v6) — read-only, devolve dado do banco por auth.uid. Suporta `since` incremental.
 - **user-asset** (v4) — CRUD de imagens no bucket user-assets, por auth.uid. Endpoints list/upload/delete.
 
 **Com verify_jwt = FALSE (modelo antigo, por local_id ou token de captura):**
-- sync-pull (v5), sync-pull-v2 (v5) — trazem dado do banco (AINDA local_id; pull não migrado).
+- sync-pull-v2 (v5) — função antiga/duplicada do modelo local_id (a sync-pull canônica é v6, migrada p/ auth.uid).
 - analyze-capture (v10) — Gemini Vision em prints de arma → vision_result. Instrumentado em ana_gemini_usage.
 - generate-avatar (v5), avatar-session-create (v6), avatar-session-approve (v4), upload-avatar-selfie (v4).
 - bootstrap-defaults (v7) — seeds iniciais.
@@ -187,9 +201,14 @@ Implementado o **caminho B**: autenticação real com Supabase Auth, identidade 
 - Upserts confiáveis: `ON CONFLICT (id) DO UPDATE` com enumeração completa de campos.
 - Bulk inserts grandes: Edge Function temporária com verify_jwt=false + shared secret +
   `curl --data-binary`, neutralizada após uso.
-- Migração pra auth.uid (padrão usado em sync-push e user-asset): valida token via
+- Migração pra auth.uid (padrão usado em sync-push, sync-pull e user-asset): valida token via
   `supabase.auth.getUser(token)` com service-role client (não depende do secret ANON_KEY);
   resolve hub_users por auth_user_id; adota órfão por local_id; senão cria. Deploy com verify_jwt=true.
+- **DICA DE DEPLOY (descoberta 1/Jun):** o deploy de Edge Function pela ferramenta exige a
+  estrutura de subpasta (`slug/index.ts` + `slug/deno.json` + import_map_path apontando pro
+  deno.json), NÃO um `index.ts` solto na raiz. Tentar deployar `index.ts` na raiz dá
+  `InternalServerErrorException` repetido — que PARECE instabilidade do Supabase mas é a
+  estrutura errada. Replicar a estrutura da versão anterior resolve.
 
 ---
 
