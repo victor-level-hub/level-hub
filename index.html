@@ -10343,16 +10343,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.5.0 · <span data-i18n="briefing.changelog.date">2 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.5.1 · <span data-i18n="briefing.changelog.date">2 Jun 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Login, sincronização na nuvem e captura de arma por celular</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O Hub agora tem conta própria: o teu arsenal, perfil e configurações ficam guardados na nuvem e seguem-te em qualquer dispositivo. A captura de arma por foto ficou mais robusta, e o catálogo de dificuldades passou a vir do servidor — pronto para crescer.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Layout da aba Evolução · Dificuldades restaurado</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Uma entrada quebrada no Histórico de Versões (faltava o wrapper do cabeçalho num registo) estava a empurrar várias secções para fora do contentor principal — fazendo o conteúdo da aba Evolução · Dificuldades aparecer colapsado no meio da página. Corrigido.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Login e sincronização.</strong> Cria conta, faz login e o teu progresso é guardado na nuvem; ao entrar num dispositivo novo, tudo aparece sozinho.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Captura de arma mais robusta.</strong> A leitura por foto distingue o nome real da arma do codename do loadout, e podes sempre escolher a arma da lista e salvar.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Dificuldades do servidor.</strong> O catálogo de dificuldades (agora 11) vem do banco, com controlo de recuo, movimento (Omnimovement) e posicionamento.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13635,6 +13635,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.5.1</span>
+                <span class="vh-date">2 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Correção de layout da aba Evolução · Dificuldades. Uma entrada malformada do próprio modal de Histórico (a entry da v2.3.2 estava sem o wrapper <code>&lt;div class="vh-entry-head"&gt;</code> e sem o <code>&lt;span class="vh-ver"&gt;</code>) introduzia um <code>&lt;/div&gt;</code> em excesso que cascateava no parser HTML5 e acabava por fechar o <code>&lt;main&gt;</code> mais cedo. Resultado: as secções Mapas, Perks, Evolução, Progression e Configurações ficavam fora do contentor principal — visivelmente, a aba Dificuldades aparecia colapsada com banner e botão empurrados para a base. Sem mudanças de feature.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.5.0</span>
                 <span class="vh-date">2 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -13652,6 +13661,8 @@
             </div>
 
             <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.3.2</span>
                 <span class="vh-date">31 Mai 2026</span>
                 <span class="vh-kind">fix</span>
               </div>
@@ -15115,7 +15126,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.5.0</strong><span class="ver-tag">Login, sync na nuvem, captura de arma e dificuldades do banco</span>
+        LEVEL · <strong>v2.5.1</strong><span class="ver-tag">Correção do layout da aba Evolução · Dificuldades</span>
       </div>
       <script>
         (function(){
@@ -16246,12 +16257,12 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '2 Jun 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Login, sincronização na nuvem e captura de arma por celular',
-    'briefing.changelog.summary':  'O Hub agora tem conta própria: o teu arsenal, perfil e configurações ficam guardados na nuvem e seguem-te em qualquer dispositivo. A captura de arma por foto ficou mais robusta, e o catálogo de dificuldades passou a vir do servidor — pronto para crescer.',
-    'briefing.changelog.item1': '<strong>Login e sincronização.</strong> Cria conta, faz login e o teu progresso é guardado na nuvem; ao entrar num dispositivo novo, tudo aparece sozinho.',
-    'briefing.changelog.item2': '<strong>Captura de arma mais robusta.</strong> A leitura por foto distingue o nome real da arma do codename do loadout, e podes sempre escolher a arma da lista e salvar.',
-    'briefing.changelog.item3': '<strong>Dificuldades do servidor.</strong> O catálogo de dificuldades (agora 11) vem do banco, com controlo de recuo, movimento (Omnimovement) e posicionamento.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Layout da aba Evolução · Dificuldades restaurado',
+    'briefing.changelog.summary':  'Uma entrada quebrada no Histórico de Versões (faltava o wrapper do cabeçalho num registo) estava a empurrar várias secções para fora do contentor principal — fazendo o conteúdo da aba Evolução · Dificuldades aparecer colapsado no meio da página. Corrigido.',
+    'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
+    'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
+    'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
     'briefing.stats.label':   'Tua progressão',
     'briefing.stats.action':  'Ver histórico →',
     // — Briefing Marketplace contributions card (v75-72) —
@@ -17529,12 +17540,12 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 2, 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Login, cloud sync and phone weapon capture',
-    'briefing.changelog.summary':  'The Hub now has its own account: your arsenal, profile and settings are stored in the cloud and follow you on any device. Photo weapon capture got more robust, and the struggles catalog now comes from the server — ready to grow.',
-    'briefing.changelog.item1': '<strong>Login and sync.</strong> Create an account, log in and your progress is saved in the cloud; on a new device, everything shows up automatically.',
-    'briefing.changelog.item2': '<strong>More robust weapon capture.</strong> Photo reading tells the real weapon name from the loadout codename, and you can always pick the weapon from the list and save.',
-    'briefing.changelog.item3': '<strong>Struggles from the server.</strong> The struggles catalog (now 11) comes from the database, adding recoil control, movement (Omnimovement) and positioning.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Evolution · Struggles tab layout restored',
+    'briefing.changelog.summary':  'A broken entry in the Version History (one record was missing its header wrapper) was pushing several sections out of the main container — making the Evolution · Struggles tab show up collapsed in the middle of the page. Fixed.',
+    'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
+    'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
+    'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
     'briefing.stats.label':   'Your progression',
     'briefing.stats.action':  'See history →',
     // — Briefing Marketplace contributions card (v75-72) —
