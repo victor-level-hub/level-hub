@@ -31,11 +31,11 @@
 <style>
   :root {
     /* LEVEL · Dusk + Amber palette (v3.0) */
-    --bg-darkest: #08101f;
-    --bg-dark: #0F1729;
-    --bg-panel: #141C30;
-    --bg-row: #1A2540;
-    --bg-row-hover: #243050;
+    --bg-darkest: #141a2b;
+    --bg-dark: #1a2238;
+    --bg-panel: #1f283f;
+    --bg-row: #25304f;
+    --bg-row-hover: #303d5f;
     --border: rgba(255, 255, 255, 0.05);
     --border-bright: #3F4D6B;
     --text-primary: #E8E2D7;
@@ -2452,12 +2452,15 @@
     min-width: 0;
   }
   .app-header-brand-mark {
-    display: inline-block;
-    width: 3px;
-    height: 28px;
-    background: var(--accent-orange);
-    box-shadow: 0 0 8px rgba(240,185,82,0.5);
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
     flex-shrink: 0;
+  }
+  .app-header-brand-mark svg {
+    height: 100%;
+    width: auto;
+    display: block;
   }
   .app-header-section-text {
     display: flex;
@@ -2568,7 +2571,7 @@
   }
   /* Need a slightly taller header now that intro is included */
   .app-header { min-height: 64px; }
-  .app-header-brand-mark { height: 38px; }
+  .app-header-brand-mark { height: 34px; }
 
   /* ─── Hide section-header entirely (everything moved to app-header) ─── */
   .section-header {
@@ -9881,7 +9884,7 @@
 <style>
   #level-auth-gate {
     position: fixed; inset: 0; z-index: 99999;
-    background: #0a0a0a;
+    background: #141a2b;
     display: none; align-items: center; justify-content: center;
     padding: 24px; overflow-y: auto;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -9889,13 +9892,15 @@
   #level-auth-gate.show { display: flex; }
   #level-auth-gate .lag-card {
     width: 100%; max-width: 420px;
-    background: var(--bg-elev, #181818);
+    background: #252f48;
     border: 1px solid var(--border, #2a2a2a);
     border-radius: 14px; padding: 32px 28px;
   }
   #level-auth-gate .lag-logo {
-    font-family: 'Courier New', monospace; font-size: 24px; font-weight: 800;
-    letter-spacing: 6px; color: var(--accent, #ff9800); text-align: center;
+    text-align: center;
+  }
+  #level-auth-gate .lag-logo-svg {
+    width: 100%; max-width: 300px; height: auto; display: inline-block;
   }
   #level-auth-gate .lag-sub {
     font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 2px;
@@ -9976,7 +9981,26 @@
 <div id="level-auth-gate" role="dialog" aria-modal="true" aria-label="Acesso ao LEVEL">
   <div class="lag-card">
 
-    <div class="lag-logo">L · E · V · E · L</div>
+    <div class="lag-logo">
+      <svg class="lag-logo-svg" viewBox="0 0 704 178" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LEVEL">
+        <path d="M0.192993 29.017C5.23499 33.291 10.423 38.551 15.356 43.055C27.716 54.341 38.187 64.812 48.346 78.127L48.534 121.364L135.926 121.79C136.062 102.841 135.786 83.544 135.76 64.552C147.211 53.736 157.135 41.97 168.336 31.224C204.018 31.851 240.669 30.288 276.372 31.234C298.136 55.652 325.365 80.888 348.947 103.885C351.025 101.654 353.202 99.143 355.361 97.032C377.677 75.209 398.857 52.452 421.693 31.156C436.52 30.776 452.716 31.07 467.643 31.07L574.348 31.063C583.977 41.14 593.709 51.118 603.543 60.996C607.952 65.475 613.011 71.154 617.556 75.21C617.792 90.294 617.584 105.817 617.553 120.933L703.031 120.951C689.701 135.655 675.663 150.225 662.934 165.362L569.21 165.28L569.055 131.812C558.215 140.791 544.503 154.915 535.024 165.343L418.298 165.328C419.048 146.328 418.811 126.369 418.629 107.316C412.311 111.941 402.127 122.847 396.132 128.841L366.794 158.108C360.538 164.417 354.539 170.899 348.113 177.04C341.756 170.263 333.769 163.295 327.029 156.488C299.954 129.015 272.502 101.915 244.681 75.195L244.668 86.429C233.677 86.504 160.964 85.538 158.924 86.79C158.271 87.191 158.377 87.87 158.248 88.56C159.607 89.525 162.353 91.636 163.773 92.151C170.846 92.741 184.055 92.356 191.678 92.359L244.641 92.368L244.452 111.954L188.303 111.919C188.27 113.711 187.99 115.9 188.847 117.35C191.329 117.984 202.565 117.697 205.931 117.685H244.452C252.5 127.517 253 128.017 259.868 135.903L275 151.017L290.513 166.492C238.443 165.98 186.369 165.869 134.296 166.161C134.462 155.517 134.547 144.872 134.551 134.226C124.671 144.285 115.896 156.37 106.328 165.899C94.174 166.307 80.68 166.097 68.413 166.136L0 166.33L0.192993 29.017Z" fill="#FF9800"/>
+<path d="M161.042 86.017C164.5 86.017 166 86.017 167.5 86.017C167.73 102.687 166.758 123.449 166.785 140.146C188.081 140.528 223.202 140.57 244.5 140.517C244.5 143.017 244.5 145.517 244.5 145.517C244.5 145.517 168.39 146.07 161 146.004L161.042 86.017Z" fill="#AEC7E0"/>
+
+<path d="M433.782 50.531L498.234 50.431C505.175 50.425 524.5 50.517 531 50.517L530.953 52.517C531 52.517 531 55.017 531 56.017C527.5 56.017 501.589 56.049 496.858 56.042L435.151 56.002C417.589 73.956 400.717 92.439 382.505 109.823C371.411 120.413 361.013 131.714 349.463 141.88C341.525 134.96 332.378 125.529 324.9 118.052L287.776 81.069C279.615 72.972 270.864 64.045 262.306 56.468L214.346 56.365C202.721 56.33 190.329 56.495 178.783 55.965C178.679 54.239 178.708 52.326 178.693 50.583C207.745 50.37 236.798 50.511 265.847 51.005C293.231 78.95 321.915 106.613 349.697 134.374C351.747 132.586 353.711 130.512 355.673 128.608C366.364 118.232 376.914 107.793 387.335 97.146L433.782 50.531Z" fill="#AEC7E0"/>
+<path d="M595 76.017C596.991 76.017 600.188 76.017 600.686 76.017C600.686 78.0285 600.686 133.346 600.686 139.904H657.996L658 147.017H595C594.858 123.312 594.61 99.7189 595 76.017Z" fill="#AEC7E0"/>
+<path d="M23.034 78.144C24.817 78.87 27.029 81.135 28.546 82.508L28.476 140.807H75.5C81.5 141.017 95.252 140.807 99.5 140.807C98.5 142.517 98.5 142.517 97 144.517C96.415 145.263 96.098 145.835 95.5 146.571C92.5 146.571 76.533 146.572 72.556 146.571L23.301 146.546L23.034 78.144Z" fill="#AEC7E0"/>
+<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C344.993 42.421 329.95 26.511 325.397 21.665C318.694 14.559 311.95 7.49101 305.167 0.462006C320.111 0.595006 335.057 0.556001 350.001 0.345001Z" fill="#AEC7E0"/>
+<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C349.798 42.792 349.969 33.914 349.969 30.554L350.001 0.345001Z" fill="#FF9800"/>
+<path d="M594.501 76.0015C599 76.0015 596.637 76.0015 601.136 76.0015C601.136 96.5015 601.115 120.137 601.136 139.895C618.501 139.895 650.501 139.517 667.001 139.517C660.001 145.517 658.456 147.001 658.456 147.001C658.456 147.001 600.29 147.095 594.501 147.017V76.0015Z" fill="#AEC7E0"/>
+<path d="M449 95.017C445.5 91.017 445 90.017 443.5 88.517V146.517H499.5C504.025 146.518 526.587 146.517 530 146.517V144.017V140.517C530 140.517 509.52 140.497 502.694 140.289H449.192L449 95.017Z" fill="#AEC7E0"/>
+<path d="M165.995 86.0741L244.645 85.959L244.654 92.3406L166.004 92.4557L165.995 86.0741Z" fill="#AEC7E0"/>
+<path d="M167 111.985L244.5 111.985L244.5 118.097L167 118.097L167 111.985Z" fill="#AEC7E0"/>
+<path d="M443.5 88.517L528.5 88.017L528.5 95.517L470.5 95.517L445 95.517L443.5 88.517Z" fill="#AEC7E0"/>
+<path d="M449 114.517L528.5 115.017L528.5 121.517L476 121.517L449 121.517L449 114.517Z" fill="#AEC7E0"/>
+<path d="M154 86.017H161V91.017H154V86.017Z" fill="#FF9800"/>
+<path d="M448 88 L528 88 L528 95 L448 95 Z" fill="#AEC7E0"/><path d="M448 114 L520 114 L520 121 L448 121 Z" fill="#AEC7E0"/>
+      </svg>
+    </div>
     <div class="lag-sub">Tactical Hub · BO7</div>
 
     <!-- TELA: LANDING -->
@@ -10232,7 +10256,24 @@
     <!-- ETAPA i18n: Sticky app header (lang toggle lives here) -->
     <header class="app-header">
       <div class="app-header-section">
-        <span class="app-header-brand-mark" aria-hidden="true"></span>
+        <span class="app-header-brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 704 178" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LEVEL"><path d="M0.192993 29.017C5.23499 33.291 10.423 38.551 15.356 43.055C27.716 54.341 38.187 64.812 48.346 78.127L48.534 121.364L135.926 121.79C136.062 102.841 135.786 83.544 135.76 64.552C147.211 53.736 157.135 41.97 168.336 31.224C204.018 31.851 240.669 30.288 276.372 31.234C298.136 55.652 325.365 80.888 348.947 103.885C351.025 101.654 353.202 99.143 355.361 97.032C377.677 75.209 398.857 52.452 421.693 31.156C436.52 30.776 452.716 31.07 467.643 31.07L574.348 31.063C583.977 41.14 593.709 51.118 603.543 60.996C607.952 65.475 613.011 71.154 617.556 75.21C617.792 90.294 617.584 105.817 617.553 120.933L703.031 120.951C689.701 135.655 675.663 150.225 662.934 165.362L569.21 165.28L569.055 131.812C558.215 140.791 544.503 154.915 535.024 165.343L418.298 165.328C419.048 146.328 418.811 126.369 418.629 107.316C412.311 111.941 402.127 122.847 396.132 128.841L366.794 158.108C360.538 164.417 354.539 170.899 348.113 177.04C341.756 170.263 333.769 163.295 327.029 156.488C299.954 129.015 272.502 101.915 244.681 75.195L244.668 86.429C233.677 86.504 160.964 85.538 158.924 86.79C158.271 87.191 158.377 87.87 158.248 88.56C159.607 89.525 162.353 91.636 163.773 92.151C170.846 92.741 184.055 92.356 191.678 92.359L244.641 92.368L244.452 111.954L188.303 111.919C188.27 113.711 187.99 115.9 188.847 117.35C191.329 117.984 202.565 117.697 205.931 117.685H244.452C252.5 127.517 253 128.017 259.868 135.903L275 151.017L290.513 166.492C238.443 165.98 186.369 165.869 134.296 166.161C134.462 155.517 134.547 144.872 134.551 134.226C124.671 144.285 115.896 156.37 106.328 165.899C94.174 166.307 80.68 166.097 68.413 166.136L0 166.33L0.192993 29.017Z" fill="#FF9800"/>
+<path d="M161.042 86.017C164.5 86.017 166 86.017 167.5 86.017C167.73 102.687 166.758 123.449 166.785 140.146C188.081 140.528 223.202 140.57 244.5 140.517C244.5 143.017 244.5 145.517 244.5 145.517C244.5 145.517 168.39 146.07 161 146.004L161.042 86.017Z" fill="#AEC7E0"/>
+
+<path d="M433.782 50.531L498.234 50.431C505.175 50.425 524.5 50.517 531 50.517L530.953 52.517C531 52.517 531 55.017 531 56.017C527.5 56.017 501.589 56.049 496.858 56.042L435.151 56.002C417.589 73.956 400.717 92.439 382.505 109.823C371.411 120.413 361.013 131.714 349.463 141.88C341.525 134.96 332.378 125.529 324.9 118.052L287.776 81.069C279.615 72.972 270.864 64.045 262.306 56.468L214.346 56.365C202.721 56.33 190.329 56.495 178.783 55.965C178.679 54.239 178.708 52.326 178.693 50.583C207.745 50.37 236.798 50.511 265.847 51.005C293.231 78.95 321.915 106.613 349.697 134.374C351.747 132.586 353.711 130.512 355.673 128.608C366.364 118.232 376.914 107.793 387.335 97.146L433.782 50.531Z" fill="#AEC7E0"/>
+<path d="M595 76.017C596.991 76.017 600.188 76.017 600.686 76.017C600.686 78.0285 600.686 133.346 600.686 139.904H657.996L658 147.017H595C594.858 123.312 594.61 99.7189 595 76.017Z" fill="#AEC7E0"/>
+<path d="M23.034 78.144C24.817 78.87 27.029 81.135 28.546 82.508L28.476 140.807H75.5C81.5 141.017 95.252 140.807 99.5 140.807C98.5 142.517 98.5 142.517 97 144.517C96.415 145.263 96.098 145.835 95.5 146.571C92.5 146.571 76.533 146.572 72.556 146.571L23.301 146.546L23.034 78.144Z" fill="#AEC7E0"/>
+<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C344.993 42.421 329.95 26.511 325.397 21.665C318.694 14.559 311.95 7.49101 305.167 0.462006C320.111 0.595006 335.057 0.556001 350.001 0.345001Z" fill="#AEC7E0"/>
+<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C349.798 42.792 349.969 33.914 349.969 30.554L350.001 0.345001Z" fill="#FF9800"/>
+<path d="M594.501 76.0015C599 76.0015 596.637 76.0015 601.136 76.0015C601.136 96.5015 601.115 120.137 601.136 139.895C618.501 139.895 650.501 139.517 667.001 139.517C660.001 145.517 658.456 147.001 658.456 147.001C658.456 147.001 600.29 147.095 594.501 147.017V76.0015Z" fill="#AEC7E0"/>
+<path d="M449 95.017C445.5 91.017 445 90.017 443.5 88.517V146.517H499.5C504.025 146.518 526.587 146.517 530 146.517V144.017V140.517C530 140.517 509.52 140.497 502.694 140.289H449.192L449 95.017Z" fill="#AEC7E0"/>
+<path d="M165.995 86.0741L244.645 85.959L244.654 92.3406L166.004 92.4557L165.995 86.0741Z" fill="#AEC7E0"/>
+<path d="M167 111.985L244.5 111.985L244.5 118.097L167 118.097L167 111.985Z" fill="#AEC7E0"/>
+<path d="M443.5 88.517L528.5 88.017L528.5 95.517L470.5 95.517L445 95.517L443.5 88.517Z" fill="#AEC7E0"/>
+<path d="M449 114.517L528.5 115.017L528.5 121.517L476 121.517L449 121.517L449 114.517Z" fill="#AEC7E0"/>
+<path d="M154 86.017H161V91.017H154V86.017Z" fill="#FF9800"/>
+<path d="M448 88 L528 88 L528 95 L448 95 Z" fill="#AEC7E0"/><path d="M448 114 L520 114 L520 121 L448 121 Z" fill="#AEC7E0"/></svg>
+        </span>
         <div class="app-header-section-text">
           <div class="app-header-breadcrumb" id="app-header-breadcrumb"></div>
           <div class="app-header-title" id="app-header-title">HOME</div>
@@ -10343,16 +10384,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.5.1 · <span data-i18n="briefing.changelog.date">2 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.6.2 · <span data-i18n="briefing.changelog.date">2 Jun 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Layout da aba Evolução · Dificuldades restaurado</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Uma entrada quebrada no Histórico de Versões (faltava o wrapper do cabeçalho num registo) estava a empurrar várias secções para fora do contentor principal — fazendo o conteúdo da aba Evolução · Dificuldades aparecer colapsado no meio da página. Corrigido.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Nova logo do LEVEL</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O LEVEL passa a ter logo própria, na tela de login e no cabeçalho do Hub. A marca é a palavra LEVEL em laranja (#FF9800), com detalhes internos em azul-claro e um triângulo no topo. O contorno em laranja garante destaque sobre o fundo escuro, e o recorte triangular do segundo E é vazado (deixa ver o fundo), funcionando em qualquer tom. O azul-marinho de fundo do Hub também subiu alguns tons para reforçar o contraste, sem perder o ar escuro e tático.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Logo no login e no cabeçalho.</strong> A marca LEVEL aparece na tela de entrada (no lugar do texto) e no canto superior esquerdo do Hub.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Contorno laranja + cunha vazada.</strong> O corpo das letras passou a laranja (#FF9800) para destacar no fundo escuro, com os detalhes internos em azul-claro; o recorte triangular do segundo E é vazado, deixando ver o fundo em vez do bloco cinza que destoava.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Fundo recalibrado.</strong> A paleta azul-marinho do Hub subiu alguns tons para a logo (e tudo o resto) ganhar contraste, sem perder o ar escuro e tático.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13635,6 +13676,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.6.2</span>
+                <span class="vh-date">2 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Nova identidade visual do LEVEL. A marca ganhou logo própria (a palavra LEVEL em estilo angular), exibida na tela de login (no lugar do texto L·E·V·E·L) e no canto superior esquerdo do cabeçalho. O corpo das letras é laranja (#FF9800) — escolhido para destacar sobre o fundo escuro do Hub, onde tons mais escuros desapareciam — com os detalhes internos em azul-claro e um triângulo laranja no topo entre o E e o V. O recorte triangular do segundo E foi vazado: em vez de um bloco sólido que destoava, deixa ver o fundo através dele, então funciona em qualquer tom de fundo (cartão de login, cabeçalho, etc.). Para reforçar o contraste, a paleta azul-marinho do Hub subiu alguns tons (bg-darkest/dark/panel/row/hover), mantendo o visual escuro e tático, e o cartão de login recebeu um tom próprio. Logo em SVG embutido, escala sem perda.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.5.1</span>
                 <span class="vh-date">2 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -15126,7 +15176,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.5.1</strong><span class="ver-tag">Correção do layout da aba Evolução · Dificuldades</span>
+        LEVEL · <strong>v2.6.2</strong><span class="ver-tag">Logo LEVEL em laranja — contorno destacado, cunha vazada</span>
       </div>
       <script>
         (function(){
