@@ -655,7 +655,7 @@
   }
   .briefing-events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 22px;
   }
 
@@ -1009,7 +1009,7 @@
 
   @media (max-width: 900px) {
     .briefing-events-grid {
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: 1fr;
       gap: 16px;
     }
     .briefing-event-name { font-size: 15px; }
@@ -5690,6 +5690,62 @@
     text-transform: uppercase;
   }
 
+  /* v2.7.1 — Novo layout das sugestões (sem <ul>; item por bloco) */
+  .build-card .bc-suggestions-list .bc-sug-item {
+    padding: 10px 12px;
+    margin-top: 8px;
+    background: rgba(0,0,0,0.18);
+    border-left: 2px solid var(--accent-orange);
+    border-radius: 3px;
+  }
+  .build-card .bc-suggestions-list .bc-sug-item:first-child { margin-top: 0; }
+  .build-card .bc-suggestions-list .bc-sug-slot-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .build-card .bc-suggestions-list .bc-sug-slot-label {
+    color: var(--text-muted);
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .build-card .bc-suggestions-list .bc-sug-lvl {
+    color: var(--accent-orange);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border: 1px solid rgba(255,138,31,0.4);
+    border-radius: 3px;
+  }
+  .build-card .bc-suggestions-list .bc-sug-swap {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+  .build-card .bc-suggestions-list .bc-sug-from {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,255,255,0.25);
+  }
+  .build-card .bc-suggestions-list .bc-sug-arrow {
+    color: var(--accent-orange);
+    font-weight: 700;
+    padding: 0 4px;
+  }
+  .build-card .bc-suggestions-list .bc-sug-to {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+  .build-card .bc-suggestions-list .bc-sug-rationale {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
   /* ─── Master toggle (build modal) ─── */
   .master-toggle {
     display: flex;
@@ -10346,16 +10402,18 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.7.0 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.7.1 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix + visual</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Análise de build agora dá veredito</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">A análise IA da build deixou de ser ficha técnica genérica e passou a ser um veredito direto pra ti. O motor cruza a build com o teu estilo de jogo (rusher CQB) e com as dificuldades que tens cadastradas (Evolução), e devolve uma conclusão acionável em uma das três formas: está no teto, muda X por Y, ou o problema não está na arma. Esta versão também limpa o painel de eventos automaticamente e corrige o seletor de arma no modal de captura.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Painel mais limpo, captura mais robusta</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Pacote de pequenos arranjos visuais e correções de fluxo. O painel "EVENTOS NO AR" passou a ter três colunas fixas para um único evento não esticar a largura toda. O lançamento do Modern Warfare 4 ganhou um banner com contagem regressiva até 23 de outubro. Modais agora abrem sempre no topo. A tela Configurações · Armamento mostra todas as armas que conheces, mesmo quando o servidor de catálogo está em queda. Sugestões de melhoria da análise IA reformatadas com slot + troca em destaque.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Análise com veredito.</strong> A análise agora sabe que jogas rusher CQB (combate de curta distância) no PS5, considera Dexterity (perk que reduz flinch — desvio de mira ao levar tiro) como prioridade, e cruza a build com as dificuldades que tens cadastradas — incluindo dizer claramente quando o problema não é a arma e sim perk/config.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Eventos limpam-se sozinhos.</strong> O painel "EVENTOS NO AR" agora remove automaticamente eventos que terminaram há mais de 4 dias. Se nenhum evento ativo sobrar, a secção inteira desaparece em vez de mostrar um cabeçalho vazio.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Seletor de arma da captura corrigido.</strong> No modal de aprovação da captura por foto, o dropdown "escolhe a arma" mostrava só 2 opções quando o catálogo do servidor não tinha carregado. Agora junta o catálogo com o teu arsenal cadastrado — sempre vês todas as armas que conheces, independente do estado da rede.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Grid em três colunas.</strong> Quando há apenas um evento ativo, ele já não estica para ocupar a largura toda — fica numa coluna do tamanho certo, com as outras duas a aguardar próximos eventos.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Banner do Modern Warfare 4.</strong> Lançamento em 23 de outubro de 2026 — banner com contagem regressiva ("Lança em XXd YYh"). Quando passar, mostra "LANÇADO" por mais 4 dias e depois sai sozinho do painel.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Modais abrem no topo.</strong> Sempre que abres qualquer modal (editar build, configurações, histórico), o conteúdo interno é rolado automaticamente para o início — sem mais "abriu lá em baixo".</li>
+            <li data-i18n-html="briefing.changelog.item4"><strong>Armas em Configurações · Imagens.</strong> A grade de armas por classe (SMG, AR, etc.) já não dependia só do servidor — agora junta com o teu arsenal local, então vês sempre todas as armas que conheces.</li>
+            <li data-i18n-html="briefing.changelog.item5"><strong>Sugestões de melhoria com slot + troca.</strong> A análise IA da arma passa a apresentar cada sugestão como um bloco com o SLOT em destaque, o nome do attachment atual riscado e o novo realçado — fica óbvio o que mudar.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13631,6 +13689,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.1</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">fix + visual</span>
+              </div>
+              <p class="vh-desc">Pacote de pequenos arranjos. <strong>Grid de eventos em 3 colunas fixas</strong> (desktop) e 1 coluna (mobile), para um único evento ativo não esticar a largura toda do painel — encaixa numa coluna do tamanho certo. <strong>Banner do Call of Duty: Modern Warfare 4</strong> adicionado ao painel "EVENTOS NO AR" com contagem regressiva até 23 de outubro de 2026 — novo tipo de evento <code>kind: 'launch'</code> que troca o rótulo para "Lança em" e mostra "LANÇADO" durante 4 dias após a estreia antes de sair sozinho. <strong>Scroll dos modais reset automático</strong> via <code>MutationObserver</code> global: sempre que qualquer <code>.modal-overlay</code> ganha a classe <code>visible</code>, o conteúdo interno é rolado para o topo. <strong>Configurações &middot; Armamento</strong> passou a usar a UNIÃO de <code>DEFAULT_WEAPONS</code> + arsenal pessoal do utilizador (mesma correção que tinha sido aplicada ao dropdown da captura na v2.7.0) — todas as armas conhecidas aparecem nas listas por classe (SMG/AR/Sniper/Pistola/Launcher/Special/Todas), mesmo quando o bootstrap-defaults do servidor está em queda. <strong>Sugestões de melhoria da análise IA reformatadas</strong>: cada sugestão vira um bloco com o SLOT do attachment em destaque, nome atual riscado e nome novo realçado em cyan, separados por seta laranja — fica óbvio o que trocar. Schema da Edge Function ganha campo <code>replaces</code> para a IA indicar o attachment a substituir.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.7.0</span>
                 <span class="vh-date">3 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15136,7 +15203,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.7.0</strong><span class="ver-tag">Veredito da build · eventos auto-limpam · seletor de armas robusto</span>
+        LEVEL · <strong>v2.7.1</strong><span class="ver-tag">Grid 3-col · banner MW4 · scroll modais · armas no Configurações · sugestões reformatadas</span>
       </div>
       <script>
         (function(){
@@ -16287,6 +16354,8 @@ window.I18N = {
     'hub.versionDetect':       'Hub atualizado: {from} → {to} · {tag}',
     'briefing.eventEnds':     'Termina em',
     'briefing.eventEnded':    'ENCERRADO',
+    'briefing.eventLaunchesIn':'// Lança em',
+    'briefing.eventLaunched': 'LANÇADO',
 
     // — Next-perk JS strings (data-bind targets) —
     'briefing.nextPerk.allUnlocked':       'Todos os perks comuns destravados',
@@ -16301,6 +16370,8 @@ window.I18N = {
     'briefing.event.ranked.desc':     'Temporada ranked oficial da Season 03. Vitórias dão <strong>blueprint do M15 Mod 0</strong> (10 wins) e <strong>Large Decal</strong> (100 wins). Cada rank atingido (<strong>Silver, Gold, Platinum, Diamond, Crimson, Iridescent</strong>) libera Calling Card + Weapon Camo exclusivo. Top 250 leva o Calling Card de Champion.',
     'briefing.event.robocop.mode':    'CM · MP · Zombies · WZ',
     'briefing.event.robocop.desc':    'Crossover com o filme RoboCop. Ganha XP em qualquer modo pra subir 2 trilhas: <strong>Free</strong> (Siren energy weapon, skins, blueprints) e <strong>Premium</strong> (1100 COD Points / ~$10 — desbloqueia o operador <strong>RoboCop</strong> + 3 skins).',
+    'briefing.event.mw4.mode':        'Campanha · Multijogador · DMZ',
+    'briefing.event.mw4.desc':        '<strong>Warfare Without Limits</strong> · Próximo Call of Duty, desenvolvido pela Infinity Ward. Guerra na Península Coreana — invasão norte-coreana, Captain Price em missão pessoal nas sombras. Disponível para PS5, Xbox Series X|S, PC (Battle.net, Steam) e Nintendo Switch 2. Pré-venda aberta.',
 
     'sec.myweapons.crumb':    '02 / Minhas Armas',
     'sec.myweapons.h2':       'MINHAS ARMAS · CATÁLOGO DE BUILDS',
@@ -17570,6 +17641,8 @@ window.I18N = {
     'hub.versionDetect':       'Hub updated: {from} → {to} · {tag}',
     'briefing.eventEnds':     'Ends on',
     'briefing.eventEnded':    'ENDED',
+    'briefing.eventLaunchesIn':'// Launches in',
+    'briefing.eventLaunched': 'LAUNCHED',
 
     // — Next-perk JS strings —
     'briefing.nextPerk.allUnlocked':       'All common perks unlocked',
@@ -17584,6 +17657,8 @@ window.I18N = {
     'briefing.event.ranked.desc':     'Official Ranked Play season for Season 03. Wins grant the <strong>M15 Mod 0 blueprint</strong> (10 wins) and the <strong>Large Decal</strong> (100 wins). Each rank reached (<strong>Silver, Gold, Platinum, Diamond, Crimson, Iridescent</strong>) unlocks an exclusive Calling Card + Weapon Camo. Top 250 earns the Champion Calling Card.',
     'briefing.event.robocop.mode':    'CM · MP · Zombies · WZ',
     'briefing.event.robocop.desc':    'Crossover with the RoboCop movie. Earn XP in any mode to climb 2 tracks: <strong>Free</strong> (Siren energy weapon, skins, blueprints) and <strong>Premium</strong> (1100 COD Points / ~$10 — unlocks the <strong>RoboCop</strong> operator + 3 skins).',
+    'briefing.event.mw4.mode':        'Campaign · Multiplayer · DMZ',
+    'briefing.event.mw4.desc':        '<strong>Warfare Without Limits</strong> · Next Call of Duty, developed by Infinity Ward. War on the Korean Peninsula — North Korean invasion, Captain Price on a personal mission from the shadows. Available on PS5, Xbox Series X|S, PC (Battle.net, Steam) and Nintendo Switch 2. Pre-order open.',
 
     'sec.myweapons.crumb':    '02 / My Weapons',
     'sec.myweapons.h2':       'MY WEAPONS · BUILD CATALOG',
@@ -23033,21 +23108,37 @@ const ATTACHMENT_ICONS = {
       let html = '<div class="bc-analysis-summary">' + escapeHtml(summary) + '</div>';
 
       if (Array.isArray(analysis.suggestions) && analysis.suggestions.length) {
-        html += '<div class="bc-suggestions"><div class="bc-suggestions-title">{{i:pin}} Sugestões da IA</div><ul class="bc-suggestions-list">';
+        // v2.7.1 — novo layout: por slot, com "atual → nova" em destaque
+        html += '<div class="bc-suggestions"><div class="bc-suggestions-title">{{i:pin}} Sugestões de melhoria</div><div class="bc-suggestions-list">';
         for (const s of analysis.suggestions) {
-          let line = '';
+          let block = '';
           if (s.type === 'attachment') {
-            const tag = (s.unlock_level != null && s.unlock_level !== '') ? 'L' + s.unlock_level : '{{i:star}}';
-            const slotTxt = s.slot ? (escapeHtml(s.slot) + ' · ') : '';
-            line = '<strong>' + escapeHtml(s.name) + '</strong> <span class="bc-sug-slot">' + slotTxt + tag + '</span>';
-            if (s.rationale) line += ' — ' + escapeHtml(s.rationale);
+            const slotTxt = s.slot ? escapeHtml(s.slot).toUpperCase() : '';
+            const lvlTag  = (s.unlock_level != null && s.unlock_level !== '')
+              ? '<span class="bc-sug-lvl">L' + escapeHtml(String(s.unlock_level)) + '</span>'
+              : '';
+            // Linha 1: SLOT
+            // Linha 2: NomeAtual → NomeNovo  (se houver "replaces", senão só o novo)
+            const arrowLine = s.replaces
+              ? '<span class="bc-sug-from">' + escapeHtml(s.replaces) + '</span>'
+                + '<span class="bc-sug-arrow"> → </span>'
+                + '<span class="bc-sug-to">' + escapeHtml(s.name) + '</span>'
+              : '<span class="bc-sug-to">' + escapeHtml(s.name) + '</span>';
+            block = '<div class="bc-sug-item">'
+                  +   '<div class="bc-sug-slot-row"><span class="bc-sug-slot-label">' + slotTxt + '</span>' + lvlTag + '</div>'
+                  +   '<div class="bc-sug-swap">' + arrowLine + '</div>'
+                  +   (s.rationale ? '<div class="bc-sug-rationale">' + escapeHtml(s.rationale) + '</div>' : '')
+                  + '</div>';
           } else if (s.type === 'perk') {
-            line = 'Perk: <strong>' + escapeHtml(s.name) + '</strong>';
-            if (s.rationale) line += ' — ' + escapeHtml(s.rationale);
+            block = '<div class="bc-sug-item">'
+                  +   '<div class="bc-sug-slot-row"><span class="bc-sug-slot-label">PERK</span></div>'
+                  +   '<div class="bc-sug-swap"><span class="bc-sug-to">' + escapeHtml(s.name) + '</span></div>'
+                  +   (s.rationale ? '<div class="bc-sug-rationale">' + escapeHtml(s.rationale) + '</div>' : '')
+                  + '</div>';
           }
-          if (line) html += '<li>' + line + '</li>';
+          if (block) html += block;
         }
-        html += '</ul></div>';
+        html += '</div></div>';
       }
 
       // Meta footer: quando foi gerada + botão re-analisar
@@ -30655,6 +30746,27 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     ];
     try { window.EXTRA_EQUIPMENT_ITEMS = EXTRA_EQUIPMENT_ITEMS; } catch (e) {}
 
+    // ── Helper síncrono (v2.7.1): união do catálogo DEFAULT_WEAPONS com o
+    // arsenal pessoal do utilizador (localStorage 'level.weapons'). Defensivo
+    // contra cenários onde bootstrap-defaults caiu pro fallback de 2 armas.
+    // Mesmo padrão usado em _getAllKnownWeapons (modal de captura), mas síncrono
+    // pra encaixar nas `source()` do SETTINGS_CATEGORIES.
+    function _knownWeaponsSync() {
+      const out = new Map();
+      const catalog = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
+      for (const w of catalog) { if (w && w.id) out.set(w.id, w); }
+      try {
+        const raw = localStorage.getItem('level.weapons');
+        if (raw) {
+          const arsenal = JSON.parse(raw);
+          if (Array.isArray(arsenal)) {
+            for (const w of arsenal) { if (w && w.id && !out.has(w.id)) out.set(w.id, w); }
+          }
+        }
+      } catch (e) { /* segue só com catálogo */ }
+      return Array.from(out.values());
+    }
+
     const SETTINGS_CATEGORIES = [
       // ── CONSTRUTOR ──
       { id: 'style',     group: 'constructor', i18n: 'set.tab.style',     source: function () { return (typeof getCData === 'function' ? getCData() : DATA).style; } },
@@ -30667,41 +30779,37 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       { id: 'tactical',  group: 'constructor', i18n: 'set.tab.tactical',  source: function () { return (typeof getCData === 'function' ? getCData() : DATA).tactical; } },
       { id: 'lethal',    group: 'constructor', i18n: 'set.tab.lethal',    source: function () { return (typeof getCData === 'function' ? getCData() : DATA).lethal; } },
       // ── ARMAMENTO (25 armas do arsenal) ──
-      // Filtradas do DEFAULT_WEAPONS (exposto em window por outro IIFE).
+      // Filtradas da UNIÃO do catálogo (DEFAULT_WEAPONS) + arsenal pessoal do
+      // utilizador (LevelDB.weapons no localStorage). Defensivo contra cenários
+      // onde o bootstrap-defaults caiu pro fallback de 2 armas.
+      // (v2.7.1) Mesmo padrão usado em _getAllKnownWeapons (modal de captura).
       { id: 'weapons_smg',    group: 'armament', i18n: 'set.tab.weapons_smg',
         source: function () {
-          var arr = window.DEFAULT_WEAPONS;
-          return Array.isArray(arr) ? arr.filter(function (w) { return w.class === 'SMG'; }) : [];
+          return _knownWeaponsSync().filter(function (w) { return w.class === 'SMG'; });
         } },
       { id: 'weapons_ar',     group: 'armament', i18n: 'set.tab.weapons_ar',
         source: function () {
-          var arr = window.DEFAULT_WEAPONS;
-          return Array.isArray(arr) ? arr.filter(function (w) { return w.class === 'AR'; }) : [];
+          return _knownWeaponsSync().filter(function (w) { return w.class === 'AR'; });
         } },
       { id: 'weapons_sniper', group: 'armament', i18n: 'set.tab.weapons_sniper',
         source: function () {
-          var arr = window.DEFAULT_WEAPONS;
-          return Array.isArray(arr) ? arr.filter(function (w) { return w.class === 'Sniper'; }) : [];
+          return _knownWeaponsSync().filter(function (w) { return w.class === 'Sniper'; });
         } },
       { id: 'weapons_pistol', group: 'armament', i18n: 'set.tab.weapons_pistol',
         source: function () {
-          var arr = window.DEFAULT_WEAPONS;
-          return Array.isArray(arr) ? arr.filter(function (w) { return w.class === 'Pistol'; }) : [];
+          return _knownWeaponsSync().filter(function (w) { return w.class === 'Pistol'; });
         } },
       { id: 'weapons_launcher', group: 'armament', i18n: 'set.tab.weapons_launcher',
         source: function () {
-          var arr = window.DEFAULT_WEAPONS;
-          return Array.isArray(arr) ? arr.filter(function (w) { return w.class === 'Launcher'; }) : [];
+          return _knownWeaponsSync().filter(function (w) { return w.class === 'Launcher'; });
         } },
       { id: 'weapons_special', group: 'armament', i18n: 'set.tab.weapons_special',
         source: function () {
-          var arr = window.DEFAULT_WEAPONS;
-          return Array.isArray(arr) ? arr.filter(function (w) { return w.class === 'Special'; }) : [];
+          return _knownWeaponsSync().filter(function (w) { return w.class === 'Special'; });
         } },
       { id: 'weapons_all',    group: 'armament', i18n: 'set.tab.weapons_all',
         source: function () {
-          var arr = window.DEFAULT_WEAPONS;
-          return Array.isArray(arr) ? arr : [];
+          return _knownWeaponsSync();
         } },
       // ── PRESTIGES (P1-P10 + Master) ──
       { id: 'prestiges', group: 'prestiges', i18n: 'set.tab.prestiges',
@@ -33603,6 +33711,16 @@ ${cbt('share.t.footer')}`;
         img: 'https://imgs.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/body/bo7/bo7-s03-reloaded/BO7-S03-RELOADED-ANNOUNCEMENT-043.webp',
         // May 28, 2026 10am PT (17:00 UTC)
         endIso: '2026-05-28T17:00:00Z'
+      },
+      {
+        id: 'mw4',
+        name: 'Call of Duty: Modern Warfare 4',
+        modeKey: 'briefing.event.mw4.mode',
+        descKey: 'briefing.event.mw4.desc',
+        img: 'https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/mw4/home/hero/MW4LP_BGHero_XL.webp',
+        // Lançamento mundial: 23 Out 2026, 10am PT (17:00 UTC)
+        endIso: '2026-10-23T17:00:00Z',
+        kind: 'launch'
       }
     ];
 
@@ -33615,13 +33733,20 @@ ${cbt('share.t.footer')}`;
       return dict[key] !== undefined ? dict[key] : fallback;
     }
 
-    function formatCountdown(endDate, now) {
+    function formatCountdown(endDate, now, kind) {
       const diff = endDate.getTime() - now.getTime();
-      if (diff <= 0) return { text: t('briefing.eventEnded', 'ENCERRADO'), urgent: true };
+      const isLaunch = kind === 'launch';
+      if (diff <= 0) {
+        return {
+          text: isLaunch ? t('briefing.eventLaunched', 'LANÇADO') : t('briefing.eventEnded', 'ENCERRADO'),
+          urgent: true
+        };
+      }
       const days = Math.floor(diff / 86400000);
       const hours = Math.floor((diff % 86400000) / 3600000);
       const text = days + 'D ' + hours + 'H';
-      return { text: text, urgent: days < 2 };
+      // Urgência: eventos comuns ficam urgentes nas últimas 48h; lançamentos só nas últimas 24h
+      return { text: text, urgent: isLaunch ? days < 1 : days < 2 };
     }
 
     // Janela de tolerância: evento aparece até 4 dias APÓS o fim oficial.
@@ -33634,7 +33759,8 @@ ${cbt('share.t.footer')}`;
       const now = new Date();
       const lang = currentLang();
       const locale = lang === 'en' ? 'en-US' : 'pt-BR';
-      const endsLabel = t('briefing.eventEnds', '// Termina em');
+      const endsLabelDefault    = t('briefing.eventEnds',       '// Termina em');
+      const launchesLabelDefault = t('briefing.eventLaunchesIn', '// Lança em');
 
       // Filtra eventos: só os que ainda não passaram do prazo + janela de 4 dias.
       const visibleEvents = EVENTS.filter(e => {
@@ -33655,11 +33781,13 @@ ${cbt('share.t.footer')}`;
 
       grid.innerHTML = visibleEvents.map(e => {
         const end = new Date(e.endIso);
-        const cd = formatCountdown(end, now);
+        const cd = formatCountdown(end, now, e.kind);
         const endStr = end.toLocaleDateString(locale, {day:'2-digit', month:'short', year:'numeric'});
         const mode = t(e.modeKey, e.modeKey);
         const desc = t(e.descKey, e.descKey);
-        return '<div class="briefing-event" data-event-id="' + e.id + '">' +
+        // Label muda conforme tipo: eventos = "Termina em", lançamentos = "Lança em"
+        const dateLabel = (e.kind === 'launch') ? launchesLabelDefault : endsLabelDefault;
+        return '<div class="briefing-event" data-event-id="' + e.id + '"' + (e.kind ? ' data-event-kind="' + e.kind + '"' : '') + '>' +
                  '<div class="briefing-event-image">' +
                    '<span class="briefing-event-countdown' + (cd.urgent ? ' urgent' : '') + '">{{i:timer}} ' + cd.text + '</span>' +
                    '<img src="' + e.img + '" alt="' + e.name + '" loading="lazy">' +
@@ -33668,7 +33796,7 @@ ${cbt('share.t.footer')}`;
                    '<div class="briefing-event-mode">' + mode + '</div>' +
                    '<div class="briefing-event-name">' + e.name + '</div>' +
                    '<div class="briefing-event-desc">' + desc + '</div>' +
-                   '<div class="briefing-event-end">' + endsLabel + ' ' + endStr + '</div>' +
+                   '<div class="briefing-event-end">' + dateLabel + ' ' + endStr + '</div>' +
                  '</div>' +
                '</div>';
       }).join('');
@@ -34709,6 +34837,50 @@ ${cbt('share.t.footer')}`;
   }
 
   window.LevelModal = { alert: alertFn, confirm: confirmFn, toast: toastFn };
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// SCROLL DE MODAIS — RESET NO TOPO AO ABRIR (v2.7.1)
+// ───────────────────────────────────────────────────────────────────
+// Qualquer .modal-overlay que ganhe a classe 'visible' tem o conteúdo
+// interno (.modal-body / .modal-content) rolado para o topo. Cobre
+// TODAS as formas de abrir modal (classList.add direto, data-open-modal,
+// LevelModal.confirm/alert) sem mexer caso-a-caso. Defensivo: try/catch
+// pra nunca quebrar a abertura do modal.
+// ═══════════════════════════════════════════════════════════════════
+(function () {
+  'use strict';
+  function resetScroll(overlayEl) {
+    try {
+      if (overlayEl.scrollTop) overlayEl.scrollTop = 0;
+      const targets = overlayEl.querySelectorAll('.modal-body, .modal-content, [data-modal-scroll]');
+      for (let i = 0; i < targets.length; i++) {
+        if (targets[i].scrollTop) targets[i].scrollTop = 0;
+      }
+    } catch (e) { /* silent — nunca trava modal */ }
+  }
+  function init() {
+    const overlays = document.querySelectorAll('.modal-overlay');
+    if (!overlays.length) return;
+    const observer = new MutationObserver(function (mutations) {
+      for (let i = 0; i < mutations.length; i++) {
+        const m = mutations[i];
+        if (m.type !== 'attributes' || m.attributeName !== 'class') continue;
+        const el = m.target;
+        if (el && el.classList && el.classList.contains('visible')) {
+          requestAnimationFrame(function () { resetScroll(el); });
+        }
+      }
+    });
+    overlays.forEach(function (el) {
+      observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 </script>
 
