@@ -10346,16 +10346,16 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.6.4 · <span data-i18n="briefing.changelog.date">2 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.7.0 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">visual</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">feature</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fundo do Hub mais limpo</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O efeito de linhas horizontais finas (scanline) que cobria o Hub foi removido por completo — barra lateral e conteúdo principal. O fundo azul-marinho ficou uniforme, dando mais profundidade e destaque às logos e aos cartões, sem a textura que clareava visualmente as áreas escuras.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Análise de build agora dá veredito</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">A análise IA da build deixou de ser ficha técnica genérica e passou a ser um veredito direto pra ti. O motor cruza a build com o teu estilo de jogo (rusher CQB) e com as dificuldades que tens cadastradas (Evolução), e devolve uma conclusão acionável em uma das três formas: está no teto, muda X por Y, ou o problema não está na arma. Esta versão também limpa o painel de eventos automaticamente e corrige o seletor de arma no modal de captura.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Barra lateral limpa.</strong> As linhas horizontais finas saíram da barra lateral — a logo LEVEL e o cartão do operador ficam sobre um fundo uniforme.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Conteúdo principal também.</strong> O mesmo efeito foi removido do resto do Hub, deixando todo o fundo liso.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Mais profundidade.</strong> Sem a textura que clareava as áreas escuras, as logos e os cartões ganham contraste e destaque.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Análise com veredito.</strong> A análise agora sabe que jogas rusher CQB (combate de curta distância) no PS5, considera Dexterity (perk que reduz flinch — desvio de mira ao levar tiro) como prioridade, e cruza a build com as dificuldades que tens cadastradas — incluindo dizer claramente quando o problema não é a arma e sim perk/config.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Eventos limpam-se sozinhos.</strong> O painel "EVENTOS NO AR" agora remove automaticamente eventos que terminaram há mais de 4 dias. Se nenhum evento ativo sobrar, a secção inteira desaparece em vez de mostrar um cabeçalho vazio.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Seletor de arma da captura corrigido.</strong> No modal de aprovação da captura por foto, o dropdown "escolhe a arma" mostrava só 2 opções quando o catálogo do servidor não tinha carregado. Agora junta o catálogo com o teu arsenal cadastrado — sempre vês todas as armas que conheces, independente do estado da rede.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13631,6 +13631,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.0</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Análise de build com veredito.</strong> A análise IA deixa de descrever a arma e passa a dar veredito. O payload enviado à Edge Function <code>analyze-build</code> agora inclui o perfil do operador (estilo rusher CQB, plataforma PS5, perk-chave Dexterity, ADS Multiplier 0.85) e as dificuldades cadastradas na aba Evolução (com a causa provável e a nota mais recente de cada uma). O prompt foi reescrito para devolver uma narrativa de 2-4 frases que cobre, nesta ordem: (a) como a build serve ao estilo do operador, (b) cruzamento com as dificuldades — incluindo dizer claramente quando o problema não é a arma (ex: flinch resolve-se com perk + ADS, não com attachment), e (c) veredito final em três modos possíveis: está no teto, troca X por Y por causa de Z, ou o problema está em config externo. Validação anti-alucinação server-side mantida. Instrumentação completa em <code>ana_gemini_usage</code>. Schema da resposta não mudou — zero impacto no render existente.<br><br><strong>Eventos auto-limpam.</strong> O painel "EVENTOS NO AR" passou a filtrar eventos cuja data de fim já passou há mais de 4 dias — saem do grid automaticamente sem precisar editar o array. Se a lista filtrada ficar vazia, a secção inteira é escondida em vez de exibir um cabeçalho órfão.<br><br><strong>Captura: dropdown de armas robusto.</strong> No modal de aprovação da captura por foto, o seletor "escolhe a arma" lia o catálogo só de <code>DEFAULT_WEAPONS</code>. Quando o bootstrap-defaults do servidor falhava silenciosamente (e não havia cache local), o array caía para o fallback hardcoded de apenas 2 armas — o utilizador ficava preso sem conseguir escolher a arma certa. A correção carrega a UNIÃO entre o catálogo e o arsenal do utilizador (<code>LevelDB.weapons</code>), deduplicada por id. O matcher (<code>matchWeapon</code>) também passou a usar a mesma lista unificada, melhorando a precisão do match automático. Sempre vês todas as armas que conheces, independente do estado da rede.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.6.4</span>
                 <span class="vh-date">2 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -15127,7 +15136,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.6.4</strong><span class="ver-tag">Fundo do Hub limpo — efeito de linhas removido</span>
+        LEVEL · <strong>v2.7.0</strong><span class="ver-tag">Veredito da build · eventos auto-limpam · seletor de armas robusto</span>
       </div>
       <script>
         (function(){
@@ -23130,6 +23139,47 @@ const ATTACHMENT_ICONS = {
         catch (e) { return null; }
       })();
 
+      // ── Perfil do operador (constante de produto: Hub-de-Rusher) ────────
+      // Esses dados existem fora da build (estilo, plataforma, perk-chave) e
+      // são o que separa um veredito acionável de uma descrição genérica.
+      const playerProfile = {
+        style: 'rusher CQB agressivo',
+        platform: 'PS5',
+        priority_perk: 'Dexterity',   // combate flinch (desvio de mira ao levar tiro)
+        ads_multiplier: 0.85          // recomendação base do Hub
+      };
+
+      // ── Dificuldades cadastradas (struggles) ─────────────────────────────
+      // Resolvemos cada entry contra STRUGGLE_CATALOG (catálogo) ou contra
+      // entry.custom (geradas por IA). Enviamos title + possible_cause + nota
+      // atual — suficiente pro Gemini cruzar com a build sem encher o prompt.
+      let activeStruggles = [];
+      try {
+        const allStr = await LevelDB.struggles.list();
+        activeStruggles = allStr.map(function (entry) {
+          let title = '', cause = '';
+          if (entry.catalogId) {
+            const cat = (typeof STRUGGLE_CATALOG !== 'undefined')
+              ? STRUGGLE_CATALOG.find(function (c) { return c.id === entry.catalogId; })
+              : null;
+            if (!cat) return null;
+            title = cat.title || '';
+            cause = cat.why || '';
+          } else if (entry.custom) {
+            title = entry.custom.title || '';
+            cause = entry.custom.why || '';
+          } else {
+            return null;
+          }
+          const ratings = entry.ratings || [];
+          const latest = ratings.length > 0 ? ratings[ratings.length - 1].value : null;
+          return { title: title, possible_cause: cause, latest_rating: latest };
+        }).filter(Boolean);
+      } catch (e) {
+        console.warn('[analyze-build] falha a ler struggles (segue sem):', e);
+        activeStruggles = [];
+      }
+
       const payload = {
         build: {
           id: build.id,
@@ -23151,6 +23201,8 @@ const ATTACHMENT_ICONS = {
         candidates_by_weakness: ctx.candidatesByWeakness,
         perks_pool: ctx.perksPool,
         style_hint: ctx.styleHint,
+        player_profile: playerProfile,        // NOVO — contexto do operador
+        active_struggles: activeStruggles,    // NOVO — dificuldades cadastradas
         language: lang,
         local_id: localId
       };
@@ -33572,6 +33624,10 @@ ${cbt('share.t.footer')}`;
       return { text: text, urgent: days < 2 };
     }
 
+    // Janela de tolerância: evento aparece até 4 dias APÓS o fim oficial.
+    // Depois disso, sai do grid automaticamente (sem precisar editar EVENTS).
+    const POST_END_GRACE_MS = 4 * 86400000;
+
     function renderEvents() {
       const grid = document.getElementById('briefing-events-grid');
       if (!grid) return;
@@ -33580,7 +33636,24 @@ ${cbt('share.t.footer')}`;
       const locale = lang === 'en' ? 'en-US' : 'pt-BR';
       const endsLabel = t('briefing.eventEnds', '// Termina em');
 
-      grid.innerHTML = EVENTS.map(e => {
+      // Filtra eventos: só os que ainda não passaram do prazo + janela de 4 dias.
+      const visibleEvents = EVENTS.filter(e => {
+        const end = new Date(e.endIso);
+        const diff = end.getTime() - now.getTime();
+        return diff > -POST_END_GRACE_MS;
+      });
+
+      // Esconde a seção inteira se nenhum evento sobrar
+      const section = grid.closest('.briefing-events') || grid.parentElement;
+      if (visibleEvents.length === 0) {
+        if (section) section.style.display = 'none';
+        grid.innerHTML = '';
+        return;
+      } else if (section) {
+        section.style.display = '';
+      }
+
+      grid.innerHTML = visibleEvents.map(e => {
         const end = new Date(e.endIso);
         const cd = formatCountdown(end, now);
         const endStr = end.toLocaleDateString(locale, {day:'2-digit', month:'short', year:'numeric'});
@@ -34983,8 +35056,33 @@ ${cbt('share.t.footer')}`;
     return { item: best, score: bestScore };
   }
 
-  function matchWeapon(visionName, visionClass) {
-    const list = (typeof DEFAULT_WEAPONS !== 'undefined') ? DEFAULT_WEAPONS : [];
+  // Carrega a UNIÃO entre o catálogo (DEFAULT_WEAPONS) e o arsenal do
+  // utilizador (LevelDB.weapons) — dedupe por id. Defensivo contra cenários
+  // onde o bootstrap-defaults falhou e o catálogo caiu pro fallback mínimo
+  // (2 armas hardcoded). Garante que o dropdown e o matcher veem TODAS as
+  // armas que o operador conhece, independente do estado da rede.
+  async function _getAllKnownWeapons() {
+    const catalog = (typeof DEFAULT_WEAPONS !== 'undefined' && Array.isArray(DEFAULT_WEAPONS))
+      ? DEFAULT_WEAPONS
+      : [];
+    let userArsenal = [];
+    try {
+      if (window.LevelDB && LevelDB.weapons && typeof LevelDB.weapons.list === 'function') {
+        userArsenal = (await LevelDB.weapons.list()) || [];
+      }
+    } catch (e) {
+      console.warn('[capture] falha ao ler LevelDB.weapons (segue só com catálogo):', e);
+    }
+    const byId = new Map();
+    for (const w of catalog)     { if (w && w.id) byId.set(w.id, w); }
+    for (const w of userArsenal) { if (w && w.id && !byId.has(w.id)) byId.set(w.id, w); }
+    return Array.from(byId.values());
+  }
+
+  function matchWeapon(visionName, visionClass, weaponList) {
+    const list = (Array.isArray(weaponList) && weaponList.length)
+      ? weaponList
+      : ((typeof DEFAULT_WEAPONS !== 'undefined') ? DEFAULT_WEAPONS : []);
     const filtered = visionClass
       ? list.filter(w => w.class.toLowerCase() === String(visionClass).toLowerCase())
       : list;
@@ -35250,7 +35348,7 @@ ${cbt('share.t.footer')}`;
   // ─────────────────────────────────────────────────────────────
   // MODAL DE APROVAÇÃO — renderiza armas detectadas
   // ─────────────────────────────────────────────────────────────
-  function openApprovalModal(visionResult) {
+  async function openApprovalModal(visionResult) {
     const weapons = visionResult.weapons || [];
     $('ca-weapons-count').textContent = weapons.length;
     const list = $('ca-weapons-list');
@@ -35263,18 +35361,22 @@ ${cbt('share.t.footer')}`;
     }
     $('ca-empty').style.display = 'none';
 
+    // Carrega UMA vez a união catálogo + arsenal (passa para cada card)
+    const allKnownWeapons = await _getAllKnownWeapons();
+
     weapons.forEach((w, idx) => {
-      const card = buildApprovalCard(w, idx);
+      const card = buildApprovalCard(w, idx, allKnownWeapons);
       list.appendChild(card);
     });
 
     $('modal-capture-approval').classList.add('visible');
   }
 
-  function buildApprovalCard(visionWeapon, idx) {
+  function buildApprovalCard(visionWeapon, idx, allKnownWeapons) {
     const { weapon: matchedWeapon, score: weaponScore } = matchWeapon(
       visionWeapon.weapon_name,
-      visionWeapon.weapon_class
+      visionWeapon.weapon_class,
+      allKnownWeapons
     );
 
     const card = document.createElement('div');
@@ -35389,9 +35491,11 @@ ${cbt('share.t.footer')}`;
     // Nunca trava: os attachments lidos vão pro construtor de qualquer forma.
     const importIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;vertical-align:-2px;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 
-    // Monta o <select> com todas as armas do catálogo, agrupadas por classe.
+    // Monta o <select> com todas as armas (catálogo + arsenal do utilizador).
     // Pré-seleciona o match automático (se houver score razoável).
-    const allWeapons = (typeof DEFAULT_WEAPONS !== 'undefined') ? DEFAULT_WEAPONS.slice() : [];
+    const allWeapons = (Array.isArray(allKnownWeapons) && allKnownWeapons.length)
+      ? allKnownWeapons.slice()
+      : ((typeof DEFAULT_WEAPONS !== 'undefined') ? DEFAULT_WEAPONS.slice() : []);
     allWeapons.sort((a, b) => (a.class + a.name).localeCompare(b.class + b.name));
     const preselectId = (matchedWeapon && weaponScore >= 0.3) ? matchedWeapon.id : '';
     const selectLabel = lang === 'en' ? 'Weapon:' : 'Arma:';
