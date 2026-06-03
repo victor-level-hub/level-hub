@@ -2764,6 +2764,28 @@
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 0.3px;
   }
+  /* v2.7.3 — badge de custo (scorestreaks) + bloco de descrição */
+  .img-card-cost {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 5px;
+    background: rgba(240,185,82,0.12);
+    border: 1px solid rgba(240,185,82,0.4);
+    border-radius: 3px;
+    color: var(--accent-orange);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    vertical-align: middle;
+  }
+  .img-card-desc {
+    color: var(--text-secondary);
+    font-size: 11px;
+    line-height: 1.45;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+  }
   .img-card-buttons { display: flex; gap: 5px; margin-top: 4px; }
   .img-card-btn {
     flex: 1;
@@ -7389,9 +7411,11 @@
     text-align: center;
   }
   .opp-avatar-img {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
+    /* v2.7.2 — retangular 3:4, alinhado à sidebar (era 160×160 redondo) */
+    width: 140px;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    border-radius: 8px;
     margin: 0 auto 14px;
     background: #0a0a0a center/cover no-repeat;
     border: 2px solid var(--accent-orange);
@@ -10402,18 +10426,18 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.7.1 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.7.3 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix + visual</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">data</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Painel mais limpo, captura mais robusta</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Pacote de pequenos arranjos visuais e correções de fluxo. O painel "EVENTOS NO AR" passou a ter três colunas fixas para um único evento não esticar a largura toda. O lançamento do Modern Warfare 4 ganhou um banner com contagem regressiva até 23 de outubro. Modais agora abrem sempre no topo. A tela Configurações · Armamento mostra todas as armas que conheces, mesmo quando o servidor de catálogo está em queda. Sugestões de melhoria da análise IA reformatadas com slot + troca em destaque.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo BO7 completo em Configurações &middot; Imagens</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Aba Vantagens &amp; Séries deixou de mostrar só 4 scorestreaks, 4 specialties e 2 field upgrades — passou a refletir o catálogo completo do BO7 (lançamento + Seasons 1/2/3): 32 scorestreaks (24 oficiais + 8 placeholders do mid-season S1 esperando confirmação visual), 6 specialties (3 core + 3 hybrid) com a lista de perks que cada uma habilita, e 12 field upgrades. Cada item ganhou descrição em pt-BR explicando o que faz, e os scorestreaks que têm custo confirmado mostram o badge "X pts".</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Grid em três colunas.</strong> Quando há apenas um evento ativo, ele já não estica para ocupar a largura toda — fica numa coluna do tamanho certo, com as outras duas a aguardar próximos eventos.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Banner do Modern Warfare 4.</strong> Lançamento em 23 de outubro de 2026 — banner com contagem regressiva ("Lança em XXd YYh"). Quando passar, mostra "LANÇADO" por mais 4 dias e depois sai sozinho do painel.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Modais abrem no topo.</strong> Sempre que abres qualquer modal (editar build, configurações, histórico), o conteúdo interno é rolado automaticamente para o início — sem mais "abriu lá em baixo".</li>
-            <li data-i18n-html="briefing.changelog.item4"><strong>Armas em Configurações · Imagens.</strong> A grade de armas por classe (SMG, AR, etc.) já não dependia só do servidor — agora junta com o teu arsenal local, então vês sempre todas as armas que conheces.</li>
-            <li data-i18n-html="briefing.changelog.item5"><strong>Sugestões de melhoria com slot + troca.</strong> A análise IA da arma passa a apresentar cada sugestão como um bloco com o SLOT em destaque, o nome do attachment atual riscado e o novo realçado — fica óbvio o que mudar.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Scorestreaks: 4 &rarr; 32.</strong> 21 do lançamento (UAV, Napalm, Watchdog, Rhino, VTOL, Legion, etc) + Deadeye Drone (S1) + 8 placeholders do Mid-Season S1 (legacy BO6, nomes a confirmar com print) + Lockshot (S2) + Ion Core (S3). Cada um com descrição em pt-BR + custo (quando confirmado).</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Specialties: 4 &rarr; 6.</strong> Adicionadas <strong>Scout</strong> (híbrido vermelho+azul) e <strong>Operative</strong> (híbrido azul+verde) que estavam em falta. Cada specialty descreve quais perks habilitam e qual o efeito ativado.</li>
+            <li data-i18n-html="briefing.changelog.item3"><strong>Field Upgrades: 2 &rarr; 12.</strong> Os 10 do lançamento (Assault Pack, Drone Pod, Trophy System, Active Camo, Echo Unit, Squad Link, Scrambler, Fear Trap, Black Hat, Mute Field) + 2 do S1 Mid-Season (Morphine Injector, Tactical Insertion). <em>Stim Grenade saiu desta aba</em> &mdash; é equipamento tático, não field upgrade.</li>
+            <li data-i18n-html="briefing.changelog.item4"><strong>Cards mostram descrição.</strong> O renderer ganhou bloco de descrição (cinza, abaixo do id) e badge de custo (laranja, ao lado do nome) &mdash; agora dá pra saber o que cada item faz sem sair da tela.</li>
+            <li data-i18n-html="briefing.changelog.item5"><strong>Fontes oficiais.</strong> Dados puxados de callofduty.com (blogs Season 01/02/03), allthings.how (custos da beta), Fandom Wiki e Activision patch notes. Os 8 do Mid-Season S1 ficam marcados como <em>"nome a confirmar com print do jogo"</em> &mdash; Activision não publicou a lista exata.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13689,6 +13713,24 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.3</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">data</span>
+              </div>
+              <p class="vh-desc">Catálogo completo do BO7 chega à aba <strong>Configurações &middot; Imagens &middot; Vantagens &amp; Séries</strong>, que até aqui mostrava só uma amostra. <strong>Scorestreaks</strong> de 4 para <strong>32</strong>: as 21 do lançamento (Scout Pulse, RC-XD, UAV, Skewer, Care Package, Counter UAV, LGM, Napalm, Sentry, Hellstorm, Hand Cannon, Gravemaker, D.A.W.G., Interceptors, Watchdog, HKDs, Rhino, VTOL, HARP, EMP, Legion) + Deadeye Drone (S1) + 8 placeholders do Mid-Season S1 (legacy do BO6 &mdash; Activision não publicou nomes; ficam como <code>streak_s1m_1</code>&hellip;<code>streak_s1m_8</code> à espera de print do jogo) + Lockshot (S2) + Ion Core (S3). <strong>Specialties</strong> de 4 para <strong>6</strong>: adicionados <strong>Scout</strong> (híbrido vermelho+azul) e <strong>Operative</strong> (híbrido azul+verde) que estavam em falta. <strong>Field Upgrades</strong> de 2 para <strong>12</strong>: as 10 do lançamento (Assault Pack, Drone Pod, Trophy System, Active Camo, Echo Unit, Squad Link, Scrambler, Fear Trap, Black Hat, Mute Field) + Morphine Injector e Tactical Insertion (S1 Mid). <em>Stim Grenade removida desta aba</em> &mdash; é equipamento tático, não field upgrade (será reaproveitado se criarmos aba de Equipamento Tático). Cada item ganha <code>desc</code> em pt-BR explicando o que faz e <code>cost</code> (em pts) quando confirmado; renderer dos cards passa a mostrar essa descrição (cinza abaixo do id, com border-top dashed) e badge laranja com o custo do scorestreak. Schema da constante (<code>STREAK_ITEMS</code> / <code>SPECIALTY_ITEMS</code> / <code>EXTRA_EQUIPMENT_ITEMS</code>) continua só no front (não há BD nem bucket pra esses items hoje &mdash; migração entra junto com o item 1 do roadmap, user-assets bucket). Fontes: callofduty.com (blogs Season 01/02/03), allthings.how, Fandom Wiki, Activision patch notes.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.2</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Dois acertos pequenos na tela <strong>Configurações &middot; Operador</strong>. O card resumo (canto esquerdo) tinha a foto do operador <strong>redonda</strong> (160×160 com <code>border-radius: 50%</code>) — agora é <strong>retangular 3:4</strong> (140px de largura, <code>border-radius: 8px</code>, mesma proporção e mesmo raio da foto da sidebar). E o campo <strong>Estilo</strong> mostrava sempre "—" mesmo com playstyle definido: era um bug de leitura em <code>renderOperatorPanel</code> — o código lia <code>player.style</code> (chave inexistente) em vez de <code>player.playstyle</code> (chave real, usada pela sidebar, pelo save do modal e pelo schema de sync). Corrigido para ler a chave certa; agora mostra <code>RUSHER</code> (ou o estilo escolhido no editor).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.7.1</span>
                 <span class="vh-date">3 Jun 2026</span>
                 <span class="vh-kind">fix + visual</span>
@@ -15203,7 +15245,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.7.1</strong><span class="ver-tag">Grid 3-col · banner MW4 · scroll modais · armas no Configurações · sugestões reformatadas</span>
+        LEVEL · <strong>v2.7.3</strong><span class="ver-tag">Catálogo BO7 completo: 32 streaks · 6 specialties · 12 field upgrades — com descrição</span>
       </div>
       <script>
         (function(){
@@ -28198,7 +28240,7 @@ const ATTACHMENT_ICONS = {
         if (nameEl) nameEl.textContent = (player && player.name) ? player.name : '—';
         if (prestEl) prestEl.textContent = (player && (player.prestige != null)) ? String(player.prestige) : '—';
         if (lvlEl) lvlEl.textContent = (player && (player.level != null)) ? String(player.level) : '—';
-        if (styleEl) styleEl.textContent = (player && player.style) ? player.style : '—';
+        if (styleEl) styleEl.textContent = (player && player.playstyle) ? player.playstyle : '—';
       } catch (e) {
         console.warn('[operator-panel] render falhou:', e);
       }
@@ -30724,25 +30766,138 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // group: 'constructor' | 'armament' | 'prestiges' — controla os
     // 3 blocos visuais com cabeçalhos na seção Configurações.
     // ── Itens novos pra seção Vantagens & Séries (frente #3) ──
+    // v2.7.3 (3/Jun/26): catálogo completo do BO7 — 32 scorestreaks, 6 specialties,
+    // 12 field upgrades. Fontes: codmunity.gg, callofduty.com blog, patch notes
+    // oficiais Season 1 / 2 / 3. Campo `desc` em PT-BR; campo `cost` quando
+    // confirmado. Os 8 "Mid-Season S1 (legacy BO6)" entram como placeholder —
+    // Activision não publicou a lista exata; nomes a confirmar com print do jogo.
     const STREAK_ITEMS = [
-      { id: 'streak_uav',      name: 'UAV' },
-      { id: 'streak_napalm',   name: 'Napalm Strike' },
-      { id: 'streak_watchdog', name: 'Watchdog Helo' },
-      { id: 'streak_legion',   name: 'Legion' }
+      // ─── Lançamento (21 — 14 Nov 2025) ──────────────────────────────
+      { id: 'streak_scout_pulse', name: 'Scout Pulse',   cost: 350,
+        desc: 'Ping de radar pessoal — revela inimigos próximos no teu minimapa (não da equipa).' },
+      { id: 'streak_rcxd',        name: 'RC-XD',         cost: 400,
+        desc: 'Carrinho explosivo controlado remoto. Tu diriges, tu detonas.' },
+      { id: 'streak_uav',         name: 'UAV',           cost: 500,
+        desc: 'Drone que varre o minimapa e revela inimigos pra toda a equipa.' },
+      { id: 'streak_skewer',      name: 'Skewer',        cost: 525,
+        desc: 'Míssil de precisão autónomo ar-terra — escolhe o alvo sozinho.' },
+      { id: 'streak_care_package',name: 'Care Package',  cost: null,
+        desc: 'Airdrop com scorestreak aleatório. Surpresa na caixa.' },
+      { id: 'streak_counter_uav', name: 'Counter UAV',   cost: 600,
+        desc: 'Embaralha o minimapa inimigo durante a duração — mata o intel deles.' },
+      { id: 'streak_lgm',         name: 'LGM',           cost: null,
+        desc: 'Bombardeamento contínuo numa área designada. Bom pra negar passagem.' },
+      { id: 'streak_napalm',      name: 'Napalm Strike', cost: null,
+        desc: 'Tapete de napalm queimando uma faixa do mapa. Fecha rotas e queima quem pisar.' },
+      { id: 'streak_sentry',      name: 'Sentry Turret', cost: null,
+        desc: 'Torre automática que engaja inimigos num cone frontal.' },
+      { id: 'streak_hellstorm',   name: 'Hellstorm',     cost: null,
+        desc: 'Míssil de cruzeiro guiado por ti, com boost e munições cluster.' },
+      { id: 'streak_hand_cannon', name: 'Hand Cannon',   cost: null,
+        desc: 'Pistola de alto calibre com dano forte e penetração. Tipo "execução à distância".' },
+      { id: 'streak_gravemaker',  name: 'Gravemaker',    cost: 950,
+        desc: 'Sniper portátil de carga que vê e atira ATRAVÉS de cobertura. Inimigo tem aviso curto pra escapar.' },
+      { id: 'streak_dawg',        name: 'D.A.W.G.',      cost: 1000,
+        desc: 'Veículo blindado terrestre com torre e foguetes — patrulha sozinho, anti-infantaria.' },
+      { id: 'streak_interceptors',name: 'Interceptors',  cost: null,
+        desc: 'Esquadrão de jatos que limpa streaks aéreas inimigas. Defesa pura.' },
+      { id: 'streak_watchdog',    name: 'Watchdog Helo', cost: 1050,
+        desc: 'Helicóptero escolta — fica perto de ti, pinga e ataca ameaças.' },
+      { id: 'streak_hkds',        name: 'HKDs',          cost: 1150,
+        desc: 'Drop aéreo de Hunter Kill Drones — drones com rodas que perseguem alvos e explodem.' },
+      { id: 'streak_rhino',       name: 'Rhino',         cost: 1300,
+        desc: 'Robô blindado de combate controlado remoto com minigun. Tu pilotas.' },
+      { id: 'streak_vtol',        name: 'VTOL Warship',  cost: 1350,
+        desc: 'Aeronave gunship pilotável com torre e mísseis ar-terra. Domínio aéreo.' },
+      { id: 'streak_harp',        name: 'HARP',          cost: null,
+        desc: 'Recon de alta altitude — mostra posição E direção que cada inimigo está a olhar em tempo real.' },
+      { id: 'streak_emp',         name: 'EMP Systems',   cost: null,
+        desc: 'EMP de larga área — destrói equipamento e veículos inimigos + bloqueia scorestreaks deles por um tempo.' },
+      { id: 'streak_legion',      name: 'Legion',        cost: null,
+        desc: 'Enxame de drones autónomos que caçam alvos e detonam ao impacto.' },
+
+      // ─── Season 1 (4 Dez 2025) ─────────────────────────────────────
+      { id: 'streak_deadeye',     name: 'Deadeye Drone', cost: 575,
+        desc: 'Drone aéreo controlado remoto com sniper de carregador pequeno. Voa, mira do alto. Desbloqueio: Desafio Semanal de Season 1.' },
+
+      // ─── Season 1 Mid-Season (8 Jan 2026) — 8 legacy do BO6 ──────────
+      // ⚠️ Placeholders: Activision anunciou "8 scorestreaks legacy do BO6" mas
+      //   não publicou a lista exata. Confirma os nomes com print do jogo e
+      //   substitui os names abaixo. Os IDs ficam estáveis (streak_s1m_*).
+      { id: 'streak_s1m_1', name: 'Mid-Season S1 #1', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+      { id: 'streak_s1m_2', name: 'Mid-Season S1 #2', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+      { id: 'streak_s1m_3', name: 'Mid-Season S1 #3', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+      { id: 'streak_s1m_4', name: 'Mid-Season S1 #4', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+      { id: 'streak_s1m_5', name: 'Mid-Season S1 #5', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+      { id: 'streak_s1m_6', name: 'Mid-Season S1 #6', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+      { id: 'streak_s1m_7', name: 'Mid-Season S1 #7', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+      { id: 'streak_s1m_8', name: 'Mid-Season S1 #8', cost: null,
+        desc: 'Mid-Season S1 (Jan/26) — scorestreak legacy do BO6 trazido pro BO7. Nome a confirmar com print do jogo.' },
+
+      // ─── Season 2 Mid-Season (Mar 2026) ─────────────────────────────
+      { id: 'streak_lockshot',    name: 'Lockshot',      cost: null,
+        desc: 'Pistola inteligente — ao ADS (aim down sights — mirar pela arma) trava em múltiplos alvos. Um tiro elimina todos os alvos travados em sequência. Não pode ser contrariada por perks. Desbloqueio: Desafio Semanal de S2 Reloaded.' },
+
+      // ─── Season 3 In-Season (Abr 2026) ──────────────────────────────
+      { id: 'streak_ion_core',    name: 'Ion Core',      cost: 1175,
+        desc: 'Dispositivo radioativo no chão — emite pulsos crescentes que ferem inimigos no raio (mesmo através de paredes). Ideal pra contestar/segurar objetivos. Desbloqueio: Desafio Semanal de S3.' }
     ];
     try { window.STREAK_ITEMS = STREAK_ITEMS; } catch (e) {}
 
     const SPECIALTY_ITEMS = [
-      { id: 'spec_enforcer',   name: 'Enforcer (Vermelho)' },
-      { id: 'spec_recon',      name: 'Recon (Azul)' },
-      { id: 'spec_strategist', name: 'Strategist (Verde)' },
-      { id: 'spec_tactician',  name: 'Tactician (Hybrid)' }
+      // ─── 3 Core (cor única — equipar 3 perks da mesma cor) ──────────
+      { id: 'spec_enforcer',   name: 'Enforcer (Vermelho)',
+        desc: 'EQUIPA: 3 perks Ofensivos (vermelhos) — Scavenger, Lightweight, Gung Ho, Assassin, Close Shave, Hunter\'s Instinct, Looper, Dexterity, Tac Sprinter, Bankroll ou Bruiser. EFEITO: após cada eliminação, buff curto de velocidade de movimento + regen de vida.' },
+      { id: 'spec_recon',      name: 'Recon (Azul)',
+        desc: 'EQUIPA: 3 perks Stealth (azuis) — Cold-Blooded, Ghost, Ninja, Vigilance, Blast Link, Engineer, Tracker ou Vendetta. EFEITO: ao respawnar vês a direção do inimigo mais próximo no minimapa; HUD pulsa pra inimigos fora do FOV (campo de visão); não deixas death skulls (caveira no local da tua morte).' },
+      { id: 'spec_strategist', name: 'Strategist (Verde)',
+        desc: 'EQUIPA: 3 perks Suporte (verdes) — Tech Mask, Flak Jacket, Shadow, Fast Hands, Gearhead, Quartermaster, Charge Link ou Guardian. EFEITO: score bônus em objetivos e sabotagem; equipamento deploya mais rápido; vês equipamento inimigo através de paredes a curta distância.' },
+
+      // ─── 3 Hybrid (2 categorias mistas — equipar 2 de uma cor + 1 de outra) ──
+      { id: 'spec_scout',      name: 'Scout (Híbrido Vermelho+Azul)',
+        desc: 'EQUIPA: pelo menos 2 perks Ofensivos (vermelhos) + 1 Stealth (azul) OU 2 Stealth + 1 Ofensivo. EFEITO: após bullet kill (eliminação com tiro), ficas oculto do minimapa inimigo por 5s. Kills extras nesse período resetam o timer.' },
+      { id: 'spec_tactician',  name: 'Tactician (Híbrido Vermelho+Verde)',
+        desc: 'EQUIPA: pelo menos 2 perks Ofensivos (vermelhos) + 1 Suporte (verde) OU 2 Suporte + 1 Ofensivo. EFEITO: quando ganhas assist, ganhas bônus de score em bullet kills durante 10s. Bom em modos de objetivo onde jogas com aliados perto.' },
+      { id: 'spec_operative',  name: 'Operative (Híbrido Azul+Verde)',
+        desc: 'EQUIPA: pelo menos 2 perks Stealth (azuis) + 1 Suporte (verde) OU 2 Suporte + 1 Stealth. EFEITO: ganhas carga do Field Upgrade por stealth kills (armas suprimidas, melee, kills fora de linha de visão). Reciclas Field Upgrade só por jogar.' }
     ];
     try { window.SPECIALTY_ITEMS = SPECIALTY_ITEMS; } catch (e) {}
 
     const EXTRA_EQUIPMENT_ITEMS = [
-      { id: 'mute_field',   name: 'Mute Field' },
-      { id: 'stim_grenade', name: 'Stim Grenade' }
+      // ─── Lançamento BO7 (10 — 14 Nov 2025) ─────────────────────────
+      { id: 'fu_assault_pack',  name: 'Assault Pack',
+        desc: 'Mochila de reabastecimento — dá munição e equipamento extra pra ti e aliados próximos. Recarrega ao longo do tempo.' },
+      { id: 'fu_drone_pod',     name: 'Drone Pod',
+        desc: 'Dispensa pequenos drones explosivos que voam até inimigos próximos e detonam por conta própria.' },
+      { id: 'fu_trophy',        name: 'Trophy System',
+        desc: 'Sistema defensivo que destrói projéteis explosivos inimigos (granadas, foguetes, drones) num raio. Cargas limitadas — escolhe onde colocar.' },
+      { id: 'fu_active_camo',   name: 'Active Camo',
+        desc: 'Camuflagem ativa que te torna invisível por alguns segundos. Disparar normalmente revela. Bom pra flanquear ou fugir.' },
+      { id: 'fu_echo_unit',     name: 'Echo Unit',
+        desc: 'Holograma decoy (clone falso) — aparece no minimapa inimigo e distrai. Ganha tempo enquanto eles atiram no nada.' },
+      { id: 'fu_squad_link',    name: 'Squad Link',
+        desc: 'Cria zona de buff de equipa: stats melhorados e recharge mais rápido para aliados próximos. Joga colado com o squad.' },
+      { id: 'fu_scrambler',     name: 'Scrambler',
+        desc: 'Embaralha o minimapa de inimigos próximos enquanto está ativo. Permite mover sem ser detectado por UAV local.' },
+      { id: 'fu_fear_trap',     name: 'Fear Trap',
+        desc: 'Armadilha que dispara pulse de medo: desorienta visualmente os inimigos no raio. Setup defensivo de área.' },
+      { id: 'fu_black_hat',     name: 'Black Hat',
+        desc: 'Hackeia equipamento ou scorestreak inimigo na mira — deixa de funcionar ou vira contra eles. Counter direto a sentry/trophy/care package.' },
+      { id: 'fu_mute_field',    name: 'Mute Field',
+        desc: 'Campo silenciador — dentro do raio, passos e tiros não fazem som. Entrar em ponto silencioso é devastador.' },
+
+      // ─── Season 1 Mid-Season (8 Jan 2026) ──────────────────────────
+      { id: 'fu_morphine',      name: 'Morphine Injector',
+        desc: 'Injetor de morfina — auto-revive: usa pra te erguer sozinho do estado downed (caído). Adicionado em S1 Mid-Season.' },
+      { id: 'fu_tac_insertion', name: 'Tactical Insertion',
+        desc: 'Bandeira que marca o ponto onde vais respawnar (em vez do spawn padrão). Útil pra ficar perto da ação. Adicionado em S1 Mid-Season.' }
     ];
     try { window.EXTRA_EQUIPMENT_ITEMS = EXTRA_EQUIPMENT_ITEMS; } catch (e) {}
 
@@ -30933,12 +31088,20 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           ? '<div class="img-card-thumb has-img"><img src="' + esc(img) + '" alt=""></div>'
           : '<div class="img-card-thumb"><span class="img-card-thumb-ph">' + esc(String(item.name || '?').charAt(0).toUpperCase()) + '</span></div>';
         const uploadLabel = img ? cbt('set.btn.replace') : cbt('set.btn.upload');
+        // v2.7.3 — cost (scorestreak) + desc (todos) opcionais
+        const costBadge = (item.cost != null)
+          ? '<span class="img-card-cost">' + esc(String(item.cost)) + ' pts</span>'
+          : '';
+        const descBlock = item.desc
+          ? '<div class="img-card-desc">' + esc(item.desc) + '</div>'
+          : '';
         return ''
           + '<div class="img-card" data-item-id="' + esc(item.id) + '">'
           +   thumb
           +   '<div class="img-card-body">'
-          +     '<div class="img-card-name">' + esc(item.name) + '</div>'
+          +     '<div class="img-card-name">' + esc(item.name) + costBadge + '</div>'
           +     '<div class="img-card-id">' + esc(item.id) + '</div>'
+          +     descBlock
           +     '<div class="img-card-buttons">'
           +       '<button class="img-card-btn" data-act="upload" data-id="' + esc(item.id) + '">' + uploadLabel + '</button>'
           +       '<button class="img-card-btn danger" data-act="remove" data-id="' + esc(item.id) + '" data-name="' + esc(item.name) + '"' + (img ? '' : ' disabled') + '>' + cbt('set.btn.remove') + '</button>'
