@@ -10426,16 +10426,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.7.4 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.7.5 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">data + fix</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Aba Mapas povoada e Stim Shot no Level 21</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Dois acertos rápidos. A aba Configurações &middot; Imagens &middot; Mapas estava vazia quando o catálogo do servidor não vinha — agora tem fallback hardcoded com os 41 mapas confirmados do BO7 (lançamento + Seasons 1/2/3). E a tela Progressão &middot; Level 21 estava a mostrar só Sentry Turret e Flak Jacket, faltando o Stim Shot (equipamento tático que desbloqueia no mesmo nível) — adicionado.</div>
-          <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Aba Mapas com 41 mapas confirmados.</strong> Lançamento (16 core + 2 skirmish + Nuketown 2025), Season 1 (Utopia, Fate, Standoff, Sleighjacked, Odysseus), Season 1 Reloaded (Yakei, Meltdown, Fringe, Vault Town), Season 2 (Torque, Cliff Town, Mission: Peak, Grind, Firing Range), Season 3 (Beacon, Abyss, Plaza, Gridlock, Mission: Trident) e Season 3 Reloaded (Onsen, Hacienda, Ascent). Cada mapa traz origem (lançamento ou season) + tipo (core/skirmish/freerun) + descrição. Servidor (MAPS_CATALOG) ainda é preferido quando disponível.</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Stim Shot no Level 21.</strong> O Level 21 já listava Sentry Turret (scorestreak) e Flak Jacket (perk); faltava o Stim Shot, equipamento tático que desbloqueia no mesmo nível (cura instantânea + tac sprint). Adicionado ao array de Level Unlocks como categoria <code>equipment</code>, ícone seringa.</li>
-          </ul>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Apagar build agora funciona</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Bug crítico que estava no Hub há tempos: clicar Apagar numa build abria o modal, dava confirmar, e a build continuava na lista. Causa-raiz: dois handlers de click globais no <code>document</code> capturavam o mesmo botão. O handler de "struggle" estava mal escrito (filtrava só <code>[data-action][data-id]</code> sem amarrar a <code>.struggle-card</code>), então quando clicavas Apagar numa build, AMBOS disparavam: o de build mostrava "Apagar build BKIDDO" e o de struggle abria por cima outro modal "Remover dificuldade" — o segundo modal sequestrava o resultado e tentava deletar a build via <code>LevelDB.struggles.delete()</code>, que silenciosamente não fazia nada (id de build, não de struggle). Fix de 1 linha: adicionado <code>closest('.struggle-card')</code> ao filtro do handler. Achado via instrumentação de console.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -13710,6 +13706,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.5</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Bug crítico de longa data: clicar Apagar numa build em Construtor/Meus Loadouts mostrava o modal, confirmavas, e a build continuava na lista. <strong>Causa-raiz (achada via instrumentação console):</strong> dois handlers <code>click</code> globais no <code>document</code> capturavam o mesmo botão. O handler do Construtor (linha 23952) filtrava <code>closest('.build-card')</code> e estava certo. O handler de Struggles (linha 29872) filtrava apenas <code>[data-action][data-id]</code> &mdash; sem amarrar a <code>.struggle-card</code>. Quando clicavas Apagar numa build, AMBOS disparavam: o de build chamava <code>LevelModal.confirm({title: 'Apagar build...'})</code>; o de struggle chamava por cima outro <code>LevelModal.confirm({title: 'Remover dificuldade...'})</code> &mdash; e como <code>LevelModal.confirm</code> é singleton, o segundo modal sequestrava o resultado. O usuário via "Apagar build BKIDDO?" e clicava Apagar, mas o resultado <code>true</code> ia para o handler de struggle, que executava <code>LevelDB.struggles.delete(id)</code> com o id da build &mdash; silenciosamente noop (id não existe na tabela de struggles). <code>LevelDB.builds.delete</code> NUNCA era chamado. <strong>Fix de 1 linha:</strong> handler de struggle agora exige <code>sAction.closest('.struggle-card')</code> além de <code>[data-action][data-id]</code>. Comentário inline explicativo deixado no código pra evitar regressão. Logs do console confirmaram a teoria: 2 chamadas de <code>LevelModal.confirm</code> por click único, <code>LevelDB.builds.delete</code> nunca disparado mesmo quando modal retornava <code>true</code>.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.7.4</span>
                 <span class="vh-date">3 Jun 2026</span>
                 <span class="vh-kind">data + fix</span>
@@ -15251,7 +15256,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.7.4</strong><span class="ver-tag">Aba Mapas povoada (41 mapas BO7) · Stim Shot no Level 21</span>
+        LEVEL · <strong>v2.7.5</strong><span class="ver-tag">Bug crítico: Apagar build agora funciona (handler de struggle interferia)</span>
       </div>
       <script>
         (function(){
@@ -29869,8 +29874,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         return;
       }
       // Struggle actions
+      // ⚠ v2.7.5 — adicionado scope `.struggle-card`. SEM ESTE FILTRO o handler
+      // captura clicks em [data-action][data-id] de QUALQUER lugar (incluindo
+      // botões Apagar de builds em .build-card), abre um 2º modal "Remover
+      // dificuldade" por cima do 1º, e tenta deletar a build via
+      // LevelDB.struggles.delete(id) — que silenciosamente não faz nada porque
+      // o id é de build, não struggle. Resultado: build NUNCA era apagada.
       const sAction = e.target.closest('[data-action][data-id]');
-      if (sAction) {
+      if (sAction && sAction.closest('.struggle-card')) {
         const id = sAction.dataset.id;
         if (sAction.dataset.action === 'rate') {
           openRateModal(id);
