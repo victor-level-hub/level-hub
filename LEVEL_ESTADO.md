@@ -1,359 +1,221 @@
-# LEVEL · ESTADO DO PROJETO E CONVENÇÕES
-### Documento mestre — memória estendida do projeto
-**Última atualização: 1 de Junho de 2026**
-
-> Este documento é a fonte de verdade do estado técnico e das convenções do LEVEL.
-> Guardar no repo `level-hub` ao lado do `index.html`. Anexar (ou referenciar) no
-> início de cada sessão de trabalho para o Claude ter contexto completo sem depender
-> só da memória automática.
+# LEVEL · ESTADO DO PROJETO
+> Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
+> **Última atualização:** 3 Jun 2026 — fecho do marco v2.7.0
 
 ---
 
-## 1. O QUE É O LEVEL
+## 0. COMO USAR ESTE DOCUMENTO (handoff de chat)
 
-Plataforma de coaching tático para **Call of Duty: Black Ops 7 (BO7)**, desenvolvida
-por **Victor** (dev solo). Hub web em **le-vel.games**. O coach de IA dentro do produto
-é o personagem **Le Vél** — instrutor tático veterano, tom direto e técnico.
+Ao abrir um chat novo, anexar **sempre**:
+1. `index.html` (o estado atual do Hub — sem ele, Cráudio trabalha de base errada)
+2. Este `LEVEL_ESTADO.md`
 
-**Perfil do operador (Victor):** jogador PS5, estilo **rusher agressivo (CQB)**,
-comunicação exclusivamente em **pt-BR**.
-
-### Frases-marca do Le Vél
-- "Operador, próximo passo."
-- "Analisei. Vamos ao plano."
-- "Sinto evolução aqui."
-- "Não recomendo. Te explico por quê."
-
-### Monetização (decidida 18/Mai/26)
-Três tiers + fundadores:
-- **FREE** — Hub com regras determinísticas, até 5 loadouts, badges.
-- **PLUS R$19,90/mês** — IA conversacional (LLM), leitura de print (Vision API),
-  coaching adaptativo, loadouts ilimitados, sync, "Falar com Le Vél".
-- **PRO R$49,90/mês** — replay analysis, coach session 30min, meta builds curadas, comunidade.
-- **FOUNDER VITALÍCIO** — 100 primeiros Plus / 50 primeiros Pro: preço travado se não
-  cancelar + badge Fundador permanente + acesso antecipado + voz na roadmap.
-
-Pagamento: Stripe (internacional) + Mercado Pago (BR, PIX/boleto). NÃO BYOK
-(fricção mata conversão). Free nunca toca o backend.
+Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro.
 
 ---
 
-## 2. AS TRÊS FRENTES HTML (IMPORTANTE — NÃO CONFUNDIR)
+## 1. IDENTIDADE & REGRAS DE COMUNICAÇÃO (sempre ativas)
 
-O projeto tem **três aplicações HTML distintas**, cada uma no seu repo, e todas se
-chamam `index.html` dentro do próprio repo (padrão do Netlify). São arquivos diferentes.
-
-| Frente | O que é | Repo / Deploy | Roda em |
-|--------|---------|---------------|---------|
-| **HUB** (principal) | App completo (~36 mil linhas), HTML puro single-file | `victor-level-hub/level-hub` → Netlify `le-vel-hub` → **le-vel.games** | PC |
-| **Captura de arma** | Página leve, tira foto de arma/loadout via QR | `victor-level-hub/bo7-capture` → **Cloudflare Worker** `bo7-capture.victor-abap.workers.dev` | Telemóvel |
-| **Captura de avatar** | Página leve, tira selfie pra gerar avatar | `level-capture-avatar.html` | Telemóvel |
-
-### CONVENÇÃO DE ENTREGA DE ARQUIVOS (regra fixa)
-- **O padrão é o HUB.** Quando o Claude entrega `index.html` sem aviso especial, é o Hub.
-  Não precisa repetir "este é o Hub" toda vez — é o default.
-- **Qualquer outra frente (captura de arma/avatar) = aviso destacado** + nome de
-  arquivo distinto (ex: `captura-arma-index.html`) + dizer explicitamente o repo de destino.
-- **Nunca** entregar uma captura disfarçada de `index.html` comum (risco de commit no repo errado).
-- Regra resumida: **silêncio = Hub; captura = aviso claro e nome distinto.**
+- Respostas em **pt-BR**
+- Todo termo técnico de jogo (hipfire, ADS, TTK, sprint-to-fire, slide-cancel, dropshot, etc.) → **parênteses explicativos** logo após, proativamente
+- **Recomendações decisivas** — nunca listas de opções para o Victor escolher (exceto quando ele pede explicitamente para ver alternativas)
+- **Sem emojis em UI nova** — apenas SVG inline
+- **Nunca** mencionar limites de sessão/tokens/uso — gatilho de ansiedade
+- Victor tem **TDAH + ansiedade**: uma coisa por vez, próximo passo concreto, sem despejos de texto
+- Ao orientar UIs de terceiros: **sempre link direto e completo** (Edge Function específica, repo+branch — não dashboard genérico), nunca chutar nomes de botões
+- DevTools Chrome: avisar que Chrome bloqueia paste — Victor digita `allow pasting` no console antes de colar
+- **Plataforma = LEVEL** (palíndromo). Coach IA dentro do Hub = **Le Vél** (personagem, tom direto/técnico)
 
 ---
 
-## 3. INFRAESTRUTURA
+## 2. ESTADO ATUAL DO HUB
 
-### Domínio e deploy
-- **Domínio:** le-vel.games
-- **Hub:** GitHub `victor-level-hub/level-hub`, branch `main` → auto-deploy Netlify
-  `le-vel-hub` a cada push no `main`.
-- **Captura mobile (arma):** GitHub `victor-level-hub/bo7-capture` → **Cloudflare Worker**
-  `bo7-capture.victor-abap.workers.dev` (migrou do Netlify p/ Workers; descoberto 1/Jun). URL do QR:
-  `bo7-capture.victor-abap.workers.dev/?token=...&type=weapon`. Claude NÃO tem o código deste Worker.
+**Versão:** `v2.7.0` (SemVer desde v2.0.0)
+**Arquivo:** single-file `index.html` (~2.3 MB, ~37.190 linhas)
+**Stack:** HTML/CSS/JS inline + Supabase backend
+**Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
-### Supabase
-- **Conta:** GitHub `victor-abap-pt`
-- **Projeto:** `bo7-tactical-hub` — ref **`cqkhqtgmolmrfgzozocr`**, região **sa-east-1** (São Paulo), Free tier.
-- **Painel:** supabase.com/dashboard
+### O marco v2.7.0 (3 Jun 2026) — três entregas num único deploy
 
-### IA / Vision
-- **Gemini 2.5-flash** (Vision API) — análise de prints de arma.
-- **Avatar:** Nano Banana 2.
+**1. Análise de build com veredito (tarefa 5.A resolvida).** A análise IA deixou de ser ficha técnica genérica e passou a dar veredito narrativo. O payload enviado à Edge Function `analyze-build` (v2) agora inclui:
+- `player_profile`: estilo rusher CQB, plataforma PS5, perk-chave Dexterity, ADS Multiplier 0.85 (constantes de produto)
+- `active_struggles`: dificuldades cadastradas na aba Evolução, com causa provável + nota mais recente (resolvidas contra `STRUGGLE_CATALOG` + entries custom da IA)
 
-### Links diretos de painéis (sempre mandar junto com a instrução)
-- Supabase: supabase.com/dashboard
-- Netlify: app.netlify.com
-- GitHub: github.com
-- Cloudflare: dash.cloudflare.com
+O system prompt foi reescrito do zero seguindo o padrão `analyze-capture-v6` (retry com backoff, `friendlyError`, instrumentação completa em `ana_gemini_usage`). Devolve uma narrativa de 2-4 frases em 3 eixos: (a) encaixe com o estilo, (b) cruzamento com struggles — incluindo dizer claramente quando "não é problema de build" (ex: flinch resolve-se com perk + ADS, não com attachment), (c) veredito final em 3 modos possíveis: otimizada/troca X por Y/o problema não está na arma. Schema da resposta (`summary` + `suggestions`) **preservado** — zero impacto no `_renderAIAnalysisHtml` do front. Validação anti-alucinação server-side mantida (suggestions filtradas contra `candidates_by_weakness` + `perks_pool`).
 
----
+Arquivo da Edge Function: `analyze-build-v2.ts` em `/outputs` — Victor cola no Supabase manualmente.
 
-## 4. AUTENTICAÇÃO — ESTADO ATUAL (FECHADO 1/Jun/26)
+**2. Eventos auto-limpam.** O painel "EVENTOS NO AR" no Painel Hoje passou a filtrar eventos cuja data de fim já passou há mais de 4 dias (constante `POST_END_GRACE_MS = 4 * 86400000`). Saem do grid automaticamente sem precisar editar o array `EVENTS`. Se a lista filtrada ficar vazia, a secção inteira (`.briefing-events`) esconde-se em vez de mostrar um cabeçalho órfão. Localização: bloco `renderEvents` (~linha 33627).
 
-Implementado o **caminho B**: autenticação real com Supabase Auth, identidade por `auth.uid()`.
+**3. Captura — dropdown de armas robusto.** No modal de aprovação da captura por foto, o seletor "escolhe a arma" lia o catálogo só de `DEFAULT_WEAPONS`. Quando `/bootstrap-defaults` falhava silenciosamente sem cache local, o array caía pro fallback hardcoded de **apenas 2 armas** (Sturmwolf 45 + Peacekeeper MK1) — o utilizador ficava preso sem conseguir escolher a arma certa. Correção: novo helper `_getAllKnownWeapons()` que retorna a UNIÃO de `DEFAULT_WEAPONS` ∪ `LevelDB.weapons` (deduplicada por id). `openApprovalModal` virou async, carrega a união uma vez e passa pro `buildApprovalCard`. O `matchWeapon` também recebe a lista como 3º parâmetro — o **matcher melhora junto com o dropdown** (mais armas conhecidas = mais chance de bater o nome correto).
 
-### Configuração
-- **Método:** e-mail + senha (sem segundo fator).
-- **Confirm email:** OFF (desligado — para facilitar testes; religar antes do público).
-- **Idade mínima:** 18+ universal (gate no cadastro por data de nascimento). Razão:
-  fica acima do piso de RGPD/LGPD/COPPA com uma regra só, sem detectar país.
-- **Anonymous sign-ins:** OFF (era o que gerava usuários fantasma).
+### Identidade visual (FECHADA no marco v2.6.x)
+- **Logo LEVEL própria** em SVG embutido (viewBox 0 0 706 178): palavra em estilo angular, corpo **laranja `#FF9800`**, detalhes internos em **azul-claro `#AEC7E0`**, triângulo laranja no topo entre o E e o V, e **recorte triangular vazado** no 2º E (deixa ver o fundo — funciona em qualquer tom)
+- **Posições das marcas:**
+  - Topo da **barra lateral** → logo **LEVEL** (classe `cod-bo7-logo`, herdada do slot antigo)
+  - **Cabeçalho** (`app-header-brand-mark`) → logo **Call of Duty: Black Ops 7**
+  - **Tela de login** (`lag-logo-svg`) → logo **LEVEL**
+- A antiga logo LEVEL em texto (fonte Inter, letras espelhadas, `sidebar-header`/`brand-logo`) foi **removida**
+- **Paleta de fundo recalibrada** (Cenário A — clareamento contido):
+  - `--bg-darkest: #141a2b` · `--bg-dark: #1a2238` · `--bg-panel: #1f283f` · `--bg-row: #25304f` · `--bg-row-hover: #303d5f`
+  - Tela de login: gate `#141a2b`, cartão `#252f48`
+- **Efeito scanline removido** — não há mais `repeating-linear-gradient` no CSS; fundo uniforme em todo o Hub
 
-### Identidade do Victor (usuário real único)
-- **auth.uid:** `1438a611-556b-4250-a079-c85066d7d781`
-- **e-mail:** victor.abap@outlook.com
-- **hub_users.id:** `3fa59ebd-b507-4f87-bf24-61e39d4ca785`
-- **Ligação:** coluna `hub_users.auth_user_id` aponta para o `auth.uid`.
+### Histórico v2.6.x (referência)
+- v2.6.0 → logo LEVEL no login/header + paleta recalibrada
+- v2.6.1 → triângulo vazado + traços unificados em azul-claro
+- v2.6.2 → corpo das letras em laranja (resolveu sumiço no fundo escuro)
+- v2.6.3 → troca de posições (LEVEL na sidebar, CoD no header) + remoção da logo textual antiga
+- v2.6.4 → remoção total do efeito scanline
 
-### O que foi construído no Hub
-- Overlay de Auth `#level-auth-gate` (telas: landing, cadastro, login, resgate de senha).
-- Controlador IIFE `window.LEVEL_AUTH` (signUp com gate 18+, signInWithPassword,
-  resetPasswordForEmail, signOut, getSession, getUserId, getClient). Cria client
-  `supabase-js@2.45.4` via esm.sh, com `persistSession: true`, storageKey `level.auth.session`.
-- O overlay cobre o Hub com fundo opaco (NÃO mexe na visibility do `.app` — fazer isso
-  quebrava o layout do menu; bug corrigido em 1/Jun).
-- `pushAll`, `pullAll` e `_cloudHeaders` agora enviam o **token de Auth** (não mais a chave anon).
-- `autoPullIfEmpty`: no login (evento `level-auth-ready`), se o dispositivo está vazio
-  (sem armas/loadouts locais), puxa o estado do banco automaticamente e recarrega. Cobre
-  "logo num computador novo e vejo tudo", sem clique. Se já há dados locais, NÃO faz pull
-  (evita sobrescrever mudanças não-sincronizadas) — sync manual continua disponível.
+### Logos standalone (fora do Hub, em `/outputs` — para favicon/OG futuros)
+- `level-logo.svg` (corpo laranja, versão final, fundo escuro)
+- `level-logo-white.svg` (tudo branco, para watermark)
+- **NÃO usados pelo Hub** (que tem tudo inline). Guardar para quando for montar favicon/meta tags.
 
-### Migração de dados (feita 1/Jun)
-- Dado de jogo do Victor migrado do localStorage para o banco sob o `auth.uid`.
-- Migrado: **25 armas** + **perfil** (display_name VICTOR, Prestige 6, Level 39, rusher, PS5).
-- Loadouts/builds: 0 (Victor não tinha salvos — não é bug).
-- Migração é **cópia única**: o Hub continua rodando do localStorage; o banco é o destino
-  do push. NÃO foi feita a "virada de chave" (Hub passar a viver do banco) — isso é projeto à parte.
-
-### PENDÊNCIAS de Auth
-- **Sync bidirecional validado** (push + pull sob auth.uid, testado 1/Jun). Todas as três
-  Edge Functions migradas e no ar: sync-push v6, sync-pull v6, user-asset v4 (todas verify_jwt).
-- **Auto-sync ao MUDAR + estratégia de CONFLITO (frente grande, próxima):** o objetivo é
-  "sempre sincronizado, invisível" (estilo Notion/Google Docs) — pull-ao-logar mesmo com
-  dados locais + push-ao-mudar automático. O nó é o conflito: dois dispositivos que mexem
-  offline e depois sincronizam — quem vence? Hoje há LWW (last-write-wins) no sync-push, mas
-  pull automático cego sobre dados locais divergentes APAGA mudanças não-sincronizadas. Por
-  isso o auto-pull atual só age em dispositivo vazio. Resolver conflito de verdade (LWW
-  consistente / merge / perguntar ao usuário) é pré-requisito pro automático completo e seguro.
-- **Capturas de telemóvel (arma e avatar) ainda NÃO usam Auth** — identificam-se por token
-  de sessão de captura (do QR) + chave anon, sem login. Plano: o QR passa a levar o auth.uid()
-  (createSession no Hub já aceita userId). Falta migrar as Edge Functions de captura e as
-  páginas (bo7-capture e level-capture-avatar.html — Claude não tem esses arquivos ainda).
-- **Confirm email:** religar antes de abrir ao público (hoje OFF p/ testes).
-- **RLS do bucket user-assets:** dispensável. Todo acesso ao bucket passa pela Edge Function
-  com service-role (que bypassa RLS); o cliente nunca toca o bucket direto. Segurança está na
-  função (só devolve assets do userId correto), não em política de Storage.
+### Logos-fonte do Figma (Victor mantém)
+- `Logo_LEVEL_-_Azul_Claro.svg` (corpo claro `#AEC7E0` + traços laranja) → usada como base no Hub
+- `Logo_LEVEL_-_Azul_Escuro.svg` (corpo escuro `#21293F` + traços laranja) → para fundos claros
 
 ---
 
-## 5. BANCO DE DADOS (Supabase Postgres)
+## 3. AUTH & BACKEND (Path B — fechado 1/Jun/2026)
 
-### Tabelas de catálogo (compartilhadas, conteúdo admin)
-- **cat_attachments** (16 col) — **1102 registros, 25/25 armas, fonte única `codmunity`,
-  nomes JÁ em MARCA** (ex: `14" Prism Light Barrel`, `VAS Convergence Foregrip`). Correção de
-  nomenclatura FEITA na troca atômica da v2.4.0. **ZERO genéricos. NÃO MEXER.**
-- cat_attachments_staging / cat_attachments_staging2 — tabelas de staging (pré-produção).
-- cat_codenames — codenames de build (UI Codenames, admin).
-- cat_default_builds / cat_default_weapons — seeds de armas e builds.
-- cat_maps — 22 mapas BO7 Multiplayer.
-- cat_perks, cat_sources, cat_struggles, cat_weapons.
-
-### Tabelas de dados do usuário (por user_id → hub_users.id)
-- **hub_users** (14 col) — inclui `local_id`, `auth_user_id`, display_name, prestige, level,
-  style, platform, photo_inline, prefs, server_updated_at.
-- hub_weapons (12 col), hub_builds (14), hub_loadouts (19), hub_settings (7),
-  hub_struggles (10), hub_struggle_notes (6), hub_unlocks (8), hub_player_history (6).
-- user_assets (10 col) — índice das imagens no bucket user-assets.
-
-### Outras
-- mkt_builds (19), mkt_votes (5) — marketplace.
-- ana_gemini_usage (12) — telemetria de custo/latência da Gemini.
-- avatar_sessions (14), capture_sessions (9) — sessões de captura mobile.
-- admin_config (4).
-
-### Buckets de Storage
-- **capture-photos** — fotos de arma (captura mobile).
-- **avatar-selfies** — selfies de entrada.
-- **avatar-generated** — avatares gerados pela Nano Banana 2.
-- **user-assets** — imagens pessoais do operador (avatar, emblemas de prestígio).
-  Privado, limite 5MB, aceita jpeg/png/webp. Path: `{hub_users.id}/{category}/{sub}/{item}.{ext}`.
+- Auth email+senha ativo, Confirm email OFF, 18+ universal
+- Victor: `auth.uid = 1438a611`, `hub_users.id = 3fa59ebd`
+- Edge Functions migradas p/ `auth.uid` + `verify_jwt: true`: `sync-push v6`, `user-asset v4`, `sync-pull v6`, `analyze-build v2`
+- Hub: `pushAll`/`pullAll`/`_cloudHeaders` mandam token JWT
+- 25 armas + perfil migrados para auth.uid
+- `cat_attachments` = **1102 rows**, 25 armas, fonte codmunity — **NÃO MEXER**
+- `user-assets` bucket existe (criado 25/Mai), **zero objetos, zero RLS policies** ainda
+- Supabase: conta GitHub `victor-abap-pt`, projeto `bo7-tactical-hub` (ref `cqkhqtgmolmrfgzozocr`, sa-east-1)
+- Captura mobile: tabela `capture_sessions`, bucket `capture-photos`, Edge Functions Deno
+- Gemini 2.5 Flash (Vision API + análise textual); Avatar: Nano Banana 2
+- Instrumentação: `ana_gemini_usage` registra usage tokens + custo + latência + sucesso/erro por chamada (preenchida por `analyze-capture v6` e `analyze-build v2`)
 
 ---
 
-## 6. EDGE FUNCTIONS (24 ativas)
+## 4. PERFIL DO JOGADOR (gameplay sempre ativo)
 
-**Com verify_jwt = TRUE (migradas pra auth.uid em 1/Jun):**
-- **sync-push** (v6) — recebe snapshot do Hub, grava sob auth.uid via auth_user_id. LWW por
-  chave natural, upserts, deletes. Bug de perfil-vazio corrigido (v2.1: preenche perfil null sem LWW).
-- **sync-pull** (v6) — read-only, devolve dado do banco por auth.uid. Suporta `since` incremental.
-- **user-asset** (v4) — CRUD de imagens no bucket user-assets, por auth.uid. Endpoints list/upload/delete.
-
-**Com verify_jwt = FALSE (modelo antigo, por local_id ou token de captura):**
-- sync-pull-v2 (v5) — função antiga/duplicada do modelo local_id (a sync-pull canônica é v6, migrada p/ auth.uid).
-- analyze-capture (v11) — Gemini Vision em prints de arma → vision_result. Instrumentado em ana_gemini_usage.
-  v11 (1/Jun): prompt distingue CODENAME de loadout (ANTARES, VIRTUE, KNIFE) do NOME REAL da arma
-  (que está no Gunsmith); pós-processa pra devolver SÓ a arma principal (a com attachments),
-  descartando slots de secundária/faca vazios. Schema ganhou `is_primary`.
-- generate-avatar (v5), avatar-session-create (v6), avatar-session-approve (v4), upload-avatar-selfie (v4).
-- bootstrap-defaults (v7) — seeds iniciais.
-- record-player-snapshot (v5), get-gemini-usage (v4).
-- mkt-publish-build (v4), mkt-vote (v4) — marketplace.
-- admin-bulk-attachments (v5), admin-cat-maps (v4), admin-cat-default-weapons (v3),
-  admin-cat-default-builds (v3), admin-cat-codenames (v4), admin-cat-struggles (v3) — admin de catálogo.
-- analyze-build (v1), report-attachment (v1), test-deploy (v5).
-
-### Padrões técnicos de Edge Function
-- DDL e pg_cron via `apply_migration`.
-- Upserts confiáveis: `ON CONFLICT (id) DO UPDATE` com enumeração completa de campos.
-- Bulk inserts grandes: Edge Function temporária com verify_jwt=false + shared secret +
-  `curl --data-binary`, neutralizada após uso.
-- Migração pra auth.uid (padrão usado em sync-push, sync-pull e user-asset): valida token via
-  `supabase.auth.getUser(token)` com service-role client (não depende do secret ANON_KEY);
-  resolve hub_users por auth_user_id; adota órfão por local_id; senão cria. Deploy com verify_jwt=true.
-- **DICA DE DEPLOY (descoberta 1/Jun):** o deploy de Edge Function pela ferramenta exige a
-  estrutura de subpasta (`slug/index.ts` + `slug/deno.json` + import_map_path apontando pro
-  deno.json), NÃO um `index.ts` solto na raiz. Tentar deployar `index.ts` na raiz dá
-  `InternalServerErrorException` repetido — que PARECE instabilidade do Supabase mas é a
-  estrutura errada. Replicar a estrutura da versão anterior resolve.
+- PS5, estilo **rusher agressivo CQB**. Marksman rifles vetadas.
+- Controller: MP normal (não CDL), +aim assist, +agressividade; **ADS Multiplier 0.85**
+- **Dexterity perk = prioridade máxima** (combate flinch — desvio de mira ao levar tiro)
+- Áudio: mix **Headphones**
+- Prestige 4-6 / Level ~39-54 (oscila — confirmar com Victor a cada sessão se relevante)
+- Arma principal: **Sturmwolf 45** (Weapon Prestige 2, build CICADA 3301-45)
+- Foco de grind: Sturmwolf P2 → Voyak P1→P2 → snipers
+- Arsenal: 25 armas cadastradas
 
 ---
 
-## 7. ESTADO DO HUB (v2.4.0)
+## 5. PRÓXIMAS PENDÊNCIAS (roadmap por prioridade)
 
-- Versão atual **v2.4.0**. SemVer desde v2.0.0 (PATCH=bugfix/visual/copy; MINOR=feature;
-  MAJOR=quebra compat). Bloco "O QUE MUDOU NESTA VERSÃO" no topo do Painel Hoje + link discreto
-  pro histórico completo.
-- Hub é single-file `index.html`, HTML puro, ~36 mil linhas.
-- **WPN_ID_MAP** traduz id curto → `wpn_` no boot (CatalogSync). Bug de weapon_id resolvido
-  (Peacekeeper 0 → 69).
-- **Chaves localStorage principais:** `level.player`, `level.weapons`, `level.loadouts`
-  (via LevelDB); `USER_IMG_KEY` = `bo7hub_user_images_v1` (cofre único de TODAS as imagens do
-  usuário: armas, emblemas, mapas, avatar, itens do Construtor e Vantagens); `level.sync.local_id`;
-  `level.auth.session` (sessão Auth).
-- **TAB_TO_CATSUB** mapeia cada aba de Configurações → categoria/subcategoria de imagem.
-- **Emblemas de Prestígio:** 100% via upload do usuário (sem WebP base64 embutido).
-  PRESTIGE_ITEMS (linha ~13758) tem 11 ids P1–P10+Master. P10 Death + Master Demon of War:
-  zero código, só upload.
-- **Imagens:** USER_IMG_MAX_SIZE = 720px + WebP 0.92. Imagens antigas em 200px continuam blur até reupload.
-- **i18n:** ~95% coberto (676 elementos, ~815 chaves PT+EN). Pendências: Meus Loadouts (5KB) e
-  Construtor (8KB).
-- **Bug recorrente conhecido:** navegação tab-based é frágil (clicar arma já voltou pra aba
-  Loadout). Atenção a mudanças de navegação.
-- **Modal "ARMAS DETECTADAS" (importação de captura, v96, 1/Jun):** agora SEMPRE mostra um
-  seletor de arma (`<select>` do catálogo) + botão "Abrir no Construtor". Vem pré-selecionado no
-  match automático; se a Vision não casa o nome (ex: leu "VOYAK XT-3" em vez de "Voyak KT-3"), o
-  usuário escolhe da lista e importa na mesma — os attachments lidos são re-mapeados contra a arma
-  escolhida. Antes só mostrava botão se a arma casava no catálogo (travava sem opção de salvar).
-  Funções: matchWeapon (fuzzy bestMatch), matchAttachment, buildApprovalCard, importIntoBuilder.
-- **Dica de uso da captura:** fotografar a tela do GUNSMITH (nome da arma no topo + attachments),
-  não a tela de seleção de loadout (que só mostra codenames). Print nítido, bem iluminado, esperar
-  nomes longos pararem de rolar. A precisão da leitura depende da qualidade do print (limite do Gemini).
+> A tarefa anterior nº 1 (★ análise com veredito) foi entregue na v2.7.0. Lista atualizada:
+
+1. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid)
+   - RLS policies ainda **pendentes**
+   - Migração de capturas mobile (QR → auth.uid) pendente
+   - Faltam os arquivos `bo7-capture` e `level-capture-avatar` para Cráudio trabalhar
+2. **cat_struggles BD + admin UI** — feeds a análise IA com mais profundidade. Hoje as struggles vêm do `STRUGGLE_CATALOG` hardcoded (11 entries) + entries custom geradas por IA. Mover pro DB destrava admin UI e enriquecimento.
+3. **UI Codenames** (admin + botão "Sugerir" em build/loadout)
+4. **Avatar IA Nano Banana 2**
+5. **PRE-MATCH ADVISOR** (futuro grande) — sugere loadout/arma conforme mapa + modo MP em tempo real. **Fundação plantada na v2.7.0:** consome o `player_profile` + arsenal + a mesma narrativa de veredito da `analyze-build v2`.
+6. **Marketplace** + **i18n EN** (Loadout/Meus Loadouts) — menor prioridade
+   - i18n hoje ~95% coberto; pendência: Meus Loadouts (~5KB) e Construtor (~8KB) sem EN
 
 ---
 
-## 8. ARSENAL E PERFIL DO OPERADOR
+## 6. CHECKLIST PÓS-DEPLOY (v2.7.0)
 
-**Status:** Prestige 6, Level 39 (confirmado no banco 1/Jun/26; era P4 L50 em 13/Mai — evoluiu).
-Estilo rusher. PS5.
+> Fazer ANTES de considerar o marco v2.7.0 100% no ar. Está em **DOIS LADOS** (Hub no GitHub + Edge Function no Supabase).
 
-**Arma principal:** Sturmwolf 45, Weapon Prestige 2 (✦✦). Build **CICADA 3301-45**
-(.40 Conversion Kit, 5-attach): FANG HoverPoint ELO, VAS Convergence Foregrip, MFS Tigris .40 Cal Mag,
-Selene Rover Grip (Permanent Attachment Token aqui, Lvl 28), .40 Cal Overpressured.
-Stats: range +27%, TTK 300ms até 26m, 600 RPM, mag 30. Build code: `S07-43S8E-MGLI4-5511`.
+- [ ] **Deployar Edge Function `analyze-build` v2** no Supabase:
+  - Link: https://supabase.com/dashboard/project/cqkhqtgmolmrfgzozocr/functions/analyze-build
+  - Colar conteúdo do arquivo `analyze-build-v2.ts` (entregue em `/outputs`)
+  - Confirmar **Verify JWT** ligado nas settings
+- [ ] **Commitar `index.html` v2.7.0** no repo do Hub:
+  - Link: https://github.com/victor-level-hub/level-hub (branch `main`)
+  - Título: `feat: veredito + eventos auto + captura robusta`
+  - Descrição (corpo do commit):
+    ```
+    - Análise IA de build deixa de descrever e passa a dar veredito.
+      Edge Function analyze-build (v2) recebe player_profile + active_struggles
+      e devolve narrativa de 2-4 frases em 3 eixos: estilo / struggles / conclusão.
+      Schema da resposta inalterado — zero impacto no render.
+    - Eventos encerrados há mais de 4 dias somem do painel automaticamente.
+      Secção inteira esconde-se se a lista filtrada ficar vazia.
+    - Captura: dropdown de armas une catálogo (DEFAULT_WEAPONS) + arsenal
+      do utilizador (LevelDB.weapons). Corrige bug que mostrava só 2 armas
+      quando bootstrap-defaults falhava silenciosamente.
 
-**Arsenal (25 armas, snapshot 20/Mai/26):**
-- Snipers: Strider 1/37, Hawker HX 22/38 (build ANTARES — Warzone OSK: Tishina-11+Teleos Range+
-  Ridge Grip+Volant Tight+Infiltrator Stock; HX-ANTR-OSKW-2205), VS Recon 19/45, Shadow 23/46, XR-3 16/44.
-- SMGs: VST 21/39, REV-46 19/34, Sturmwolf P2 ATIVA, Kogot 36/39, Ryden 24/42, RK-9 1/42,
-  Razor MAX, Dravec 14/36, Carbon 20/41, MPC 14/42.
-- ARs: MK35 21/43, Voyak P1 19/42, EGRT 9/41, Maddox 33/43, M15 16/47, AK 24/47, MXR 6/47,
-  X9 4/42, DS20 10/43, Peacekeeper 60/250.
+    Versão: v2.6.4 → v2.7.0 (MINOR).
+    ```
+- [ ] Confirmar no **Netlify** (https://app.netlify.com) que o build `le-vel-hub` passou e publicou
+- [ ] Abrir **le-vel.games** e verificar o footer mostra **LEVEL v2.7.0**
+- [ ] **Testar análise de build:** abrir uma build da Peacekeeper MK1 (já no Mestre 250/250), garantir que "atiro primeiro mas morro" está cadastrada na Evolução, clicar **Analisar**. Conferir que o veredito é **acionável** (toca em estilo + struggle + conclusão clara), não descritivo da arma.
+- [ ] **Testar captura:** gerar QR, tirar foto de uma arma, e confirmar que o dropdown lista **as 25 armas** (não só 2).
+- [ ] **Testar painel de eventos:** "C.O.D.E. Navigator" (21 mai) e "RoboCop" (28 mai) já não devem aparecer (passaram dos 4 dias de grace); só "Ranked Series · Season 03" (até 4 jun).
 
-**Prestige & Unlocks:** Tokens Permanent usados (4): Lightweight + Ghost + Ninja + Gunfighter Wildcard.
-Mapa de unlocks por level: Lvl6 Scavenger, Lvl9 Blast Link, Lvl11 Tac Sprinter, Lvl14 Fast Hands,
-Lvl17 Cold-Blooded, Lvl18 Gung Ho, Lvl21 Flak Jacket, Lvl26 Ghost, Lvl27 Assassin,
-Lvl29 Gunfighter Wildcard, Lvl33 Perk Greed, Lvl45 Lightweight, Lvl53 Ninja.
-
-**Regras de gameplay (preferências fixas do Victor):**
-- Tudo otimizado pra rusher agressivo (CQB). **Marksman rifles vetadas.**
-- Permanent Unlock só vale pra itens de level alto (≥40). Lightweight e Ninja foram acertos.
-- Foco de grind: Sturmwolf P2 → Voyak P1→P2 → snipers.
-- Controller: MP normal (não CDL), +aim assist, +agressividade. **ADS Multiplier 0.85**
-  (fix do "atiro 1º mas morro"). **Dexterity** = prioridade máxima contra flinch.
-- Áudio: mix Headphones (passos valem mais que minimapa).
-
----
-
-## 9. ARQUITETURA DE IA (visão)
-
-- Hoje a "IA" é **motor de regras determinístico em JS** (analyzeLoadout = score 0-100, tier S-D;
-  STRUGGLE_CATALOG = 8 dificuldades com why+tips+nota 0-10). Auditável.
-- **Meta:** IA efetivamente ativa. Doc `LEVEL_IA_Especificacao.md` escrito no PRESENTE como se já
-  fosse ativa (Victor pediu assim).
-- **Consenso de arquitetura:** híbrido. Motor de regras = cérebro (scoring determinístico,
-  auditável). LLM = camada de linguagem/coaching presa a SCHEMA FECHADO.
-- LLM próprio inviável pra 1 usuário (só API, ou fine-tuning futuro). Cloud/aprendizado coletivo
-  prematuro (1 user; cloud só serve sync). RAG depende de schema de vetores + normalização
-  (aguarda amigo cientista de dados).
-- **Fonte de dados:** codmunity.gg (primária dos números), Game8 (fallback/verificação).
-  Risco: se codmunity mudar layout/fechar, catálogos viram lixo → precisa plano B de
-  scraping/cache local versionado.
+### Checklist v2.6.4 (anterior) — fechar se ainda não foi feito
+- [ ] Confirmar que o `index.html` v2.6.4 já está commitado e no ar. Se foi pulado na sessão anterior, vai junto no mesmo commit da v2.7.0.
 
 ---
 
-## 10. ROADMAP (ordem de prioridade, atualizado 25/Mai/26)
+## 7. WORKFLOW & PADRÕES TÉCNICOS
 
-1. **user-assets bucket** — migrar imagens localStorage → Storage. (Backend pronto: bucket existe,
-   user-asset v4 no ar com Auth. Falta ligar o fluxo de imagens do Hub ponta a ponta e testar.)
-2. **cat_struggles BD + admin UI** — (Edge Function admin-cat-struggles v3 já existe.)
-3. **UI Codenames** — admin + botão "Sugerir" em build/loadout. (cat_codenames + admin-cat-codenames existem.)
-4. **Avatar IA Nano Banana 2.**
-5. **PRE-MATCH ADVISOR** (grande) — em tempo real, sugere loadout/arma conforme mapa + modo MP
-   (TDM, Dom, Hardpoint).
+### Checklist de entrega (cumprir SEMPRE e listar visivelmente no fim da mensagem)
 
-Também pendentes: Marketplace (`db.market.*`), i18n EN Loadout/Meus Loadouts, seções Áudio e
-Vídeo do doc IA, migração do `pullAll` pra Auth, migração das capturas de telemóvel pra Auth.
+Victor cobrou explicitamente em 3/Jun/26. **Esquecer qualquer item gera fadiga, é gatilho de TDAH e arrisca o projeto.** Em toda entrega de Cráudio:
 
----
+1. **Bumpar SemVer** (PATCH=bugfix/visual, MINOR=feature, MAJOR=quebra)
+2. **Footer do Hub** atualizado no formato `LEVEL · vX.Y.Z` + `<span class="ver-tag">` descritiva curta dos itens
+3. **Bloco "O QUE MUDOU NESTA VERSÃO"** no topo do Painel Hoje (headline + summary + bullets)
+4. **Entry nova no topo do Histórico de Versões** (`vh-entry` dentro de `vh-list`, modal de versões)
+5. **Título do commit** (< 50 chars — GitHub avisa)
+6. **Descrição do commit** (corpo do commit com bullets dos itens — **NÃO esquecer**; foi a falha que motivou cravar este checklist em 3/Jun)
+7. **Link DIRETO E COMPLETO** de todo destino externo onde Victor precisa agir:
+   - Supabase Edge Fn: `supabase.com/dashboard/project/cqkhqtgmolmrfgzozocr/functions/<nome>` (não a homepage do dashboard)
+   - GitHub Hub: `github.com/victor-level-hub/level-hub`
+   - GitHub Captura: `github.com/victor-level-hub/bo7-capture`
+   - Netlify: `app.netlify.com`
 
-## 11. COMO TRABALHAR COM O VICTOR (preferências)
+### Padrões de edição
 
-### Comunicação
-- Respostas em **pt-BR**, diretas, **uma coisa por vez**, sem listas de opções.
-- Todo termo técnico de jogo recebe resumo entre parênteses logo após (hipfire, ADS, TTK,
-  sprint-to-fire, slide-cancel, dropshot, gun kick, flinch, etc.) — proativamente.
-- Recomendações **decisivas**, sem hedging nem listas de alternativas.
-- Instruções mapeiam exatamente a UI visível na tela.
-- Em UIs de terceiros: sempre o **link direto** do painel; nunca chutar nomes de botões/menus
-  (pedir screenshot ou usar descrição genérica).
-- DevTools Chrome: avisar ANTES que o Chrome bloqueia paste no console; pra liberar, digitar
-  `allow pasting` + Enter. Lembrar proativamente em toda sessão que exigir DevTools.
+- Edições sempre via Python `read → str_replace → write` em `/home/claude/hub.html`, **nunca** edição manual de linhas
+- `str_replace` Python com `assert count == 1` antes de cada substituição (ou usar a tool nativa que falha se não for único)
+- Validação após cada alteração: `node --check` no maior bloco `<script>` + sanity checks (contar ocorrências esperadas, ex: `v2.7.0` deve aparecer 3x — footer + changelog title + vh-entry head)
+- Para mudanças visuais: **renderizar com Playwright** (chromium headless) e inspecionar screenshot ANTES de entregar — não confiar só no código
+- Output final: `/mnt/user-data/outputs/index.html`; Victor commita no GitHub
+- **NUNCA** sugerir Google Drive ou Files do Projeto (Victor parou 31/Mai/2026)
+- Mudança de frontend que afete schema → backend Supabase na mesma sessão
 
-### Atenção / ritmo (Victor tem TDAH + ansiedade)
-- Evitar listas longas, despejos de texto, "também posso X, Y, Z" no fim (gatilho de paralisia).
-- Foco total, próximo passo concreto.
-- **NUNCA mencionar limites de uso/sessão/tokens.** Não pausar preventivamente nem fazer
-  checkpoint antecipado (gatilho de ansiedade). Trabalhar até o fim real da tarefa.
+### Aprendizados da sessão v2.7.0 (3 Jun 2026)
 
-### Estética do Hub
-- **Zero emojis** em UI nova (📷 🎯 ✅ etc.). Padrão: ícones SVG inline, tipografia limpa.
-  Emojis só se Victor pedir explicitamente.
+- **Schema fechado é proteção real.** Ao reescrever o `analyze-build`, manter o schema `{summary, suggestions}` do front evitou cascata de mudanças. Quando hesitar entre "estender schema" e "guardar nova lógica no campo existente", preferir o segundo se for compatível.
+- **Fallback hardcoded é armadilha silenciosa.** O `DEFAULT_WEAPONS_FALLBACK` de 2 armas existia pra cobrir "primeira visita sem rede" — mas se o bootstrap falha em qualquer sessão posterior sem cache, o user vê 2 armas e nem percebe. Fix defensivo: sempre unir com fonte alternativa (no caso, `LevelDB.weapons`).
+- **Sempre confirmar explicitamente no fim da entrega.** Cráudio falhou em listar "footer atualizado + bloco changelog atualizado + entry histórica criada" na entrega da v2.7.0 — Victor cobrou. Memória agora tem o checklist de 7 itens; aplicar sempre.
+- **Antes de mexer no fluxo de IA, mapear consumidores do schema.** Antes de tocar no `analyze-build`, leitura de `_renderAIAnalysisHtml` deu o contrato exato (`analysis.summary` + `analysis.suggestions[]`). Sem esse passo, é fácil quebrar o render.
 
-### Workflow de desenvolvimento
-- Victor anexa o `index.html` atual no início de cada sessão. Sem o arquivo, Claude trabalha
-  em base errada.
-- Edições via Python `read → str_replace → write` em `/home/claude/hub.html`.
-- Validação JS: extrair maior bloco `<script>` via regex → `/tmp/c.js` → `node --check`.
-- Deploy do Hub: `cp` para `/mnt/user-data/outputs/index.html` + `present_files`.
-- Ao fim da sessão: Claude deixa a versão final em `/mnt/user-data/outputs`.
-- **Victor NÃO usa mais Google Drive nem Files do Projeto pra backup** (parou 31/Mai). Guarda no
-  **GitHub**. NÃO insistir em Drive/Files do Projeto.
-- Claude não tem escrita no Files do Projeto nem no Drive (read-only). Gera em /outputs; Victor sobe.
-- Mudança de frontend que afete dados/schema exige backend Supabase na MESMA sessão.
+### Aprendizado do marco v2.6.x (logo/visual)
+- Vetorizadores automáticos (Image Tracer, etc.) produzem fragmentos soltos, não letras completas — não tentar "remendar" o output; redesenhar ou pedir SVG limpo
+- Para um recorte "vazado" funcionar em qualquer fundo: **remover de verdade** a área do path (não pintar com cor fixa de fundo)
+- z-index alto em elementos persistentes (sidebar) **quebra modais** — não usar para "esconder" camadas; preferir mover/remover a camada-problema
+- Quando o problema parece ser a logo, pode ser o **fundo/contraste** — testar a logo em vários fundos antes de mexer no desenho
 
-### Catálogo (princípios)
-- Nunca inventar dados. Só registrar attachments verificados na fonte. Gaps ficam como gaps.
-- Uma arma por vez. codmunity = nomes genéricos; Game8 = nomes de marca (já reconciliado no banco).
+### Fontes de dados do jogo
+- **codmunity.gg**: fonte primária de attachments (`browser_batch` navigate→wait 3s→`get_page_text`; requer aprovação de permissão na 1ª navegação)
+- **game8.co**: não funciona com `get_page_text` — usar `web_fetch` com URLs archive.org
 
 ---
 
-*LEVEL · BO7 Tactical Hub — documento mestre de estado e convenções. Atualizar ao fim de cada
-marco do projeto e commitar no repo `level-hub` junto do index.html.*
+## 8. MONETIZAÇÃO (decidido 18/Mai/2026)
+
+- **FREE:** regras determinísticas, até 5 loadouts
+- **PLUS R$19,90/mês:** IA conversacional, Vision API, coaching, loadouts ilimitados, sync, "Falar com Le Vél"
+- **PRO R$49,90/mês:** replay analysis, coach session, meta builds, comunidade
+- **Founder vitalício:** 100 primeiros Plus / 50 primeiros Pro — preço travado, badge permanente
+- BYOK descartado (fricção mata conversão); backend centralizado para Plus
+
+---
+
+*LEVEL · BO7 Tactical Hub — documento de estado. Regenerar ao fim de cada marco.*
