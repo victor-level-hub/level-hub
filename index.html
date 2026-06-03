@@ -10426,7 +10426,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.7.5 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.7.6 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
@@ -13706,6 +13706,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.6</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Análise IA passou a respeitar o estilo de jogo configurado em <strong>Configurações &middot; Operador</strong> e a detectar quando uma build, mesmo sem fraquezas absolutas, está desalinhada com esse estilo. Dois fixes encadeados, descobertos quando uma build long-range (Voyak KT-3 "BELEROFONTE") devolveu o veredito correto de desalinhamento — mas com <code>suggestions: []</code> e sem sugestões concretas de adaptação. <strong>Fix 1 — perfil do operador hardcoded.</strong> O <code>requestAIAnalysis</code> mandava <code>player_profile.style: 'rusher CQB agressivo'</code> literal no payload, ignorando o <code>player.playstyle</code> persistido (mesma chave que a sidebar, card resumo e sync já usam). Criada tabela <code>PLAYSTYLE_PROFILE</code> que mapeia cada uma das 6 opções do select (<code>RUSHER</code>, <code>SLAYER</code>, <code>ANCHOR</code>, <code>OBJECTIVE</code>, <code>SNIPER SUPPORT</code>, <code>FLEX</code>) para descrição expandida e flags <code>needsMobility</code>/<code>needsHandling</code>/<code>needsRange</code>. <code>platform</code> também passou a ler de <code>player.platform</code> (fallback PS5 enquanto não existe input dedicado). <strong>Fix 2 — buraco lógico no motor determinístico.</strong> <code>_computeBuildContext</code> classificava fraquezas só em valores absolutos: uma build com <code>recoil: -42, range: +61, mobility: +25, handling: -20</code> não tinha nenhuma fraqueza detectada, então <code>candidates_by_weakness</code> e <code>perks_pool</code> chegavam vazios à IA. A IA via desalinhamento (style_hint <code>long-range</code> vs player_profile <code>rusher CQB</code>) mas não tinha matéria-prima para sugerir adaptações — caía no veredito "o problema não está na arma" sem nada para oferecer. Adicionado bloco de <strong>fraquezas relativas ao estilo</strong> logo após as absolutas: quando o operador é rusher/slayer/objective, handling acima de -25 vira fraqueza relativa de <em>handling</em>, mobility abaixo de 15 vira fraqueza relativa de <em>mobility</em>; quando é anchor/slayer/sniper support, range abaixo de 10 vira fraqueza relativa de <em>range</em>. Resultado: a IA agora tem candidatos compatíveis com o estilo do operador e consegue cumprir a regra R5 do prompt v3 ("se há desalinhamento entre style_hint e player_profile.style E há candidates compatíveis → suggestions DEVE ter ≥1 adaptação"). Zero mudanças na Edge Function — o prompt v3 já estava preparado, só lhe faltava o payload certo.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.7.5</span>
                 <span class="vh-date">3 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -15256,7 +15265,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.7.5</strong><span class="ver-tag">Bug crítico: Apagar build agora funciona (handler de struggle interferia)</span>
+        LEVEL · <strong>v2.7.6</strong><span class="ver-tag">Análise de build agora lê estilo real do operador e detecta desalinhamento com a build</span>
       </div>
       <script>
         (function(){
@@ -16386,10 +16395,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '2 Jun 2026',
+    'briefing.changelog.date':  '3 Jun 2026',
     'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Layout da aba Evolução · Dificuldades restaurado',
-    'briefing.changelog.summary':  'Uma entrada quebrada no Histórico de Versões (faltava o wrapper do cabeçalho num registo) estava a empurrar várias secções para fora do contentor principal — fazendo o conteúdo da aba Evolução · Dificuldades aparecer colapsado no meio da página. Corrigido.',
+    'briefing.changelog.headline': 'Análise IA agora respeita o teu estilo de jogo',
+    'briefing.changelog.summary':  'Dois bugs do <em>analyze-build</em> que faziam a IA dar veredito genérico. <strong>Bug 1:</strong> o perfil do operador enviado à IA estava fixo em "rusher CQB" — se mudasses para Slayer/Anchor/Sniper Support em Configurações &middot; Operador, o card resumo e a sidebar atualizavam mas a análise ignorava a mudança. Agora lê <code>player.playstyle</code> real e expande para uma descrição completa (cada estilo do select ganhou contexto: ritmo, alcance, postura). <strong>Bug 2 (o mais sério):</strong> uma build "longa" — com alcance estendido e recuo controlado — passava no motor sem fraquezas absolutas, então <code>candidates_by_weakness</code> e <code>perks_pool</code> chegavam vazios à IA. Ela então caía no veredito "o problema não está na arma" sem ter sugestões para oferecer, mesmo quando o estilo do operador (ex: rusher CQB) era o OPOSTO do que a build entrega. Agora o motor calcula também <strong>fraquezas relativas ao estilo</strong> — uma build pode estar perfeita em valores absolutos e ainda ser detectada como desalinhada do operador, dando à IA matéria-prima para sugerir adaptações concretas.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -17673,10 +17682,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 2, 2026',
+    'briefing.changelog.date':  'Jun 3, 2026',
     'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Evolution · Struggles tab layout restored',
-    'briefing.changelog.summary':  'A broken entry in the Version History (one record was missing its header wrapper) was pushing several sections out of the main container — making the Evolution · Struggles tab show up collapsed in the middle of the page. Fixed.',
+    'briefing.changelog.headline': 'Build analysis now respects your playstyle',
+    'briefing.changelog.summary':  'Two <em>analyze-build</em> bugs that were making the AI deliver generic verdicts. <strong>Bug 1:</strong> the operator profile sent to the AI was hardcoded to "rusher CQB" — if you changed it to Slayer / Anchor / Sniper Support in Settings &middot; Operator, the summary card and sidebar updated but the analysis ignored the change. It now reads the real <code>player.playstyle</code> and expands it into a full description (every style in the dropdown got context: tempo, range, posture). <strong>Bug 2 (the more serious one):</strong> a "long-range" build — with extended range and controlled recoil — passed through the engine with zero absolute weaknesses, so <code>candidates_by_weakness</code> and <code>perks_pool</code> arrived empty at the AI. It then fell back to the verdict "the problem isn\'t the gun" with no suggestions to offer, even when the operator\'s playstyle (e.g. rusher CQB) was the OPPOSITE of what the build delivers. The engine now also computes <strong>weaknesses relative to the playstyle</strong> — a build can be perfect on absolute values and still be flagged as misaligned with the operator, giving the AI material to suggest concrete adaptations.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -22981,6 +22990,27 @@ const ATTACHMENT_ICONS = {
     };
 
     // ═══════════════════════════════════════════════════════════════════
+    // MAPINHA · playstyle do operador (LevelDB) → descrição para a IA
+    // ═══════════════════════════════════════════════════════════════════
+    // O select de Configurações → Operador guarda valores como 'RUSHER',
+    // 'SLAYER', etc. A IA precisa de mais que o rótulo curto — precisa do
+    // contexto que descreve o estilo (alcance, ritmo, postura). Esta tabela
+    // dá essa expansão e também aciona regras de "fraqueza relativa ao
+    // estilo" no motor determinístico.
+    const PLAYSTYLE_PROFILE = {
+      'RUSHER':         { label: 'rusher CQB agressivo',         needsMobility: true,  needsHandling: true,  needsRange: false },
+      'SLAYER':         { label: 'slayer K/D multi-distância',   needsMobility: true,  needsHandling: true,  needsRange: true  },
+      'ANCHOR':         { label: 'anchor defensivo de controle', needsMobility: false, needsHandling: false, needsRange: true  },
+      'OBJECTIVE':      { label: 'objective Hardpoint/Domination', needsMobility: true, needsHandling: true, needsRange: false },
+      'SNIPER SUPPORT': { label: 'sniper support long-range',    needsMobility: false, needsHandling: false, needsRange: true  },
+      'FLEX':           { label: 'flex adaptável',               needsMobility: true,  needsHandling: false, needsRange: false }
+    };
+    function _resolvePlaystyleProfile(raw) {
+      const key = String(raw || '').toUpperCase().trim();
+      return PLAYSTYLE_PROFILE[key] || PLAYSTYLE_PROFILE['RUSHER'];
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
     // ANÁLISE DE BUILD · ARQUITETURA HÍBRIDA (v75-100)
     // ═══════════════════════════════════════════════════════════════════
     // Motor determinístico (Hub) calcula stats agregados + identifica
@@ -23005,7 +23035,10 @@ const ATTACHMENT_ICONS = {
     }
 
     // ─── Computa contexto determinístico da build (stats + candidates) ───
-    function _computeBuildContext(build, base) {
+    // playerStyle: opcional. Quando passado (valor cru do LevelDB, ex 'RUSHER'),
+    // ativa fraquezas RELATIVAS ao estilo (uma build pode estar perfeita em
+    // valores absolutos e ainda assim mal alinhada ao estilo do operador).
+    function _computeBuildContext(build, base, playerStyle) {
       const catalog = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[base.id] : null;
       if (!catalog) return null;
 
@@ -23066,6 +23099,31 @@ const ATTACHMENT_ICONS = {
 
       if (totals.mag >= 20)            strengthsText.push('mag generoso (+' + totals.mag + ' balas)');
       else if (totals.mag < 0)         { weaknessesText.push('mag reduzido'); weaknessKeys.push('mag'); }
+
+      // ── Fraquezas RELATIVAS ao playstyle do operador ──
+      // Uma build pode ter zero fraquezas absolutas e mesmo assim ser mal
+      // alinhada ao estilo. Ex: build long-range (recoil baixo, range alto)
+      // sem buracos absolutos, mas o operador é rusher CQB → faltam mobility
+      // e handling para o jogo dele. Sem isto, candidates_by_weakness fica {}
+      // e a IA não tem matéria-prima para sugerir adaptações.
+      if (playerStyle) {
+        const sp = _resolvePlaystyleProfile(playerStyle);
+        if (sp.needsHandling && weaknessKeys.indexOf('handling') < 0 && totals.handling > -25) {
+          weaknessesText.push('handling não-agressivo para ' + sp.label);
+          weaknessKeys.push('handling');
+        }
+        if (sp.needsMobility && weaknessKeys.indexOf('mobility') < 0 && totals.mobility < 15) {
+          weaknessesText.push('mobilidade insuficiente para ' + sp.label);
+          weaknessKeys.push('mobility');
+        }
+        // Estilo precisa de range alto mas a build entrega baixo → fraqueza.
+        // O umbral absoluto pra fraqueza de range já é -10; pra estes estilos
+        // somamos um umbral mais sensível (range neutro ainda é insuficiente).
+        if (sp.needsRange && weaknessKeys.indexOf('range') < 0 && totals.range < 10) {
+          weaknessesText.push('range insuficiente para ' + sp.label);
+          weaknessKeys.push('range');
+        }
+      }
 
       // ── Estilo inferido ──
       let styleHint = '';
@@ -23264,7 +23322,19 @@ const ATTACHMENT_ICONS = {
       const base    = weapons.find(w => w.id === build.weaponBaseId);
       if (!base) return;
 
-      const ctx = _computeBuildContext(build, base);
+      // ── Perfil REAL do operador (LevelDB.player) ────────────────────────
+      // Lê playstyle/platform persistidos no Hub. Sem esta leitura, a IA
+      // recebia 'rusher CQB agressivo' hardcoded e ignorava o que o operador
+      // escolheu em Configurações → Operador (bug v2.6.4-).
+      let player = {};
+      try { player = await LevelDB.player.get(); } catch (e) { player = {}; }
+      const playstyleRaw = player.playstyle || 'RUSHER';
+      const sp = _resolvePlaystyleProfile(playstyleRaw);
+
+      // Contexto da build agora consciente do estilo do operador → habilita
+      // fraquezas relativas (handling/mobility/range insuficientes para o
+      // estilo, mesmo que absolutas estejam OK).
+      const ctx = _computeBuildContext(build, base, playstyleRaw);
       if (!ctx) {
         _aiAnalysisErrorFor[buildId] = 'Catálogo da arma ainda em construção.';
         renderBuildsMaybeAsync();
@@ -23284,14 +23354,14 @@ const ATTACHMENT_ICONS = {
         catch (e) { return null; }
       })();
 
-      // ── Perfil do operador (constante de produto: Hub-de-Rusher) ────────
-      // Esses dados existem fora da build (estilo, plataforma, perk-chave) e
-      // são o que separa um veredito acionável de uma descrição genérica.
+      // ── Perfil do operador para enviar à IA ─────────────────────────────
+      // style = descrição expandida (não o rótulo curto); platform com
+      // fallback PS5 enquanto não há campo de UI para editar.
       const playerProfile = {
-        style: 'rusher CQB agressivo',
-        platform: 'PS5',
-        priority_perk: 'Dexterity',   // combate flinch (desvio de mira ao levar tiro)
-        ads_multiplier: 0.85          // recomendação base do Hub
+        style: sp.label,                          // ex: 'rusher CQB agressivo'
+        platform: player.platform || 'PS5',
+        priority_perk: 'Dexterity',               // combate flinch (desvio de mira ao levar tiro)
+        ads_multiplier: 0.85                      // recomendação base do Hub
       };
 
       // ── Dificuldades cadastradas (struggles) ─────────────────────────────
