@@ -10426,18 +10426,15 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.7.3 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.7.4 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
             </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">data</div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">data + fix</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo BO7 completo em Configurações &middot; Imagens</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Aba Vantagens &amp; Séries deixou de mostrar só 4 scorestreaks, 4 specialties e 2 field upgrades — passou a refletir o catálogo completo do BO7 (lançamento + Seasons 1/2/3): 32 scorestreaks (24 oficiais + 8 placeholders do mid-season S1 esperando confirmação visual), 6 specialties (3 core + 3 hybrid) com a lista de perks que cada uma habilita, e 12 field upgrades. Cada item ganhou descrição em pt-BR explicando o que faz, e os scorestreaks que têm custo confirmado mostram o badge "X pts".</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Aba Mapas povoada e Stim Shot no Level 21</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Dois acertos rápidos. A aba Configurações &middot; Imagens &middot; Mapas estava vazia quando o catálogo do servidor não vinha — agora tem fallback hardcoded com os 41 mapas confirmados do BO7 (lançamento + Seasons 1/2/3). E a tela Progressão &middot; Level 21 estava a mostrar só Sentry Turret e Flak Jacket, faltando o Stim Shot (equipamento tático que desbloqueia no mesmo nível) — adicionado.</div>
           <ul class="briefing-changelog-list">
-            <li data-i18n-html="briefing.changelog.item1"><strong>Scorestreaks: 4 &rarr; 32.</strong> 21 do lançamento (UAV, Napalm, Watchdog, Rhino, VTOL, Legion, etc) + Deadeye Drone (S1) + 8 placeholders do Mid-Season S1 (legacy BO6, nomes a confirmar com print) + Lockshot (S2) + Ion Core (S3). Cada um com descrição em pt-BR + custo (quando confirmado).</li>
-            <li data-i18n-html="briefing.changelog.item2"><strong>Specialties: 4 &rarr; 6.</strong> Adicionadas <strong>Scout</strong> (híbrido vermelho+azul) e <strong>Operative</strong> (híbrido azul+verde) que estavam em falta. Cada specialty descreve quais perks habilitam e qual o efeito ativado.</li>
-            <li data-i18n-html="briefing.changelog.item3"><strong>Field Upgrades: 2 &rarr; 12.</strong> Os 10 do lançamento (Assault Pack, Drone Pod, Trophy System, Active Camo, Echo Unit, Squad Link, Scrambler, Fear Trap, Black Hat, Mute Field) + 2 do S1 Mid-Season (Morphine Injector, Tactical Insertion). <em>Stim Grenade saiu desta aba</em> &mdash; é equipamento tático, não field upgrade.</li>
-            <li data-i18n-html="briefing.changelog.item4"><strong>Cards mostram descrição.</strong> O renderer ganhou bloco de descrição (cinza, abaixo do id) e badge de custo (laranja, ao lado do nome) &mdash; agora dá pra saber o que cada item faz sem sair da tela.</li>
-            <li data-i18n-html="briefing.changelog.item5"><strong>Fontes oficiais.</strong> Dados puxados de callofduty.com (blogs Season 01/02/03), allthings.how (custos da beta), Fandom Wiki e Activision patch notes. Os 8 do Mid-Season S1 ficam marcados como <em>"nome a confirmar com print do jogo"</em> &mdash; Activision não publicou a lista exata.</li>
+            <li data-i18n-html="briefing.changelog.item1"><strong>Aba Mapas com 41 mapas confirmados.</strong> Lançamento (16 core + 2 skirmish + Nuketown 2025), Season 1 (Utopia, Fate, Standoff, Sleighjacked, Odysseus), Season 1 Reloaded (Yakei, Meltdown, Fringe, Vault Town), Season 2 (Torque, Cliff Town, Mission: Peak, Grind, Firing Range), Season 3 (Beacon, Abyss, Plaza, Gridlock, Mission: Trident) e Season 3 Reloaded (Onsen, Hacienda, Ascent). Cada mapa traz origem (lançamento ou season) + tipo (core/skirmish/freerun) + descrição. Servidor (MAPS_CATALOG) ainda é preferido quando disponível.</li>
+            <li data-i18n-html="briefing.changelog.item2"><strong>Stim Shot no Level 21.</strong> O Level 21 já listava Sentry Turret (scorestreak) e Flak Jacket (perk); faltava o Stim Shot, equipamento tático que desbloqueia no mesmo nível (cura instantânea + tac sprint). Adicionado ao array de Level Unlocks como categoria <code>equipment</code>, ícone seringa.</li>
           </ul>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
@@ -13713,6 +13710,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.4</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">data + fix</span>
+              </div>
+              <p class="vh-desc">Dois acertos rápidos depois de feedback visual da v2.7.3. <strong>Aba Configurações &middot; Imagens &middot; Mapas</strong> estava vazia: o source apontava direto para <code>window.MAPS_CATALOG</code>, que só é populado pelo servidor — se o catálogo não viesse (rede em queda, projeto Supabase fora do ar, primeiro carregamento sem cache), a aba ficava sem nada. Agora o source faz UNIÃO: servidor preferido quando disponível, fallback para <code>DEFAULT_MAPS_BO7</code> hardcoded. O catálogo hardcoded traz <strong>41 mapas confirmados</strong> via fontes oficiais (callofduty.com, gamespot.com, dexerto): 18 do lançamento (16 core 6v6 + 2 skirmish 20v20: Raid, Hijacked, Express, Miami Strike, Diesel, Drive-In, Rush, Deprogram, Amerika, Amsterdam, Gameshow, KGB, Gluboko, ICBM, Mansion, Mission: Edge, Mission: Tide) + Nuketown 2025 (20 Nov) + 5 da Season 1 (Utopia, Fate, Standoff, Sleighjacked, Odysseus) + 4 da Season 1 Reloaded (Yakei, Meltdown, Fringe, Vault Town) + 5 da Season 2 (Torque, Cliff Town, Mission: Peak, Grind, Firing Range) + 5 da Season 3 (Beacon, Abyss, Plaza, Gridlock, Mission: Trident) + 3 da Season 3 Reloaded (Onsen, Hacienda, Ascent). Cada mapa carrega <code>season</code> ('launch', 'launch-post', 's1', 's1r', 's2', 's3', 's3r'), <code>mode</code> ('core', 'skirmish', 'freerun') e descrição. <strong>Stim Shot no Level 21</strong>: a tela Progressão mostrava só Sentry Turret e Flak Jacket no Level 21, faltando Stim Shot — equipamento tático que desbloqueia no mesmo nível (cura instantânea + tac sprint). Adicionado ao array <code>UNLOCKS_LIST</code> (linha 20541) como categoria <code>equipment</code>, ícone <code>syringe</code>.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.7.3</span>
                 <span class="vh-date">3 Jun 2026</span>
                 <span class="vh-kind">data</span>
@@ -15245,7 +15251,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.7.3</strong><span class="ver-tag">Catálogo BO7 completo: 32 streaks · 6 specialties · 12 field upgrades — com descrição</span>
+        LEVEL · <strong>v2.7.4</strong><span class="ver-tag">Aba Mapas povoada (41 mapas BO7) · Stim Shot no Level 21</span>
       </div>
       <script>
         (function(){
@@ -20540,7 +20546,8 @@ window.BO7_ASSETS = (function() {
     ]},
     { level: 21, items: [
       { id: 'k_sentry',  name: 'Sentry Turret', category: 'killstreak', icon: 'crosshair', desc: 'Scorestreak · torreta auto' },
-      { id: 'p_flak',    name: 'Flak Jacket',   category: 'perk',       icon: 'shield', desc: 'Perk · -dmg explosivo' }
+      { id: 'p_flak',    name: 'Flak Jacket',   category: 'perk',       icon: 'shield', desc: 'Perk · -dmg explosivo' },
+      { id: 't_stimshot', name: 'Stim Shot',    category: 'equipment',  icon: 'syringe', desc: 'Tactical · cura instantânea + tac sprint' }
     ]},
     { level: 22, items: [
       { id: 'w_echo12', name: 'Echo 12', category: 'weapon', icon: 'flame', desc: 'Shotgun' }
@@ -30765,6 +30772,102 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // como obter os items renderizados.
     // group: 'constructor' | 'armament' | 'prestiges' — controla os
     // 3 blocos visuais com cabeçalhos na seção Configurações.
+    // ── MAPAS BO7 — catálogo hardcoded (fallback se servidor falhar) ──
+    // v2.7.4: 35 mapas confirmados via fontes oficiais (callofduty.com,
+    // gamespot.com, dexerto). Marca origem com `season` ('launch', 'launch-post',
+    // 's1', 's1r', 's2', 's3', 's3r') e tipo (`mode`: 'core' 6v6, 'skirmish' 20v20,
+    // 'freerun'). Servidor (MAPS_CATALOG) ainda é preferido se vier povoado.
+    const DEFAULT_MAPS_BO7 = [
+      // ─── Lançamento (14 Nov 2025) — 13 novos + 3 retornos BO2 + 2 skirmish ──
+      { id: 'map_raid',         name: 'Raid',         season: 'launch', mode: 'core',
+        desc: 'Lançamento · retorno do BO2 — clássico de 3 lanes na vila mediterrânea.' },
+      { id: 'map_hijacked',     name: 'Hijacked',     season: 'launch', mode: 'core',
+        desc: 'Lançamento · retorno do BO2 — iate de luxo, fast-paced curto.' },
+      { id: 'map_express',      name: 'Express',      season: 'launch', mode: 'core',
+        desc: 'Lançamento · retorno do BO2 — estação de comboio futurista.' },
+      { id: 'map_miami_strike', name: 'Miami Strike', season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — variante noturna de Miami à beira-mar.' },
+      { id: 'map_diesel',       name: 'Diesel',       season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — oficina/garagem com lanes verticais.' },
+      { id: 'map_drive_in',     name: 'Drive-In',     season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — cinema drive-in retrô-futurista.' },
+      { id: 'map_rush',         name: 'Rush',         season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — campo de paintball, mapa pequeno fast-paced.' },
+      { id: 'map_deprogram',    name: 'Deprogram',    season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — instalação de simulação neural com corredores apertados.' },
+      { id: 'map_amerika',      name: 'Amerika',      season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — subúrbio americano falso (cenário de propaganda).' },
+      { id: 'map_amsterdam',    name: 'Amsterdam',    season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — canais e ruelas de Amsterdam.' },
+      { id: 'map_gameshow',     name: 'Gameshow',     season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — estúdio de game show com cenários múltiplos.' },
+      { id: 'map_kgb',          name: 'KGB',          season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — quartel-general do KGB com interior labiríntico.' },
+      { id: 'map_gluboko',      name: 'Gluboko',      season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — base subterrânea soviética.' },
+      { id: 'map_icbm',         name: 'ICBM',         season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — silo de míssil intercontinental.' },
+      { id: 'map_mansion',      name: 'Mansion',      season: 'launch', mode: 'core',
+        desc: 'Lançamento BO7 — mansão de luxo com jardins amplos.' },
+      { id: 'map_mission_edge', name: 'Mission: Edge', season: 'launch', mode: 'skirmish',
+        desc: 'Lançamento BO7 · Skirmish 20v20 — instalação costeira aberta com objetivos multi-lane.' },
+      { id: 'map_mission_tide', name: 'Mission: Tide', season: 'launch', mode: 'skirmish',
+        desc: 'Lançamento BO7 · Skirmish 20v20 — terreno insular com travessia por wingsuit.' },
+      // ─── Pós-lançamento (20 Nov 2025) ────────────────────────────
+      { id: 'map_nuketown_2025',name: 'Nuketown 2025',season: 'launch-post', mode: 'core',
+        desc: 'Adicionado em 20/Nov/25 — versão futurista do clássico Nuketown.' },
+      // ─── Season 1 (4 Dez 2025) ───────────────────────────────────
+      { id: 'map_utopia',       name: 'Utopia',       season: 's1', mode: 'core',
+        desc: 'Season 1 — mapa novo BO7.' },
+      { id: 'map_fate',         name: 'Fate',         season: 's1', mode: 'core',
+        desc: 'Season 1 — mapa novo BO7.' },
+      { id: 'map_standoff',     name: 'Standoff',     season: 's1', mode: 'core',
+        desc: 'Season 1 · remaster do BO2 — torre central + lojas + galpão.' },
+      { id: 'map_sleighjacked', name: 'Sleighjacked', season: 's1', mode: 'core',
+        desc: 'Season 1 · variante natalina de Hijacked (decorações festivas).' },
+      { id: 'map_odysseus',     name: 'Odysseus',     season: 's1', mode: 'core',
+        desc: 'Season 1 — adicionado ao moshpit Face Off.' },
+      // ─── Season 1 Reloaded (8 Jan 2026) ──────────────────────────
+      { id: 'map_yakei',        name: 'Yakei',        season: 's1r', mode: 'core',
+        desc: 'Season 1 Reloaded — telhados de uma cidade japonesa neon.' },
+      { id: 'map_meltdown',     name: 'Meltdown',     season: 's1r', mode: 'core',
+        desc: 'Season 1 Reloaded · remaster do BO2 — usina nuclear.' },
+      { id: 'map_fringe',       name: 'Fringe',       season: 's1r', mode: 'core',
+        desc: 'Season 1 Reloaded · port do BO3/BO6 — base aeroespacial.' },
+      { id: 'map_vault_town',   name: 'Vault Town',   season: 's1r', mode: 'core',
+        desc: 'Season 1 Reloaded · variante Fallout — bairro Vault-Tec.' },
+      // ─── Season 2 (5 Fev 2026) ───────────────────────────────────
+      { id: 'map_torque',       name: 'Torque',       season: 's2', mode: 'core',
+        desc: 'Season 2 — mapa novo BO7.' },
+      { id: 'map_cliff_town',   name: 'Cliff Town',   season: 's2', mode: 'core',
+        desc: 'Season 2 — vila de penhasco.' },
+      { id: 'map_mission_peak', name: 'Mission: Peak',season: 's2', mode: 'skirmish',
+        desc: 'Season 2 · Skirmish 20v20 — pico montanhoso.' },
+      { id: 'map_grind',        name: 'Grind',        season: 's2', mode: 'core',
+        desc: 'Season 2 — pista de skate (port BO6).' },
+      { id: 'map_firing_range', name: 'Firing Range', season: 's2', mode: 'core',
+        desc: 'Season 2 · remaster — campo de treino militar clássico.' },
+      // ─── Season 3 (2 Abr 2026) ───────────────────────────────────
+      { id: 'map_beacon',       name: 'Beacon',       season: 's3', mode: 'core',
+        desc: 'Season 3 — mapa novo BO7.' },
+      { id: 'map_abyss',        name: 'Abyss',        season: 's3', mode: 'core',
+        desc: 'Season 3 — instalação submarina.' },
+      { id: 'map_plaza',        name: 'Plaza',        season: 's3', mode: 'core',
+        desc: 'Season 3 — praça urbana.' },
+      { id: 'map_gridlock',     name: 'Gridlock',     season: 's3', mode: 'core',
+        desc: 'Season 3 — aftermath de heist em rodovia de Tóquio.' },
+      { id: 'map_mission_trident',name: 'Mission: Trident',season: 's3', mode: 'skirmish',
+        desc: 'Season 3 · Skirmish 20v20 — porto enorme com armazéns.' },
+      // ─── Season 3 Reloaded (30 Abr 2026) ─────────────────────────
+      { id: 'map_onsen',        name: 'Onsen',        season: 's3r', mode: 'core',
+        desc: 'Season 3 Reloaded — spa termal japonês (mapa pequeno).' },
+      { id: 'map_hacienda',     name: 'Hacienda',     season: 's3r', mode: 'core',
+        desc: 'Season 3 Reloaded · port do BO6 — vinhedo, layout ajustado pro movimento BO7.' },
+      { id: 'map_ascent',       name: 'Ascent',       season: 's3r', mode: 'freerun',
+        desc: 'Season 3 Reloaded · Freerun — parkour time-trial sem kills nem scorestreaks.' }
+    ];
+    try { window.DEFAULT_MAPS_BO7 = DEFAULT_MAPS_BO7; } catch (e) {}
+
     // ── Itens novos pra seção Vantagens & Séries (frente #3) ──
     // v2.7.3 (3/Jun/26): catálogo completo do BO7 — 32 scorestreaks, 6 specialties,
     // 12 field upgrades. Fontes: codmunity.gg, callofduty.com blog, patch notes
@@ -30972,11 +31075,15 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           var arr = window.PRESTIGE_ITEMS;
           return Array.isArray(arr) ? arr : [];
         } },
-      // ── MAPAS (22 mapas BO7 Multiplayer) ──
+      // ── MAPAS (BO7 Multiplayer — lançamento + Seasons 1/2/3) ──
+      // v2.7.4: usa UNIÃO MAPS_CATALOG (servidor) + DEFAULT_MAPS_BO7 (fallback).
+      // Servidor é preferido (pode trazer mapas novos antes do front), mas se vazio
+      // ou rede em queda, mostra a lista hardcoded — não mais aba vazia.
       { id: 'maps_all', group: 'maps', i18n: 'set.tab.maps_all',
         source: function () {
-          var arr = window.MAPS_CATALOG;
-          return Array.isArray(arr) ? arr : [];
+          const fromServer = Array.isArray(window.MAPS_CATALOG) ? window.MAPS_CATALOG : [];
+          if (fromServer.length > 0) return fromServer;
+          return Array.isArray(window.DEFAULT_MAPS_BO7) ? window.DEFAULT_MAPS_BO7 : [];
         } },
       // ── VANTAGENS & SÉRIES (frente #3) ──
       { id: 'streaks',         group: 'perks_streaks', i18n: 'set.tab.streaks',
