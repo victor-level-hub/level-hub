@@ -10426,7 +10426,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.8.0 · <span data-i18n="briefing.changelog.date">4 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.8.1 · <span data-i18n="briefing.changelog.date">4 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
@@ -13706,6 +13706,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.8.1</span>
+                <span class="vh-date">4 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Fecho do ciclo do catálogo de Dificuldades aberto na v2.8.0. O painel ADMIN podia adicionar/editar/apagar dificuldades, e o picker do user em <strong>Evolução &middot; Dificuldades</strong> efetivamente já consumia o catálogo do banco (via <code>loadStrugglesCatalog()</code> + substituição da constante <code>STRUGGLE_CATALOG</code> no boot/troca de idioma). O buraco que faltava: mudanças no admin só apareciam no picker depois de refresh do navegador — porque a constante em memória continuava com a versão antiga. Fix em camada: criada função <code>syncUserCatalog()</code> dentro do bloco <code>adminCrudStruggles</code> que chama a API pública <code>window.LevelEtapa10.loadStrugglesCatalog()</code> + <code>renderStruggles()</code>, e plugada nas 3 saídas que mudam o catálogo (saveStruggle, deleteStruggle path do LevelModal, deleteStruggle path do fallback simples). Hook é best-effort: se <code>LevelEtapa10</code> ainda não tiver carregado (race condition no boot), falha silenciosa em vez de quebrar o save/delete. Resultado: tens experiência admin tradicional — guardas, e a UI do user atualiza instantaneamente sem F5.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.8.0</span>
                 <span class="vh-date">4 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15311,7 +15320,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.8.0</strong><span class="ver-tag">Admin UI de Dificuldades + sync via hub_users.is_admin + fix idioma do catálogo</span>
+        LEVEL · <strong>v2.8.1</strong><span class="ver-tag">Admin de Dificuldades sincroniza com picker do user em tempo real</span>
       </div>
       <script>
         (function(){
@@ -16521,9 +16530,9 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '4 Jun 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Admin UI de Dificuldades + sync de admin via hub_users.is_admin',
-    'briefing.changelog.summary':  '<strong>Configurações &middot; Operador</strong> ganhou um novo painel ADMIN para gerir o catálogo de <strong>Dificuldades</strong> (<code>cat_struggles</code>) — 22 entradas reais no banco (11 dificuldades × PT/EN). UI segue o mesmo padrão do CRUD de Mapas/Armas/Builds: lista bilíngue com filtro de língua, modal de criar/editar com todos os campos (id, língua, título, ícone, sort order, ativa, causa-raiz e dicas como lista), apagar individual por língua. Em paralelo, o reconhecimento de admin passou a ler <code>hub_users.is_admin</code> do banco (antes só lia <code>localStorage[level.role]</code> ou query string <code>?admin=1</code>) — com fallback total: se a query falhar, o cache vale; se o banco diz que NÃO és admin mas o cache diz que sim, o banco vence e limpa a flag. E fix do bug do idioma: antes, quando trocavas PT↔EN, o catálogo de dificuldades ficava preso no idioma do boot até refresh do navegador. Agora <code>loadStrugglesCatalog</code> dispara junto com o evento <code>languagechange</code>.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Admin de Dificuldades sincroniza com picker do user em tempo real',
+    'briefing.changelog.summary':  'Fecho do ciclo do catálogo de Dificuldades. Antes da v2.8.1: ao adicionar/editar/apagar uma dificuldade no painel ADMIN, o picker do user em <strong>Evolução &middot; Dificuldades</strong> só refletia a mudança no próximo refresh do navegador, porque o <code>STRUGGLE_CATALOG</code> em memória ficava stale. Agora, depois de cada save/delete bem-sucedido no admin, é disparado <code>loadStrugglesCatalog()</code> + <code>renderStruggles()</code> automaticamente — a nova dificuldade já aparece no picker e os cards já criados se atualizam em tempo real. Hook implementado via API pública <code>window.LevelEtapa10</code>; falha silenciosa se indisponível.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -17808,9 +17817,9 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 4, 2026',
-    'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Struggles admin UI + admin sync via hub_users.is_admin',
-    'briefing.changelog.summary':  '<strong>Settings &middot; Operator</strong> got a new ADMIN panel to manage the <strong>Struggles</strong> catalog (<code>cat_struggles</code>) — 22 real entries in the database (11 struggles × PT/EN). UI follows the same pattern as the Maps/Weapons/Builds CRUD: bilingual list with language filter, create/edit modal with all fields (id, language, title, icon, sort order, active, root cause, and tips as a list), individual delete per language. In parallel, admin recognition now reads <code>hub_users.is_admin</code> from the DB (before it only read <code>localStorage[level.role]</code> or the <code>?admin=1</code> query string) — with full fallback: if the query fails, the cache wins; if the DB says you\'re NOT admin but the cache says you are, the DB wins and clears the flag. And the fix for the language bug: before, when you toggled PT↔EN, the struggles catalog got stuck on the boot language until browser refresh. Now <code>loadStrugglesCatalog</code> fires alongside the <code>languagechange</code> event.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Struggles admin syncs with user picker in real time',
+    'briefing.changelog.summary':  'Closing the loop on the Struggles catalog. Before v2.8.1: when you added/edited/deleted a struggle in the ADMIN panel, the user picker in <strong>Evolution &middot; Struggles</strong> only reflected the change after a browser refresh, because the in-memory <code>STRUGGLE_CATALOG</code> went stale. Now, after every successful save/delete in the admin, <code>loadStrugglesCatalog()</code> + <code>renderStruggles()</code> fire automatically — the new struggle shows up in the picker and any cards already created refresh in real time. Hook implemented via the public <code>window.LevelEtapa10</code> API; silently no-ops if unavailable.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -37442,6 +37451,26 @@ ${cbt('share.t.footer')}`;
     return data;
   }
 
+  // v2.8.1: hook para sincronizar mudanças do admin com o catálogo público do user.
+  // Quando admin faz upsert/delete em cat_struggles, o STRUGGLE_CATALOG em memória
+  // do browser fica stale — o picker do user (Evolução · Dificuldades) continuaria
+  // mostrando a versão antiga até refresh do navegador. Esta função dispara
+  // loadStrugglesCatalog() (que re-popula a constante do banco) + renderStruggles()
+  // (que re-renderiza os cards já criados pelo user, caso algum tenha mudado).
+  // Best-effort: se LevelEtapa10 não estiver disponível, falha silenciosa.
+  async function syncUserCatalog() {
+    try {
+      if (window.LevelEtapa10 && typeof window.LevelEtapa10.loadStrugglesCatalog === 'function') {
+        await window.LevelEtapa10.loadStrugglesCatalog();
+        if (typeof window.LevelEtapa10.renderStruggles === 'function') {
+          await window.LevelEtapa10.renderStruggles();
+        }
+      }
+    } catch (e) {
+      console.warn('[admin-struggles] syncUserCatalog falhou (não-bloqueante):', e);
+    }
+  }
+
   // ───── Lista ─────────────────────────────────────────────────
   function renderStrugglesList() {
     const wrap = document.getElementById('opp-struggles-list');
@@ -37585,6 +37614,8 @@ ${cbt('share.t.footer')}`;
       await callAdmin('upsert', { struggle: payload });
       closeModal();
       await loadStruggles();
+      // v2.8.1: sincroniza com o catálogo público do user (Evolução · Dificuldades)
+      await syncUserCatalog();
       if (window.LevelModal && typeof window.LevelModal.toast === 'function') {
         window.LevelModal.toast({ message: 'Dificuldade salva.', variant: 'success', duration: 2500 });
       }
@@ -37608,6 +37639,8 @@ ${cbt('share.t.footer')}`;
       try {
         await callAdmin('delete', { id: id, language: lang });
         await loadStruggles();
+        // v2.8.1: sincroniza com o catálogo público do user
+        await syncUserCatalog();
       } catch (err) {
         alert('Erro: ' + err.message);
       }
@@ -37623,6 +37656,8 @@ ${cbt('share.t.footer')}`;
         try {
           await callAdmin('delete', { id: id, language: lang });
           await loadStruggles();
+          // v2.8.1: sincroniza com o catálogo público do user
+          await syncUserCatalog();
           window.LevelModal.toast({ message: 'Dificuldade apagada.', variant: 'success', duration: 2500 });
         } catch (err) {
           window.LevelModal.toast({ message: 'Erro: ' + err.message, variant: 'error', duration: 4000 });

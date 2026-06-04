@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 4 Jun 2026 — fecho do marco v2.8.0 (admin UI de Dificuldades + sync de admin pelo BD + fix idioma)
+> **Última atualização:** 4 Jun 2026 — fecho do marco v2.8.1 (sync admin↔user picker em tempo real)
 
 ---
 
@@ -13,7 +13,7 @@ Ao abrir um chat novo, anexar **sempre**:
 Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro.
 
 **Primeira mensagem sugerida pro próximo chat:**
-> "Anexei o index.html (v2.8.0) e o LEVEL_ESTADO.md. Próxima tarefa: [escolher do roadmap, secção 5]."
+> "Anexei o index.html (v2.8.1) e o LEVEL_ESTADO.md. Próxima tarefa: [escolher do roadmap, secção 5]."
 
 > ⚠️ **CRÍTICO** — ANTES de propor qualquer plano de backend OU de tocar no `index.html`:
 > 1. **Verifica que o arquivo anexado é a versão real do GitHub.** Roda `curl -sL https://raw.githubusercontent.com/victor-level-hub/level-hub/main/index.html | grep "LEVEL · <strong>v"` e compara com o footer do arquivo anexado. Se divergir, o anexo está atrasado — pede o arquivo certo. Aprendido na sessão da v2.8.0 (perdi tempo trabalhando em cima de v2.7.5 quando o real era v2.7.7).
@@ -55,8 +55,8 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.8.0` (SemVer desde v2.0.0)
-**Arquivo:** single-file `index.html` (~2.37 MB, ~38.220 linhas)
+**Versão:** `v2.8.1` (SemVer desde v2.0.0)
+**Arquivo:** single-file `index.html` (~2.37 MB, ~38.255 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
@@ -73,6 +73,7 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 - **v2.7.6** — **Análise IA agora respeita o estilo real do operador.** Dois bugs encadeados do `analyze-build` descobertos em uso real (BELEROFONTE / Voyak KT-3). Ver secção 5.A.
 - **v2.7.7** — **Plataforma editável.** Adicionado select PS5/PC/Xbox no modal Configurações ▸ Operador. Estado `player.platform` já existia e já era exibido no card, mas não tinha input.
 - **v2.8.0** — **Admin UI de Dificuldades + sync de admin pelo BD + fix idioma.** Painel admin novo em Configurações ▸ Operador para curar `cat_struggles` (22 entradas reais: 11 dificuldades × PT/EN). Reconhecimento de admin passou a ler `hub_users.is_admin` do banco com fallback de cache (LS). Fix do bug do `languagechange` que deixava o catálogo preso no idioma do boot. Migration `hub_users_is_admin_flag` aplicada. Ver secção 5.B.
+- **v2.8.1** — **Sync admin↔user picker em tempo real.** Fecho do ciclo aberto na v2.8.0. Hook `syncUserCatalog()` no bloco `adminCrudStruggles` dispara `loadStrugglesCatalog` + `renderStruggles` depois de cada save/delete bem-sucedido, atualizando o picker do user em Evolução ▸ Dificuldades sem refresh do navegador. PATCH.
 
 ### Identidade visual (FECHADA no marco v2.6.x — não mexer)
 - **Logo LEVEL própria** em SVG embutido (viewBox 0 0 706 178): corpo **laranja `#FF9800`**, detalhes em **azul-claro `#AEC7E0`**, triângulo laranja no topo entre E e V, recorte triangular vazado no 2º E.
@@ -128,7 +129,7 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 
 2. **Migrar imagens legacy localStorage→cloud** (era escopo do antigo #1, separado agora). Imagens setadas **antes** de v75-94 ficaram só em localStorage. Foto de perfil do Operador, banners de mapas, emblemas de prestige, ícones de perks — precisam de rotina "Sincronizar imagens legacy" que percorre `loadUserImages()`, resolve `category/subcategory` por id, chama `cloudUploadAsset` em loop com progresso. Provavelmente uma página nova em Configurações ▸ Sync (ou um botão grande lá). **Estimativa:** 1 sessão.
 
-3. ~~**cat_struggles — admin UI**~~ — **FEITO na v2.8.0.** Painel admin completo em Configurações ▸ Operador (CRUD com filtro de língua, modal de criar/editar com 8 campos, apagar individual por língua). Chama Edge `admin-cat-struggles` v3 já ACTIVE. Catálogo BD tem 22 entradas (11 dificuldades × PT/EN). Admin pode adicionar, editar, ativar/desativar e remover. **Pendente próxima sessão:** integrar o catálogo dinâmico com a aba **Evolução · Dificuldades** do user — hoje o front carrega via `loadStrugglesCatalog` mas o picker do user ainda usa o catálogo legado pra UI de seleção. Pode ser MINOR ou PATCH (decidir na hora).
+3. ~~**cat_struggles — admin UI**~~ — **FECHADO COMPLETO na v2.8.0 + v2.8.1.** Painel admin em Configurações ▸ Operador com CRUD bilíngue, modal de criar/editar com 8 campos, apagar individual por língua. Chama Edge `admin-cat-struggles` v3. Catálogo BD com 22 entradas (11 dificuldades × PT/EN). **v2.8.1** fechou o ciclo: hook `syncUserCatalog()` plugado em save/delete dispara `loadStrugglesCatalog()` + `renderStruggles()`, fazendo o picker do user em Evolução ▸ Dificuldades atualizar em tempo real sem F5. Item totalmente fechado.
 
 4. **Codenames** — Edge `admin-cat-codenames` v4 já ACTIVE. Mesmo padrão de #3: confirmar schema, plugar front, criar admin UI + botão "Sugerir codename" no Construtor/Meus Loadouts.
 
@@ -234,58 +235,54 @@ Hoje o admin pode curar `cat_struggles` no banco, mas a aba **Evolução · Difi
 
 ---
 
-## 6. ESTADO DE DEPLOY (4/Jun/2026 — v2.8.0 entregue)
+## 6. ESTADO DE DEPLOY (4/Jun/2026 — v2.8.1 entregue)
 
 - [x] `index.html` (v2.7.0→v2.7.7) commitado e no ar — feito até 3/Jun/2026
 - [x] **8 RLS policies aplicadas** no Supabase (`storage.objects` + `public.user_assets`) — 4/Jun/2026, migration `user_assets_rls_policies`
 - [x] **Migration `hub_users_is_admin_flag`** aplicada no Supabase — adiciona `is_admin BOOLEAN DEFAULT false`, marca Victor como admin
-- [ ] **`index.html` (v2.8.0) commitar** no repo `level-hub`
+- [x] `index.html` (v2.8.0) commitado em 4/Jun/2026
+- [ ] **`index.html` (v2.8.1) commitar** no repo `level-hub`
 - [ ] **Este `LEVEL_ESTADO.md` atualizado** — commitar junto
 
 ### Sobre esta release
-**v2.8.0 MINOR — três entregas:** painel admin de Dificuldades no front, sync de admin pelo banco (sem quebrar a função `isAdmin()` síncrona existente), fix do bug de idioma. Zero mudanças nas Edge Functions — `admin-cat-struggles` v3 já estava deployada, só faltava UI no front.
+**v2.8.1 PATCH — fecho de ciclo.** Hook `syncUserCatalog()` no bloco `adminCrudStruggles` plugado nas 3 saídas que mudam o catálogo (save, delete via LevelModal, delete via fallback). Cada uma agora chama `window.LevelEtapa10.loadStrugglesCatalog()` + `renderStruggles()` depois de operação bem-sucedida. Best-effort: se `LevelEtapa10` não estiver disponível, falha silenciosa. Zero risco em outras partes do front.
+
+**v2.8.0 MINOR — três entregas anteriores** (já commitadas): painel admin de Dificuldades, sync de admin pelo banco, fix do bug de idioma.
 
 ### Título do commit
 ```
-feat: admin UI de Dificuldades + sync via hub_users.is_admin (v2.8.0)
+fix: admin↔user picker sync em tempo real (v2.8.1)
 ```
 
 ### Descrição do commit
 ```
-Três entregas em camada sobre o catálogo de Dificuldades, fechando o
-item #3 do roadmap (cat_struggles admin UI):
+Fecho do ciclo aberto na v2.8.0. O painel ADMIN de Dificuldades
+podia adicionar/editar/apagar entries no banco, mas o picker do user
+em Evolução · Dificuldades só refletia a mudança no próximo refresh
+do navegador — porque a constante STRUGGLE_CATALOG em memória ficava
+stale.
 
-1. Painel admin de Dificuldades em Configurações · Operador
-   - Wrap em .opp-admin-only (só aparece com body.is-admin)
-   - Lista bilíngue com filtro de língua (PT/EN/Todas)
-   - Modal de criar/editar com os 8 campos da tabela (id, language,
-     title, icon com select de 14 opções, sort_order, is_active,
-     root_cause, tips[] como textarea)
-   - Apagar individual por língua
-   - Chama Edge admin-cat-struggles v3 (já estava ACTIVE)
-   - Catálogo BD tem 22 entradas (11 dificuldades × PT/EN)
+Criada função syncUserCatalog() dentro do bloco adminCrudStruggles
+que chama window.LevelEtapa10.loadStrugglesCatalog() + renderStruggles()
+via a API pública já existente. Plugada nas 3 saídas que mudam o
+catálogo:
 
-2. Reconhecimento de admin agora consulta hub_users.is_admin
-   - Função refreshAdminFlag() async dentro de initAdminMode
-   - Mantém isAdmin() síncrona (zero quebra no código existente)
-   - Atualiza o cache localStorage[level.role] que isAdmin() já lê
-   - Fallback total: query falha → cache vale; BD diz NÃO mas cache
-     diz sim → BD vence; ?admin=1 continua como override de debug
-   - Migration hub_users_is_admin_flag aplicada no Supabase
+- saveStruggle (upsert)
+- deleteStruggle path do LevelModal
+- deleteStruggle path do fallback simples
 
-3. Fix do bug de idioma do catálogo de struggles
-   - loadStrugglesCatalog rodava só no boot
-   - Agora dispara junto com window.addEventListener('languagechange')
+Hook é best-effort: try/catch em volta de tudo, console.warn em caso
+de falha (não bloqueia o save/delete que já aconteceu no banco).
 
-LEVEL_ESTADO.md atualizado pra v2.8.0.
+LEVEL_ESTADO.md atualizado pra v2.8.1.
 ```
 
 ### Link direto pra commitar
 - `https://github.com/victor-level-hub/level-hub/upload/main`
   - Arrasta `index.html` E `LEVEL_ESTADO.md` da pasta /outputs
-  - Cola o commit message acima
+  - Cola título + descrição acima
   - Clica **Commit changes**
-- Netlify auto-deploya em ~1min. Conferir em `le-vel.games` que o footer mostra v2.8.0.
+- Netlify auto-deploya em ~1min. Conferir em `le-vel.games` que o footer mostra v2.8.1.
 
 ---
 
