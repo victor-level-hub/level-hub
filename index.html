@@ -10426,7 +10426,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.7.7 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.8.0 · <span data-i18n="briefing.changelog.date">4 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
@@ -13706,6 +13706,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.8.0</span>
+                <span class="vh-date">4 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Trabalho em camadas em cima do catálogo de <strong>Dificuldades</strong> (<code>cat_struggles</code>), preparando o terreno para o próximo passo grande da análise IA. Três entregas:<br><br><strong>1. Painel admin de Dificuldades</strong> em <strong>Configurações &middot; Operador</strong> (só visível quando <code>body.is-admin</code>). UI inteira segue o padrão consolidado dos CRUDs de Mapas/Armas/Builds — lista bilíngue com filtro de língua (PT/EN/Todas), modal de criar e editar com os 8 campos da tabela (<code>id</code>, <code>language</code>, <code>title</code>, <code>icon</code> com select de 14 opções, <code>sort_order</code>, <code>is_active</code>, <code>root_cause</code> e <code>tips[]</code> como textarea de 1 dica por linha), apagar individual por língua com confirmação. Chama a Edge Function <code>admin-cat-struggles</code> v3 (que já estava ACTIVE desde 23/Mai mas sem UI no front). Catálogo real do banco tem <strong>22 entradas</strong> (11 dificuldades × PT+EN) — o front até v2.7.7 listava 11, agora dá pra curar pela UI sem mexer em SQL.<br><br><strong>2. Reconhecimento de admin agora consulta o banco.</strong> O bloco <code>initAdminMode</code> ganhou <code>refreshAdminFlag()</code> async que faz <code>SELECT is_admin FROM hub_users WHERE auth_user_id = auth.uid()</code> e sincroniza com <code>localStorage[level.role]</code>. Mantém a função <code>isAdmin()</code> síncrona (zero quebra do código existente que chama em contextos como CSS toggle/render). Fallback total: se a query falhar, o cache vale; se o BD diz que NÃO és admin mas o cache diz que sim, o BD vence e limpa a flag (override só via <code>?admin=1</code> de debug). Migration <code>hub_users_is_admin_flag</code> aplicada no Supabase em paralelo. Antes, ser admin dependia apenas de localStorage + query string — sem fonte canônica.<br><br><strong>3. Fix do bug de idioma no catálogo de struggles.</strong> A função <code>loadStrugglesCatalog</code> (que substitui o <code>STRUGGLE_CATALOG</code> hardcoded pelo conteúdo do banco filtrado por idioma) rodava só no boot. Trocar PT↔EN no Hub não recarregava — o catálogo ficava preso no idioma inicial até refresh do navegador. Agora ela dispara junto com o evento <code>languagechange</code> e o catálogo atualiza on-the-fly.<br><br>Zero mudança no <code>analyze-build</code> ou na Edge <code>admin-cat-struggles</code>; as duas já estavam OK. Próximo passo planeado: integrar o catálogo dinâmico com a aba <em>Evolução · Dificuldades</em> para que dificuldades adicionadas pelo admin apareçam no picker do user.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.7.7</span>
                 <span class="vh-date">3 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15156,6 +15165,34 @@
           </div>
           </div><!-- /opp-admin-only CRUD Builds -->
 
+          <!-- ═══ ADMIN · CRUD Struggles (v2.8.0) ════════════════════ -->
+          <div class="opp-admin-only">
+          <div class="opp-section-title" style="margin-top:24px">
+            {{i:lightbulb}} ADMIN · Dificuldades (cat_struggles)
+          </div>
+          <div class="opp-actions-list">
+            <div class="opp-action-item" style="flex-direction:column;align-items:stretch">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div class="opp-action-icon">{{i:database}}</div>
+                <div class="opp-action-body" style="flex:1">
+                  <div class="opp-action-title">Catálogo de dificuldades no DB</div>
+                  <div class="opp-action-desc">Tabela <code>cat_struggles</code>. Dificuldades que o utilizador escolhe na aba <strong>Evolução · Dificuldades</strong> e que alimentam a análise IA de build. Bilíngue (PT/EN, mesmo <code>id</code>). Mudanças aplicam ao próximo refresh. <span id="opp-struggles-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">Configure o secret de admin pra carregar.</span></div>
+                </div>
+                <select id="opp-struggles-lang-filter" class="opp-action-btn secondary" style="padding:4px 8px;font-size:11px;cursor:pointer">
+                  <option value="all">Todas as línguas</option>
+                  <option value="pt" selected>Português</option>
+                  <option value="en">English</option>
+                </select>
+                <button class="opp-action-btn" id="opp-btn-struggle-new">+ Nova dificuldade</button>
+                <button class="opp-action-btn secondary" id="opp-btn-struggles-refresh">{{i:refresh-cw}}</button>
+              </div>
+              <div id="opp-struggles-list" style="background:var(--bg-darkest);border-radius:6px;padding:8px;max-height:380px;overflow-y:auto;font-family:'JetBrains Mono', monospace;font-size:11px">
+                <div style="padding:18px;text-align:center;color:var(--text-muted)">Configure o secret de admin acima pra carregar a lista.</div>
+              </div>
+            </div>
+          </div>
+          </div><!-- /opp-admin-only CRUD Struggles -->
+
           <!-- ═══ Onboarding (v75-87) ═══════════════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.tour.section">
             {{i:help-circle}} Onboarding
@@ -15274,7 +15311,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.7.7</strong><span class="ver-tag">Plataforma agora editável em Configurações &middot; Operador</span>
+        LEVEL · <strong>v2.8.0</strong><span class="ver-tag">Admin UI de Dificuldades + sync via hub_users.is_admin + fix idioma do catálogo</span>
       </div>
       <script>
         (function(){
@@ -16207,6 +16244,77 @@
       </div>
     </div>
 
+    <!-- ═══ Modal admin · CRUD Struggles (v2.8.0) ═══════════════════════ -->
+    <div class="modal-overlay" id="modal-admin-struggle">
+      <div class="modal-box" style="max-width:680px">
+        <div class="modal-header">
+          <div class="modal-title"><span id="admin-struggle-modal-title">Editar dificuldade</span></div>
+          <button class="modal-close" data-close-modal="modal-admin-struggle">×</button>
+        </div>
+        <div class="modal-body" style="max-height:70vh;overflow-y:auto">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <div class="form-label">ID <span style="color:var(--accent-orange)">*</span> <span style="color:var(--text-muted);font-size:10px">(snake_case · igual nas duas línguas)</span></div>
+              <input type="text" id="admin-struggle-id" class="form-input" placeholder="ex: shoot_first_die" maxlength="60"/>
+            </div>
+            <div>
+              <div class="form-label">Língua <span style="color:var(--accent-orange)">*</span></div>
+              <select id="admin-struggle-lang" class="form-input">
+                <option value="pt">Português (pt)</option>
+                <option value="en">English (en)</option>
+              </select>
+            </div>
+            <div style="grid-column:1/-1">
+              <div class="form-label">Título <span style="color:var(--accent-orange)">*</span></div>
+              <input type="text" id="admin-struggle-title" class="form-input" placeholder="ex: Atiro primeiro, acerto os tiros, mas morro mesmo assim" maxlength="160"/>
+            </div>
+            <div>
+              <div class="form-label">Ícone</div>
+              <select id="admin-struggle-icon" class="form-input">
+                <option value="lightbulb">lightbulb (padrão)</option>
+                <option value="target">target</option>
+                <option value="wind">wind</option>
+                <option value="map">map</option>
+                <option value="swords">swords</option>
+                <option value="plane">plane</option>
+                <option value="flag">flag</option>
+                <option value="trending-down">trending-down</option>
+                <option value="crosshair">crosshair</option>
+                <option value="footprints">footprints</option>
+                <option value="radar">radar</option>
+                <option value="zap">zap</option>
+                <option value="shield">shield</option>
+                <option value="alert-triangle">alert-triangle</option>
+              </select>
+            </div>
+            <div>
+              <div class="form-label">Sort order</div>
+              <input type="number" id="admin-struggle-sort" class="form-input" placeholder="ex: 10" min="0" max="999" value="10"/>
+            </div>
+            <div style="grid-column:1/-1">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary)">
+                <input type="checkbox" id="admin-struggle-active" style="width:16px;height:16px;accent-color:var(--accent-orange)" checked>
+                Ativa (mostra na lista pública)
+              </label>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:18px 0">
+          <div class="form-label">Causa-raiz (root_cause)</div>
+          <textarea id="admin-struggle-root-cause" class="form-input" rows="3" placeholder="Explicação da causa por trás dessa dificuldade. Texto livre, vai pro card de detalhe da struggle no Hub."></textarea>
+
+          <div class="form-label" style="margin-top:12px">Dicas <span style="color:var(--text-muted);font-size:10px">(1 por linha · linha vazia ignorada · HTML inline OK como &lt;strong&gt;)</span></div>
+          <textarea id="admin-struggle-tips" class="form-input" rows="8" placeholder="<strong>Pré-aima na altura do pescoço/cabeça</strong>, nunca no peito.&#10;<strong>Equipa Dexterity</strong> (perk) — reduz flinch ao ser atingido.&#10;<strong>Baixa o ADS Multiplier para 0.85</strong> nos settings de controlador." style="font-family:'JetBrains Mono', monospace; font-size: 11px"></textarea>
+
+          <div id="admin-struggle-error" style="display:none;margin-top:12px;padding:8px 12px;background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.4);border-radius:4px;color:#ff5252;font-size:11px;font-family:'JetBrains Mono',monospace"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" data-close-modal="modal-admin-struggle" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
+          <button class="btn-action btn-save" id="admin-struggle-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Salvar</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -16412,10 +16520,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '3 Jun 2026',
+    'briefing.changelog.date':  '4 Jun 2026',
     'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Plataforma agora editável em Configurações &middot; Operador',
-    'briefing.changelog.summary':  'O modal <strong>Editar Status do Operador</strong> ganhou um campo <em>Plataforma</em> com três opções: PS5, PC e Xbox. Antes, o estado já tinha um campo <code>platform</code> (default <code>PS5</code>) que era exibido no card de Operador (linha "PS5 · RUSHER") mas não havia jeito de editar pela interface. A análise IA da v2.7.6 já estava preparada para consumir esse valor — agora chega real ao payload em vez do fallback. Mudança pequena que fecha um dos buracos que ficaram pendentes do fix da análise.',
+    'briefing.changelog.headline': 'Admin UI de Dificuldades + sync de admin via hub_users.is_admin',
+    'briefing.changelog.summary':  '<strong>Configurações &middot; Operador</strong> ganhou um novo painel ADMIN para gerir o catálogo de <strong>Dificuldades</strong> (<code>cat_struggles</code>) — 22 entradas reais no banco (11 dificuldades × PT/EN). UI segue o mesmo padrão do CRUD de Mapas/Armas/Builds: lista bilíngue com filtro de língua, modal de criar/editar com todos os campos (id, língua, título, ícone, sort order, ativa, causa-raiz e dicas como lista), apagar individual por língua. Em paralelo, o reconhecimento de admin passou a ler <code>hub_users.is_admin</code> do banco (antes só lia <code>localStorage[level.role]</code> ou query string <code>?admin=1</code>) — com fallback total: se a query falhar, o cache vale; se o banco diz que NÃO és admin mas o cache diz que sim, o banco vence e limpa a flag. E fix do bug do idioma: antes, quando trocavas PT↔EN, o catálogo de dificuldades ficava preso no idioma do boot até refresh do navegador. Agora <code>loadStrugglesCatalog</code> dispara junto com o evento <code>languagechange</code>.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -17699,10 +17807,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 3, 2026',
+    'briefing.changelog.date':  'Jun 4, 2026',
     'briefing.changelog.pill':  'feature',
-    'briefing.changelog.headline': 'Platform now editable in Settings &middot; Operator',
-    'briefing.changelog.summary':  'The <strong>Edit Operator Status</strong> modal got a <em>Platform</em> field with three options: PS5, PC, Xbox. The state already had a <code>platform</code> field (defaulting to <code>PS5</code>) that was displayed on the Operator card (the "PS5 · RUSHER" line) but there was no way to edit it via the UI. The v2.7.6 AI analysis was already prepared to consume this value — now the real value reaches the payload instead of the fallback. A small change that closes one of the gaps left by the analysis fix.',
+    'briefing.changelog.headline': 'Struggles admin UI + admin sync via hub_users.is_admin',
+    'briefing.changelog.summary':  '<strong>Settings &middot; Operator</strong> got a new ADMIN panel to manage the <strong>Struggles</strong> catalog (<code>cat_struggles</code>) — 22 real entries in the database (11 struggles × PT/EN). UI follows the same pattern as the Maps/Weapons/Builds CRUD: bilingual list with language filter, create/edit modal with all fields (id, language, title, icon, sort order, active, root cause, and tips as a list), individual delete per language. In parallel, admin recognition now reads <code>hub_users.is_admin</code> from the DB (before it only read <code>localStorage[level.role]</code> or the <code>?admin=1</code> query string) — with full fallback: if the query fails, the cache wins; if the DB says you\'re NOT admin but the cache says you are, the DB wins and clears the flag. And the fix for the language bug: before, when you toggled PT↔EN, the struggles catalog got stuck on the boot language until browser refresh. Now <code>loadStrugglesCatalog</code> fires alongside the <code>languagechange</code> event.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -18960,13 +19068,55 @@ window.setLanguage = function(lang) {
   persistFromQueryIfRequested();
   applyAdminClass();
 
+  // v2.8.0: refreshAdminFlag — consulta hub_users.is_admin via Supabase Auth.
+  // Mantém isAdmin() síncrona (zero quebra do código existente que chama em
+  // contextos síncronos como CSS toggle/render). Esta função apenas atualiza
+  // o cache localStorage que isAdmin() já lê. Se a query falhar (rede em
+  // queda, sem auth), mantém o cache atual — admin não fica preso sem.
+  async function refreshAdminFlag() {
+    try {
+      if (!window.LEVEL_AUTH || !window.LEVEL_AUTH.getClient) return;
+      var c = await window.LEVEL_AUTH.getClient();
+      var s = await c.auth.getSession();
+      if (!s || !s.data || !s.data.session || !s.data.session.user) return;
+      var authUid = s.data.session.user.id;
+      var resp = await c.from('hub_users').select('is_admin').eq('auth_user_id', authUid).maybeSingle();
+      // Só age se a query teve sucesso (mesmo que data seja null)
+      if (resp.error) {
+        console.warn('[admin] refreshAdminFlag: query falhou:', resp.error.message);
+        return;
+      }
+      var isAdminBD = !!(resp.data && resp.data.is_admin);
+      // Atualiza cache LS — só substitui se for diferente, pra não disparar
+      // storage events desnecessários
+      var currentRole = readRole();
+      if (isAdminBD && currentRole !== 'admin') {
+        writeRole('admin');
+        applyAdminClass();
+        console.log('[admin] flag ativada via hub_users.is_admin');
+      } else if (!isAdminBD && currentRole === 'admin') {
+        // BD diz que NÃO é admin mas cache diz que é → BD vence, limpa cache
+        // (exceto se veio de ?admin=1 que é debug deliberado — esse via query
+        // string não escreve no LS, então não cai aqui)
+        writeRole(null);
+        applyAdminClass();
+        console.log('[admin] flag desativada — hub_users.is_admin=false sobrescreveu cache');
+      }
+    } catch (e) {
+      console.warn('[admin] refreshAdminFlag exception (mantém cache):', e);
+    }
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       applyAdminClass(); // re-aplica caso algo tenha mudado entre script-load e DOM-ready
       bindExitButton();
+      // Dispara refresh async sem aguardar — UI já está renderizada com o cache
+      setTimeout(refreshAdminFlag, 500);
     });
   } else {
     bindExitButton();
+    setTimeout(refreshAdminFlag, 500);
   }
 
   // API pública
@@ -18974,7 +19124,8 @@ window.setLanguage = function(lang) {
     isAdmin: isAdmin,
     enable: function () { writeRole('admin'); applyAdminClass(); },
     disable: function () { writeRole(null); applyAdminClass(); },
-    refresh: applyAdminClass
+    refresh: applyAdminClass,
+    refreshFromDB: refreshAdminFlag    // v2.8.0
   };
 })();
 </script>
@@ -30060,6 +30211,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       boot();
     }
 
+    // v2.8.0: re-carrega o catálogo do banco quando o idioma muda (PT↔EN).
+    // Antes só rodava no boot — trocar idioma deixava o catálogo preso no
+    // idioma inicial até refresh do navegador.
+    window.addEventListener('languagechange', function () {
+      loadStrugglesCatalog().then(renderStruggles).catch(function () {});
+    });
+
     window.LevelEtapa10 = { renderStruggles, loadStrugglesCatalog };
   })();
 
@@ -37221,6 +37379,332 @@ ${cbt('share.t.footer')}`;
     document.addEventListener('DOMContentLoaded', initBuilds);
   } else {
     initBuilds();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · ADMIN CRUD — cat_struggles (v2.8.0)
+// ═══════════════════════════════════════════════════════════════════
+// CRUD admin de dificuldades via edge function `admin-cat-struggles`.
+// Auth: secret em localStorage['level.admin.secret'] + header x-level-admin-secret.
+// UI no painel Operador, seções com class .opp-admin-only.
+// Estrutura idêntica a adminCrudMaps/adminCrudBuilds — copiado intencionalmente
+// pra consistência. Diferenças notáveis:
+//   - PK é composta (id, language) → ao apagar, opção de apagar 1 língua ou ambas
+//   - tips é text[] no PG — front edita como textarea (1 por linha)
+//   - filtro de língua na lista (PT/EN/todas)
+// ═══════════════════════════════════════════════════════════════════
+(function adminCrudStruggles() {
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const ENDPOINT = SUPABASE_URL + '/functions/v1/admin-cat-struggles';
+  const SECRET_LS_KEY = 'level.admin.secret';
+
+  let currentStruggles = [];
+  let editingKey = null;  // null=novo, '<id>:<lang>'=editando uma entrada específica
+  let langFilter = 'pt';  // pt | en | all
+
+  // ───── helpers ───────────────────────────────────────────────
+  function getSecret() {
+    try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; }
+  }
+  function escapeHtmlAdm(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+  function setStatus(text, color) {
+    const el = document.getElementById('opp-struggles-status');
+    if (!el) return;
+    el.textContent = text;
+    if (color) el.style.color = color;
+  }
+
+  // ───── API call ──────────────────────────────────────────────
+  async function callAdmin(action, payload) {
+    const secret = getSecret();
+    if (!secret) throw new Error('Secret de admin não configurado');
+    const body = Object.assign({ action: action }, payload || {});
+    const r = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'apikey': ANON_KEY,
+        'Content-Type': 'application/json',
+        'x-level-admin-secret': secret
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const msg = data.error || ('HTTP ' + r.status);
+      throw new Error(msg);
+    }
+    return data;
+  }
+
+  // ───── Lista ─────────────────────────────────────────────────
+  function renderStrugglesList() {
+    const wrap = document.getElementById('opp-struggles-list');
+    if (!wrap) return;
+
+    let filtered = currentStruggles;
+    if (langFilter !== 'all') {
+      filtered = currentStruggles.filter(s => s.language === langFilter);
+    }
+
+    if (!filtered.length) {
+      wrap.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted)">Nenhuma dificuldade encontrada para esse filtro. Clica em "+ Nova dificuldade" pra começar.</div>';
+      return;
+    }
+
+    const rows = filtered.map(s => {
+      const sortBadge = (s.sort_order != null)
+        ? '<span style="color:var(--text-muted);font-size:10px;margin-right:6px">' + s.sort_order + '</span>'
+        : '';
+      const inactive = !s.is_active
+        ? '<span style="color:var(--text-muted);font-size:10px;margin-left:6px;text-decoration:line-through">inativa</span>'
+        : '';
+      const tipsCount = Array.isArray(s.tips) ? s.tips.length : 0;
+      const langChip = '<span style="font-size:9px;padding:1px 5px;background:var(--bg-elevated);border-radius:3px;color:var(--accent-cyan);margin-right:6px;text-transform:uppercase">' + s.language + '</span>';
+      const editKey = s.id + ':' + s.language;
+      return (
+        '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--border)">' +
+          '<div style="flex:1;min-width:0">' +
+            sortBadge + langChip +
+            '<strong style="color:var(--text-primary)">' + escapeHtmlAdm(s.title) + '</strong>' +
+            inactive +
+            '<div style="color:var(--text-muted);font-size:10px;margin-top:2px">' +
+              escapeHtmlAdm(s.id) + ' · ' + escapeHtmlAdm(s.icon || 'lightbulb') + ' · ' + tipsCount + ' dica(s)' +
+            '</div>' +
+          '</div>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px" data-admin-struggle-edit="' + escapeHtmlAdm(editKey) + '">Editar</button>' +
+          '<button class="opp-action-btn secondary" style="padding:4px 10px;font-size:10px;color:#ff5252;border-color:rgba(244,67,54,0.4)" data-admin-struggle-delete="' + escapeHtmlAdm(editKey) + '">×</button>' +
+        '</div>'
+      );
+    }).join('');
+    wrap.innerHTML = rows;
+  }
+
+  // ───── Operações ─────────────────────────────────────────────
+  async function loadStruggles() {
+    setStatus('A carregar dificuldades...', 'var(--text-muted)');
+    try {
+      const data = await callAdmin('list', {});
+      currentStruggles = data.struggles || [];
+      renderStrugglesList();
+      setStatus(currentStruggles.length + ' dificuldades carregadas (todas as línguas)', 'var(--text-secondary)');
+    } catch (err) {
+      const wrap = document.getElementById('opp-struggles-list');
+      if (wrap) wrap.innerHTML = '<div style="padding:18px;text-align:center;color:#ff5252">' + escapeHtmlAdm(err.message) + '</div>';
+      setStatus('Erro: ' + err.message, '#ff5252');
+    }
+  }
+
+  function openModal(struggleData) {
+    const titleEl = document.getElementById('admin-struggle-modal-title');
+    const errEl = document.getElementById('admin-struggle-error');
+    if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+
+    if (struggleData) {
+      titleEl.textContent = 'Editar dificuldade';
+      editingKey = struggleData.id + ':' + struggleData.language;
+      document.getElementById('admin-struggle-id').value = struggleData.id || '';
+      document.getElementById('admin-struggle-id').disabled = true;  // não pode mudar id ao editar
+      document.getElementById('admin-struggle-lang').value = struggleData.language || 'pt';
+      document.getElementById('admin-struggle-lang').disabled = true; // nem língua
+      document.getElementById('admin-struggle-title').value = struggleData.title || '';
+      document.getElementById('admin-struggle-icon').value = struggleData.icon || 'lightbulb';
+      document.getElementById('admin-struggle-sort').value = struggleData.sort_order != null ? struggleData.sort_order : 10;
+      document.getElementById('admin-struggle-active').checked = struggleData.is_active !== false;
+      document.getElementById('admin-struggle-root-cause').value = struggleData.root_cause || '';
+      document.getElementById('admin-struggle-tips').value = Array.isArray(struggleData.tips) ? struggleData.tips.join('\n') : '';
+    } else {
+      titleEl.textContent = 'Nova dificuldade';
+      editingKey = null;
+      document.getElementById('admin-struggle-id').value = '';
+      document.getElementById('admin-struggle-id').disabled = false;
+      document.getElementById('admin-struggle-lang').value = langFilter === 'en' ? 'en' : 'pt';
+      document.getElementById('admin-struggle-lang').disabled = false;
+      document.getElementById('admin-struggle-title').value = '';
+      document.getElementById('admin-struggle-icon').value = 'lightbulb';
+      document.getElementById('admin-struggle-sort').value = 10;
+      document.getElementById('admin-struggle-active').checked = true;
+      document.getElementById('admin-struggle-root-cause').value = '';
+      document.getElementById('admin-struggle-tips').value = '';
+    }
+
+    const modal = document.getElementById('modal-admin-struggle');
+    if (modal) modal.classList.add('visible');
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('modal-admin-struggle');
+    if (modal) modal.classList.remove('visible');
+    // Reset disabled flags pra próxima abertura
+    document.getElementById('admin-struggle-id').disabled = false;
+    document.getElementById('admin-struggle-lang').disabled = false;
+  }
+
+  async function saveStruggle() {
+    const errEl = document.getElementById('admin-struggle-error');
+    errEl.style.display = 'none';
+
+    const id = (document.getElementById('admin-struggle-id').value || '').trim().toLowerCase();
+    const language = document.getElementById('admin-struggle-lang').value;
+    const title = (document.getElementById('admin-struggle-title').value || '').trim();
+
+    if (!id || !title) {
+      errEl.textContent = 'ID e Título são obrigatórios.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[a-z0-9_]+$/.test(id)) {
+      errEl.textContent = 'ID deve ser snake_case (apenas a-z, 0-9, _).';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const tipsRaw = (document.getElementById('admin-struggle-tips').value || '');
+    const tips = tipsRaw.split('\n').map(t => t.trim()).filter(Boolean);
+
+    const payload = {
+      id: id,
+      language: language,
+      title: title,
+      icon: document.getElementById('admin-struggle-icon').value || 'lightbulb',
+      sort_order: parseInt(document.getElementById('admin-struggle-sort').value, 10) || 0,
+      is_active: document.getElementById('admin-struggle-active').checked,
+      root_cause: (document.getElementById('admin-struggle-root-cause').value || '').trim(),
+      tips: tips
+    };
+
+    const saveBtn = document.getElementById('admin-struggle-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'A salvar...';
+    try {
+      await callAdmin('upsert', { struggle: payload });
+      closeModal();
+      await loadStruggles();
+      if (window.LevelModal && typeof window.LevelModal.toast === 'function') {
+        window.LevelModal.toast({ message: 'Dificuldade salva.', variant: 'success', duration: 2500 });
+      }
+    } catch (err) {
+      errEl.textContent = 'Erro ao salvar: ' + err.message;
+      errEl.style.display = 'block';
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Salvar';
+    }
+  }
+
+  async function deleteStruggle(editKey) {
+    // editKey = "<id>:<language>"
+    const parts = editKey.split(':');
+    const id = parts[0];
+    const lang = parts[1];
+    if (!window.LevelModal || typeof window.LevelModal.confirm !== 'function') {
+      // Fallback simples
+      if (!confirm('Apagar dificuldade "' + id + '" (' + lang + ')?')) return;
+      try {
+        await callAdmin('delete', { id: id, language: lang });
+        await loadStruggles();
+      } catch (err) {
+        alert('Erro: ' + err.message);
+      }
+      return;
+    }
+    window.LevelModal.confirm({
+      title: 'Apagar dificuldade',
+      message: 'Apagar "' + escapeHtmlAdm(id) + '" só na língua "' + lang + '"? A versão na outra língua continua. (Pra apagar nas duas, repete a operação na outra língua depois.)',
+      okText: 'Apagar',
+      cancelText: 'Cancelar',
+      variant: 'danger',
+      onConfirm: async function () {
+        try {
+          await callAdmin('delete', { id: id, language: lang });
+          await loadStruggles();
+          window.LevelModal.toast({ message: 'Dificuldade apagada.', variant: 'success', duration: 2500 });
+        } catch (err) {
+          window.LevelModal.toast({ message: 'Erro: ' + err.message, variant: 'error', duration: 4000 });
+        }
+      }
+    });
+  }
+
+  // ───── Wire-up ───────────────────────────────────────────────
+  function initStruggles() {
+    // Carrega só se o user é admin (zero requests desnecessárias pro back)
+    if (!window.LevelAdmin || !window.LevelAdmin.isAdmin()) return;
+
+    document.addEventListener('click', function (e) {
+      const t = e.target;
+      if (!t) return;
+
+      // Novo
+      if (t.closest && t.closest('#opp-btn-struggle-new')) {
+        openModal(null);
+        return;
+      }
+      // Refresh
+      if (t.closest && t.closest('#opp-btn-struggles-refresh')) {
+        loadStruggles();
+        return;
+      }
+      // Save
+      if (t.closest && t.closest('#admin-struggle-save-btn')) {
+        saveStruggle();
+        return;
+      }
+      // Edit
+      const editBtn = t.closest && t.closest('[data-admin-struggle-edit]');
+      if (editBtn) {
+        const key = editBtn.getAttribute('data-admin-struggle-edit');
+        const parts = key.split(':');
+        const sd = currentStruggles.find(s => s.id === parts[0] && s.language === parts[1]);
+        if (sd) openModal(sd);
+        return;
+      }
+      // Delete
+      const delBtn = t.closest && t.closest('[data-admin-struggle-delete]');
+      if (delBtn) {
+        const key = delBtn.getAttribute('data-admin-struggle-delete');
+        deleteStruggle(key);
+        return;
+      }
+    });
+
+    // Language filter
+    const filterEl = document.getElementById('opp-struggles-lang-filter');
+    if (filterEl) {
+      filterEl.addEventListener('change', function (e) {
+        langFilter = e.target.value;
+        renderStrugglesList();
+      });
+    }
+
+    // Carrega quando o painel Operador é exibido (lazy)
+    // Aproveita o evento de mudança de aba do Settings — só carrega se a aba ativa
+    // for "avatar" (painel Operador) e o user for admin.
+    let hasLoadedOnce = false;
+    function maybeLoad() {
+      if (hasLoadedOnce) return;
+      try {
+        if (typeof settingsActiveTab !== 'undefined' && settingsActiveTab === 'avatar'
+            && window.LevelAdmin && window.LevelAdmin.isAdmin()) {
+          hasLoadedOnce = true;
+          loadStruggles();
+        }
+      } catch (e) {}
+    }
+    setInterval(maybeLoad, 1500);
+    // Também tenta logo após o boot
+    setTimeout(maybeLoad, 2500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStruggles);
+  } else {
+    initStruggles();
   }
 })();
 
