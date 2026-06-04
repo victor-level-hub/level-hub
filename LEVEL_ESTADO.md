@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 4 Jun 2026 — fecho do marco v2.8.1 (sync admin↔user picker em tempo real)
+> **Última atualização:** 4 Jun 2026 — v2.8.1 entregue + RLS policies em hub_users aplicadas (destravou refreshAdminFlag)
 
 ---
 
@@ -235,54 +235,56 @@ Hoje o admin pode curar `cat_struggles` no banco, mas a aba **Evolução · Difi
 
 ---
 
-## 6. ESTADO DE DEPLOY (4/Jun/2026 — v2.8.1 entregue)
+## 6. ESTADO DE DEPLOY (4/Jun/2026 — v2.8.1 entregue + RLS hub_users)
 
 - [x] `index.html` (v2.7.0→v2.7.7) commitado e no ar — feito até 3/Jun/2026
 - [x] **8 RLS policies aplicadas** no Supabase (`storage.objects` + `public.user_assets`) — 4/Jun/2026, migration `user_assets_rls_policies`
 - [x] **Migration `hub_users_is_admin_flag`** aplicada no Supabase — adiciona `is_admin BOOLEAN DEFAULT false`, marca Victor como admin
 - [x] `index.html` (v2.8.0) commitado em 4/Jun/2026
-- [ ] **`index.html` (v2.8.1) commitar** no repo `level-hub`
-- [ ] **Este `LEVEL_ESTADO.md` atualizado** — commitar junto
+- [x] `index.html` (v2.8.1) commitado em 4/Jun/2026
+- [x] **Migration `hub_users_rls_policies`** aplicada em 4/Jun/2026 — destravou `refreshAdminFlag()` (ver secção 8.E)
+  - `hub_users_select_own` (authenticated lê próprio row WHERE auth_user_id = auth.uid())
+  - `hub_users_update_own` (authenticated atualiza próprio row — reservado pra futuro)
+  - `hub_users_all_service` (service_role poder total — documentação)
+- [ ] **Este `LEVEL_ESTADO.md` atualizado** — commitar no repo
 
-### Sobre esta release
-**v2.8.1 PATCH — fecho de ciclo.** Hook `syncUserCatalog()` no bloco `adminCrudStruggles` plugado nas 3 saídas que mudam o catálogo (save, delete via LevelModal, delete via fallback). Cada uma agora chama `window.LevelEtapa10.loadStrugglesCatalog()` + `renderStruggles()` depois de operação bem-sucedida. Best-effort: se `LevelEtapa10` não estiver disponível, falha silenciosa. Zero risco em outras partes do front.
+### Sobre esta sessão (4/Jun/2026)
+**Frontend:** v2.8.0 MINOR + v2.8.1 PATCH — ambas commitadas.
+**Backend:** migration `hub_users_rls_policies` aplicada no fim da sessão para destravar o `refreshAdminFlag()` da v2.8.0 (que estava executando sem erros mas devolvendo `data: null` por falta de policy).
 
-**v2.8.0 MINOR — três entregas anteriores** (já commitadas): painel admin de Dificuldades, sync de admin pelo banco, fix do bug de idioma.
-
-### Título do commit
+### Título do commit (LEVEL_ESTADO.md only)
 ```
-fix: admin↔user picker sync em tempo real (v2.8.1)
+docs: estado v2.8.1 + RLS hub_users
 ```
 
 ### Descrição do commit
 ```
-Fecho do ciclo aberto na v2.8.0. O painel ADMIN de Dificuldades
-podia adicionar/editar/apagar entries no banco, mas o picker do user
-em Evolução · Dificuldades só refletia a mudança no próximo refresh
-do navegador — porque a constante STRUGGLE_CATALOG em memória ficava
-stale.
+Atualização do LEVEL_ESTADO.md para refletir:
 
-Criada função syncUserCatalog() dentro do bloco adminCrudStruggles
-que chama window.LevelEtapa10.loadStrugglesCatalog() + renderStruggles()
-via a API pública já existente. Plugada nas 3 saídas que mudam o
-catálogo:
+1. v2.8.1 (fecho do ciclo struggles admin↔user) já commitada em
+   index.html separado, em produção.
 
-- saveStruggle (upsert)
-- deleteStruggle path do LevelModal
-- deleteStruggle path do fallback simples
+2. Migration hub_users_rls_policies aplicada no Supabase em 4/Jun:
+   - hub_users_select_own (authenticated lê próprio row WHERE
+     auth_user_id = auth.uid())
+   - hub_users_update_own (authenticated atualiza próprio row,
+     reservado para futuras operações do front)
+   - hub_users_all_service (service_role poder total, explicitada
+     pra documentação)
 
-Hook é best-effort: try/catch em volta de tudo, console.warn em caso
-de falha (não bloqueia o save/delete que já aconteceu no banco).
-
-LEVEL_ESTADO.md atualizado pra v2.8.1.
+Causa: hub_users tinha RLS ATIVADA desde sempre mas zero policies,
+o que bloqueava silenciosamente toda query do front (status 200,
+data: null). Edge Functions com service_role bypassavam, por isso o
+Hub funcionava normalmente exceto pela única query direta do front
+em hub_users (refreshAdminFlag da v2.8.0). Diagnóstico em secção
+8.E (aprendizado novo).
 ```
 
 ### Link direto pra commitar
 - `https://github.com/victor-level-hub/level-hub/upload/main`
-  - Arrasta `index.html` E `LEVEL_ESTADO.md` da pasta /outputs
+  - Arrasta apenas `LEVEL_ESTADO.md` da /outputs (index.html não mudou)
   - Cola título + descrição acima
   - Clica **Commit changes**
-- Netlify auto-deploya em ~1min. Conferir em `le-vel.games` que o footer mostra v2.8.1.
 
 ---
 
@@ -388,6 +390,33 @@ Se divergirem, **parar** e pedir o arquivo certo (ou baixar via curl se o repo f
 - Qualquer mismatch entre o que o doc diz e o que o arquivo mostra
 
 **Corolário (auto-aplicado):** este aprendizado é uma instância da própria regra 8.C — auditar a fonte de verdade real (GitHub/Supabase), não confiar em fontes-cache (doc/anexo).
+
+### 8.E · RLS ativada sem policies = bloqueio silencioso (4/Jun/2026 — v2.8.0)
+
+**Sintoma:** Victor commitou v2.8.0 com `refreshAdminFlag()` que deveria ler `hub_users.is_admin` no boot. Console mostrava `cache_role: null`, `isAdmin: false`, `body_classe: ''` — admin nunca era ativado. O `refreshFromDB()` rodava sem erros visíveis e retornava `{role: null, isAdmin: false}`.
+
+**Diagnóstico passo a passo (4 comandos no console):**
+1. Comando 1: `LEVEL_AUTH`/client/session/auth.uid — tudo OK
+2. Comando 2: query `from('hub_users').select('is_admin').eq('auth_user_id', authUid).maybeSingle()` — retornou `{status: 200, error: null, data: null}` — sem row pra esse auth_user_id
+3. SQL via MCP confirmou o row EXISTE no banco: `is_admin = true` para `auth_user_id = '1438a611...'`
+4. SQL para policies em `hub_users`: `[]` — **zero policies, mas RLS ativa**
+
+**Causa-raiz:** `hub_users` tinha RLS habilitada desde a configuração inicial mas **nenhuma policy CREATE'd**. PostgreSQL com RLS ativa + zero policies = nega tudo silenciosamente para roles não-bypass (como `authenticated`). Status 200 + `data: null` é o padrão — não é erro, é "linhas filtradas pelo RLS". Edge Functions com `SERVICE_ROLE_KEY` continuavam funcionando porque service_role bypassa RLS — por isso sync-pull/sync-push/user-asset trabalhavam normalmente, escondendo o problema.
+
+**Fix:** migration `hub_users_rls_policies` aplicada — 3 policies (select_own, update_own, all_service). Após aplicar, o `refreshAdminFlag()` no front passou a popular o cache, e o body ganhou a classe `is-admin`, expondo todos os painéis `.opp-admin-only`. Banner "MODO ADMIN ATIVO" apareceu.
+
+**Princípio geral:** ao criar tabela com RLS ativada, **criar pelo menos UMA policy SELECT imediatamente** — mesmo que seja `TO service_role USING (true)` (poder total documentado). Tabela com RLS+zero-policies é uma armadilha porque:
+- Não dá erro
+- O Hub funciona em geral (porque Edge Functions usam service_role)
+- O bug só aparece quando algo do front tenta query direta
+- E o sintoma é `data: null` — fácil confundir com "row não existe"
+
+**Checklist pré-CREATE TABLE com RLS:**
+1. `ALTER TABLE ... ENABLE ROW LEVEL SECURITY;`
+2. Imediatamente: `CREATE POLICY ... FOR SELECT TO authenticated USING (...);`
+3. Imediatamente: `CREATE POLICY ... FOR ALL TO service_role USING (true);`
+
+**Sinal que dispara essa verificação:** qualquer query do front que retorna `{status: 200, data: null}` quando o row deveria existir. Antes de assumir "row não existe", checar `SELECT polname FROM pg_policy WHERE c.relname=X` direto via service_role.
 
 ---
 
