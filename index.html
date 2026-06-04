@@ -10426,7 +10426,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.7.6 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.7.7 · <span data-i18n="briefing.changelog.date">3 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">fix</div>
           </div>
@@ -13706,6 +13706,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.7.7</span>
+                <span class="vh-date">3 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Adicionado campo <strong>Plataforma</strong> no modal <em>Editar Status do Operador</em> (Configurações &middot; Operador &middot; botão de edição). Select com três opções: PS5, PC, Xbox. O estado <code>player.platform</code> já existia desde o início do projeto (com default <code>PS5</code>) e já era exibido na linha "PS5 · RUSHER" do card de Operador, mas não havia campo de UI para editar. A análise IA da v2.7.6 já estava preparada para consumir o valor real (<code>player.platform || \'PS5\'</code>), apenas faltava o input chegar lá. Mudança trivial mas fecha um dos buracos pendentes: agora se mudares para PC em <em>Editar Status do Operador</em>, a IA recebe a plataforma certa no payload (visível em <code>player_profile.platform</code> da resposta do <code>analyze-build</code>). Layout do modal: a linha Prestige+Level virou grid 3-col Prestige+Level+Plataforma (foi possível encaixar porque o select é curto). BO7 é cross-play entre as três plataformas; Switch ficou fora porque o jogo não suporta.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.7.6</span>
                 <span class="vh-date">3 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -15265,7 +15274,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.7.6</strong><span class="ver-tag">Análise de build agora lê estilo real do operador e detecta desalinhamento com a build</span>
+        LEVEL · <strong>v2.7.7</strong><span class="ver-tag">Plataforma agora editável em Configurações &middot; Operador</span>
       </div>
       <script>
         (function(){
@@ -15328,7 +15337,7 @@
           <div class="form-label">Nome do operador</div>
           <input type="text" id="status-name" class="form-input" placeholder="ex: VICTOR" maxlength="20" style="text-transform:uppercase"/>
 
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px">
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 12px">
             <div>
               <div class="form-label">Prestige</div>
               <input type="number" id="status-prestige" class="form-input" min="0" max="20" placeholder="4"/>
@@ -15336,6 +15345,14 @@
             <div>
               <div class="form-label">Level (no prestige atual)</div>
               <input type="number" id="status-level" class="form-input" min="1" max="55" placeholder="35"/>
+            </div>
+            <div>
+              <div class="form-label">Plataforma</div>
+              <select id="status-platform" class="form-input">
+                <option value="PS5">PS5</option>
+                <option value="PC">PC</option>
+                <option value="Xbox">Xbox</option>
+              </select>
             </div>
           </div>
 
@@ -16396,9 +16413,9 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '3 Jun 2026',
-    'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Análise IA agora respeita o teu estilo de jogo',
-    'briefing.changelog.summary':  'Dois bugs do <em>analyze-build</em> que faziam a IA dar veredito genérico. <strong>Bug 1:</strong> o perfil do operador enviado à IA estava fixo em "rusher CQB" — se mudasses para Slayer/Anchor/Sniper Support em Configurações &middot; Operador, o card resumo e a sidebar atualizavam mas a análise ignorava a mudança. Agora lê <code>player.playstyle</code> real e expande para uma descrição completa (cada estilo do select ganhou contexto: ritmo, alcance, postura). <strong>Bug 2 (o mais sério):</strong> uma build "longa" — com alcance estendido e recuo controlado — passava no motor sem fraquezas absolutas, então <code>candidates_by_weakness</code> e <code>perks_pool</code> chegavam vazios à IA. Ela então caía no veredito "o problema não está na arma" sem ter sugestões para oferecer, mesmo quando o estilo do operador (ex: rusher CQB) era o OPOSTO do que a build entrega. Agora o motor calcula também <strong>fraquezas relativas ao estilo</strong> — uma build pode estar perfeita em valores absolutos e ainda ser detectada como desalinhada do operador, dando à IA matéria-prima para sugerir adaptações concretas.',
+    'briefing.changelog.pill':  'feature',
+    'briefing.changelog.headline': 'Plataforma agora editável em Configurações &middot; Operador',
+    'briefing.changelog.summary':  'O modal <strong>Editar Status do Operador</strong> ganhou um campo <em>Plataforma</em> com três opções: PS5, PC e Xbox. Antes, o estado já tinha um campo <code>platform</code> (default <code>PS5</code>) que era exibido no card de Operador (linha "PS5 · RUSHER") mas não havia jeito de editar pela interface. A análise IA da v2.7.6 já estava preparada para consumir esse valor — agora chega real ao payload em vez do fallback. Mudança pequena que fecha um dos buracos que ficaram pendentes do fix da análise.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -17683,9 +17700,9 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 3, 2026',
-    'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Build analysis now respects your playstyle',
-    'briefing.changelog.summary':  'Two <em>analyze-build</em> bugs that were making the AI deliver generic verdicts. <strong>Bug 1:</strong> the operator profile sent to the AI was hardcoded to "rusher CQB" — if you changed it to Slayer / Anchor / Sniper Support in Settings &middot; Operator, the summary card and sidebar updated but the analysis ignored the change. It now reads the real <code>player.playstyle</code> and expands it into a full description (every style in the dropdown got context: tempo, range, posture). <strong>Bug 2 (the more serious one):</strong> a "long-range" build — with extended range and controlled recoil — passed through the engine with zero absolute weaknesses, so <code>candidates_by_weakness</code> and <code>perks_pool</code> arrived empty at the AI. It then fell back to the verdict "the problem isn\'t the gun" with no suggestions to offer, even when the operator\'s playstyle (e.g. rusher CQB) was the OPPOSITE of what the build delivers. The engine now also computes <strong>weaknesses relative to the playstyle</strong> — a build can be perfect on absolute values and still be flagged as misaligned with the operator, giving the AI material to suggest concrete adaptations.',
+    'briefing.changelog.pill':  'feature',
+    'briefing.changelog.headline': 'Platform now editable in Settings &middot; Operator',
+    'briefing.changelog.summary':  'The <strong>Edit Operator Status</strong> modal got a <em>Platform</em> field with three options: PS5, PC, Xbox. The state already had a <code>platform</code> field (defaulting to <code>PS5</code>) that was displayed on the Operator card (the "PS5 · RUSHER" line) but there was no way to edit it via the UI. The v2.7.6 AI analysis was already prepared to consume this value — now the real value reaches the payload instead of the fallback. A small change that closes one of the gaps left by the analysis fix.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -21411,6 +21428,7 @@ window.BO7_ASSETS = (function() {
       document.getElementById('status-prestige').value = p.prestige != null ? p.prestige : '';
       document.getElementById('status-level').value = p.level != null ? p.level : '';
       document.getElementById('status-playstyle').value = p.playstyle || 'RUSHER';
+      document.getElementById('status-platform').value = p.platform || 'PS5';
       document.getElementById('status-perms').value = (p.perms || []).join(', ');
       await populateWeaponSelect();
       document.getElementById('modal-status').classList.add('visible');
@@ -21427,6 +21445,7 @@ window.BO7_ASSETS = (function() {
         prestige: parseInt(document.getElementById('status-prestige').value, 10) || 0,
         level: parseInt(document.getElementById('status-level').value, 10) || 1,
         playstyle: document.getElementById('status-playstyle').value,
+        platform: document.getElementById('status-platform').value,
         perms: document.getElementById('status-perms').value
                   .split(',').map(s => s.trim()).filter(Boolean)
       };
