@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 4 Jun 2026 — v2.8.1 entregue + RLS policies em hub_users aplicadas (destravou refreshAdminFlag)
+> **Última atualização:** 4 Jun 2026 — fecho do marco v2.9.0 (codenames admin + sugestor + fix visual)
 
 ---
 
@@ -13,7 +13,7 @@ Ao abrir um chat novo, anexar **sempre**:
 Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro.
 
 **Primeira mensagem sugerida pro próximo chat:**
-> "Anexei o index.html (v2.8.1) e o LEVEL_ESTADO.md. Próxima tarefa: [escolher do roadmap, secção 5]."
+> "Anexei o index.html (v2.9.0) e o LEVEL_ESTADO.md. Próxima tarefa: [escolher do roadmap, secção 5]."
 
 > ⚠️ **CRÍTICO** — ANTES de propor qualquer plano de backend OU de tocar no `index.html`:
 > 1. **Verifica que o arquivo anexado é a versão real do GitHub.** Roda `curl -sL https://raw.githubusercontent.com/victor-level-hub/level-hub/main/index.html | grep "LEVEL · <strong>v"` e compara com o footer do arquivo anexado. Se divergir, o anexo está atrasado — pede o arquivo certo. Aprendido na sessão da v2.8.0 (perdi tempo trabalhando em cima de v2.7.5 quando o real era v2.7.7).
@@ -55,8 +55,8 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.8.1` (SemVer desde v2.0.0)
-**Arquivo:** single-file `index.html` (~2.37 MB, ~38.255 linhas)
+**Versão:** `v2.9.0` (SemVer desde v2.0.0)
+**Arquivo:** single-file `index.html` (~2.46 MB, ~38.954 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
@@ -74,6 +74,7 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 - **v2.7.7** — **Plataforma editável.** Adicionado select PS5/PC/Xbox no modal Configurações ▸ Operador. Estado `player.platform` já existia e já era exibido no card, mas não tinha input.
 - **v2.8.0** — **Admin UI de Dificuldades + sync de admin pelo BD + fix idioma.** Painel admin novo em Configurações ▸ Operador para curar `cat_struggles` (22 entradas reais: 11 dificuldades × PT/EN). Reconhecimento de admin passou a ler `hub_users.is_admin` do banco com fallback de cache (LS). Fix do bug do `languagechange` que deixava o catálogo preso no idioma do boot. Migration `hub_users_is_admin_flag` aplicada. Ver secção 5.B.
 - **v2.8.1** — **Sync admin↔user picker em tempo real.** Fecho do ciclo aberto na v2.8.0. Hook `syncUserCatalog()` no bloco `adminCrudStruggles` dispara `loadStrugglesCatalog` + `renderStruggles` depois de cada save/delete bem-sucedido, atualizando o picker do user em Evolução ▸ Dificuldades sem refresh do navegador. PATCH.
+- **v2.9.0** — **Codenames admin UI + Sugestor + fix visual.** Três entregas combinadas: (1) painel admin de `cat_codenames` no Operador (125+ codenames em 22 categorias), (2) botão "Sugerir codename" no modal Salvar Loadout com sorteador por categoria + anti-repetição, (3) fix do desalinhamento do modal Editar Status do Operador (label "Level atual" + grid 1fr×3 com `align-items: end`). Ver secção 5.C.
 
 ### Identidade visual (FECHADA no marco v2.6.x — não mexer)
 - **Logo LEVEL própria** em SVG embutido (viewBox 0 0 706 178): corpo **laranja `#FF9800`**, detalhes em **azul-claro `#AEC7E0`**, triângulo laranja no topo entre E e V, recorte triangular vazado no 2º E.
@@ -131,7 +132,7 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 
 3. ~~**cat_struggles — admin UI**~~ — **FECHADO COMPLETO na v2.8.0 + v2.8.1.** Painel admin em Configurações ▸ Operador com CRUD bilíngue, modal de criar/editar com 8 campos, apagar individual por língua. Chama Edge `admin-cat-struggles` v3. Catálogo BD com 22 entradas (11 dificuldades × PT/EN). **v2.8.1** fechou o ciclo: hook `syncUserCatalog()` plugado em save/delete dispara `loadStrugglesCatalog()` + `renderStruggles()`, fazendo o picker do user em Evolução ▸ Dificuldades atualizar em tempo real sem F5. Item totalmente fechado.
 
-4. **Codenames** — Edge `admin-cat-codenames` v4 já ACTIVE. Mesmo padrão de #3: confirmar schema, plugar front, criar admin UI + botão "Sugerir codename" no Construtor/Meus Loadouts.
+4. ~~**Codenames**~~ — **FECHADO na v2.9.0.** Admin UI plugado (CRUD com filtro por categoria, modal de 10 campos), botão "Sugerir codename" no modal Salvar Loadout que sorteia do banco filtrando por categoria, com anti-repetição. 125+ codenames em 22 categorias já curados no banco. Edge `admin-cat-codenames` v2 já estava ACTIVE, agora consumida. Item fechado.
 
 5. **Avatar IA Nano Banana 2** — Edge `generate-avatar` v5 + `avatar-session-create` v6 + `avatar-session-approve` v4 + `upload-avatar-selfie` v4 todas ACTIVE. Arquivo `level-capture-avatar.html` existe no projeto. Pendente confirmar o fluxo end-to-end.
 
@@ -233,9 +234,50 @@ Migration `hub_users_is_admin_flag` aplicada em paralelo (`ALTER TABLE hub_users
 ### Próximo passo (preparação para integração total)
 Hoje o admin pode curar `cat_struggles` no banco, mas a aba **Evolução · Dificuldades** do user (onde ele marca quais sente como problema atual) ainda usa o catálogo carregado via `loadStrugglesCatalog`. **Falta confirmar** que dificuldades novas adicionadas pelo admin aparecem corretamente no picker do user (`renderStruggles` deveria pegar o catálogo dinâmico já — testar e validar). Quando isso estiver ok, fecha o ciclo: admin cura → banco → user vê → user marca → struggle ativa vai pro `analyze-build`.
 
+**Status:** auditoria de 4/Jun confirmou que a integração no código já está completa (`loadStrugglesCatalog` substitui `STRUGGLE_CATALOG` em memória, `renderPicker` consome essa constante). Falta apenas teste prático: adicionar uma struggle via admin, abrir o picker sem F5, confirmar que aparece.
+
 ---
 
-## 6. ESTADO DE DEPLOY (4/Jun/2026 — v2.8.1 entregue + RLS hub_users)
+## 5.C · Codenames admin + Sugestor — v2.9.0
+
+> Plugagem do catálogo `cat_codenames` (já no banco, já com Edge ACTIVE) no Hub. Tarefa do item #4 do roadmap, fechado em 4/Jun/2026.
+
+### Estado prévio (auditoria de 4/Jun, pré-implementação)
+- Tabela `cat_codenames` no Supabase com **125+ entradas curadas** em **22 categorias** distintas (mitologia grega/nórdica/egípcia/mesoamericana/hindu/japonesa/suméria, cinema vilões/heróis, horror, anime, games, literatura sombria, violência em inglês/espanhol/italiano, astronomia, ops militares, forças da natureza, cyberpunk, precisão, callsigns militares). Schema rico: `id`, `name`, `category`, `vibe` (texto livre, ~120 valores únicos no banco), `language` (pt/en/es/it/lat/ja/grego), `description`, `source`, `tags[]`, `image_url`, `is_active`, `sort_order`.
+- Edge Function `admin-cat-codenames` v2 ACTIVE com auth via `x-level-admin-secret` (padrão de todos os outros admin CRUDs).
+- Front: zero referências à tabela. Codename era apenas extraído do nome do loadout via `extractCodename(loadoutName)` (pega tudo antes da "/"). Sem sugestão, sem integração com o banco.
+
+### O que foi entregue
+**1. Painel ADMIN · Codenames** em Configurações ▸ Operador (depois de ADMIN · Dificuldades). Wrap em `.opp-admin-only`. UI segue padrão dos outros CRUDs admin com diferenças:
+- Filtro **por categoria** (não por idioma — codenames são bilíngues por natureza, vivendo em qualquer das 7 línguas que o schema aceita)
+- Modal de criar/editar com 10 campos: id, nome, categoria (22 opções fixas no select), idioma (7 opções), vibe (texto livre — schema não restringe), sort order, ativo, descrição (livre), source, tags (CSV)
+- **Apagar global por id** (PK simples, sem versão por idioma como `cat_struggles`)
+- Hook `syncUserCatalog()` chama `window.LevelCodenames.reload()` depois de cada save/delete, atualizando o pool do sugestor em tempo real
+
+**2. Botão "Sugerir codename"** no modal **Salvar Loadout** (ao lado do campo "Nome do loadout"). Comportamento:
+- Click abre modal `modal-suggest-codename` (separado)
+- Modal tem select de categoria (com labels amigáveis tipo "Mitologia · Grega"), começando em "Aleatório (todas)"
+- Botão **Sortear codename** sorteia da pool ativa filtrada por categoria, **com anti-repetição** (se sortear de novo na mesma categoria, evita repetir o último)
+- Resultado renderiza em cartão com: nome em destaque (Black Ops One font, cor accent), vibe em itálico ("ataque cirúrgico", "fúria divina", etc), meta (categoria + idioma se não-PT)
+- Botão **Usar este** aplica o nome ao campo `save-name`, **preservando inteligentemente o que vier depois da "/"** — se o user já tiver " / Rusher Hardpoint", vira "CICADA 3301 / Rusher Hardpoint"
+
+**3. Bloco `levelCodenameSuggester` no JS.** Função `reload()` exposta via `window.LevelCodenames`. Carrega pool via REST/anon (só `is_active = true`), constrói lista de categorias únicas, popula o select. Chamada no boot (com delay de 600ms pra não bloquear) e depois de cada save/delete admin.
+
+### Padrões reutilizados
+- Estrutura do bloco JS idêntica a `adminCrudStruggles`: helpers (`getSecret`, `escapeHtmlAdm`, `setStatus`, `callAdmin`), `renderXList`, `loadX`, `openModal`, `closeModal`, `saveX`, `deleteX`, `initX`. Diferenças marcadas com comentários.
+- Modal estrutura idêntica: header com ícone, body com grid 2-col + textareas, error inline em vermelho, actions com Cancelar + Salvar.
+- HTML do painel admin idêntico: `.opp-action-item` com ícone + título + descrição + botões à direita.
+
+### Próximo passo
+Hoje o codename só é sugerido **ao salvar loadout**. Outros pontos onde caberia integração futura:
+- Sugerir nome ao **criar build no Construtor** (antes mesmo de salvar)
+- **Substituir** o `extractCodename(loadoutName)` por uma associação direta com o codename usado (campo novo no loadout: `codename_id` referenciando `cat_codenames.id`)
+- Mostrar **imagem** do codename (campo `image_url` no schema, hoje todo vazio) no card do loadout/marketplace
+- Filtro de codenames usados vs não usados (cada user vê quais já tem)
+
+---
+
+## 6. ESTADO DE DEPLOY (4/Jun/2026 — v2.9.0 entregue)
 
 - [x] `index.html` (v2.7.0→v2.7.7) commitado e no ar — feito até 3/Jun/2026
 - [x] **8 RLS policies aplicadas** no Supabase (`storage.objects` + `public.user_assets`) — 4/Jun/2026, migration `user_assets_rls_policies`
@@ -246,45 +288,66 @@ Hoje o admin pode curar `cat_struggles` no banco, mas a aba **Evolução · Difi
   - `hub_users_select_own` (authenticated lê próprio row WHERE auth_user_id = auth.uid())
   - `hub_users_update_own` (authenticated atualiza próprio row — reservado pra futuro)
   - `hub_users_all_service` (service_role poder total — documentação)
-- [ ] **Este `LEVEL_ESTADO.md` atualizado** — commitar no repo
+- [ ] **`index.html` (v2.9.0) commitar** no repo `level-hub`
+- [ ] **Este `LEVEL_ESTADO.md` atualizado** — commitar junto
 
-### Sobre esta sessão (4/Jun/2026)
-**Frontend:** v2.8.0 MINOR + v2.8.1 PATCH — ambas commitadas.
-**Backend:** migration `hub_users_rls_policies` aplicada no fim da sessão para destravar o `refreshAdminFlag()` da v2.8.0 (que estava executando sem erros mas devolvendo `data: null` por falta de policy).
+### Sobre esta release (v2.9.0)
+**MINOR — três entregas combinadas:**
 
-### Título do commit (LEVEL_ESTADO.md only)
+1. **Codenames admin UI** plugada (item #4 do roadmap totalmente fechado). Edge `admin-cat-codenames` v2 estava ACTIVE há semanas mas sem UI — agora há painel CRUD em Configurações ▸ Operador.
+2. **Botão "Sugerir codename"** no modal Salvar Loadout — sorteador por categoria + anti-repetição, preserva sufixo " / xxx" se já existir.
+3. **Fix do desalinhamento** do modal Editar Status do Operador (label "Level atual" + `align-items: end`).
+
+Zero mudanças em Edge Functions. Zero migrations adicionais.
+
+### Título do commit
 ```
-docs: estado v2.8.1 + RLS hub_users
+feat: codenames admin + sugestor + fix modal Operador (v2.9.0)
 ```
 
 ### Descrição do commit
 ```
-Atualização do LEVEL_ESTADO.md para refletir:
+Três entregas combinadas em release MINOR:
 
-1. v2.8.1 (fecho do ciclo struggles admin↔user) já commitada em
-   index.html separado, em produção.
+1. Painel ADMIN · Codenames em Configurações · Operador
+   - Wrap em .opp-admin-only
+   - CRUD com filtro por categoria (22 opções no banco)
+   - Modal de criar/editar com 10 campos: id, nome, categoria,
+     idioma (7 línguas: pt/en/es/it/lat/ja/grego), vibe (texto
+     livre), sort_order, is_active, descrição, source, tags (CSV)
+   - Apagar global por id (PK simples, sem versão por idioma como
+     cat_struggles)
+   - Chama Edge admin-cat-codenames v2 (já ACTIVE desde 22/Mai)
+   - Catálogo BD tem 125+ codenames em 22 categorias
 
-2. Migration hub_users_rls_policies aplicada no Supabase em 4/Jun:
-   - hub_users_select_own (authenticated lê próprio row WHERE
-     auth_user_id = auth.uid())
-   - hub_users_update_own (authenticated atualiza próprio row,
-     reservado para futuras operações do front)
-   - hub_users_all_service (service_role poder total, explicitada
-     pra documentação)
+2. Botão "Sugerir codename" no modal Salvar Loadout
+   - Abre modal modal-suggest-codename separado
+   - Select de categoria com labels amigáveis + opção "Aleatório"
+   - Sorteia da pool ativa (REST/anon, só is_active=true)
+   - Anti-repetição: evita repetir o último resultado
+   - Resultado renderiza com nome, vibe e meta (categoria + idioma)
+   - "Usar este" aplica o nome ao campo save-name preservando o
+     sufixo " / xxx" se já estiver digitado
 
-Causa: hub_users tinha RLS ATIVADA desde sempre mas zero policies,
-o que bloqueava silenciosamente toda query do front (status 200,
-data: null). Edge Functions com service_role bypassavam, por isso o
-Hub funcionava normalmente exceto pela única query direta do front
-em hub_users (refreshAdminFlag da v2.8.0). Diagnóstico em secção
-8.E (aprendizado novo).
+3. Fix do modal Editar Status do Operador
+   - Label "Level (no prestige atual)" quebrava em 2 linhas
+   - Encurtado para "Level atual (1-55)"
+   - Grid 1fr 1fr 1.2fr → 1fr 1fr 1fr (3 colunas iguais)
+   - Adicionado align-items: end pra robustez
+
+Hooks no admin de codenames disparam window.LevelCodenames.reload()
+após save/delete pra atualizar o pool do sugestor em tempo real
+(mesmo padrão do syncUserCatalog da v2.8.1).
+
+LEVEL_ESTADO.md atualizado pra v2.9.0 (secção 5.C nova).
 ```
 
 ### Link direto pra commitar
 - `https://github.com/victor-level-hub/level-hub/upload/main`
-  - Arrasta apenas `LEVEL_ESTADO.md` da /outputs (index.html não mudou)
+  - Arrasta `index.html` E `LEVEL_ESTADO.md` da /outputs
   - Cola título + descrição acima
   - Clica **Commit changes**
+- Netlify auto-deploya em ~1min. Conferir em `le-vel.games` que o footer mostra v2.9.0.
 
 ---
 
