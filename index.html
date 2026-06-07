@@ -10833,12 +10833,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.13.0 · <span data-i18n="briefing.changelog.date">7 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.14.0 · <span data-i18n="briefing.changelog.date">7 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Glossário editável no Hub</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Os termos técnicos do jogo (o switch <strong>Termos</strong> do cabeçalho) agora podem ser geridos por um <strong>painel de administração no próprio Hub</strong>, em Configurações &middot; Operador &mdash; sem precisar mexer em SQL. Dá para criar, editar e apagar termos, com <strong>Português e Inglês lado a lado</strong> no mesmo formulário. Ao guardar, o switch atualiza na hora. Funcionalidade de administração (não muda nada para quem só usa o Hub).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Tradutor no Construtor e Minhas Armas</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O tradutor de termos técnicos (switch <strong>Termos</strong>) agora também age no <strong>Construtor</strong> e em <strong>Minhas Armas</strong> &mdash; rótulos de slot (Muzzle, Barrel...), perks e curingas ganham a tradução entre parênteses. Os <strong>nomes próprios</strong> (armas, attachments, codenames) ficam protegidos e nunca são alterados. Além disso, as traduções de perks e curingas foram <strong>corrigidas pelo texto oficial da Activision em PT-BR</strong> (ex.: Gunfighter = Pistoleiro, Lightweight = Leve, Gung Ho = Fervoroso).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -10907,7 +10907,7 @@
 
     </section>
 
-    <section class="section" id="section-myweapons">
+    <section class="section" id="section-myweapons" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.myweapons.crumb">02 / Minhas Armas</div>
         <h2 data-i18n="sec.myweapons.h2">MINHAS ARMAS · CATÁLOGO DE BUILDS</h2>
@@ -13803,7 +13803,7 @@
     <!-- =================================================================== -->
     <!-- SECTION: CONSTRUTOR DE LOADOUT                                      -->
     <!-- =================================================================== -->
-    <section class="section" id="section-constructor">
+    <section class="section" id="section-constructor" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.constructor.crumb">Construtor / Loadout Builder</div>
         <h2 data-i18n="sec.constructor.h2">CONSTRUTOR DE LOADOUT</h2>
@@ -14110,6 +14110,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.14.0</span>
+                <span class="vh-date">7 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Tradutor de termos técnicos expandido para o Construtor e Minhas Armas, com proteção de nomes próprios e correção das traduções oficiais.<br><br><strong>1. Duas zonas novas.</strong> As seções <strong>Construtor</strong> e <strong>Minhas Armas</strong> ganharam <code>data-glossary-zone</code>. Agora o switch <strong>Termos</strong> traduz, dentro delas, os rótulos de slot (Muzzle&rarr;Bocal, Barrel&rarr;Cano, Stock&rarr;Coronha...), os nomes de perks/curingas nos cards de opção, e os conceitos &mdash; do mesmo jeito que já fazia em Vantagens, Controle, Mapas, etc.<br><br><strong>2. Proteção de nomes próprios.</strong> Todo nome que <em>não</em> se traduz &mdash; nome de arma (Voyak KT-3), de attachment (Long Barrel, Monolithic Suppressor) e codename de build (BELEROFONTE) &mdash; foi blindado com <code>data-glossary-skip</code> nas funções de render (<code>renderBuildCard</code>, <code>renderPrimaryBuildInfo</code>, <code>renderSecondaryBuildInfo</code> e o botão do att-chooser). Resultado: o slot "Barrel" vira "Barrel (Cano)", mas um attachment chamado "Long Barrel" fica intacto. Validado com teste determinístico: palavras-colisão (Barrel, Stock, Laser) traduzem como rótulo mas nunca dentro de um nome próprio.<br><br><strong>3. Correção das traduções oficiais (cat_glossary).</strong> Cruzando com o texto oficial da Activision em PT-BR (callofduty.com/br), 5 termos foram corrigidos: <strong>Gunfighter</strong> Tiroteio&rarr;<strong>Pistoleiro</strong>, <strong>Recon</strong> Batedor&rarr;<strong>Reconhecimento</strong> (especialidade principal), <strong>Gung Ho</strong>&rarr;<strong>Fervoroso</strong>, <strong>Tac Sprinter</strong> Corredor Tático&rarr;<strong>Corredor</strong>, <strong>Lightweight</strong> Peso Leve&rarr;<strong>Leve</strong>. Mais 3 confirmados e tirados de revisão (Dexterity=Destreza, Cold-Blooded=Sangue Frio, Assassin=Assassino). Restam 5 stats em revisão (ADS Speed, Flinch Resistance, etc.) à espera de confirmação no jogo.<br><br><strong>4. Hardening do motor.</strong> Corrigido um bug latente onde re-processar uma zona duplicava o parêntese ("Optic (Lente) (Lente)"). O varredor agora pula texto já dentro de <code>.glossary-xlated</code> &mdash; fix que protege todas as zonas, não só as novas.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -15835,7 +15844,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.13.0</strong><span class="ver-tag">Painel admin do Glossário: gerir os termos técnicos (PT+EN) direto no Hub, sem SQL</span>
+        LEVEL · <strong>v2.14.0</strong><span class="ver-tag">Tradutor de termos chega ao Construtor e Minhas Armas; termos de perks/curingas corrigidos pelo oficial PT-BR</span>
       </div>
       <script>
         (function(){
@@ -17298,8 +17307,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '7 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Glossário editável no Hub',
-    'briefing.changelog.summary':  'Os termos técnicos do jogo (o switch <strong>Termos</strong> do cabeçalho) agora podem ser geridos por um <strong>painel de administra&ccedil;&atilde;o no pr&oacute;prio Hub</strong>, em Configura&ccedil;&otilde;es &middot; Operador &mdash; sem precisar mexer em SQL. D&aacute; para criar, editar e apagar termos, com <strong>Portugu&ecirc;s e Ingl&ecirc;s lado a lado</strong> no mesmo formul&aacute;rio. Ao guardar, o switch atualiza na hora. Funcionalidade de administra&ccedil;&atilde;o (n&atilde;o muda nada para quem s&oacute; usa o Hub).',
+    'briefing.changelog.headline': 'Tradutor no Construtor e Minhas Armas',
+    'briefing.changelog.summary':  'O tradutor de termos t&eacute;cnicos (switch <strong>Termos</strong>) agora tamb&eacute;m age no <strong>Construtor</strong> e em <strong>Minhas Armas</strong> &mdash; r&oacute;tulos de slot (Muzzle, Barrel...), perks e curingas ganham a tradu&ccedil;&atilde;o entre par&ecirc;nteses. Os <strong>nomes pr&oacute;prios</strong> (armas, attachments, codenames) ficam protegidos e nunca s&atilde;o alterados. Al&eacute;m disso, as tradu&ccedil;&otilde;es de perks e curingas foram <strong>corrigidas pelo texto oficial da Activision em PT-BR</strong> (ex.: Gunfighter = Pistoleiro, Lightweight = Leve, Gung Ho = Fervoroso).',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18590,8 +18599,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 7, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Editable glossary in the Hub',
-    'briefing.changelog.summary':  'The game technical terms (the <strong>Terms</strong> switch in the header) can now be managed from an <strong>admin panel inside the Hub itself</strong>, under Settings &middot; Operator &mdash; no SQL needed. You can create, edit and delete terms, with <strong>Portuguese and English side by side</strong> in the same form. On save, the switch updates instantly. Admin feature (changes nothing for regular Hub users).',
+    'briefing.changelog.headline': 'Translator in Builder and My Weapons',
+    'briefing.changelog.summary':  'The technical-term translator (the <strong>Terms</strong> switch) now also works in the <strong>Builder</strong> and <strong>My Weapons</strong> &mdash; slot labels (Muzzle, Barrel...), perks and wildcards get the translation in parentheses. <strong>Proper nouns</strong> (weapons, attachments, codenames) stay protected and are never altered. Also, perk and wildcard translations were <strong>corrected against the official Activision PT-BR text</strong> (e.g. Gunfighter = Pistoleiro, Lightweight = Leve, Gung Ho = Fervoroso).',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -23759,14 +23768,14 @@ const ATTACHMENT_ICONS = {
           }
           btnInner =
             '<span class="att-slot-icon">' + getAttachmentIconHtml(currentName, slotType) + '</span>' +
-            '<span class="att-equipped-name">' + escapeHtml(currentName) + '</span>' +
+            '<span class="att-equipped-name" data-glossary-skip>' + escapeHtml(currentName) + '</span>' +
             levelBadge +
             '<span class="att-chooser-arrow">▸</span>';
         } else if (currentName) {
           // Manual entry (no catalog match — typed via fallback)
           btnInner =
             '<span class="att-slot-icon">' + getAttachmentIconHtml(currentName, slotType) + '</span>' +
-            '<span class="att-equipped-name">' + escapeHtml(currentName) + '</span>' +
+            '<span class="att-equipped-name" data-glossary-skip>' + escapeHtml(currentName) + '</span>' +
             '<span></span>' +
             '<span class="att-chooser-arrow">▸</span>';
         } else {
@@ -24717,7 +24726,7 @@ const ATTACHMENT_ICONS = {
         const slotLabel = SLOT_LABELS[i] || 'Extra';
         const val = build.attachments[i] || '';
         const empty = val ? '' : ' empty';
-        attRows.push('<div class="bc-att' + empty + '"><span class="bc-att-slot">' + slotLabel + '</span><span class="bc-att-val">' + (val ? escapeHtml(val) : '— vazio —') + '</span></div>');
+        attRows.push('<div class="bc-att' + empty + '"><span class="bc-att-slot">' + slotLabel + '</span><span class="bc-att-val" data-glossary-skip>' + (val ? escapeHtml(val) : '— vazio —') + '</span></div>');
       }
 
       const updatedStr = build.updatedAt
@@ -24754,10 +24763,10 @@ const ATTACHMENT_ICONS = {
 
       return '<div class="build-card" data-id="' + build.id + '">' +
         '<div class="bc-head">' +
-          '<div class="bc-name">' + escapeHtml(build.name) + '</div>' +
-          '<div class="bc-class cls-' + baseClass + '">' + baseClass + '</div>' +
+          '<div class="bc-name" data-glossary-skip>' + escapeHtml(build.name) + '</div>' +
+          '<div class="bc-class cls-' + baseClass + '" data-glossary-skip>' + baseClass + '</div>' +
         '</div>' +
-        '<div class="bc-base">' + escapeHtml(baseName) + ' · <strong>' + lvlStr + '</strong></div>' +
+        '<div class="bc-base"><span data-glossary-skip>' + escapeHtml(baseName) + '</span> · <strong>' + lvlStr + '</strong></div>' +
 
         '<div class="bc-tabs" role="tablist">' +
           '<button class="bc-tab' + tabActive('loadout') + '" data-bc-tab="loadout" type="button" role="tab" aria-selected="' + tabSelected('loadout') + '">Loadout</button>' +
@@ -34422,7 +34431,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       for (let i = 0; i < build.slotCount; i++) {
         const v = build.attachments[i] || '';
         const empty = v ? '' : ' empty';
-        attRows.push('<div class="bip-att' + empty + '"><strong>' + SLOT_LBL[i] + ':</strong> ' + escapeHtmlConstructor(v || cbt('con.attach.empty')) + '</div>');
+        attRows.push('<div class="bip-att' + empty + '"><strong>' + SLOT_LBL[i] + ':</strong> <span data-glossary-skip>' + escapeHtmlConstructor(v || cbt('con.attach.empty')) + '</span></div>');
       }
 
       // Imagem da arma (Configurações ▸ Armas). Sem upload, placeholder limpo.
@@ -34436,11 +34445,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         '<div class="bip-head">' +
           imgHtml +
           '<div class="bip-head-text">' +
-            '<div class="bip-name">' + escapeHtmlConstructor(build.name) + '</div>' +
-            '<div class="bip-meta">' + build.slotCount + ' slots · ' + base.class + '</div>' +
+            '<div class="bip-name" data-glossary-skip>' + escapeHtmlConstructor(build.name) + '</div>' +
+            '<div class="bip-meta">' + build.slotCount + ' slots · <span data-glossary-skip>' + base.class + '</span></div>' +
           '</div>' +
         '</div>' +
-        '<div class="bip-base">' + escapeHtmlConstructor(base.name) + ' · <strong>' + lvlStr + '</strong></div>' +
+        '<div class="bip-base"><span data-glossary-skip>' + escapeHtmlConstructor(base.name) + '</span> · <strong>' + lvlStr + '</strong></div>' +
         '<div class="bip-attachs">' + attRows.join('') + '</div>';
     }
 
@@ -34459,10 +34468,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       panel.style.display = 'block';
       panel.innerHTML =
         '<div class="bip-head">' +
-          '<div class="bip-name">' + escapeHtmlConstructor(build.name) + '</div>' +
-          '<div class="bip-meta">' + (base ? base.class : '?') + ' · ' + build.slotCount + ' slots</div>' +
+          '<div class="bip-name" data-glossary-skip>' + escapeHtmlConstructor(build.name) + '</div>' +
+          '<div class="bip-meta"><span data-glossary-skip>' + (base ? base.class : '?') + '</span> · ' + build.slotCount + ' slots</div>' +
         '</div>' +
-        '<div class="bip-base">' + escapeHtmlConstructor(base ? base.name : cbt('bip.weaponDeleted')) + ' · <strong>' + lvlStr + '</strong></div>';
+        '<div class="bip-base"><span data-glossary-skip>' + escapeHtmlConstructor(base ? base.name : cbt('bip.weaponDeleted')) + '</span> · <strong>' + lvlStr + '</strong></div>';
     }
 
     async function populateBuildsDropdowns() {
@@ -39731,6 +39740,9 @@ ${cbt('share.t.footer')}`;
         let p = node.parentElement;
         while (p && p !== zoneEl) {
           if (p.hasAttribute && (p.hasAttribute('data-glossary-skip') || p.classList.contains('glossary-noxlate')))
+            return NodeFilter.FILTER_REJECT;
+          // já traduzido numa passagem anterior — não re-embrulhar (evita "Optic (Lente) (Lente)")
+          if (p.classList && p.classList.contains('glossary-xlated'))
             return NodeFilter.FILTER_REJECT;
           if (p.tagName === 'SCRIPT' || p.tagName === 'STYLE' || p.tagName === 'TEXTAREA' || p.isContentEditable)
             return NodeFilter.FILTER_REJECT;
