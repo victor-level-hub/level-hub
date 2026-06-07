@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 4 Jun 2026 — fecho do marco v2.9.0 + decidido QA estruturado como próximo passo (ver `PROMPT_PROXIMO_CHAT.md`)
+> **Última atualização:** 7 Jun 2026 — fecho do marco v2.12.0 (avaliação de armas: estrelas + Salvar + histórico). Próximo: tooltips bonitinhos + sync da Linguagem Técnica na nuvem.
 
 ---
 
@@ -13,7 +13,7 @@ Ao abrir um chat novo, anexar **sempre**:
 Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro.
 
 **Primeira mensagem sugerida pro próximo chat:**
-> "Anexei o index.html (v2.9.0) e o LEVEL_ESTADO.md. Próxima tarefa: [escolher do roadmap, secção 5]."
+> "Anexei o index.html (v2.12.0) e o LEVEL_ESTADO.md. Próxima tarefa: tooltips (?) bonitinhos + sync da Linguagem Técnica na nuvem (ver secção 5)."
 
 > ⚠️ **CRÍTICO** — ANTES de propor qualquer plano de backend OU de tocar no `index.html`:
 > 1. **Verifica que o arquivo anexado é a versão real do GitHub.** Roda `curl -sL https://raw.githubusercontent.com/victor-level-hub/level-hub/main/index.html | grep "LEVEL · <strong>v"` e compara com o footer do arquivo anexado. Se divergir, o anexo está atrasado — pede o arquivo certo. Aprendido na sessão da v2.8.0 (perdi tempo trabalhando em cima de v2.7.5 quando o real era v2.7.7).
@@ -55,8 +55,8 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.9.0` (SemVer desde v2.0.0)
-**Arquivo:** single-file `index.html` (~2.46 MB, ~38.954 linhas)
+**Versão:** `v2.12.0` (SemVer desde v2.0.0)
+**Arquivo:** single-file `index.html` (~2.81 MB, ~39.690 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
@@ -75,6 +75,9 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 - **v2.8.0** — **Admin UI de Dificuldades + sync de admin pelo BD + fix idioma.** Painel admin novo em Configurações ▸ Operador para curar `cat_struggles` (22 entradas reais: 11 dificuldades × PT/EN). Reconhecimento de admin passou a ler `hub_users.is_admin` do banco com fallback de cache (LS). Fix do bug do `languagechange` que deixava o catálogo preso no idioma do boot. Migration `hub_users_is_admin_flag` aplicada. Ver secção 5.B.
 - **v2.8.1** — **Sync admin↔user picker em tempo real.** Fecho do ciclo aberto na v2.8.0. Hook `syncUserCatalog()` no bloco `adminCrudStruggles` dispara `loadStrugglesCatalog` + `renderStruggles` depois de cada save/delete bem-sucedido, atualizando o picker do user em Evolução ▸ Dificuldades sem refresh do navegador. PATCH.
 - **v2.9.0** — **Codenames admin UI + Sugestor + fix visual.** Três entregas combinadas: (1) painel admin de `cat_codenames` no Operador (125+ codenames em 22 categorias), (2) botão "Sugerir codename" no modal Salvar Loadout com sorteador por categoria + anti-repetição, (3) fix do desalinhamento do modal Editar Status do Operador (label "Level atual" + grid 1fr×3 com `align-items: end`). Ver secção 5.C.
+- **v2.10.0** — **Captura lê mais dados + guia de fotos.** (1) Edge Function `analyze-capture` **v7**: schema da Vision ganhou `weapon_prestige`, `weapon_level`, `build_code` (formato BO7 `S07-XXXXX-XXXXX-XXXX`); prompt instruído a procurar os 3 sem adivinhar. (2) Card de aprovação (`buildApprovalCard`) exibe os 3 como chips (build code em laranja `--accent-orange`); renderização condicional (chip só aparece se a Vision leu). (3) Build code passa a preencher o Construtor (lógica do `preencherViaUI` já existia desde v75-95, faltava o dado vir da Edge). (4) Guia visual no modal do QR: 3 cards com fotos-exemplo reais (Loadouts/Gunsmith/Preview) em WebP embutido (~226 KB), zoom no hover, aviso de até 5 fotos. Ver secção 5.D.
+- **v2.11.0** — **Tradutor de termos técnicos + 3 fixes.** (1) Tabela `cat_glossary` no Supabase (estrutura multi-idioma chave→idioma→valor; 66 termos PT+EN da localização **oficial** Activision; RLS leitura pública + escrita service_role; 14 rows `needs_review` = 9 termos de mecânica fina × idiomas a confirmar no jogo). (2) Motor `window.LevelGlossary` + switch "Termos" (PT/EN) no header com tooltip; aplica "TERMO (tradução)" só em **zonas seguras** (`data-glossary-zone`: Vantagens, Controle, Dificuldades, Mapas, Progressão, Treino); nomes próprios protegidos. Preferência em `ui_prefs.tech_lang` (localStorage; sync na nuvem pendente). (3) **Fix da quebra de layout** (regressão da v2.10.0): entry v2.9.0 do histórico ficou sem `<div class="vh-entry">` mas com o `</div>` de fecho → órfão fechava `<main>` cedo e expulsava 5 seções. (4) Tooltips do BACKUP reescritos (deixam claro que é automático). (5) Fix do modal "Migrar imagens": chaves i18n faltavam no `CBI18N` (mostrava chave crua). Ver secção 5.E.
+- **v2.12.0** — **Avaliação de armas: estrelas + Salvar + histórico.** Reformulação da aba **Avalie** das armas (Meus Loadouts). (1) **Fix das estrelas amarelas**: o SVG `{{i:star}}` não tinha `fill` — CSS `.bc-star svg { fill/stroke: currentColor }` faz a estrela cheia pintar de verdade (vazia cinza, cheia laranja). (2) **Rascunho + botão Salvar**: clicar monta rascunho em memória (re-pinta na hora), só persiste no botão "Salvar avaliação" (que pulsa quando há mudança não salva). (3) **Histórico no Supabase**: nova tabela `hub_build_ratings` (1 row/avaliação salva: 5 dimensões + `rated_at`; RLS dono+service_role). Descoberta: `hub_builds` não tinha coluna de ratings, notas nunca sincronizavam → a tabela nova é a fonte da verdade. (4) **Data+hora completas**: "07/06" virou "07/06/2026 - 02:08", mesma cor, em rodapé próprio. Ver secção 5.F.
 
 ### Identidade visual (FECHADA no marco v2.6.x — não mexer)
 - **Logo LEVEL própria** em SVG embutido (viewBox 0 0 706 178): corpo **laranja `#FF9800`**, detalhes em **azul-claro `#AEC7E0`**, triângulo laranja no topo entre E e V, recorte triangular vazado no 2º E.
@@ -126,18 +129,21 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 
 > Estado descoberto em 4/Jun/2026: vários itens do roadmap antigo **já estavam parcial ou totalmente implementados** no back. O `LEVEL_ESTADO.md` anterior estava muito desatualizado nessa parte. Roadmap reescrito baseado no que **realmente** falta:
 
-### 🟦 PRIORIDADE MÁXIMA (próxima sessão)
+### 🟦 PRIORIDADE MÁXIMA (próxima sessão — DECIDIDO 7/Jun/2026)
 
-**0. QA estruturado pré-v3.0.0** — Victor pediu auditoria completa do que está funcionando vs faltando antes de empilhar mais features. Formato decidido em 4/Jun/2026:
-   - **11 docs Word (.docx)** — um por aba do Hub (Painel Hoje, Construtor, Meus Loadouts, Marketplace, Meus Armas, Evolução, Mapas, Vantagens & Séries, Treino de Mira, Configurações, Admin)
-   - **Para cada feature:** caminho na UI, passo-a-passo de teste numerado, comportamento esperado, espaço em branco grande para Victor colar prints como evidência, checkboxes de status (☐ OK / ☐ Falha / ☐ Parcial / ☐ Não testado), linha de observações
-   - **Cráudio só cataloga** — lê o `index.html`, identifica features por aba, gera os docs. Não testa, não muda código.
-   - Pode entregar em rounds (3-4 docs primeiro pra validar formato, depois o resto)
-   - Resultado vira input do roadmap pós-v3.0.0 — bugs identificados entram como PATCHes priorizados
-   - **Não bumpa versão do Hub** — só documentação
-   - Detalhes completos no `PROMPT_PROXIMO_CHAT.md` (gerado em 4/Jun)
+**0. Tooltips bonitinhos (?) + Sync da Linguagem Técnica na nuvem** — combinação escolhida pelo Victor. Dois itens que tocam a mesma área (config de UI no header):
+   - **Tooltips bonitinhos:** trocar os `title=""` nativos do navegador (balão branco feio, ver print 7/Jun) por um modal/popover estilizado no visual do Hub. Aplicar nos `?` de ajuda — começou no switch "Termos" (`.techlang-help`) mas vale para todos os tooltips de ajuda do Hub. Sem emoji, SVG inline, paleta do Hub.
+   - **Sync da Linguagem Técnica:** hoje `ui_prefs.tech_lang` salva só em localStorage. Construir o canal de sync de `hub_settings`/`ui_prefs` (que **não existe ainda** no Hub — nem push, nem pull, nem nas Edge `sync-push`/`sync-pull`). ⚠️ **É a feature de MAIOR RISCO** — mexe no mesmo canal que guarda arsenal/perfil/builds; um merge mal resolvido pode sobrescrever dado real entre dispositivos. Por isso foi isolada numa sessão dedicada. A coluna `ui_prefs` (jsonb) já existe em `hub_settings` (0 rows, nunca usada pelo front). Quando ligar, a preferência de Termos já gravada localmente sobe sem retrabalho.
 
-**1. Gráfico de progressão Prestige/Level (v3.0.0 MAJOR)** — Victor pediu em 4/Jun. Eixo Y = progressão, Eixo X = data/hora. Tabela `progression_snapshots` nova no Supabase (com `absolute_level` gerado como `prestige*55+level`), captura no `saveStatusFromModal` + snapshot diário automático, gráfico em ApexCharts (se Hub ainda não tiver chart lib) na aba Evolução ou Painel Hoje (decidir antes de codar). Linha monotônica + marcadores em mudanças de prestige (badge "P5→P6"). RLS policies criadas no mesmo passo (lição 8.E). Filtros 7d/30d/90d/Tudo. **Só começar depois do QA.**
+**1. QA estruturado pré-v3.0.0** — auditoria completa (11 docs .docx, um por aba). Detalhes no `PROMPT_PROXIMO_CHAT.md`. Não bumpa versão. Era a prioridade #1 antes da sequência captura/tradução.
+
+**2. Gráfico de progressão Prestige/Level (v3.0.0 MAJOR)** — Eixo Y = progressão, Eixo X = data/hora. Tabela `progression_snapshots` nova no Supabase (com `absolute_level` gerado como `prestige*55+level`), captura no `saveStatusFromModal` + snapshot diário automático, gráfico em ApexCharts. RLS policies no mesmo passo (lição 8.E). Filtros 7d/30d/90d/Tudo. **Só depois do QA.**
+
+### 🟨 Pendências do tradutor (v2.11.0 — abrir conforme necessidade)
+
+- **Confirmar 9 termos de mecânica fina** no `cat_glossary` (marcados `needs_review`): Flinch Resistance, ADS Speed, Sprint to Fire, Weapon Swap Speed, Recoil Gun Kick, Dexterity, Cold-Blooded, Assassin, Gung Ho. Victor vê no jogo PT-BR e passa o termo exato → UPDATE no banco.
+- **Expandir zonas seguras do tradutor** para Construtor e Meus Armas — precisam de proteção fina de nomes próprios do catálogo (`cat_weapons`/`cat_attachments`) antes de marcar `data-glossary-zone`, senão o varredor erra dentro de nomes de arma/attachment.
+- **Admin UI para `cat_glossary`** — hoje só dá pra editar via SQL. Seguir o padrão dos outros CRUDs admin (Mapas/Struggles/Codenames). Quando for fazer o autopreenchimento por IA (Edge Function com web search), é aqui que pluga o botão.
 
 ### 🟩 Pendências do roadmap original
 
@@ -160,9 +166,9 @@ A memória do `LEVEL_ESTADO.md` pode estar desatualizada por várias versões �
 ### Pendências menores (não-bloqueantes)
 - **Remover `local_id` da pipeline user-assets cloud** — `_getLocalIdSafe()` ainda é chamado em 5 lugares do bloco USER ASSETS CLOUD do front. A Edge já trabalha com `auth.uid` direto via JWT; `local_id` no body é só fallback de bootstrap legado. Limpeza sem urgência.
 - **8 nomes do Mid-Season S1** — scorestreaks `streak_s1m_1` … `streak_s1m_8` são placeholders. Substituir quando Victor mandar print da grid completa.
-- **`analyze-capture` v7** — schema com `build_code` (Gemini Vision não extrai hoje).
+- ~~**`analyze-capture` v7**~~ — **FECHADO na v2.10.0.** Schema agora extrai `weapon_prestige`, `weapon_level`, `build_code`. Deploy feito.
 - **Análise de Loadout completo** separada da análise de arma (hoje só analisa build de arma).
-- **Tradução `cat_attachments` PT-BR** (1102 rows, hoje em inglês do codmunity).
+- **Tradução `cat_attachments` PT-BR** (1102 rows) — parcialmente endereçado pela v2.11.0: o tradutor cobre os **descritores de categoria/slot** (Muzzle→Bocal, etc.) via `cat_glossary`, mas os **nomes próprios** dos 1102 attachments (REDWELL SHADE-X) continuam só em EN — e devem continuar (são nomes de fábrica, não se traduzem).
 - **Inconsistência no Painel Hoje:** o changelog "O QUE MUDOU NESTA VERSÃO" hardcoded no HTML está sempre 1-2 versões atrás dos chaves i18n. Considerar gerar do mesmo source, ou remover a duplicação.
 
 ---
@@ -292,9 +298,75 @@ Hoje o codename só é sugerido **ao salvar loadout**. Outros pontos onde caberi
 
 ---
 
-## 6. ESTADO DE DEPLOY (4/Jun/2026 — v2.9.0 entregue)
+## 5.D · Captura: dados extra + guia de fotos — v2.10.0
 
-- [x] `index.html` (v2.7.0→v2.7.7) commitado e no ar — feito até 3/Jun/2026
+**Edge `analyze-capture` v7** (`/mnt/project/analyze-capture-v6.ts` é a base; a v7 entregue tem 3 campos novos no `WEAPON_SCHEMA`):
+- `weapon_prestige` (string "P1"/"P2"), `weapon_level` (int), `build_code` (string `S07-XXXXX-XXXXX-XXXX`)
+- SYSTEM_PROMPT instrui a procurar os 3 sem adivinhar (só se claramente legível)
+- Resto (retry, `ana_gemini_usage`, post-process de slots) intacto. Deploy feito.
+
+**Front (`buildApprovalCard`):**
+- Linha de chips abaixo do header: `.ca-extracted` > `.ca-xtag` (PRESTIGE/LEVEL neutros, BUILD CODE laranja `.ca-xtag-code`)
+- Normalização de prestígio tolerante ("2"/"p2"/"P2" → "P2"); renderização condicional (sem chip = sem buraco)
+- `preencherViaUI` já lia `data.visionWeapon.build_code` desde v75-95 — agora dispara porque a Edge manda o campo
+
+**Guia de fotos (modal do QR, estado `mc-state-waiting`):**
+- `.mc-guide` com 3 cards (`crosshair`/`wrench`/`eye`): Loadouts, Gunsmith, Weapon Preview
+- Miniaturas WebP base64 embutidas (~226 KB total); `.mc-guide-zoom` amplia no hover (borda laranja)
+- Cabeçalho avisa "até 5 fotos, quanto mais melhor"
+
+---
+
+## 5.E · Tradutor de termos técnicos — v2.11.0
+
+**Tabela `cat_glossary` (Supabase, criada nesta sessão):**
+- Estrutura multi-idioma: `term_key | lang | value | category | is_proper_noun | needs_review | note | sort_order | active`
+- UNIQUE(term_key, lang). Adicionar idioma (es/it) = **inserir linhas**, não colunas.
+- 132 rows = 66 termos × PT+EN. Categorias: class, slot, stat, perk, wildcard, concept, specialty.
+- Chaves de perk **ancoradas nos IDs reais de `cat_perks`** (`perk.p_dexterity`); slots batem com `cat_attachments`.
+- Fonte: localização **oficial** Activision (callofduty.com/br/pt). RLS: `glossary_read_all` (SELECT público), `glossary_service_all` (service_role).
+- **14 rows `needs_review`** (9 conceitos × idiomas): os termos de mecânica fina sem fonte oficial PT-BR. Victor confirma no jogo → UPDATE.
+
+**Motor (`window.LevelGlossary`, perto do `LevelCodenames` no front):**
+- Carrega via REST/anon (só `active=true`). Monta índice do par origem(hubLang)→alvo(techLang).
+- `setTechLang`/`getTechLang`/`effectiveTechLang`/`isActive`/`reload`/`apply`. Persiste em `localStorage['bo7hub_ui_prefs_v1'].tech_lang` ('auto'|'pt'|'en'; 'auto' = igual ao Hub).
+- **Varredor com zonas seguras:** só age dentro de `[data-glossary-zone]`. Protege nomes próprios via `data-glossary-skip` e por estarem fora das zonas. Termos compostos casam antes dos curtos (regex ordenada por comprimento desc). MutationObserver traduz zonas async. Re-traduz no evento `languagechange`.
+- **6 zonas marcadas:** section-perks, section-controller, section-struggles, section-maps, section-progression, section-aimtraining. (Construtor/Meus Armas faltam — precisam proteção fina de nomes próprios.)
+- Boot: `DOMContentLoaded` + rede de segurança no `load` (zonas estáticas tardias).
+
+**Switch no header:** `.techlang-wrap` após o `.lang-toggle`; reusa classe `.lang-toggle` (bandeiras), rótulo "Termos", `.techlang-help` com `?` (ícone `help-circle` adicionado ao registry LUCIDE). `setTechLang()` global + `syncTechLangToggle()` marcam o botão ativo pelo idioma EFETIVO.
+
+**Pendente:** sync de `ui_prefs.tech_lang` na nuvem (próxima sessão, junto com tooltips bonitinhos) + tooltips estilizados no lugar dos `title` nativos.
+
+---
+
+## 5.F · Avaliação de armas: estrelas + Salvar + histórico — v2.12.0
+
+> Levantado em 7/Jun/2026 após Victor reportar 3 problemas no card AVALIE.
+
+**Tabela `hub_build_ratings` (Supabase, criada nesta sessão):**
+- `id | user_id | build_id | rate_of_fire | mobility | recoil | accuracy | range_rating | rated_at | created_at | server_updated_at`
+- 1 row = 1 avaliação salva (snapshot das 5 dimensões + quando). Permite curva de evolução futura.
+- Índice `(user_id, build_id, rated_at DESC)`. RLS: `hbr_select/insert/update/delete_own` (auth.uid=user_id) + `hbr_service_all`.
+- **Descoberta:** `hub_builds` NÃO tinha coluna de ratings — as notas só viviam em localStorage (`build.userRatings`), nunca chegavam ao banco. A nova tabela é a fonte da verdade.
+
+**Front (bloco de rating no módulo de loadouts):**
+- `RATING_KEYS` = rateOfFire/mobility/recoil/accuracy/rangeRating (labels Velocidade/Mobilidade/Recuo/Mira/Alcance).
+- **Fix estrelas:** CSS `.bc-star svg { fill: currentColor; stroke: currentColor }` — o `{{i:star}}` não tinha fill, então a cheia só ganhava contorno.
+- **Rascunho:** `_ratingDraft[buildId]` em memória; `setDraftStar` re-pinta a linha sem gravar; `getDraft` inicializa do `userRatings` salvo.
+- **Salvar:** `saveRating` grava `userRatings` local (via `LevelDB.builds.update`) + chama `cloudSaveRating` (best-effort) que faz POST em `/rest/v1/hub_build_ratings` com token via `window.LEVEL_AUTH.getClient().auth.getSession()`. Sem login: só local.
+- **Data:** `formatRatingDate` agora "DD/MM/YYYY - HH:MM"; rodapé `.bc-rating-footer` mostra a última salva + botão `.bc-rating-save-btn` (pulsa com `.dirty`).
+- Chave i18n `rating.toast.saved` no CBI18N (PT+EN).
+
+**Pendente:** UI pra VER o histórico (hoje grava mas não exibe a curva) — encaixa no gráfico de progressão (item 2 da secção 5).
+
+---
+
+## 6. ESTADO DE DEPLOY (7/Jun/2026 — v2.12.0 entregue)
+
+- [x] v2.10.0 (`index.html` + Edge `analyze-capture` v7) commitado e deployado — feito 6/Jun
+- [x] v2.11.0 (`index.html`) commitado — feito 7/Jun; tabela `cat_glossary` criada direto no Supabase
+- [x] v2.12.0 (`index.html`) — tabela `hub_build_ratings` criada no Supabase; commit do index pendente (Victor sobe)
 - [x] **8 RLS policies aplicadas** no Supabase (`storage.objects` + `public.user_assets`) — 4/Jun/2026, migration `user_assets_rls_policies`
 - [x] **Migration `hub_users_is_admin_flag`** aplicada no Supabase — adiciona `is_admin BOOLEAN DEFAULT false`, marca Victor como admin
 - [x] `index.html` (v2.8.0) commitado em 4/Jun/2026
