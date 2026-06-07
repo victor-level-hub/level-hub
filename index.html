@@ -2418,6 +2418,43 @@
     background: rgba(255,255,255,0.07);
   }
 
+  /* Switch de Linguagem Técnica (v2.11.0) — irmão do lang-toggle no header */
+  .techlang-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid var(--border);
+  }
+  .techlang-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .techlang-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: help;
+    opacity: 0.75;
+    transition: color 0.15s, opacity 0.15s;
+  }
+  .techlang-help:hover, .techlang-help:focus {
+    color: var(--accent-orange);
+    opacity: 1;
+    outline: none;
+  }
+  .techlang-help svg { width: 13px; height: 13px; }
+  /* Em telas estreitas o rótulo some pra economizar espaço; bandeiras e ajuda ficam */
+  @media (max-width: 720px) {
+    .techlang-label { display: none; }
+    .techlang-wrap { margin-left: 6px; padding-left: 6px; }
+  }
+
   /* ===== APP HEADER (sticky, above main content) ===== */
   .app-header {
     position: sticky;
@@ -10488,7 +10525,7 @@
         </div>
       </div>
       <!-- v75-68: sync status indicator (label v75-94) -->
-      <div class="header-sync-status" id="header-sync-status" data-state="never" title="Estado do backup na cloud">
+      <div class="header-sync-status" id="header-sync-status" data-state="never" title="Backup automático na nuvem — salva sozinho a cada alteração.">
         <span class="header-sync-prefix" data-i18n="hdr.sync.prefix">BACKUP</span>
         <span class="header-sync-dot" aria-hidden="true"></span>
         <span class="header-sync-label" id="header-sync-label">—</span>
@@ -10511,6 +10548,29 @@
             <path d="M30 0 V40 M0 20 H60" stroke="#C8102E" stroke-width="6"/>
           </svg>
         </button>
+      </div>
+      <div class="techlang-wrap">
+        <span class="techlang-label" data-i18n="hdr.techlang.label">Termos</span>
+        <span class="techlang-help" tabindex="0" role="button" aria-label="Sobre a linguagem dos termos técnicos" data-i18n-title="hdr.techlang.help" title="Idioma das traduções dos termos técnicos do jogo (classes, vantagens, acessórios, stats). Quando diferente do idioma do Hub, mostra a tradução entre parênteses ao lado do termo original. Igual ao Hub = sem tradução.">{{i:help-circle}}</span>
+        <div class="lang-toggle techlang-toggle" role="group" aria-label="Technical terms language toggle">
+          <button type="button" class="lang-opt" data-techlang="pt" onclick="setTechLang('pt')" aria-label="Termos em Português" title="Termos em Português (Brasil)">
+            <svg class="lang-flag" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="28" height="20" fill="#009C3B"/>
+              <path d="M14 2.8 L25.2 10 L14 17.2 L2.8 10 Z" fill="#FFDF00"/>
+              <circle cx="14" cy="10" r="4.2" fill="#002776"/>
+              <path d="M10.2 10.8 Q14 8.4 17.8 10.8" stroke="#FFFFFF" stroke-width="0.7" fill="none"/>
+            </svg>
+          </button>
+          <button type="button" class="lang-opt" data-techlang="en" onclick="setTechLang('en')" aria-label="Terms in English" title="Termos em English (UK)">
+            <svg class="lang-flag" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="60" height="40" fill="#012169"/>
+              <path d="M0 0 L60 40 M60 0 L0 40" stroke="#FFFFFF" stroke-width="8"/>
+              <path d="M0 0 L60 40 M60 0 L0 40" stroke="#C8102E" stroke-width="3"/>
+              <path d="M30 0 V40 M0 20 H60" stroke="#FFFFFF" stroke-width="10"/>
+              <path d="M30 0 V40 M0 20 H60" stroke="#C8102E" stroke-width="6"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -10591,12 +10651,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.10.0 · <span data-i18n="briefing.changelog.date">6 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.11.0 · <span data-i18n="briefing.changelog.date">6 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura: lê Prestige/Level/Build Code + guia de fotos</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Duas melhorias na captura por câmera. <strong>(1)</strong> A tela de aprovação passa a mostrar três dados que a IA antes ignorava: <strong>Prestígio</strong> da arma, <strong>Level</strong> atual e <strong>Build Code</strong> do jogo (formato <code>S07-XXXXX-XXXXX-XXXX</code>), lidos direto do print ao lado do nome da arma — só aparecem quando estão visíveis na imagem. <strong>(2)</strong> O modal do QR agora traz um <strong>guia visual de quais telas fotografar</strong>, com três exemplos reais (Loadouts, Gunsmith e Weapon Preview): passa o rato por cima de cada exemplo para ampliar. O guia também lembra que dá pra enviar até 5 fotos — quanto mais ângulos, melhor a leitura. A leitura dos campos novos foi adicionada à IA de visão (analyze-capture v7), que requer deploy no Supabase.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Tradutor de termos técnicos do jogo</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Novo seletor <strong>Termos</strong> no canto superior direito, ao lado do idioma. Ele controla o idioma das traduções dos termos técnicos do jogo — classes, vantagens, acessórios, stats. Se escolheres um idioma diferente do Hub, cada termo passa a mostrar a tradução entre parênteses ao lado do original: por exemplo, com o Hub em inglês e os Termos em português, aparece <em>Assault Rifle (Fuzil de Assalto)</em> e <em>Flinch Resistance (Resistência a Flinch)</em>. As traduções vêm da localização oficial do jogo e ficam guardadas numa base de dados curada. Os nomes próprios de armas e acessórios (REDWELL SHADE-X, DIVEEDGE-7) ficam intactos — só os termos genéricos são traduzidos. Passa o rato pelo <strong>?</strong> ao lado de "Termos" para a explicação. <br><br>Também: corrigida uma quebra de layout que afetava cinco abas (Mapas, Vantagens, Dificuldades, Progressão, Configurações) e melhorado o texto do indicador <strong>BACKUP</strong> para deixar claro que a sincronização é automática.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -10709,7 +10769,7 @@
     <!-- =================================================================== -->
     <!-- SECTION 1: CONTROLLER -->
     <!-- =================================================================== -->
-    <section class="section" id="section-controller">
+    <section class="section" id="section-controller" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.controller.crumb">01 / Controller</div>
         <h2 data-i18n="sec.controller.h2">CONTROLLER CONFIG</h2>
@@ -12530,7 +12590,7 @@
     <!-- =================================================================== -->
     <!-- SECTION: AIM TRAINING (v75.02) -->
     <!-- =================================================================== -->
-    <section class="section" id="section-aimtraining">
+    <section class="section" id="section-aimtraining" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.aimtraining.crumb">T / Aim Training</div>
         <h2 data-i18n="sec.aimtraining.h2">AIM TRAINING · AIMLABS</h2>
@@ -13871,6 +13931,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.11.0</span>
+                <span class="vh-date">6 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Tradutor de termos técnicos do jogo + correção de uma quebra de layout herdada.<br><br><strong>1. Base de dados de glossário (Supabase).</strong> Nova tabela <code>cat_glossary</code> com estrutura multi-idioma (chave→idioma→valor — adicionar um idioma é inserir linhas, não colunas). Populada com 66 termos em PT+EN da localização <strong>oficial</strong> da Activision (classes, slots de acessório, stats, vantagens, curingas, conceitos, especialidades), ancorados nos IDs reais de <code>cat_perks</code> e nos slots reais de <code>cat_attachments</code>. RLS com leitura pública e escrita só service_role. 9 termos de mecânica fina (Flinch Resistance, ADS Speed, etc.) marcados <code>needs_review</code> para confirmação no jogo PT-BR.<br><br><strong>2. Motor de tradução (front).</strong> Módulo <code>window.LevelGlossary</code> carrega o glossário (anon), monta o índice do par origem→alvo e aplica "TERMO (tradução)" — mas <strong>só dentro de zonas seguras</strong> marcadas com <code>data-glossary-zone</code> (Vantagens, Controle, Dificuldades, Mapas, Progressão, Treino de Mira). Nomes próprios ficam protegidos por <code>data-glossary-skip</code> e pela própria contenção em zonas. Termos compostos casam antes dos curtos; um MutationObserver traduz zonas que renderizam depois (cards async). Re-traduz ao trocar o idioma do Hub.<br><br><strong>3. Switch de Linguagem Técnica no header.</strong> Ao lado do seletor de idioma, um switch de bandeiras (PT/EN) com rótulo "Termos" e ícone de ajuda <code>?</code> com tooltip. Quando o idioma técnico é igual ao do Hub, nada é traduzido (sem parênteses). Preferência salva em <code>ui_prefs.tech_lang</code> no localStorage (o canal de sync na nuvem virá em sessão dedicada). Adicionado o ícone <code>help-circle</code> ao registry Lucide.<br><br><strong>4. Fix da quebra de layout (regressão da v2.10.0).</strong> A entrada da v2.9.0 no Histórico de Versões tinha ficado malformada — sem a abertura <code>&lt;div class="vh-entry"&gt;</code> mas com o <code>&lt;/div&gt;</code> de fecho — o que orphanava um <code>&lt;/div&gt;</code> e fechava o <code>&lt;main&gt;</code> prematuramente, expulsando 5 seções (Mapas, Vantagens, Dificuldades, Progressão, Configurações) para fora do <code>&lt;main&gt;</code> e quebrando o enquadramento dessas abas. Estrutura restaurada; validado com parser HTML5 (13 seções dentro do main, zero orphans).<br><br><strong>5. Indicador BACKUP mais claro.</strong> Os tooltips do indicador de sincronização foram reescritos (PT+EN) para deixar explícito que o backup na nuvem é <strong>automático a cada alteração</strong> — antes davam a entender que era preciso uma ação manual em Configurações.<br><br><strong>6. Fix do modal "Migrar imagens pra cloud".</strong> O modal mostrava as chaves cruas (<code>SET.CONFIRM.MIGRATE.TITLE</code>, etc.) em vez do texto. Causa: o modal usa <code>cbt()</code>, que lê do dicionário <code>CBI18N</code> do Construtor, mas as chaves só existiam no <code>I18N</code> geral — então <code>cbt()</code> devolvia a própria chave e o fallback <code>||</code> não disparava (string não-vazia). Chaves adicionadas ao <code>CBI18N</code> (PT+EN) com a interpolação <code>{0}</code> que o <code>cbt()</code> usa.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.10.0</span>
                 <span class="vh-date">6 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -13878,6 +13947,12 @@
               <p class="vh-desc">A captura por câmera ganha duas melhorias: extração de três dados que antes eram ignorados (<strong>Prestígio da arma</strong>, <strong>Level atual</strong> e <strong>Build Code do jogo</strong>) e um <strong>guia visual de quais telas fotografar</strong>.<br><br><strong>1. IA de visão (analyze-capture v7).</strong> O schema fechado do Gemini Vision ganhou três campos novos: <code>weapon_prestige</code> (formato "P1"/"P2", lido junto ao nome/barra da arma), <code>weapon_level</code> (inteiro, lido da barra de progressão como "X / Y" — captura só o X) e <code>build_code</code> (formato BO7 <code>S07-XXXXX-XXXXX-XXXX</code>, presente em telas de build partilhada). O system prompt foi reescrito para procurar ativamente esses 3 campos, com instrução explícita de <em>nunca adivinhar</em> — só preenche o que está claramente legível. Resto da função (retry, instrumentação em <code>ana_gemini_usage</code>, pós-processamento de slots) intacto. Requer deploy da Edge Function no Supabase.<br><br><strong>2. Card de aprovação (front).</strong> O <code>buildApprovalCard</code> ganhou uma linha de chips abaixo do cabeçalho que mostra PRESTIGE, LEVEL e BUILD CODE quando vierem do <code>vision_result</code>. Normalização tolerante do prestígio ("2", "p2", "P2" → "P2"). Build Code destacado em laranja da marca (<code>--accent-orange</code>), os outros dois em neutro. Renderização condicional total: se a Vision não extraiu nenhum dos três, o bloco não aparece; se extraiu só parte, mostra só os chips disponíveis — sem buracos no layout.<br><br><strong>3. Build Code agora chega de fato ao Construtor.</strong> O <code>preencherViaUI</code> já tinha desde a v75-95 a lógica de ler <code>data.visionWeapon.build_code</code> e preencher o campo do Construtor — mas a Edge v6 nunca enviava esse campo, então a lógica nunca disparava. Com a v7 mandando <code>build_code</code>, o código de partilha passa a preencher automaticamente o campo BUILD CODE ao abrir uma captura no Construtor.<br><br><strong>4. Guia visual de fotos no modal do QR.</strong> Abaixo do QR code, o modal <em>Capturar via Celular</em> passou a exibir um guia de três cards com exemplos reais das telas que mais ajudam a leitura: <strong>(a)</strong> Tela de Loadouts (nome + classe + nível da arma), <strong>(b)</strong> Gunsmith completa (Build Code + 9 slots — a foto que mais informação entrega), <strong>(c)</strong> Weapon Preview (nomes completos dos acessórios, complementa a Gunsmith quando há texto cortado). Cada card tem uma miniatura que <strong>amplia ao passar o rato por cima</strong> (zoom sobreposto com borda laranja), e o cabeçalho lembra que dá pra enviar até 5 fotos — quanto mais ângulos, melhor. As imagens-exemplo são WebP otimizado embutido no próprio arquivo (~226 KB no total), mantendo o Hub single-file sem dependências externas.<br><br>i18n PT+EN dos chips (labels PRESTIGE/LEVEL/BUILD CODE) e do guia. Sem mudança de schema no banco.</p>
             </div>
 
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.9.0</span>
+                <span class="vh-date">4 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
               <p class="vh-desc">Três entregas combinadas: catálogo de codenames totalmente plugado no Hub e fix visual pequeno mas chato.<br><br><strong>1. Painel ADMIN · Codenames</strong> em Configurações &middot; Operador (.opp-admin-only). UI segue o padrão consolidado de Mapas/Armas/Builds/Dificuldades: lista filtrável (por categoria desta vez, não por idioma — codenames são bilíngues por natureza, vivendo em qualquer das 7 línguas que o schema aceita: pt/en/es/it/lat/ja/grego), modal de criar e editar com 10 campos (id, nome, categoria com 22 opções, idioma, vibe como texto livre, sort order, ativo, descrição livre, source, tags), apagar global por id (PK simples, sem versão por idioma como cat_struggles). Chama a Edge Function <code>admin-cat-codenames</code> v2 (já estava ACTIVE desde 22/Mai mas sem UI no front). Catálogo real do banco tem 125+ entradas curadas em 22 categorias (Mitologia Grega/Nórdica/Egípcia/Mesoamericana/Hindu/Japonesa/Suméria, Cinema Vilões/Heróis, Horror, Anime, Games, Literatura sombria, Violência em 3 línguas, Astronomia, Ops militares, Forças da natureza, Cyberpunk, Precisão, Callsigns militares).<br><br><strong>2. Botão <em>Sugerir codename</em></strong> no modal <strong>Salvar Loadout</strong>, ao lado do campo "Nome do loadout". Abre um modal de sorteador: escolhe categoria (ou Aleatório de todas), clica <em>Sortear codename</em>, e o resultado aparece num cartão com nome (em destaque), vibe ("ataque cirúrgico", "fúria divina", etc) e meta (categoria + idioma se não-PT). Botão <em>Usar este</em> aplica o nome ao campo do loadout — e preserva inteligentemente o que estiver depois da "/" se tu já tiveres digitado algo tipo " / Rusher Hardpoint". Anti-repetição: se sortear de novo na mesma categoria, evita repetir o último resultado. Catálogo público carregado via REST/anon (só ativos), exposto em <code>window.LevelCodenames</code> para o admin invocar <code>reload()</code> quando muda algo no painel.<br><br><strong>3. Fix do desalinhamento</strong> do modal <em>Editar Status do Operador</em> reportado em uso real. O label "Level (no prestige atual)" quebrava em 2 linhas e empurrava o input do Level para baixo, desalinhando-o com Prestige e Plataforma. Solução: encurtar label para "Level atual (1-55)" — mantém a info essencial mas cabe na largura disponível — e adicionar <code>align-items: end</code> no grid <code>1fr 1fr 1fr</code> para garantir alinhamento robusto se algum label crescer no futuro. Grid também passou de <code>1fr 1fr 1.2fr</code> para <code>1fr 1fr 1fr</code> (igual em três colunas).</p>
             </div>
 
@@ -14235,7 +14310,7 @@
     <!-- =================================================================== -->
     <!-- SECTION: MAPAS (BO7 Multiplayer) -->
     <!-- =================================================================== -->
-    <section class="section" id="section-maps">
+    <section class="section" id="section-maps" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.maps.crumb">M / Mapas Multiplayer</div>
         <h2 data-i18n="sec.maps.h2">MAPAS DO MULTIPLAYER</h2>
@@ -14257,7 +14332,7 @@
     <!-- =================================================================== -->
     <!-- SECTION 3: PERKS & STREAKS -->
     <!-- =================================================================== -->
-    <section class="section" id="section-perks">
+    <section class="section" id="section-perks" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.perks.crumb">03 / Perks &amp; Streaks</div>
         <h2 data-i18n="sec.perks.h2">PERKS &amp; SCORESTREAKS</h2>
@@ -14592,7 +14667,7 @@
     <!-- =================================================================== -->
     <!-- SECTION 5: PROGRESSION -->
     <!-- =================================================================== -->
-        <section class="section" id="section-struggles">
+        <section class="section" id="section-struggles" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.struggles.crumb">07 / Evolução · Dificuldades</div>
         <h2 data-i18n="sec.struggles.h2">EVOLUÇÃO · DIFICULDADES</h2>
@@ -14612,7 +14687,7 @@
       </div>
     </section>
 
-    <section class="section" id="section-progression">
+    <section class="section" id="section-progression" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.progression.crumb">05 / Progression</div>
         <h2 data-i18n="sec.progression.h2">PROGRESSION ROADMAP</h2>
@@ -15526,7 +15601,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.10.0</strong><span class="ver-tag">Captura: lê Prestige/Level/Build Code do print + guia visual de quais telas fotografar</span>
+        LEVEL · <strong>v2.11.0</strong><span class="ver-tag">Tradutor de termos técnicos (PT/EN) no header + fix da quebra de layout em 5 abas</span>
       </div>
       <script>
         (function(){
@@ -16846,6 +16921,9 @@ window.I18N = {
     'mkt.badge.mine':          'MINHA',
     // — Header sync status (v75-68) —
     'hdr.sync.prefix':         'BACKUP',
+    'hdr.sync.help':           'Backup automático na nuvem. O teu arsenal, perfil e configurações são salvos no servidor a cada alteração — sem precisares fazer nada. Este indicador só mostra o estado: a verde quando tudo está guardado, a girar enquanto salva. Ao entrares noutro dispositivo, o estado é puxado de volta.',
+    'hdr.techlang.label':      'Termos',
+    'hdr.techlang.help':       'Idioma das traduções dos termos técnicos do jogo (classes, vantagens, acessórios, stats). Quando diferente do idioma do Hub, mostra a tradução entre parênteses ao lado do termo original. Igual ao Hub = sem tradução.',
     'hdr.sync.never':          'Nunca',
     'hdr.sync.synced':         'Sincronizado',
     'hdr.sync.syncing':        'Sincronizando...',
@@ -16853,10 +16931,10 @@ window.I18N = {
     'hdr.sync.minAgo':         'Há {n}min',
     'hdr.sync.hAgo':           'Há {n}h',
     'hdr.sync.dAgo':           'Há {n}d',
-    'hdr.sync.tip.never':      'Nunca fizeste backup. Vai em Configurações ▸ Operador ▸ Backup na cloud.',
-    'hdr.sync.tip.fresh':      'Último backup: {age}',
-    'hdr.sync.tip.stale':      'Backup antigo. Recomenda-se sincronizar de novo em Configurações ▸ Operador.',
-    'hdr.sync.tip.syncing':    'A enviar dados para a cloud agora.',
+    'hdr.sync.tip.never':      'Ainda sem backup. Assim que entrares na tua conta, o arsenal, perfil e configurações passam a ser guardados na nuvem automaticamente a cada alteração.',
+    'hdr.sync.tip.fresh':      'Tudo guardado na nuvem. Último backup automático: {age}.',
+    'hdr.sync.tip.stale':      'Último backup há {age}. O backup é automático a cada alteração — se demorou, é porque nada mudou desde então.',
+    'hdr.sync.tip.syncing':    'A guardar as tuas alterações na nuvem agora. Backup é automático — não precisas fazer nada.',
     'nav.myloadouts.desc':    'Salvos · avaliações · partilhar',
     'nav.maps.label':         'Mapas',
     'nav.maps.desc':          'Arma certa por mapa MP',
@@ -16905,8 +16983,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '6 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Captura: lê Prestige/Level/Build Code + guia de fotos',
-    'briefing.changelog.summary':  'Duas melhorias na captura por câmera. <strong>(1)</strong> A tela de aprovação passa a mostrar três dados que a IA antes ignorava: <strong>Prestígio</strong> da arma, <strong>Level</strong> atual e <strong>Build Code</strong> do jogo (formato <code>S07-XXXXX-XXXXX-XXXX</code>), lidos direto do print ao lado do nome da arma &mdash; só aparecem quando estão visíveis na imagem. <strong>(2)</strong> O modal do QR agora traz um <strong>guia visual de quais telas fotografar</strong>, com três exemplos reais (Loadouts, Gunsmith e Weapon Preview): passa o rato por cima de cada exemplo para ampliar. O guia também lembra que dá pra enviar até 5 fotos &mdash; quanto mais ângulos, melhor a leitura. A leitura dos campos novos foi adicionada à IA de visão (analyze-capture v7), que requer deploy no Supabase.',
+    'briefing.changelog.headline': 'Tradutor de termos técnicos do jogo',
+    'briefing.changelog.summary':  'Novo seletor <strong>Termos</strong> no canto superior direito, ao lado do idioma. Ele controla o idioma das traduções dos termos técnicos do jogo — classes, vantagens, acessórios, stats. Se escolheres um idioma diferente do Hub, cada termo passa a mostrar a tradução entre parênteses ao lado do original: por exemplo, com o Hub em inglês e os Termos em português, aparece <em>Assault Rifle (Fuzil de Assalto)</em> e <em>Flinch Resistance (Resistência a Flinch)</em>. As traduções vêm da localização oficial do jogo e ficam guardadas numa base de dados curada. Os nomes próprios de armas e acessórios (REDWELL SHADE-X, DIVEEDGE-7) ficam intactos &mdash; só os termos genéricos são traduzidos. Passa o rato pelo <strong>?</strong> ao lado de "Termos" para a explicação.<br><br>Também: corrigida uma quebra de layout que afetava cinco abas (Mapas, Vantagens, Dificuldades, Progressão, Configurações) e melhorado o texto do indicador <strong>BACKUP</strong> para deixar claro que a sincronização é automática.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18137,6 +18215,9 @@ window.I18N = {
     'mkt.badge.mine':          'MINE',
     // — Header sync status (v75-68) —
     'hdr.sync.prefix':         'BACKUP',
+    'hdr.sync.help':           'Automatic cloud backup. Your arsenal, profile and settings are saved to the server on every change — nothing for you to do. This indicator only shows the state: green when everything is saved, spinning while saving. When you sign in on another device, the state is pulled back.',
+    'hdr.techlang.label':      'Terms',
+    'hdr.techlang.help':       'Language of the game technical-term translations (classes, perks, attachments, stats). When different from the Hub language, it shows the translation in parentheses next to the original term. Same as Hub = no translation.',
     'hdr.sync.never':          'Never',
     'hdr.sync.synced':         'Synced',
     'hdr.sync.syncing':        'Syncing...',
@@ -18144,10 +18225,10 @@ window.I18N = {
     'hdr.sync.minAgo':         '{n}min ago',
     'hdr.sync.hAgo':           '{n}h ago',
     'hdr.sync.dAgo':           '{n}d ago',
-    'hdr.sync.tip.never':      'No backup yet. Go to Settings ▸ Operator ▸ Cloud backup.',
-    'hdr.sync.tip.fresh':      'Last backup: {age}',
-    'hdr.sync.tip.stale':      'Old backup. Recommended to sync again in Settings ▸ Operator.',
-    'hdr.sync.tip.syncing':    'Sending data to cloud now.',
+    'hdr.sync.tip.never':      'No backup yet. Once you sign in, your arsenal, profile and settings are saved to the cloud automatically on every change.',
+    'hdr.sync.tip.fresh':      'Everything saved to the cloud. Last automatic backup: {age}.',
+    'hdr.sync.tip.stale':      'Last backup {age} ago. Backup is automatic on every change — if it has been a while, nothing has changed since then.',
+    'hdr.sync.tip.syncing':    'Saving your changes to the cloud now. Backup is automatic — nothing for you to do.',
     'sec.maps.crumb':         'M / Multiplayer Maps',
     'sec.maps.h2':            'MULTIPLAYER MAPS',
     'sec.maps.intro':         'Which weapon from your catalog performs best on each BO7 map. Recommendations tuned to your aggressive rusher playstyle (CQB — close-quarters combat).',
@@ -18192,8 +18273,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 6, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Capture: reads Prestige/Level/Build Code + photo guide',
-    'briefing.changelog.summary':  'Two improvements to camera capture. <strong>(1)</strong> The approval screen now shows three things the AI used to ignore: weapon <strong>Prestige</strong>, current <strong>Level</strong> and the in-game <strong>Build Code</strong> (format <code>S07-XXXXX-XXXXX-XXXX</code>), read straight from the screenshot next to the weapon name &mdash; they only appear when visible in the image. <strong>(2)</strong> The QR modal now includes a <strong>visual guide of which screens to photograph</strong>, with three real examples (Loadouts, Gunsmith and Weapon Preview): hover over each example to zoom in. The guide also reminds you that you can send up to 5 photos &mdash; the more angles, the better the read. Reading the new fields was added to the vision AI (analyze-capture v7), which requires a deploy on Supabase.',
+    'briefing.changelog.headline': 'Game technical-term translator',
+    'briefing.changelog.summary':  'New <strong>Terms</strong> selector at the top right, next to the language toggle. It controls the language of the game technical-term translations — classes, perks, attachments, stats. If you pick a language different from the Hub, each term shows the translation in parentheses next to the original: for example, with the Hub in English and Terms in Portuguese, you get <em>Assault Rifle (Fuzil de Assalto)</em> and <em>Flinch Resistance (Resistência a Flinch)</em>. Translations come from the official game localization and are stored in a curated database. Proper names of weapons and attachments (REDWELL SHADE-X, DIVEEDGE-7) stay intact &mdash; only generic terms are translated. Hover the <strong>?</strong> next to "Terms" for the explanation.<br><br>Also: fixed a layout break affecting five tabs (Maps, Perks, Struggles, Progression, Settings) and improved the <strong>BACKUP</strong> indicator text to make clear that syncing is automatic.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -19342,7 +19423,43 @@ window.setLanguage = function(lang) {
   window.applyI18N(lang);
   // Hook for downstream modules (e.g. dynamic content rerender) — Phase B+
   window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang } }));
+  // Re-sincroniza marcação do switch técnico (o efetivo pode mudar se estiver em 'auto')
+  try { window.syncTechLangToggle && window.syncTechLangToggle(); } catch (e) {}
 };
+
+// ── Linguagem Técnica (v2.11.0) — idioma das traduções dos termos do jogo ──
+// Delega ao módulo LevelGlossary (que persiste em ui_prefs e re-traduz as zonas).
+window.setTechLang = function(lang) {
+  if (lang !== 'pt' && lang !== 'en') return;
+  if (window.LevelGlossary && typeof window.LevelGlossary.setTechLang === 'function') {
+    window.LevelGlossary.setTechLang(lang);
+  } else {
+    // Módulo ainda não carregou: persiste direto pra não perder a escolha
+    try {
+      const p = JSON.parse(localStorage.getItem('bo7hub_ui_prefs_v1') || '{}');
+      p.tech_lang = lang;
+      localStorage.setItem('bo7hub_ui_prefs_v1', JSON.stringify(p));
+    } catch (e) {}
+  }
+  window.syncTechLangToggle();
+};
+
+// Marca o botão ativo do switch técnico conforme o idioma EFETIVO dos termos.
+window.syncTechLangToggle = function() {
+  let eff = 'pt';
+  try {
+    eff = (window.LevelGlossary && window.LevelGlossary.effectiveTechLang)
+      ? window.LevelGlossary.effectiveTechLang()
+      : (JSON.parse(localStorage.getItem('bo7hub_ui_prefs_v1')||'{}').tech_lang
+         || (localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'));
+  } catch (e) {}
+  document.querySelectorAll('.techlang-toggle .lang-opt').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-techlang') === eff);
+  });
+};
+document.addEventListener('DOMContentLoaded', function () {
+  setTimeout(function () { try { window.syncTechLangToggle(); } catch (e) {} }, 300);
+});
 
 (function initI18N() {
   let saved = 'pt';
@@ -27723,7 +27840,7 @@ const ATTACHMENT_ICONS = {
         if (_isSyncing) {
           root.setAttribute('data-state', 'syncing');
           label.textContent = mt('hdr.sync.syncing', 'Sincronizando...');
-          root.title = mt('hdr.sync.tip.syncing', 'A enviar dados para a cloud agora.');
+          root.title = mt('hdr.sync.tip.syncing', 'A guardar as tuas alterações na nuvem agora. Backup é automático — não precisas fazer nada.');
           return;
         }
 
@@ -27731,7 +27848,7 @@ const ATTACHMENT_ICONS = {
         if (!iso) {
           root.setAttribute('data-state', 'never');
           label.textContent = mt('hdr.sync.never', 'Nunca');
-          root.title = mt('hdr.sync.tip.never', 'Nunca fizeste backup. Vai em Configurações ▸ Operador ▸ Backup na cloud.');
+          root.title = mt('hdr.sync.tip.never', 'Ainda sem backup. Assim que entrares na tua conta, o arsenal, perfil e configurações passam a ser guardados na nuvem automaticamente a cada alteração.');
           return;
         }
 
@@ -27739,11 +27856,11 @@ const ATTACHMENT_ICONS = {
         if (diff < 3_600_000) {
           root.setAttribute('data-state', 'fresh');
           label.textContent = mt('hdr.sync.synced', 'Sincronizado');
-          root.title = mt('hdr.sync.tip.fresh', 'Último backup: {age}').replace('{age}', formatAge(diff));
+          root.title = mt('hdr.sync.tip.fresh', 'Tudo guardado na nuvem. Último backup automático: {age}.').replace('{age}', formatAge(diff));
         } else {
           root.setAttribute('data-state', 'stale');
           label.textContent = formatAge(diff);
-          root.title = mt('hdr.sync.tip.stale', 'Backup antigo. Recomenda-se sincronizar de novo em Configurações ▸ Operador.');
+          root.title = mt('hdr.sync.tip.stale', 'Último backup há {age}. O backup é automático a cada alteração — se demorou, pode ser que não tenhas mudado nada desde então.').replace('{age}', formatAge(diff));
         }
       }
 
@@ -32720,9 +32837,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           return;
         }
         const ok = await LevelModal.confirm({
-          title: cbt('set.confirm.migrate.title') || 'Migrar imagens pra cloud',
-          message: (cbt('set.confirm.migrate.msg') || 'Vou enviar {n} imagens locais pro Supabase. Continuar?').replace('{n}', ids.length),
-          confirmText: cbt('set.confirm.migrate.btn') || 'Migrar'
+          title: cbt('set.confirm.migrate.title'),
+          message: cbt('set.confirm.migrate.msg', ids.length),
+          confirmText: cbt('set.confirm.migrate.btn')
         });
         if (!ok) return;
 
@@ -32907,6 +33024,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.group.constructor': 'Construtor', 'set.group.armament': 'Armamento', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Mapas', 'set.group.perks_streaks': 'Vantagens & Séries', 'set.group.tools': 'Ferramentas', 'set.group.operator': 'Operador', 'set.tab.avatar': 'Avatar',
         'set.confirm.clear': 'Apagar TODAS as imagens salvas? Não dá pra recuperar.',
         'set.confirm.remove': 'Remover imagem de "{0}"?',
+        'set.confirm.migrate.title': 'Migrar imagens pra cloud',
+        'set.confirm.migrate.msg': 'Vou enviar {0} imagens locais pro Supabase. Continuar?',
+        'set.confirm.migrate.btn': 'Migrar pra cloud',
         'set.toast.saved': '{{i:check}} Imagem salva', 'set.toast.removed': '{{i:check}} Imagem removida',
         'set.toast.cleared': '{{i:check}} Todas as imagens apagadas',
         'set.toast.exported': '{{i:check}} Backup exportado',
@@ -33057,6 +33177,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.group.constructor': 'Constructor', 'set.group.armament': 'Armament', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Maps', 'set.group.perks_streaks': 'Perks & Streaks', 'set.group.tools': 'Tools', 'set.group.operator': 'Operator', 'set.tab.avatar': 'Avatar',
         'set.confirm.clear': 'Delete ALL saved images? This cannot be undone.',
         'set.confirm.remove': 'Remove image of "{0}"?',
+        'set.confirm.migrate.title': 'Migrate images to cloud',
+        'set.confirm.migrate.msg': 'I will upload {0} local images to Supabase. Continue?',
+        'set.confirm.migrate.btn': 'Migrate to cloud',
         'set.toast.saved': '{{i:check}} Image saved', 'set.toast.removed': '{{i:check}} Image removed',
         'set.toast.cleared': '{{i:check}} All images deleted',
         'set.toast.exported': '{{i:check}} Backup exported',
@@ -35799,7 +35922,7 @@ ${cbt('share.t.footer')}`;
 <script>
 (function () {
   'use strict';
-  var LUCIDE = {"zap": "<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\"/>", "crosshair": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"22\" x2=\"18\" y1=\"12\" y2=\"12\"/><line x1=\"6\" x2=\"2\" y1=\"12\" y2=\"12\"/><line x1=\"12\" x2=\"12\" y1=\"6\" y2=\"2\"/><line x1=\"12\" x2=\"12\" y1=\"22\" y2=\"18\"/>", "gem": "<path d=\"M6 3h12l4 6-10 13L2 9Z\"/><path d=\"M11 3 8 9l4 13 4-13-3-6\"/><path d=\"M2 9h20\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/>", "user": "<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>", "shield-half": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"M12 22V2\"/>", "bomb": "<circle cx=\"11\" cy=\"13\" r=\"9\"/><path d=\"M14.35 4.65 16.3 2.7a2.41 2.41 0 0 1 3.4 0l1.6 1.6a2.4 2.4 0 0 1 0 3.4l-1.95 1.95\"/><path d=\"m22 2-1.5 1.5\"/>", "radar": "<path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"/><path d=\"M4 6h.01\"/><path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"/><path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"/><path d=\"M12 18h.01\"/><path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"m13.41 10.59 5.66-5.66\"/>", "shield": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/>", "flame": "<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\"/>", "rocket": "<path d=\"M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z\"/><path d=\"m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z\"/><path d=\"M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0\"/><path d=\"M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5\"/>", "ghost": "<path d=\"M9 10h.01\"/><path d=\"M15 10h.01\"/><path d=\"M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z\"/>", "swords": "<polyline points=\"14.5 17.5 3 6 3 3 6 3 17.5 14.5\"/><line x1=\"13\" x2=\"19\" y1=\"19\" y2=\"13\"/><line x1=\"16\" x2=\"20\" y1=\"16\" y2=\"20\"/><line x1=\"19\" x2=\"21\" y1=\"21\" y2=\"19\"/><polyline points=\"14.5 6.5 18 3 21 3 21 6 17.5 9.5\"/><line x1=\"5\" x2=\"9\" y1=\"14\" y2=\"18\"/><line x1=\"7\" x2=\"4\" y1=\"17\" y2=\"20\"/><line x1=\"3\" x2=\"5\" y1=\"19\" y2=\"21\"/>", "wind": "<path d=\"M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2\"/><path d=\"M9.6 4.6A2 2 0 1 1 11 8H2\"/><path d=\"M12.6 19.4A2 2 0 1 0 14 16H2\"/>", "plane": "<path d=\"M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z\"/>", "settings": "<path d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "volume-x": "<polygon points=\"11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"/><line x1=\"22\" x2=\"16\" y1=\"9\" y2=\"15\"/><line x1=\"16\" x2=\"22\" y1=\"9\" y2=\"15\"/>", "sparkles": "<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\"/><path d=\"M20 3v4\"/><path d=\"M22 5h-4\"/><path d=\"M4 17v2\"/><path d=\"M5 18H3\"/>", "link": "<path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/>", "coins": "<circle cx=\"8\" cy=\"8\" r=\"6\"/><path d=\"M18.09 10.37A6 6 0 1 1 10.34 18\"/><path d=\"M7 6h1v4\"/><path d=\"m16.71 13.88.7.71-2.82 2.82\"/>", "package": "<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><path d=\"m3.3 7 8.7 5 8.7-5\"/><path d=\"m7.5 4.27 9 5.15\"/>", "volume-2": "<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"/><path d=\"M16 9a5 5 0 0 1 0 6\"/><path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\"/>", "loader": "<line x1=\"12\" x2=\"12\" y1=\"2\" y2=\"6\"/><line x1=\"12\" x2=\"12\" y1=\"18\" y2=\"22\"/><line x1=\"4.93\" x2=\"7.76\" y1=\"4.93\" y2=\"7.76\"/><line x1=\"16.24\" x2=\"19.07\" y1=\"16.24\" y2=\"19.07\"/><line x1=\"2\" x2=\"6\" y1=\"12\" y2=\"12\"/><line x1=\"18\" x2=\"22\" y1=\"12\" y2=\"12\"/><line x1=\"4.93\" x2=\"7.76\" y1=\"19.07\" y2=\"16.24\"/><line x1=\"16.24\" x2=\"19.07\" y1=\"7.76\" y2=\"4.93\"/>", "radio-tower": "<path d=\"M4.9 16.1C1 12.2 1 5.8 4.9 1.9\"/><path d=\"M7.8 4.7a6.14 6.14 0 0 0-.8 7.5\"/><circle cx=\"12\" cy=\"9\" r=\"2\"/><path d=\"M16.2 4.8c2 2 2.26 5.11.8 7.47\"/><path d=\"M19.1 1.9a9.96 9.96 0 0 1 0 14.1\"/><path d=\"M9.5 18h5\"/><path d=\"m8 22 4-11 4 11\"/>", "alert-octagon": "<path d=\"M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z\"/><path d=\"M12 8v4\"/><path d=\"M12 16h.01\"/>", "footprints": "<path d=\"M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0z\"/><path d=\"M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0z\"/><path d=\"M16 17h4\"/><path d=\"M4 13h4\"/>", "bot": "<path d=\"M12 8V4H8\"/><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/><path d=\"M2 14h2\"/><path d=\"M20 14h2\"/><path d=\"M15 13v2\"/><path d=\"M9 13v2\"/>", "award": "<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\"/><circle cx=\"12\" cy=\"8\" r=\"6\"/>", "hexagon": "<path d=\"M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z\"/>", "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/>", "signal": "<path d=\"M2 20h.01\"/><path d=\"M7 20v-4\"/><path d=\"M12 20v-8\"/><path d=\"M17 20V8\"/><path d=\"M22 4v16\"/>", "eye-off": "<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\"/><path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\"/><path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\"/><path d=\"m2 2 20 20\"/>", "refresh-cw": "<path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/><path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\"/><path d=\"M8 16H3v5\"/>", "unlock": "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 9.9-1\"/>", "map": "<path d=\"M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z\"/><path d=\"M15 5.764v15\"/><path d=\"M9 3.236v15\"/>", "flag": "<path d=\"M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z\"/><line x1=\"4\" x2=\"4\" y1=\"22\" y2=\"15\"/>", "skull": "<path d=\"m12.5 17-.5-1-.5 1h1z\"/><path d=\"M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z\"/><circle cx=\"15\" cy=\"12\" r=\"1\"/><circle cx=\"9\" cy=\"12\" r=\"1\"/>", "trending-down": "<polyline points=\"22 17 13.5 8.5 8.5 13.5 2 7\"/><polyline points=\"16 17 22 17 22 11\"/>", "check": "<path d=\"M20 6 9 17l-5-5\"/>", "x": "<path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/>", "alert-triangle": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>", "save": "<path d=\"M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z\"/><path d=\"M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7\"/><path d=\"M7 3v4a1 1 0 0 0 1 1h7\"/>", "camera": "<path d=\"M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/>", "upload": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" x2=\"12\" y1=\"3\" y2=\"15\"/>", "trash-2": "<path d=\"M3 6h18\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\"/><path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/><line x1=\"10\" x2=\"10\" y1=\"11\" y2=\"17\"/><line x1=\"14\" x2=\"14\" y1=\"11\" y2=\"17\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/>", "pencil": "<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"/><path d=\"m15 5 4 4\"/>", "copy": "<rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/>", "download": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"/>", "lock": "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>", "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "star": "<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"/>", "globe": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"/><path d=\"M2 12h20\"/>", "clipboard": "<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/>", "timer": "<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\"/><line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\"/><circle cx=\"12\" cy=\"14\" r=\"8\"/>", "pin": "<path d=\"M12 17v5\"/><path d=\"M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z\"/>", "lightbulb": "<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"/><path d=\"M9 18h6\"/><path d=\"M10 22h4\"/>", "menu": "<line x1=\"4\" x2=\"20\" y1=\"12\" y2=\"12\"/><line x1=\"4\" x2=\"20\" y1=\"6\" y2=\"6\"/><line x1=\"4\" x2=\"20\" y1=\"18\" y2=\"18\"/>", "monitor": "<rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\"/><line x1=\"8\" x2=\"16\" y1=\"21\" y2=\"21\"/><line x1=\"12\" x2=\"12\" y1=\"17\" y2=\"21\"/>", "message-square": "<path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/>", "gamepad-2": "<line x1=\"6\" x2=\"10\" y1=\"11\" y2=\"11\"/><line x1=\"8\" x2=\"8\" y1=\"9\" y2=\"13\"/><line x1=\"15\" x2=\"15.01\" y1=\"12\" y2=\"12\"/><line x1=\"18\" x2=\"18.01\" y1=\"10\" y2=\"10\"/><path d=\"M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z\"/>", "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"/><path d=\"M12 18h.01\"/>", "folder": "<path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\"/>", "dumbbell": "<path d=\"M14.4 14.4 9.6 9.6\"/><path d=\"M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z\"/><path d=\"m21.5 21.5-1.4-1.4\"/><path d=\"M3.9 3.9 2.5 2.5\"/><path d=\"M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z\"/>", "message-circle": "<path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/>", "bar-chart-3": "<path d=\"M3 3v18h18\"/><path d=\"M18 17V9\"/><path d=\"M13 17V5\"/><path d=\"M8 17v-3\"/>"};
+  var LUCIDE = {"help-circle": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"/><path d=\"M12 17h.01\"/>", "zap": "<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\"/>", "crosshair": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"22\" x2=\"18\" y1=\"12\" y2=\"12\"/><line x1=\"6\" x2=\"2\" y1=\"12\" y2=\"12\"/><line x1=\"12\" x2=\"12\" y1=\"6\" y2=\"2\"/><line x1=\"12\" x2=\"12\" y1=\"22\" y2=\"18\"/>", "gem": "<path d=\"M6 3h12l4 6-10 13L2 9Z\"/><path d=\"M11 3 8 9l4 13 4-13-3-6\"/><path d=\"M2 9h20\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/>", "user": "<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>", "shield-half": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"M12 22V2\"/>", "bomb": "<circle cx=\"11\" cy=\"13\" r=\"9\"/><path d=\"M14.35 4.65 16.3 2.7a2.41 2.41 0 0 1 3.4 0l1.6 1.6a2.4 2.4 0 0 1 0 3.4l-1.95 1.95\"/><path d=\"m22 2-1.5 1.5\"/>", "radar": "<path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"/><path d=\"M4 6h.01\"/><path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"/><path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"/><path d=\"M12 18h.01\"/><path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"m13.41 10.59 5.66-5.66\"/>", "shield": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/>", "flame": "<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\"/>", "rocket": "<path d=\"M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z\"/><path d=\"m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z\"/><path d=\"M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0\"/><path d=\"M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5\"/>", "ghost": "<path d=\"M9 10h.01\"/><path d=\"M15 10h.01\"/><path d=\"M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z\"/>", "swords": "<polyline points=\"14.5 17.5 3 6 3 3 6 3 17.5 14.5\"/><line x1=\"13\" x2=\"19\" y1=\"19\" y2=\"13\"/><line x1=\"16\" x2=\"20\" y1=\"16\" y2=\"20\"/><line x1=\"19\" x2=\"21\" y1=\"21\" y2=\"19\"/><polyline points=\"14.5 6.5 18 3 21 3 21 6 17.5 9.5\"/><line x1=\"5\" x2=\"9\" y1=\"14\" y2=\"18\"/><line x1=\"7\" x2=\"4\" y1=\"17\" y2=\"20\"/><line x1=\"3\" x2=\"5\" y1=\"19\" y2=\"21\"/>", "wind": "<path d=\"M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2\"/><path d=\"M9.6 4.6A2 2 0 1 1 11 8H2\"/><path d=\"M12.6 19.4A2 2 0 1 0 14 16H2\"/>", "plane": "<path d=\"M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z\"/>", "settings": "<path d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "volume-x": "<polygon points=\"11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"/><line x1=\"22\" x2=\"16\" y1=\"9\" y2=\"15\"/><line x1=\"16\" x2=\"22\" y1=\"9\" y2=\"15\"/>", "sparkles": "<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\"/><path d=\"M20 3v4\"/><path d=\"M22 5h-4\"/><path d=\"M4 17v2\"/><path d=\"M5 18H3\"/>", "link": "<path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/>", "coins": "<circle cx=\"8\" cy=\"8\" r=\"6\"/><path d=\"M18.09 10.37A6 6 0 1 1 10.34 18\"/><path d=\"M7 6h1v4\"/><path d=\"m16.71 13.88.7.71-2.82 2.82\"/>", "package": "<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><path d=\"m3.3 7 8.7 5 8.7-5\"/><path d=\"m7.5 4.27 9 5.15\"/>", "volume-2": "<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"/><path d=\"M16 9a5 5 0 0 1 0 6\"/><path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\"/>", "loader": "<line x1=\"12\" x2=\"12\" y1=\"2\" y2=\"6\"/><line x1=\"12\" x2=\"12\" y1=\"18\" y2=\"22\"/><line x1=\"4.93\" x2=\"7.76\" y1=\"4.93\" y2=\"7.76\"/><line x1=\"16.24\" x2=\"19.07\" y1=\"16.24\" y2=\"19.07\"/><line x1=\"2\" x2=\"6\" y1=\"12\" y2=\"12\"/><line x1=\"18\" x2=\"22\" y1=\"12\" y2=\"12\"/><line x1=\"4.93\" x2=\"7.76\" y1=\"19.07\" y2=\"16.24\"/><line x1=\"16.24\" x2=\"19.07\" y1=\"7.76\" y2=\"4.93\"/>", "radio-tower": "<path d=\"M4.9 16.1C1 12.2 1 5.8 4.9 1.9\"/><path d=\"M7.8 4.7a6.14 6.14 0 0 0-.8 7.5\"/><circle cx=\"12\" cy=\"9\" r=\"2\"/><path d=\"M16.2 4.8c2 2 2.26 5.11.8 7.47\"/><path d=\"M19.1 1.9a9.96 9.96 0 0 1 0 14.1\"/><path d=\"M9.5 18h5\"/><path d=\"m8 22 4-11 4 11\"/>", "alert-octagon": "<path d=\"M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z\"/><path d=\"M12 8v4\"/><path d=\"M12 16h.01\"/>", "footprints": "<path d=\"M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0z\"/><path d=\"M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0z\"/><path d=\"M16 17h4\"/><path d=\"M4 13h4\"/>", "bot": "<path d=\"M12 8V4H8\"/><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/><path d=\"M2 14h2\"/><path d=\"M20 14h2\"/><path d=\"M15 13v2\"/><path d=\"M9 13v2\"/>", "award": "<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\"/><circle cx=\"12\" cy=\"8\" r=\"6\"/>", "hexagon": "<path d=\"M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z\"/>", "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/>", "signal": "<path d=\"M2 20h.01\"/><path d=\"M7 20v-4\"/><path d=\"M12 20v-8\"/><path d=\"M17 20V8\"/><path d=\"M22 4v16\"/>", "eye-off": "<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\"/><path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\"/><path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\"/><path d=\"m2 2 20 20\"/>", "refresh-cw": "<path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/><path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\"/><path d=\"M8 16H3v5\"/>", "unlock": "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 9.9-1\"/>", "map": "<path d=\"M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z\"/><path d=\"M15 5.764v15\"/><path d=\"M9 3.236v15\"/>", "flag": "<path d=\"M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z\"/><line x1=\"4\" x2=\"4\" y1=\"22\" y2=\"15\"/>", "skull": "<path d=\"m12.5 17-.5-1-.5 1h1z\"/><path d=\"M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z\"/><circle cx=\"15\" cy=\"12\" r=\"1\"/><circle cx=\"9\" cy=\"12\" r=\"1\"/>", "trending-down": "<polyline points=\"22 17 13.5 8.5 8.5 13.5 2 7\"/><polyline points=\"16 17 22 17 22 11\"/>", "check": "<path d=\"M20 6 9 17l-5-5\"/>", "x": "<path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/>", "alert-triangle": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>", "save": "<path d=\"M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z\"/><path d=\"M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7\"/><path d=\"M7 3v4a1 1 0 0 0 1 1h7\"/>", "camera": "<path d=\"M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/>", "upload": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" x2=\"12\" y1=\"3\" y2=\"15\"/>", "trash-2": "<path d=\"M3 6h18\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\"/><path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/><line x1=\"10\" x2=\"10\" y1=\"11\" y2=\"17\"/><line x1=\"14\" x2=\"14\" y1=\"11\" y2=\"17\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/>", "pencil": "<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"/><path d=\"m15 5 4 4\"/>", "copy": "<rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/>", "download": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"/>", "lock": "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>", "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "star": "<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"/>", "globe": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"/><path d=\"M2 12h20\"/>", "clipboard": "<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/>", "timer": "<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\"/><line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\"/><circle cx=\"12\" cy=\"14\" r=\"8\"/>", "pin": "<path d=\"M12 17v5\"/><path d=\"M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z\"/>", "lightbulb": "<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"/><path d=\"M9 18h6\"/><path d=\"M10 22h4\"/>", "menu": "<line x1=\"4\" x2=\"20\" y1=\"12\" y2=\"12\"/><line x1=\"4\" x2=\"20\" y1=\"6\" y2=\"6\"/><line x1=\"4\" x2=\"20\" y1=\"18\" y2=\"18\"/>", "monitor": "<rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\"/><line x1=\"8\" x2=\"16\" y1=\"21\" y2=\"21\"/><line x1=\"12\" x2=\"12\" y1=\"17\" y2=\"21\"/>", "message-square": "<path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/>", "gamepad-2": "<line x1=\"6\" x2=\"10\" y1=\"11\" y2=\"11\"/><line x1=\"8\" x2=\"8\" y1=\"9\" y2=\"13\"/><line x1=\"15\" x2=\"15.01\" y1=\"12\" y2=\"12\"/><line x1=\"18\" x2=\"18.01\" y1=\"10\" y2=\"10\"/><path d=\"M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z\"/>", "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"/><path d=\"M12 18h.01\"/>", "folder": "<path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\"/>", "dumbbell": "<path d=\"M14.4 14.4 9.6 9.6\"/><path d=\"M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z\"/><path d=\"m21.5 21.5-1.4-1.4\"/><path d=\"M3.9 3.9 2.5 2.5\"/><path d=\"M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z\"/>", "message-circle": "<path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/>", "bar-chart-3": "<path d=\"M3 3v18h18\"/><path d=\"M18 17V9\"/><path d=\"M13 17V5\"/><path d=\"M8 17v-3\"/>"};
   var EMOJI_MAP = {"⚡": "zap", "🔫": "crosshair", "🎴": "gem", "🎯": "target", "👤": "user", "🪖": "shield-half", "💣": "bomb", "📡": "radar", "🛡️": "shield", "💥": "flame", "🚀": "rocket", "🔥": "flame", "👻": "ghost", "🗡️": "swords", "🏃": "wind", "✈️": "plane", "⚙️": "settings", "🔇": "volume-x", "✨": "sparkles", "🔗": "link", "🚁": "plane", "💰": "coins", "📦": "package", "🔊": "volume-2", "🌀": "loader", "🛸": "radio-tower", "💢": "flame", "😱": "alert-octagon", "👣": "footprints", "💨": "wind", "🤖": "bot", "🎩": "award", "🐝": "hexagon", "🔧": "wrench", "📶": "signal", "🎭": "eye-off", "🛩️": "plane", "🥷": "eye-off", "🪓": "swords", "🦏": "shield", "🔁": "refresh-cw", "🔓": "unlock", "🗺️": "map", "⚔️": "swords", "🚩": "flag", "💀": "skull", "📉": "trending-down", "✓": "check", "❌": "x", "⚠": "alert-triangle", "⚠️": "alert-triangle", "💾": "save", "📷": "camera", "📤": "upload", "🗑": "trash-2", "🗑️": "trash-2", "🔍": "search", "✎": "pencil", "📥": "download", "🔒": "lock", "👁": "eye", "👁️": "eye", "★": "star", "⭐": "star", "🌍": "globe", "📋": "clipboard", "⏱": "timer", "⏱️": "timer", "📌": "pin", "💡": "lightbulb", "✕": "x", "☰": "menu", "📺": "monitor", "🔄": "refresh-cw", "💬": "message-square", "🎮": "gamepad-2", "📲": "smartphone", "📁": "folder", "💪": "dumbbell", "💭": "message-circle", "📊": "bar-chart-3", "✗": "x", "🙈": "eye-off"};
 
   function escapeHtmlSafe(s) {
@@ -38690,6 +38813,214 @@ ${cbt('share.t.footer')}`;
   // API pública
   window.LevelCodenames = { reload: reload };
 })();
+
+// ═══════════════════════════════════════════════════════════════════
+// LEVEL · GLOSSARY ENGINE (v2.11.0)
+// Tradução de termos técnicos do jogo. Carrega cat_glossary (anon),
+// monta índice por idioma, e aplica "TERMO (tradução)" SÓ dentro de
+// zonas seguras (data-glossary-zone) — protege nomes próprios.
+// Estado da linguagem técnica em ui_prefs.tech_lang (localStorage agora,
+// nuvem em sessão futura). Exposto em window.LevelGlossary.
+// ═══════════════════════════════════════════════════════════════════
+(function levelGlossaryEngine() {
+  'use strict';
+  const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON_KEY = window.LEVEL_SUPABASE_ANON_KEY || '';
+
+  const LS_PREFS = 'bo7hub_ui_prefs_v1';   // { tech_lang: 'pt'|'en'|'auto' }
+  const HUB_LANG_LS = 'bo7hub_lang_v1';
+
+  // index[lang] = { 'termo_lower': 'tradução no idioma alvo' } — montado sob demanda
+  let rows = [];                 // linhas cruas de cat_glossary
+  let byKeyLang = {};            // byKeyLang[term_key][lang] = value
+  let loaded = false;
+
+  // ── Preferências ──────────────────────────────────────────────────
+  function getPrefs() {
+    try { return JSON.parse(localStorage.getItem(LS_PREFS) || '{}') || {}; }
+    catch (e) { return {}; }
+  }
+  function setPref(k, v) {
+    const p = getPrefs(); p[k] = v;
+    try { localStorage.setItem(LS_PREFS, JSON.stringify(p)); } catch (e) {}
+  }
+  function hubLang() {
+    try { return localStorage.getItem(HUB_LANG_LS) === 'en' ? 'en' : 'pt'; }
+    catch (e) { return 'pt'; }
+  }
+  // Linguagem técnica efetiva. 'auto' = igual ao Hub.
+  function techLang() {
+    const p = getPrefs();
+    const t = p.tech_lang || 'auto';
+    return (t === 'auto') ? hubLang() : t;
+  }
+  function setTechLang(v) { setPref('tech_lang', v); applyAll(); }
+
+  // ── Carregamento ──────────────────────────────────────────────────
+  async function reload() {
+    try {
+      const url = SUPABASE_URL + '/rest/v1/cat_glossary'
+        + '?select=term_key,lang,value,category,active'
+        + '&active=eq.true';
+      const r = await fetch(url, { headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY } });
+      if (!r.ok) { console.warn('[glossary] banco respondeu', r.status); return; }
+      rows = await r.json();
+      if (!Array.isArray(rows)) rows = [];
+      byKeyLang = {};
+      rows.forEach(row => {
+        if (!byKeyLang[row.term_key]) byKeyLang[row.term_key] = {};
+        byKeyLang[row.term_key][row.lang] = row.value;
+      });
+      loaded = true;
+      console.log('[glossary] carregado:', rows.length, 'linhas,', Object.keys(byKeyLang).length, 'termos');
+      applyAll();
+    } catch (e) {
+      console.warn('[glossary] falha ao carregar:', e);
+    }
+  }
+
+  // ── Montagem do índice de substituição p/ o par (origem→alvo) ──────
+  // origem = idioma do Hub (o que está escrito na tela); alvo = techLang
+  // Só faz sentido quando origem != alvo.
+  let activeMap = null;     // Map(lowercase termo origem → {src, dst})
+  let activeRe = null;      // regex alternativa de todos os termos origem
+
+  function buildActiveMap() {
+    activeMap = null; activeRe = null;
+    const src = hubLang();
+    const dst = techLang();
+    if (src === dst) return;          // nada a traduzir
+    const m = new Map();
+    const terms = [];
+    Object.keys(byKeyLang).forEach(key => {
+      const pair = byKeyLang[key];
+      const sVal = pair[src];
+      const dVal = pair[dst];
+      if (!sVal || !dVal) return;
+      if (sVal.trim().toLowerCase() === dVal.trim().toLowerCase()) return; // iguais → ignora
+      const low = sVal.trim().toLowerCase();
+      if (!m.has(low)) { m.set(low, { src: sVal, dst: dVal }); terms.push(sVal); }
+    });
+    if (!terms.length) return;
+    // Ordena por comprimento desc — casa termos compostos antes dos curtos
+    terms.sort((a, b) => b.length - a.length);
+    const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    // \b nas bordas; case-insensitive; unicode
+    activeRe = new RegExp('\\b(' + escaped.join('|') + ')\\b', 'gi');
+    activeMap = m;
+  }
+
+  // ── Aplicação dentro de uma zona segura ────────────────────────────
+  function processZone(zoneEl) {
+    if (!activeRe || !activeMap) return;
+    if (!zoneEl || zoneEl.getAttribute('data-glossary-done') === techLang()) return;
+
+    const walker = document.createTreeWalker(zoneEl, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        // pula nós dentro de elementos protegidos (nome próprio) ou já processados
+        let p = node.parentElement;
+        while (p && p !== zoneEl) {
+          if (p.hasAttribute && (p.hasAttribute('data-glossary-skip') || p.classList.contains('glossary-noxlate')))
+            return NodeFilter.FILTER_REJECT;
+          if (p.tagName === 'SCRIPT' || p.tagName === 'STYLE' || p.tagName === 'TEXTAREA' || p.isContentEditable)
+            return NodeFilter.FILTER_REJECT;
+          p = p.parentElement;
+        }
+        return /\S/.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const targets = [];
+    let n;
+    while ((n = walker.nextNode())) {
+      activeRe.lastIndex = 0;
+      if (activeRe.test(n.nodeValue)) targets.push(n);
+    }
+    targets.forEach(node => {
+      activeRe.lastIndex = 0;
+      const replaced = node.nodeValue.replace(activeRe, (match) => {
+        const hit = activeMap.get(match.trim().toLowerCase());
+        if (!hit) return match;
+        // Já tem parêntese logo após? evita duplicar
+        return match + ' (' + hit.dst + ')';
+      });
+      if (replaced !== node.nodeValue) {
+        const span = document.createElement('span');
+        span.className = 'glossary-xlated';
+        span.textContent = replaced;
+        node.parentNode.replaceChild(span, node);
+      }
+    });
+    zoneEl.setAttribute('data-glossary-done', techLang());
+  }
+
+  function applyAll() {
+    if (!loaded) return;
+    buildActiveMap();
+    // Reverte marcas de "done" quando muda o alvo (re-traduz do zero seria complexo;
+    // por simplicidade só marcamos done por idioma e zonas novas entram).
+    const zones = document.querySelectorAll('[data-glossary-zone]');
+    if (!activeRe) {
+      // sem tradução (origem==alvo): nada a fazer; deixa zonas como estão
+      return;
+    }
+    zones.forEach(processZone);
+  }
+
+  // Observer: zonas que renderizam depois (cards async) também são traduzidas
+  let observer = null;
+  function startObserver() {
+    if (observer) return;
+    observer = new MutationObserver((muts) => {
+      if (!activeRe) return;
+      for (const mut of muts) {
+        for (const node of mut.addedNodes) {
+          if (node.nodeType !== 1) continue;
+          if (node.hasAttribute && node.hasAttribute('data-glossary-zone')) {
+            node.removeAttribute('data-glossary-done');
+            processZone(node);
+          }
+          if (node.querySelectorAll) {
+            node.querySelectorAll('[data-glossary-zone]').forEach(z => {
+              z.removeAttribute('data-glossary-done'); processZone(z);
+            });
+          }
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Re-aplica ao trocar idioma do Hub
+  window.addEventListener('languagechange', applyAll);
+
+  window.LevelGlossary = {
+    reload: reload,
+    apply: applyAll,
+    setTechLang: setTechLang,
+    getTechLang: function () { const p = getPrefs(); return p.tech_lang || 'auto'; },
+    effectiveTechLang: techLang,
+    hubLang: hubLang,
+    isActive: function () { return !!activeRe; },
+    _debug: function () { return { loaded, rows: rows.length, terms: Object.keys(byKeyLang).length, src: hubLang(), dst: techLang() }; }
+  };
+
+  // Boot: começa observer e carrega (best-effort, não bloqueia).
+  // Garante que a 1ª aplicação ocorra com DOM pronto E dados carregados.
+  function boot() {
+    startObserver();
+    reload();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+  // Rede de segurança: reaplica logo após o load completo (zonas estáticas tardias)
+  window.addEventListener('load', function () {
+    setTimeout(applyAll, 50);
+  });
+})();
+
 
 // ═══════════════════════════════════════════════════════════════════
 // LEVEL · ONBOARDING TOUR (v75-87)
