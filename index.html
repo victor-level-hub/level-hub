@@ -6106,6 +6106,16 @@
     cursor: pointer;
     transition: color 0.12s ease, transform 0.1s ease;
   }
+  /* O ícone {{i:star}} é um SVG sem fill explícito — força herdar a cor do botão,
+     senão a estrela "cheia" só ganhava contorno e o miolo ficava vazio/preto. */
+  .build-card .bc-star svg {
+    width: 1em;
+    height: 1em;
+    display: block;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 1;
+  }
   .build-card .bc-star:hover { color: rgba(240,185,82,0.55); transform: scale(1.15); }
   .build-card .bc-star.filled { color: var(--accent-orange); }
   .build-card .bc-star.filled:hover { color: var(--accent-orange); }
@@ -6117,6 +6127,51 @@
     letter-spacing: 0.3px;
     white-space: nowrap;
   }
+  /* Rodapé da aba Avalie (v2.12.0): data da última avaliação + botão salvar */
+  .build-card .bc-rating-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .build-card .bc-rating-saved-at {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+  .build-card .bc-rating-save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .build-card .bc-rating-save-btn svg { width: 13px; height: 13px; fill: currentColor; stroke: currentColor; }
+  .build-card .bc-rating-save-btn:hover {
+    background: var(--accent-orange);
+    color: #1a1f2e;
+  }
+  .build-card .bc-rating-save-btn.dirty {
+    background: var(--accent-orange);
+    color: #1a1f2e;
+    animation: ratingPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes ratingPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
 
   @media (max-width: 700px) {
     .build-card { padding: 14px 14px; }
@@ -10651,12 +10706,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.11.0 · <span data-i18n="briefing.changelog.date">6 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.12.0 · <span data-i18n="briefing.changelog.date">7 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Tradutor de termos técnicos do jogo</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Novo seletor <strong>Termos</strong> no canto superior direito, ao lado do idioma. Ele controla o idioma das traduções dos termos técnicos do jogo — classes, vantagens, acessórios, stats. Se escolheres um idioma diferente do Hub, cada termo passa a mostrar a tradução entre parênteses ao lado do original: por exemplo, com o Hub em inglês e os Termos em português, aparece <em>Assault Rifle (Fuzil de Assalto)</em> e <em>Flinch Resistance (Resistência a Flinch)</em>. As traduções vêm da localização oficial do jogo e ficam guardadas numa base de dados curada. Os nomes próprios de armas e acessórios (REDWELL SHADE-X, DIVEEDGE-7) ficam intactos — só os termos genéricos são traduzidos. Passa o rato pelo <strong>?</strong> ao lado de "Termos" para a explicação. <br><br>Também: corrigida uma quebra de layout que afetava cinco abas (Mapas, Vantagens, Dificuldades, Progressão, Configurações) e melhorado o texto do indicador <strong>BACKUP</strong> para deixar claro que a sincronização é automática.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Avaliação de armas com estrelas e histórico</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">A aba <strong>Avalie</strong> de cada arma (em Meus Loadouts) foi reformulada. <strong>(1)</strong> As estrelas agora <strong>pintam de amarelo</strong> corretamente conforme a nota que dás em cada dimensão (Velocidade, Mobilidade, Recuo, Mira, Alcance) — antes só o contorno mudava. <strong>(2)</strong> Clicar nas estrelas monta a nota, mas ela só é gravada quando carregas no botão <strong>Salvar avaliação</strong> — assim podes ajustar à vontade antes de confirmar. <strong>(3)</strong> Cada avaliação salva fica registada com <strong>data e hora completas</strong> (ex: 07/06/2026 - 02:08) numa base de dados, criando um histórico — no futuro dá para veres como a tua perceção de cada arma evoluiu ao longo do tempo.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -13931,6 +13986,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.12.0</span>
+                <span class="vh-date">7 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Reformulação da aba <strong>Avalie</strong> das armas (em Meus Loadouts) + nova tabela de histórico de avaliações.<br><br><strong>1. Fix das estrelas amarelas.</strong> O ícone <code>{{i:star}}</code> é um SVG desenhado para ser preenchido, mas o CSS pintava via <code>color</code> sem definir <code>fill</code> — então a estrela "cheia" só ganhava contorno e o miolo ficava vazio. Adicionada a regra <code>.bc-star svg { fill: currentColor; stroke: currentColor }</code>: a estrela vazia fica cinza, a cheia fica laranja de verdade.<br><br><strong>2. Sistema de rascunho + botão Salvar.</strong> Antes, cada clique numa estrela gravava na hora (e nem chegava ao banco — só localStorage). Agora clicar monta um <strong>rascunho em memória</strong> (re-pinta na hora, sem gravar), e a avaliação só é persistida ao carregar no botão <strong>Salvar avaliação</strong>. O botão pulsa enquanto há mudanças não salvas.<br><br><strong>3. Histórico no Supabase.</strong> Nova tabela <code>hub_build_ratings</code> (1 row por avaliação salva: as 5 dimensões + <code>rated_at</code>), com RLS dono-lê-o-seu + service_role. Cada Salvar grava um snapshot — base para, no futuro, mostrar a evolução da perceção da arma ao longo do tempo. Descoberta no caminho: <code>hub_builds</code> não tinha coluna de ratings, então as notas nunca sincronizavam — a nova tabela passa a ser a fonte da verdade.<br><br><strong>4. Data e hora completas.</strong> A data da última avaliação passou de "07/06" (dia/mês) para o formato completo <strong>07/06/2026 - 02:08</strong>, mantida na mesma cor discreta, agora num rodapé próprio em vez de por linha.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.11.0</span>
                 <span class="vh-date">6 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15601,7 +15665,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.11.0</strong><span class="ver-tag">Tradutor de termos técnicos (PT/EN) no header + fix da quebra de layout em 5 abas</span>
+        LEVEL · <strong>v2.12.0</strong><span class="ver-tag">Avaliação de armas: estrelas amarelas, botão Salvar e histórico de notas com data e hora</span>
       </div>
       <script>
         (function(){
@@ -16983,8 +17047,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '6 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Tradutor de termos técnicos do jogo',
-    'briefing.changelog.summary':  'Novo seletor <strong>Termos</strong> no canto superior direito, ao lado do idioma. Ele controla o idioma das traduções dos termos técnicos do jogo — classes, vantagens, acessórios, stats. Se escolheres um idioma diferente do Hub, cada termo passa a mostrar a tradução entre parênteses ao lado do original: por exemplo, com o Hub em inglês e os Termos em português, aparece <em>Assault Rifle (Fuzil de Assalto)</em> e <em>Flinch Resistance (Resistência a Flinch)</em>. As traduções vêm da localização oficial do jogo e ficam guardadas numa base de dados curada. Os nomes próprios de armas e acessórios (REDWELL SHADE-X, DIVEEDGE-7) ficam intactos &mdash; só os termos genéricos são traduzidos. Passa o rato pelo <strong>?</strong> ao lado de "Termos" para a explicação.<br><br>Também: corrigida uma quebra de layout que afetava cinco abas (Mapas, Vantagens, Dificuldades, Progressão, Configurações) e melhorado o texto do indicador <strong>BACKUP</strong> para deixar claro que a sincronização é automática.',
+    'briefing.changelog.headline': 'Avaliação de armas com estrelas e histórico',
+    'briefing.changelog.summary':  'A aba <strong>Avalie</strong> de cada arma (em Meus Loadouts) foi reformulada. <strong>(1)</strong> As estrelas agora <strong>pintam de amarelo</strong> corretamente conforme a nota que dás em cada dimensão (Velocidade, Mobilidade, Recuo, Mira, Alcance) &mdash; antes só o contorno mudava. <strong>(2)</strong> Clicar nas estrelas monta a nota, mas ela só é gravada quando carregas no botão <strong>Salvar avaliação</strong> &mdash; assim podes ajustar à vontade antes de confirmar. <strong>(3)</strong> Cada avaliação salva fica registada com <strong>data e hora completas</strong> (ex: 07/06/2026 - 02:08) numa base de dados, criando um histórico &mdash; no futuro dá para veres como a tua perceção de cada arma evoluiu ao longo do tempo.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18273,8 +18337,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 6, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Game technical-term translator',
-    'briefing.changelog.summary':  'New <strong>Terms</strong> selector at the top right, next to the language toggle. It controls the language of the game technical-term translations — classes, perks, attachments, stats. If you pick a language different from the Hub, each term shows the translation in parentheses next to the original: for example, with the Hub in English and Terms in Portuguese, you get <em>Assault Rifle (Fuzil de Assalto)</em> and <em>Flinch Resistance (Resistência a Flinch)</em>. Translations come from the official game localization and are stored in a curated database. Proper names of weapons and attachments (REDWELL SHADE-X, DIVEEDGE-7) stay intact &mdash; only generic terms are translated. Hover the <strong>?</strong> next to "Terms" for the explanation.<br><br>Also: fixed a layout break affecting five tabs (Maps, Perks, Struggles, Progression, Settings) and improved the <strong>BACKUP</strong> indicator text to make clear that syncing is automatic.',
+    'briefing.changelog.headline': 'Weapon rating with stars and history',
+    'briefing.changelog.summary':  'The <strong>Rate</strong> tab of each weapon (in My Loadouts) has been reworked. <strong>(1)</strong> The stars now <strong>fill yellow</strong> correctly based on the score you give each dimension (Fire Rate, Mobility, Recoil, Accuracy, Range) &mdash; before, only the outline changed. <strong>(2)</strong> Clicking the stars sets the score, but it is only saved when you press the <strong>Save rating</strong> button &mdash; so you can adjust freely before confirming. <strong>(3)</strong> Each saved rating is recorded with <strong>full date and time</strong> (e.g. 07/06/2026 - 02:08) in a database, building a history &mdash; in the future you will be able to see how your perception of each weapon evolved over time.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -24159,8 +24223,28 @@ const ATTACHMENT_ICONS = {
 
     function formatRatingDate(iso) {
       if (!iso) return '—';
-      try { return new Date(iso).toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}); }
-      catch { return '—'; }
+      try {
+        const d = new Date(iso);
+        const dd = String(d.getDate()).padStart(2, '0');
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const yyyy = d.getFullYear();
+        const hh = String(d.getHours()).padStart(2, '0');
+        const mi = String(d.getMinutes()).padStart(2, '0');
+        return dd + '/' + mm + '/' + yyyy + ' - ' + hh + ':' + mi;
+      } catch (e) { return '—'; }
+    }
+
+    // Rascunho de avaliação em memória, por build. Só vai pro banco no SALVAR.
+    const _ratingDraft = {};
+    function getDraft(build) {
+      if (!_ratingDraft[build.id]) {
+        const saved = build.userRatings || {};
+        _ratingDraft[build.id] = {};
+        RATING_KEYS.forEach(rk => {
+          _ratingDraft[build.id][rk.key] = (saved[rk.key] && saved[rk.key].value) || 0;
+        });
+      }
+      return _ratingDraft[build.id];
     }
 
     function renderStarsHtml(key, value) {
@@ -24175,31 +24259,101 @@ const ATTACHMENT_ICONS = {
     }
 
     function renderRatingsBlock(build) {
-      const ratings = build.userRatings || {};
+      const draft = getDraft(build);
+      const saved = build.userRatings || {};
+      let lastSavedIso = null;
+      RATING_KEYS.forEach(rk => {
+        const u = saved[rk.key] && saved[rk.key].updatedAt;
+        if (u && (!lastSavedIso || u > lastSavedIso)) lastSavedIso = u;
+      });
       const rows = RATING_KEYS.map(rk => {
-        const r = ratings[rk.key] || { value: 0, updatedAt: null };
         return '<div class="bc-rating-row">' +
                  '<span class="bc-rating-label">' + rk.label + '</span>' +
-                 renderStarsHtml(rk.key, r.value) +
-                 '<span class="bc-rating-date">' + formatRatingDate(r.updatedAt) + '</span>' +
+                 renderStarsHtml(rk.key, draft[rk.key]) +
                '</div>';
       }).join('');
-      return rows;
+      const dateLine = lastSavedIso
+        ? '<div class="bc-rating-saved-at">última avaliação: ' + formatRatingDate(lastSavedIso) + '</div>'
+        : '<div class="bc-rating-saved-at">ainda sem avaliação salva</div>';
+      const saveBtn = '<button type="button" class="bc-rating-save-btn" data-action="save-rating" data-id="' + build.id + '">{{i:star}} Salvar avaliação</button>';
+      return rows + '<div class="bc-rating-footer">' + dateLine + saveBtn + '</div>';
     }
 
-    async function rateBuild(buildId, key, value) {
+    // Clique numa estrela = atualiza o RASCUNHO (não salva). Re-pinta só aquela linha.
+    function setDraftStar(buildId, key, value) {
+      if (!_ratingDraft[buildId]) _ratingDraft[buildId] = {};
+      const cur = _ratingDraft[buildId][key] || 0;
+      _ratingDraft[buildId][key] = (cur === value) ? 0 : value;
+      const card = document.querySelector('.build-card[data-id="' + buildId + '"]');
+      if (!card) return;
+      const row = card.querySelector('.bc-stars[data-rating-key="' + key + '"]');
+      if (!row) return;
+      const v = _ratingDraft[buildId][key];
+      row.querySelectorAll('.bc-star').forEach(btn => {
+        const bv = parseInt(btn.dataset.value, 10);
+        btn.classList.toggle('filled', bv <= v);
+      });
+      const saveBtn = card.querySelector('.bc-rating-save-btn');
+      if (saveBtn) saveBtn.classList.add('dirty');
+    }
+
+    // SALVAR AVALIAÇÃO: grava snapshot local (userRatings) + linha de histórico no Supabase.
+    async function saveRating(buildId) {
       const build = await LevelDB.builds.get(buildId);
       if (!build) return;
-      const ratings = Object.assign({}, build.userRatings || {});
-      const current = ratings[key];
-      // Toggle off if clicking the same value
-      if (current && current.value === value) {
-        ratings[key] = { value: 0, updatedAt: new Date().toISOString() };
-      } else {
-        ratings[key] = { value: value, updatedAt: new Date().toISOString() };
-      }
+      const draft = _ratingDraft[buildId] || getDraft(build);
+      const nowIso = new Date().toISOString();
+      const ratings = {};
+      RATING_KEYS.forEach(rk => {
+        ratings[rk.key] = { value: draft[rk.key] || 0, updatedAt: nowIso };
+      });
       await LevelDB.builds.update(buildId, { userRatings: ratings });
-      // 'level:builds-change' event triggers re-render
+      try {
+        if (typeof cloudSaveRating === 'function') {
+          await cloudSaveRating(buildId, draft, nowIso);
+        }
+      } catch (e) {
+        console.warn('[rating] falha ao gravar histórico na nuvem (segue local):', e);
+      }
+      if (typeof showToast === 'function') {
+        showToast(cbt('rating.toast.saved') || '{{i:check}} Avaliação salva', 'success');
+      }
+      // 'level:builds-change' dispara re-render → mostra a nova data e limpa o "dirty"
+    }
+
+    // Envia o snapshot pra tabela hub_build_ratings via REST (precisa de sessão JWT).
+    async function cloudSaveRating(buildId, draft, ratedAtIso) {
+      const SB_URL = window.LEVEL_SUPABASE_URL;
+      const ANON = window.LEVEL_SUPABASE_ANON_KEY;
+      if (!SB_URL || !ANON) return;
+      let token = null;
+      try {
+        if (window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+          const c = await window.LEVEL_AUTH.getClient();
+          const s = await c.auth.getSession();
+          token = s && s.data && s.data.session ? s.data.session.access_token : null;
+        }
+      } catch (e) {}
+      if (!token) return; // sem login: fica só local (sync futuro reconcilia)
+      const body = {
+        build_id: buildId,
+        rate_of_fire: draft.rateOfFire || 0,
+        mobility: draft.mobility || 0,
+        recoil: draft.recoil || 0,
+        accuracy: draft.accuracy || 0,
+        range_rating: draft.rangeRating || 0,
+        rated_at: ratedAtIso
+      };
+      await fetch(SB_URL + '/rest/v1/hub_build_ratings', {
+        method: 'POST',
+        headers: {
+          'apikey': ANON,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(body)
+      });
     }
 
     // Persistent tab state per build-card — survives re-renders triggered
@@ -24227,7 +24381,7 @@ const ATTACHMENT_ICONS = {
       });
     });
 
-    // Star click handler (event delegation)
+    // Star click handler (event delegation) — agora só atualiza o RASCUNHO
     document.addEventListener('click', (e) => {
       const star = e.target.closest('.bc-star');
       if (!star) return;
@@ -24237,7 +24391,16 @@ const ATTACHMENT_ICONS = {
       const key = star.dataset.ratingKey;
       const value = parseInt(star.dataset.value, 10);
       if (!buildId || !key || !value) return;
-      rateBuild(buildId, key, value);
+      setDraftStar(buildId, key, value);
+    });
+
+    // Botão "Salvar avaliação" (event delegation)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="save-rating"]');
+      if (!btn) return;
+      const buildId = btn.dataset.id;
+      if (!buildId) return;
+      saveRating(buildId);
     });
 
     async function renderBuildCard(build) {
@@ -33028,6 +33191,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.confirm.migrate.msg': 'Vou enviar {0} imagens locais pro Supabase. Continuar?',
         'set.confirm.migrate.btn': 'Migrar pra cloud',
         'set.toast.saved': '{{i:check}} Imagem salva', 'set.toast.removed': '{{i:check}} Imagem removida',
+        'rating.toast.saved': '{{i:check}} Avaliação salva',
         'set.toast.cleared': '{{i:check}} Todas as imagens apagadas',
         'set.toast.exported': '{{i:check}} Backup exportado',
         'set.toast.imported': '{{i:check}} {0} imagens importadas',
@@ -33181,6 +33345,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.confirm.migrate.msg': 'I will upload {0} local images to Supabase. Continue?',
         'set.confirm.migrate.btn': 'Migrate to cloud',
         'set.toast.saved': '{{i:check}} Image saved', 'set.toast.removed': '{{i:check}} Image removed',
+        'rating.toast.saved': '{{i:check}} Rating saved',
         'set.toast.cleared': '{{i:check}} All images deleted',
         'set.toast.exported': '{{i:check}} Backup exported',
         'set.toast.imported': '{{i:check}} {0} images imported',
