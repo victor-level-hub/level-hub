@@ -2455,6 +2455,120 @@
     .techlang-wrap { margin-left: 6px; padding-left: 6px; }
   }
 
+  /* ===== HELP POPOVER (tooltips de ajuda estilizados — v2.12.1) =====
+     Substitui os title="" nativos por um popover na paleta do Hub.
+     Família visual herdada do .opt-info-tooltip do Construtor.
+     Abre no hover (desktop) E no clique/toque (qualquer plataforma, alterna). */
+  .help-pop {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+  }
+  .help-pop-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border-bright);
+    color: var(--text-muted);
+    cursor: help;
+    padding: 0;
+    transition: color .15s, border-color .15s, box-shadow .15s, background .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .help-pop-btn svg { width: 12px; height: 12px; display: block; }
+  .help-pop-btn:hover,
+  .help-pop-btn:focus-visible,
+  .help-pop.is-open .help-pop-btn {
+    color: var(--accent-orange);
+    border-color: var(--accent-orange);
+    background: rgba(240,185,82,0.08);
+    box-shadow: 0 0 10px rgba(240,185,82,0.35);
+    outline: none;
+  }
+  .help-pop-panel {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    width: 300px;
+    max-width: min(300px, 78vw);
+    background: var(--bg-darkest);
+    border: 1px solid var(--accent-orange);
+    border-radius: 6px;
+    padding: 13px 15px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 50;
+    text-align: left;
+    cursor: default;
+  }
+  .help-pop-panel::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    margin-left: -5px;
+    width: 10px;
+    height: 10px;
+    background: var(--bg-darkest);
+    border-top: 1px solid var(--accent-orange);
+    border-left: 1px solid var(--accent-orange);
+    transform: rotate(45deg);
+  }
+  /* hover (desktop) — só quando NÃO está em modo aberto-por-clique, pra não brigar */
+  .help-pop:not(.is-open) .help-pop-btn:hover + .help-pop-panel,
+  .help-pop:not(.is-open) .help-pop-btn:focus-visible + .help-pop-panel,
+  .help-pop:not(.is-open) .help-pop-panel:hover {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  /* aberto por clique/toque — fica fixo até fechar */
+  .help-pop.is-open .help-pop-panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .help-pop-title {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 12px;
+    color: var(--accent-orange);
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .help-pop-title svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .help-pop-body {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .help-pop-body strong { color: var(--text-primary); font-weight: 500; }
+
+  /* Variante ancorada à direita — pro canto direito do header (ex: BACKUP) */
+  .help-pop.help-pop-right .help-pop-panel {
+    left: auto; right: -6px;
+    transform: translateX(0) translateY(-4px);
+  }
+  .help-pop.help-pop-right .help-pop-panel::before {
+    left: auto; right: 10px; margin-left: 0;
+  }
+  .help-pop.help-pop-right:not(.is-open) .help-pop-btn:hover + .help-pop-panel,
+  .help-pop.help-pop-right:not(.is-open) .help-pop-btn:focus-visible + .help-pop-panel,
+  .help-pop.help-pop-right:not(.is-open) .help-pop-panel:hover,
+  .help-pop.help-pop-right.is-open .help-pop-panel {
+    transform: translateX(0) translateY(0);
+  }
+
   /* ===== APP HEADER (sticky, above main content) ===== */
   .app-header {
     position: sticky;
@@ -10579,11 +10693,18 @@
           <div class="app-header-intro" id="app-header-intro"></div>
         </div>
       </div>
-      <!-- v75-68: sync status indicator (label v75-94) -->
-      <div class="header-sync-status" id="header-sync-status" data-state="never" title="Backup automático na nuvem — salva sozinho a cada alteração.">
+      <!-- v75-68: sync status indicator (label v75-94) · help-pop v2.12.1 -->
+      <div class="header-sync-status" id="header-sync-status" data-state="never">
         <span class="header-sync-prefix" data-i18n="hdr.sync.prefix">BACKUP</span>
         <span class="header-sync-dot" aria-hidden="true"></span>
         <span class="header-sync-label" id="header-sync-label">—</span>
+        <span class="help-pop help-pop-right">
+          <button type="button" class="help-pop-btn" aria-label="Sobre o backup automático" aria-haspopup="true">{{i:help-circle}}</button>
+          <span class="help-pop-panel" role="tooltip">
+            <span class="help-pop-title">{{i:refresh-cw}}<span data-i18n="hdr.sync.help.title">BACKUP AUTOMÁTICO</span></span>
+            <span class="help-pop-body" data-i18n="hdr.sync.help"></span>
+          </span>
+        </span>
       </div>
       <div class="lang-toggle" role="group" aria-label="Language toggle">
         <button type="button" class="lang-opt" data-lang="pt" onclick="setLanguage('pt')" aria-label="Português (Brasil)" title="Português (Brasil)">
@@ -10606,7 +10727,13 @@
       </div>
       <div class="techlang-wrap">
         <span class="techlang-label" data-i18n="hdr.techlang.label">Termos</span>
-        <span class="techlang-help" tabindex="0" role="button" aria-label="Sobre a linguagem dos termos técnicos" data-i18n-title="hdr.techlang.help" title="Idioma das traduções dos termos técnicos do jogo (classes, vantagens, acessórios, stats). Quando diferente do idioma do Hub, mostra a tradução entre parênteses ao lado do termo original. Igual ao Hub = sem tradução.">{{i:help-circle}}</span>
+        <span class="help-pop help-pop-right">
+          <button type="button" class="help-pop-btn" aria-label="Sobre a linguagem dos termos técnicos" aria-haspopup="true">{{i:help-circle}}</button>
+          <span class="help-pop-panel" role="tooltip">
+            <span class="help-pop-title">{{i:globe}}<span data-i18n="hdr.techlang.help.title">LINGUAGEM TÉCNICA</span></span>
+            <span class="help-pop-body" data-i18n="hdr.techlang.help"></span>
+          </span>
+        </span>
         <div class="lang-toggle techlang-toggle" role="group" aria-label="Technical terms language toggle">
           <button type="button" class="lang-opt" data-techlang="pt" onclick="setTechLang('pt')" aria-label="Termos em Português" title="Termos em Português (Brasil)">
             <svg class="lang-flag" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -10706,12 +10833,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.12.0 · <span data-i18n="briefing.changelog.date">7 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.12.1 · <span data-i18n="briefing.changelog.date">7 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Avaliação de armas com estrelas e histórico</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">A aba <strong>Avalie</strong> de cada arma (em Meus Loadouts) foi reformulada. <strong>(1)</strong> As estrelas agora <strong>pintam de amarelo</strong> corretamente conforme a nota que dás em cada dimensão (Velocidade, Mobilidade, Recuo, Mira, Alcance) — antes só o contorno mudava. <strong>(2)</strong> Clicar nas estrelas monta a nota, mas ela só é gravada quando carregas no botão <strong>Salvar avaliação</strong> — assim podes ajustar à vontade antes de confirmar. <strong>(3)</strong> Cada avaliação salva fica registada com <strong>data e hora completas</strong> (ex: 07/06/2026 - 02:08) numa base de dados, criando um histórico — no futuro dá para veres como a tua perceção de cada arma evoluiu ao longo do tempo.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Tooltips de ajuda mais bonitos</div>
+          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">Os balões de ajuda <strong>?</strong> do Hub deixaram de usar o tooltip branco do navegador e passaram a um <strong>popover na paleta do Hub</strong> (fundo escuro, borda âmbar, seta a apontar para o ícone). Estreou no switch <strong>TERMOS</strong> e no indicador <strong>BACKUP</strong> do cabeçalho. Abre ao <strong>passar o rato</strong> (desktop) e ao <strong>tocar/clicar</strong> em qualquer plataforma (alterna abrir/fechar); fecha ao clicar fora ou com Escape.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -13986,6 +14113,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.12.1</span>
+                <span class="vh-date">7 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc">Tooltips de ajuda estilizados &mdash; os balões <code>?</code> deixam de usar o tooltip nativo do navegador.<br><br><strong>1. Componente <code>.help-pop</code>.</strong> Novo popover de ajuda na paleta do Hub (fundo <code>--bg-darkest</code>, borda âmbar, seta via <code>::before</code>, título em Black Ops One + corpo em JetBrains Mono), herdando a linguagem visual do <code>.opt-info-tooltip</code> que o Construtor já usava. Duas variantes de ancoragem: centrada e <code>.help-pop-right</code> (alinhada à direita, para o canto do cabeçalho).<br><br><strong>2. Abre por hover E por clique/toque.</strong> O hover/foco é puro CSS (desktop). Um controller leve adiciona o modo clique/toque que <strong>alterna</strong> abrir/fechar &mdash; funciona em qualquer plataforma, incluindo o Hub aberto no telemóvel. Fecha ao clicar fora (<code>pointerdown</code>) ou com Escape; só um popover aberto de cada vez. Uma guarda de 60&nbsp;ms absorve o evento duplicado (ícone interno + botão) sem bloquear cliques reais.<br><br><strong>3. Dois tooltips convertidos.</strong> O switch <strong>TERMOS</strong> (Linguagem Técnica) e o indicador <strong>BACKUP</strong> do cabeçalho. Ambos usam a variante alinhada à direita para o painel não vazar da borda do ecrã em janelas estreitas (testado a 1024&nbsp;px). O texto vem das chaves i18n existentes (<code>hdr.techlang.help</code> / <code>hdr.sync.help</code>), por isso traduz ao trocar PT&harr;EN; adicionadas 4 chaves de título.<br><br><strong>Nota:</strong> só foram convertidos os tooltips de ajuda <em>explicativos</em> que já existiam. Os rótulos curtos de botão (acessibilidade) e os <code>?</code> da aba Controle (que já têm painel próprio) ficaram intactos.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.12.0</span>
                 <span class="vh-date">7 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15665,7 +15801,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.12.0</strong><span class="ver-tag">Avaliação de armas: estrelas amarelas, botão Salvar e histórico de notas com data e hora</span>
+        LEVEL · <strong>v2.12.1</strong><span class="ver-tag">Tooltips de ajuda estilizados (popover na paleta do Hub) substituem os balões nativos do navegador</span>
       </div>
       <script>
         (function(){
@@ -16985,8 +17121,10 @@ window.I18N = {
     'mkt.badge.mine':          'MINHA',
     // — Header sync status (v75-68) —
     'hdr.sync.prefix':         'BACKUP',
+    'hdr.sync.help.title':     'BACKUP AUTOMÁTICO',
     'hdr.sync.help':           'Backup automático na nuvem. O teu arsenal, perfil e configurações são salvos no servidor a cada alteração — sem precisares fazer nada. Este indicador só mostra o estado: a verde quando tudo está guardado, a girar enquanto salva. Ao entrares noutro dispositivo, o estado é puxado de volta.',
     'hdr.techlang.label':      'Termos',
+    'hdr.techlang.help.title': 'LINGUAGEM TÉCNICA',
     'hdr.techlang.help':       'Idioma das traduções dos termos técnicos do jogo (classes, vantagens, acessórios, stats). Quando diferente do idioma do Hub, mostra a tradução entre parênteses ao lado do termo original. Igual ao Hub = sem tradução.',
     'hdr.sync.never':          'Nunca',
     'hdr.sync.synced':         'Sincronizado',
@@ -17045,10 +17183,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '6 Jun 2026',
+    'briefing.changelog.date':  '7 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Avaliação de armas com estrelas e histórico',
-    'briefing.changelog.summary':  'A aba <strong>Avalie</strong> de cada arma (em Meus Loadouts) foi reformulada. <strong>(1)</strong> As estrelas agora <strong>pintam de amarelo</strong> corretamente conforme a nota que dás em cada dimensão (Velocidade, Mobilidade, Recuo, Mira, Alcance) &mdash; antes só o contorno mudava. <strong>(2)</strong> Clicar nas estrelas monta a nota, mas ela só é gravada quando carregas no botão <strong>Salvar avaliação</strong> &mdash; assim podes ajustar à vontade antes de confirmar. <strong>(3)</strong> Cada avaliação salva fica registada com <strong>data e hora completas</strong> (ex: 07/06/2026 - 02:08) numa base de dados, criando um histórico &mdash; no futuro dá para veres como a tua perceção de cada arma evoluiu ao longo do tempo.',
+    'briefing.changelog.headline': 'Tooltips de ajuda mais bonitos',
+    'briefing.changelog.summary':  'Os balões de ajuda <strong>?</strong> do Hub deixaram de usar o tooltip branco do navegador e passaram a um <strong>popover na paleta do Hub</strong> (fundo escuro, borda âmbar, seta a apontar para o ícone). Estreou no switch <strong>TERMOS</strong> e no indicador <strong>BACKUP</strong> do cabeçalho. Abre ao <strong>passar o rato</strong> (desktop) e ao <strong>tocar/clicar</strong> em qualquer plataforma (alterna abrir/fechar); fecha ao clicar fora ou com Escape.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18279,8 +18417,10 @@ window.I18N = {
     'mkt.badge.mine':          'MINE',
     // — Header sync status (v75-68) —
     'hdr.sync.prefix':         'BACKUP',
+    'hdr.sync.help.title':     'AUTO BACKUP',
     'hdr.sync.help':           'Automatic cloud backup. Your arsenal, profile and settings are saved to the server on every change — nothing for you to do. This indicator only shows the state: green when everything is saved, spinning while saving. When you sign in on another device, the state is pulled back.',
     'hdr.techlang.label':      'Terms',
+    'hdr.techlang.help.title': 'TECHNICAL TERMS',
     'hdr.techlang.help':       'Language of the game technical-term translations (classes, perks, attachments, stats). When different from the Hub language, it shows the translation in parentheses next to the original term. Same as Hub = no translation.',
     'hdr.sync.never':          'Never',
     'hdr.sync.synced':         'Synced',
@@ -18335,10 +18475,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 6, 2026',
+    'briefing.changelog.date':  'Jun 7, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Weapon rating with stars and history',
-    'briefing.changelog.summary':  'The <strong>Rate</strong> tab of each weapon (in My Loadouts) has been reworked. <strong>(1)</strong> The stars now <strong>fill yellow</strong> correctly based on the score you give each dimension (Fire Rate, Mobility, Recoil, Accuracy, Range) &mdash; before, only the outline changed. <strong>(2)</strong> Clicking the stars sets the score, but it is only saved when you press the <strong>Save rating</strong> button &mdash; so you can adjust freely before confirming. <strong>(3)</strong> Each saved rating is recorded with <strong>full date and time</strong> (e.g. 07/06/2026 - 02:08) in a database, building a history &mdash; in the future you will be able to see how your perception of each weapon evolved over time.',
+    'briefing.changelog.headline': 'Nicer help tooltips',
+    'briefing.changelog.summary':  'The Hub help <strong>?</strong> bubbles no longer use the browser&apos;s white tooltip and now use a <strong>popover in the Hub palette</strong> (dark background, amber border, arrow pointing at the icon). It debuts on the <strong>TERMS</strong> switch and the <strong>BACKUP</strong> indicator in the header. It opens on <strong>hover</strong> (desktop) and on <strong>tap/click</strong> on any platform (toggles open/closed); closes on outside click or Escape.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -19524,6 +19664,44 @@ window.syncTechLangToggle = function() {
 document.addEventListener('DOMContentLoaded', function () {
   setTimeout(function () { try { window.syncTechLangToggle(); } catch (e) {} }, 300);
 });
+
+/* ===== HELP POPOVER controller (v2.12.1) =====
+   Hover/focus já é tratado por CSS. Este controller só adiciona o modo
+   clique/toque (alterna aberto/fechado), fecha ao clicar fora ou Escape,
+   e garante um único popover aberto por vez. */
+(function initHelpPop() {
+  function closeAll(except) {
+    document.querySelectorAll('.help-pop.is-open').forEach(function (el) {
+      if (el !== except) el.classList.remove('is-open');
+    });
+  }
+  // Toggle no botão: usa pointerup direto no elemento clicado, com guarda de
+  // tempo pra absorver eventos duplicados (path + button na mesma interação).
+  var lastToggle = 0;
+  function onBtn(e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.help-pop-btn') : null;
+    if (!btn) return;
+    var now = Date.now();
+    if (now - lastToggle < 60) { e.preventDefault(); e.stopPropagation(); return; }
+    lastToggle = now;
+    var pop = btn.closest('.help-pop');
+    if (!pop) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var willOpen = !pop.classList.contains('is-open');
+    closeAll(pop);
+    pop.classList.toggle('is-open', willOpen);
+  }
+  document.addEventListener('click', onBtn, true); // capture: roda antes de qualquer close
+  // Fecha ao clicar/tocar fora de qualquer help-pop (delegado, fase bubble).
+  document.addEventListener('pointerdown', function (e) {
+    if (e.target && e.target.closest && e.target.closest('.help-pop')) return;
+    closeAll(null);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll(null);
+  });
+})();
 
 (function initI18N() {
   let saved = 'pt';
