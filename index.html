@@ -2569,6 +2569,21 @@
     transform: translateX(0) translateY(0);
   }
 
+  /* Variante ancorada a esquerda (v2.15.0) — pro lado esquerdo de titulos/cabecalhos */
+  .help-pop.help-pop-left .help-pop-panel {
+    left: -6px; right: auto;
+    transform: translateX(0) translateY(-4px);
+  }
+  .help-pop.help-pop-left .help-pop-panel::before {
+    left: 12px; right: auto; margin-left: 0;
+  }
+  .help-pop.help-pop-left:not(.is-open) .help-pop-btn:hover + .help-pop-panel,
+  .help-pop.help-pop-left:not(.is-open) .help-pop-btn:focus-visible + .help-pop-panel,
+  .help-pop.help-pop-left:not(.is-open) .help-pop-panel:hover,
+  .help-pop.help-pop-left.is-open .help-pop-panel {
+    transform: translateX(0) translateY(0);
+  }
+
   /* ===== APP HEADER (sticky, above main content) ===== */
   .app-header {
     position: sticky;
@@ -10833,12 +10848,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.14.0 · <span data-i18n="briefing.changelog.date">7 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.15.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Tradutor no Construtor e Minhas Armas</div>
-          <div class="briefing-changelog-summary" data-i18n="briefing.changelog.summary">O tradutor de termos técnicos (switch <strong>Termos</strong>) agora também age no <strong>Construtor</strong> e em <strong>Minhas Armas</strong> &mdash; rótulos de slot (Muzzle, Barrel...), perks e curingas ganham a tradução entre parênteses. Os <strong>nomes próprios</strong> (armas, attachments, codenames) ficam protegidos e nunca são alterados. Além disso, as traduções de perks e curingas foram <strong>corrigidas pelo texto oficial da Activision em PT-BR</strong> (ex.: Gunfighter = Pistoleiro, Lightweight = Leve, Gung Ho = Fervoroso).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Ajuda contextual (?) em 10 pontos do Hub</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Novos balões de ajuda <strong>(?)</strong> com o componente <strong>.help-pop</strong> em 10 pontos: o <strong>score &amp; tier</strong> da análise, o <strong>estilo de jogo</strong> e o <strong>wildcard</strong> no Construtor, as <strong>tags</strong> de Minhas Armas, o <strong>acompanhamento</strong> da Evolução, avaliar/partilhar em Meus Loadouts, o <strong>tamanho de mapa</strong> nos Mapas, o combo <strong>Stealth Full</strong> e o <strong>custo de scorestreak</strong> nos Perks, e o avatar nas Configurações. Abrem por hover ou toque e traduzem com o switch Termos.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -10910,7 +10925,7 @@
     <section class="section" id="section-myweapons" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.myweapons.crumb">02 / Minhas Armas</div>
-        <h2 data-i18n="sec.myweapons.h2">MINHAS ARMAS · CATÁLOGO DE BUILDS</h2>
+        <div class="help-head-row" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 data-i18n="sec.myweapons.h2">MINHAS ARMAS · CATÁLOGO DE BUILDS</h2><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre os tiers e as tags das armas" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:star}}<span data-i18n="mw.tier.help.title">TIER & TAGS</span></span><span class="help-pop-body" data-i18n-html="mw.tier.help"><strong>S-TIER &rarr; D-TIER</strong> = a for&ccedil;a da arma pro teu estilo (S = topo). A estrela <strong>TOP PICK</strong> marca as recomendadas pro rusher CQB (combate de curta dist&acirc;ncia). <strong>SEASONAL</strong> = arma de temporada (ex.: S3 = Season 3).</span></span></span></div>
         <p data-i18n="sec.myweapons.intro">Tuas armas montadas · organizadas por tipo · prestige e level são compartilhados entre todas as builds da mesma arma base. Edita a P/L numa build e propaga em todas.</p>
       </div>
 
@@ -13828,7 +13843,7 @@
           <div class="step-header">
             <div class="step-num">1</div>
             <div class="step-title" data-i18n="con.step1.title">Estilo de Jogo</div>
-            <div class="step-hint" data-i18n="con.step1.hint">como você joga</div>
+            <div class="step-hint" data-i18n="con.step1.hint">como você joga</div><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o estilo de jogo" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:gamepad-2}}<span data-i18n="con.step1.help.title">ESTILO DE JOGO</span></span><span class="help-pop-body" data-i18n-html="con.step1.help">Define como a an&aacute;lise te avalia. Em rusher (avan&ccedil;o agressivo), o Hub <strong>valoriza</strong> mobilidade e Tac Sprinter (corredor) e <strong>penaliza</strong> stocks Control/Heavy (coronhas de controle/peso). Escolher errado faz o veredito sair pro jogador errado.</span></span></span>
           </div>
           <div class="step-body">
             <div class="option-grid" id="opt-style"></div>
@@ -13863,7 +13878,7 @@
           <div class="step-header">
             <div class="step-num">3</div>
             <div class="step-title" data-i18n="con.step3w.title">Wildcard</div>
-            <div class="step-hint" data-i18n="con.step3w.hint">a carta · 1 por loadout</div>
+            <div class="step-hint" data-i18n="con.step3w.hint">a carta · 1 por loadout</div><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o wildcard" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:gem}}<span data-i18n="con.step3w.help.title">WILDCARD (CURINGA)</span></span><span class="help-pop-body" data-i18n-html="con.step3w.help">Carta que muda uma regra do loadout &mdash; s&oacute; 1 por armamento. <strong>Gunfighter</strong> (pistoleiro) sobe a arma de 5 &rarr; 8 acess&oacute;rios: desperd&iacute;cio se n&atilde;o preencheres os 8. <strong>Overkill</strong> libera 2 prim&aacute;rias: erro deixar a 2&ordf; vazia.</span></span></span>
           </div>
           <div class="step-body">
             <div class="option-grid" id="opt-wildcard"></div>
@@ -13972,7 +13987,7 @@
             <div class="score-num"><span id="score-value">0.0</span><small>/10</small></div>
           </div>
           <div class="score-info-text">
-            <div class="score-rating" id="score-rating">—</div>
+            <div class="help-head-row" style="display:flex;align-items:center;gap:8px"><div class="score-rating" id="score-rating">—</div><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o score e o tier da analise" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:award}}<span data-i18n="con.score.help.title">SCORE & TIER</span></span><span class="help-pop-body" data-i18n-html="con.score.help">Alem da nota 0&ndash;10, o <strong>tier</strong> (classifica&ccedil;&atilde;o S&ndash;D) diz o encaixe com o teu jogo: <strong>S</strong> = no teto pro teu estilo rusher CQB (combate de curta dist&acirc;ncia); <strong>D</strong> = desencaixe grave. A an&aacute;lise pesa o <strong>teu</strong> perfil e as dificuldades que cadastraste &mdash; n&atilde;o o jogador m&eacute;dio.</span></span></span></div>
             <div class="score-summary" id="score-summary" data-i18n="con.score.summaryDefault">Análise pendente. Preencha o loadout e aperta "Analisar".</div>
           </div>
         </div>
@@ -14000,7 +14015,7 @@
     <section class="section" id="section-myloadouts">
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.myloadouts.crumb">Meus Loadouts / Arsenal Pessoal</div>
-        <h2 data-i18n="sec.myloadouts.h2">MEUS LOADOUTS</h2>
+        <div class="help-head-row" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 data-i18n="sec.myloadouts.h2">MEUS LOADOUTS</h2><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre avaliar e partilhar loadouts" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:link}}<span data-i18n="myld.help.title">AVALIAR & PARTILHAR</span></span><span class="help-pop-body" data-i18n-html="myld.help">Cada loadout salvo pode ser avaliado em sliders (precis&atilde;o, mobilidade, recuo, TTK [time-to-kill &mdash; tempo para eliminar], versatilidade), guardado com data. O <strong>build code</strong> (c&oacute;digo da build) deixa partilhar via Discord, WhatsApp ou copiar e colar.</span></span></span></div>
         <p data-i18n="sec.myloadouts.intro">Loadouts salvos no Hub. Avalie cada arma com sliders (precisão, mobilidade, recuo, TTK [time-to-kill — tempo para eliminar], versatilidade) e compartilhe via Discord, WhatsApp ou copiando o build code.</p>
       </div>
 
@@ -14110,6 +14125,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.15.0</span>
+                <span class="vh-date">8 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Ajuda contextual em 10 pontos do Hub, reutilizando o componente <code>.help-pop</code> criado na v2.12.1.<br><br><strong>1. Dez tooltips novos.</strong> Bal&otilde;es <code>?</code> em: <strong>score &amp; tier</strong> da an&aacute;lise, <strong>estilo de jogo</strong> e <strong>wildcard</strong> (Construtor), <strong>tiers &amp; tags</strong> (Minhas Armas), <strong>como acompanhar</strong> (Evolu&ccedil;&atilde;o), <strong>avaliar &amp; partilhar</strong> (Meus Loadouts), <strong>tamanho do mapa</strong> (Mapas), combo <strong>Stealth Full</strong> e <strong>custo de scorestreak</strong> (Perks), e <strong>avatar do operador</strong> (Configura&ccedil;&otilde;es).<br><br><strong>2. Nova variante <code>.help-pop-left</code>.</strong> Os <code>?</code> ao lado de t&iacute;tulos alinhados &agrave; esquerda abrem o painel para a direita, sem vazar a borda da tela (antes existiam s&oacute; a centrada e a <code>.help-pop-right</code>). Apenas CSS &mdash; <strong>zero JS novo</strong>: o controller global de hover/clique/Escape da v2.12.1 j&aacute; cobre os bal&otilde;es novos.<br><br><strong>3. Texto i18n nos dois idiomas.</strong> Cada tooltip tem t&iacute;tulo e corpo em <code>window.I18N.pt</code> e <code>window.I18N.en</code> (20 chaves novas por idioma), por isso traduzem ao trocar PT&harr;EN. Os corpos usam <code>data-i18n-html</code> para suportar <code>&lt;strong&gt;</code>.<br><br><strong>Nota:</strong> os <code>?</code> entram como <em>irm&atilde;os</em> de cada t&iacute;tulo, nunca dentro de elementos com <code>data-i18n</code> (que teriam o filho apagado ao re-traduzir). Cinco pontos j&aacute; explicados no texto vis&iacute;vel da se&ccedil;&atilde;o (intro/"Como funciona") tamb&eacute;m receberam <code>?</code> por op&ccedil;&atilde;o, para refor&ccedil;o.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -14539,7 +14563,7 @@
         <button class="maps-filter-chip active" data-map-filter="all">TODOS</button>
         <button class="maps-filter-chip" data-map-filter="small">SMALL · CQB</button>
         <button class="maps-filter-chip" data-map-filter="medium">MEDIUM · HYBRID</button>
-        <button class="maps-filter-chip" data-map-filter="large">LARGE · 20v20</button>
+        <button class="maps-filter-chip" data-map-filter="large">LARGE · 20v20</button><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o tamanho do mapa" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:map}}<span data-i18n="maps.size.help.title">TAMANHO DO MAPA</span></span><span class="help-pop-body" data-i18n-html="maps.size.help">O tamanho muda a arma ideal. <strong>SMALL &middot; CQB</strong> (curta dist&acirc;ncia): SMG e shotgun dominam, &lt;15m. <strong>MEDIUM &middot; HYBRID</strong>: AR (fuzil) equilibra. <strong>LARGE &middot; 20v20</strong>: range e &oacute;ptica pesam &mdash; SMG sofre no dropoff (queda de dano) ap&oacute;s ~20m.</span></span></span>
       </div>
 
       <div class="maps-grid" id="maps-grid">
@@ -14575,7 +14599,7 @@
       <div class="subpanel active" id="perks-base">
         <div class="panel-header">
           <div class="panel-icon">P1</div>
-          <h3 data-i18n-html="perk.panel.base.title">Setup Recomendado · 3 Perks</h3>
+          <div class="help-head-row" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3 data-i18n-html="perk.panel.base.title">Setup Recomendado · 3 Perks</h3><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o combo stealth full" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:eye-off}}<span data-i18n="perk.stealth.help.title">COMBO STEALTH FULL</span></span><span class="help-pop-body" data-i18n-html="perk.stealth.help"><strong>Ghost + Cold-Blooded + supressor</strong> = invis&iacute;vel a quase tudo: Ghost some do UAV (radar) em movimento, Cold-Blooded zera t&eacute;rmica e mira autom&aacute;tica inimigas, e o supressor (silenciador) tira teu disparo do minimapa. Custa range/dano &mdash; vale quando morres muito pra killstreaks.</span></span></span></div>
           <div class="panel-desc" data-i18n="perk.panel.base.desc">Hybrid Tactician (Enforcer × Strategist)</div>
         </div>
 
@@ -14774,7 +14798,7 @@
       <div class="subpanel" id="perks-streaks">
         <div class="panel-header">
           <div class="panel-icon">P4</div>
-          <h3 data-i18n-html="perk.panel.streaks.title">Scorestreaks Loadout</h3>
+          <div class="help-head-row" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3 data-i18n-html="perk.panel.streaks.title">Scorestreaks Loadout</h3><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o custo de scorestreak" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:signal}}<span data-i18n="perk.streak.help.title">CUSTO DE SCORESTREAK</span></span><span class="help-pop-body" data-i18n-html="perk.streak.help">O n&uacute;mero de cada streak &eacute; o <strong>score</strong> (pontua&ccedil;&atilde;o) que precisas juntar na partida pra cham&aacute;-la &mdash; kills, assists e jogadas de objetivo somam. Quanto maior, mais forte a recompensa. Come&ccedil;a pela mais barata (UAV) pra encadear as pr&oacute;ximas.</span></span></span></div>
           <div class="panel-desc" data-i18n="perk.panel.streaks.desc">Setup realista pra rusher intermediário</div>
         </div>
 
@@ -14888,7 +14912,7 @@
         <section class="section" id="section-struggles" data-glossary-zone>
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.struggles.crumb">07 / Evolução · Dificuldades</div>
-        <h2 data-i18n="sec.struggles.h2">EVOLUÇÃO · DIFICULDADES</h2>
+        <div class="help-head-row" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 data-i18n="sec.struggles.h2">EVOLUÇÃO · DIFICULDADES</h2><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Como funciona o acompanhamento da evolucao" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:bar-chart-3}}<span data-i18n="str.track.help.title">COMO ACOMPANHAR</span></span><span class="help-pop-body" data-i18n-html="str.track.help">Registra uma dificuldade real de partida e recebe a causa-raiz (origem do problema) + dicas. Sempre que sentires melhora, d&aacute; uma <strong>nota de 0 a 10</strong> (tua auto-percep&ccedil;&atilde;o); o Hub guarda com data e desenha a tua curva de evolu&ccedil;&atilde;o ao longo do tempo.</span></span></span></div>
         <p data-i18n="sec.struggles.intro">Registra os problemas que tens em partida, recebe dicas direcionadas, e acompanha tua melhoria ao longo do tempo. Cada avaliação fica guardada com data — vê tua curva de progresso.</p>
       </div>
 
@@ -15401,7 +15425,7 @@
       <!-- OPERATOR PANEL (v75-51) — Configurações ▸ Operador ▸ Avatar -->
       <div class="imgproc-panel" id="operator-panel" style="display:none">
         <p class="imgproc-intro">
-          <strong>Operador.</strong> Gere o avatar do teu operador — carrega uma foto direta, gera um avatar personalizado via IA usando um template do catálogo, ou reimporta um PNG previamente baixado.
+          <strong>Operador.</strong> Gere o avatar do teu operador — carrega uma foto direta, gera um avatar personalizado via IA usando um template do catálogo, ou reimporta um PNG previamente baixado. <span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o avatar do operador" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:user}}<span data-i18n="set.avatar.help.title">AVATAR DO OPERADOR</span></span><span class="help-pop-body" data-i18n-html="set.avatar.help">Tr&ecirc;s jeitos de definir teu avatar: <strong>carregar</strong> uma foto, <strong>gerar via IA</strong> (tiras uma selfie pelo QR no telem&oacute;vel e a IA cria um avatar t&aacute;tico), ou <strong>reimportar</strong> um PNG j&aacute; baixado.</span></span></span>
         </p>
 
         <div class="operator-panel-wrap">
@@ -15844,7 +15868,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.14.0</strong><span class="ver-tag">Tradutor de termos chega ao Construtor e Minhas Armas; termos de perks/curingas corrigidos pelo oficial PT-BR</span>
+        LEVEL · <strong>v2.15.0</strong><span class="ver-tag">Ajuda contextual (?) em 10 pontos do Hub: análise, estilo, tiers, evolução, wildcard, mapas, perks e avatar</span>
       </div>
       <script>
         (function(){
@@ -17248,6 +17272,27 @@ window.I18N = {
     'hdr.techlang.label':      'Termos',
     'hdr.techlang.help.title': 'LINGUAGEM TÉCNICA',
     'hdr.techlang.help':       'Idioma das traduções dos termos técnicos do jogo (classes, vantagens, acessórios, stats). Quando diferente do idioma do Hub, mostra a tradução entre parênteses ao lado do termo original. Igual ao Hub = sem tradução.',
+    // — Help popovers de conteudo (v2.15.0) —
+    'con.score.help.title': 'SCORE & TIER',
+    'con.score.help': 'Alem da nota 0&ndash;10, o <strong>tier</strong> (classifica&ccedil;&atilde;o S&ndash;D) diz o encaixe com o teu jogo: <strong>S</strong> = no teto pro teu estilo rusher CQB (combate de curta dist&acirc;ncia); <strong>D</strong> = desencaixe grave. A an&aacute;lise pesa o <strong>teu</strong> perfil e as dificuldades que cadastraste &mdash; n&atilde;o o jogador m&eacute;dio.',
+    'con.step1.help.title': 'ESTILO DE JOGO',
+    'con.step1.help': 'Define como a an&aacute;lise te avalia. Em rusher (avan&ccedil;o agressivo), o Hub <strong>valoriza</strong> mobilidade e Tac Sprinter (corredor) e <strong>penaliza</strong> stocks Control/Heavy (coronhas de controle/peso). Escolher errado faz o veredito sair pro jogador errado.',
+    'mw.tier.help.title': 'TIER & TAGS',
+    'mw.tier.help': '<strong>S-TIER &rarr; D-TIER</strong> = a for&ccedil;a da arma pro teu estilo (S = topo). A estrela <strong>TOP PICK</strong> marca as recomendadas pro rusher CQB (combate de curta dist&acirc;ncia). <strong>SEASONAL</strong> = arma de temporada (ex.: S3 = Season 3).',
+    'str.track.help.title': 'COMO ACOMPANHAR',
+    'str.track.help': 'Registra uma dificuldade real de partida e recebe a causa-raiz (origem do problema) + dicas. Sempre que sentires melhora, d&aacute; uma <strong>nota de 0 a 10</strong> (tua auto-percep&ccedil;&atilde;o); o Hub guarda com data e desenha a tua curva de evolu&ccedil;&atilde;o ao longo do tempo.',
+    'con.step3w.help.title': 'WILDCARD (CURINGA)',
+    'con.step3w.help': 'Carta que muda uma regra do loadout &mdash; s&oacute; 1 por armamento. <strong>Gunfighter</strong> (pistoleiro) sobe a arma de 5 &rarr; 8 acess&oacute;rios: desperd&iacute;cio se n&atilde;o preencheres os 8. <strong>Overkill</strong> libera 2 prim&aacute;rias: erro deixar a 2&ordf; vazia.',
+    'myld.help.title': 'AVALIAR & PARTILHAR',
+    'myld.help': 'Cada loadout salvo pode ser avaliado em sliders (precis&atilde;o, mobilidade, recuo, TTK [time-to-kill &mdash; tempo para eliminar], versatilidade), guardado com data. O <strong>build code</strong> (c&oacute;digo da build) deixa partilhar via Discord, WhatsApp ou copiar e colar.',
+    'maps.size.help.title': 'TAMANHO DO MAPA',
+    'maps.size.help': 'O tamanho muda a arma ideal. <strong>SMALL &middot; CQB</strong> (curta dist&acirc;ncia): SMG e shotgun dominam, &lt;15m. <strong>MEDIUM &middot; HYBRID</strong>: AR (fuzil) equilibra. <strong>LARGE &middot; 20v20</strong>: range e &oacute;ptica pesam &mdash; SMG sofre no dropoff (queda de dano) ap&oacute;s ~20m.',
+    'perk.stealth.help.title': 'COMBO STEALTH FULL',
+    'perk.stealth.help': '<strong>Ghost + Cold-Blooded + supressor</strong> = invis&iacute;vel a quase tudo: Ghost some do UAV (radar) em movimento, Cold-Blooded zera t&eacute;rmica e mira autom&aacute;tica inimigas, e o supressor (silenciador) tira teu disparo do minimapa. Custa range/dano &mdash; vale quando morres muito pra killstreaks.',
+    'perk.streak.help.title': 'CUSTO DE SCORESTREAK',
+    'perk.streak.help': 'O n&uacute;mero de cada streak &eacute; o <strong>score</strong> (pontua&ccedil;&atilde;o) que precisas juntar na partida pra cham&aacute;-la &mdash; kills, assists e jogadas de objetivo somam. Quanto maior, mais forte a recompensa. Come&ccedil;a pela mais barata (UAV) pra encadear as pr&oacute;ximas.',
+    'set.avatar.help.title': 'AVATAR DO OPERADOR',
+    'set.avatar.help': 'Tr&ecirc;s jeitos de definir teu avatar: <strong>carregar</strong> uma foto, <strong>gerar via IA</strong> (tiras uma selfie pelo QR no telem&oacute;vel e a IA cria um avatar t&aacute;tico), ou <strong>reimportar</strong> um PNG j&aacute; baixado.',
     'hdr.sync.never':          'Nunca',
     'hdr.sync.synced':         'Sincronizado',
     'hdr.sync.syncing':        'Sincronizando...',
@@ -17305,10 +17350,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '7 Jun 2026',
+    'briefing.changelog.date':  '8 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Tradutor no Construtor e Minhas Armas',
-    'briefing.changelog.summary':  'O tradutor de termos t&eacute;cnicos (switch <strong>Termos</strong>) agora tamb&eacute;m age no <strong>Construtor</strong> e em <strong>Minhas Armas</strong> &mdash; r&oacute;tulos de slot (Muzzle, Barrel...), perks e curingas ganham a tradu&ccedil;&atilde;o entre par&ecirc;nteses. Os <strong>nomes pr&oacute;prios</strong> (armas, attachments, codenames) ficam protegidos e nunca s&atilde;o alterados. Al&eacute;m disso, as tradu&ccedil;&otilde;es de perks e curingas foram <strong>corrigidas pelo texto oficial da Activision em PT-BR</strong> (ex.: Gunfighter = Pistoleiro, Lightweight = Leve, Gung Ho = Fervoroso).',
+    'briefing.changelog.headline': 'Ajuda contextual (?) em 10 pontos do Hub',
+    'briefing.changelog.summary':  'Novos bal&otilde;es de ajuda <strong>(?)</strong> com o componente <strong>.help-pop</strong> em 10 pontos: o <strong>score &amp; tier</strong> da an&aacute;lise, o <strong>estilo de jogo</strong> e o <strong>wildcard</strong> no Construtor, as <strong>tags</strong> de Minhas Armas, o <strong>acompanhamento</strong> da Evolu&ccedil;&atilde;o, avaliar/partilhar em Meus Loadouts, o <strong>tamanho de mapa</strong> nos Mapas, o combo <strong>Stealth Full</strong> e o <strong>custo de scorestreak</strong> nos Perks, e o avatar nas Configura&ccedil;&otilde;es. Abrem por hover ou toque e traduzem com o switch Termos.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18544,6 +18589,27 @@ window.I18N = {
     'hdr.techlang.label':      'Terms',
     'hdr.techlang.help.title': 'TECHNICAL TERMS',
     'hdr.techlang.help':       'Language of the game technical-term translations (classes, perks, attachments, stats). When different from the Hub language, it shows the translation in parentheses next to the original term. Same as Hub = no translation.',
+    // — Help popovers de conteudo (v2.15.0) —
+    'con.score.help.title': 'SCORE & TIER',
+    'con.score.help': 'Beyond the 0&ndash;10 score, the <strong>tier</strong> (S&ndash;D rating) shows the fit with your game: <strong>S</strong> = peak for your aggressive CQB (close-quarters) rusher style; <strong>D</strong> = severe style mismatch. The analysis weighs <strong>your</strong> profile and the struggles you logged &mdash; not the average player.',
+    'con.step1.help.title': 'PLAYSTYLE',
+    'con.step1.help': 'Sets how the analysis judges you. For a rusher (aggressive push), the Hub <strong>rewards</strong> mobility and Tac Sprinter and <strong>penalizes</strong> Control/Heavy stocks. Pick the wrong one and the verdict targets the wrong player.',
+    'mw.tier.help.title': 'TIER & TAGS',
+    'mw.tier.help': '<strong>S-TIER &rarr; D-TIER</strong> = the weapon\'s strength for your style (S = top). The <strong>TOP PICK</strong> star flags the ones recommended for your CQB (close-quarters) rusher game. <strong>SEASONAL</strong> = limited-season weapon (e.g. S3 = Season 3).',
+    'str.track.help.title': 'HOW TRACKING WORKS',
+    'str.track.help': 'Log a real in-match struggle and get the root cause plus tips. Whenever you feel you improved, give a <strong>0&ndash;10 rating</strong> (your self-assessment); the Hub saves it with a date and draws your progress curve over time.',
+    'con.step3w.help.title': 'WILDCARD',
+    'con.step3w.help': 'A card that bends one loadout rule &mdash; only 1 per loadout. <strong>Gunfighter</strong> takes the weapon from 5 &rarr; 8 attachments: wasted if you don\'t fill all 8. <strong>Overkill</strong> enables 2 primaries: a mistake to leave the 2nd empty.',
+    'myld.help.title': 'RATE & SHARE',
+    'myld.help': 'Each saved loadout can be rated on sliders (accuracy, mobility, recoil, TTK [time-to-kill], versatility), saved with a date. The <strong>build code</strong> lets you share via Discord, WhatsApp or copy-paste.',
+    'maps.size.help.title': 'MAP SIZE',
+    'maps.size.help': 'Map size changes the ideal weapon. <strong>SMALL &middot; CQB</strong> (close-quarters): SMG and shotgun dominate, &lt;15m. <strong>MEDIUM &middot; HYBRID</strong>: AR balances. <strong>LARGE &middot; 20v20</strong>: range and optic matter &mdash; SMG suffers the dropoff (damage falloff) past ~20m.',
+    'perk.stealth.help.title': 'STEALTH FULL COMBO',
+    'perk.stealth.help': '<strong>Ghost + Cold-Blooded + suppressor</strong> = invisible to almost everything: Ghost hides you from UAV (radar) while moving, Cold-Blooded defeats enemy thermal and auto-aim, and the suppressor keeps your shots off the minimap. It costs range/damage &mdash; worth it when killstreaks keep killing you.',
+    'perk.streak.help.title': 'SCORESTREAK COST',
+    'perk.streak.help': 'Each streak\'s number is the <strong>score</strong> you must build up in the match to call it &mdash; kills, assists and objective plays all add up. The higher it is, the stronger the reward. Start with the cheapest (UAV) to chain the rest.',
+    'set.avatar.help.title': 'OPERATOR AVATAR',
+    'set.avatar.help': 'Three ways to set your avatar: <strong>upload</strong> a photo, <strong>generate with AI</strong> (take a selfie via the phone QR and the AI builds a tactical avatar), or <strong>re-import</strong> a PNG you already downloaded.',
     'hdr.sync.never':          'Never',
     'hdr.sync.synced':         'Synced',
     'hdr.sync.syncing':        'Syncing...',
@@ -18597,10 +18663,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 7, 2026',
+    'briefing.changelog.date':  'Jun 8, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Translator in Builder and My Weapons',
-    'briefing.changelog.summary':  'The technical-term translator (the <strong>Terms</strong> switch) now also works in the <strong>Builder</strong> and <strong>My Weapons</strong> &mdash; slot labels (Muzzle, Barrel...), perks and wildcards get the translation in parentheses. <strong>Proper nouns</strong> (weapons, attachments, codenames) stay protected and are never altered. Also, perk and wildcard translations were <strong>corrected against the official Activision PT-BR text</strong> (e.g. Gunfighter = Pistoleiro, Lightweight = Leve, Gung Ho = Fervoroso).',
+    'briefing.changelog.headline': 'Contextual help (?) across 10 spots',
+    'briefing.changelog.summary':  'New help popovers <strong>(?)</strong> using the <strong>.help-pop</strong> component across 10 spots: the analysis <strong>score &amp; tier</strong>, the <strong>playstyle</strong> and <strong>wildcard</strong> in the Builder, the <strong>tags</strong> in My Weapons, Evolution <strong>tracking</strong>, rate/share in My Loadouts, <strong>map size</strong> in Maps, the <strong>Stealth Full</strong> combo and <strong>scorestreak cost</strong> in Perks, and the avatar in Settings. They open on hover or tap and translate with the Terms switch.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
