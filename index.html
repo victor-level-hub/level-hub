@@ -6228,24 +6228,26 @@
   .build-card .bc-star {
     background: transparent;
     border: none;
-    color: var(--border);
+    color: var(--accent-orange);
     font-size: 18px;
     line-height: 1;
     padding: 2px 3px;
     cursor: pointer;
     transition: color 0.12s ease, transform 0.1s ease;
   }
-  /* O ícone {{i:star}} é um SVG sem fill explícito — força herdar a cor do botão,
-     senão a estrela "cheia" só ganhava contorno e o miolo ficava vazio/preto. */
+  /* Estrela vazia = contorno amarelo (fill:none, só o stroke). Estrela cheia =
+     amarelo sólido (.filled adiciona fill). currentColor herda --accent-orange
+     nos dois estados, então o contorno e o preenchimento usam a mesma cor. */
   .build-card .bc-star svg {
     width: 1em;
     height: 1em;
     display: block;
-    fill: currentColor;
+    fill: none;
     stroke: currentColor;
-    stroke-width: 1;
+    stroke-width: 1.5;
   }
-  .build-card .bc-star:hover { color: rgba(240,185,82,0.55); transform: scale(1.15); }
+  .build-card .bc-star:hover { transform: scale(1.15); }
+  .build-card .bc-star.filled svg { fill: currentColor; }
   .build-card .bc-star.filled { color: var(--accent-orange); }
   .build-card .bc-star.filled:hover { color: var(--accent-orange); }
   .build-card .bc-rating-date {
@@ -14132,7 +14134,7 @@
                 <span class="vh-date">8 Jun 2026</span>
                 <span class="vh-kind">feature</span>
               </div>
-              <p class="vh-desc">Ajuda contextual em 10 pontos do Hub, reutilizando o componente <code>.help-pop</code> criado na v2.12.1.<br><br><strong>1. Dez tooltips novos.</strong> Bal&otilde;es <code>?</code> em: <strong>score &amp; tier</strong> da an&aacute;lise, <strong>estilo de jogo</strong> e <strong>wildcard</strong> (Construtor), <strong>tiers &amp; tags</strong> (Minhas Armas), <strong>como acompanhar</strong> (Evolu&ccedil;&atilde;o), <strong>avaliar &amp; partilhar</strong> (Meus Loadouts), <strong>tamanho do mapa</strong> (Mapas), combo <strong>Stealth Full</strong> e <strong>custo de scorestreak</strong> (Perks), e <strong>avatar do operador</strong> (Configura&ccedil;&otilde;es).<br><br><strong>2. Nova variante <code>.help-pop-left</code>.</strong> Os <code>?</code> ao lado de t&iacute;tulos alinhados &agrave; esquerda abrem o painel para a direita, sem vazar a borda da tela (antes existiam s&oacute; a centrada e a <code>.help-pop-right</code>). Apenas CSS &mdash; <strong>zero JS novo</strong>: o controller global de hover/clique/Escape da v2.12.1 j&aacute; cobre os bal&otilde;es novos.<br><br><strong>3. Texto i18n nos dois idiomas.</strong> Cada tooltip tem t&iacute;tulo e corpo em <code>window.I18N.pt</code> e <code>window.I18N.en</code> (20 chaves novas por idioma), por isso traduzem ao trocar PT&harr;EN. Os corpos usam <code>data-i18n-html</code> para suportar <code>&lt;strong&gt;</code>.<br><br><strong>Nota:</strong> os <code>?</code> entram como <em>irm&atilde;os</em> de cada t&iacute;tulo, nunca dentro de elementos com <code>data-i18n</code> (que teriam o filho apagado ao re-traduzir). Cinco pontos j&aacute; explicados no texto vis&iacute;vel da se&ccedil;&atilde;o (intro/"Como funciona") tamb&eacute;m receberam <code>?</code> por op&ccedil;&atilde;o, para refor&ccedil;o.</p>
+              <p class="vh-desc">Ajuda contextual em 10 pontos do Hub, reutilizando o componente <code>.help-pop</code> criado na v2.12.1.<br><br><strong>1. Dez tooltips novos.</strong> Bal&otilde;es <code>?</code> em: <strong>score &amp; tier</strong> da an&aacute;lise, <strong>estilo de jogo</strong> e <strong>wildcard</strong> (Construtor), <strong>tiers &amp; tags</strong> (Minhas Armas), <strong>como acompanhar</strong> (Evolu&ccedil;&atilde;o), <strong>avaliar &amp; partilhar</strong> (Meus Loadouts), <strong>tamanho do mapa</strong> (Mapas), combo <strong>Stealth Full</strong> e <strong>custo de scorestreak</strong> (Perks), e <strong>avatar do operador</strong> (Configura&ccedil;&otilde;es).<br><br><strong>2. Nova variante <code>.help-pop-left</code>.</strong> Os <code>?</code> ao lado de t&iacute;tulos alinhados &agrave; esquerda abrem o painel para a direita, sem vazar a borda da tela (antes existiam s&oacute; a centrada e a <code>.help-pop-right</code>). Apenas CSS &mdash; <strong>zero JS novo</strong>: o controller global de hover/clique/Escape da v2.12.1 j&aacute; cobre os bal&otilde;es novos.<br><br><strong>3. Texto i18n nos dois idiomas.</strong> Cada tooltip tem t&iacute;tulo e corpo em <code>window.I18N.pt</code> e <code>window.I18N.en</code> (20 chaves novas por idioma), por isso traduzem ao trocar PT&harr;EN. Os corpos usam <code>data-i18n-html</code> para suportar <code>&lt;strong&gt;</code>.<br><br><strong>Nota:</strong> os <code>?</code> entram como <em>irm&atilde;os</em> de cada t&iacute;tulo, nunca dentro de elementos com <code>data-i18n</code> (que teriam o filho apagado ao re-traduzir). Cinco pontos j&aacute; explicados no texto vis&iacute;vel da se&ccedil;&atilde;o (intro/"Como funciona") tamb&eacute;m receberam <code>?</code> por op&ccedil;&atilde;o, para refor&ccedil;o.<br><br><strong>Ajuste visual (estrelas).</strong> As estrelas de avalia&ccedil;&atilde;o das armas em Meus Loadouts passam a come&ccedil;ar s&oacute; com o <strong>contorno amarelo</strong>; ao dar a nota, preenchem em <strong>amarelo s&oacute;lido</strong> de forma cumulativa (nota 3 = estrelas 1, 2 e 3 cheias). Antes a estrela vazia ficava cinza s&oacute;lida &mdash; agora s&oacute; o stroke aparece (<code>fill:none</code>) e a <code>.filled</code> adiciona o preenchimento.</p>
             </div>
 
             <div class="vh-entry">
@@ -17353,7 +17355,7 @@ window.I18N = {
     'briefing.changelog.date':  '8 Jun 2026',
     'briefing.changelog.pill':  'novo',
     'briefing.changelog.headline': 'Ajuda contextual (?) em 10 pontos do Hub',
-    'briefing.changelog.summary':  'Novos bal&otilde;es de ajuda <strong>(?)</strong> com o componente <strong>.help-pop</strong> em 10 pontos: o <strong>score &amp; tier</strong> da an&aacute;lise, o <strong>estilo de jogo</strong> e o <strong>wildcard</strong> no Construtor, as <strong>tags</strong> de Minhas Armas, o <strong>acompanhamento</strong> da Evolu&ccedil;&atilde;o, avaliar/partilhar em Meus Loadouts, o <strong>tamanho de mapa</strong> nos Mapas, o combo <strong>Stealth Full</strong> e o <strong>custo de scorestreak</strong> nos Perks, e o avatar nas Configura&ccedil;&otilde;es. Abrem por hover ou toque e traduzem com o switch Termos.',
+    'briefing.changelog.summary':  'Novos bal&otilde;es de ajuda <strong>(?)</strong> com o componente <strong>.help-pop</strong> em 10 pontos: o <strong>score &amp; tier</strong> da an&aacute;lise, o <strong>estilo de jogo</strong> e o <strong>wildcard</strong> no Construtor, as <strong>tags</strong> de Minhas Armas, o <strong>acompanhamento</strong> da Evolu&ccedil;&atilde;o, avaliar/partilhar em Meus Loadouts, o <strong>tamanho de mapa</strong> nos Mapas, o combo <strong>Stealth Full</strong> e o <strong>custo de scorestreak</strong> nos Perks, e o avatar nas Configura&ccedil;&otilde;es. Abrem por hover ou toque e traduzem com o switch Termos. Ajuste extra: as estrelas de avalia&ccedil;&atilde;o das armas (Meus Loadouts) come&ccedil;am s&oacute; com o contorno amarelo e ficam amarelas s&oacute;lidas conforme a nota.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18666,7 +18668,7 @@ window.I18N = {
     'briefing.changelog.date':  'Jun 8, 2026',
     'briefing.changelog.pill':  'new',
     'briefing.changelog.headline': 'Contextual help (?) across 10 spots',
-    'briefing.changelog.summary':  'New help popovers <strong>(?)</strong> using the <strong>.help-pop</strong> component across 10 spots: the analysis <strong>score &amp; tier</strong>, the <strong>playstyle</strong> and <strong>wildcard</strong> in the Builder, the <strong>tags</strong> in My Weapons, Evolution <strong>tracking</strong>, rate/share in My Loadouts, <strong>map size</strong> in Maps, the <strong>Stealth Full</strong> combo and <strong>scorestreak cost</strong> in Perks, and the avatar in Settings. They open on hover or tap and translate with the Terms switch.',
+    'briefing.changelog.summary':  'New help popovers <strong>(?)</strong> using the <strong>.help-pop</strong> component across 10 spots: the analysis <strong>score &amp; tier</strong>, the <strong>playstyle</strong> and <strong>wildcard</strong> in the Builder, the <strong>tags</strong> in My Weapons, Evolution <strong>tracking</strong>, rate/share in My Loadouts, <strong>map size</strong> in Maps, the <strong>Stealth Full</strong> combo and <strong>scorestreak cost</strong> in Perks, and the avatar in Settings. They open on hover or tap and translate with the Terms switch. Extra polish: the weapon rating stars (My Loadouts) now start as a yellow outline and fill solid yellow as you rate.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
