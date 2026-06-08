@@ -581,6 +581,8 @@
     line-height: 1;
   }
   .g-term:hover::after { opacity: 1; color: var(--accent-orange); }
+  /* Na linha densa de stats do chooser: mantém o sublinhado pontilhado, sem o "?" pra não poluir */
+  .att-chooser-item-meta .g-term::after { display: none; }
 
   #glossary-tooltip {
     position: fixed;
@@ -10850,12 +10852,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.15.1 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.16.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Nome do attachment em destaque no Construtor</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Na lista de acessórios do Construtor, o <strong>nome do modelo</strong> (ex.: Greaves A-762) agora aparece em <strong>destaque</strong> e a <strong>categoria</strong> (ex.: Suppressor) fica em cinza ao lado — como no jogo, pra achares o acessório pelo nome muito mais rápido.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Explicações dos stats no Construtor</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Na linha <strong>verde/vermelha</strong> de cada acessório, passa o mouse (ou toca) no nome do stat — <strong>ADS Speed</strong>, <strong>Gun Kick</strong>, recuos, velocidades, Sprint/Slide/Dive to Fire... — pra veres uma <strong>explicação curta</strong> do que ele melhora ou piora. A cor verde/vermelha continua igual. Significados confirmados em codmunity e nas patch notes oficiais do BO7.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -14130,6 +14132,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.16.0</span>
+                <span class="vh-date">8 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Explica&ccedil;&otilde;es curtas dos stats na lista de acess&oacute;rios do Construtor, ligadas ao sistema de gloss&aacute;rio j&aacute; existente.<br><br><strong>1. Linha de stats interativa.</strong> Os 22 nomes de stat que aparecem na linha colorida de cada attachment (<strong>ADS Speed, Horizontal/Vertical Recoil, Gun Kick, Jump ADS, Bullet Velocity, Sprint To Fire, range, Jump Sprint To Fire, ADS/Crouch Movement, Movement, Sprint, Magazine Size, Reload Speed, Slide/Dive to Fire, First Shot Recoil (Scale), RPM, Kick Reset Speed</strong>) viraram termos do gloss&aacute;rio: passar o mouse ou tocar mostra uma <strong>explica&ccedil;&atilde;o curta do que o stat melhora ou piora</strong> &mdash; n&atilde;o s&oacute; tradu&ccedil;&atilde;o.<br><br><strong>2. Verde/vermelho preservado.</strong> A marca&ccedil;&atilde;o usa <code>color: inherit</code>, ent&atilde;o o nome do stat mant&eacute;m a cor <strong>verde</strong> (bom) / <strong>vermelho</strong> (ruim); ganha s&oacute; um sublinhado pontilhado discreto como pista de que &eacute; clic&aacute;vel. O \"?\" do gloss&aacute;rio foi suprimido nesta linha densa pra n&atilde;o poluir.<br><br><strong>3. Significados confirmados em fonte.</strong> 16 entradas novas no gloss&aacute;rio (reaproveitando <code>damage-range</code>, <code>flinch</code>, <code>sprint-to-fire</code>, <code>rpm</code> e <code>gun-kick</code> que j&aacute; existiam), com significados confirmados em <strong>codmunity.gg</strong>, nas <strong>patch notes oficiais do BO7</strong> (Jump ADS, Jump Sprint to Fire, Slide/Dive to Fire &mdash; tempos do omnimovement) e em game8/GamesRadar (First Shot Recoil + Kick Reset Speed).<br><br><strong>Nota:</strong> os tipos de laser (Visible in Hip/ADS/Active) e Scorestreak Damage do doc do ChatGPT <em>n&atilde;o</em> aparecem como stat no cat&aacute;logo do Hub (0 ocorr&ecirc;ncias), ent&atilde;o n&atilde;o h&aacute; onde prender o tooltip deles por ora. As &oacute;ticas tamb&eacute;m n&atilde;o t&ecirc;m stats no cat&aacute;logo &mdash; por isso a lista delas continua sem linha colorida (n&atilde;o foi removido nada).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.15.1</span>
                 <span class="vh-date">8 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -15879,7 +15890,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.15.1</strong><span class="ver-tag">Nome do modelo do attachment em destaque no Construtor (categoria fica secundária)</span>
+        LEVEL · <strong>v2.16.0</strong><span class="ver-tag">Explicações dos stats no Construtor (passa o mouse ou toca no nome do stat)</span>
       </div>
       <script>
         (function(){
@@ -17363,8 +17374,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '8 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Nome do attachment em destaque no Construtor',
-    'briefing.changelog.summary':  'Na lista de acess&oacute;rios do Construtor, o <strong>nome do modelo</strong> (ex.: Greaves A-762) agora aparece em <strong>destaque</strong> e a <strong>categoria</strong> (ex.: Suppressor) fica em cinza ao lado &mdash; como no jogo, para achares o acess&oacute;rio pelo nome muito mais r&aacute;pido.',
+    'briefing.changelog.headline': 'Explica&ccedil;&otilde;es dos stats no Construtor',
+    'briefing.changelog.summary':  'Na linha <strong>verde/vermelha</strong> de cada acess&oacute;rio, passa o mouse (ou toca) no nome do stat &mdash; <strong>ADS Speed</strong>, <strong>Gun Kick</strong>, recuos, velocidades, Sprint/Slide/Dive to Fire... &mdash; pra veres uma <strong>explica&ccedil;&atilde;o curta</strong> do que ele melhora ou piora. A cor verde/vermelha continua igual. Significados confirmados em codmunity e nas patch notes oficiais do BO7.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18676,8 +18687,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 8, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Attachment model name stands out in the Builder',
-    'briefing.changelog.summary':  'In the Builder, the attachment list now shows the <strong>model name</strong> (e.g. Greaves A-762) in the foreground and the <strong>category</strong> (e.g. Suppressor) beside it in gray &mdash; like in-game, so you find it by name much faster.',
+    'briefing.changelog.headline': 'Stat explanations in the Builder',
+    'briefing.changelog.summary':  'On each attachment&rsquo;s <strong>green/red</strong> stat line, hover (or tap) a stat name &mdash; <strong>ADS Speed</strong>, <strong>Gun Kick</strong>, recoils, movement speeds, Sprint/Slide/Dive to Fire... &mdash; to see a <strong>short explanation</strong> of what it improves or worsens. The green/red colors stay the same. Meanings confirmed on codmunity and the official BO7 patch notes.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -23699,6 +23710,22 @@ const ATTACHMENT_ICONS = {
     }
 
     // Format attachment stats compactly
+    // Mapa nome-do-stat → chave do glossário (tooltip de explicação)
+    const STAT_GLOSSARY = {
+      'ADS Speed': 'ads-speed', 'Horizontal Recoil': 'horizontal-recoil', 'Gun Kick': 'gun-kick',
+      'Vertical Recoil': 'vertical-recoil', 'Jump ADS': 'jump-ads', 'Bullet Velocity': 'bullet-velocity',
+      'Sprint To Fire': 'sprint-to-fire', 'range': 'damage-range', 'Jump Sprint To Fire': 'jump-sprint-to-fire',
+      'ADS Movement': 'ads-movement', 'Movement': 'movement-speed', 'Crouch Movement': 'crouch-movement',
+      'Sprint': 'sprint-speed', 'Magazine Size': 'magazine-size', 'Reload Speed': 'reload-speed',
+      'Slide to Fire': 'slide-to-fire', 'First Shot Recoil Scale': 'first-shot-recoil',
+      'First Shot Recoil': 'first-shot-recoil', 'Dive to Fire Speed': 'dive-to-fire',
+      'Dive to Fire': 'dive-to-fire', 'RPM': 'rpm', 'Kick Reset Speed': 'kick-reset-speed'
+    };
+    function statName(k) {
+      var safe = escapeHtml(k);
+      var slug = STAT_GLOSSARY[k];
+      return slug ? '<span class="g-term" data-glossary="' + slug + '">' + safe + '</span>' : safe;
+    }
     function formatStats(stats) {
       if (!stats) return '';
       const parts = [];
@@ -23708,14 +23735,14 @@ const ATTACHMENT_ICONS = {
         if (typeof v === 'string') {
           // e.g. "+16 abs"
           pos = v.charAt(0) === '+';
-          parts.push('<span class="' + (pos ? 'pos' : 'neg') + '">' + escapeHtml(v.replace(' abs', '')) + ' ' + escapeHtml(k) + '</span>');
+          parts.push('<span class="' + (pos ? 'pos' : 'neg') + '">' + escapeHtml(v.replace(' abs', '')) + ' ' + statName(k) + '</span>');
         } else {
           const sign = v > 0 ? '+' : '';
           // Negative is good for: ADS Speed, Sprint To Fire, Recoil, Gun Kick, Reload, First Shot Recoil, Slide/Dive to Fire
           // Positive is good for: Bullet Velocity, range, RPM, Movement, Magazine Size, ADS Movement
           const goodWhenNeg = /ADS Speed|Sprint To Fire|Recoil|Gun Kick|Reload|First Shot|Slide|Dive|Jump ADS|Jump Sprint/i.test(k);
           const isGood = goodWhenNeg ? v < 0 : v > 0;
-          parts.push('<span class="' + (isGood ? 'pos' : 'neg') + '">' + sign + v + '% ' + escapeHtml(k) + '</span>');
+          parts.push('<span class="' + (isGood ? 'pos' : 'neg') + '">' + sign + v + '% ' + statName(k) + '</span>');
         }
       });
       return parts.join(' · ');
@@ -35402,6 +35429,70 @@ ${cbt('share.t.footer')}`;
   // data-glossary="key"> mostra um popover discreto.
   (function() {
     const GLOSSARY = {
+      'ads-speed': {
+        title: 'ADS Speed',
+        desc: 'Aim Down Sight Speed — tempo pra entrar em mira (apontar pela arma). Menor (negativo) = aponta mais rápido e ganhas a vantagem de reação no duelo.'
+      },
+      'horizontal-recoil': {
+        title: 'Horizontal Recoil',
+        desc: 'Recuo horizontal — o quanto a arma desvia pros lados ao disparar segurando o gatilho. Menos = mira mais estável na horizontal.'
+      },
+      'vertical-recoil': {
+        title: 'Vertical Recoil',
+        desc: 'Recuo vertical — o quanto a mira sobe ao disparar em rajada. Menos = a arma sobe menos, mais fácil de segurar no alvo.'
+      },
+      'jump-ads': {
+        title: 'Jump ADS',
+        desc: 'Velocidade de mira ao disparar pulando (parte do omnimovement — movimento omnidirecional do BO7). Quanto melhor, menor a penalidade na mira quando atiras no ar.'
+      },
+      'bullet-velocity': {
+        title: 'Bullet Velocity',
+        desc: 'Velocidade do projétil ao sair do cano (quão rápido a bala chega no alvo). Maior = menos precisas de liderar alvos distantes e há menos queda; ajuda em mid/long-range (média/longa distância).'
+      },
+      'jump-sprint-to-fire': {
+        title: 'Jump Sprint to Fire',
+        desc: 'Tempo pra disparar saindo de um pulo durante o sprint (corrida). Menor = atiras mais rápido pulando enquanto corres.'
+      },
+      'ads-movement': {
+        title: 'ADS Movement',
+        desc: 'Velocidade de movimento enquanto estás a mirar (ADS). Maior = strafe (ziguezague lateral) mais rápido sem largar a mira — decisivo em duelos.'
+      },
+      'movement-speed': {
+        title: 'Movement',
+        desc: 'Velocidade de movimento geral com a arma na mão. Maior = mais mobilidade pra atravessar o mapa e reposicionar.'
+      },
+      'crouch-movement': {
+        title: 'Crouch Movement',
+        desc: 'Velocidade movendo agachado. Maior = movimento furtivo mais ágil.'
+      },
+      'sprint-speed': {
+        title: 'Sprint',
+        desc: 'Velocidade máxima a correr (sprint) com a arma. Maior = chegas mais rápido no inimigo e puxas rush (avanço) melhor.'
+      },
+      'magazine-size': {
+        title: 'Magazine Size',
+        desc: 'Quantas balas o carregador segura antes de recarregar. Maior = mais tiros entre recargas (às vezes custa peso/mobilidade).'
+      },
+      'reload-speed': {
+        title: 'Reload Speed',
+        desc: 'Tempo pra recarregar totalmente. Menor = voltas pro combate mais rápido.'
+      },
+      'slide-to-fire': {
+        title: 'Slide to Fire',
+        desc: 'Tempo do slide (deslize) até poder disparar. Menor = atiras mais rápido saindo de um slide — ótimo pra entrada agressiva em corredor.'
+      },
+      'first-shot-recoil': {
+        title: 'First Shot Recoil',
+        desc: 'Recuo extra aplicado ao primeiro tiro (o "Scale" é o multiplicador desse recuo). Menos = o tiro de abertura chuta bem menos, crucial pra acertar o primeiro disparo no duelo.'
+      },
+      'dive-to-fire': {
+        title: 'Dive to Fire',
+        desc: 'Tempo do dive (mergulho) até poder disparar. Menor = atiras mais rápido saindo de um mergulho.'
+      },
+      'kick-reset-speed': {
+        title: 'Kick Reset Speed',
+        desc: 'Velocidade com que o chute (gun kick) da arma reseta entre tiros — a mira volta ao centro. Maior = recuperas mais rápido entre disparos; ótimo pra semi-auto e burst (rajada curta).'
+      },
       're-grind': {
         title: 'Re-grind',
         desc: 'Re-levelar uma arma após dar Prestige nela. Todos os attachments ficam travados de novo (menos os Permanentes) e tens de subir level por level outra vez.'
