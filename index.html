@@ -5997,6 +5997,25 @@
     stroke-width: 2.5;
     fill: none;
   }
+  /* v2.18: veredito determinístico de convergência ("no teto pro teu estilo") */
+  .build-card .bc-analysis-verdict {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: rgba(76, 175, 80, 0.08);
+    border-left: 2px solid #6FBF73;
+    border-radius: 0 4px 4px 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #BFE3C2;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .build-card .bc-analysis-verdict strong { color: #6FBF73; }
+  .build-card .bc-analysis-verdict svg {
+    width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px;
+    stroke: #6FBF73; stroke-width: 2.5; fill: none;
+  }
   .build-card .bc-suggestions-title {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -10853,12 +10872,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.17.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.18.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Dicas nos tipos de ótica</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">As óticas não têm a linha de stats, então o <strong>tipo da ótica</strong> (Reflex, Holographic, Hybrid, Thermal, Scope, Target Finder, Iron Sight) agora tem dica: passa o mouse (ou toca) no tipo pra ver <strong>o que cada mira faz</strong> — zoom, sight picture e quando usar. Confirmado no game8 e na CoD Wiki.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Análise de build para de "destrocar"</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A NOSSA ANÁLISE deixou de sugerir uma troca e, depois de aplicada, mandar <strong>desfazer</strong>. Agora a recomendação é ancorada no <strong>teu perfil fixo</strong> (rusher CQB), e um <strong>guarda determinístico</strong> só deixa passar troca que melhora de verdade — quando nada compensa, ela diz <strong>"está no teto"</strong>. Converge em vez de ficar em ping-pong.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -14133,6 +14152,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.18.0</span>
+                <span class="vh-date">8 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc">Corre&ccedil;&atilde;o do "destrocar" na NOSSA AN&Aacute;LISE: a IA sugeria trocar A&rarr;B e, depois de aplicado, na re-an&aacute;lise mandava B&rarr;A. Loop infinito.<br><br><strong>Causa.</strong> A an&aacute;lise perseguia um alvo que se movia: o <code>style_hint</code> era <em>inferido da pr&oacute;pria build</em> e as fraquezas eram relativas ao que estava equipado. Ao aplicar uma troca, a build mudava, o "objetivo" mudava junto, e a pr&oacute;xima an&aacute;lise mandava reverter. Quem decidia as trocas era o LLM, sem crit&eacute;rio fixo nem mem&oacute;ria.<br><br><strong>1. Objetivo fixo no perfil (n&atilde;o na build).</strong> Novo <code>_styleObjectiveWeights(sp)</code> deriva pesos por dimens&atilde;o do perfil do operador (rusher CQB &rarr; handling 2.2, mobilidade 2.0, recoil 1.0, range 0.2). O <code>style_hint</code> enviado &agrave; IA passou a ser o estilo <strong>fixo</strong> do perfil, n&atilde;o o inferido da build.<br><br><strong>2. Guarda de converg&ecirc;ncia (margem).</strong> Novo <code>_attStyleScore</code> + <code>_gateBuildSuggestions</code>: cada troca sugerida (replaces&rarr;name) &eacute; pontuada contra o objetivo fixo e <strong>s&oacute; passa se ganhar por uma margem</strong> (6). O reverso de uma troca boa tem delta negativo &rarr; sempre vetado. Resultado: <strong>idempotente</strong> &mdash; aplicar as trocas e re-analisar n&atilde;o gera revers&atilde;o.<br><br><strong>3. Veredito "no teto".</strong> Quando nenhuma troca passa da margem, a an&aacute;lise mostra um card verde &mdash; "no teto pro teu estilo, mant&eacute;m" &mdash; em vez de inventar troca.<br><br><strong>Validado</strong> com os attachments reais da Maddox RFB (Voltaic +108, Furrow &minus;69, Harlequin +207, VAS Spire +76): as sugest&otilde;es rumo a controle/precis&atilde;o do print antigo s&atilde;o vetadas (verdict "no teto") e as rumo a mobilidade s&atilde;o mantidas. Perks e preenchimento de slot vazio passam direto.<br><br><strong>Nota.</strong> Esta corre&ccedil;&atilde;o &eacute; toda no front (motor determin&iacute;stico). O passo seguinte &mdash; fazer a Edge Function <code>analyze-build</code> <em>explicar</em> as trocas que o motor decidiu (em vez de escolher as dela) e baixar a temperature &mdash; precisa do c&oacute;digo da function.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.17.0</span>
                 <span class="vh-date">8 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15900,7 +15928,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.17.0</strong><span class="ver-tag">Dicas nos tipos de ótica do Construtor (passa o mouse ou toca no tipo)</span>
+        LEVEL · <strong>v2.18.0</strong><span class="ver-tag">Análise de build deixou de "destrocar" — agora converge e diz quando está no teto</span>
       </div>
       <script>
         (function(){
@@ -17384,8 +17412,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '8 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Dicas nos tipos de &oacute;tica',
-    'briefing.changelog.summary':  'As &oacute;ticas n&atilde;o t&ecirc;m a linha de stats, ent&atilde;o o <strong>tipo da &oacute;tica</strong> (Reflex, Holographic, Hybrid, Thermal, Scope, Target Finder, Iron Sight) agora tem dica: passa o mouse (ou toca) no tipo pra ver <strong>o que cada mira faz</strong> &mdash; zoom, sight picture e quando usar. Confirmado no game8 e na CoD Wiki.',
+    'briefing.changelog.headline': 'An&aacute;lise de build para de "destrocar"',
+    'briefing.changelog.summary':  'A NOSSA AN&Aacute;LISE deixou de sugerir uma troca e, depois de aplicada, mandar <strong>desfazer</strong>. Agora a recomenda&ccedil;&atilde;o &eacute; ancorada no <strong>teu perfil fixo</strong> (rusher CQB) e um <strong>guarda determin&iacute;stico</strong> s&oacute; deixa passar troca que melhora de verdade &mdash; quando nada compensa, diz <strong>"est&aacute; no teto"</strong>. Converge em vez de ping-pong.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18697,8 +18725,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 8, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Tips on optic types',
-    'briefing.changelog.summary':  'Optics have no stat line, so the <strong>optic type</strong> (Reflex, Holographic, Hybrid, Thermal, Scope, Target Finder, Iron Sight) now has a tip: hover (or tap) the type to see <strong>what each sight does</strong> &mdash; zoom, sight picture and when to use it. Confirmed on game8 and the CoD Wiki.',
+    'briefing.changelog.headline': 'Build analysis stops flip-flopping',
+    'briefing.changelog.summary':  'OUR ANALYSIS no longer suggests a swap and then, once applied, tells you to <strong>undo it</strong>. Recommendations are now anchored to your <strong>fixed profile</strong> (rusher CQB) and a <strong>deterministic guard</strong> only lets through swaps that truly improve &mdash; when nothing helps, it says <strong>"you are at the ceiling"</strong>. It converges instead of ping-ponging.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -24177,6 +24205,61 @@ const ATTACHMENT_ICONS = {
       return PLAYSTYLE_PROFILE[key] || PLAYSTYLE_PROFILE['RUSHER'];
     }
 
+    // ── v2.18: OBJETIVO FIXO + GUARDA DE CONVERGÊNCIA ──────────────────────
+    // Pesos por dimensão vindos do PERFIL do operador (não da build), pra a
+    // recomendação parar de perseguir um alvo que se move. Rusher CQB:
+    // handling/mobilidade pesam mais; recoil pesa pouco; range quase nada.
+    function _styleObjectiveWeights(sp) {
+      sp = sp || PLAYSTYLE_PROFILE['RUSHER'];
+      return {
+        handling: sp.needsHandling ? 2.2 : 0.8,
+        mobility: sp.needsMobility ? 2.0 : 0.8,
+        range:    sp.needsRange    ? 2.0 : 0.3,
+        recoil:   1.0,
+        mag:      0.5
+      };
+    }
+    // Score de um attachment contra o objetivo fixo (mesma classificação de
+    // dimensões de _computeBuildContext, pra ser consistente).
+    function _attStyleScore(stats, w) {
+      if (!stats) return 0;
+      const g = { recoil:0, mobility:0, handling:0, range:0, mag:0 };
+      for (const k in stats) {
+        const raw = stats[k];
+        const v = typeof raw === 'string' ? parseFloat(String(raw).replace(/[+ abs]/g,'')) : raw;
+        if (!Number.isFinite(v)) continue;
+        if (/Gun Kick|Horizontal Recoil|Vertical Recoil|First Shot/i.test(k))             g.recoil   += -v;
+        else if (/^Sprint$|^Movement$|Crouch Movement|ADS Movement/i.test(k))             g.mobility += v;
+        else if (/ADS Speed|Sprint To Fire|Jump ADS|Slide to Fire|Dive to Fire/i.test(k)) g.handling += -v;
+        else if (/Bullet Velocity|^range/i.test(k))                                       g.range    += v;
+        else if (/Magazine Size/i.test(k))                                                g.mag      += v;
+      }
+      return w.handling*g.handling + w.mobility*g.mobility + w.recoil*g.recoil + w.range*g.range + w.mag*g.mag;
+    }
+    // Veta trocas (replaces → name) cujo ganho no objetivo fixo não passa da
+    // margem. Perks e preenchimento de slot vazio passam direto. Idempotente:
+    // o reverso de uma troca boa tem delta negativo → sempre vetado.
+    function _gateBuildSuggestions(suggestions, catalog, weights, margin) {
+      if (!Array.isArray(suggestions)) return { kept: [], dropped: 0 };
+      const byName = {};
+      if (catalog && Array.isArray(catalog.attachments)) {
+        for (let i = 0; i < catalog.attachments.length; i++) {
+          byName[_normalizeAttName(catalog.attachments[i].name)] = catalog.attachments[i];
+        }
+      }
+      const kept = []; let dropped = 0;
+      for (let j = 0; j < suggestions.length; j++) {
+        const s = suggestions[j];
+        if (!s || s.type !== 'attachment' || !s.replaces) { if (s) kept.push(s); continue; }
+        const from = byName[_normalizeAttName(s.replaces)];
+        const to   = byName[_normalizeAttName(s.name)];
+        if (!from || !to) { kept.push(s); continue; }
+        const delta = _attStyleScore(to.stats, weights) - _attStyleScore(from.stats, weights);
+        if (delta >= (margin || 6)) kept.push(s); else dropped++;
+      }
+      return { kept: kept, dropped: dropped };
+    }
+
     // ═══════════════════════════════════════════════════════════════════
     // ANÁLISE DE BUILD · ARQUITETURA HÍBRIDA (v75-100)
     // ═══════════════════════════════════════════════════════════════════
@@ -24386,6 +24469,11 @@ const ATTACHMENT_ICONS = {
       const summary = analysis.summary || 'Build analisada.';
       let html = '<div class="bc-analysis-summary">' + escapeHtml(summary) + '</div>';
 
+      // v2.18: veredito determinístico — quando nada compensa trocar, diz "no teto"
+      if (analysis.verdict === 'optimal') {
+        html += '<div class="bc-analysis-verdict">{{i:check}} <strong>No teto pro teu estilo.</strong> Pelo objetivo fixo do teu perfil, nenhuma troca de attachment compensa o que perderias — mantém a build.</div>';
+      }
+
       if (Array.isArray(analysis.suggestions) && analysis.suggestions.length) {
         // v2.7.1 — novo layout: por slot, com "atual → nova" em destaque
         html += '<div class="bc-suggestions"><div class="bc-suggestions-title">{{i:pin}} Sugestões de melhoria</div><div class="bc-suggestions-list">';
@@ -24582,7 +24670,7 @@ const ATTACHMENT_ICONS = {
         weaknesses: ctx.weaknessKeys.map(k => ({ key: k, label: DIM_LABELS[k] || k, text: ctx.weaknessesText[ctx.weaknessKeys.indexOf(k)] || '' })),
         candidates_by_weakness: ctx.candidatesByWeakness,
         perks_pool: ctx.perksPool,
-        style_hint: ctx.styleHint,
+        style_hint: playerProfile.style,   // v2.18: estilo FIXO do perfil (nao inferido da build) - evita objetivo que se move
         player_profile: playerProfile,        // NOVO — contexto do operador
         active_struggles: activeStruggles,    // NOVO — dificuldades cadastradas
         language: lang,
@@ -24603,6 +24691,16 @@ const ATTACHMENT_ICONS = {
         if (!res.ok || !data.ok || !data.analysis) {
           _aiAnalysisErrorFor[buildId] = data.error || data.code || 'Falha ao gerar análise.';
         } else {
+          // v2.18: GUARDA DE CONVERGÊNCIA — veta trocas que não melhoram o
+          // objetivo FIXO do perfil. Mata o "destrocar" (idempotente).
+          try {
+            const _catalog = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[base.id] : null;
+            const _gate = _gateBuildSuggestions(data.analysis.suggestions, _catalog, _styleObjectiveWeights(sp), 6);
+            data.analysis.suggestions = _gate.kept;
+            const _hasAtt = _gate.kept.some(function(s){ return s && s.type === 'attachment'; });
+            data.analysis.verdict = _hasAtt ? 'tune' : 'optimal';
+            data.analysis.gated_out = _gate.dropped;
+          } catch (gErr) { console.warn('[analyze-build] guarda de convergência falhou (segue sem):', gErr); }
           // Salva análise cacheada na build
           build.config = build.config || {};
           build.config.aiAnalysis = {
