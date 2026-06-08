@@ -10850,12 +10850,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.15.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.15.1 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Ajuda contextual (?) em 10 pontos do Hub</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Novos balões de ajuda <strong>(?)</strong> com o componente <strong>.help-pop</strong> em 10 pontos: o <strong>score &amp; tier</strong> da análise, o <strong>estilo de jogo</strong> e o <strong>wildcard</strong> no Construtor, as <strong>tags</strong> de Minhas Armas, o <strong>acompanhamento</strong> da Evolução, avaliar/partilhar em Meus Loadouts, o <strong>tamanho de mapa</strong> nos Mapas, o combo <strong>Stealth Full</strong> e o <strong>custo de scorestreak</strong> nos Perks, e o avatar nas Configurações. Abrem por hover ou toque e traduzem com o switch Termos.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Nome do attachment em destaque no Construtor</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Na lista de acessórios do Construtor, o <strong>nome do modelo</strong> (ex.: Greaves A-762) agora aparece em <strong>destaque</strong> e a <strong>categoria</strong> (ex.: Suppressor) fica em cinza ao lado — como no jogo, pra achares o acessório pelo nome muito mais rápido.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -14130,6 +14130,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.15.1</span>
+                <span class="vh-date">8 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc">Invers&atilde;o da hierarquia de texto na lista de acess&oacute;rios do Construtor.<br><br><strong>Antes:</strong> a <strong>categoria</strong> (ex.: <em>Suppressor</em>) aparecia em destaque e o <strong>nome do modelo</strong> (ex.: <em>Greaves A-762</em>) ficava apagado em cinza ao lado &mdash; o oposto do jogo, dificultando achar o acess&oacute;rio pelo nome.<br><br><strong>Agora:</strong> o <strong>nome do modelo</strong> &eacute; o t&iacute;tulo em destaque e a <strong>categoria</strong> fica secund&aacute;ria em cinza, igual &agrave; tela de Gunsmith do BO7. Vale para <strong>todos os attachments de todos os slots</strong> (uma &uacute;nica fun&ccedil;&atilde;o de render). Mudan&ccedil;a s&oacute; de template &mdash; os dados (<code>name</code> = modelo, <code>label</code> = categoria) n&atilde;o mudaram.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.15.0</span>
                 <span class="vh-date">8 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15870,7 +15879,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.15.0</strong><span class="ver-tag">Ajuda contextual (?) em 10 pontos do Hub: análise, estilo, tiers, evolução, wildcard, mapas, perks e avatar</span>
+        LEVEL · <strong>v2.15.1</strong><span class="ver-tag">Nome do modelo do attachment em destaque no Construtor (categoria fica secundária)</span>
       </div>
       <script>
         (function(){
@@ -17354,8 +17363,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '8 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Ajuda contextual (?) em 10 pontos do Hub',
-    'briefing.changelog.summary':  'Novos bal&otilde;es de ajuda <strong>(?)</strong> com o componente <strong>.help-pop</strong> em 10 pontos: o <strong>score &amp; tier</strong> da an&aacute;lise, o <strong>estilo de jogo</strong> e o <strong>wildcard</strong> no Construtor, as <strong>tags</strong> de Minhas Armas, o <strong>acompanhamento</strong> da Evolu&ccedil;&atilde;o, avaliar/partilhar em Meus Loadouts, o <strong>tamanho de mapa</strong> nos Mapas, o combo <strong>Stealth Full</strong> e o <strong>custo de scorestreak</strong> nos Perks, e o avatar nas Configura&ccedil;&otilde;es. Abrem por hover ou toque e traduzem com o switch Termos. Ajuste extra: as estrelas de avalia&ccedil;&atilde;o das armas (Meus Loadouts) come&ccedil;am s&oacute; com o contorno amarelo e ficam amarelas s&oacute;lidas conforme a nota.',
+    'briefing.changelog.headline': 'Nome do attachment em destaque no Construtor',
+    'briefing.changelog.summary':  'Na lista de acess&oacute;rios do Construtor, o <strong>nome do modelo</strong> (ex.: Greaves A-762) agora aparece em <strong>destaque</strong> e a <strong>categoria</strong> (ex.: Suppressor) fica em cinza ao lado &mdash; como no jogo, para achares o acess&oacute;rio pelo nome muito mais r&aacute;pido.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18667,8 +18676,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 8, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Contextual help (?) across 10 spots',
-    'briefing.changelog.summary':  'New help popovers <strong>(?)</strong> using the <strong>.help-pop</strong> component across 10 spots: the analysis <strong>score &amp; tier</strong>, the <strong>playstyle</strong> and <strong>wildcard</strong> in the Builder, the <strong>tags</strong> in My Weapons, Evolution <strong>tracking</strong>, rate/share in My Loadouts, <strong>map size</strong> in Maps, the <strong>Stealth Full</strong> combo and <strong>scorestreak cost</strong> in Perks, and the avatar in Settings. They open on hover or tap and translate with the Terms switch. Extra polish: the weapon rating stars (My Loadouts) now start as a yellow outline and fill solid yellow as you rate.',
+    'briefing.changelog.headline': 'Attachment model name stands out in the Builder',
+    'briefing.changelog.summary':  'In the Builder, the attachment list now shows the <strong>model name</strong> (e.g. Greaves A-762) in the foreground and the <strong>category</strong> (e.g. Suppressor) beside it in gray &mdash; like in-game, so you find it by name much faster.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -23975,7 +23984,7 @@ const ATTACHMENT_ICONS = {
         return '<div class="' + cls + '" data-att-name="' + escapeHtml(a.name) + '" data-locked="' + (extraClass === 'locked' ? '1' : '0') + '">' +
                  '<div class="att-chooser-icon">' + iconHtml + '</div>' +
                  '<div class="att-chooser-item-info">' +
-                   '<div class="att-chooser-item-name">' + escapeHtml(a.label || a.name) + (a.label ? ' <span style="color:var(--text-muted);font-size:10px">· ' + escapeHtml(a.name) + '</span>' : '') + '</div>' +
+                   '<div class="att-chooser-item-name">' + escapeHtml(a.name) + (a.label ? ' <span style="color:var(--text-muted);font-size:10px">· ' + escapeHtml(a.label) + '</span>' : '') + '</div>' +
                    metaLine +
                  '</div>' +
                  '<span class="att-chooser-item-badge ' + badgeClass + '">' + badgeText + '</span>' +
