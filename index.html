@@ -10872,12 +10872,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.18.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.19.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Análise de build para de "destrocar"</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A NOSSA ANÁLISE deixou de sugerir uma troca e, depois de aplicada, mandar <strong>desfazer</strong>. Agora a recomendação é ancorada no <strong>teu perfil fixo</strong> (rusher CQB), e um <strong>guarda determinístico</strong> só deixa passar troca que melhora de verdade — quando nada compensa, ela diz <strong>"está no teto"</strong>. Converge em vez de ficar em ping-pong.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Le Vél mais empático e guiado pela tua avaliação</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O Le Vél agora te <strong>chama pelo nome</strong>, usa a <strong>tua avaliação da arma</strong> (aba AVALIE) pra entender o que te incomoda, e — quando não há dificuldades cadastradas — te convida a registrá-las na seção <strong>Evolução</strong> pra deixar a análise mais certeira. E ao <strong>re-analisar</strong>, ele pede uma avaliação fresca da arma antes.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -14152,6 +14152,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.19.0</span>
+                <span class="vh-date">8 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Le V&eacute;l (coach IA da NOSSA AN&Aacute;LISE) mais emp&aacute;tico e guiado pelo feedback do operador. Front + Edge Function <code>analyze-build</code> (v4).<br><br><strong>1. Trata pelo nome.</strong> O <code>player_profile</code> enviado &agrave; IA passou a incluir <code>name</code> (de <code>player.name</code>). O Le V&eacute;l dirige-se ao operador pelo nome, com tom mais caloroso &mdash; firme e t&eacute;cnico, mas humano.<br><br><strong>2. Usa a tua avalia&ccedil;&atilde;o da arma.</strong> A avalia&ccedil;&atilde;o da aba <strong>AVALIE</strong> (5 dimens&otilde;es: cad&ecirc;ncia, mobilidade, recuo, precis&atilde;o, alcance) agora vai no payload como <code>weapon_rating</code>. A dimens&atilde;o com nota baixa sinaliza a dor do operador &mdash; a an&aacute;lise prioriza atac&aacute;-la.<br><br><strong>3. Convida pra Evolu&ccedil;&atilde;o.</strong> Quando n&atilde;o h&aacute; dificuldades cadastradas (<code>active_struggles</code> vazio), o veredito convida o operador (pelo nome) a registr&aacute;-las na se&ccedil;&atilde;o <strong>Evolu&ccedil;&atilde;o</strong> &mdash; porque cruzar a build com os problemas reais de partida deixa a an&aacute;lise muito mais precisa.<br><br><strong>4. Re-analisar pede avalia&ccedil;&atilde;o fresca.</strong> Ao tocar em <strong>Re-analisar</strong> (s&oacute; quando j&aacute; existe an&aacute;lise), o Hub pergunta se quer avaliar a arma antes; "Avaliar agora" leva &agrave; aba AVALIE, "Re-analisar assim mesmo" segue. A 1&ordf; an&aacute;lise segue direto.<br><br><strong>Edge Function v4.</strong> System prompt reescrito (nome + empatia + uso do <code>weapon_rating</code> + convite &agrave; Evolu&ccedil;&atilde;o quando faltam struggles) e <code>temperature</code> baixada de 0.4 para 0.2 (texto mais est&aacute;vel). Schema e anti-alucina&ccedil;&atilde;o mantidos. <em>Precisa ser deployada &agrave; parte no Supabase.</em></p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.18.0</span>
                 <span class="vh-date">8 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -15928,7 +15937,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.18.0</strong><span class="ver-tag">Análise de build deixou de "destrocar" — agora converge e diz quando está no teto</span>
+        LEVEL · <strong>v2.19.0</strong><span class="ver-tag">Le Vél mais empático: trata pelo nome, usa a tua avaliação da arma e pede uma nova ao re-analisar</span>
       </div>
       <script>
         (function(){
@@ -17412,8 +17421,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '8 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'An&aacute;lise de build para de "destrocar"',
-    'briefing.changelog.summary':  'A NOSSA AN&Aacute;LISE deixou de sugerir uma troca e, depois de aplicada, mandar <strong>desfazer</strong>. Agora a recomenda&ccedil;&atilde;o &eacute; ancorada no <strong>teu perfil fixo</strong> (rusher CQB) e um <strong>guarda determin&iacute;stico</strong> s&oacute; deixa passar troca que melhora de verdade &mdash; quando nada compensa, diz <strong>"est&aacute; no teto"</strong>. Converge em vez de ping-pong.',
+    'briefing.changelog.headline': 'Le V&eacute;l mais emp&aacute;tico e guiado pela tua avalia&ccedil;&atilde;o',
+    'briefing.changelog.summary':  'O Le V&eacute;l agora te <strong>chama pelo nome</strong>, usa a <strong>tua avalia&ccedil;&atilde;o da arma</strong> (aba AVALIE) pra entender o que te incomoda, e &mdash; quando n&atilde;o h&aacute; dificuldades cadastradas &mdash; te convida a registr&aacute;-las na se&ccedil;&atilde;o <strong>Evolu&ccedil;&atilde;o</strong> pra deixar a an&aacute;lise mais certeira. Ao <strong>re-analisar</strong>, ele pede uma avalia&ccedil;&atilde;o fresca da arma antes.',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -18725,8 +18734,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 8, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Build analysis stops flip-flopping',
-    'briefing.changelog.summary':  'OUR ANALYSIS no longer suggests a swap and then, once applied, tells you to <strong>undo it</strong>. Recommendations are now anchored to your <strong>fixed profile</strong> (rusher CQB) and a <strong>deterministic guard</strong> only lets through swaps that truly improve &mdash; when nothing helps, it says <strong>"you are at the ceiling"</strong>. It converges instead of ping-ponging.',
+    'briefing.changelog.headline': 'Le V&eacute;l is warmer and rating-driven',
+    'briefing.changelog.summary':  'Le V&eacute;l now <strong>calls you by name</strong>, uses <strong>your weapon rating</strong> (AVALIE tab) to understand what bothers you, and &mdash; when no struggles are logged &mdash; invites you to add them in the <strong>Evolution</strong> section to make the analysis sharper. On <strong>re-analyze</strong>, it asks for a fresh weapon rating first.',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -24614,6 +24623,7 @@ const ATTACHMENT_ICONS = {
       // fallback PS5 enquanto não há campo de UI para editar.
       const playerProfile = {
         style: sp.label,                          // ex: 'rusher CQB agressivo'
+        name: player.name || null,                // v2.19 — nome do operador (Le Vél trata pelo nome)
         platform: player.platform || 'PS5',
         priority_perk: 'Dexterity',               // combate flinch (desvio de mira ao levar tiro)
         ads_multiplier: 0.85                      // recomendação base do Hub
@@ -24673,6 +24683,12 @@ const ATTACHMENT_ICONS = {
         style_hint: playerProfile.style,   // v2.18: estilo FIXO do perfil (nao inferido da build) - evita objetivo que se move
         player_profile: playerProfile,        // NOVO — contexto do operador
         active_struggles: activeStruggles,    // NOVO — dificuldades cadastradas
+        weapon_rating: (function(){           // v2.19 — avaliação do operador (aba AVALIE): a percepção dele sobre a arma
+          var ur = build.userRatings || {};
+          var rv = function(k){ return (ur[k] && ur[k].value) || 0; };
+          var r = { rate_of_fire: rv('rateOfFire'), mobility: rv('mobility'), recoil: rv('recoil'), accuracy: rv('accuracy'), range: rv('rangeRating') };
+          return (r.rate_of_fire||r.mobility||r.recoil||r.accuracy||r.range) ? r : null;
+        })(),
         language: lang,
         local_id: localId
       };
@@ -24735,13 +24751,46 @@ const ATTACHMENT_ICONS = {
     document.addEventListener('click', function(e) {
       const btn = e.target && e.target.closest ? e.target.closest('[data-bc-action="analyze-ai"]') : null;
       if (!btn) return;
-      // Garante que este botão é dentro de um build-card (escopo)
-      if (!btn.closest('.build-card')) return;
+      const card = btn.closest('.build-card');
+      if (!card) return;
       const buildId = btn.dataset.buildId;
       if (!buildId) return;
       e.preventDefault();
-      requestAIAnalysis(buildId);
+      _reanalyzeWithRatingPrompt(buildId, card);
     });
+
+    // v2.19: na RE-análise, convida o operador a avaliar a arma (aba AVALIE)
+    // antes — assim o Le Vél sabe o que não o está deixando satisfeito.
+    // Primeira análise segue direto (não há o que comparar ainda).
+    async function _reanalyzeWithRatingPrompt(buildId, card) {
+      let hasPrev = false;
+      try {
+        const builds = await LevelDB.builds.list();
+        const b = builds.find(function(x){ return x.id === buildId; });
+        hasPrev = !!(b && b.config && b.config.aiAnalysis && b.config.aiAnalysis.analysis);
+      } catch (e) {}
+      if (!hasPrev) { requestAIAnalysis(buildId); return; }
+
+      let goRate = false;
+      try {
+        if (window.LevelModal && window.LevelModal.confirm) {
+          goRate = await window.LevelModal.confirm({
+            title: 'Avalia a arma antes?',
+            message: 'O Le Vél usa a tua avaliação da arma (aba AVALIE) pra entender o que não está funcionando pra ti. Uma avaliação fresca deixa a re-análise muito mais certeira.',
+            confirmText: 'Avaliar agora',
+            cancelText: 'Re-analisar assim mesmo'
+          });
+        }
+      } catch (e) { goRate = false; }
+
+      if (goRate) {
+        const rateTab = card.querySelector('[data-bc-tab="rating"]');
+        if (rateTab) rateTab.click();
+        if (typeof showToast === 'function') showToast('Avalia a arma e depois toca em Re-analisar', 'info');
+      } else {
+        requestAIAnalysis(buildId);
+      }
+    }
 
     // ── User star ratings ──────────────────────────────────────────────
     const RATING_KEYS = [
