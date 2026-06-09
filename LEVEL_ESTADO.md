@@ -38,7 +38,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ### Marcos recentes (Jun 2026)
 
-- **v2.22.1 (9 Jun)** — Toolbar de Minhas Armas reorganizada: 5 botões → **3 elementos com hierarquia** (Montagem Inteligente em destaque · **Importar Build ▾** dropdown agrupando Print/Celular/Texto, IDs originais preservados dentro do menu · + Adicionar Arma). Varredura i18n do fluxo de captura: Capturar via Celular e + Adicionar Arma (nunca tinham chave), linha de stats e modal Armas Detectadas (título/intro/empty/Cancelar) agora trocam de idioma. Menu alinhado pela direita (não estoura viewport).
+- **v2.22.1 (9 Jun)** — Toolbar de Minhas Armas reorganizada: 5 botões → **3 elementos com hierarquia** (Montagem Inteligente em destaque · **Importar Build ▾** dropdown agrupando Print/Celular/Texto, IDs originais preservados dentro do menu · + Adicionar Arma). Varredura i18n do fluxo de captura: Capturar via Celular e + Adicionar Arma (nunca tinham chave), linha de stats e modal Armas Detectadas (título/intro/empty/Cancelar) agora trocam de idioma. Menu alinhado pela direita (não estoura viewport). **Artes oficiais embutidas** nos cards de Eventos (Nuked + Illicit Cargo + banner BLACKCELL, WebP base64 ~130 KB, fonte: blog callofduty.com — Double XP fica com o ícone SVG, não tem arte oficial) + fix de entidades cruas (&quot;Catalyst&quot;, &amp;).
 - **v2.22.0 (9 Jun)** — **MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO** em Minhas Armas. 2 Edge Functions novas (`generate-build` v1, `parse-build-text` v1, ambas `verify_jwt: true`, Gemini 2.5 Flash, schema fechado, instrumentadas em `ana_gemini_usage`), 2 botões novos (ordem final: Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), wizard de 3 perguntas + 3 modos (gerar/refinar/counter), render com justificativa por slot + stats agregados + PUT recommendation + comparação, ponte `window.LevelCaptureBridge` reusando o fluxo de aprovação da captura, ícone novo `gear-star` no catálogo LUCIDE. Gabaritos URAL e VOLGA validados 8/8.
 - **v2.21.0 (9 Jun)** — Bloco **EVENTOS · TEMPORADA ATUAL** no Painel Hoje. 3 cards (Nuked, Illicit Cargo, Double XP) + card Battle Pass Season 4 BLACKCELL + card Catalyst Collection. Tudo em SVG inline + gradientes, sem imagens externas. 33 chaves i18n novas (PT + EN).
 - **v2.20.1 (9 Jun)** — Reorganização da seção CONTROLLER alinhada à UI do BO7. Zonas Mortas movidas de AIMING → CONTROLLER. Contadores: CONTROLLER 11→17, AIMING 15→9.
@@ -270,7 +270,7 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 - **Memória vs realidade:** o arquivo anexado é a verdade. Conferir footer sempre.
 - **Min/Max do stick:** ao recomendar config, sempre dar Min E Max explicitamente na mesma frase.
 - **Eventos da Season são dados perecíveis** — regenerar a cada Reloaded/Season.
-- **SVG inline > imagens externas** pra cards de eventos.
+- **SVG inline > imagens externas** pra cards de eventos — exceção da casa: arte oficial pode entrar EMBUTIDA em WebP base64 (nunca link de CDN). Fonte das key arts: a própria página da season em callofduty.com/blog/blackops7/season-04 (grep nos paths `/content/dam/.../events/*.webp` do HTML).
 
 ---
 
