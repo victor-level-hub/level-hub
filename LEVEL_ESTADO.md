@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 9 Jun 2026 — fecho do marco v2.21.0 + planejamento Montagem Inteligente & Capturar via Texto (nomenclatura final dos botões decidida) + gabaritos URAL/VOLGA
+> **Última atualização:** 9 Jun 2026 — fecho do marco v2.22.0 (MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO entregues, gabaritos URAL/VOLGA validados 8/8)
 
 ---
 
@@ -31,17 +31,18 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.21.0` (SemVer desde v2.0.0)
-**Arquivo:** single-file `index.html` (~2,87 MB, ~40.800 linhas)
+**Versão:** `v2.22.0` (SemVer desde v2.0.0)
+**Arquivo:** single-file `index.html` (~2,91 MB, ~41.300 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
 ### Marcos recentes (Jun 2026)
 
-- **v2.21.0 (9 Jun)** — Bloco **EVENTOS · TEMPORADA ATUAL** no Painel Hoje. 3 cards (Nuked, Illicit Cargo, Double XP) + card Battle Pass Season 4 BLACKCELL + card Catalyst Collection. Tudo em SVG inline + gradientes, sem imagens externas. 33 chaves i18n novas (PT + EN). Cores temáticas por evento (verde radioativo, laranja-cobre, laranja LEVEL, dourado BLACKCELL).
-- **v2.20.1 (9 Jun)** — Reorganização da seção CONTROLLER alinhada à UI do BO7. Zonas Mortas (Left/Right Min/Max + L2/R2) movidas de AIMING → CONTROLLER, unificadas num único bloco. Grupo "Feedback do Controle" → "Controle" (EN: "Controller"). Contadores: CONTROLLER 11→17, AIMING 15→9.
-- **v2.20.0 (8 Jun)** — Contraponto nas sugestões de troca da NOSSA ANÁLISE (mostra o que cada troca custa) + fix de entidades HTML cruas no headline do changelog.
-- **v2.19.0 (8 Jun)** — Le Vél mais empático: trata pelo nome, usa weapon_rating do operador, convida pra Evolução. Edge Function `analyze-build` v4.
+- **v2.22.0 (9 Jun)** — **MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO** em Minhas Armas. 2 Edge Functions novas (`generate-build` v1, `parse-build-text` v1, ambas `verify_jwt: true`, Gemini 2.5 Flash, schema fechado, instrumentadas em `ana_gemini_usage`), 2 botões novos (ordem final: Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), wizard de 3 perguntas + 3 modos (gerar/refinar/counter), render com justificativa por slot + stats agregados + PUT recommendation + comparação, ponte `window.LevelCaptureBridge` reusando o fluxo de aprovação da captura, ícone novo `gear-star` no catálogo LUCIDE. Gabaritos URAL e VOLGA validados 8/8.
+- **v2.21.0 (9 Jun)** — Bloco **EVENTOS · TEMPORADA ATUAL** no Painel Hoje. 3 cards (Nuked, Illicit Cargo, Double XP) + card Battle Pass Season 4 BLACKCELL + card Catalyst Collection. Tudo em SVG inline + gradientes, sem imagens externas. 33 chaves i18n novas (PT + EN).
+- **v2.20.1 (9 Jun)** — Reorganização da seção CONTROLLER alinhada à UI do BO7. Zonas Mortas movidas de AIMING → CONTROLLER. Contadores: CONTROLLER 11→17, AIMING 15→9.
+- **v2.20.0 (8 Jun)** — Contraponto nas sugestões de troca da NOSSA ANÁLISE + fix de entidades HTML no headline do changelog.
+- **v2.19.0 (8 Jun)** — Le Vél mais empático: trata pelo nome, usa weapon_rating, convida pra Evolução. Edge `analyze-build` v4.
 - **v2.18.0 (8 Jun)** — Fix do "destrocar" infinito na NOSSA ANÁLISE (guarda de convergência por margem fixa).
 
 ### Identidade visual (FECHADA no marco v2.6.x)
@@ -66,9 +67,11 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - Auth email+senha ativo, Confirm email OFF, 18+ universal
 - Victor: `auth.uid = 1438a611`, `hub_users.id = 3fa59ebd`
 - Edge Functions migradas p/ `auth.uid` + `verify_jwt: true`: `sync-push v6`, `user-asset v4`, `sync-pull v6`
+- **Edge Functions de IA (todas Gemini 2.5 Flash + `ana_gemini_usage`):** `analyze-build` v4 (deploy v6, `verify_jwt: false` — front manda anon key), `analyze-capture` v7, **`generate-build` v1 (NOVO 9 Jun, `verify_jwt: true`)**, **`parse-build-text` v1 (NOVO 9 Jun, `verify_jwt: true`)**, `admin-cat-struggles` v3, `admin-cat-glossary`
 - Hub: `pushAll`/`pullAll`/`_cloudHeaders` mandam token JWT
 - 25 armas + perfil migrados para auth.uid
-- `cat_attachments` = **1102 rows**, 25 armas, fonte codmunity — **NÃO MEXER**
+- `cat_attachments` = **1102 rows**, 25 armas (23 weapon_ids distintos; **AK-27 = `weapon_id: 'ak'`**), fonte codmunity — **NÃO MEXER**. Tem `unlock_level`, `is_prestige`, `prestige_level` e `meta.stats` por attachment.
+- `cat_struggles` = **22 rows** (11 dificuldades × PT+EN), admin UI no ar desde v2.8.x
 - `user-assets` bucket existe, RLS policies pendentes
 - Supabase: conta GitHub `victor-abap-pt`, projeto `bo7-tactical-hub` (ref `cqkhqtgmolmrfgzozocr`, sa-east-1)
 - Captura mobile: tabela `capture_sessions`, bucket `capture-photos`, Edge Functions Deno
@@ -83,10 +86,11 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - **Dexterity perk = prioridade máxima** (combate flinch)
 - Áudio: mix **Headphones**
 - Prestige atual: Level 54 (BLACKCELL Season 4, 60% complete, 44 dias restantes)
-- Arma principal: **Sturmwolf 45** (Weapon Prestige 2, build CICADA 3301-45). Loadout ativo: Voyak KT-3 (AR, Warzone Long Range) + Hawker HX (sniper suporte, build ANTARES)
+- Arma principal: **Sturmwolf 45** (Weapon Prestige 2, build CICADA 3301-45). Loadout ativo: Voyak KT-3 (AR, Warzone Long Range) + Hawker HX (sniper suporte, build ANTARES). **AK-27 em P1·L19** (builds URAL + VOLGA desenhadas 9 Jun)
 - Perks Warzone ativos: Surveyor (Slot 1), Quick Fix (Slot 2), Survivor (Slot 3)
 - Arsenal: 25 armas cadastradas
 - **Performance recente (9 Jun):** 3 partidas top 3 consecutivas com config de stick INVERTIDA (Left Min 70 em vez de 0). Sinal forte de aim/posicionamento/leitura carregando — quando corrigir o movimento, escala mais.
+- **Slide/Dive Behavior (9 Jun, noite):** Victor mudou pra Hybrid pelo checklist mas o segurar-pra-mergulhar disparava sem querer no R3 — orientado a voltar pra **Tap to Slide**. Re-treinar Hybrid de propósito mais tarde, em bots.
 
 ---
 
@@ -98,13 +102,13 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 **Zonas Mortas:** Left Min 0 / Left Max 70 · Right Min 1 / Right Max 99 · L2 Deadzone 0 / R2 Deadzone 0
 **Layout:** Stick Layout Preset Tactical (crouch/prone no L3 — habilita dropshot)
 
-**Erro do Victor descoberto em 9 Jun:** estava com Left Min 70 / Left Max 80 no jogo (config invertida). Recomendação correta = Min 0 / Max 70. Vê seção 9 abaixo.
+**Erro do Victor descoberto em 9 Jun:** estava com Left Min 70 / Left Max 80 no jogo (config invertida). Recomendação correta = Min 0 / Max 70.
 
 ---
 
 ## 6. CONFIGURAÇÕES NÃO-ALINHADAS (CHECKLIST DO VICTOR no jogo)
 
-Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7. Itens que o Victor pode ajustar pra alinhar com as recomendações do Hub / com o estilo rusher CQB.
+Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7.
 
 ### Alta prioridade — impacto direto no rush
 
@@ -112,7 +116,7 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7. Itens
 |---|---|---|---|
 | Sprint Assist | Off | **On** | Auto-sprint reduz fadiga, mantém fluxo do rush sem double-tap |
 | Mantle Assist | Off | **On** (ou Low Mantle Assist) | Transpor obstáculos sem apertar Jump = meio segundo a mais de pressão no inimigo |
-| Slide/Dive Behavior | Tap to Slide | **Hybrid** | Hybrid resolve slide e dive no mesmo botão sem ambiguidade |
+| Slide/Dive Behavior | Hybrid (revertendo) | **Tap to Slide** (decisão 9 Jun à noite) | Hybrid disparava mergulho acidental no R3; voltar ao Tap to Slide. Re-treinar Hybrid em bots quando quiser o dive de emergência |
 | Left Stick Min | 70 ⚠️ | **0** | Sem deadzone, resposta imediata do primeiro milímetro de input |
 | Left Stick Max | 80 ⚠️ | **70** | Atinge velocidade máxima antes do fim do curso, aproveita rotational aim assist |
 
@@ -131,156 +135,74 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7. Itens
 
 ## 7. PRÓXIMAS PENDÊNCIAS (roadmap por prioridade)
 
-> Lista para abrir o próximo chat. A identidade visual está **fechada** — partir destes.
+> Lista para abrir o próximo chat. Montagem Inteligente + Capturar via Texto **ENTREGUES na v2.22.0** — saíram do topo.
 
-1. **★★★ MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO** — 2 botões novos no header de Minhas Armas (ordem final: Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma). Detalhe técnico completo na seção 8.B.
-2. **★★ cat_struggles BD + admin UI** — **pré-requisito** pra Montagem Inteligente entregar valor real (a IA precisa cruzar dificuldades cadastradas com a build gerada). Tabela `cat_struggles` no Supabase + admin UI em Configurações·Operador (mesmo padrão do `cat_glossary` que já existe).
-3. **★ Análise de build com veredito (final)** — enriquecer `analyze-build` com `active_struggles` no payload para análise personalizada (não genérica). v2.18+v2.19 resolveram parte; falta o cruzamento com dificuldades. Detalhe técnico na seção 8.A.
-4. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — após os 17 prints do menu Settings, faltam ~30 settings no Hub:
-   - **AIMING:** ADS Sens por 6 zooms em vez de 3 (Low, 2x-3x, 4x-5x, 6x-7x, 8x-9x, High), 6 sub-multipliers no Sensitivity Multiplier (3rd Person, Ground/Air Vehicles, Tablet, ADS, Focus), Aim Response Curve Slope Scale, Custom Sensitivity Per Zoom toggle, 3rd Person ADS Correction Type
-   - **MOVEMENT:** Sprint Assist sub-settings completos, Mantle Assist sub-settings (Sideways, Backwards, Tactical Sprint Only, Mantle Assist Angle), Crouch Assist Tactical Sprint, Slide/Dive Activation Delay, Sprint Restore, Sprint/Tactical Sprint Behavior, Auto Move Forward, Auto Door Peek, Grounded Mantle, Tactical Sprint Activation, Plunging Underwater, Sprinting Door Bash
-   - **COMBAT (Advanced):** Focus Behavior, Change Up Directional Button Behavior, Change Zoom Activation, Weapon Mount Exit, Interact/Reload Behavior, Akimbo Behavior, ADS Stick Swap, Depleted Ammo Weapon Switch, Weapon Mount Movement
-   - **OVERLAY BEHAVIORS:** Inventory Control, Ping Wheel Delay, Double Tap Danger Ping Delay, Emotes & Sprays Wheel Position
-   - **MOTION SENSOR FUNCTION ADVANCED:** ~20 settings (todos defaults pro Victor que não usa motion)
-   - Cada um precisa de `why` + `why-detailed` em PT + EN, recomendação pro rusher CQB, integração com glossary. **Trabalho de 3-4 sessões dedicadas, dividido em fases.**
-5. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
-6. **UI Codenames** (admin + botão "Sugerir Codename" em build/loadout). Boa parte do trabalho aproveita o que a Montagem Inteligente vai gerar (codename sugerido na saída da IA).
-7. **Avatar IA Nano Banana 2**
-8. **PRE-MATCH ADVISOR** (futuro grande) — sugere loadout/arma conforme mapa + modo MP em tempo real. Casa naturalmente com a Montagem Inteligente "pra mapa específico" (V2 da feature).
-9. **Marketplace** + **i18n EN** (Loadout/Meus Loadouts) — menor prioridade
-10. **Atualização dos dados de Eventos** a cada Season — os números (44 dias, 1700/2200 CP, 15/40 unlocks etc) são hardcoded no HTML/i18n. A cada mid-season ou Reloaded, regenerar o bloco. Possível feature futura: admin UI pra editar Events.
+1. **★★★ Análise de build com veredito (final)** — enriquecer `analyze-build` com `active_struggles` no payload. ATENÇÃO: o front **JÁ ENVIA** `active_struggles` (confirmado 9 Jun, linha ~25320) e a Edge v4 já lê o campo — verificar na prática se o cruzamento aparece no veredito; se não, é só ajuste de prompt. Detalhe na seção 8.A.
+2. **★★ V2 da Montagem Inteligente / Capturar via Texto** (seção 8.B → "V2"): mapa específico (4ª pergunta), variantes simultâneas, plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback, decodificar Loadout Codes nativos (`A02-2G9PV-...`) no Capturar via Texto, menu sanduíche mobile pros 5 botões (hoje é flex-wrap).
+3. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — ~30 settings faltantes dos 17 prints. Trabalho de 3-4 sessões dedicadas. (Detalhe completo na versão anterior deste doc / nos prints.)
+4. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
+5. **UI Codenames** (admin + botão "Sugerir Codename" em build/loadout). A `generate-build` já devolve `codename_suggestion` — aproveitar.
+6. **Avatar IA Nano Banana 2**
+7. **PRE-MATCH ADVISOR** (futuro grande) — casa com a V2 "pra mapa específico".
+8. **Marketplace** + **i18n EN** (Loadout/Meus Loadouts) — menor prioridade
+9. **Atualização dos dados de Eventos** a cada Season — números hardcoded; regenerar a cada mid-season/Reloaded.
 
 ---
 
-## 8.A · TAREFA DETALHADA: Análise de build com veredito
+## 8.A · TAREFA: Análise de build com veredito (restante)
 
-> Levantada em 3 Jun 2026 após Victor questionar o que a análise "NOSSA ANÁLISE" entrega.
-
-### Diagnóstico (o que está errado hoje)
-
-A análise de build é **tecnicamente bem feita** — arquitetura híbrida correta: motor determinístico do Hub calcula stats agregados + identifica fraquezas + pré-filtra candidatos do catálogo; a Edge Function `analyze-build` (Gemini 2.5 Flash) só redige; server-side valida e descarta sugestão cujo `name` não esteja na lista enviada (zero alucinação). **O problema é o que ela responde, não a engenharia.**
-
-Três falhas de produto:
-1. **Não conhece o estilo do jogador.** O `style_hint` é *inferido da própria build*. Nunca compara com o fato de que o Victor é **rusher CQB agressivo** — esse dado existe no Hub mas **não é enviado** no payload. **PARCIALMENTE RESOLVIDO na v2.18.0** — `_styleObjectiveWeights(sp)` agora deriva pesos do perfil, e v2.19.0 passa `name` ao Le Vél.
-2. **Ignora as dificuldades cadastradas.** As `cat_struggles` vivem em aba separada e **nunca chegam** ao `analyze-build`. Logo, a análise jamais cruza "build otimizada pra 26m" com "teu problema é close a 5m". **PENDENTE.**
-3. **Output era descrição, não veredito.** **RESOLVIDO na v2.19.0** — system prompt reescrito pra dar veredito acionável, com `weapon_rating` da aba AVALIE.
-
-### Status atual
-
-- v2.18.0 + v2.19.0 resolveram 1 e 3.
-- Pendente: **enviar `active_struggles` no payload + reescrever prompt pra cruzar com as dificuldades**.
-
-### Localização no código
-
-- Bloco da arquitetura híbrida: comentário `ANÁLISE DE BUILD · ARQUITETURA HÍBRIDA` no `index.html`
-- Endpoint: `const ANALYZE_BUILD_ENDPOINT = '...supabase.co/functions/v1/analyze-build'`
-- Construção do payload: procurar por `player_profile` (já adicionado em v2.19.0); adicionar `active_struggles` no mesmo objeto
+- v2.18.0 + v2.19.0 resolveram estilo fixo + veredito acionável.
+- Front já envia `active_struggles` + `weapon_rating` + `player_profile` no payload (v2.19).
+- **Falta apenas confirmar em produção** que o prompt v4 cruza as dificuldades de fato no summary; se sair genérico, reescrever só o trecho do prompt da Edge `analyze-build`.
 
 ---
 
-## 8.B · TAREFA DETALHADA: Montagem Inteligente (Le Vél)
+## 8.B · MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO — ENTREGUE (v2.22.0)
 
-> Levantada em 9 Jun 2026. **Próxima feature a ser implementada.**
+### O que está no ar
 
-### Conceito
+**Botões (ordem final):** Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma. Montagem Inteligente em laranja LEVEL com ícone `gear-star` (novo no catálogo LUCIDE inline). Mobile: flex-wrap (menu sanduíche ficou pra V2).
 
-Botão novo no header de **Minhas Armas** (ao lado de IMPORTAR VIA PRINT / CAPTURAR VIA CELULAR / + ADICIONAR ARMA). Abre wizard de 3 perguntas e gera uma build inteligente com IA, cruzando perfil + dificuldades + arsenal + nível da arma + Permanent Unlocks usados.
+**Capturar via Texto:** modal textarea → Edge `parse-build-text` v1 → resultado convertido pro formato `vision_result` → **mesmo fluxo de aprovação da captura via celular** via ponte nova `window.LevelCaptureBridge = { openApproval, importData }` (exposta no module script da captura). Card de revisão com matching, dropdown de arma, importação pro Construtor. Zero UI duplicada.
 
-### Princípio de design
+**Montagem Inteligente:** wizard 3 perguntas (arma com memória `level.sb.lastWeapon` · foco default CQB · MP/Warzone) + modos gerar/refinar/counter → Edge `generate-build` v1 → render: codename, intro Le Vél, slots com justificativa + nível, stats agregados (somados no front de `meta.stats` do catálogo), perks chips, PUT recommendation, comparação. Ações: Salvar (Construtor pré-preenchido via bridge), Regenerar variante (manda codename anterior em `existing_builds`), Descartar.
 
-**Não pedir o que o Hub já sabe.** O Hub conhece Prestige/Nível do jogador, nível e prestige da arma escolhida, attachments disponíveis pra esse nível, PUTs usados, perfil do operador, dificuldades cadastradas, builds prévias da mesma arma. A IA puxa tudo isso automaticamente. **Só pergunta o que muda por contexto.**
+### Edge Functions (arquitetura)
 
-### Form de entrada (3 perguntas)
+- **`generate-build` v1** (`verify_jwt: true`): payload = player_profile + weapon{id,level,prestige} + focus + game_mode + mode + counter_situation + existing_build(s) + active_struggles + used_puts + max_slots(8) + perks_pool + language. **Server busca `cat_attachments` como fonte de verdade**, divide em available/locked por `unlock_level` vs level + `is_prestige` vs Weapon Prestige + PUTs. Valida pós-IA por allow-list: slot inventado descartado, slot duplicado descartado, PUT recommendation só de locked, perks só do pool. Devolve slots com `attachment_id` + `stats` do catálogo.
+- **`parse-build-text` v1** (`verify_jwt: true`): payload = text (máx 20k chars) + weapons[] (arsenal) + language. Gemini extrai (temp 0.1) → server matcheia cada attachment contra `cat_attachments` do weapon_id: exato→ok (nome canônico+slot corrigido), parcial único→ok, 2+→ambiguous+candidates, 0→unrecognized. Attachment vetado/rejeitado no texto fica de fora (regra de prompt). "X ou Y" no mesmo slot entra 2×.
+- Ambas com retry (429/5xx), `friendlyError`, custo estimado e latência em `ana_gemini_usage`.
 
-1. **Qual arma?** Dropdown das 25 armas cadastradas em `hub_user_assets`. Default: a arma da última build aberta.
-2. **Distância foco:** CQB · Mid · Long · Versátil. Default: CQB (perfil do Victor).
-3. **Modo de jogo:** Multiplayer · Warzone. *(Opcional, futura V2: submodo específico — Hardpoint, S&D, Resurgence, etc.)*
+### Validação (9 Jun)
 
-### Modos do wizard (MVP)
+- **URAL** (tabela com armadilhas): 8/8 ok, Battle-Scar vetado excluído, FANG HoverPoint (inexistente no catálogo) marcada unrecognized, perks extraídos, confidence high.
+- **VOLGA** (frase corrida informal, "cano 14 Prism Light", "ak-27" minúsculo): 8/8 ok, EMT3 Compensator desambiguado do Ported-70, ECS reconhecido como Prestige, confidence high, ~6s.
+- **generate-build** (AK-27 P1·L19, CQB, 8 slots): build "BLITZ", dropped=0, 22 available/28 locked, PUT recommendation válida (Prodigal Skeleton Stock L26), comparação com URAL, ~22s.
 
-- **Gerar do zero** (default) — IA monta do nada baseada nos 3 inputs.
-- **Resgate de build** — se a arma já tem build do Victor, opção de "refinar" em vez de regenerar. IA mantém o que está bom, troca o que está sub-ótimo, justifica cada mudança.
-- **Counter-build** — campo extra opcional: "tô apanhando de X em Y". A IA otimiza pra contrariar a situação específica.
-- **★ CAPTURAR VIA TEXTO** (adicionado 9 Jun, pedido do Victor) — botão PRÓPRIO no header (não é modo interno do wizard): caixa de texto livre onde o Victor cola QUALQUER texto descrevendo uma build (output do chat com Claude, build de site, mensagem de Discord, anotação informal) e a IA parseia e monta a build no Hub automaticamente. Detalhe abaixo.
+### Gabaritos de referência (qualidade-alvo)
 
-### CAPTURAR VIA TEXTO — detalhe
-
-**Fluxo:** botão abre modal com textarea grande → Victor cola texto livre → Edge Function `parse-build-text` (Gemini, schema fechado) extrai: arma base, codename (se houver), attachments por slot — e descarta justificativas/stats/papo → validação server-side contra `cat_attachments` (se o nome não existe pra essa arma, marca "não reconhecido" em vez de inventar) → preview na tela com check verde no reconhecido e alerta amarelo no ambíguo (correção manual via dropdown) → Salvar como nova build.
-
-**Parser sem formato exigido:** tabela markdown, bullets, frase corrida ("usa a Tishina no muzzle") — tudo entra, a IA normaliza.
-
-**Caso de uso primário:** o Victor gera builds conversando com o Claude (caso real de 9 Jun: builds URAL e VOLGA da AK-27 geradas no chat) e cola o output direto no Hub sem digitar slot por slot.
-
-**V2 deste modo:** detectar e decodificar Loadout Codes nativos do BO7 (padrão `A02-2G9PV-4C1XB-11` publicado pelo codmunity) no mesmo campo.
-
-### Output da IA
-
-- Build completa nos 8 slots (Optic, Muzzle, Barrel, Underbarrel, Magazine, Stock, Laser, Rear Grip) ou subset conforme a categoria da arma
-- Justificativa curta por slot (1 linha cada, no estilo direto do Le Vél)
-- Stats agregados estimados (handling, range, recoil control, TTK por distância)
-- Comparação com builds existentes do Victor pra essa arma (se houver): "tua CICADA 3301-45 atual ganha em CQB, essa nova ganha em Mid"
-- Recomendação de Permanent Unlock se algum attachment ideal exige level mais alto: *"Pra build perfeita, gasta teu próximo PUT no Lightweight Stock — destrava no Level 41, ainda longe."*
-- Sugestão de codename temático (alimenta a feature de Codenames do roadmap)
-- Botões: **Salvar como nova build** · **Regenerar (variante)** · **Descartar**
-
-### Arquitetura técnica
-
-- **Edge Function nova:** `generate-build` (Supabase, Gemini 2.5 Flash). Irmã da `analyze-build`. `verify_jwt: true`.
-- **Schema fechado de saída** (anti-alucinação) com array de 8 slots, cada um com `slot_name`, `attachment_id`, `attachment_name`, `justification`. Mais campos agregados: `aggregate_stats`, `permanent_unlock_recommendation`, `codename_suggestion`, `comparison_with_existing` (opcional).
-- **Server-side valida** cada `attachment_id` retornado contra `cat_attachments` e o nível requerido. Se a IA inventar ou pedir um attachment não desbloqueado pelo Weapon Prestige atual + PUTs usados, server descarta e pede regeneração.
-- **Reusa o motor determinístico** já existente (`_computeBuildContext`, `_styleObjectiveWeights`, candidatos por fraqueza, perks pool).
-- **System prompt do Le Vél:** mesma identidade tonal da `analyze-build` (direto, técnico, frases-marca).
-
-### Dependências (ordem de implementação obrigatória)
-
-1. **`cat_struggles` no BD + admin UI** *(item 2 do roadmap)* — sem isso, a IA não cruza dificuldades com a build gerada, e cai no mesmo erro genérico da NOSSA ANÁLISE antiga.
-2. **`cat_attachments` precisa ter o requisito de level/prestige por attachment** — verificar se já tem essa coluna. Se não tem, popular antes (provavelmente já tem via codmunity.gg).
-3. **`hub_user_permanent_unlocks`** — tabela ou campo em `hub_users` listando quais PUTs o Victor já usou (em qual attachment foi gasto). Sem isso a IA não sabe quais attachments de level alto já estão disponíveis fora do level natural.
-
-### V2 (depois do MVP funcionar)
-
-- **Pra mapa específico** — wizard ganha 4ª pergunta opcional de mapa. Casa com PRE-MATCH ADVISOR.
-- **Variantes simultâneas** — gera 2-3 builds da mesma arma pra cenários diferentes (CQB + Mid + Suporte) com codenames distintos.
-- **Plano de progressão até a build ideal** — caminho de levels da arma + estimativa de partidas/double-XP pra chegar lá.
-- **Loadout completo (Primary + Secondary com sinergia)** — em vez de uma arma, gera o par. A Secondary cobre o que a Primary não cobre.
-- **Histórico de gerações + feedback** — cada build gerada vai pra histórico, com nota do Victor (gostou/não gostou/testou). Vira sinal de fine-tuning futuro.
-
-### Posição dos botões
-
-Header de Minhas Armas. Ordem final (decidida 9 Jun): **Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente** — e o "+ ADICIONAR ARMA" continua no fim. São 5 botões no total; em mobile viram menu sanduíche pra não estourar a linha. Montagem Inteligente: cor laranja LEVEL com ícone SVG de **engrenagem-com-estrela**, pra destacar dos demais. Capturar via Texto: mesmo visual dos outros 2 botões de captura (consistência da família "captura").
-
-### Nome (DECIDIDO pelo Victor em 9 Jun 2026)
-
-**MONTAGEM INTELIGENTE.** Os 4 botões do header de Minhas Armas ficam: **Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente**.
-
-### Gabarito de qualidade (gerado manualmente em 9 Jun 2026)
-
-Preview manual da feature feito no chat — serve de referência do nível de output que a `generate-build` deve produzir. Duas builds geradas pra AK-27 (P1-L19 do Victor, 8 slots Gunfighter):
-
-**URAL** (balanceada CQB-mid, build principal): LTI Reflex ou FANG HoverPoint ELO (Optic) · SWF Tishina-11 (Muzzle) · 17" Bystro Speed Barrel (Barrel) · Lateral Precision Grip (Underbarrel) · Epitaph Extended Mag (Magazine) · Caliban Light Stock (Stock) · Lithe Thin Grip (Rear Grip) · Buffer Spring (Fire Mods). Recoil horizontal acumulado −62%. Perks: Lightweight + Dexterity + Tac Sprinter.
-
-**VOLGA** (variante CQB pura, mapas pequenos): LTI Reflex · EMT3 Compensator · 14" Prism Light Barrel · Respire Handstop · Epitaph Extended Mag · Caliban Light Stock · Lithe Thin Grip · **Enhanced Cycle System** (Rapid Fire de Prestige — o EMT3 neutraliza o +24% vertical do ECS).
-
-Decisões de coaching registradas: Battle-Scar Conversion vetado (nerf pesado em Jan/26); ECS vetado na URAL (−12,5% range contradiz o propósito balanceado); FANG HoverPoint aceita na URAL se o Victor preferir (confiança na mira > stat), LTI obrigatória na VOLGA (CQB puro, cada ms de ADS conta).
+**URAL** (balanceada CQB-mid): LTI Reflex ou FANG HoverPoint ELO (Optic) · SWF Tishina-11 (Muzzle) · 17" Bystro Speed Barrel · Lateral Precision Grip · Epitaph Extended Mag · Caliban Light Stock · Lithe Thin Grip · Buffer Spring (Fire Mods). Perks: Lightweight + Dexterity + Tac Sprinter.
+**VOLGA** (CQB pura): LTI Reflex · EMT3 Compensator · 14" Prism Light Barrel · Respire Handstop · Epitaph Extended Mag · Caliban Light Stock · Lithe Thin Grip · Enhanced Cycle System (Prestige; o EMT3 neutraliza o +24% vertical do ECS).
+Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado na URAL; LTI obrigatória na VOLGA.
 
 ---
 
-## 9. CHECKLIST PÓS-DEPLOY (v2.21.0)
+## 9. CHECKLIST PÓS-DEPLOY (v2.22.0)
 
 > Confirmar ANTES de considerar o marco 100% no ar.
 
-- [ ] **Commit no GitHub** já feito (confirmado pelo Victor em 9 Jun 2026). v2.20.1 não foi subida em commit separado — foi consolidada no mesmo commit da v2.21.0. **Não é problema** — o Hub no ar tem ambas as mudanças funcionando. A única "esquisitice" cosmética é o histórico mostrar 2 entries com a mesma data.
+- [ ] **Commitar** o `index.html` (v2.22.0) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
 - [ ] Confirmar no **Netlify** (app.netlify.com) que o build `le-vel-hub` passou e publicou
 - [ ] Abrir **le-vel.games** e verificar:
-  - [ ] Footer mostra **LEVEL v2.21.0**
-  - [ ] Painel Hoje mostra o bloco **EVENTOS · TEMPORADA ATUAL** abaixo do changelog
-  - [ ] 3 cards de eventos com cores temáticas (Nuked verde, Illicit Cargo laranja-cobre, Double XP laranja LEVEL)
-  - [ ] Card Battle Pass S4 BLACKCELL com 4 stats
-  - [ ] Card Catalyst Collection com tema dourado/preto
-  - [ ] Aba Controller → CONTROLLER mostra Zonas Mortas no final (com Left + Right + L2/R2)
-  - [ ] Aba Controller → AIMING não tem mais Zonas Mortas (tem só Aim Response Curve em "Mira Avançada")
-- [ ] Testar no **mobile** — grid de 3 cards de evento colapsa pra 1 coluna, BP stats colapsa pra 2 colunas
-- [ ] **No jogo (PS5),** abrir Settings → Controller e ajustar conforme seção 6 acima
+  - [ ] Footer mostra **LEVEL v2.22.0**
+  - [ ] Painel Hoje: card "O QUE MUDOU" mostra Montagem Inteligente + Capturar via Texto
+  - [ ] **Minhas Armas**: 5 botões na ordem (Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), Montagem Inteligente em laranja com engrenagem-estrela
+  - [ ] **Capturar via Texto**: colar o texto da URAL → card de revisão abre com 8 acessórios casados e o codename URAL no nome
+  - [ ] **Montagem Inteligente**: gerar build CQB da AK-27 → intro com teu nome, justificativas por slot, perks, recomendação de PUT, comparação com a URAL
+  - [ ] **Salvar como nova build** → Construtor abre pré-preenchido com codename + attachments
+  - [ ] Trocar idioma pra EN e conferir os botões/modais traduzidos
+- [ ] Testar no **mobile** — os 5 botões quebram linha sem estourar a toolbar
+- [ ] **No jogo (PS5):** Settings → Controller → **Slide/Dive Behavior: Hybrid → Tap to Slide** (reverter o mergulho acidental do R3)
 
 ---
 
@@ -288,26 +210,28 @@ Decisões de coaching registradas: Battle-Scar Conversion vetado (nerf pesado em
 
 - Edições sempre via Python `read → str_replace → write` em `/home/claude/hub.html`, **nunca** edição manual de linhas
 - `str_replace` Python com `assert count == 1` antes de cada substituição
-- Validação após cada alteração: `node --check` no maior bloco `<script>` + html5lib parse + balanço de tags
-- Para mudanças visuais grandes: renderizar com Playwright (chromium headless) e inspecionar screenshot ANTES de entregar
+- Validação após cada alteração: `node --check` em **todos** os blocos `<script>` (extração via regex) + html5lib parse + conferir seções dentro de `<main>`
+- Para mudanças visuais grandes: renderizar com Playwright (chromium headless; instalar com `--with-deps`) e inspecionar screenshot ANTES de entregar. O Hub tem gate de login — pra inspecionar componentes novos, extrair CSS + trechos pra página de teste isolada.
 - Output final: `/mnt/user-data/outputs/index.html`; Victor commita no GitHub
 - **NUNCA** sugerir Google Drive ou Files do Projeto (Victor parou 31 Mai 2026)
 - Versionamento SemVer: PATCH=bugfix/visual, MINOR=feature, MAJOR=quebra
 - A cada entrega: bumpar versão + footer (`LEVEL vX.Y.Z`) + bloco "O QUE MUDOU NESTA VERSÃO" (topo do Painel Hoje) + entrada no Histórico de Versões (`vh-entry` no topo da `vh-list`)
 - Mudança de frontend que afete schema → backend Supabase na mesma sessão
+- **Deploy de Edge Functions via Supabase MCP** (`deploy_edge_function`) funciona direto com `files: [{name: 'index.ts', content}]` — sem precisar de deno.json pra imports via URL esm.sh
 
 ### Bugs estruturais documentados
 
-- **Inserção de `vh-entry` via `str_replace`** tem risco de consumir o `<div class="vh-entry">` da próxima entry, deixando `</div>` órfão que fecha `<main>` prematuramente e expulsa seções inteiras do fluxo do documento. **Sempre** validar com html5lib após cada inserção.
-- **Assertions prematuras** podem falhar se o teste for feito antes da renomeação dos i18n keys (caso v2.20.1). Ordenar: 1) remover/mover HTML, 2) renomear i18n, 3) só depois assertar ausências.
-- **Memória vs realidade do Hub:** a memória do Claude pode estar desatualizada (caso 9 Jun: memória dizia v2.14.0, Hub estava em v2.20.0). **Sempre conferir o footer/changelog do arquivo anexado** antes de planejar bump de versão.
+- **Inserção de `vh-entry` via `str_replace`** tem risco de consumir o `<div class="vh-entry">` da próxima entry → sempre validar com html5lib + seções dentro de `<main>` após cada inserção. (v2.22.0: inserção limpa, zero problemas.)
+- **Escapes em strings JS injetadas via Python:** o LUCIDE map usa `\"` (barra+aspa) dentro das strings — em Python string normal isso é `'\\"'`. Errar a contagem de barras quebra o parse do script inteiro. **Nunca** corrigir com replace global de sequências de escape (corrompe strings legítimas como `"14.5\\\" VAS"`); refazer a injeção do zero com o escape certo.
+- **Assertions prematuras** podem falhar se o teste for feito antes da renomeação dos i18n keys. Ordenar: 1) remover/mover HTML, 2) renomear i18n, 3) só depois assertar ausências.
+- **Memória vs realidade do Hub:** sempre conferir o footer/changelog do arquivo anexado + comparar com le-vel.games publicado antes de planejar bump.
 
 ### Fontes de dados do jogo
 
-- **codmunity.gg**: fonte primária de attachments (`browser_batch` navigate→wait 3s→`get_page_text`; requer aprovação de permissão na 1ª navegação)
+- **codmunity.gg**: fonte primária de attachments
 - **game8.co**: não funciona com `get_page_text` — usar `web_fetch` com URLs archive.org
-- **callofduty.com/blog/blackops7**: fonte oficial pra info de Seasons, Events, BP
-- **gamespot.com / dotesports.com / boostmatch.gg**: fontes confiáveis pra detalhes de eventos e recompensas
+- **callofduty.com/blog/blackops7**: fonte oficial pra Seasons, Events, BP
+- **gamespot.com / dotesports.com / boostmatch.gg**: fontes confiáveis pra eventos e recompensas
 
 ### Links diretos (sempre incluir ao orientar)
 
@@ -327,14 +251,22 @@ Decisões de coaching registradas: Battle-Scar Conversion vetado (nerf pesado em
 
 ## 12. APRENDIZADOS RECENTES
 
-### Sessão 9 Jun 2026
+### Sessão 9 Jun 2026 (noite — marco v2.22.0)
 
-- **Identidade visual do jogo vs Hub:** quando o Victor pede "alinhar com o jogo", os prints valem mais que palavras. Pedir prints antes de propor reorganização grande.
-- **Memória vs realidade:** se a versão na memória diverge do footer do arquivo anexado, o **arquivo anexado é a verdade**. Não confiar em memória pra estado do Hub.
-- **Erro do Victor com Min/Max do stick:** ele confundiu os campos no jogo (Min 70 / Max 80 em vez de Min 0 / Max 70). Lição: ao recomendar config no jogo, **sempre dar Min E Max explicitamente** na mesma frase, pra ele não inverter.
-- **Eventos da Season são dados perecíveis** — vão ficar desatualizados em 3-4 semanas (Reloaded vem aí). A cada Season nova, regenerar o bloco manualmente é o fluxo. No futuro, pode virar feature (admin UI).
-- **SVG inline > imagens externas** pra cards de eventos do Hub. Activision muda URLs com frequência, e o Hub é single-file que tem que funcionar offline.
-- **3 top 3 em 3 partidas com config invertida = sinal de skill** que estava sendo limitada pelo movimento. Quando o Victor corrigir Sprint Assist + Mantle Assist + Slide/Dive Hybrid + Left Stick 0/70, vai escalar mais.
+- **Reuso > UI nova:** o Capturar via Texto NÃO ganhou tela própria de revisão — converteu o output do parser pro formato `vision_result` e reusa o card de aprovação da captura via celular inteiro (matching, dropdown, importação pro Construtor). Uma ponte de 4 linhas (`window.LevelCaptureBridge`) destravou tudo.
+- **Server como fonte de verdade do catálogo:** a `generate-build` busca `cat_attachments` no banco em vez de confiar no payload — anti-alucinação fica no servidor e o front não consegue ser enganado por catálogo desatualizado.
+- **Parser tolerante compensa:** matching em 3 camadas (exato fuzzy → parcial → palavras-chave) pegou "cano 14 Prism Light" → `14" Prism Light Barrel`. Status `ambiguous` com candidates[] entrega o dropdown de correção sem inventar nada.
+- **Gabarito como teste de regressão:** URAL/VOLGA viram a suíte permanente — qualquer mudança futura no parser deve continuar passando os dois 8/8.
+- **R3 mergulhando = Slide/Dive Hybrid**, não Button Layout. Com Stick Layout Tactical, o clique do analógico vira agachar/deslizar/mergulhar; no Hybrid, segurar = mergulho. Toque seco resolve, mas se atrapalha o instinto, Tap to Slide sem culpa.
+- **Strafe shooting / jiggle strafe:** o vai-e-vem atirando dos oponentes = stock leve + omnimovement + ritmo irregular no analógico. Victor já tem a base (Caliban Light Stock, Lightweight, Left Stick Max 70).
+
+### Sessão 9 Jun 2026 (tarde — v2.20/v2.21)
+
+- **Identidade visual do jogo vs Hub:** prints valem mais que palavras. Pedir prints antes de propor reorganização grande.
+- **Memória vs realidade:** o arquivo anexado é a verdade. Conferir footer sempre.
+- **Min/Max do stick:** ao recomendar config, sempre dar Min E Max explicitamente na mesma frase.
+- **Eventos da Season são dados perecíveis** — regenerar a cada Reloaded/Season.
+- **SVG inline > imagens externas** pra cards de eventos.
 
 ---
 
