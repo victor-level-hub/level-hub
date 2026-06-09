@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 9 Jun 2026 — fecho do marco v2.21.0 (Eventos + Battle Pass S4)
+> **Última atualização:** 9 Jun 2026 — fecho do marco v2.21.0 + planejamento da Montagem Le Vél (próxima feature)
 
 ---
 
@@ -133,23 +133,22 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7. Itens
 
 > Lista para abrir o próximo chat. A identidade visual está **fechada** — partir destes.
 
-1. **★ Reorganização completa do Controller (Fase 2: AIMING)** — após os 17 prints do menu Settings, ficou claro que faltam ~30 settings no Hub:
+1. **★★★ MONTAGEM INTELIGENTE (Le Vél)** — botão novo no header de Minhas Armas, ao lado de IMPORTAR VIA PRINT / CAPTURAR VIA CELULAR / + ADICIONAR ARMA. Detalhe técnico completo na seção 8.B.
+2. **★★ cat_struggles BD + admin UI** — **pré-requisito** pra Montagem Inteligente entregar valor real (a IA precisa cruzar dificuldades cadastradas com a build gerada). Tabela `cat_struggles` no Supabase + admin UI em Configurações·Operador (mesmo padrão do `cat_glossary` que já existe).
+3. **★ Análise de build com veredito (final)** — enriquecer `analyze-build` com `active_struggles` no payload para análise personalizada (não genérica). v2.18+v2.19 resolveram parte; falta o cruzamento com dificuldades. Detalhe técnico na seção 8.A.
+4. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — após os 17 prints do menu Settings, faltam ~30 settings no Hub:
    - **AIMING:** ADS Sens por 6 zooms em vez de 3 (Low, 2x-3x, 4x-5x, 6x-7x, 8x-9x, High), 6 sub-multipliers no Sensitivity Multiplier (3rd Person, Ground/Air Vehicles, Tablet, ADS, Focus), Aim Response Curve Slope Scale, Custom Sensitivity Per Zoom toggle, 3rd Person ADS Correction Type
    - **MOVEMENT:** Sprint Assist sub-settings completos, Mantle Assist sub-settings (Sideways, Backwards, Tactical Sprint Only, Mantle Assist Angle), Crouch Assist Tactical Sprint, Slide/Dive Activation Delay, Sprint Restore, Sprint/Tactical Sprint Behavior, Auto Move Forward, Auto Door Peek, Grounded Mantle, Tactical Sprint Activation, Plunging Underwater, Sprinting Door Bash
    - **COMBAT (Advanced):** Focus Behavior, Change Up Directional Button Behavior, Change Zoom Activation, Weapon Mount Exit, Interact/Reload Behavior, Akimbo Behavior, ADS Stick Swap, Depleted Ammo Weapon Switch, Weapon Mount Movement
    - **OVERLAY BEHAVIORS:** Inventory Control, Ping Wheel Delay, Double Tap Danger Ping Delay, Emotes & Sprays Wheel Position
    - **MOTION SENSOR FUNCTION ADVANCED:** ~20 settings (todos defaults pro Victor que não usa motion)
    - Cada um precisa de `why` + `why-detailed` em PT + EN, recomendação pro rusher CQB, integração com glossary. **Trabalho de 3-4 sessões dedicadas, dividido em fases.**
-2. **★ Análise de build com veredito** — enriquecer `analyze-build` com `player_profile` + `active_struggles` no payload para análise personalizada (não genérica). Detalhe técnico na seção 8.A.
-3. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid)
-   - RLS policies ainda **pendentes**
-   - Migração de capturas mobile (QR → auth.uid) pendente
-4. **cat_struggles BD + admin UI** — relacionado ao item 2
-5. **UI Codenames** (admin + botão "Sugerir" em build/loadout)
-6. **Avatar IA Nano Banana 2**
-7. **PRE-MATCH ADVISOR** (futuro grande) — sugere loadout/arma conforme mapa + modo MP em tempo real
-8. **Marketplace** + **i18n EN** (Loadout/Meus Loadouts) — menor prioridade
-9. **Atualização dos dados de Eventos** a cada Season — os números (44 dias, 1700/2200 CP, 15/40 unlocks etc) são hardcoded no HTML/i18n. A cada mid-season ou Reloaded, regenerar o bloco. Possível feature futura: admin UI pra editar Events.
+5. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
+6. **UI Codenames** (admin + botão "Sugerir Codename" em build/loadout). Boa parte do trabalho aproveita o que a Montagem Inteligente vai gerar (codename sugerido na saída da IA).
+7. **Avatar IA Nano Banana 2**
+8. **PRE-MATCH ADVISOR** (futuro grande) — sugere loadout/arma conforme mapa + modo MP em tempo real. Casa naturalmente com a Montagem Inteligente "pra mapa específico" (V2 da feature).
+9. **Marketplace** + **i18n EN** (Loadout/Meus Loadouts) — menor prioridade
+10. **Atualização dos dados de Eventos** a cada Season — os números (44 dias, 1700/2200 CP, 15/40 unlocks etc) são hardcoded no HTML/i18n. A cada mid-season ou Reloaded, regenerar o bloco. Possível feature futura: admin UI pra editar Events.
 
 ---
 
@@ -176,6 +175,72 @@ Três falhas de produto:
 - Bloco da arquitetura híbrida: comentário `ANÁLISE DE BUILD · ARQUITETURA HÍBRIDA` no `index.html`
 - Endpoint: `const ANALYZE_BUILD_ENDPOINT = '...supabase.co/functions/v1/analyze-build'`
 - Construção do payload: procurar por `player_profile` (já adicionado em v2.19.0); adicionar `active_struggles` no mesmo objeto
+
+---
+
+## 8.B · TAREFA DETALHADA: Montagem Inteligente (Le Vél)
+
+> Levantada em 9 Jun 2026. **Próxima feature a ser implementada.**
+
+### Conceito
+
+Botão novo no header de **Minhas Armas** (ao lado de IMPORTAR VIA PRINT / CAPTURAR VIA CELULAR / + ADICIONAR ARMA). Abre wizard de 3 perguntas e gera uma build inteligente com IA, cruzando perfil + dificuldades + arsenal + nível da arma + Permanent Unlocks usados.
+
+### Princípio de design
+
+**Não pedir o que o Hub já sabe.** O Hub conhece Prestige/Nível do jogador, nível e prestige da arma escolhida, attachments disponíveis pra esse nível, PUTs usados, perfil do operador, dificuldades cadastradas, builds prévias da mesma arma. A IA puxa tudo isso automaticamente. **Só pergunta o que muda por contexto.**
+
+### Form de entrada (3 perguntas)
+
+1. **Qual arma?** Dropdown das 25 armas cadastradas em `hub_user_assets`. Default: a arma da última build aberta.
+2. **Distância foco:** CQB · Mid · Long · Versátil. Default: CQB (perfil do Victor).
+3. **Modo de jogo:** Multiplayer · Warzone. *(Opcional, futura V2: submodo específico — Hardpoint, S&D, Resurgence, etc.)*
+
+### Modos do wizard (MVP)
+
+- **Gerar do zero** (default) — IA monta do nada baseada nos 3 inputs.
+- **Resgate de build** — se a arma já tem build do Victor, opção de "refinar" em vez de regenerar. IA mantém o que está bom, troca o que está sub-ótimo, justifica cada mudança.
+- **Counter-build** — campo extra opcional: "tô apanhando de X em Y". A IA otimiza pra contrariar a situação específica.
+
+### Output da IA
+
+- Build completa nos 8 slots (Optic, Muzzle, Barrel, Underbarrel, Magazine, Stock, Laser, Rear Grip) ou subset conforme a categoria da arma
+- Justificativa curta por slot (1 linha cada, no estilo direto do Le Vél)
+- Stats agregados estimados (handling, range, recoil control, TTK por distância)
+- Comparação com builds existentes do Victor pra essa arma (se houver): "tua CICADA 3301-45 atual ganha em CQB, essa nova ganha em Mid"
+- Recomendação de Permanent Unlock se algum attachment ideal exige level mais alto: *"Pra build perfeita, gasta teu próximo PUT no Lightweight Stock — destrava no Level 41, ainda longe."*
+- Sugestão de codename temático (alimenta a feature de Codenames do roadmap)
+- Botões: **Salvar como nova build** · **Regenerar (variante)** · **Descartar**
+
+### Arquitetura técnica
+
+- **Edge Function nova:** `generate-build` (Supabase, Gemini 2.5 Flash). Irmã da `analyze-build`. `verify_jwt: true`.
+- **Schema fechado de saída** (anti-alucinação) com array de 8 slots, cada um com `slot_name`, `attachment_id`, `attachment_name`, `justification`. Mais campos agregados: `aggregate_stats`, `permanent_unlock_recommendation`, `codename_suggestion`, `comparison_with_existing` (opcional).
+- **Server-side valida** cada `attachment_id` retornado contra `cat_attachments` e o nível requerido. Se a IA inventar ou pedir um attachment não desbloqueado pelo Weapon Prestige atual + PUTs usados, server descarta e pede regeneração.
+- **Reusa o motor determinístico** já existente (`_computeBuildContext`, `_styleObjectiveWeights`, candidatos por fraqueza, perks pool).
+- **System prompt do Le Vél:** mesma identidade tonal da `analyze-build` (direto, técnico, frases-marca).
+
+### Dependências (ordem de implementação obrigatória)
+
+1. **`cat_struggles` no BD + admin UI** *(item 2 do roadmap)* — sem isso, a IA não cruza dificuldades com a build gerada, e cai no mesmo erro genérico da NOSSA ANÁLISE antiga.
+2. **`cat_attachments` precisa ter o requisito de level/prestige por attachment** — verificar se já tem essa coluna. Se não tem, popular antes (provavelmente já tem via codmunity.gg).
+3. **`hub_user_permanent_unlocks`** — tabela ou campo em `hub_users` listando quais PUTs o Victor já usou (em qual attachment foi gasto). Sem isso a IA não sabe quais attachments de level alto já estão disponíveis fora do level natural.
+
+### V2 (depois do MVP funcionar)
+
+- **Pra mapa específico** — wizard ganha 4ª pergunta opcional de mapa. Casa com PRE-MATCH ADVISOR.
+- **Variantes simultâneas** — gera 2-3 builds da mesma arma pra cenários diferentes (CQB + Mid + Suporte) com codenames distintos.
+- **Plano de progressão até a build ideal** — caminho de levels da arma + estimativa de partidas/double-XP pra chegar lá.
+- **Loadout completo (Primary + Secondary com sinergia)** — em vez de uma arma, gera o par. A Secondary cobre o que a Primary não cobre.
+- **Histórico de gerações + feedback** — cada build gerada vai pra histórico, com nota do Victor (gostou/não gostou/testou). Vira sinal de fine-tuning futuro.
+
+### Posição do botão
+
+Header de Minhas Armas, **antes** do "+ ADICIONAR ARMA" (mais à esquerda). Em mobile, os 4 botões viram menu sanduíche pra não estourar a linha. Cor: laranja LEVEL com ícone SVG de **engrenagem-com-estrela** (sugere "montagem com inteligência"), pra destacar do azul-genérico dos outros 3.
+
+### Nome
+
+**MONTAGEM LE VÉL** (recomendado — fortalece a marca do coach IA dentro do Hub) ou **MONTAGEM INTELIGENTE** (alternativa, mais descritiva).
 
 ---
 
