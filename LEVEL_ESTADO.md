@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 9 Jun 2026 — fecho do marco v2.21.0 + planejamento da Montagem Le Vél (próxima feature)
+> **Última atualização:** 9 Jun 2026 — fecho do marco v2.21.0 + planejamento Montagem Inteligente & Capturar via Texto (nomenclatura final dos botões decidida) + gabaritos URAL/VOLGA
 
 ---
 
@@ -133,7 +133,7 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7. Itens
 
 > Lista para abrir o próximo chat. A identidade visual está **fechada** — partir destes.
 
-1. **★★★ MONTAGEM INTELIGENTE (Le Vél)** — botão novo no header de Minhas Armas, ao lado de IMPORTAR VIA PRINT / CAPTURAR VIA CELULAR / + ADICIONAR ARMA. Detalhe técnico completo na seção 8.B.
+1. **★★★ MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO** — 2 botões novos no header de Minhas Armas (ordem final: Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma). Detalhe técnico completo na seção 8.B.
 2. **★★ cat_struggles BD + admin UI** — **pré-requisito** pra Montagem Inteligente entregar valor real (a IA precisa cruzar dificuldades cadastradas com a build gerada). Tabela `cat_struggles` no Supabase + admin UI em Configurações·Operador (mesmo padrão do `cat_glossary` que já existe).
 3. **★ Análise de build com veredito (final)** — enriquecer `analyze-build` com `active_struggles` no payload para análise personalizada (não genérica). v2.18+v2.19 resolveram parte; falta o cruzamento com dificuldades. Detalhe técnico na seção 8.A.
 4. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — após os 17 prints do menu Settings, faltam ~30 settings no Hub:
@@ -201,6 +201,17 @@ Botão novo no header de **Minhas Armas** (ao lado de IMPORTAR VIA PRINT / CAPTU
 - **Gerar do zero** (default) — IA monta do nada baseada nos 3 inputs.
 - **Resgate de build** — se a arma já tem build do Victor, opção de "refinar" em vez de regenerar. IA mantém o que está bom, troca o que está sub-ótimo, justifica cada mudança.
 - **Counter-build** — campo extra opcional: "tô apanhando de X em Y". A IA otimiza pra contrariar a situação específica.
+- **★ CAPTURAR VIA TEXTO** (adicionado 9 Jun, pedido do Victor) — botão PRÓPRIO no header (não é modo interno do wizard): caixa de texto livre onde o Victor cola QUALQUER texto descrevendo uma build (output do chat com Claude, build de site, mensagem de Discord, anotação informal) e a IA parseia e monta a build no Hub automaticamente. Detalhe abaixo.
+
+### CAPTURAR VIA TEXTO — detalhe
+
+**Fluxo:** botão abre modal com textarea grande → Victor cola texto livre → Edge Function `parse-build-text` (Gemini, schema fechado) extrai: arma base, codename (se houver), attachments por slot — e descarta justificativas/stats/papo → validação server-side contra `cat_attachments` (se o nome não existe pra essa arma, marca "não reconhecido" em vez de inventar) → preview na tela com check verde no reconhecido e alerta amarelo no ambíguo (correção manual via dropdown) → Salvar como nova build.
+
+**Parser sem formato exigido:** tabela markdown, bullets, frase corrida ("usa a Tishina no muzzle") — tudo entra, a IA normaliza.
+
+**Caso de uso primário:** o Victor gera builds conversando com o Claude (caso real de 9 Jun: builds URAL e VOLGA da AK-27 geradas no chat) e cola o output direto no Hub sem digitar slot por slot.
+
+**V2 deste modo:** detectar e decodificar Loadout Codes nativos do BO7 (padrão `A02-2G9PV-4C1XB-11` publicado pelo codmunity) no mesmo campo.
 
 ### Output da IA
 
@@ -234,13 +245,23 @@ Botão novo no header de **Minhas Armas** (ao lado de IMPORTAR VIA PRINT / CAPTU
 - **Loadout completo (Primary + Secondary com sinergia)** — em vez de uma arma, gera o par. A Secondary cobre o que a Primary não cobre.
 - **Histórico de gerações + feedback** — cada build gerada vai pra histórico, com nota do Victor (gostou/não gostou/testou). Vira sinal de fine-tuning futuro.
 
-### Posição do botão
+### Posição dos botões
 
-Header de Minhas Armas, **antes** do "+ ADICIONAR ARMA" (mais à esquerda). Em mobile, os 4 botões viram menu sanduíche pra não estourar a linha. Cor: laranja LEVEL com ícone SVG de **engrenagem-com-estrela** (sugere "montagem com inteligência"), pra destacar do azul-genérico dos outros 3.
+Header de Minhas Armas. Ordem final (decidida 9 Jun): **Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente** — e o "+ ADICIONAR ARMA" continua no fim. São 5 botões no total; em mobile viram menu sanduíche pra não estourar a linha. Montagem Inteligente: cor laranja LEVEL com ícone SVG de **engrenagem-com-estrela**, pra destacar dos demais. Capturar via Texto: mesmo visual dos outros 2 botões de captura (consistência da família "captura").
 
-### Nome
+### Nome (DECIDIDO pelo Victor em 9 Jun 2026)
 
-**MONTAGEM LE VÉL** (recomendado — fortalece a marca do coach IA dentro do Hub) ou **MONTAGEM INTELIGENTE** (alternativa, mais descritiva).
+**MONTAGEM INTELIGENTE.** Os 4 botões do header de Minhas Armas ficam: **Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente**.
+
+### Gabarito de qualidade (gerado manualmente em 9 Jun 2026)
+
+Preview manual da feature feito no chat — serve de referência do nível de output que a `generate-build` deve produzir. Duas builds geradas pra AK-27 (P1-L19 do Victor, 8 slots Gunfighter):
+
+**URAL** (balanceada CQB-mid, build principal): LTI Reflex ou FANG HoverPoint ELO (Optic) · SWF Tishina-11 (Muzzle) · 17" Bystro Speed Barrel (Barrel) · Lateral Precision Grip (Underbarrel) · Epitaph Extended Mag (Magazine) · Caliban Light Stock (Stock) · Lithe Thin Grip (Rear Grip) · Buffer Spring (Fire Mods). Recoil horizontal acumulado −62%. Perks: Lightweight + Dexterity + Tac Sprinter.
+
+**VOLGA** (variante CQB pura, mapas pequenos): LTI Reflex · EMT3 Compensator · 14" Prism Light Barrel · Respire Handstop · Epitaph Extended Mag · Caliban Light Stock · Lithe Thin Grip · **Enhanced Cycle System** (Rapid Fire de Prestige — o EMT3 neutraliza o +24% vertical do ECS).
+
+Decisões de coaching registradas: Battle-Scar Conversion vetado (nerf pesado em Jan/26); ECS vetado na URAL (−12,5% range contradiz o propósito balanceado); FANG HoverPoint aceita na URAL se o Victor preferir (confiança na mira > stat), LTI obrigatória na VOLGA (CQB puro, cada ms de ADS conta).
 
 ---
 
