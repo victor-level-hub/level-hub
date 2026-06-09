@@ -788,6 +788,344 @@
     padding-left: 22px;
     position: relative;
   }
+  /* ═══ EVENTOS · TEMPORADA ATUAL (v2.21.0) ═══ */
+  .events-block {
+    margin-top: 32px;
+  }
+  .events-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 14px;
+    padding: 0 4px;
+  }
+  .events-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent-orange);
+    text-transform: uppercase;
+  }
+  .events-section-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    color: var(--text-tertiary, #6e6e6e);
+    text-transform: uppercase;
+  }
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 900px) {
+    .events-grid { grid-template-columns: 1fr; }
+  }
+  .event-card {
+    position: relative;
+    background: var(--bg-darkest);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 18px 16px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .event-card:hover {
+    transform: translateY(-2px);
+  }
+  .event-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--event-gradient, transparent);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .event-card > * { position: relative; z-index: 1; }
+  .event-card.evt-nuked {
+    --event-accent: #b7e681;
+    --event-gradient: radial-gradient(circle at 30% 20%, #b7e681 0%, transparent 60%);
+  }
+  .event-card.evt-illicit {
+    --event-accent: #e07142;
+    --event-gradient: radial-gradient(circle at 70% 30%, #e07142 0%, transparent 65%);
+  }
+  .event-card.evt-doublexp {
+    --event-accent: var(--accent-orange);
+    --event-gradient: linear-gradient(135deg, var(--accent-orange) 0%, transparent 70%);
+  }
+  .event-card:hover { border-color: var(--event-accent); }
+  .event-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .event-card-icon {
+    width: 36px;
+    height: 36px;
+    color: var(--event-accent);
+    flex-shrink: 0;
+  }
+  .event-card-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.4px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: rgba(0,0,0,0.4);
+    color: var(--event-accent);
+    border: 1px solid var(--event-accent);
+  }
+  .event-card-badge.active {
+    background: var(--event-accent);
+    color: #0a0a0a;
+    border-color: var(--event-accent);
+  }
+  .event-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.6px;
+    color: var(--event-accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.85;
+  }
+  .event-card-title {
+    font-family: 'Black Ops One', monospace;
+    font-size: 22px;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 0 0 12px;
+  }
+  .event-card-desc {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0 0 14px;
+    min-height: 56px;
+  }
+  .event-card-reward {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 6px;
+    border-left: 2px solid var(--event-accent);
+  }
+  .event-card-reward-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--event-accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .event-card-reward-text {
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+  .event-card-reward-text strong {
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.3px;
+  }
+  .event-card-when {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.8px;
+    color: var(--text-tertiary, #6e6e6e);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  /* Battle Pass card — largo, com progresso */
+  .bp-card {
+    position: relative;
+    background: var(--bg-darkest);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .bp-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-orange) 0%, transparent 50%);
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .bp-card > * { position: relative; }
+  .bp-card-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .bp-card-icon {
+    width: 42px;
+    height: 42px;
+    color: var(--accent-orange);
+    flex-shrink: 0;
+  }
+  .bp-card-meta { flex: 1; }
+  .bp-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    color: var(--accent-orange);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .bp-card-title {
+    font-family: 'Black Ops One', monospace;
+    font-size: 24px;
+    color: var(--text-primary);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+  .bp-card-deadline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #e07142;
+    padding: 5px 10px;
+    border: 1px solid rgba(224, 113, 66, 0.35);
+    border-radius: 999px;
+    background: rgba(224, 113, 66, 0.08);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .bp-card-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0 0 16px;
+    max-width: 760px;
+  }
+  .bp-card-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 700px) {
+    .bp-card-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  .bp-stat {
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    border-left: 2px solid var(--accent-orange);
+  }
+  .bp-stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .bp-stat-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 1.2px;
+    color: var(--text-tertiary, #6e6e6e);
+    text-transform: uppercase;
+  }
+  .bp-card-headliner {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .bp-card-headliner strong {
+    color: var(--accent-orange);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  /* BLACKCELL Catalyst Collection — visual escuro/premium */
+  .blackcell-card {
+    position: relative;
+    background: linear-gradient(135deg, #1a1410 0%, #0a0a0a 100%);
+    border: 1px solid #3d2f1f;
+    border-radius: 10px;
+    padding: 22px 24px;
+    overflow: hidden;
+  }
+  .blackcell-card::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px;
+    height: 100%;
+    background: radial-gradient(circle at 80% 50%, rgba(214, 168, 88, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .blackcell-card > * { position: relative; }
+  .blackcell-card-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .blackcell-card-icon {
+    width: 38px;
+    height: 38px;
+    color: #d6a858;
+    flex-shrink: 0;
+  }
+  .blackcell-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: #d6a858;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .blackcell-card-title {
+    font-family: 'Black Ops One', monospace;
+    font-size: 22px;
+    color: #f1e4c4;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+  .blackcell-card-desc {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #b8a785;
+    margin: 0 0 14px;
+    max-width: 720px;
+  }
+  .blackcell-card-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .blackcell-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.8px;
+    color: #d6a858;
+    padding: 6px 11px;
+    border: 1px solid rgba(214, 168, 88, 0.32);
+    border-radius: 999px;
+    background: rgba(214, 168, 88, 0.06);
+  }
+
   .briefing-changelog-list li::before {
     content: '';
     position: absolute;
@@ -10891,17 +11229,147 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.20.0 · <span data-i18n="briefing.changelog.date">8 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.21.0 · <span data-i18n="briefing.changelog.date">9 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Contraponto nas sugestões de troca</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Cada troca sugerida na NOSSA ANÁLISE agora mostra também <strong>o que ela custa</strong> — ex.: "Em troca: a arma vai tremer mais ao disparar, menos controle de recuo". O contraponto é <strong>calculado direto no motor</strong> (a dimensão que mais piora), não é chute da IA. De quebra, corrigi o título deste bloco, que estava mostrando códigos no lugar dos acentos.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Bloco Eventos no Painel Hoje + Battle Pass Season 4</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Novo bloco <strong>EVENTOS · TEMPORADA ATUAL</strong> no Painel Hoje (logo abaixo deste card) com 3 cards de eventos da Season 4: <strong>Nuked</strong> (Zombies, ativo at&eacute; 11 Jun), <strong>Illicit Cargo</strong> (camos BO3 + AR VX Compact, come&ccedil;a em 2d) e <strong>Double XP Event</strong>. Mais um card grande do <strong>Battle Pass Season 4 BLACKCELL</strong> (44 dias restantes, headliner Leon Rook) e um card especial da <strong>BLACKCELL Catalyst Collection</strong>. Tudo em SVG inline + gradientes &mdash; nenhuma imagem externa, sem risco de quebra quando a Activision mudar URLs. PT + EN.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
           </button>
         </div>
+      </div>
+
+      <!-- ═══ EVENTOS · TEMPORADA ATUAL (v2.21.0) ═══ -->
+      <div class="events-block">
+        <div class="events-section-head">
+          <div class="events-section-label" data-i18n="events.section.label">Eventos · Temporada Atual</div>
+          <div class="events-section-meta" data-i18n="events.section.meta">BO7 · Season 4 · Junho 2026</div>
+        </div>
+
+        <!-- 3 cards de eventos -->
+        <div class="events-grid">
+
+          <!-- Card 1: NUKED -->
+          <div class="event-card evt-nuked">
+            <div class="event-card-head">
+              <svg class="event-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 2 L14 8 L20 8 L15 12 L17 18 L12 14.5 L7 18 L9 12 L4 8 L10 8 Z"/>
+                <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+              </svg>
+              <span class="event-card-badge active" data-i18n="events.nuked.badge">ATIVO</span>
+            </div>
+            <div class="event-card-tag" data-i18n="events.nuked.tag">Zombies · Exclusivo</div>
+            <h3 class="event-card-title" data-i18n="events.nuked.title">Nuked</h3>
+            <p class="event-card-desc" data-i18n="events.nuked.desc">6 desafios no mapa Nuked Survival. Cada desafio entrega cosmético + XP. Completar todos libera a camo de Mestre Chronology.</p>
+            <div class="event-card-reward">
+              <svg class="event-card-reward-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9 L12 4 L18 9 L18 18 L6 18 Z"/><path d="M12 4 L12 18"/></svg>
+              <div class="event-card-reward-text" data-i18n-html="events.nuked.reward">Recompensa final: <strong>Camo Chronology</strong> + 10.000 XP</div>
+            </div>
+            <div class="event-card-when" data-i18n="events.nuked.when">4 Jun → 11 Jun · 7 dias</div>
+          </div>
+
+          <!-- Card 2: ILLICIT CARGO -->
+          <div class="event-card evt-illicit">
+            <div class="event-card-head">
+              <svg class="event-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 10 L12 4 L21 10 L21 19 L3 19 Z"/>
+                <path d="M3 10 L12 16 L21 10"/>
+                <path d="M12 4 L12 16"/>
+              </svg>
+              <span class="event-card-badge" data-i18n="events.illicit.badge">EM BREVE</span>
+            </div>
+            <div class="event-card-tag" data-i18n="events.illicit.tag">Multiplayer · Camo Event</div>
+            <h3 class="event-card-title" data-i18n="events.illicit.title">Illicit Cargo</h3>
+            <p class="event-card-desc" data-i18n="events.illicit.desc">Desafios por classe de arma em todos os modos. Desbloqueia o AR VX Compact + camos remasterizadas de Black Ops 3.</p>
+            <div class="event-card-reward">
+              <svg class="event-card-reward-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14 L20 14 L20 11 L17 8 L14 8 L13 5 L10 5 L9 8 L4 8 Z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
+              <div class="event-card-reward-text" data-i18n-html="events.illicit.reward">Desbloqueia: <strong>VX Compact (AR)</strong> + 9 camos BO3 (5 animadas)</div>
+            </div>
+            <div class="event-card-when" data-i18n="events.illicit.when">Começa em 2 dias</div>
+          </div>
+
+          <!-- Card 3: DOUBLE XP -->
+          <div class="event-card evt-doublexp">
+            <div class="event-card-head">
+              <svg class="event-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 16 L4 8 L8 8 Q10 8 10 11 Q10 14 8 14 L4 14"/>
+                <path d="M14 16 L14 8 L18 8 Q20 8 20 11 Q20 14 18 14 L14 14"/>
+              </svg>
+              <span class="event-card-badge" data-i18n="events.dxp.badge">EM BREVE</span>
+            </div>
+            <div class="event-card-tag" data-i18n="events.dxp.tag">Todos os modos · Weekend</div>
+            <h3 class="event-card-title" data-i18n="events.dxp.title">Double XP Event</h3>
+            <p class="event-card-desc" data-i18n="events.dxp.desc">XP em dobro pra perfil, armas e Battle Pass — janela ideal pra avançar prestígio e subir armas do arsenal antes do mid-season Reloaded.</p>
+            <div class="event-card-reward">
+              <svg class="event-card-reward-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 L14 9 L21 9 L15.5 13 L17.5 20 L12 16 L6.5 20 L8.5 13 L3 9 L10 9 Z"/></svg>
+              <div class="event-card-reward-text" data-i18n-html="events.dxp.reward"><strong>2× XP</strong> · perfil + armas + Battle Pass</div>
+            </div>
+            <div class="event-card-when" data-i18n="events.dxp.when">Começa em 2 dias</div>
+          </div>
+
+        </div>
+
+        <!-- Battle Pass Season 4 -->
+        <div class="bp-card">
+          <div class="bp-card-head">
+            <svg class="bp-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 3 L19 3 L19 21 L12 17 L5 21 Z"/>
+              <path d="M9 9 L15 9"/>
+              <path d="M9 12 L13 12"/>
+            </svg>
+            <div class="bp-card-meta">
+              <div class="bp-card-tag" data-i18n="events.bp.tag">Passe de Batalha · Season 4</div>
+              <div class="bp-card-title" data-i18n="events.bp.title">BLACKCELL · Season 4</div>
+            </div>
+            <div class="bp-card-deadline" data-i18n="events.bp.deadline">44 dias restantes</div>
+          </div>
+          <p class="bp-card-desc" data-i18n="events.bp.desc">Temporada curta (3 semanas antes do Reloaded). Tier premium BLACKCELL inclui o operador exclusivo "Catalyst" + Mastercraft Weapon Blueprint, ambos com variantes desbloqueáveis. Free path tem 2 armas (KRS-7.62, CBRS-3).</p>
+          <div class="bp-card-stats">
+            <div class="bp-stat">
+              <div class="bp-stat-val">1700 / 2200</div>
+              <div class="bp-stat-lbl" data-i18n="events.bp.stat1">CoD Points</div>
+            </div>
+            <div class="bp-stat">
+              <div class="bp-stat-val">12 / 19</div>
+              <div class="bp-stat-lbl" data-i18n="events.bp.stat2">Operator Skins</div>
+            </div>
+            <div class="bp-stat">
+              <div class="bp-stat-val">20 / 34</div>
+              <div class="bp-stat-lbl" data-i18n="events.bp.stat3">Blueprints &amp; Armas</div>
+            </div>
+            <div class="bp-stat">
+              <div class="bp-stat-val">87 / 142</div>
+              <div class="bp-stat-lbl" data-i18n="events.bp.stat4">Total de Recompensas</div>
+            </div>
+          </div>
+          <div class="bp-card-headliner" data-i18n-html="events.bp.headliner"><strong>Headliner:</strong> Leon Rook, mercenário da Guild. Completar o passe libera o Ultra Skin "Devastator" pra Rook + o Legendary Blueprint "Archdevil" pra MK35 ISR (AR).</div>
+        </div>
+
+        <!-- BLACKCELL Catalyst Collection -->
+        <div class="blackcell-card">
+          <div class="blackcell-card-head">
+            <svg class="blackcell-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2 L4 7 L4 17 L12 22 L20 17 L20 7 Z"/>
+              <path d="M12 7 L8 9.5 L8 14.5 L12 17 L16 14.5 L16 9.5 Z"/>
+              <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+            </svg>
+            <div>
+              <div class="blackcell-card-tag" data-i18n="events.bc.tag">BLACKCELL · Catalyst Collection</div>
+              <div class="blackcell-card-title" data-i18n="events.bc.title">Catalyst Collection</div>
+            </div>
+          </div>
+          <p class="blackcell-card-desc" data-i18n="events.bc.desc">Pacote premium exclusivo do tier BLACKCELL — 40 desbloqueios instantâneos (skins de operador + blueprints + camos). Inclui o operador "Catalyst" como cabeça-de-cartaz, com variantes desbloqueáveis ao avançar o passe.</p>
+          <div class="blackcell-card-pills">
+            <span class="blackcell-pill" data-i18n="events.bc.pill1">15 / 40 desbloqueados</span>
+            <span class="blackcell-pill" data-i18n="events.bc.pill2">Operador exclusivo Catalyst</span>
+            <span class="blackcell-pill" data-i18n="events.bc.pill3">Mastercraft Blueprint</span>
+            <span class="blackcell-pill" data-i18n="events.bc.pill4">Variantes desbloqueáveis</span>
+          </div>
+        </div>
+
       </div>
 
       <!-- ═══ STATS SPARKLINE (v75-63) — só renderiza se houver snapshots ═══ -->
@@ -11062,8 +11530,8 @@
       </div>
 
       <div class="subtabs" data-tabgroup="controller">
-        <button class="subtab active" data-subtab="ctrl-controller"><span data-i18n="ctrl.subtab.controller">CONTROLLER</span> <span class="subtab-counter">11</span></button>
-        <button class="subtab" data-subtab="ctrl-aiming"><span data-i18n="ctrl.subtab.aiming">AIMING</span> <span class="subtab-counter">15</span></button>
+        <button class="subtab active" data-subtab="ctrl-controller"><span data-i18n="ctrl.subtab.controller">CONTROLLER</span> <span class="subtab-counter">17</span></button>
+        <button class="subtab" data-subtab="ctrl-aiming"><span data-i18n="ctrl.subtab.aiming">AIMING</span> <span class="subtab-counter">9</span></button>
         <button class="subtab" data-subtab="ctrl-movement"><span data-i18n="ctrl.subtab.movement">MOVEMENT</span> <span class="subtab-counter">14</span></button>
         <button class="subtab" data-subtab="ctrl-combat"><span data-i18n="ctrl.subtab.combat">COMBAT</span> <span class="subtab-counter">9</span></button>
         <button class="subtab" data-subtab="ctrl-video"><span data-i18n="ctrl.subtab.video">VÍDEO &amp; REDE</span> <span class="subtab-counter">15</span></button>
@@ -11320,7 +11788,7 @@
         </div>
 
         <div class="section-group">
-          <div class="group-title" data-i18n="ctrl.group.3">Controller Feedback</div>
+          <div class="group-title" data-i18n="ctrl.group.3">Controller</div>
                     <div class="setting" data-control-id="controller-vibration" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
@@ -11371,6 +11839,166 @@
             <div class="setting-why-detailed" data-control-why hidden>
               <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
               <p data-i18n="ctrl.set.trigger-effect.why-detailed">Gatilhos adaptativos do DualSense ficam mais duros ao mirar/atirar. Adiciona ~20-30ms no tiro, cansa o dedo e atrapalha tap-fire (rajadas curtas).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-group">
+          <div class="group-title" data-i18n="ctrl.group.deadzone">Zonas Mortas</div>
+                    <div class="setting" data-control-id="left-stick-min" data-indicated="0">
+            <div class="setting-status new">+</div>
+            <div class="setting-info">
+              <span class="setting-name" data-i18n="ctrl.set.left-stick-min.name">Left Stick Min Input</span>
+              <span class="setting-why" data-i18n-html="ctrl.set.left-stick-min.why">Deadzone do stick esquerdo. 0 = sem zona morta</span>
+            </div>
+            <div class="control-fields">
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
+                <div class="value-indicated">0</div>
+              </div>
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
+                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
+              </div>
+              <label class="control-field-treated">
+                <input type="checkbox" class="treated-checkbox" data-control-treated />
+                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
+              </label>
+              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
+            </div>
+            <div class="setting-why-detailed" data-control-why hidden>
+              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
+              <p data-i18n="ctrl.set.left-stick-min.why-detailed">0 (ou mínimo possível sem stick drift, deriva do analógico parado). Rode o teste "Test Stick Deadzone" do jogo; se houver drift, suba 1 ponto por vez.</p>
+            </div>
+          </div>
+                    <div class="setting" data-control-id="left-stick-max" data-indicated="70">
+            <div class="setting-status new">+</div>
+            <div class="setting-info">
+              <span class="setting-name" data-i18n="ctrl.set.left-stick-max.name">Left Stick Max Input</span>
+              <span class="setting-why" data-i18n-html="ctrl.set.left-stick-max.why">70 aproveita rotational aim assist agressivamente durante strafe</span>
+            </div>
+            <div class="control-fields">
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
+                <div class="value-indicated">70</div>
+              </div>
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
+                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
+              </div>
+              <label class="control-field-treated">
+                <input type="checkbox" class="treated-checkbox" data-control-treated />
+                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
+              </label>
+              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
+            </div>
+            <div class="setting-why-detailed" data-control-why hidden>
+              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
+              <p data-i18n="ctrl.set.left-stick-max.why-detailed">70 faz a velocidade máxima de movimento ser atingida ANTES do fim do curso físico do analógico. Rusher gira o personagem mais rápido em torno do polegar.</p>
+            </div>
+          </div>
+          <div class="setting" data-control-id="right-stick-min" data-indicated="1">
+            <div class="setting-status new">+</div>
+            <div class="setting-info">
+              <span class="setting-name" data-i18n="ctrl.set.right-stick-min.name">Entrada Mínima do Analógico Direito</span>
+              <span class="setting-why" data-i18n-html="ctrl.set.right-stick-min.why">Mínimo possível sem stick drift. Rode o teste do jogo primeiro.</span>
+            </div>
+            <div class="control-fields">
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
+                <div class="value-indicated">1</div>
+              </div>
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
+                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
+              </div>
+              <label class="control-field-treated">
+                <input type="checkbox" class="treated-checkbox" data-control-treated />
+                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
+              </label>
+              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
+            </div>
+            <div class="setting-why-detailed" data-control-why hidden>
+              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
+              <p data-i18n="ctrl.set.right-stick-min.why-detailed">Mínimo possível sem stick drift (deriva do analógico parado). Rode o Test Stick Deadzone do jogo primeiro — se aparecer drift, sobe 1 ponto por vez até parar. A regra prática é: bota o Min em (número do teste) + 1. Sem rodar o teste, o "1" indicado é só um chute genérico.</p>
+            </div>
+          </div>
+          <div class="setting" data-control-id="right-stick-max" data-indicated="99">
+            <div class="setting-status new">+</div>
+            <div class="setting-info">
+              <span class="setting-name" data-i18n="ctrl.set.right-stick-max.name">Entrada Máxima do Analógico Direito</span>
+              <span class="setting-why" data-i18n-html="ctrl.set.right-stick-max.why">99 mantém range completo de rotação. 95 acelera 180° (com trade-off de precisão).</span>
+            </div>
+            <div class="control-fields">
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
+                <div class="value-indicated">99</div>
+              </div>
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
+                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
+              </div>
+              <label class="control-field-treated">
+                <input type="checkbox" class="treated-checkbox" data-control-treated />
+                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
+              </label>
+              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
+            </div>
+            <div class="setting-why-detailed" data-control-why hidden>
+              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
+              <p data-i18n="ctrl.set.right-stick-max.why-detailed">99 mantém o teto mecânico do jogo — range completo de rotação preservado pra flick (giro rápido pra alvo) fino e microajuste. Experimental: 95 atinge a velocidade máxima de rotação ANTES do fim do curso físico do analógico → 180° sai mais rápido com o mesmo movimento. Trade-off: perde precisão no flick em distância média. Recomendado 99 como padrão; só ir pra 95 depois de confortável com o resto da config.</p>
+            </div>
+          </div>
+          <div class="setting" data-control-id="l2-button-deadzone" data-indicated="0">
+            <div class="setting-status new">+</div>
+            <div class="setting-info">
+              <span class="setting-name" data-i18n="ctrl.set.l2-button-deadzone.name">Zona Morta do Gatilho L2</span>
+              <span class="setting-why" data-i18n-html="ctrl.set.l2-button-deadzone.why">0 = ADS ativa no primeiro micrômetro do gatilho. Sem delay físico.</span>
+            </div>
+            <div class="control-fields">
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
+                <div class="value-indicated">0</div>
+              </div>
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
+                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
+              </div>
+              <label class="control-field-treated">
+                <input type="checkbox" class="treated-checkbox" data-control-treated />
+                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
+              </label>
+              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
+            </div>
+            <div class="setting-why-detailed" data-control-why hidden>
+              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
+              <p data-i18n="ctrl.set.l2-button-deadzone.why-detailed">ADS (aim-down-sights, mirar pela arma) ativa no primeiro micrômetro do gatilho. Sem delay físico antes de mirar — qualquer valor acima de 0 introduz "curso morto" no gatilho que custa milissegundos no peek-and-shoot (espia, atira, recolhe).</p>
+            </div>
+          </div>
+          <div class="setting" data-control-id="r2-button-deadzone" data-indicated="0">
+            <div class="setting-status new">+</div>
+            <div class="setting-info">
+              <span class="setting-name" data-i18n="ctrl.set.r2-button-deadzone.name">Zona Morta do Gatilho R2</span>
+              <span class="setting-why" data-i18n-html="ctrl.set.r2-button-deadzone.why">0 = tiro sai no primeiro micrômetro do gatilho.</span>
+            </div>
+            <div class="control-fields">
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
+                <div class="value-indicated">0</div>
+              </div>
+              <div class="control-field-block">
+                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
+                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
+              </div>
+              <label class="control-field-treated">
+                <input type="checkbox" class="treated-checkbox" data-control-treated />
+                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
+              </label>
+              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
+            </div>
+            <div class="setting-why-detailed" data-control-why hidden>
+              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
+              <p data-i18n="ctrl.set.r2-button-deadzone.why-detailed">Tiro sai no primeiro micrômetro do gatilho. Em close-range (combate de curta distância) cada frame de delay é a diferença entre matar e morrer. Mantém 0 sempre — não há cenário em que valor maior ajude.</p>
             </div>
           </div>
         </div>
@@ -11555,167 +12183,9 @@
               <p data-i18n="ctrl.set.aim-response-curve.why-detailed">Dynamic combina precisão fina no início do movimento com aceleração no fim. Permite microajuste E flick na mesma curva — melhor opção pro rusher.</p>
             </div>
           </div>
-                    <div class="setting" data-control-id="left-stick-min" data-indicated="0">
-            <div class="setting-status new">+</div>
-            <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.left-stick-min.name">Left Stick Min Input</span>
-              <span class="setting-why" data-i18n-html="ctrl.set.left-stick-min.why">Deadzone do stick esquerdo. 0 = sem zona morta</span>
-            </div>
-            <div class="control-fields">
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
-                <div class="value-indicated">0</div>
-              </div>
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
-                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
-              </div>
-              <label class="control-field-treated">
-                <input type="checkbox" class="treated-checkbox" data-control-treated />
-                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
-              </label>
-              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
-            </div>
-            <div class="setting-why-detailed" data-control-why hidden>
-              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
-              <p data-i18n="ctrl.set.left-stick-min.why-detailed">0 (ou mínimo possível sem stick drift, deriva do analógico parado). Rode o teste "Test Stick Deadzone" do jogo; se houver drift, suba 1 ponto por vez.</p>
-            </div>
-          </div>
-                    <div class="setting" data-control-id="left-stick-max" data-indicated="70">
-            <div class="setting-status new">+</div>
-            <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.left-stick-max.name">Left Stick Max Input</span>
-              <span class="setting-why" data-i18n-html="ctrl.set.left-stick-max.why">70 aproveita rotational aim assist agressivamente durante strafe</span>
-            </div>
-            <div class="control-fields">
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
-                <div class="value-indicated">70</div>
-              </div>
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
-                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
-              </div>
-              <label class="control-field-treated">
-                <input type="checkbox" class="treated-checkbox" data-control-treated />
-                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
-              </label>
-              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
-            </div>
-            <div class="setting-why-detailed" data-control-why hidden>
-              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
-              <p data-i18n="ctrl.set.left-stick-max.why-detailed">70 faz a velocidade máxima de movimento ser atingida ANTES do fim do curso físico do analógico. Rusher gira o personagem mais rápido em torno do polegar.</p>
-            </div>
-          </div>
+
         </div>
 
-        <div class="section-group">
-          <div class="group-title" data-i18n="ctrl.group.aiming-deadzone">Zonas Mortas</div>
-          <div class="setting" data-control-id="right-stick-min" data-indicated="1">
-            <div class="setting-status new">+</div>
-            <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.right-stick-min.name">Entrada Mínima do Analógico Direito</span>
-              <span class="setting-why" data-i18n-html="ctrl.set.right-stick-min.why">Mínimo possível sem stick drift. Rode o teste do jogo primeiro.</span>
-            </div>
-            <div class="control-fields">
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
-                <div class="value-indicated">1</div>
-              </div>
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
-                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
-              </div>
-              <label class="control-field-treated">
-                <input type="checkbox" class="treated-checkbox" data-control-treated />
-                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
-              </label>
-              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
-            </div>
-            <div class="setting-why-detailed" data-control-why hidden>
-              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
-              <p data-i18n="ctrl.set.right-stick-min.why-detailed">Mínimo possível sem stick drift (deriva do analógico parado). Rode o Test Stick Deadzone do jogo primeiro — se aparecer drift, sobe 1 ponto por vez até parar. A regra prática é: bota o Min em (número do teste) + 1. Sem rodar o teste, o "1" indicado é só um chute genérico.</p>
-            </div>
-          </div>
-          <div class="setting" data-control-id="right-stick-max" data-indicated="99">
-            <div class="setting-status new">+</div>
-            <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.right-stick-max.name">Entrada Máxima do Analógico Direito</span>
-              <span class="setting-why" data-i18n-html="ctrl.set.right-stick-max.why">99 mantém range completo de rotação. 95 acelera 180° (com trade-off de precisão).</span>
-            </div>
-            <div class="control-fields">
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
-                <div class="value-indicated">99</div>
-              </div>
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
-                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
-              </div>
-              <label class="control-field-treated">
-                <input type="checkbox" class="treated-checkbox" data-control-treated />
-                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
-              </label>
-              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
-            </div>
-            <div class="setting-why-detailed" data-control-why hidden>
-              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
-              <p data-i18n="ctrl.set.right-stick-max.why-detailed">99 mantém o teto mecânico do jogo — range completo de rotação preservado pra flick (giro rápido pra alvo) fino e microajuste. Experimental: 95 atinge a velocidade máxima de rotação ANTES do fim do curso físico do analógico → 180° sai mais rápido com o mesmo movimento. Trade-off: perde precisão no flick em distância média. Recomendado 99 como padrão; só ir pra 95 depois de confortável com o resto da config.</p>
-            </div>
-          </div>
-          <div class="setting" data-control-id="l2-button-deadzone" data-indicated="0">
-            <div class="setting-status new">+</div>
-            <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.l2-button-deadzone.name">Zona Morta do Gatilho L2</span>
-              <span class="setting-why" data-i18n-html="ctrl.set.l2-button-deadzone.why">0 = ADS ativa no primeiro micrômetro do gatilho. Sem delay físico.</span>
-            </div>
-            <div class="control-fields">
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
-                <div class="value-indicated">0</div>
-              </div>
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
-                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
-              </div>
-              <label class="control-field-treated">
-                <input type="checkbox" class="treated-checkbox" data-control-treated />
-                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
-              </label>
-              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
-            </div>
-            <div class="setting-why-detailed" data-control-why hidden>
-              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
-              <p data-i18n="ctrl.set.l2-button-deadzone.why-detailed">ADS (aim-down-sights, mirar pela arma) ativa no primeiro micrômetro do gatilho. Sem delay físico antes de mirar — qualquer valor acima de 0 introduz "curso morto" no gatilho que custa milissegundos no peek-and-shoot (espia, atira, recolhe).</p>
-            </div>
-          </div>
-          <div class="setting" data-control-id="r2-button-deadzone" data-indicated="0">
-            <div class="setting-status new">+</div>
-            <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.r2-button-deadzone.name">Zona Morta do Gatilho R2</span>
-              <span class="setting-why" data-i18n-html="ctrl.set.r2-button-deadzone.why">0 = tiro sai no primeiro micrômetro do gatilho.</span>
-            </div>
-            <div class="control-fields">
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.indicated">INDICADO</div>
-                <div class="value-indicated">0</div>
-              </div>
-              <div class="control-field-block">
-                <div class="control-field-label" data-i18n="ctrl.ui.myvalue">MEU VALOR</div>
-                <input type="text" class="value-myvalue" data-control-input placeholder="—" />
-              </div>
-              <label class="control-field-treated">
-                <input type="checkbox" class="treated-checkbox" data-control-treated />
-                <span class="treated-label" data-i18n="ctrl.ui.treated">TRATADA</span>
-              </label>
-              <button type="button" class="why-toggle" data-control-why-toggle aria-label="Por quê" title="Por quê?">?</button>
-            </div>
-            <div class="setting-why-detailed" data-control-why hidden>
-              <div class="why-detailed-label" data-i18n="ctrl.ui.why-detailed">POR QUÊ ESTE VALOR:</div>
-              <p data-i18n="ctrl.set.r2-button-deadzone.why-detailed">Tiro sai no primeiro micrômetro do gatilho. Em close-range (combate de curta distância) cada frame de delay é a diferença entre matar e morrer. Mantém 0 sempre — não há cenário em que valor maior ajude.</p>
-            </div>
-          </div>
-        </div>
 
                 <div class="section-group">
           <div class="group-title" data-i18n="ctrl.group.7">Aim Assist</div>
@@ -14171,6 +14641,24 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.21.0</span>
+                <span class="vh-date">9 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Bloco <strong>EVENTOS &middot; TEMPORADA ATUAL</strong> no Painel Hoje, abaixo do card de changelog &mdash; espelha o que o operador v&ecirc; na aba EVENTS do BO7.<br><br><strong>3 cards de eventos</strong> em grid 3-col (1-col em mobile):<br>1. <strong>Nuked</strong> (Zombies exclusivo, ativo 4&ndash;11 Jun, badge ATIVO em verde radioativo). Recompensa final: camo Chronology + 10.000 XP.<br>2. <strong>Illicit Cargo</strong> (Multiplayer camo event, badge EM BREVE em laranja-cobre). Desbloqueia AR VX Compact + 9 camos remasterizadas de BO3 (5 animadas).<br>3. <strong>Double XP Event</strong> (Weekend, todos os modos, badge EM BREVE em laranja LEVEL). 2&times; XP em perfil, armas e Battle Pass.<br><br><strong>Card grande do Battle Pass Season 4 BLACKCELL.</strong> 44 dias restantes, headliner Leon Rook (mercen&aacute;rio da Guild), Ultra Skin Devastator + Legendary Blueprint Archdevil pra MK35 ISR ao completar. Grid 4-col com 1700/2200 CoD Points, 12/19 Operator Skins, 20/34 Blueprints &amp; Armas, 87/142 Total de Recompensas.<br><br><strong>Card especial BLACKCELL Catalyst Collection.</strong> Tema dourado/preto premium. 40 instant unlocks (15 j&aacute; conquistados pelo operador), operador exclusivo Catalyst com variantes + Mastercraft Blueprint.<br><br><strong>Sem imagens externas</strong> &mdash; tudo em SVG inline + gradientes. Decis&atilde;o consciente: links pra CDN da Activision (a-cdn.gamespot.com, charlieintel.com, etc) quebram quando mudam URLs, ent&atilde;o usei ícones SVG estilizados com cores tem&aacute;ticas por evento (verde radioativo, laranja-cobre, laranja LEVEL, dourado BLACKCELL).<br><br><strong>i18n PT + EN</strong> completo &mdash; 33 chaves novas (events.*). Cores temáticas via CSS vars (<code>--event-accent</code>, <code>--event-gradient</code>) por classe (<code>.evt-nuked</code>, <code>.evt-illicit</code>, <code>.evt-doublexp</code>). Responsivo: grid colapsa pra 1 coluna abaixo de 900px e BP stats colapsa pra 2 abaixo de 700px.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.20.1</span>
+                <span class="vh-date">9 Jun 2026</span>
+                <span class="vh-kind">refactor</span>
+              </div>
+              <p class="vh-desc">Reorganiza&ccedil;&atilde;o da se&ccedil;&atilde;o <strong>Controller</strong> do Hub para espelhar a UI real do BO7 (abas CONTROLLER &middot; AIMING &middot; MOVEMENT &middot; COMBAT).<br><br><strong>1. Zonas Mortas migradas pra CONTROLLER.</strong> Os 6 settings de deadzone (<code>left-stick-min</code>, <code>left-stick-max</code>, <code>right-stick-min</code>, <code>right-stick-max</code>, <code>l2-button-deadzone</code>, <code>r2-button-deadzone</code>) estavam dispersos em AIMING &mdash; Left Min/Max dentro de &quot;Mira Avan&ccedil;ada&quot; e Right + gatilhos num grupo pr&oacute;prio. Agora est&atilde;o todos unificados num &uacute;nico <code>section-group</code> &quot;Zonas Mortas&quot; dentro do subpanel <code>ctrl-controller</code>, mesma posi&ccedil;&atilde;o do bloco &quot;Deadzone Inputs&quot; no jogo (logo abaixo de Vibration e Trigger Effect).<br><br><strong>2. Grupo &quot;Feedback do Controle&quot; renomeado pra &quot;Controle&quot;</strong> (EN: &quot;Controller&quot;). Alinha com o nome da sub-se&ccedil;&atilde;o no jogo. <code>ctrl.group.aiming-deadzone</code> renomeado pra <code>ctrl.group.deadzone</code>.<br><br><strong>3. Contadores das subtabs reajustados.</strong> CONTROLLER 11 &rarr; 17 (+6 deadzones), AIMING 15 &rarr; 9 (&minus;6 deadzones). Total absoluto da se&ccedil;&atilde;o inalterado.<br><br><strong>O que continua igual:</strong> nomes dos settings, valores indicados, textos &quot;Por qu&ecirc;&quot;, l&oacute;gica de tratada/n&atilde;o-tratada, integra&ccedil;&atilde;o com o glossary, sync e tudo o mais. S&oacute; mudou a aba/grupo onde cada coisa aparece.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.20.0</span>
                 <span class="vh-date">8 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -15965,7 +16453,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.20.0</strong><span class="ver-tag">Cada troca sugerida agora mostra o que ela CUSTA (contraponto) + correção do título do changelog</span>
+        LEVEL · <strong>v2.21.0</strong><span class="ver-tag">Bloco EVENTOS · TEMPORADA ATUAL no Painel Hoje: 3 eventos ativos (Nuked, Illicit Cargo, Double XP) + Battle Pass Season 4 + BLACKCELL Catalyst Collection</span>
       </div>
       <script>
         (function(){
@@ -17447,10 +17935,48 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '8 Jun 2026',
+    'briefing.changelog.date':  '9 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Contraponto nas sugestões de troca',
-    'briefing.changelog.summary':  'Cada troca sugerida na NOSSA AN&Aacute;LISE agora mostra tamb&eacute;m <strong>o que ela custa</strong> &mdash; ex.: "Em troca: a arma vai tremer mais ao disparar, menos controle de recuo". O contraponto &eacute; <strong>calculado direto no motor</strong> (a dimens&atilde;o que mais piora), n&atilde;o &eacute; chute da IA. De quebra, corrigi o t&iacute;tulo deste bloco, que mostrava c&oacute;digos no lugar dos acentos.',
+    'briefing.changelog.headline': 'Bloco Eventos no Painel Hoje + Battle Pass Season 4',
+    'briefing.changelog.summary':  'Novo bloco <strong>EVENTOS &middot; TEMPORADA ATUAL</strong> no Painel Hoje (logo abaixo deste card) com 3 cards de eventos da Season 4: <strong>Nuked</strong> (Zombies, ativo at&eacute; 11 Jun), <strong>Illicit Cargo</strong> (camos BO3 + AR VX Compact, come&ccedil;a em 2d) e <strong>Double XP Event</strong>. Mais um card grande do <strong>Battle Pass Season 4 BLACKCELL</strong> (44 dias restantes, headliner Leon Rook) e um card especial da <strong>BLACKCELL Catalyst Collection</strong>. Tudo em SVG inline + gradientes &mdash; nenhuma imagem externa, sem risco de quebra quando a Activision mudar URLs. PT + EN.',
+
+    // EVENTOS · TEMPORADA ATUAL (v2.21.0)
+    'events.section.label': 'Eventos · Temporada Atual',
+    'events.section.meta':  'BO7 · Season 4 · Junho 2026',
+    'events.nuked.badge':   'ATIVO',
+    'events.nuked.tag':     'Zombies · Exclusivo',
+    'events.nuked.title':   'Nuked',
+    'events.nuked.desc':    '6 desafios no mapa Nuked Survival. Cada desafio entrega cosmético + XP. Completar todos libera a camo de Mestre Chronology.',
+    'events.nuked.reward':  'Recompensa final: <strong>Camo Chronology</strong> + 10.000 XP',
+    'events.nuked.when':    '4 Jun → 11 Jun · 7 dias',
+    'events.illicit.badge': 'EM BREVE',
+    'events.illicit.tag':   'Multiplayer · Camo Event',
+    'events.illicit.title': 'Illicit Cargo',
+    'events.illicit.desc':  'Desafios por classe de arma em todos os modos. Desbloqueia o AR VX Compact + camos remasterizadas de Black Ops 3.',
+    'events.illicit.reward':'Desbloqueia: <strong>VX Compact (AR)</strong> + 9 camos BO3 (5 animadas)',
+    'events.illicit.when':  'Começa em 2 dias',
+    'events.dxp.badge':     'EM BREVE',
+    'events.dxp.tag':       'Todos os modos · Weekend',
+    'events.dxp.title':     'Double XP Event',
+    'events.dxp.desc':      'XP em dobro pra perfil, armas e Battle Pass — janela ideal pra avançar prestígio e subir armas do arsenal antes do mid-season Reloaded.',
+    'events.dxp.reward':    '<strong>2× XP</strong> · perfil + armas + Battle Pass',
+    'events.dxp.when':      'Começa em 2 dias',
+    'events.bp.tag':        'Passe de Batalha · Season 4',
+    'events.bp.title':      'BLACKCELL · Season 4',
+    'events.bp.deadline':   '44 dias restantes',
+    'events.bp.desc':       'Temporada curta (3 semanas antes do Reloaded). Tier premium BLACKCELL inclui o operador exclusivo &quot;Catalyst&quot; + Mastercraft Weapon Blueprint, ambos com variantes desbloqueáveis. Free path tem 2 armas (KRS-7.62, CBRS-3).',
+    'events.bp.stat1':      'CoD Points',
+    'events.bp.stat2':      'Operator Skins',
+    'events.bp.stat3':      'Blueprints &amp; Armas',
+    'events.bp.stat4':      'Total de Recompensas',
+    'events.bp.headliner':  '<strong>Headliner:</strong> Leon Rook, mercenário da Guild. Completar o passe libera o Ultra Skin &quot;Devastator&quot; pra Rook + o Legendary Blueprint &quot;Archdevil&quot; pra MK35 ISR (AR).',
+    'events.bc.tag':        'BLACKCELL · Catalyst Collection',
+    'events.bc.title':      'Catalyst Collection',
+    'events.bc.desc':       'Pacote premium exclusivo do tier BLACKCELL — 40 desbloqueios instantâneos (skins de operador + blueprints + camos). Inclui o operador &quot;Catalyst&quot; como cabeça-de-cartaz, com variantes desbloqueáveis ao avançar o passe.',
+    'events.bc.pill1':      '15 / 40 desbloqueados',
+    'events.bc.pill2':      'Operador exclusivo Catalyst',
+    'events.bc.pill3':      'Mastercraft Blueprint',
+    'events.bc.pill4':      'Variantes desbloqueáveis',
     'briefing.changelog.item1': '<strong>Aba Evolução restaurada.</strong> O catálogo de dificuldades, banner explicativo e botão Adicionar voltam a aparecer corretamente, com o resto do conteúdo seguinte.',
     'briefing.changelog.item2': '<strong>Causa raiz.</strong> Uma entry malformada no modal de Histórico fazia o parser HTML fechar o &lt;main&gt; mais cedo, jogando metade das secções (Mapas, Perks, Evolução, Progression, Configurações) para fora do layout.',
     'briefing.changelog.item3': '<strong>Sem mudanças de feature.</strong> Esta é uma correção de layout pura — todos os dados, configurações e funcionalidades continuam idênticos.',
@@ -17630,7 +18156,7 @@ window.I18N = {
     "ctrl.ui.why-detailed": "POR QUÊ ESTE VALOR:",
 
     // ── v73: Deadzone Inputs group (4 settings) ───────────────────
-    "ctrl.group.aiming-deadzone": "Zonas Mortas",
+    "ctrl.group.deadzone": "Zonas Mortas",
     "ctrl.set.right-stick-min.name": "Entrada Mínima do Analógico Direito",
     "ctrl.set.right-stick-min.why": "Mínimo possível sem stick drift. Rode o teste do jogo primeiro.",
     "ctrl.set.right-stick-min.why-detailed": "Mínimo possível sem stick drift (deriva do analógico parado). Rode o Test Stick Deadzone do jogo primeiro — se aparecer drift, sobe 1 ponto por vez até parar. A regra prática é: bota o Min em (número do teste) + 1. Sem rodar o teste, o \"1\" indicado é só um chute genérico.",
@@ -17717,7 +18243,7 @@ window.I18N = {
     "ctrl.panel.combat.desc": "ADS, melee, equipamentos, fire behavior",
     "ctrl.group.1": "Dispositivo de Entrada",
     "ctrl.group.2": "Entradas",
-    "ctrl.group.3": "Feedback do Controle",
+    "ctrl.group.3": "Controle",
     "ctrl.group.4": "Multiplicadores de Sensibilidade",
     "ctrl.group.5": "Olhar",
     "ctrl.group.6": "Mira Avançada",
@@ -18760,10 +19286,48 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 8, 2026',
+    'briefing.changelog.date':  'Jun 9, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Trade-off shown on swap suggestions',
-    'briefing.changelog.summary':  'Every suggested swap in OUR ANALYSIS now also shows <strong>what it costs</strong> &mdash; e.g. "Trade-off: the gun will shake more when firing, less recoil control". The trade-off is <strong>computed in the engine</strong> (the dimension that drops most), not guessed by the AI. Also fixed the headline of this block, which was showing codes instead of accents.',
+    'briefing.changelog.headline': 'Events block on Today Panel + Battle Pass Season 4',
+    'briefing.changelog.summary':  'New <strong>EVENTS &middot; CURRENT SEASON</strong> block on the Today Panel (right below this card) with 3 Season 4 event cards: <strong>Nuked</strong> (Zombies, active until Jun 11), <strong>Illicit Cargo</strong> (BO3 camos + VX Compact AR, starts in 2d) and <strong>Double XP Event</strong>. Plus a large <strong>Battle Pass Season 4 BLACKCELL</strong> card (44 days left, headliner Leon Rook) and a special <strong>BLACKCELL Catalyst Collection</strong> card. All inline SVG + gradients &mdash; no external images, no risk of breakage when Activision moves URLs. PT + EN.',
+
+    // EVENTS · CURRENT SEASON (v2.21.0)
+    'events.section.label': 'Events · Current Season',
+    'events.section.meta':  'BO7 · Season 4 · June 2026',
+    'events.nuked.badge':   'ACTIVE',
+    'events.nuked.tag':     'Zombies · Exclusive',
+    'events.nuked.title':   'Nuked',
+    'events.nuked.desc':    '6 challenges on the Nuked Survival map. Each challenge drops cosmetic + XP. Completing all unlocks the Chronology Mastery camo.',
+    'events.nuked.reward':  'Final reward: <strong>Chronology Camo</strong> + 10,000 XP',
+    'events.nuked.when':    'Jun 4 → Jun 11 · 7 days',
+    'events.illicit.badge': 'COMING SOON',
+    'events.illicit.tag':   'Multiplayer · Camo Event',
+    'events.illicit.title': 'Illicit Cargo',
+    'events.illicit.desc':  'Weapon class challenges across all modes. Unlocks the VX Compact AR + remastered camos from Black Ops 3.',
+    'events.illicit.reward':'Unlocks: <strong>VX Compact (AR)</strong> + 9 BO3 camos (5 animated)',
+    'events.illicit.when':  'Starts in 2 days',
+    'events.dxp.badge':     'COMING SOON',
+    'events.dxp.tag':       'All modes · Weekend',
+    'events.dxp.title':     'Double XP Event',
+    'events.dxp.desc':      'Double XP for profile, weapons and Battle Pass — ideal window to push prestige and level up weapons before the mid-season Reloaded.',
+    'events.dxp.reward':    '<strong>2× XP</strong> · profile + weapons + Battle Pass',
+    'events.dxp.when':      'Starts in 2 days',
+    'events.bp.tag':        'Battle Pass · Season 4',
+    'events.bp.title':      'BLACKCELL · Season 4',
+    'events.bp.deadline':   '44 days left',
+    'events.bp.desc':       'Short season (3 weeks before Reloaded). Premium BLACKCELL tier includes the exclusive &quot;Catalyst&quot; Operator + Mastercraft Weapon Blueprint, both with unlockable variants. Free path has 2 weapons (KRS-7.62, CBRS-3).',
+    'events.bp.stat1':      'CoD Points',
+    'events.bp.stat2':      'Operator Skins',
+    'events.bp.stat3':      'Blueprints &amp; Weapons',
+    'events.bp.stat4':      'Total Rewards',
+    'events.bp.headliner':  '<strong>Headliner:</strong> Leon Rook, Guild mercenary. Completing the pass unlocks the &quot;Devastator&quot; Ultra Skin for Rook + the &quot;Archdevil&quot; Legendary Blueprint for the MK35 ISR (AR).',
+    'events.bc.tag':        'BLACKCELL · Catalyst Collection',
+    'events.bc.title':      'Catalyst Collection',
+    'events.bc.desc':       'Exclusive premium bundle of the BLACKCELL tier — 40 instant unlocks (operator skins + blueprints + camos). Headlined by the &quot;Catalyst&quot; Operator, with variants unlockable through pass progression.',
+    'events.bc.pill1':      '15 / 40 unlocked',
+    'events.bc.pill2':      'Exclusive Catalyst Operator',
+    'events.bc.pill3':      'Mastercraft Blueprint',
+    'events.bc.pill4':      'Unlockable variants',
     'briefing.changelog.item1': '<strong>Evolution tab restored.</strong> The struggles catalog, intro banner and Add button render correctly again, with everything that follows.',
     'briefing.changelog.item2': '<strong>Root cause.</strong> A malformed entry inside the History modal was causing the HTML parser to close &lt;main&gt; early, throwing half the sections (Maps, Perks, Evolution, Progression, Settings) out of the layout.',
     'briefing.changelog.item3': '<strong>No feature changes.</strong> This is a pure layout fix — all data, settings and features stay exactly the same.',
@@ -18943,7 +19507,7 @@ window.I18N = {
     "ctrl.ui.why-detailed": "WHY THIS VALUE:",
 
     // ── v73: Deadzone Inputs group (4 settings) ───────────────────
-    "ctrl.group.aiming-deadzone": "Deadzone Inputs",
+    "ctrl.group.deadzone": "Deadzone Inputs",
     "ctrl.set.right-stick-min.name": "Right Stick Min Input",
     "ctrl.set.right-stick-min.why": "Lowest value without stick drift. Run the in-game test first.",
     "ctrl.set.right-stick-min.why-detailed": "Lowest value without stick drift (analog moving on its own). Run the in-game Test Stick Deadzone first — if drift appears, raise 1 point at a time until it stops. Practical rule: set Min to (test number) + 1. Without running the test, the indicated \"1\" is a generic guess.",
@@ -19030,7 +19594,7 @@ window.I18N = {
     "ctrl.panel.combat.desc": "ADS, melee, equipment, fire behavior",
     "ctrl.group.1": "Input Device",
     "ctrl.group.2": "Inputs",
-    "ctrl.group.3": "Controller Feedback",
+    "ctrl.group.3": "Controller",
     "ctrl.group.4": "Sensitivity Multipliers",
     "ctrl.group.5": "Look",
     "ctrl.group.6": "Aiming Advanced",
