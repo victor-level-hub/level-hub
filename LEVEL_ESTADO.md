@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 9 Jun 2026 — fecho do marco v2.22.0 (MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO entregues, gabaritos URAL/VOLGA validados 8/8)
+> **Última atualização:** 9 Jun 2026 — fecho v2.22.0 (Montagem Inteligente + Capturar via Texto) e v2.22.1 (toolbar 3 elementos + varredura i18n da captura)
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.22.0` (SemVer desde v2.0.0)
+**Versão:** `v2.22.1` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~2,91 MB, ~41.300 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
 ### Marcos recentes (Jun 2026)
 
+- **v2.22.1 (9 Jun)** — Toolbar de Minhas Armas reorganizada: 5 botões → **3 elementos com hierarquia** (Montagem Inteligente em destaque · **Importar Build ▾** dropdown agrupando Print/Celular/Texto, IDs originais preservados dentro do menu · + Adicionar Arma). Varredura i18n do fluxo de captura: Capturar via Celular e + Adicionar Arma (nunca tinham chave), linha de stats e modal Armas Detectadas (título/intro/empty/Cancelar) agora trocam de idioma. Menu alinhado pela direita (não estoura viewport).
 - **v2.22.0 (9 Jun)** — **MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO** em Minhas Armas. 2 Edge Functions novas (`generate-build` v1, `parse-build-text` v1, ambas `verify_jwt: true`, Gemini 2.5 Flash, schema fechado, instrumentadas em `ana_gemini_usage`), 2 botões novos (ordem final: Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), wizard de 3 perguntas + 3 modos (gerar/refinar/counter), render com justificativa por slot + stats agregados + PUT recommendation + comparação, ponte `window.LevelCaptureBridge` reusando o fluxo de aprovação da captura, ícone novo `gear-star` no catálogo LUCIDE. Gabaritos URAL e VOLGA validados 8/8.
 - **v2.21.0 (9 Jun)** — Bloco **EVENTOS · TEMPORADA ATUAL** no Painel Hoje. 3 cards (Nuked, Illicit Cargo, Double XP) + card Battle Pass Season 4 BLACKCELL + card Catalyst Collection. Tudo em SVG inline + gradientes, sem imagens externas. 33 chaves i18n novas (PT + EN).
 - **v2.20.1 (9 Jun)** — Reorganização da seção CONTROLLER alinhada à UI do BO7. Zonas Mortas movidas de AIMING → CONTROLLER. Contadores: CONTROLLER 11→17, AIMING 15→9.
@@ -138,7 +139,7 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7.
 > Lista para abrir o próximo chat. Montagem Inteligente + Capturar via Texto **ENTREGUES na v2.22.0** — saíram do topo.
 
 1. **★★★ Análise de build com veredito (final)** — enriquecer `analyze-build` com `active_struggles` no payload. ATENÇÃO: o front **JÁ ENVIA** `active_struggles` (confirmado 9 Jun, linha ~25320) e a Edge v4 já lê o campo — verificar na prática se o cruzamento aparece no veredito; se não, é só ajuste de prompt. Detalhe na seção 8.A.
-2. **★★ V2 da Montagem Inteligente / Capturar via Texto** (seção 8.B → "V2"): mapa específico (4ª pergunta), variantes simultâneas, plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback, decodificar Loadout Codes nativos (`A02-2G9PV-...`) no Capturar via Texto, menu sanduíche mobile pros 5 botões (hoje é flex-wrap).
+2. **★★ V2 da Montagem Inteligente / Capturar via Texto** (seção 8.B → "V2"): mapa específico (4ª pergunta), variantes simultâneas, plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback, decodificar Loadout Codes nativos (`A02-2G9PV-...`) no Capturar via Texto, menu sanduíche mobile RESOLVIDO na v2.22.1 (dropdown Importar Build).
 3. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — ~30 settings faltantes dos 17 prints. Trabalho de 3-4 sessões dedicadas. (Detalhe completo na versão anterior deste doc / nos prints.)
 4. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
 5. **UI Codenames** (admin + botão "Sugerir Codename" em build/loadout). A `generate-build` já devolve `codename_suggestion` — aproveitar.
@@ -187,14 +188,17 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 
 ---
 
-## 9. CHECKLIST PÓS-DEPLOY (v2.22.0)
+## 9. CHECKLIST PÓS-DEPLOY (v2.22.1)
 
 > Confirmar ANTES de considerar o marco 100% no ar.
 
-- [ ] **Commitar** o `index.html` (v2.22.0) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
+- [x] v2.22.0 commitada e publicada (confirmado no footer de le-vel.games 9 Jun à noite)
+- [ ] **Commitar** o `index.html` (v2.22.1) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
 - [ ] Confirmar no **Netlify** (app.netlify.com) que o build `le-vel-hub` passou e publicou
 - [ ] Abrir **le-vel.games** e verificar:
-  - [ ] Footer mostra **LEVEL v2.22.0**
+  - [ ] Footer mostra **LEVEL v2.22.1**
+  - [ ] **Minhas Armas**: toolbar com 3 elementos; dropdown Importar Build ▾ abre com as 3 vias e fecha ao clicar fora
+  - [ ] Em modo EN: toolbar, linha de stats e modal Armas Detectadas inteiramente em inglês
   - [ ] Painel Hoje: card "O QUE MUDOU" mostra Montagem Inteligente + Capturar via Texto
   - [ ] **Minhas Armas**: 5 botões na ordem (Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), Montagem Inteligente em laranja com engrenagem-estrela
   - [ ] **Capturar via Texto**: colar o texto da URAL → card de revisão abre com 8 acessórios casados e o codename URAL no nome

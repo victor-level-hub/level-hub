@@ -4989,6 +4989,27 @@
   .sb-stat-chip.is-bad { color: #e88; }
   .sb-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
 
+  /* v2.22.1: dropdown IMPORTAR BUILD na toolbar de Minhas Armas */
+  .import-dd { position: relative; display: inline-flex; }
+  .import-dd-menu {
+    position: absolute; top: calc(100% + 6px); right: 0;
+    min-width: 240px; background: var(--bg-panel);
+    border: 1px solid rgba(125,168,199,0.3); border-radius: 8px;
+    padding: 6px; display: none; z-index: 60;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  .import-dd.open .import-dd-menu { display: block; }
+  .import-dd-item {
+    display: flex; align-items: center; gap: 8px; width: 100%;
+    text-align: left; padding: 10px 12px; background: transparent;
+    border: 0; border-radius: 6px; cursor: pointer;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px;
+    letter-spacing: 1px; text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .import-dd-item:hover { background: var(--bg-row-hover); color: var(--text-primary, #f1f1f1); }
+  .import-dd-item .lvl-icon { color: var(--accent-orange); }
   /* Pulse dot — usado em "Aguardando celular" no modal de captura mobile */
   .mc-pulse {
     display: inline-block;
@@ -11333,7 +11354,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.22.0 · <span data-i18n="briefing.changelog.date">9 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.22.1 · <span data-i18n="briefing.changelog.date">9 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -11547,11 +11568,11 @@
       <!-- Stats bar -->
       <div class="arsenal-stats">
         <div>
-          Total builds: <strong id="mw-total">0</strong>
-          · Por arma base: <strong id="mw-bases">0</strong>
+          <span data-i18n="mw.stats.total">Total builds:</span> <strong id="mw-total">0</strong>
+          <span data-i18n="mw.stats.perBase">· Por arma base:</span> <strong id="mw-bases">0</strong>
         </div>
         <div class="active-info" id="mw-coverage">
-          Catálogo de attachments: <strong id="mw-catalog-cov">—</strong>
+          <span data-i18n="mw.stats.catalog">Catálogo de attachments:</span> <strong id="mw-catalog-cov">—</strong>
         </div>
       </div>
 
@@ -11561,11 +11582,16 @@
           <!-- populated by JS -->
         </div>
         <div class="arsenal-actions">
-          <button class="btn-add-weapon variant-orange" id="btn-import-screenshot" data-i18n="mw.btn.importPrint">{{i:camera}} Importar via Print</button>
-          <button class="btn-add-weapon variant-master" id="btn-mobile-capture" data-i18n="mw.btn.mobileCapture">{{i:smartphone}} Capturar via Celular</button>
-          <button class="btn-add-weapon variant-master" id="btn-text-capture" data-i18n="mw.btn.textCapture">{{i:clipboard}} Capturar via Texto</button>
           <button class="btn-add-weapon variant-ai" id="btn-smart-build" data-i18n="mw.btn.smartBuild">{{i:gear-star}} Montagem Inteligente</button>
-          <button class="btn-add-weapon" id="btn-add-build">+ Adicionar Arma</button>
+          <div class="import-dd" id="import-dd">
+            <button class="btn-add-weapon variant-master" id="btn-import-dd" data-i18n="mw.btn.importBuild">{{i:download}} Importar Build ▾</button>
+            <div class="import-dd-menu" id="import-dd-menu">
+              <button class="import-dd-item" id="btn-import-screenshot" data-i18n="mw.btn.importPrint">{{i:camera}} Importar via Print</button>
+              <button class="import-dd-item" id="btn-mobile-capture" data-i18n="mw.btn.mobileCapture">{{i:smartphone}} Capturar via Celular</button>
+              <button class="import-dd-item" id="btn-text-capture" data-i18n="mw.btn.textCapture">{{i:clipboard}} Capturar via Texto</button>
+            </div>
+          </div>
+          <button class="btn-add-weapon" id="btn-add-build" data-i18n="mw.btn.addWeapon">+ Adicionar Arma</button>
         </div>
       </div>
 
@@ -14747,6 +14773,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.22.1</span>
+                <span class="vh-date">9 Jun 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc">Reorganiza&ccedil;&atilde;o da toolbar de <strong>Minhas Armas</strong> a pedido do operador, horas depois da v2.22.0 ir ao ar: os 5 bot&otilde;es de mesmo peso viraram <strong>3 elementos com hierarquia</strong>.<br><br><strong>1. Montagem Inteligente</strong> abre a fila, sozinha no destaque laranja &mdash; &eacute; a feature estrela e n&atilde;o compete mais visualmente com os bot&otilde;es de captura.<br><strong>2. Importar Build &#9662;</strong> &mdash; bot&atilde;o dropdown novo (componente <code>.import-dd</code>) que agrupa a fam&iacute;lia de captura: <em>Importar via Print</em>, <em>Capturar via Celular</em> e <em>Capturar via Texto</em>, cada item com seu &iacute;cone. Os IDs originais dos bot&otilde;es foram preservados dentro do menu, ent&atilde;o todos os handlers existentes continuam funcionando sem mudan&ccedil;a. Fecha ao clicar fora ou ao escolher um item.<br><strong>3. + Adicionar Arma</strong> fecha a fila, neutro.<br><br>Resolve a quebra de linha &oacute;rf&atilde; do print do operador (o + Adicionar Arma ca&iacute;a sozinho na segunda linha) e o mobile de gra&ccedil;a &mdash; 3 elementos cabem numa linha em qualquer tela.<br><br><strong>Varredura i18n do fluxo de captura</strong> (bug visto no print: Hub em EN com peda&ccedil;os presos em PT): chaves novas pra <em>Capturar via Celular</em> e <em>+ Adicionar Arma</em> (nunca tinham sido internacionalizados), linha de stats (<em>Total builds &middot; Por arma base &middot; Cat&aacute;logo de attachments</em>) e modal de revis&atilde;o <em>Armas Detectadas</em> (t&iacute;tulo, intro, estado vazio e Cancelar). O card interno de revis&atilde;o j&aacute; era bil&iacute;ngue &mdash; o problema era s&oacute; a casca.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.22.0</span>
                 <span class="vh-date">9 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -16568,7 +16603,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.22.0</strong><span class="ver-tag">MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO em Minhas Armas: o Le Vél gera builds sob medida (perfil + dificuldades + nível da arma + PUTs) e lê builds de texto livre direto pro Construtor</span>
+        LEVEL · <strong>v2.22.1</strong><span class="ver-tag">Toolbar de Minhas Armas reorganizada em 3 elementos (Montagem Inteligente · Importar Build ▾ · Adicionar Arma) + varredura i18n do fluxo de captura</span>
       </div>
       <script>
         (function(){
@@ -16906,11 +16941,11 @@
     <div class="modal-overlay" id="modal-capture-approval">
       <div class="modal-box" style="max-width: 720px">
         <div class="modal-header">
-          <div class="modal-title">{{i:target}} Armas Detectadas</div>
+          <div class="modal-title" data-i18n="ca.title">{{i:target}} Armas Detectadas</div>
           <button class="modal-close" data-close-modal="modal-capture-approval">×</button>
         </div>
         <div class="modal-body">
-          <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px">
+          <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px" data-i18n-html="ca.intro">
             LE VÉL analisou os prints e detectou <strong id="ca-weapons-count">0</strong> arma(s). Revisa, escolhe qual queres importar, e o construtor abre pré-preenchido.
           </div>
 
@@ -16922,11 +16957,11 @@
           <!-- Aviso de erro/empty -->
           <div id="ca-empty" style="display:none; text-align:center; padding: 32px 0; color: var(--text-muted)">
             <div style="font-size: 32px; margin-bottom: 8px">🤷</div>
-            <div>Nenhuma arma detectada nos prints.</div>
+            <div data-i18n="ca.empty">Nenhuma arma detectada nos prints.</div>
           </div>
         </div>
         <div class="modal-actions">
-          <button class="btn-action btn-reset" data-close-modal="modal-capture-approval" style="flex:0 0 auto; min-width:auto; padding:10px 18px">Cancelar</button>
+          <button class="btn-action btn-reset" data-close-modal="modal-capture-approval" style="flex:0 0 auto; min-width:auto; padding:10px 18px" data-i18n="ca.cancel">Cancelar</button>
         </div>
       </div>
     </div>
@@ -18121,8 +18156,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '9 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Montagem Inteligente + Capturar via Texto em Minhas Armas',
-    'briefing.changelog.summary':  'Dois bot&otilde;es novos no header de <strong>Minhas Armas</strong>. <strong>Montagem Inteligente</strong>: wizard de 3 perguntas (arma &middot; dist&acirc;ncia foco &middot; modo de jogo) e o Le V&eacute;l monta a build completa cruzando teu perfil, dificuldades cadastradas, n&iacute;vel da arma e Permanent Unlocks &mdash; com justificativa por slot, perks, stats agregados e compara&ccedil;&atilde;o com as tuas builds. <strong>Capturar via Texto</strong>: cola qualquer texto descrevendo uma build (chat, site, Discord) e a IA extrai arma, codename e acess&oacute;rios direto pra tela de revis&atilde;o. PT + EN.',
+    'briefing.changelog.headline': 'Toolbar de Minhas Armas reorganizada + i18n da captura',
+    'briefing.changelog.summary':  'A barra de Minhas Armas saiu de 5 bot&otilde;es iguais para <strong>3 elementos com hierarquia</strong>: Montagem Inteligente (destaque laranja, primeiro da fila), <strong>Importar Build &#9662;</strong> (dropdown que agrupa as 3 vias de captura: Print, Celular e Texto) e + Adicionar Arma. De quebra, varredura de i18n no fluxo: bot&otilde;es da toolbar, linha de stats e modal de revis&atilde;o agora trocam de idioma junto com o resto do Hub (antes ficavam presos em portugu&ecirc;s no modo EN).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -19221,6 +19256,16 @@ window.I18N = {
     'mod.close': 'Fechar',
     'mw.btn.importPrint': '{{i:camera}} Importar via Print',
     'mw.btn.textCapture': '{{i:clipboard}} Capturar via Texto',
+    'mw.btn.mobileCapture': '{{i:smartphone}} Capturar via Celular',
+    'mw.btn.importBuild': '{{i:download}} Importar Build ▾',
+    'mw.btn.addWeapon': '+ Adicionar Arma',
+    'mw.stats.total': 'Total builds:',
+    'mw.stats.perBase': '· Por arma base:',
+    'mw.stats.catalog': 'Catálogo de attachments:',
+    'ca.title': '{{i:target}} Armas Detectadas',
+    'ca.intro': 'LE VÉL analisou os prints e detectou <strong id="ca-weapons-count">0</strong> arma(s). Revisa, escolhe qual queres importar, e o construtor abre pré-preenchido.',
+    'ca.empty': 'Nenhuma arma detectada nos prints.',
+    'ca.cancel': 'Cancelar',
     'mw.btn.smartBuild': '{{i:gear-star}} Montagem Inteligente',
     'tc.title': '{{i:clipboard}} Capturar via Texto',
     'tc.hint': 'Cola QUALQUER texto descrevendo uma build — tabela, bullets, frase corrida, conversa de chat. O Le Vél extrai a arma, o codename e os acessórios, e abre a tela de revisão.',
@@ -19491,8 +19536,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 9, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Smart Build + Capture via Text in My Weapons',
-    'briefing.changelog.summary':  'Two new buttons in the <strong>My Weapons</strong> header. <strong>Smart Build</strong>: a 3-question wizard (weapon &middot; focus range &middot; game mode) and Le V&eacute;l assembles the full build crossing your profile, registered struggles, weapon level and Permanent Unlocks &mdash; with per-slot justifications, perks, aggregate stats and a comparison with your existing builds. <strong>Capture via Text</strong>: paste any text describing a build (chat output, website, Discord) and the AI extracts weapon, codename and attachments straight into the review screen. PT + EN.',
+    'briefing.changelog.headline': 'My Weapons toolbar reorganized + capture flow i18n',
+    'briefing.changelog.summary':  'The My Weapons toolbar went from 5 equal buttons to <strong>3 elements with hierarchy</strong>: Smart Build (orange highlight, first in line), <strong>Import Build &#9662;</strong> (a dropdown grouping the 3 capture channels: Screenshot, Phone and Text) and + Add Weapon. Plus an i18n sweep across the flow: toolbar buttons, stats row and the review modal now switch language with the rest of the Hub (they were stuck in Portuguese in EN mode).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -20591,6 +20636,16 @@ window.I18N = {
     'mod.close': 'Close',
     'mw.btn.importPrint': '{{i:camera}} Import via Screenshot',
     'mw.btn.textCapture': '{{i:clipboard}} Capture via Text',
+    'mw.btn.mobileCapture': '{{i:smartphone}} Capture via Phone',
+    'mw.btn.importBuild': '{{i:download}} Import Build ▾',
+    'mw.btn.addWeapon': '+ Add Weapon',
+    'mw.stats.total': 'Total builds:',
+    'mw.stats.perBase': '· Per base weapon:',
+    'mw.stats.catalog': 'Attachments catalog:',
+    'ca.title': '{{i:target}} Weapons Detected',
+    'ca.intro': 'LE VÉL analyzed the screenshots and detected <strong id="ca-weapons-count">0</strong> weapon(s). Review, pick which one to import, and the builder opens pre-filled.',
+    'ca.empty': 'No weapons detected in the screenshots.',
+    'ca.cancel': 'Cancel',
     'mw.btn.smartBuild': '{{i:gear-star}} Smart Build',
     'tc.title': '{{i:clipboard}} Capture via Text',
     'tc.hint': 'Paste ANY text describing a build — table, bullets, plain sentences, chat output. Le Vél extracts the weapon, codename and attachments, then opens the review screen.',
@@ -39262,6 +39317,24 @@ ${cbt('share.t.footer')}`;
 
   // ── Wiring ────────────────────────────────────────────────────────
   document.addEventListener('click', function (e) {
+    // v2.22.1: dropdown IMPORTAR BUILD
+    const ddToggle = e.target.closest && e.target.closest('#btn-import-dd');
+    if (ddToggle) {
+      e.preventDefault();
+      const dd = $('import-dd');
+      if (dd) dd.classList.toggle('open');
+      return;
+    }
+    const ddItem = e.target.closest && e.target.closest('.import-dd-item');
+    if (ddItem) {
+      const dd = $('import-dd');
+      if (dd) dd.classList.remove('open');
+      // não retorna: deixa o clique seguir pros handlers dos botões por id
+    }
+    if (!(e.target.closest && e.target.closest('#import-dd'))) {
+      const dd = $('import-dd');
+      if (dd && dd.classList.contains('open')) dd.classList.remove('open');
+    }
     const tcBtn = e.target.closest && e.target.closest('#btn-text-capture');
     if (tcBtn) {
       e.preventDefault();
