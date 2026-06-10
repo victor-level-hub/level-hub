@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 10 Jun 2026 — v2.24.0 (Painel Hoje em 3 seções + Double XP em banner + 4ª pergunta de mapa na Montagem Inteligente, Edge generate-build v2). Item 1 do roadmap fechado.
+> **Última atualização:** 10 Jun 2026 (noite) — v2.25.0 (variantes simultâneas na Montagem Inteligente, Edge generate-build v3 + arte oficial do Double XP em card de evento). Recorte "variantes" do item 2 fechado.
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.24.0` (SemVer desde v2.0.0)
-**Arquivo:** single-file `index.html` (~2,91 MB, ~41.300 linhas)
+**Versão:** `v2.25.0` (SemVer desde v2.0.0)
+**Arquivo:** single-file `index.html` (~3,22 MB, ~42.900 linhas, 16 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
 ### Marcos recentes (Jun 2026)
 
+- **v2.25.0 (10 Jun, noite)** — **VARIANTES SIMULTÂNEAS na Montagem Inteligente + arte oficial do Double XP.** (1) Seletor novo no wizard (1 · 2 · 3) dispara **2-3 gerações em PARALELO** (`Promise.all`), cada uma com um ângulo: **VELOCIDADE** (mobilidade/manuseio máximos) · **EQUILÍBRIO** (melhor trade-off) · **CONTROLE** (precisão sem deixar de ser rush). Latência ≈ 1 geração (35,9s pras 3 no teste real, não 90s); falha de 1 variante não derruba as outras (retry individual por aba). Resultado: **comparativo de stats determinístico** (do catálogo, zero custo de IA, top 8 stats × N colunas coloridas) + uma aba por variante com card completo + Salvar individual; codenames duplicados ganham sufixo (II/III). Refatoração interna: `buildSbPayload()` extraída, `buildResultHtml()` reusada pelo single e pelo multi, `saveGeneratedBuild(build)` parametrizada. Constante `VARIANT_ANGLES` (labels + directives PT/EN). Modal 680→760px. (2) **Edge `generate-build` v3** (retrocompatível, `verify_jwt: true`): campo opcional `variant_angle {id,label,directive}` sanitizado + **regra R13** (o ângulo manda nos desempates de trade-off e no campo semântico do codename; intro diz quando escolher cada leitura; sem o campo = comportamento v2). Teste produção AK-27 P1·L19 CQB: RAIO/ANDES/ORION, dropped 0/0 nas três, 7-10 attachments diferentes entre pares, Dexterity nas 3 (struggle do flinch cruzada). (3) **Double XP com a arte oficial** (pôster enviado pelo operador): saiu do banner largo de Destaques → **card padrão de evento** na grade Eventos · Temporada Atual (formato Nuked/Illicit), arte WebP base64 21 KB com brilho 1.45/contraste 1.12 (pôster muito escuro pro crop pequeno) e `background-position: center 32%` (rosto). Seção Destaques removida do Painel Hoje (CSS `dxp-card` preservado pra futuro destaque); chave `hoje.highlights` órfã inofensiva.
 - **v2.24.0 (10 Jun)** — **Painel Hoje em 3 seções + mapa na Montagem Inteligente.** (1) Painel Hoje reestruturado em 3 seções nomeadas: **Destaques** (Double XP em banner largo com arte oficial S04 embutida WebP base64, padrão Catalyst Collection) → **Eventos · Temporada Atual** (Nuked + Illicit) → **Lançamentos** (MW4, grid dinâmico renomeado e movido pro fim). (2) Modal de novidades: botão Entendido movido pra direita com respiro. (3) **4ª pergunta opcional de mapa** no wizard Montagem Inteligente (dropdown dos 6v6 do catálogo + "Qualquer mapa" default, só em MP) → `map:{name,desc}` no payload → **Edge `generate-build` v2** com regra R8 (mapa REFINA o foco, não substitui; cita mapa pelo nome no intro e slots decisivos). Badge do mapa no resultado. Teste server-side: intro cita Nuked, Barrel+Muzzle justificam pelo mapa, dropped 0/0, 31s. Fundação do Pre-Match Advisor.
 - **v2.23.0 (10 Jun)** — **Painel Hoje reorganizado + modal de novidades.** Ordem nova: EVENTOS NO AR + EVENTOS · TEMPORADA ATUAL juntos no topo; card "O QUE MUDOU" no final; bloco de status pessoal (4 tips) REMOVIDO por ora (CSS preservado pra eventual volta). Modal `modal-whats-new` (560px) abre 1× após o login a cada versão nova — lê o vX.Y.Z do próprio card de changelog (sem constante nova). Checkboxes: silenciar esta versão (padrão) / silenciar futuras (discreto). Fechar sem marcar = volta no próximo boot. Persistência: localStorage `level.wn.*` + `hub_users.prefs.whatsnew` (coluna `prefs jsonb` já existia; sync-push v6 já aceitava `prefs` — ZERO migração/deploy; snapshot do pushAll ganhou o campo, pullAll aplica de volta).
 - **v2.22.2 (10 Jun)** — Fixes na NOSSA ANÁLISE (reportados pelo operador com prints): (1) **X do modal de re-análise confirmava em vez de cancelar** — `LevelModal.confirm` agora resolve `null` no dismiss (X/overlay/Esc), distinto do `false` do Cancelar; demais call sites usam `if(await confirm(...))` → null falsy = zero regressão; fluxo de re-análise aborta no null. (2) **Contraponto "Em troca:" fatiado pelo flexbox** — ícone+strong+texto eram 3 flex items; agora `<span>` único envolve rótulo+frase.
@@ -71,7 +72,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - Auth email+senha ativo, Confirm email OFF, 18+ universal
 - Victor: `auth.uid = 1438a611`, `hub_users.id = 3fa59ebd`
 - Edge Functions migradas p/ `auth.uid` + `verify_jwt: true`: `sync-push v6`, `user-asset v4`, `sync-pull v6`
-- **Edge Functions de IA (todas Gemini 2.5 Flash + `ana_gemini_usage`):** `analyze-build` v4 (deploy v6, `verify_jwt: false` — front manda anon key), `analyze-capture` v7, **`generate-build` v1 (NOVO 9 Jun, `verify_jwt: true`)**, **`parse-build-text` v1 (NOVO 9 Jun, `verify_jwt: true`)**, `admin-cat-struggles` v3, `admin-cat-glossary`
+- **Edge Functions de IA (todas Gemini 2.5 Flash + `ana_gemini_usage`):** `analyze-build` v4 (deploy v6, `verify_jwt: false` — front manda anon key), `analyze-capture` v7, **`generate-build` v3 (10 Jun: v2 = mapa R8, v3 = variant_angle R13; `verify_jwt: true`)**, **`parse-build-text` v1 (NOVO 9 Jun, `verify_jwt: true`)**, `admin-cat-struggles` v3, `admin-cat-glossary`
 - Hub: `pushAll`/`pullAll`/`_cloudHeaders` mandam token JWT
 - 25 armas + perfil migrados para auth.uid
 - `cat_attachments` = **1102 rows**, 25 armas (23 weapon_ids distintos; **AK-27 = `weapon_id: 'ak'`**), fonte codmunity — **NÃO MEXER**. Tem `unlock_level`, `is_prestige`, `prestige_level` e `meta.stats` por attachment.
@@ -142,7 +143,7 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7.
 > Lista para abrir o próximo chat. Montagem Inteligente + Capturar via Texto **ENTREGUES na v2.22.0** — saíram do topo.
 
 1. ~~★★★ Análise de build com veredito~~ — **FECHADO 10 Jun 2026.** Teste server-side com payload real (perfil Victor + URAL + struggle "atiro primeiro mas morro"): o veredito v4 cruza nome + estilo + weapon_rating + struggle, separa corretamente problema de arma vs perk/config (Dexterity + ADS 0.85), sugestões válidas com dropped 0/0. Nenhuma mudança necessária. Detalhe na seção 8.A.
-2. **★★ V2 da Montagem Inteligente:** recorte MAPA FEITO (v2.24, Edge v2 R8). Restantes: variantes simultâneas, plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback. **Loadout Codes: decodificação INVIÁVEL** (encoding fechado da Activision, 14 chars, sem decoder público) — plano B: parser RECONHECE o código no texto e salva como metadado (caderno de códigos).
+2. **★★ V2 da Montagem Inteligente:** recortes MAPA (v2.24, Edge v2 R8) e **VARIANTES SIMULTÂNEAS (v2.25, Edge v3 R13) FEITOS**. Restantes: plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback. **Loadout Codes: decodificação INVIÁVEL** (encoding fechado da Activision, 14 chars, sem decoder público) — plano B: parser RECONHECE o código no texto e salva como metadado (caderno de códigos).
 3. **★★ E-mail de eventos (NOVO — mini-projeto de backend):** enviar e-mail ao usuário 2h ANTES de um evento começar e 12h ANTES de acabar. Pré-requisitos que ainda não existem: (a) e-mails dos usuários (hub_users não guarda email; auth guarda, mas não há tabela de datas de eventos no banco — datas hoje hardcoded no HTML); (b) serviço de envio (Resend ou SendGrid — conta + chave + custo); (c) agendador 24/7 (cron job Supabase) que checa horários e dispara. Fazer em sessão dedicada, depois de decidir o provedor de e-mail.
 3. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — ~30 settings faltantes dos 17 prints. Trabalho de 3-4 sessões dedicadas. (Detalhe completo na versão anterior deste doc / nos prints.)
 4. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
@@ -192,32 +193,24 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 
 ---
 
-## 9. CHECKLIST PÓS-DEPLOY (v2.24.0)
+## 9. CHECKLIST PÓS-DEPLOY (v2.25.0)
 
 > Confirmar ANTES de considerar o marco 100% no ar.
 
-- [x] v2.22.x e v2.23.0 commitadas e publicadas (confirmado no footer de le-vel.games)
-- [x] Edge `generate-build` v2 deployada via MCP (mapa-alvo R8, testada server-side)
-- [ ] **Commitar** o `index.html` (v2.24.0) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
+- [x] Edge `generate-build` v3 deployada via MCP (variant_angle R13, retrocompatível) e testada server-side em produção (3 ângulos em paralelo, 35,9s, dropped 0/0)
+- [x] Validações do arquivo: node --check 16/16 blocos · html5lib 1 `<main>` + 13 sections · screenshots Playwright (grade de eventos desktop/mobile + modal de variantes com troca de aba, zero erros de console)
+- [ ] Itens do checklist v2.24.0 ainda pendentes (commit v2.24 foi feito? conferir o footer de le-vel.games antes — se ainda mostra v2.23, o commit desta v2.25.0 cobre tudo de uma vez)
+- [ ] **Commitar** o `index.html` (v2.25.0) no repo `level-hub`, branch main (textos do commit no fim da sessão)
 - [ ] Confirmar no **Netlify** (app.netlify.com) que o build `le-vel-hub` passou e publicou
 - [ ] Abrir **le-vel.games** e verificar:
-  - [ ] Footer mostra **LEVEL v2.24.0**
-  - [ ] **Painel Hoje**: 3 seções na ordem Destaques → Eventos · Temporada → Lançamentos
-  - [ ] **Destaques**: Double XP em banner largo com a arte da Season 4, antes de tudo
-  - [ ] **Lançamentos**: MW4 fecha a página, depois dos eventos da temporada
-  - [ ] **Modal de novidades**: botão Entendido à direita, com respiro das bordas
-  - [ ] **Montagem Inteligente**: 4ª pergunta "Mapa (opcional)" aparece só em Multiplayer (some em Warzone)
-  - [ ] Gerar build com um mapa escolhido → badge do mapa aparece no título do resultado, intro cita o mapa
-  - [ ] **Minhas Armas**: toolbar com 3 elementos; dropdown Importar Build ▾ abre com as 3 vias e fecha ao clicar fora
-  - [ ] Em modo EN: toolbar, linha de stats e modal Armas Detectadas inteiramente em inglês
-  - [ ] Painel Hoje: card "O QUE MUDOU" mostra Montagem Inteligente + Capturar via Texto
-  - [ ] **Minhas Armas**: 5 botões na ordem (Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), Montagem Inteligente em laranja com engrenagem-estrela
-  - [ ] **Capturar via Texto**: colar o texto da URAL → card de revisão abre com 8 acessórios casados e o codename URAL no nome
-  - [ ] **Montagem Inteligente**: gerar build CQB da AK-27 → intro com teu nome, justificativas por slot, perks, recomendação de PUT, comparação com a URAL
-  - [ ] **Salvar como nova build** → Construtor abre pré-preenchido com codename + attachments
-  - [ ] Trocar idioma pra EN e conferir os botões/modais traduzidos
-- [ ] Testar no **mobile** — os 5 botões quebram linha sem estourar a toolbar
-- [ ] **No jogo (PS5):** Settings → Controller → **Slide/Dive Behavior: Hybrid → Tap to Slide** (reverter o mergulho acidental do R3)
+  - [ ] Footer mostra **LEVEL v2.25.0**
+  - [ ] **Painel Hoje**: a seção Destaques sumiu; a grade Eventos · Temporada Atual tem 3 cards — Nuked · Illicit Cargo · **Double XP com a arte oficial** (rosto do operador visível no topo do card)
+  - [ ] **Montagem Inteligente**: pergunta nova "Variantes" (1 · 2 · 3) acima do botão Gerar; escolher 2 ou 3 mostra o hint com os ângulos
+  - [ ] Gerar **3 variantes** da AK-27 (CQB, MP) → status mostra progresso (1/3, 2/3...), resultado abre com comparativo de stats + 3 abas (ângulo + codename), trocar de aba funciona
+  - [ ] **Salvar esta build** numa aba → Construtor abre pré-preenchido com o codename daquela variante
+  - [ ] **Variantes: 1** → fluxo antigo intacto (card único com Salvar/Regenerar/Descartar)
+  - [ ] Em EN: pergunta "Variants", ângulos SPEED/BALANCED/CONTROL, comparativo "Stats comparison"
+- [ ] Testar no **mobile** — comparativo de stats com scroll horizontal, abas empilham sem estourar
 
 ---
 
@@ -265,6 +258,14 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 ---
 
 ## 12. APRENDIZADOS RECENTES
+
+### Sessão 10 Jun 2026 (noite — v2.25.0, variantes simultâneas)
+
+- **Paralelas com ângulos > 1 chamada gigante:** pra N variantes, N chamadas paralelas com `variant_angle` pré-definido ganham em latência (≈1 geração), resiliência (falha isolada + retry individual) e diversidade POR DESIGN (o ângulo manda nos desempates — não depende da sorte do modelo). Comparação textual entre variantes não é necessária: o comparativo de stats é determinístico no front e cada intro já diz quando escolher aquela leitura.
+- **Retrocompatibilidade em Edge compartilhada:** campo novo OPCIONAL + regra de prompt condicional ("sem X, ignora esta regra") = zero janela de quebra entre o deploy da Edge e o deploy do front no Netlify.
+- **Conferir a versão REAL da Edge antes de planejar:** `get_edge_function` via MCP mostra `version` e o código no ar — a memória da sessão pode divergir do servidor; o servidor é a verdade.
+- **Key art escura em crop pequeno:** pôster vertical escuro não funciona em card de 130px sem tratamento — brilho 1.45 + contraste 1.12 no pre-processing resolve sem trair o tom; `background-position` ajustado pelo screenshot, não pelo chute (1ª tentativa 18% pegou teto escuro; 32% achou o rosto).
+- **Campos semânticos distintos por ângulo** (relâmpagos/rios/pedras) evitam colisão de codename entre chamadas paralelas que não se conhecem; sufixo II/III no front cobre o caso raro.
 
 ### Sessão 10 Jun 2026 (manhã — v2.22.2 + fechamento item 1)
 
