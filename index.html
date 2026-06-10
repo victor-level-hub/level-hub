@@ -11400,7 +11400,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.22.1 · <span data-i18n="briefing.changelog.date">9 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.22.2 · <span data-i18n="briefing.changelog.date">10 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -14823,6 +14823,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.22.2</span>
+                <span class="vh-date">10 Jun 2026</span>
+                <span class="vh-kind">bugfix</span>
+              </div>
+              <p class="vh-desc">Dois fixes na NOSSA AN&Aacute;LISE, ambos reportados pelo operador com prints.<br><br><strong>1. X do modal de re-an&aacute;lise confirmava em vez de cancelar.</strong> Causa-raiz: o <code>LevelModal.confirm</code> resolvia <code>false</code> para TODOS os caminhos de sa&iacute;da &mdash; bot&atilde;o Cancelar, X, clique no overlay e Esc. No fluxo de re-an&aacute;lise, <code>false</code> est&aacute; mapeado para "Re-analisar assim mesmo" (o caminho de cancel &Eacute; uma a&ccedil;&atilde;o), ent&atilde;o fechar o modal disparava a an&aacute;lise. Fix em duas camadas: (a) o <code>LevelModal.confirm</code> agora resolve <code>null</code> para dismiss (X / overlay / Esc), distinto do <code>false</code> do bot&atilde;o Cancelar &mdash; os demais call sites usam <code>if (await confirm(...))</code> e tratam <code>null</code> como falsy, comportamento id&ecirc;ntico ao anterior, zero regress&atilde;o; (b) o fluxo de re-an&aacute;lise aborta no <code>null</code> (nem avalia, nem re-analisa). Coment&aacute;rio inline documenta a sem&acirc;ntica pros pr&oacute;ximos fluxos de 2 a&ccedil;&otilde;es.<br><br><strong>2. Contraponto "Em troca:" com layout quebrado.</strong> O container <code>.bc-sug-tradeoff</code> &eacute; <code>display:flex</code> e o HTML soltava &iacute;cone + <code>&lt;strong&gt;</code> + texto como 3 filhos separados &mdash; o flexbox transformava cada um numa coluna, fatiando o r&oacute;tulo ("Em" numa linha, "troca:" noutra) com o texto fluindo ao lado. Fix: <code>&lt;span&gt;</code> &uacute;nico envolvendo r&oacute;tulo + frase, virando um s&oacute; flex item ao lado do &iacute;cone.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.22.1</span>
                 <span class="vh-date">9 Jun 2026</span>
                 <span class="vh-kind">patch</span>
@@ -16653,7 +16662,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.22.1</strong><span class="ver-tag">Toolbar de Minhas Armas reorganizada em 3 elementos (Montagem Inteligente · Importar Build ▾ · Adicionar Arma) + varredura i18n do fluxo de captura</span>
+        LEVEL · <strong>v2.22.2</strong><span class="ver-tag">Fix: X do modal de re-análise agora cancela de verdade (dismiss ≠ Re-analisar) + layout do contraponto "Em troca:" nas sugestões corrigido</span>
       </div>
       <script>
         (function(){
@@ -18204,10 +18213,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '9 Jun 2026',
+    'briefing.changelog.date':  '10 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Toolbar de Minhas Armas reorganizada + i18n da captura',
-    'briefing.changelog.summary':  'A barra de Minhas Armas saiu de 5 bot&otilde;es iguais para <strong>3 elementos com hierarquia</strong>: Montagem Inteligente (destaque laranja, primeiro da fila), <strong>Importar Build &#9662;</strong> (dropdown que agrupa as 3 vias de captura: Print, Celular e Texto) e + Adicionar Arma. De quebra, varredura de i18n no fluxo: bot&otilde;es da toolbar, linha de stats e modal de revis&atilde;o agora trocam de idioma junto com o resto do Hub (antes ficavam presos em portugu&ecirc;s no modo EN). E os cards de Eventos ganharam as <strong>artes oficiais</strong> (Nuked, Illicit Cargo, banner BLACKCELL e operador Catalyst) embutidas em WebP base64 &mdash; zero CDN externa.',
+    'briefing.changelog.headline': 'Fixes na NOSSA ANÁLISE: modal de re-análise + contraponto',
+    'briefing.changelog.summary':  'Dois fixes na NOSSA AN&Aacute;LISE. <strong>Modal de re-an&aacute;lise:</strong> fechar no X, clicar fora ou apertar Esc agora <strong>cancela de verdade</strong> &mdash; antes, qualquer um desses disparava a re-an&aacute;lise como se tivesses clicado em "Re-analisar assim mesmo". S&oacute; os dois bot&otilde;es executam a&ccedil;&atilde;o. <strong>Contraponto "Em troca:":</strong> o aviso do que a troca custa quebrava o texto em colunas tortas (o r&oacute;tulo fatiado pelo flexbox) &mdash; agora flui numa linha s&oacute; ao lado do &iacute;cone.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -19584,10 +19593,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 9, 2026',
+    'briefing.changelog.date':  'Jun 10, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'My Weapons toolbar reorganized + capture flow i18n',
-    'briefing.changelog.summary':  'The My Weapons toolbar went from 5 equal buttons to <strong>3 elements with hierarchy</strong>: Smart Build (orange highlight, first in line), <strong>Import Build &#9662;</strong> (a dropdown grouping the 3 capture channels: Screenshot, Phone and Text) and + Add Weapon. Plus an i18n sweep across the flow: toolbar buttons, stats row and the review modal now switch language with the rest of the Hub (they were stuck in Portuguese in EN mode). The Events cards also got the <strong>official key art</strong> (Nuked, Illicit Cargo, the BLACKCELL banner and the Catalyst Operator) embedded as base64 WebP &mdash; zero external CDN.',
+    'briefing.changelog.headline': 'OUR ANALYSIS fixes: re-analyze modal + tradeoff note',
+    'briefing.changelog.summary':  'Two fixes in OUR ANALYSIS. <strong>Re-analyze modal:</strong> closing with the X, clicking outside or pressing Esc now <strong>actually cancels</strong> &mdash; before, any of those triggered the re-analysis as if you had clicked "Re-analyze anyway". Only the two buttons execute actions. <strong>"In return:" tradeoff note:</strong> the warning about what a swap costs was breaking into crooked columns (the label sliced by flexbox) &mdash; it now flows in a single line next to the icon.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -25203,7 +25212,7 @@ const ATTACHMENT_ICONS = {
           range:    'perde alcance em média/longa distância',
           mag:      'menos munição no carregador'
         }[worst];
-        return phrase ? ('<div class="bc-sug-tradeoff">{{i:alert-triangle}} <strong>Em troca:</strong> ' + phrase + '.</div>') : '';
+        return phrase ? ('<div class="bc-sug-tradeoff">{{i:alert-triangle}} <span><strong>Em troca:</strong> ' + phrase + '.</span></div>') : '';
       } catch (e) { return ''; }
     }
     // Veta trocas (replaces → name) cujo ganho no objetivo fixo não passa da
@@ -25734,8 +25743,10 @@ const ATTACHMENT_ICONS = {
       if (!hasPrev) { requestAIAnalysis(buildId); return; }
 
       let goRate = false;
+      let usedModal = false;
       try {
         if (window.LevelModal && window.LevelModal.confirm) {
+          usedModal = true;
           goRate = await window.LevelModal.confirm({
             title: 'Avalia a arma antes?',
             message: 'O Le Vél usa a tua avaliação da arma (aba AVALIE) pra entender o que não está funcionando pra ti. Uma avaliação fresca deixa a re-análise muito mais certeira.',
@@ -25743,7 +25754,11 @@ const ATTACHMENT_ICONS = {
             cancelText: 'Re-analisar assim mesmo'
           });
         }
-      } catch (e) { goRate = false; }
+      } catch (e) { goRate = false; usedModal = false; }
+
+      // v2.22.2: X / clique fora / Esc = null → ABORTA (nem avalia, nem re-analisa).
+      // Só o botão "Re-analisar assim mesmo" (false) segue pra análise.
+      if (usedModal && goRate === null) return;
 
       if (goRate) {
         const rateTab = card.querySelector('[data-bc-tab="rating"]');
@@ -37602,12 +37617,16 @@ ${cbt('share.t.footer')}`;
       actionsEl.appendChild(cancel);
       actionsEl.appendChild(ok);
 
-      closeBtn.onclick = function () { resolveWith(false); };
-      overlay.onclick = function (e) { if (e.target === overlay) resolveWith(false); };
+      // v2.22.2: fechar (X), clicar fora ou Esc = DISMISS (null), diferente do
+      // botão Cancelar (false). Call sites com `if (await confirm(...))` tratam
+      // null como falsy (cancel) — sem regressão. Fluxos com 2 ações mapeadas
+      // (ex: re-análise) usam null pra ABORTAR em vez de executar o "cancel".
+      closeBtn.onclick = function () { resolveWith(null); };
+      overlay.onclick = function (e) { if (e.target === overlay) resolveWith(null); };
       keyHandler = function (e) {
         if (e.key === 'Escape') {
           e.preventDefault();
-          resolveWith(false);
+          resolveWith(null);
         } else if (e.key === 'Enter') {
           e.preventDefault();
           resolveWith(true);

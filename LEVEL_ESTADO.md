@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 9 Jun 2026 — fecho v2.22.0 (Montagem Inteligente + Capturar via Texto) e v2.22.1 (toolbar 3 elementos + varredura i18n da captura)
+> **Última atualização:** 10 Jun 2026 — v2.22.2 (fixes do modal de re-análise e do contraponto) + item 1 do roadmap fechado por teste de produção
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.22.1` (SemVer desde v2.0.0)
+**Versão:** `v2.22.2` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~2,91 MB, ~41.300 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
 ### Marcos recentes (Jun 2026)
 
+- **v2.22.2 (10 Jun)** — Fixes na NOSSA ANÁLISE (reportados pelo operador com prints): (1) **X do modal de re-análise confirmava em vez de cancelar** — `LevelModal.confirm` agora resolve `null` no dismiss (X/overlay/Esc), distinto do `false` do Cancelar; demais call sites usam `if(await confirm(...))` → null falsy = zero regressão; fluxo de re-análise aborta no null. (2) **Contraponto "Em troca:" fatiado pelo flexbox** — ícone+strong+texto eram 3 flex items; agora `<span>` único envolve rótulo+frase.
 - **v2.22.1 (9 Jun)** — Toolbar de Minhas Armas reorganizada: 5 botões → **3 elementos com hierarquia** (Montagem Inteligente em destaque · **Importar Build ▾** dropdown agrupando Print/Celular/Texto, IDs originais preservados dentro do menu · + Adicionar Arma). Varredura i18n do fluxo de captura: Capturar via Celular e + Adicionar Arma (nunca tinham chave), linha de stats e modal Armas Detectadas (título/intro/empty/Cancelar) agora trocam de idioma. Menu alinhado pela direita (não estoura viewport). **Artes oficiais embutidas** nos cards de Eventos (Nuked + Illicit Cargo + banner BLACKCELL + operador Catalyst, WebP base64 ~190 KB, fonte: blog callofduty.com — Double XP fica com o ícone SVG, não tem arte oficial) + fix de entidades cruas (&quot;Catalyst&quot;, &amp;).
 - **v2.22.0 (9 Jun)** — **MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO** em Minhas Armas. 2 Edge Functions novas (`generate-build` v1, `parse-build-text` v1, ambas `verify_jwt: true`, Gemini 2.5 Flash, schema fechado, instrumentadas em `ana_gemini_usage`), 2 botões novos (ordem final: Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), wizard de 3 perguntas + 3 modos (gerar/refinar/counter), render com justificativa por slot + stats agregados + PUT recommendation + comparação, ponte `window.LevelCaptureBridge` reusando o fluxo de aprovação da captura, ícone novo `gear-star` no catálogo LUCIDE. Gabaritos URAL e VOLGA validados 8/8.
 - **v2.21.0 (9 Jun)** — Bloco **EVENTOS · TEMPORADA ATUAL** no Painel Hoje. 3 cards (Nuked, Illicit Cargo, Double XP) + card Battle Pass Season 4 BLACKCELL + card Catalyst Collection. Tudo em SVG inline + gradientes, sem imagens externas. 33 chaves i18n novas (PT + EN).
@@ -188,15 +189,17 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 
 ---
 
-## 9. CHECKLIST PÓS-DEPLOY (v2.22.1)
+## 9. CHECKLIST PÓS-DEPLOY (v2.22.2)
 
 > Confirmar ANTES de considerar o marco 100% no ar.
 
-- [x] v2.22.0 commitada e publicada (confirmado no footer de le-vel.games 9 Jun à noite)
-- [ ] **Commitar** o `index.html` (v2.22.1) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
+- [x] v2.22.0 e v2.22.1 commitadas e publicadas (confirmado no footer de le-vel.games)
+- [ ] **Commitar** o `index.html` (v2.22.2) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
 - [ ] Confirmar no **Netlify** (app.netlify.com) que o build `le-vel-hub` passou e publicou
 - [ ] Abrir **le-vel.games** e verificar:
-  - [ ] Footer mostra **LEVEL v2.22.1**
+  - [ ] Footer mostra **LEVEL v2.22.2**
+  - [ ] **NOSSA ANÁLISE**: clicar Re-analisar → modal abre → fechar no X → NADA acontece (nem análise, nem aba AVALIE)
+  - [ ] **NOSSA ANÁLISE**: contraponto "Em troca:" numa linha fluida ao lado do ícone
   - [ ] **Minhas Armas**: toolbar com 3 elementos; dropdown Importar Build ▾ abre com as 3 vias e fecha ao clicar fora
   - [ ] Em modo EN: toolbar, linha de stats e modal Armas Detectadas inteiramente em inglês
   - [ ] Painel Hoje: card "O QUE MUDOU" mostra Montagem Inteligente + Capturar via Texto
@@ -254,6 +257,12 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 ---
 
 ## 12. APRENDIZADOS RECENTES
+
+### Sessão 10 Jun 2026 (manhã — v2.22.2 + fechamento item 1)
+
+- **Dismiss ≠ Cancel em modais de 2 ações:** quando o caminho "cancel" de um confirm É uma ação (ex: "Re-analisar assim mesmo"), o X/overlay/Esc precisam de um 3º estado (`null` = abortar). Padrão adotado: `confirm` resolve `true`/`false`/`null`; call sites booleanos tratam null como falsy sem regressão.
+- **Flex fatia filhos soltos:** num container `display:flex`, ícone + `<strong>` + text node viram 3 colunas independentes. Conteúdo textual misto sempre dentro de um `<span>` único.
+- **Validar Edge Function por teste server-side** (curl com payload realista) fecha itens de roadmap sem depender de teste manual no Hub — o item 1 fechou assim.
 
 ### Sessão 9 Jun 2026 (noite — marco v2.22.0)
 
