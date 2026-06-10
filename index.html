@@ -5035,6 +5035,37 @@
   .sb-stat-chip.is-bad { color: #e88; }
   .sb-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
 
+  /* v2.23: modal O QUE MUDOU (novidades da versão) */
+  .wn-box { max-width: 560px; }
+  .wn-version {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--accent-cyan, #7da8c7);
+    letter-spacing: 1px; margin-bottom: 10px;
+  }
+  .wn-headline {
+    font-family: 'Black Ops One', 'JetBrains Mono', monospace;
+    font-size: 15px; color: var(--text-primary, #E8E2D7);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+  }
+  .wn-summary {
+    font-size: 13px; line-height: 1.65; color: var(--text-secondary);
+    margin-bottom: 18px;
+  }
+  .wn-summary strong { color: var(--text-primary, #E8E2D7); }
+  .wn-checks { border-top: 1px solid var(--border-dim, #2a3654); padding-top: 14px; }
+  .wn-check {
+    display: flex; align-items: flex-start; gap: 9px;
+    font-size: 12.5px; color: var(--text-secondary);
+    cursor: pointer; user-select: none; margin-bottom: 9px; line-height: 1.5;
+  }
+  .wn-check input[type="checkbox"] {
+    accent-color: var(--accent-orange, #FF9800);
+    width: 15px; height: 15px; margin-top: 1px; flex-shrink: 0; cursor: pointer;
+  }
+  .wn-check.wn-check-muted {
+    font-size: 11px; color: var(--text-muted, #5d6b8a); margin-bottom: 0;
+  }
+  .wn-check.wn-check-muted input[type="checkbox"] { width: 13px; height: 13px; accent-color: var(--text-muted, #5d6b8a); }
   /* v2.22.1: dropdown IMPORTAR BUILD na toolbar de Minhas Armas */
   .import-dd { position: relative; display: inline-flex; }
   .import-dd-menu {
@@ -11329,61 +11360,6 @@
         <p data-i18n="sec.briefing.intro">Status do operador · Eventos ativos · Atualizações de patch · Foco recomendado.</p>
       </div>
 
-      <!-- LIVE TIPS / BRIEFING HERO -->
-      <div class="briefing-hero">
-        <div class="briefing-tip-grid">
-
-          <div class="briefing-tip tip-personal">
-            <div class="briefing-tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 C10 5 8 7 8 11 a4 4 0 0 0 4 4 a3 3 0 0 0 3 -3 c0 -2 -2 -3 -1 -5 c2 1 3 4 3 6 a7 7 0 0 1 -14 0 C3 8 6 5 8 3 c0 2 1 4 4 -1 Z"/></svg></div>
-            <div class="briefing-tip-head-info">
-              <div class="briefing-tip-label" data-i18n="briefing.tip1.label">Progresso pessoal</div>
-              <div class="briefing-tip-title" data-bind="player.active-weapon-title" data-i18n-html="briefing.tip1.titleHtml">Sturmwolf 45 · <span class="g-term" data-glossary="re-grind">re-grind</span> P2</div>
-            </div>
-            <div class="briefing-tip-body" data-bind="player.active-weapon-body" data-i18n-html="briefing.tip1.bodyHtml">
-              <span class="h">P2 lvl 14/38</span> · faltam <strong>24 levels</strong> pra fechar o <span class="g-term" data-glossary="re-grind">re-grind</span> do P2. <span class="g-term" data-glossary="hardpoint">Hardpoint</span> + 2XP rende mais XP/min.
-            </div>
-            <div class="briefing-tip-meta" data-i18n="briefing.tip1.meta">PRIORIDADE #1</div>
-          </div>
-
-          <div class="briefing-tip tip-focus">
-            <div class="briefing-tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg></div>
-            <div class="briefing-tip-head-info">
-              <div class="briefing-tip-label" data-i18n="briefing.tip2.label">Próximo perk unlock</div>
-              <div class="briefing-tip-title" data-bind="player.next-perk-title">—</div>
-            </div>
-            <div class="briefing-tip-body" data-bind="player.next-perk-body">
-              —
-            </div>
-            <div class="briefing-tip-meta" data-i18n="briefing.tip2.meta">PRESTIGE GRIND</div>
-          </div>
-
-          <div class="briefing-tip tip-event">
-            <div class="briefing-tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 L3.5 13.5 H11 L10 22 L20.5 10 H13 Z"/></svg></div>
-            <div class="briefing-tip-head-info">
-              <div class="briefing-tip-label" data-i18n="briefing.tip3.label">Evento ativo</div>
-              <div class="briefing-tip-title" data-i18n="briefing.tip3.title">Double XP weekend</div>
-            </div>
-            <div class="briefing-tip-body" data-i18n-html="briefing.tip3.bodyHtml">
-              <strong>Sex–dom</strong>. Acelera <span class="g-term" data-glossary="re-grind">re-grind</span>. <span class="g-term" data-glossary="hardpoint">Hardpoint</span> = +XP por captura + tempo no objetivo.
-            </div>
-            <div class="briefing-tip-meta" data-i18n="briefing.tip3.meta">2X XP · 72H</div>
-          </div>
-
-          <div class="briefing-tip tip-patch" style="cursor:pointer" onclick="document.querySelector('[data-section=&quot;aimtraining&quot;]')?.click()">
-            <div class="briefing-tip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></div>
-            <div class="briefing-tip-head-info">
-              <div class="briefing-tip-label" data-i18n="briefing.tip4.label">Novidade no Hub</div>
-              <div class="briefing-tip-title" data-i18n="briefing.tip4.title">Aim Training · seção nova</div>
-            </div>
-            <div class="briefing-tip-body" data-i18n-html="briefing.tip4.bodyHtml">
-              <strong>Aimlabs grátis na PS5</strong> · 3 playlists oficiais BO7. Rotina recomendada: <span class="h">15 min/dia</span> antes de subir lobby. Premium em teste.
-            </div>
-            <div class="briefing-tip-meta" data-i18n="briefing.tip4.meta">→ ABRIR SEÇÃO</div>
-          </div>
-
-        </div>
-      </div>
-
       <!-- EVENTOS ATIVOS -->
       <div class="briefing-events">
         <div class="briefing-events-head">
@@ -11391,25 +11367,6 @@
         </div>
         <div class="briefing-events-grid" id="briefing-events-grid">
           <!-- populated by JS on load (so countdowns stay fresh) -->
-        </div>
-      </div>
-
-      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v2.0.0) ═══ -->
-      <div class="briefing-stats" style="margin-top:32px">
-        <div class="briefing-stats-inner briefing-changelog-inner">
-          <div class="briefing-stats-head">
-            <div>
-              <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.22.2 · <span data-i18n="briefing.changelog.date">10 Jun 2026</span></div>
-            </div>
-            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
-          </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Bloco Eventos no Painel Hoje + Battle Pass Season 4</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Novo bloco <strong>EVENTOS · TEMPORADA ATUAL</strong> no Painel Hoje (logo abaixo deste card) com 3 cards de eventos da Season 4: <strong>Nuked</strong> (Zombies, ativo at&eacute; 11 Jun), <strong>Illicit Cargo</strong> (camos BO3 + AR VX Compact, come&ccedil;a em 2d) e <strong>Double XP Event</strong>. Mais um card grande do <strong>Battle Pass Season 4 BLACKCELL</strong> (44 dias restantes, headliner Leon Rook) e um card especial da <strong>BLACKCELL Catalyst Collection</strong>. Tudo em SVG inline + gradientes &mdash; nenhuma imagem externa, sem risco de quebra quando a Activision mudar URLs. PT + EN.</div>
-          <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
-            <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
-          </button>
         </div>
       </div>
 
@@ -11605,6 +11562,26 @@
           </div>
         </div>
       </div>
+
+      <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v2.0.0) ═══ -->
+      <div class="briefing-stats" style="margin-top:32px">
+        <div class="briefing-stats-inner briefing-changelog-inner">
+          <div class="briefing-stats-head">
+            <div>
+              <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.23.0 · <span data-i18n="briefing.changelog.date">10 Jun 2026</span></div>
+            </div>
+            <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
+          </div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Bloco Eventos no Painel Hoje + Battle Pass Season 4</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Novo bloco <strong>EVENTOS · TEMPORADA ATUAL</strong> no Painel Hoje (logo abaixo deste card) com 3 cards de eventos da Season 4: <strong>Nuked</strong> (Zombies, ativo at&eacute; 11 Jun), <strong>Illicit Cargo</strong> (camos BO3 + AR VX Compact, come&ccedil;a em 2d) e <strong>Double XP Event</strong>. Mais um card grande do <strong>Battle Pass Season 4 BLACKCELL</strong> (44 dias restantes, headliner Leon Rook) e um card especial da <strong>BLACKCELL Catalyst Collection</strong>. Tudo em SVG inline + gradientes &mdash; nenhuma imagem externa, sem risco de quebra quando a Activision mudar URLs. PT + EN.</div>
+          <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
+            <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
+          </button>
+        </div>
+      </div>
+
 
     </section>
 
@@ -14823,6 +14800,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.23.0</span>
+                <span class="vh-date">10 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc">Reorganiza&ccedil;&atilde;o do Painel Hoje + modal de novidades, a pedido do operador (com prints).<br><br><strong>1. Painel Hoje reordenado.</strong> Os eventos agora ficam todos juntos no topo (EVENTOS NO AR seguido de EVENTOS &middot; TEMPORADA ATUAL, sem nada no meio) e o card "O QUE MUDOU NESTA VERS&Atilde;O" desceu pro <strong>final da p&aacute;gina</strong>. O bloco de status pessoal de 4 linhas (Progresso pessoal &middot; Pr&oacute;ximo perk &middot; Evento ativo &middot; Novidade no Hub) foi <strong>removido por ora</strong> &mdash; os dados estavam estagnados e o espa&ccedil;o vale mais pros eventos; pode voltar dinamizado no futuro.<br><br><strong>2. Modal de novidades da vers&atilde;o.</strong> A cada vers&atilde;o nova do Hub, um modal central (560px, vers&atilde;o compacta do card de changelog: vers&atilde;o + data, headline e resumo, mesmas chaves i18n) aparece <strong>uma vez ap&oacute;s o login</strong>. No rodap&eacute;, duas op&ccedil;&otilde;es: <em>"N&atilde;o exibir novamente as novidades desta vers&atilde;o"</em> (checkbox padr&atilde;o) e <em>"N&atilde;o exibir novidades de vers&otilde;es futuras"</em> (visual discreto de prop&oacute;sito, pra reduzir a incid&ecirc;ncia da escolha definitiva). Fechar no X ou clicando fora N&Atilde;O persiste nada &mdash; o modal volta no pr&oacute;ximo boot; s&oacute; o bot&atilde;o Entendido grava as escolhas marcadas.<br><br><strong>3. Persist&ecirc;ncia em nuvem.</strong> As escolhas vivem em <code>localStorage</code> (resposta imediata) e em <code>hub_users.prefs.whatsnew</code> no Supabase &mdash; a coluna <code>prefs jsonb</code> j&aacute; existia e o <code>sync-push</code> v6 j&aacute; aceitava o campo, ent&atilde;o <strong>zero migra&ccedil;&atilde;o e zero deploy de Edge Function</strong>: o snapshot do <code>pushAll</code> ganhou <code>prefs.whatsnew</code> e o <code>pullAll</code> aplica de volta no localStorage ao logar noutro dispositivo. O push p&oacute;s-escolha &eacute; silencioso (sem toast, falha n&atilde;o bloqueia).<br><br>Detec&ccedil;&atilde;o de vers&atilde;o sem constante nova: o m&oacute;dulo l&ecirc; o <code>vX.Y.Z</code> do pr&oacute;prio card de changelog &mdash; imposs&iacute;vel esquecer de bumpar em dois lugares. O modal espera o gate de login sumir antes de abrir (verifica&ccedil;&atilde;o por intervalo, m&aacute;x 2 min).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.22.2</span>
                 <span class="vh-date">10 Jun 2026</span>
                 <span class="vh-kind">bugfix</span>
@@ -16662,7 +16648,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.22.2</strong><span class="ver-tag">Fix: X do modal de re-análise agora cancela de verdade (dismiss ≠ Re-analisar) + layout do contraponto "Em troca:" nas sugestões corrigido</span>
+        LEVEL · <strong>v2.23.0</strong><span class="ver-tag">Painel Hoje reorganizado (eventos juntos, changelog no final) + modal de novidades a cada versão nova, com opções de silenciar persistidas na nuvem</span>
       </div>
       <script>
         (function(){
@@ -17026,6 +17012,33 @@
     </div>
 
     <!-- v2.22: CAPTURAR VIA TEXTO -->
+    <div class="modal-overlay" id="modal-whats-new">
+      <div class="modal-box wn-box">
+        <div class="modal-header">
+          <div class="modal-title" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
+          <button class="modal-close" data-close-modal="modal-whats-new">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="wn-version" id="wn-version-title">—</div>
+          <div class="wn-headline" data-i18n="briefing.changelog.headline">—</div>
+          <div class="wn-summary" data-i18n-html="briefing.changelog.summary">—</div>
+          <div class="wn-checks">
+            <label class="wn-check">
+              <input type="checkbox" id="wn-cb-version">
+              <span data-i18n="wn.cb1">Não exibir novamente as novidades desta versão</span>
+            </label>
+            <label class="wn-check wn-check-muted">
+              <input type="checkbox" id="wn-cb-all">
+              <span data-i18n="wn.cb2">Não exibir novidades de versões futuras</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-action btn-save" id="wn-btn-ok" data-i18n="wn.btn">Entendido</button>
+        </div>
+      </div>
+    </div>
+
     <div class="modal-overlay" id="modal-text-capture">
       <div class="modal-box" style="max-width: 640px">
         <div class="modal-header">
@@ -18215,8 +18228,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '10 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Fixes na NOSSA ANÁLISE: modal de re-análise + contraponto',
-    'briefing.changelog.summary':  'Dois fixes na NOSSA AN&Aacute;LISE. <strong>Modal de re-an&aacute;lise:</strong> fechar no X, clicar fora ou apertar Esc agora <strong>cancela de verdade</strong> &mdash; antes, qualquer um desses disparava a re-an&aacute;lise como se tivesses clicado em "Re-analisar assim mesmo". S&oacute; os dois bot&otilde;es executam a&ccedil;&atilde;o. <strong>Contraponto "Em troca:":</strong> o aviso do que a troca custa quebrava o texto em colunas tortas (o r&oacute;tulo fatiado pelo flexbox) &mdash; agora flui numa linha s&oacute; ao lado do &iacute;cone.',
+    'briefing.changelog.headline': 'Painel Hoje reorganizado + modal de novidades da versão',
+    'briefing.changelog.summary':  'O Painel Hoje mudou de ordem: os <strong>eventos ficam todos juntos</strong> no topo e o card "O QUE MUDOU" foi pro <strong>final da p&aacute;gina</strong>. O bloco de status pessoal (4 linhas de progresso) saiu por ora. E a novidade principal: <strong>este modal</strong> &mdash; a cada vers&atilde;o nova do Hub, as novidades aparecem no centro da tela uma vez. D&aacute; pra silenciar s&oacute; esta vers&atilde;o ou todas as futuras, e a escolha fica guardada na tua conta (vale em qualquer dispositivo).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -19325,6 +19338,9 @@ window.I18N = {
     'ca.intro': 'LE VÉL analisou os prints e detectou <strong id="ca-weapons-count">0</strong> arma(s). Revisa, escolhe qual queres importar, e o construtor abre pré-preenchido.',
     'ca.empty': 'Nenhuma arma detectada nos prints.',
     'ca.cancel': 'Cancelar',
+    'wn.cb1': 'Não exibir novamente as novidades desta versão',
+    'wn.cb2': 'Não exibir novidades de versões futuras',
+    'wn.btn': 'Entendido',
     'mw.btn.smartBuild': '{{i:gear-star}} Montagem Inteligente',
     'tc.title': '{{i:clipboard}} Capturar via Texto',
     'tc.hint': 'Cola QUALQUER texto descrevendo uma build — tabela, bullets, frase corrida, conversa de chat. O Le Vél extrai a arma, o codename e os acessórios, e abre a tela de revisão.',
@@ -19595,8 +19611,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 10, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'OUR ANALYSIS fixes: re-analyze modal + tradeoff note',
-    'briefing.changelog.summary':  'Two fixes in OUR ANALYSIS. <strong>Re-analyze modal:</strong> closing with the X, clicking outside or pressing Esc now <strong>actually cancels</strong> &mdash; before, any of those triggered the re-analysis as if you had clicked "Re-analyze anyway". Only the two buttons execute actions. <strong>"In return:" tradeoff note:</strong> the warning about what a swap costs was breaking into crooked columns (the label sliced by flexbox) &mdash; it now flows in a single line next to the icon.',
+    'briefing.changelog.headline': 'Today Panel reorganized + version updates modal',
+    'briefing.changelog.summary':  'The Today Panel got a new order: <strong>events now sit together</strong> at the top and the "WHAT CHANGED" card moved to the <strong>bottom of the page</strong>. The personal status block (4 progress rows) is out for now. And the headline feature: <strong>this modal</strong> &mdash; on every new Hub version, the updates appear once in the center of the screen. You can silence just this version or all future ones, and the choice is saved to your account (works across devices).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -20705,6 +20721,9 @@ window.I18N = {
     'ca.intro': 'LE VÉL analyzed the screenshots and detected <strong id="ca-weapons-count">0</strong> weapon(s). Review, pick which one to import, and the builder opens pre-filled.',
     'ca.empty': 'No weapons detected in the screenshots.',
     'ca.cancel': 'Cancel',
+    'wn.cb1': "Don't show this version's updates again",
+    'wn.cb2': "Don't show future version updates",
+    'wn.btn': 'Got it',
     'mw.btn.smartBuild': '{{i:gear-star}} Smart Build',
     'tc.title': '{{i:clipboard}} Capture via Text',
     'tc.hint': 'Paste ANY text describing a build — table, bullets, plain sentences, chat output. Le Vél extracts the weapon, codename and attachments, then opens the review screen.',
@@ -27982,7 +28001,15 @@ const ATTACHMENT_ICONS = {
         style:        player.playstyle ? String(player.playstyle).toLowerCase() : null,
         platform:     player.platform ? String(player.platform).toLowerCase() : null,
         photo_inline: player.photo || null,
-        prefs:        { photoEffect: player.photoEffect !== false },
+        prefs:        { photoEffect: player.photoEffect !== false,
+                        whatsnew: (function () {
+                          try {
+                            return {
+                              dismissed_version: localStorage.getItem('level.wn.dismissed') || null,
+                              mute_all: localStorage.getItem('level.wn.muteAll') === '1'
+                            };
+                          } catch (e) { return null; }
+                        })() },
         local_updated_at: player.updatedAt || new Date().toISOString(),
       };
 
@@ -28122,6 +28149,14 @@ const ATTACHMENT_ICONS = {
             photo:     u.photo_inline || undefined,
             photoEffect: (u.prefs && u.prefs.photoEffect) !== false,
           });
+          // v2.23: aplica prefs.whatsnew vindas do cloud (modal de novidades)
+          try {
+            var wn = u.prefs && u.prefs.whatsnew;
+            if (wn) {
+              if (wn.dismissed_version) localStorage.setItem('level.wn.dismissed', wn.dismissed_version);
+              if (wn.mute_all) localStorage.setItem('level.wn.muteAll', '1');
+            }
+          } catch (e) {}
         }
         // Weapons: matching por catalog_id (wpn_xxx vs xxx)
         if (window.LevelDB.weapons && Array.isArray(data.weapons)) {
@@ -38932,6 +38967,92 @@ ${cbt('share.t.footer')}`;
 //    monta a build com o Le Vél cruzando perfil + dificuldades + nível
 //    da arma + PUTs. Salvar reusa o Construtor via a mesma ponte.
 // ═══════════════════════════════════════════════════════════════════
+(function levelWhatsNew() {
+  'use strict';
+  // v2.23: modal de novidades da versão. Mostra 1x por sessão de boot até o
+  // operador marcar "não exibir desta versão" ou "não exibir futuras".
+  // Persistência: localStorage (resposta imediata) + hub_users.prefs.whatsnew
+  // via snapshot do CloudSync.pushAll (BD).
+  var LS_DISMISS = 'level.wn.dismissed';
+  var LS_MUTE    = 'level.wn.muteAll';
+  function $(id) { return document.getElementById(id); }
+
+  function currentVersion() {
+    try {
+      var el = document.querySelector('.briefing-changelog-title');
+      var m = el && el.textContent.match(/v\d+\.\d+\.\d+/);
+      return m ? m[0] : null;
+    } catch (e) { return null; }
+  }
+  function currentDate() {
+    try {
+      var d = document.querySelector('.briefing-changelog-title span');
+      return d ? d.textContent.trim() : '';
+    } catch (e) { return ''; }
+  }
+  function shouldShow(ver) {
+    try {
+      if (!ver) return false;
+      if (localStorage.getItem(LS_MUTE) === '1') return false;
+      if (localStorage.getItem(LS_DISMISS) === ver) return false;
+      return true;
+    } catch (e) { return false; }
+  }
+  function gateVisible() {
+    var g = document.getElementById('level-auth-gate');
+    return !!(g && g.classList.contains('show'));
+  }
+  function open(ver) {
+    var m = $('modal-whats-new');
+    if (!m) return;
+    var vt = $('wn-version-title');
+    if (vt) {
+      var dt = currentDate();
+      vt.textContent = ver + (dt ? ' \u00b7 ' + dt : '');
+    }
+    m.classList.add('visible');
+  }
+  function persistAndClose() {
+    var ver = currentVersion();
+    var cb1 = $('wn-cb-version');
+    var cb2 = $('wn-cb-all');
+    var changed = false;
+    try {
+      if (cb1 && cb1.checked && ver) { localStorage.setItem(LS_DISMISS, ver); changed = true; }
+      if (cb2 && cb2.checked) { localStorage.setItem(LS_MUTE, '1'); changed = true; }
+    } catch (e) {}
+    var m = $('modal-whats-new');
+    if (m) m.classList.remove('visible');
+    // Persistência no BD (hub_users.prefs.whatsnew) — push silencioso, sem toast.
+    if (changed) {
+      try {
+        if (window.CloudSync && window.CloudSync.pushAll) {
+          window.CloudSync.pushAll().catch(function () {});
+        }
+      } catch (e) {}
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('#wn-btn-ok')) { persistAndClose(); return; }
+    // Clique no overlay fecha SEM persistir (modal volta no próximo boot).
+    if (e.target && e.target.id === 'modal-whats-new') {
+      e.target.classList.remove('visible');
+    }
+  });
+
+  // Boot: espera o gate de login sumir e abre uma vez.
+  var tries = 0;
+  var iv = setInterval(function () {
+    tries++;
+    if (tries > 120) { clearInterval(iv); return; }
+    if (gateVisible()) return;
+    clearInterval(iv);
+    var ver = currentVersion();
+    if (shouldShow(ver)) setTimeout(function () { open(ver); }, 700);
+  }, 1000);
+})();
+
 (function levelSmartBuild() {
   'use strict';
 

@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 10 Jun 2026 — v2.22.2 (fixes do modal de re-análise e do contraponto) + item 1 do roadmap fechado por teste de produção
+> **Última atualização:** 10 Jun 2026 — v2.23.0 (Painel Hoje reorganizado + modal de novidades com prefs em nuvem). Item 1 do roadmap fechado por teste de produção.
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.22.2` (SemVer desde v2.0.0)
+**Versão:** `v2.23.0` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~2,91 MB, ~41.300 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
 ### Marcos recentes (Jun 2026)
 
+- **v2.23.0 (10 Jun)** — **Painel Hoje reorganizado + modal de novidades.** Ordem nova: EVENTOS NO AR + EVENTOS · TEMPORADA ATUAL juntos no topo; card "O QUE MUDOU" no final; bloco de status pessoal (4 tips) REMOVIDO por ora (CSS preservado pra eventual volta). Modal `modal-whats-new` (560px) abre 1× após o login a cada versão nova — lê o vX.Y.Z do próprio card de changelog (sem constante nova). Checkboxes: silenciar esta versão (padrão) / silenciar futuras (discreto). Fechar sem marcar = volta no próximo boot. Persistência: localStorage `level.wn.*` + `hub_users.prefs.whatsnew` (coluna `prefs jsonb` já existia; sync-push v6 já aceitava `prefs` — ZERO migração/deploy; snapshot do pushAll ganhou o campo, pullAll aplica de volta).
 - **v2.22.2 (10 Jun)** — Fixes na NOSSA ANÁLISE (reportados pelo operador com prints): (1) **X do modal de re-análise confirmava em vez de cancelar** — `LevelModal.confirm` agora resolve `null` no dismiss (X/overlay/Esc), distinto do `false` do Cancelar; demais call sites usam `if(await confirm(...))` → null falsy = zero regressão; fluxo de re-análise aborta no null. (2) **Contraponto "Em troca:" fatiado pelo flexbox** — ícone+strong+texto eram 3 flex items; agora `<span>` único envolve rótulo+frase.
 - **v2.22.1 (9 Jun)** — Toolbar de Minhas Armas reorganizada: 5 botões → **3 elementos com hierarquia** (Montagem Inteligente em destaque · **Importar Build ▾** dropdown agrupando Print/Celular/Texto, IDs originais preservados dentro do menu · + Adicionar Arma). Varredura i18n do fluxo de captura: Capturar via Celular e + Adicionar Arma (nunca tinham chave), linha de stats e modal Armas Detectadas (título/intro/empty/Cancelar) agora trocam de idioma. Menu alinhado pela direita (não estoura viewport). **Artes oficiais embutidas** nos cards de Eventos (Nuked + Illicit Cargo + banner BLACKCELL + operador Catalyst, WebP base64 ~190 KB, fonte: blog callofduty.com — Double XP fica com o ícone SVG, não tem arte oficial) + fix de entidades cruas (&quot;Catalyst&quot;, &amp;).
 - **v2.22.0 (9 Jun)** — **MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO** em Minhas Armas. 2 Edge Functions novas (`generate-build` v1, `parse-build-text` v1, ambas `verify_jwt: true`, Gemini 2.5 Flash, schema fechado, instrumentadas em `ana_gemini_usage`), 2 botões novos (ordem final: Importar via Print · Capturar via Celular · Capturar via Texto · Montagem Inteligente · + Adicionar Arma), wizard de 3 perguntas + 3 modos (gerar/refinar/counter), render com justificativa por slot + stats agregados + PUT recommendation + comparação, ponte `window.LevelCaptureBridge` reusando o fluxo de aprovação da captura, ícone novo `gear-star` no catálogo LUCIDE. Gabaritos URAL e VOLGA validados 8/8.
@@ -140,7 +141,7 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7.
 > Lista para abrir o próximo chat. Montagem Inteligente + Capturar via Texto **ENTREGUES na v2.22.0** — saíram do topo.
 
 1. ~~★★★ Análise de build com veredito~~ — **FECHADO 10 Jun 2026.** Teste server-side com payload real (perfil Victor + URAL + struggle "atiro primeiro mas morro"): o veredito v4 cruza nome + estilo + weapon_rating + struggle, separa corretamente problema de arma vs perk/config (Dexterity + ADS 0.85), sugestões válidas com dropped 0/0. Nenhuma mudança necessária. Detalhe na seção 8.A.
-2. **★★ V2 da Montagem Inteligente / Capturar via Texto** (seção 8.B → "V2"): mapa específico (4ª pergunta), variantes simultâneas, plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback, decodificar Loadout Codes nativos (`A02-2G9PV-...`) no Capturar via Texto, menu sanduíche mobile RESOLVIDO na v2.22.1 (dropdown Importar Build).
+2. **★★ V2 da Montagem Inteligente — recorte MAPA (proposto 10 Jun, aprovação pendente):** 4ª pergunta opcional no wizard ("Pra qual mapa?", dropdown do catálogo de mapas que o Hub já tem) + `map:{name,desc}` no payload + prompt da `generate-build` pesando o mapa. Fundação do Pre-Match Advisor. **Loadout Codes: decodificação INVIÁVEL** (pesquisa 10 Jun: código de 14 chars, encoding fechado da Activision, sem documentação/decoder público) — plano B viável: parser RECONHECE o código no texto e salva como metadado da build (caderno de códigos). Demais recortes V2: variantes simultâneas, plano de progressão, loadout Primary+Secondary, histórico com feedback.
 3. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — ~30 settings faltantes dos 17 prints. Trabalho de 3-4 sessões dedicadas. (Detalhe completo na versão anterior deste doc / nos prints.)
 4. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
 5. **UI Codenames** (admin + botão "Sugerir Codename" em build/loadout). A `generate-build` já devolve `codename_suggestion` — aproveitar.
@@ -189,17 +190,20 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 
 ---
 
-## 9. CHECKLIST PÓS-DEPLOY (v2.22.2)
+## 9. CHECKLIST PÓS-DEPLOY (v2.23.0)
 
 > Confirmar ANTES de considerar o marco 100% no ar.
 
-- [x] v2.22.0 e v2.22.1 commitadas e publicadas (confirmado no footer de le-vel.games)
-- [ ] **Commitar** o `index.html` (v2.22.2) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
+- [x] v2.22.0, v2.22.1 e v2.22.2 commitadas e publicadas (confirmado no footer de le-vel.games)
+- [ ] **Commitar** o `index.html` (v2.23.0) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
 - [ ] Confirmar no **Netlify** (app.netlify.com) que o build `le-vel-hub` passou e publicou
 - [ ] Abrir **le-vel.games** e verificar:
-  - [ ] Footer mostra **LEVEL v2.22.2**
-  - [ ] **NOSSA ANÁLISE**: clicar Re-analisar → modal abre → fechar no X → NADA acontece (nem análise, nem aba AVALIE)
-  - [ ] **NOSSA ANÁLISE**: contraponto "Em troca:" numa linha fluida ao lado do ícone
+  - [ ] Footer mostra **LEVEL v2.23.0**
+  - [ ] **Painel Hoje**: eventos todos juntos no topo, card "O QUE MUDOU" no final, bloco de 4 tips ausente
+  - [ ] **Modal de novidades** abre sozinho ~1s após o login mostrando a v2.23.0
+  - [ ] Fechar no X → recarregar a página → modal volta
+  - [ ] Marcar "Não exibir novamente desta versão" + Entendido → recarregar → modal NÃO volta
+  - [ ] Conferir no Supabase (Table Editor → hub_users → prefs) que `whatsnew.dismissed_version` gravou
   - [ ] **Minhas Armas**: toolbar com 3 elementos; dropdown Importar Build ▾ abre com as 3 vias e fecha ao clicar fora
   - [ ] Em modo EN: toolbar, linha de stats e modal Armas Detectadas inteiramente em inglês
   - [ ] Painel Hoje: card "O QUE MUDOU" mostra Montagem Inteligente + Capturar via Texto
