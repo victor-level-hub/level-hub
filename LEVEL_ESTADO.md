@@ -138,7 +138,7 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7.
 
 > Lista para abrir o próximo chat. Montagem Inteligente + Capturar via Texto **ENTREGUES na v2.22.0** — saíram do topo.
 
-1. **★★★ Análise de build com veredito (final)** — enriquecer `analyze-build` com `active_struggles` no payload. ATENÇÃO: o front **JÁ ENVIA** `active_struggles` (confirmado 9 Jun, linha ~25320) e a Edge v4 já lê o campo — verificar na prática se o cruzamento aparece no veredito; se não, é só ajuste de prompt. Detalhe na seção 8.A.
+1. ~~★★★ Análise de build com veredito~~ — **FECHADO 10 Jun 2026.** Teste server-side com payload real (perfil Victor + URAL + struggle "atiro primeiro mas morro"): o veredito v4 cruza nome + estilo + weapon_rating + struggle, separa corretamente problema de arma vs perk/config (Dexterity + ADS 0.85), sugestões válidas com dropped 0/0. Nenhuma mudança necessária. Detalhe na seção 8.A.
 2. **★★ V2 da Montagem Inteligente / Capturar via Texto** (seção 8.B → "V2"): mapa específico (4ª pergunta), variantes simultâneas, plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback, decodificar Loadout Codes nativos (`A02-2G9PV-...`) no Capturar via Texto, menu sanduíche mobile RESOLVIDO na v2.22.1 (dropdown Importar Build).
 3. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — ~30 settings faltantes dos 17 prints. Trabalho de 3-4 sessões dedicadas. (Detalhe completo na versão anterior deste doc / nos prints.)
 4. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
@@ -150,11 +150,11 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7.
 
 ---
 
-## 8.A · TAREFA: Análise de build com veredito (restante)
+## 8.A · Análise de build com veredito — CONFIRMADA (10 Jun 2026)
 
-- v2.18.0 + v2.19.0 resolveram estilo fixo + veredito acionável.
-- Front já envia `active_struggles` + `weapon_rating` + `player_profile` no payload (v2.19).
-- **Falta apenas confirmar em produção** que o prompt v4 cruza as dificuldades de fato no summary; se sair genérico, reescrever só o trecho do prompt da Edge `analyze-build`.
+- v2.18.0 + v2.19.0 resolveram estilo fixo + veredito acionável; front envia `active_struggles` + `weapon_rating` + `player_profile`.
+- **Teste de produção 10 Jun (server-side, payload Victor + URAL + struggle "atiro primeiro mas morro"):** summary abriu pelo nome, validou a build, confrontou com rusher CQB, citou a nota 3 de mobilidade, citou a struggle textualmente e concluiu que flinch/ADS não se resolvem com attachment (Dexterity + ADS Multiplier) — veredito modo (b) com 2 trocas válidas (Prism Light Barrel ← Bystro, Respire Handstop ← Lateral Precision), `dropped 0/0`, 14,7s.
+- **Status: nenhuma mudança de código ou prompt necessária.** Único pré-requisito prático: o cruzamento só aparece se houver struggles cadastradas na Evolução — sem elas, o Le Vél convida a registrar (R-EVOLUÇÃO).
 
 ---
 
