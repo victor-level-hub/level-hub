@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 10 Jun 2026 — v2.23.0 (Painel Hoje reorganizado + modal de novidades com prefs em nuvem). Item 1 do roadmap fechado por teste de produção.
+> **Última atualização:** 10 Jun 2026 — v2.24.0 (Painel Hoje em 3 seções + Double XP em banner + 4ª pergunta de mapa na Montagem Inteligente, Edge generate-build v2). Item 1 do roadmap fechado.
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.23.0` (SemVer desde v2.0.0)
+**Versão:** `v2.24.0` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~2,91 MB, ~41.300 linhas)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 
 ### Marcos recentes (Jun 2026)
 
+- **v2.24.0 (10 Jun)** — **Painel Hoje em 3 seções + mapa na Montagem Inteligente.** (1) Painel Hoje reestruturado em 3 seções nomeadas: **Destaques** (Double XP em banner largo com arte oficial S04 embutida WebP base64, padrão Catalyst Collection) → **Eventos · Temporada Atual** (Nuked + Illicit) → **Lançamentos** (MW4, grid dinâmico renomeado e movido pro fim). (2) Modal de novidades: botão Entendido movido pra direita com respiro. (3) **4ª pergunta opcional de mapa** no wizard Montagem Inteligente (dropdown dos 6v6 do catálogo + "Qualquer mapa" default, só em MP) → `map:{name,desc}` no payload → **Edge `generate-build` v2** com regra R8 (mapa REFINA o foco, não substitui; cita mapa pelo nome no intro e slots decisivos). Badge do mapa no resultado. Teste server-side: intro cita Nuked, Barrel+Muzzle justificam pelo mapa, dropped 0/0, 31s. Fundação do Pre-Match Advisor.
 - **v2.23.0 (10 Jun)** — **Painel Hoje reorganizado + modal de novidades.** Ordem nova: EVENTOS NO AR + EVENTOS · TEMPORADA ATUAL juntos no topo; card "O QUE MUDOU" no final; bloco de status pessoal (4 tips) REMOVIDO por ora (CSS preservado pra eventual volta). Modal `modal-whats-new` (560px) abre 1× após o login a cada versão nova — lê o vX.Y.Z do próprio card de changelog (sem constante nova). Checkboxes: silenciar esta versão (padrão) / silenciar futuras (discreto). Fechar sem marcar = volta no próximo boot. Persistência: localStorage `level.wn.*` + `hub_users.prefs.whatsnew` (coluna `prefs jsonb` já existia; sync-push v6 já aceitava `prefs` — ZERO migração/deploy; snapshot do pushAll ganhou o campo, pullAll aplica de volta).
 - **v2.22.2 (10 Jun)** — Fixes na NOSSA ANÁLISE (reportados pelo operador com prints): (1) **X do modal de re-análise confirmava em vez de cancelar** — `LevelModal.confirm` agora resolve `null` no dismiss (X/overlay/Esc), distinto do `false` do Cancelar; demais call sites usam `if(await confirm(...))` → null falsy = zero regressão; fluxo de re-análise aborta no null. (2) **Contraponto "Em troca:" fatiado pelo flexbox** — ícone+strong+texto eram 3 flex items; agora `<span>` único envolve rótulo+frase.
 - **v2.22.1 (9 Jun)** — Toolbar de Minhas Armas reorganizada: 5 botões → **3 elementos com hierarquia** (Montagem Inteligente em destaque · **Importar Build ▾** dropdown agrupando Print/Celular/Texto, IDs originais preservados dentro do menu · + Adicionar Arma). Varredura i18n do fluxo de captura: Capturar via Celular e + Adicionar Arma (nunca tinham chave), linha de stats e modal Armas Detectadas (título/intro/empty/Cancelar) agora trocam de idioma. Menu alinhado pela direita (não estoura viewport). **Artes oficiais embutidas** nos cards de Eventos (Nuked + Illicit Cargo + banner BLACKCELL + operador Catalyst, WebP base64 ~190 KB, fonte: blog callofduty.com — Double XP fica com o ícone SVG, não tem arte oficial) + fix de entidades cruas (&quot;Catalyst&quot;, &amp;).
@@ -141,7 +142,8 @@ Levantamento de 9 Jun 2026 a partir dos 17 prints do menu Settings do BO7.
 > Lista para abrir o próximo chat. Montagem Inteligente + Capturar via Texto **ENTREGUES na v2.22.0** — saíram do topo.
 
 1. ~~★★★ Análise de build com veredito~~ — **FECHADO 10 Jun 2026.** Teste server-side com payload real (perfil Victor + URAL + struggle "atiro primeiro mas morro"): o veredito v4 cruza nome + estilo + weapon_rating + struggle, separa corretamente problema de arma vs perk/config (Dexterity + ADS 0.85), sugestões válidas com dropped 0/0. Nenhuma mudança necessária. Detalhe na seção 8.A.
-2. **★★ V2 da Montagem Inteligente — recorte MAPA (proposto 10 Jun, aprovação pendente):** 4ª pergunta opcional no wizard ("Pra qual mapa?", dropdown do catálogo de mapas que o Hub já tem) + `map:{name,desc}` no payload + prompt da `generate-build` pesando o mapa. Fundação do Pre-Match Advisor. **Loadout Codes: decodificação INVIÁVEL** (pesquisa 10 Jun: código de 14 chars, encoding fechado da Activision, sem documentação/decoder público) — plano B viável: parser RECONHECE o código no texto e salva como metadado da build (caderno de códigos). Demais recortes V2: variantes simultâneas, plano de progressão, loadout Primary+Secondary, histórico com feedback.
+2. **★★ V2 da Montagem Inteligente:** recorte MAPA FEITO (v2.24, Edge v2 R8). Restantes: variantes simultâneas, plano de progressão até a build ideal, loadout completo Primary+Secondary, histórico de gerações com feedback. **Loadout Codes: decodificação INVIÁVEL** (encoding fechado da Activision, 14 chars, sem decoder público) — plano B: parser RECONHECE o código no texto e salva como metadado (caderno de códigos).
+3. **★★ E-mail de eventos (NOVO — mini-projeto de backend):** enviar e-mail ao usuário 2h ANTES de um evento começar e 12h ANTES de acabar. Pré-requisitos que ainda não existem: (a) e-mails dos usuários (hub_users não guarda email; auth guarda, mas não há tabela de datas de eventos no banco — datas hoje hardcoded no HTML); (b) serviço de envio (Resend ou SendGrid — conta + chave + custo); (c) agendador 24/7 (cron job Supabase) que checa horários e dispara. Fazer em sessão dedicada, depois de decidir o provedor de e-mail.
 3. **★ Reorganização completa do Controller (Fase 2: AIMING, depois MOVEMENT, COMBAT, MOTION SENSOR)** — ~30 settings faltantes dos 17 prints. Trabalho de 3-4 sessões dedicadas. (Detalhe completo na versão anterior deste doc / nos prints.)
 4. **user-assets bucket** — migrar imagens localStorage→Supabase Storage (paths por auth.uid). RLS policies pendentes. Migração de capturas mobile (QR → auth.uid) pendente.
 5. **UI Codenames** (admin + botão "Sugerir Codename" em build/loadout). A `generate-build` já devolve `codename_suggestion` — aproveitar.
@@ -190,20 +192,22 @@ Decisões de coaching: Battle-Scar Conversion vetado (nerf Jan/26); ECS vetado n
 
 ---
 
-## 9. CHECKLIST PÓS-DEPLOY (v2.23.0)
+## 9. CHECKLIST PÓS-DEPLOY (v2.24.0)
 
 > Confirmar ANTES de considerar o marco 100% no ar.
 
-- [x] v2.22.0, v2.22.1 e v2.22.2 commitadas e publicadas (confirmado no footer de le-vel.games)
-- [ ] **Commitar** o `index.html` (v2.23.0) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
+- [x] v2.22.x e v2.23.0 commitadas e publicadas (confirmado no footer de le-vel.games)
+- [x] Edge `generate-build` v2 deployada via MCP (mapa-alvo R8, testada server-side)
+- [ ] **Commitar** o `index.html` (v2.24.0) no repo `level-hub`, branch main (textos do commit no fim da sessão de 9 Jun)
 - [ ] Confirmar no **Netlify** (app.netlify.com) que o build `le-vel-hub` passou e publicou
 - [ ] Abrir **le-vel.games** e verificar:
-  - [ ] Footer mostra **LEVEL v2.23.0**
-  - [ ] **Painel Hoje**: eventos todos juntos no topo, card "O QUE MUDOU" no final, bloco de 4 tips ausente
-  - [ ] **Modal de novidades** abre sozinho ~1s após o login mostrando a v2.23.0
-  - [ ] Fechar no X → recarregar a página → modal volta
-  - [ ] Marcar "Não exibir novamente desta versão" + Entendido → recarregar → modal NÃO volta
-  - [ ] Conferir no Supabase (Table Editor → hub_users → prefs) que `whatsnew.dismissed_version` gravou
+  - [ ] Footer mostra **LEVEL v2.24.0**
+  - [ ] **Painel Hoje**: 3 seções na ordem Destaques → Eventos · Temporada → Lançamentos
+  - [ ] **Destaques**: Double XP em banner largo com a arte da Season 4, antes de tudo
+  - [ ] **Lançamentos**: MW4 fecha a página, depois dos eventos da temporada
+  - [ ] **Modal de novidades**: botão Entendido à direita, com respiro das bordas
+  - [ ] **Montagem Inteligente**: 4ª pergunta "Mapa (opcional)" aparece só em Multiplayer (some em Warzone)
+  - [ ] Gerar build com um mapa escolhido → badge do mapa aparece no título do resultado, intro cita o mapa
   - [ ] **Minhas Armas**: toolbar com 3 elementos; dropdown Importar Build ▾ abre com as 3 vias e fecha ao clicar fora
   - [ ] Em modo EN: toolbar, linha de stats e modal Armas Detectadas inteiramente em inglês
   - [ ] Painel Hoje: card "O QUE MUDOU" mostra Montagem Inteligente + Capturar via Texto
