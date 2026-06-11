@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 11 Jun 2026 — v2.26.1 (correções no Histórico de Builds)
+> **Última atualização:** 11 Jun 2026 — v2.27.0 (Histórico de Análises)
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.26.1` (SemVer desde v2.0.0)
+**Versão:** `v2.27.0` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,24 MB, ~42.900 linhas, 16 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 **Captura mobile:** repo `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
 
 ### Marcos recentes
+- **v2.27.0** (11 Jun) — **Histórico de Análises.** O modal de Histórico (botão na toolbar de Minhas Armas) virou unificado com 2 abas: "Builds Geradas" (gen_history) e "Análises" (novo). Cada análise do Le Vél é registrada automaticamente: veredito, sugestões, ponto fraco percebido (weakest_dim), dificuldade ativa. Filtrável por arma. Backend: tabela `analysis_history` + gravação no `analyze-build` v5 + Edge `analysis-history` v1 (list/delete).
 - **v2.26.1** (11 Jun) — duas correções no Histórico de Builds: (1) ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE) agora grava certo ao salvar do fluxo de variantes simultâneas — antes vinha `null`; (2) render do estado vazio e dos cards corrigido (usava `renderIconsText` que escapa HTML → tags cruas na tela; trocado por `renderIconsHtml`).
 - **v2.26.0** (11 Jun) — **Histórico de Builds.** Gerações da Montagem Inteligente que o operador adota (salva) ficam registradas. Botão "Histórico" na toolbar de Minhas Armas → modal filtrável por arma. Cada card: codename, ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE), foco, modo, mapa, dificuldade ativa na época, attachments, data. **Opção 1: grava só no save** (não em toda geração). Backend: tabela `gen_history` + Edge Function `gen-history` v1.
 - **v2.25.1** (10 Jun) — polimento dos cards de evento: ícones SVG removidos, badges ATIVO/EM BREVE viraram overlay no canto superior direito da arte.
@@ -60,6 +61,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - `parse-build-text` v1 — Capturar via Texto (fuzzy matching 3 camadas)
 - `analyze-build` v6 — análise de build com veredito (arquitetura híbrida: engine determinística + IA redige)
 - `analyze-capture` v13 — Vision API (foto → build)
+- `analysis-history` v1 — **NOVO (v2.27.0)** — leitura do histórico de análises. 2 actions: `list` / `delete` (o `record` acontece dentro do `analyze-build` v5). service_role, resolve local_id→hub_users.id. `verify_jwt: true`. URL: `.../functions/v1/analysis-history`
 - `gen-history` v1 — **NOVO (v2.26.0)** — histórico de gerações adotadas. 3 actions: `record` / `list` / `delete`. service_role, resolve `local_id`→`hub_users.id`, CORS, friendly errors. `verify_jwt: true`. URL: `https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/gen-history`
 - `sync-push` v6 / `sync-pull` v6 — sync (JWT do Auth)
 - `user-asset` v4 — imagens (JWT)
@@ -95,7 +97,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 1. **Plano de progressão até a build ideal** — roadmap de attachments a desbloquear (level/prestige) pra chegar na build ideal curada (`cat_ideal_builds`). Consome a tabela que já existe
 2. **Loadout completo Primary + Secondary** — montar loadout inteiro, não só arma primária (`hub_loadouts` já tem a estrutura)
 3. **Decisão server-side de análise** (engine decide swaps, IA só explica) — evoluir `analyze-build`. Hoje a IA tem mais autonomia do que devia no veredito
-4. **Histórico de análises no banco** — pra coaching de evolução (agora que `gen_history` existe, mesmo padrão)
+4. ✅ **Histórico de análises no banco** — FEITO (v2.27.0): tabela `analysis_history` + gravação no `analyze-build` v5 + Edge `analysis-history` v1 + UI (aba no modal de histórico). Backend e front completos, testados em produção.
 5. **e-mail de eventos** — notificar novos eventos por e-mail (precisa coletar emails + Resend/SendGrid + cron)
 6. **Controller fase 2** — mais ajuste fino além do que já está mapeado
 7. **user-assets** — migração RLS do bucket + migração de storage (localStorage→Supabase, paths por auth.uid)
@@ -133,6 +135,8 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - Resolução de `{{i:NAME}}` em `data-i18n`: o boot detecta via `window.hasIconPlaceholder` e aplica `window.renderIconsText(valor_do_dict)`. Aplicar `renderIconsText` sobre HTML já-renderizado escapa o conteúdo (vira texto cru)
 - `str_replace` que falha no meio de um script Python que só grava no final: as edições anteriores **se perdem** (não foram gravadas). Sempre reconferir o estado após erro
 - **`renderIconsText` vs `renderIconsHtml`** (ambos em `window`): `renderIconsText` **escapa o HTML** e só resolve `{{i:}}` — usar só em texto plano. Para conteúdo que JÁ contém tags HTML + placeholders de ícone (ex: innerHTML montado com `<div>`), usar **`renderIconsHtml`** (resolve `{{i:}}` sem escapar o resto). Usar o Text no lugar do Html faz as tags aparecerem cruas na tela. Bug pego e corrigido na v2.26.1 (estado vazio + cards do histórico)
+- **Apóstrofo em string JS de aspas simples:** dentro de `'...'` no dicionário i18n, `''` (dois apóstrofos) NÃO escapa — fecha a string e quebra o JS. Para apóstrofo literal em conteúdo PT/EN, usar a entidade HTML `&rsquo;` (ex: `weapon&rsquo;s`), nunca `''`. Pego na v2.27.0
+- **Âncora de str_replace que começa com aspa:** ao ancorar numa chave i18n como `'gh.noStruggle':`, garantir que o replacement reponha a aspa inicial — senão a linha fica `gh.noStruggle':` sem abertura e quebra o JS. Pego na v2.27.0
 - **Ângulo de variante vive no wrapper, não no build:** no fluxo de variantes simultâneas, cada variante é `{angle, build, error}` — o `build` em si NÃO carrega o ângulo. Ao passar `v.build` pra funções que precisam do ângulo (ex: histórico), carimbar antes: `v.build._variant_angle_id = v.angle.id`. Bug pego e corrigido na v2.26.1
 
 ### Supabase Edge Functions

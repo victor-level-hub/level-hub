@@ -5120,6 +5120,34 @@
   }
   .gh-del:hover { background: rgba(231,76,60,0.12); border-color: #e88; }
   .gh-date { font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+  /* v2.27: abas internas do modal de histórico */
+  .gh-tabs { display: flex; gap: 4px; margin-bottom: 18px; border-bottom: 1px solid rgba(125,168,199,0.18); }
+  .gh-tab {
+    background: transparent; border: 0; border-bottom: 2px solid transparent;
+    color: var(--text-muted); font-size: 13px; font-weight: 600; letter-spacing: 0.3px;
+    padding: 8px 14px; cursor: pointer; font-family: inherit; transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+  .gh-tab:hover { color: var(--text-secondary); }
+  .gh-tab.is-active { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
+  .gh-pane { display: none; }
+  .gh-pane.is-active { display: block; }
+  /* cards de análise (variação dos gh-card) */
+  .ah-summary {
+    font-size: 12.5px; color: var(--text-secondary); line-height: 1.6; margin: 8px 0;
+  }
+  .ah-verdict-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+  .ah-weakest {
+    display: inline-block; font-size: 9px; letter-spacing: 1px; padding: 3px 9px; border-radius: 999px;
+    background: rgba(231,76,60,0.12); color: #e88; border: 1px solid rgba(231,76,60,0.3);
+    font-family: 'JetBrains Mono', monospace; text-transform: uppercase; white-space: nowrap;
+  }
+  .ah-sugg {
+    font-size: 11.5px; color: var(--text-secondary); line-height: 1.55; margin-top: 8px;
+    padding-left: 10px; border-left: 2px solid rgba(125,168,199,0.35);
+  }
+  .ah-sugg-item { margin-bottom: 3px; }
+  .ah-sugg-item strong { color: var(--text-primary, #f1f1f1); }
   /* v2.25: arte oficial do Double XP (pôster vertical) — crop no rosto */
   .event-card.evt-doublexp .event-card-art { background-position: center 32%; }
 
@@ -11745,7 +11773,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.26.1 · <span data-i18n="briefing.changelog.date">11 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.27.0 · <span data-i18n="briefing.changelog.date">11 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -14977,6 +15005,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.27.0</span>
+                <span class="vh-date">11 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Hist&oacute;rico de An&aacute;lises.</strong> O modal de Hist&oacute;rico (bot&atilde;o na barra de Minhas Armas) virou um hist&oacute;rico unificado com <strong>duas abas</strong>: <em>Builds Geradas</em> (gen_history, v2.26) e a nova <em>An&aacute;lises</em>. Cada an&aacute;lise que o Le V&eacute;l faz \u00e9 registrada automaticamente com veredito (summary), sugest&otilde;es de troca, o <strong>ponto fraco percebido</strong> (weakest_dim \u2014 a dimens&atilde;o de menor weapon_rating, calculada no servidor) e a dificuldade ativa na &eacute;poca. Cards filtr&aacute;veis por arma; quando n&atilde;o h&aacute; trocas sugeridas, mostra "a build estava bem encaminhada". Fecha o loop de <strong>coaching de evolu&ccedil;&atilde;o</strong>: d&aacute; pra ver o veredito de uma arma mudar conforme a build melhora.<br><br><strong>Backend:</strong> tabela <code>analysis_history</code> (RLS + 3 policies); grava&ccedil;&atilde;o fire-and-forget dentro do <code>analyze-build</code> v5 (n&atilde;o atrasa a resposta da an&aacute;lise); Edge Function <code>analysis-history</code> v1 (list/delete) pra leitura. Mesmo padr&atilde;o consolidado do gen_history.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.26.1</span>
                 <span class="vh-date">11 Jun 2026</span>
                 <span class="vh-kind">correção</span>
@@ -16870,7 +16907,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.26.1</strong><span class="ver-tag">Correções no Histórico de Builds: (1) o ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE) agora grava certo ao salvar do fluxo de variantes simultâneas; (2) corrigido o render do estado vazio e dos cards, que mostravam tags HTML cruas</span>
+        LEVEL · <strong>v2.27.0</strong><span class="ver-tag">Histórico de Análises: o modal de Histórico ganhou uma aba "Análises" — cada análise que o Le Vél faz das tuas builds fica registrada com o veredito, as sugestões, o ponto fraco percebido e a dificuldade ativa na época, filtrável por arma. Acompanha a evolução da arma ao longo do tempo</span>
       </div>
       <script>
         (function(){
@@ -17351,13 +17388,30 @@
           <button class="modal-close" data-close-modal="modal-gen-history">×</button>
         </div>
         <div class="modal-body">
-          <p class="gh-intro" data-i18n="gh.intro" style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px">As builds que a Montagem Inteligente gerou e tu adotaste — com o ângulo, o foco e a dificuldade ativa na época. Teu registro de evolução.</p>
-          <div class="gh-toolbar">
-            <span class="gh-filter-label" data-i18n="gh.filterLabel">Arma</span>
-            <select class="gh-select" id="gh-filter"></select>
+          <div class="gh-tabs">
+            <button class="gh-tab is-active" id="gh-tab-builds" data-i18n="gh.tab.builds">Builds Geradas</button>
+            <button class="gh-tab" id="gh-tab-analyses" data-i18n="gh.tab.analyses">Análises</button>
           </div>
-          <div id="gh-status"></div>
-          <div class="gh-list" id="gh-list"></div>
+
+          <div class="gh-pane is-active" id="gh-pane-builds">
+            <p class="gh-intro" data-i18n="gh.intro" style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px">As builds que a Montagem Inteligente gerou e tu adotaste — com o ângulo, o foco e a dificuldade ativa na época. Teu registro de evolução.</p>
+            <div class="gh-toolbar">
+              <span class="gh-filter-label" data-i18n="gh.filterLabel">Arma</span>
+              <select class="gh-select" id="gh-filter"></select>
+            </div>
+            <div id="gh-status"></div>
+            <div class="gh-list" id="gh-list"></div>
+          </div>
+
+          <div class="gh-pane" id="gh-pane-analyses">
+            <p class="gh-intro" data-i18n="ah.intro" style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px">As análises que o Le Vél fez das tuas builds — o veredito, as sugestões e a dificuldade ativa na época. Acompanha como a tua arma evolui.</p>
+            <div class="gh-toolbar">
+              <span class="gh-filter-label" data-i18n="gh.filterLabel">Arma</span>
+              <select class="gh-select" id="ah-filter"></select>
+            </div>
+            <div id="ah-status"></div>
+            <div class="gh-list" id="ah-list"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -18482,9 +18536,9 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '11 Jun 2026',
-    'briefing.changelog.pill':  'correção',
-    'briefing.changelog.headline': 'Histórico de Builds: duas correções de polimento',
-    'briefing.changelog.summary':  'Ajuste fino no <strong>Hist&oacute;rico de Builds</strong> lan&ccedil;ado na v2.26.0: quando salvas uma build vinda das <strong>variantes simult&acirc;neas</strong>, o &acirc;ngulo dela (VELOCIDADE/EQUIL&Iacute;BRIO/CONTROLE) agora &eacute; <strong>gravado corretamente</strong> no hist&oacute;rico. Antes, s&oacute; o fluxo de gera&ccedil;&atilde;o &uacute;nica carimbava o &acirc;ngulo &mdash; ao adotar uma das tr&ecirc;s variantes paralelas, o registro saía sem essa informa&ccedil;&atilde;o. Agora o teu registro de evolu&ccedil;&atilde;o distingue os tr&ecirc;s &acirc;ngulos em qualquer fluxo. PT + EN.',
+    'briefing.changelog.pill':  'novo',
+    'briefing.changelog.headline': 'Histórico de Análises: acompanha a evolução das tuas armas',
+    'briefing.changelog.summary':  'O modal de <strong>Hist&oacute;rico</strong> (na barra de Minhas Armas) agora tem <strong>duas abas</strong>: <em>Builds Geradas</em> (o que j&aacute; existia) e a nova <em>An&aacute;lises</em>. Toda vez que pedes ao <strong>Le V&eacute;l</strong> uma an&aacute;lise de build, ela fica registrada &mdash; com o <strong>veredito</strong> completo, as <strong>sugest&otilde;es de troca</strong>, o <strong>ponto fraco que percebeste</strong> na arma (a dimens&atilde;o que avaliaste mais baixo) e a <strong>dificuldade ativa na &eacute;poca</strong>. Filtr&aacute;vel por arma, igual ao hist&oacute;rico de builds. Assim d&aacute; pra ver como o veredito de uma arma <strong>evolui</strong> conforme ajustas a build ao longo do tempo. Backend: tabela <code>analysis_history</code> + grava&ccedil;&atilde;o autom&aacute;tica no <code>analyze-build</code> + Edge <code>analysis-history</code> pra leitura. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -19601,7 +19655,7 @@ window.I18N = {
     'sb.q4': '4 · Mapa (opcional)',
     'sb.mapAny': 'Qualquer mapa',
     'sb.variants': 'Variantes',
-    'gh.title': '{{i:history}} Hist\u00f3rico de Builds',
+    'gh.title': '{{i:history}} Hist\u00f3rico',
     'gh.intro': 'As builds que a Montagem Inteligente gerou e tu adotaste \u2014 com o \u00e2ngulo, o foco e a dificuldade ativa na \u00e9poca. Teu registro de evolu\u00e7\u00e3o.',
     'gh.filterLabel': 'Arma',
     'gh.allWeapons': 'Todas as armas',
@@ -19613,6 +19667,16 @@ window.I18N = {
     'gh.delConfirm': 'Remover esta entrada do hist\u00f3rico? A build salva no teu arsenal n\u00e3o \u00e9 afetada.',
     'gh.struggleLabel': 'Dificuldade ativa:',
     'gh.noStruggle': 'Sem dificuldade registrada na \u00e9poca',
+    'gh.tab.builds': 'Builds Geradas',
+    'gh.tab.analyses': 'An\u00e1lises',
+    'ah.intro': 'As an\u00e1lises que o Le V\u00e9l fez das tuas builds \u2014 o veredito, as sugest\u00f5es e a dificuldade ativa na \u00e9poca. Acompanha como a tua arma evolui.',
+    'ah.empty': 'Ainda n\u00e3o h\u00e1 an\u00e1lises registradas. Cada vez que pedes uma an\u00e1lise de build ao Le V\u00e9l, ela fica guardada aqui.',
+    'ah.emptyWeapon': 'Nenhuma an\u00e1lise registrada pra esta arma ainda.',
+    'ah.loadErr': 'N\u00e3o consegui carregar as an\u00e1lises. Tenta de novo.',
+    'ah.delConfirm': 'Remover esta an\u00e1lise do hist\u00f3rico?',
+    'ah.weakestLabel': 'Ponto fraco percebido:',
+    'ah.suggLabel': 'Sugest\u00f5es:',
+    'ah.noSugg': 'Sem trocas sugeridas \u2014 a build estava bem encaminhada.',
     'mw.btn.smartBuild': '{{i:gear-star}} Montagem Inteligente',
     'mw.btn.genHistory': '{{i:history}} Hist\u00f3rico',
     'tc.title': '{{i:clipboard}} Capturar via Texto',
@@ -19883,9 +19947,9 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 11, 2026',
-    'briefing.changelog.pill':  'fix',
-    'briefing.changelog.headline': 'Build History: two polish fixes',
-    'briefing.changelog.summary':  'Fine-tuning the <strong>Build History</strong> shipped in v2.26.0: when you save a build from the <strong>simultaneous variants</strong>, its angle (SPEED/BALANCED/CONTROL) now gets <strong>logged correctly</strong> in history. Before, only the single-generation flow stamped the angle &mdash; adopting one of the three parallel variants left that field empty. Your evolution log now distinguishes all three angles in any flow. PT + EN.',
+    'briefing.changelog.pill':  'new',
+    'briefing.changelog.headline': 'Analysis History: track how your weapons evolve',
+    'briefing.changelog.summary':  'The <strong>History</strong> modal (in the My Weapons toolbar) now has <strong>two tabs</strong>: <em>Generated Builds</em> (what already existed) and the new <em>Analyses</em>. Every time you ask <strong>Le V&eacute;l</strong> to analyze a build, it gets logged &mdash; with the full <strong>verdict</strong>, the <strong>swap suggestions</strong>, the <strong>weak point you perceived</strong> (the dimension you rated lowest) and the <strong>struggle active at the time</strong>. Filterable by weapon, just like the build history. So you can see how a weapon&rsquo;s verdict <strong>evolves</strong> as you tune the build over time. Backend: <code>analysis_history</code> table + automatic logging in <code>analyze-build</code> + <code>analysis-history</code> Edge for reads. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -21002,7 +21066,7 @@ window.I18N = {
     'sb.q4': '4 · Map (optional)',
     'sb.mapAny': 'Any map',
     'sb.variants': 'Variants',
-    'gh.title': '{{i:history}} Build History',
+    'gh.title': '{{i:history}} History',
     'gh.intro': 'The builds Smart Build generated and you adopted \u2014 with the angle, focus and active struggle at the time. Your evolution log.',
     'gh.filterLabel': 'Weapon',
     'gh.allWeapons': 'All weapons',
@@ -21014,6 +21078,16 @@ window.I18N = {
     'gh.delConfirm': 'Remove this entry from history? The build saved in your arsenal is not affected.',
     'gh.struggleLabel': 'Active struggle:',
     'gh.noStruggle': 'No struggle logged at the time',
+    'gh.tab.builds': 'Generated Builds',
+    'gh.tab.analyses': 'Analyses',
+    'ah.intro': 'The analyses Le V\u00e9l ran on your builds \u2014 the verdict, the suggestions and the active struggle at the time. Track how your weapon evolves.',
+    'ah.empty': 'No analyses logged yet. Each time you ask Le V\u00e9l to analyze a build, it gets saved here.',
+    'ah.emptyWeapon': 'No analyses logged for this weapon yet.',
+    'ah.loadErr': "Couldn't load the analyses. Try again.",
+    'ah.delConfirm': 'Remove this analysis from history?',
+    'ah.weakestLabel': 'Perceived weak point:',
+    'ah.suggLabel': 'Suggestions:',
+    'ah.noSugg': 'No swaps suggested \u2014 the build was on track.',
     'mw.btn.smartBuild': '{{i:gear-star}} Smart Build',
     'mw.btn.genHistory': '{{i:history}} History',
     'tc.title': '{{i:clipboard}} Capture via Text',
@@ -40172,9 +40246,9 @@ ${cbt('share.t.footer')}`;
   // Listener do filtro de arma (delegado por change no documento, registrado 1x)
   document.addEventListener('change', function (e) {
     var sel = e.target.closest && e.target.closest('#gh-filter');
-    if (!sel) return;
-    _ghWeaponFilter = sel.value || '';
-    renderGhList(_ghCache);
+    if (sel) { _ghWeaponFilter = sel.value || ''; renderGhList(_ghCache); return; }
+    var aSel = e.target.closest && e.target.closest('#ah-filter');
+    if (aSel) { _ahWeaponFilter = aSel.value || ''; renderAhList(_ahCache); return; }
   });
 
   function ghStatus(kind, msg) {
@@ -40186,6 +40260,9 @@ ${cbt('share.t.footer')}`;
 
   async function openGenHistory() {
     openModal('modal-gen-history');
+    // sempre abre na aba Builds; reseta o lazy-load de análises
+    _ahLoadedOnce = false; _ahWeaponFilter = '';
+    switchGhTab('builds');
     var lid = getLocalId();
     if (!lid) { renderGhList([]); return; }
     ghStatus('loading', t('gh.loading'));
@@ -40299,6 +40376,152 @@ ${cbt('share.t.footer')}`;
     }
   }
 
+  // ── v2.27: Histórico de Análises (aba dentro do modal de histórico) ──
+  var ANALYSIS_HISTORY_URL = SUPABASE_URL + '/functions/v1/analysis-history';
+  var _ahCache = [];
+  var _ahWeaponFilter = '';
+
+  function ahStatus(kind, msg) {
+    var el = $('ah-status');
+    if (!el) return;
+    if (!kind) { el.innerHTML = ''; return; }
+    el.innerHTML = '<div class="sb-status show is-' + kind + '" style="display:block">' + esc(msg) + '</div>';
+  }
+
+  async function loadAnalysisHistory() {
+    var lid = getLocalId();
+    if (!lid) { renderAhList([]); return; }
+    ahStatus('loading', t('gh.loading'));
+    try {
+      var data = await postJson(ANALYSIS_HISTORY_URL, { action: 'list', local_id: lid, limit: 100 });
+      _ahCache = Array.isArray(data.entries) ? data.entries : [];
+      ahStatus(null);
+      buildAhFilter();
+      renderAhList(_ahCache);
+    } catch (err) {
+      console.error('[analysis-history] list erro:', err);
+      ahStatus('error', t('ah.loadErr'));
+    }
+  }
+
+  function buildAhFilter() {
+    var sel = $('ah-filter');
+    if (!sel) return;
+    var seen = {};
+    var opts = ['<option value="">' + esc(t('gh.allWeapons')) + '</option>'];
+    _ahCache.forEach(function (e) {
+      if (e.weapon_id && !seen[e.weapon_id]) {
+        seen[e.weapon_id] = true;
+        opts.push('<option value="' + esc(e.weapon_id) + '">' + esc(e.weapon_name || e.weapon_id) + '</option>');
+      }
+    });
+    sel.innerHTML = opts.join('');
+    sel.value = _ahWeaponFilter;
+  }
+
+  // tradução amigável da dimensão de menor rating
+  function weakestDimLabel(dim) {
+    if (!dim) return null;
+    var lang = getLang();
+    var mapPt = { rate_of_fire: 'cadência', mobility: 'mobilidade', recoil: 'recuo', accuracy: 'precisão', range: 'alcance' };
+    var mapEn = { rate_of_fire: 'fire rate', mobility: 'mobility', recoil: 'recoil', accuracy: 'accuracy', range: 'range' };
+    var m = lang === 'en' ? mapEn : mapPt;
+    return m[dim] || dim;
+  }
+
+  function renderAhList(entries) {
+    var wrap = $('ah-list');
+    if (!wrap) return;
+    var filtered = _ahWeaponFilter
+      ? entries.filter(function (e) { return e.weapon_id === _ahWeaponFilter; })
+      : entries;
+
+    if (!filtered.length) {
+      var msg = _ahWeaponFilter ? t('ah.emptyWeapon') : t('ah.empty');
+      wrap.innerHTML = '<div class="gh-empty"><div class="gh-empty-icon">{{i:history}}</div>' + esc(msg) + '</div>';
+      if (window.renderIconsHtml) wrap.innerHTML = window.renderIconsHtml(wrap.innerHTML);
+      return;
+    }
+
+    var html = filtered.map(function (e) {
+      var weakest = weakestDimLabel(e.weakest_dim);
+      var suggs = Array.isArray(e.suggestions) ? e.suggestions : [];
+      var suggHtml = '';
+      if (suggs.length) {
+        var items = suggs.slice(0, 3).map(function (s) {
+          var label = s.replaces
+            ? esc(s.replaces) + ' → ' + esc(s.name || '')
+            : esc(s.name || '');
+          return '<div class="ah-sugg-item"><strong>' + label + '</strong>' + (s.rationale ? ' — ' + esc(s.rationale) : '') + '</div>';
+        }).join('');
+        suggHtml = '<div class="ah-sugg"><div style="font-size:10px;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase">' + esc(t('ah.suggLabel')) + '</div>' + items + '</div>';
+      } else {
+        suggHtml = '<div class="ah-sugg" style="border-left-color:rgba(76,175,80,0.4)">' + esc(t('ah.noSugg')) + '</div>';
+      }
+
+      var chips = [];
+      if (e.build_name) chips.push('<span class="gh-chip">' + esc(e.build_name) + '</span>');
+      if (e.style_hint) chips.push('<span class="gh-chip">' + esc(e.style_hint) + '</span>');
+
+      var struggleHtml = e.active_struggle
+        ? '<div class="gh-struggle"><strong>' + esc(t('gh.struggleLabel')) + '</strong> ' + esc(e.active_struggle) + '</div>'
+        : '';
+
+      return '<div class="gh-card">'
+        + '<div class="gh-card-top">'
+        +   '<div><span class="gh-codename">' + esc(e.weapon_name) + '</span> '
+        +     '<span class="gh-weapon">' + (e.weapon_class ? esc(e.weapon_class) : '') + '</span></div>'
+        +   (weakest ? '<span class="ah-weakest">' + esc(t('ah.weakestLabel')) + ' ' + esc(weakest) + '</span>' : '')
+        + '</div>'
+        + (chips.length ? '<div class="gh-meta">' + chips.join('') + '</div>' : '')
+        + '<div class="ah-summary">' + esc(e.summary || '') + '</div>'
+        + struggleHtml
+        + suggHtml
+        + '<div class="gh-card-actions">'
+        +   '<span class="gh-date">' + esc(fmtGhDate(e.created_at)) + '</span>'
+        +   '<button class="gh-del" data-ah-del="' + esc(e.id) + '" style="margin-left:12px">' + esc(t('gh.del')) + '</button>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+
+    wrap.innerHTML = html;
+    if (window.renderIconsHtml) wrap.innerHTML = window.renderIconsHtml(wrap.innerHTML);
+  }
+
+  async function deleteAhEntry(id) {
+    if (!id) return;
+    var ok = await (window.LevelModal && window.LevelModal.confirm
+      ? window.LevelModal.confirm(t('ah.delConfirm'))
+      : Promise.resolve(confirm(t('ah.delConfirm'))));
+    if (!ok) return;
+    var lid = getLocalId();
+    if (!lid) return;
+    try {
+      await postJson(ANALYSIS_HISTORY_URL, { action: 'delete', local_id: lid, id: id });
+      _ahCache = _ahCache.filter(function (e) { return e.id !== id; });
+      buildAhFilter();
+      renderAhList(_ahCache);
+    } catch (err) {
+      console.error('[analysis-history] delete erro:', err);
+      ahStatus('error', t('ah.loadErr'));
+    }
+  }
+
+  // troca de abas dentro do modal de histórico
+  function switchGhTab(which) {
+    var tabBuilds = $('gh-tab-builds'), tabAnalyses = $('gh-tab-analyses');
+    var paneBuilds = $('gh-pane-builds'), paneAnalyses = $('gh-pane-analyses');
+    if (!tabBuilds || !tabAnalyses || !paneBuilds || !paneAnalyses) return;
+    var isAnalyses = which === 'analyses';
+    tabBuilds.classList.toggle('is-active', !isAnalyses);
+    tabAnalyses.classList.toggle('is-active', isAnalyses);
+    paneBuilds.classList.toggle('is-active', !isAnalyses);
+    paneAnalyses.classList.toggle('is-active', isAnalyses);
+    // carrega análises sob demanda na 1ª vez que abre a aba
+    if (isAnalyses && !_ahLoadedOnce) { _ahLoadedOnce = true; loadAnalysisHistory(); }
+  }
+  var _ahLoadedOnce = false;
+
   // ── Wiring ────────────────────────────────────────────────────────
   document.addEventListener('click', function (e) {
     // v2.24: mostrar/esconder pergunta de mapa conforme MP/Warzone
@@ -40345,6 +40568,16 @@ ${cbt('share.t.footer')}`;
     if (ghDel) {
       e.preventDefault();
       deleteGhEntry(ghDel.getAttribute('data-gh-del'));
+      return;
+    }
+    const ghTabB = e.target.closest && e.target.closest('#gh-tab-builds');
+    if (ghTabB) { e.preventDefault(); switchGhTab('builds'); return; }
+    const ghTabA = e.target.closest && e.target.closest('#gh-tab-analyses');
+    if (ghTabA) { e.preventDefault(); switchGhTab('analyses'); return; }
+    const ahDel = e.target.closest && e.target.closest('[data-ah-del]');
+    if (ahDel) {
+      e.preventDefault();
+      deleteAhEntry(ahDel.getAttribute('data-ah-del'));
       return;
     }
     const runBtn = e.target.closest && e.target.closest('#tc-run');
