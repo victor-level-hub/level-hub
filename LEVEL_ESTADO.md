@@ -110,6 +110,33 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ---
 
+## 5.B · EXPLORAÇÃO VISUAL EM ANDAMENTO (Claude Design)
+
+> Iniciada 11 Jun 2026. Victor está a usar o **Claude Design** (`claude.ai/design`) pra explorar direção visual do Hub, começando pela tela **Minhas Armas (cards de arsenal)**.
+
+### Fluxo decidido
+- Claude Design = exploração de **direção visual** (aparência, hierarquia, tipografia). NÃO conhece a lógica do Hub (9 slots fixos, abas, glossário, análise server-side).
+- Referência usada: **screenshot** dos cards (`shot_cards.png` — montado renderizando a função real `renderBuildCard` com 3 builds do arsenal: CICADA 3301-45/Sturmwolf SMG, RAIO/AK-27 AR, GUARDIÃ/Peacekeeper Mestre). NÃO usar GitHub (repo privado + arquivo 3,2MB único) nem Figma (terceira ferramenta sem ganho; o destino é o index.html).
+- Quando Victor escolher uma direção, ele traz o screenshot de volta → Claude implementa no `index.html` real, preservando as mecânicas (abas, glossário, análise do Le Vél).
+- Setup do "design system" no Claude Design: blurb com identidade LEVEL + notas com paleta e tipografia. Em "fonts/logos/assets" anexar SÓ o screenshot (e logo), NÃO arquivos de fonte — pra que ele OPINE sobre tipografia em vez de só executar.
+
+### Sistema de tipografia atual (4 famílias — mapeado pro Claude Design avaliar)
+- **Black Ops One** (display militar, a cara do CoD) → títulos: `.section-header h2`, `.event-card-title`, `.briefing-*-title`, `.bp-card-title`, changelog headline
+- **Rajdhani** (sans condensada técnica) → **corpo base (`body`)** + `.subtab`, `.panel-header h3`, `.filter-chip`, `.build-tab`, tooltips
+- **JetBrains Mono** (dominante, 310x) → números, stats, labels técnicos, maior parte da UI
+- **Inter** (só ~8x) → `.btn-edit-status`, `.btn-add-weapon`, `.import-dd-item`, `.ca-*` — **candidato a unificar com Rajdhani** (é o "intruso" do sistema)
+- Pedido ao Claude Design: avaliar se o pairing de 4 fontes está bem resolvido, se a mono dominante cansa no texto corrido, e recomendar hierarquia ideal. Manter paleta e logo.
+
+### Estrutura do card de arsenal (`.build-card`, via `renderBuildCard`)
+- head: `.bc-name` + `.bc-class cls-SMG/AR/Sniper` (SMG laranja `#ff8155`, AR azul `#93b8d4`, Sniper roxo `#c084fc`)
+- base: arma + `.bc-master-badge` (MESTRE 250/250) ou `P{n} {lvl}/{max}` / MAX / L{lvl}
+- 3 abas (`.bc-tab`): Loadout / Nossa Análise / Avalie → 3 painéis (`.bc-tab-panel`)
+- loadout: imagem da arma (`getUserImage` ou silhueta SVG fallback) + 9 slots fixos (`SLOT_LABELS`: Optic/Muzzle/Barrel/Underbarrel/Magazine/Rear Grip/Stock/Laser/Fire Mods)
+- `.bc-updated` + `.bc-actions` (Editar/Duplicar/Deletar)
+- Para testes visuais isolados: a página `test_cards.html` (no working dir do chat anterior) extrai `renderBuildCard` real + CSS + ícones e renderiza com mocks de LevelDB/getUserImage/generateBuildAnalysis/renderRatingsBlock.
+
+---
+
 ## 6. WORKFLOW & PADRÕES TÉCNICOS
 
 ### Edição
