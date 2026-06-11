@@ -11255,65 +11255,65 @@
 
     <!-- TELA: LANDING -->
     <div class="lag-screen active" id="lag-landing">
-      <div class="lag-tagline">Le Vél, seu coach personalizado de CoD.<br>Análise tática calibrada pro seu estilo, arsenal e progressão.</div>
+      <div class="lag-tagline" data-i18n-html="auth.tagline">Le Vél, seu coach personalizado de CoD.<br>Análise tática calibrada pro seu estilo, arsenal e progressão.</div>
       <div class="lag-features">
         <div class="lag-feat">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/></svg>
-          <div class="lag-feat-t">Loadouts</div>
-          <div class="lag-feat-d">score e ajustes</div>
+          <div class="lag-feat-t" data-i18n="auth.feat.loadouts.t">Loadouts</div>
+          <div class="lag-feat-d" data-i18n="auth.feat.loadouts.d">score e ajustes</div>
         </div>
         <div class="lag-feat">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
-          <div class="lag-feat-t">Armas</div>
-          <div class="lag-feat-d">compara builds</div>
+          <div class="lag-feat-t" data-i18n="auth.feat.weapons.t">Armas</div>
+          <div class="lag-feat-d" data-i18n="auth.feat.weapons.d">compara builds</div>
         </div>
         <div class="lag-feat">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg>
-          <div class="lag-feat-t">Evolução</div>
-          <div class="lag-feat-d">causa e plano</div>
+          <div class="lag-feat-t" data-i18n="auth.feat.evolution.t">Evolução</div>
+          <div class="lag-feat-d" data-i18n="auth.feat.evolution.d">causa e plano</div>
         </div>
       </div>
-      <button class="lag-btn" onclick="LEVEL_AUTH.showScreen('signup')">Criar conta</button>
-      <button class="lag-btn lag-btn-ghost" onclick="LEVEL_AUTH.showScreen('login')">Entrar</button>
+      <button class="lag-btn" data-i18n="auth.btn.createAccount" onclick="LEVEL_AUTH.showScreen('signup')">Criar conta</button>
+      <button class="lag-btn lag-btn-ghost" data-i18n="auth.btn.login" onclick="LEVEL_AUTH.showScreen('login')">Entrar</button>
     </div>
 
     <!-- TELA: CADASTRO -->
     <div class="lag-screen" id="lag-signup">
-      <label class="lag-label" for="lag-su-email">E-mail</label>
-      <input class="lag-input" type="email" id="lag-su-email" autocomplete="email" placeholder="operador@email.com">
-      <label class="lag-label" for="lag-su-pass">Senha</label>
-      <input class="lag-input" type="password" id="lag-su-pass" autocomplete="new-password" placeholder="mínimo 8 caracteres">
-      <label class="lag-label" for="lag-su-pass2">Confirmar senha</label>
+      <label class="lag-label" for="lag-su-email" data-i18n="auth.label.email">E-mail</label>
+      <input class="lag-input" type="email" id="lag-su-email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
+      <label class="lag-label" for="lag-su-pass" data-i18n="auth.label.password">Senha</label>
+      <input class="lag-input" type="password" id="lag-su-pass" autocomplete="new-password" placeholder="mínimo 8 caracteres" data-i18n-attr="placeholder:auth.ph.minChars">
+      <label class="lag-label" for="lag-su-pass2" data-i18n="auth.label.confirmPassword">Confirmar senha</label>
       <input class="lag-input" type="password" id="lag-su-pass2" autocomplete="new-password">
-      <label class="lag-label" for="lag-su-birth">Data de nascimento</label>
+      <label class="lag-label" for="lag-su-birth" data-i18n="auth.label.birthdate">Data de nascimento</label>
       <input class="lag-input" type="date" id="lag-su-birth">
-      <button class="lag-btn" id="lag-su-btn" onclick="LEVEL_AUTH.doSignup()">Criar conta</button>
+      <button class="lag-btn" id="lag-su-btn" data-i18n="auth.btn.createAccount" onclick="LEVEL_AUTH.doSignup()">Criar conta</button>
       <div class="lag-msg" id="lag-su-msg"></div>
-      <div class="lag-switch">Já tem conta? <button onclick="LEVEL_AUTH.showScreen('login')">Entrar</button></div>
+      <div class="lag-switch"><span data-i18n="auth.switch.hasAccount">Já tem conta?</span> <button data-i18n="auth.btn.login" onclick="LEVEL_AUTH.showScreen('login')">Entrar</button></div>
     </div>
 
     <!-- TELA: LOGIN -->
     <div class="lag-screen" id="lag-login">
-      <label class="lag-label" for="lag-li-email">E-mail</label>
-      <input class="lag-input" type="email" id="lag-li-email" autocomplete="email" placeholder="operador@email.com">
+      <label class="lag-label" for="lag-li-email" data-i18n="auth.label.email">E-mail</label>
+      <input class="lag-input" type="email" id="lag-li-email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
       <div class="lag-label-row">
-        <label for="lag-li-pass">Senha</label>
-        <button class="lag-link" onclick="LEVEL_AUTH.showScreen('reset')">Esqueci a senha</button>
+        <label for="lag-li-pass" data-i18n="auth.label.password">Senha</label>
+        <button class="lag-link" data-i18n="auth.link.forgotPassword" onclick="LEVEL_AUTH.showScreen('reset')">Esqueci a senha</button>
       </div>
       <input class="lag-input" type="password" id="lag-li-pass" autocomplete="current-password">
-      <button class="lag-btn" id="lag-li-btn" onclick="LEVEL_AUTH.doLogin()">Entrar</button>
+      <button class="lag-btn" id="lag-li-btn" data-i18n="auth.btn.login" onclick="LEVEL_AUTH.doLogin()">Entrar</button>
       <div class="lag-msg" id="lag-li-msg"></div>
-      <div class="lag-switch">Não tem conta? <button onclick="LEVEL_AUTH.showScreen('signup')">Criar</button></div>
+      <div class="lag-switch"><span data-i18n="auth.switch.noAccount">Não tem conta?</span> <button data-i18n="auth.btn.create" onclick="LEVEL_AUTH.showScreen('signup')">Criar</button></div>
     </div>
 
     <!-- TELA: RESGATAR SENHA -->
     <div class="lag-screen" id="lag-reset">
-      <div class="lag-tagline">Informa o e-mail da conta. Enviamos um link pra definir uma nova senha.</div>
-      <label class="lag-label" for="lag-rs-email">E-mail</label>
-      <input class="lag-input" type="email" id="lag-rs-email" autocomplete="email" placeholder="operador@email.com">
-      <button class="lag-btn" id="lag-rs-btn" onclick="LEVEL_AUTH.doReset()">Enviar link</button>
+      <div class="lag-tagline" data-i18n="auth.reset.tagline">Informa o e-mail da conta. Enviamos um link pra definir uma nova senha.</div>
+      <label class="lag-label" for="lag-rs-email" data-i18n="auth.label.email">E-mail</label>
+      <input class="lag-input" type="email" id="lag-rs-email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
+      <button class="lag-btn" id="lag-rs-btn" data-i18n="auth.btn.sendLink" onclick="LEVEL_AUTH.doReset()">Enviar link</button>
       <div class="lag-msg" id="lag-rs-msg"></div>
-      <div class="lag-switch"><button onclick="LEVEL_AUTH.showScreen('login')">Voltar ao login</button></div>
+      <div class="lag-switch"><button data-i18n="auth.btn.backToLogin" onclick="LEVEL_AUTH.showScreen('login')">Voltar ao login</button></div>
     </div>
 
   </div>
@@ -11773,7 +11773,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.27.0 · <span data-i18n="briefing.changelog.date">11 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.28.0 · <span data-i18n="briefing.changelog.date">11 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -15005,6 +15005,16 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.28.0</span>
+                <span class="vh-date">11 Jun 2026</span>
+                <span class="vh-kind">melhoria</span>
+              </div>
+              <p class="vh-desc"><strong>Decis&atilde;o server-side de an&aacute;lise.</strong> A escolha das trocas de attachment saiu da IA e passou pro <strong>motor determin&iacute;stico</strong> do Hub. Nova fun&ccedil;&atilde;o <code>_decideSwaps</code>: pra cada fraqueza relevante ao estilo fixo do operador, pega o melhor candidato (j&aacute; rankeado por <code>topCandidates</code>), identifica o attachment equipado no mesmo slot, calcula o ganho de estilo (<code>_attStyleScore</code> com pesos do perfil) e s&oacute; recomenda se supera a margem. At&eacute; 3 swaps, ordenados por ganho, 1 por slot. O payload passa a enviar <code>decided_swaps</code>; o <code>analyze-build</code> v6 ganhou a regra <strong>R5-DECIDIDO</strong> \u2014 quando recebe swaps decididos, a IA N&Atilde;O escolhe, s&oacute; preenche o <code>rationale</code> de cada um e escreve o veredito. O front reconstr&oacute;i as sugest&otilde;es a partir dos swaps decididos (fonte de verdade), usando o rationale da IA. <strong>Consist&ecirc;ncia total:</strong> mesma build &rarr; mesmos swaps. Fallback preservado: se o cat&aacute;logo n&atilde;o estiver dispon&iacute;vel (<code>decided_swaps</code> vazio), mant&eacute;m a guarda de converg&ecirc;ncia v2.18 (IA prop&otilde;e, Hub filtra). Testado em produ&ccedil;&atilde;o nos dois caminhos.</p>
+              <p class="vh-desc"><strong>i18n EN da tela de login.</strong> A vitrine do Hub (landing, cadastro, login e recupera&ccedil;&atilde;o de senha) estava com textos fixos em portugu&ecirc;s &mdash; quem escolhia English continuava vendo tudo em PT. Agora todos os r&oacute;tulos, bot&otilde;es e placeholders dessas telas usam o sistema i18n (<code>data-i18n</code> + chaves <code>auth.*</code> em PT e EN no <code>window.I18N</code>). Como o idioma \u00e9 aplicado no boot (antes do login), um operador que escolheu English v&ecirc; a tela de entrada inteira traduzida: "Create account", "Log in", "Email", "Password", "Date of birth", etc.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.27.0</span>
                 <span class="vh-date">11 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -16907,7 +16917,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.27.0</strong><span class="ver-tag">Histórico de Análises: o modal de Histórico ganhou uma aba "Análises" — cada análise que o Le Vél faz das tuas builds fica registrada com o veredito, as sugestões, o ponto fraco percebido e a dificuldade ativa na época, filtrável por arma. Acompanha a evolução da arma ao longo do tempo</span>
+        LEVEL · <strong>v2.28.0</strong><span class="ver-tag">Decisão server-side de análise: agora o motor determinístico do Hub escolhe as trocas de attachment (com base no teu estilo fixo e no ganho real de cada peça), e o Le Vél só explica cada uma — em vez de a IA decidir sozinha. Resultado: a mesma build sempre recebe as mesmas sugestões, e nunca uma troca subótima · Tela de login/cadastro agora 100% bilíngue (PT/EN) — quem escolhe English vê a vitrine toda traduzida</span>
       </div>
       <script>
         (function(){
@@ -18333,6 +18343,30 @@ window.I18N = {
     'brand.tagline':      'CALL OF DUTY®',
     'brand.title':        'BLACK OPS 7',
     'brand.season':       'S3 · MULTIJOGADOR',
+
+    // — Auth gate (login/cadastro/reset) —
+    'auth.tagline':              'Le V\u00e9l, seu coach personalizado de CoD.<br>An\u00e1lise t\u00e1tica calibrada pro seu estilo, arsenal e progress\u00e3o.',
+    'auth.feat.loadouts.t':      'Loadouts',
+    'auth.feat.loadouts.d':      'score e ajustes',
+    'auth.feat.weapons.t':       'Armas',
+    'auth.feat.weapons.d':       'compara builds',
+    'auth.feat.evolution.t':     'Evolu\u00e7\u00e3o',
+    'auth.feat.evolution.d':     'causa e plano',
+    'auth.btn.createAccount':    'Criar conta',
+    'auth.btn.login':            'Entrar',
+    'auth.btn.create':           'Criar',
+    'auth.btn.sendLink':         'Enviar link',
+    'auth.btn.backToLogin':      'Voltar ao login',
+    'auth.label.email':          'E-mail',
+    'auth.label.password':       'Senha',
+    'auth.label.confirmPassword':'Confirmar senha',
+    'auth.label.birthdate':      'Data de nascimento',
+    'auth.link.forgotPassword':  'Esqueci a senha',
+    'auth.switch.hasAccount':    'J\u00e1 tem conta?',
+    'auth.switch.noAccount':     'N\u00e3o tem conta?',
+    'auth.reset.tagline':        'Informa o e-mail da conta. Enviamos um link pra definir uma nova senha.',
+    'auth.ph.email':             'operador@email.com',
+    'auth.ph.minChars':          'm\u00ednimo 8 caracteres',
     'header.appName':     'LEVEL · BO7 TACTICAL HUB',
 
     // — Player mini —
@@ -18536,9 +18570,9 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '11 Jun 2026',
-    'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Histórico de Análises: acompanha a evolução das tuas armas',
-    'briefing.changelog.summary':  'O modal de <strong>Hist&oacute;rico</strong> (na barra de Minhas Armas) agora tem <strong>duas abas</strong>: <em>Builds Geradas</em> (o que j&aacute; existia) e a nova <em>An&aacute;lises</em>. Toda vez que pedes ao <strong>Le V&eacute;l</strong> uma an&aacute;lise de build, ela fica registrada &mdash; com o <strong>veredito</strong> completo, as <strong>sugest&otilde;es de troca</strong>, o <strong>ponto fraco que percebeste</strong> na arma (a dimens&atilde;o que avaliaste mais baixo) e a <strong>dificuldade ativa na &eacute;poca</strong>. Filtr&aacute;vel por arma, igual ao hist&oacute;rico de builds. Assim d&aacute; pra ver como o veredito de uma arma <strong>evolui</strong> conforme ajustas a build ao longo do tempo. Backend: tabela <code>analysis_history</code> + grava&ccedil;&atilde;o autom&aacute;tica no <code>analyze-build</code> + Edge <code>analysis-history</code> pra leitura. PT + EN.',
+    'briefing.changelog.pill':  'melhoria',
+    'briefing.changelog.headline': 'Análise mais consistente + tela de login em inglês',
+    'briefing.changelog.summary':  'Mudan&ccedil;a na forma como a an&aacute;lise de build decide as trocas. Antes, a IA escolhia sozinha quais attachments sugerir \u2014 o que &agrave;s vezes dava sugest&otilde;es diferentes pra mesma build, ou uma troca que n&atilde;o era a melhor. Agora o <strong>motor determin&iacute;stico do Hub</strong> escolhe os swaps: pra cada fraqueza da build relevante ao teu estilo (rusher CQB), ele pega o <strong>melhor candidato dispon&iacute;vel</strong> no teu n&iacute;vel, confirma que o ganho real supera uma margem, e s&oacute; ent&atilde;o recomenda. O <strong>Le V&eacute;l</strong> recebe essas trocas j&aacute; decididas e foca no que faz melhor: <strong>explicar</strong> cada uma com o porqu&ecirc;, ligando &agrave; tua dificuldade e ao teu estilo. Resultado: <strong>mesma build &rarr; mesmas sugest&otilde;es, sempre</strong>, e nunca uma troca subótima. Se o cat&aacute;logo da arma n&atilde;o estiver dispon&iacute;vel, cai no modo antigo (IA prop&otilde;e, Hub filtra) \u2014 nada quebra. E mais: a <strong>tela de login e cadastro</strong> agora respeita o teu idioma \u2014 quem escolhe English v&ecirc; a vitrine inteira em ingl&ecirc;s (antes ficava em portugu&ecirc;s mesmo no modo EN).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -19745,6 +19779,30 @@ window.I18N = {
     'brand.tagline':      'CALL OF DUTY®',
     'brand.title':        'BLACK OPS 7',
     'brand.season':       'S3 · MULTIPLAYER',
+
+    // — Auth gate (login/signup/reset) —
+    'auth.tagline':              'Le V\u00e9l, your personal CoD coach.<br>Tactical analysis tuned to your style, arsenal and progression.',
+    'auth.feat.loadouts.t':      'Loadouts',
+    'auth.feat.loadouts.d':      'scores & tuning',
+    'auth.feat.weapons.t':       'Weapons',
+    'auth.feat.weapons.d':       'compare builds',
+    'auth.feat.evolution.t':     'Progress',
+    'auth.feat.evolution.d':     'cause & plan',
+    'auth.btn.createAccount':    'Create account',
+    'auth.btn.login':            'Log in',
+    'auth.btn.create':           'Sign up',
+    'auth.btn.sendLink':         'Send link',
+    'auth.btn.backToLogin':      'Back to login',
+    'auth.label.email':          'Email',
+    'auth.label.password':       'Password',
+    'auth.label.confirmPassword':'Confirm password',
+    'auth.label.birthdate':      'Date of birth',
+    'auth.link.forgotPassword':  'Forgot password',
+    'auth.switch.hasAccount':    'Already have an account?',
+    'auth.switch.noAccount':     "Don't have an account?",
+    'auth.reset.tagline':        'Enter your account email. We\u2019ll send a link to set a new password.',
+    'auth.ph.email':             'operator@email.com',
+    'auth.ph.minChars':          'minimum 8 characters',
     'header.appName':     'LEVEL · BO7 TACTICAL HUB',
 
     // — Player mini —
@@ -19947,9 +20005,9 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 11, 2026',
-    'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Analysis History: track how your weapons evolve',
-    'briefing.changelog.summary':  'The <strong>History</strong> modal (in the My Weapons toolbar) now has <strong>two tabs</strong>: <em>Generated Builds</em> (what already existed) and the new <em>Analyses</em>. Every time you ask <strong>Le V&eacute;l</strong> to analyze a build, it gets logged &mdash; with the full <strong>verdict</strong>, the <strong>swap suggestions</strong>, the <strong>weak point you perceived</strong> (the dimension you rated lowest) and the <strong>struggle active at the time</strong>. Filterable by weapon, just like the build history. So you can see how a weapon&rsquo;s verdict <strong>evolves</strong> as you tune the build over time. Backend: <code>analysis_history</code> table + automatic logging in <code>analyze-build</code> + <code>analysis-history</code> Edge for reads. PT + EN.',
+    'briefing.changelog.pill':  'improved',
+    'briefing.changelog.headline': 'More consistent analysis + English login screen',
+    'briefing.changelog.summary':  'A change in how build analysis decides swaps. Before, the AI chose which attachments to suggest on its own \u2014 which sometimes gave different suggestions for the same build, or a swap that wasn&rsquo;t the best one. Now the <strong>Hub&rsquo;s deterministic engine</strong> picks the swaps: for each build weakness relevant to your style (rusher CQB), it takes the <strong>best available candidate</strong> at your level, confirms the real gain clears a margin, and only then recommends it. <strong>Le V&eacute;l</strong> gets these already-decided swaps and focuses on what it does best: <strong>explaining</strong> each one, tying it to your struggle and style. Result: <strong>same build &rarr; same suggestions, every time</strong>, and never a subpar swap. If the weapon catalog isn&rsquo;t available, it falls back to the old mode (AI proposes, Hub filters) \u2014 nothing breaks. Also: the <strong>login and signup screen</strong> now respects your language \u2014 pick English and the whole entry screen shows in English (it used to stay in Portuguese even in EN mode).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -25623,6 +25681,80 @@ const ATTACHMENT_ICONS = {
       return { kept: kept, dropped: dropped };
     }
 
+    // ── v2.28: DECISÃO SERVER-SIDE — a engine ESCOLHE os swaps; a IA só explica ──
+    // Antes a IA decidia quais trocas sugerir (autonomia → inconsistência).
+    // Agora a engine decide deterministicamente: por fraqueza relevante ao estilo,
+    // pega o melhor candidato (topCandidates já vem rankeado por score), identifica
+    // o attachment equipado no MESMO slot (o que ele substitui), valida que o ganho
+    // de estilo supera a margem, e devolve até `max` swaps ordenados por ganho.
+    // Mesma build → mesmos swaps, sempre. A IA recebe isto pronto e só redige.
+    function _decideSwaps(ctx, base, sp, max, margin) {
+      try {
+        max = max || 3; margin = (margin == null) ? 6 : margin;
+        if (!ctx || !ctx.candidatesByWeakness) return [];
+        const catalog = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[base.id] : null;
+        if (!catalog || !Array.isArray(catalog.attachments)) return [];
+        const weights = _styleObjectiveWeights(sp);
+
+        // index do catálogo por nome normalizado (pra pegar stats)
+        const byName = {};
+        for (let i = 0; i < catalog.attachments.length; i++) {
+          byName[_normalizeAttName(catalog.attachments[i].name)] = catalog.attachments[i];
+        }
+        // equipado por slot (o que um candidato do mesmo slot substituiria)
+        const equippedBySlot = {};
+        (ctx.equippedDetail || []).forEach(function (e) {
+          if (e && e.slot) equippedBySlot[String(e.slot).toLowerCase()] = e.name;
+        });
+
+        // candidatos a swap: melhor de cada fraqueza, com delta de estilo calculado
+        const cand = [];
+        const seenSlot = {};
+        const dims = Object.keys(ctx.candidatesByWeakness);
+        for (let d = 0; d < dims.length; d++) {
+          const dim = dims[d];
+          const list = ctx.candidatesByWeakness[dim] || [];
+          // o 1º da lista é o melhor candidato daquela fraqueza (já rankeado por score)
+          for (let k = 0; k < list.length; k++) {
+            const c = list[k];
+            if (!c || !c.slot) continue;
+            const slotKey = String(c.slot).toLowerCase();
+            if (seenSlot[slotKey]) continue;              // 1 swap por slot
+            const replaces = equippedBySlot[slotKey] || null;
+            const toAtt = byName[_normalizeAttName(c.name)];
+            if (!toAtt || !toAtt.stats) continue;
+            let delta;
+            if (replaces) {
+              const fromAtt = byName[_normalizeAttName(replaces)];
+              if (!fromAtt || !fromAtt.stats) continue;
+              delta = _attStyleScore(toAtt.stats, weights) - _attStyleScore(fromAtt.stats, weights);
+            } else {
+              // slot vazio: ganho absoluto do attachment (preenche slot livre)
+              delta = _attStyleScore(toAtt.stats, weights);
+            }
+            if (delta < margin) { seenSlot[slotKey] = true; break; } // melhor candidato não supera margem → desiste do slot
+            cand.push({
+              type: 'attachment',
+              slot: c.slot,
+              replaces: replaces,            // null se slot vazio
+              name: c.name,
+              unlock_level: (c.unlock_level != null ? c.unlock_level : null),
+              dim: dim,
+              delta: Math.round(delta)
+            });
+            seenSlot[slotKey] = true;
+            break; // só o melhor candidato por fraqueza
+          }
+        }
+        // ordena por ganho de estilo desc, limita a `max`
+        cand.sort(function (a, b) { return b.delta - a.delta; });
+        return cand.slice(0, max);
+      } catch (e) {
+        console.warn('[_decideSwaps] falhou (segue sem decisão server-side):', e);
+        return [];
+      }
+    }
+
     // ═══════════════════════════════════════════════════════════════════
     // ANÁLISE DE BUILD · ARQUITETURA HÍBRIDA (v75-100)
     // ═══════════════════════════════════════════════════════════════════
@@ -26015,6 +26147,9 @@ const ATTACHMENT_ICONS = {
         activeStruggles = [];
       }
 
+      // v2.28: a ENGINE decide os swaps deterministicamente (IA só explica)
+      const decidedSwaps = _decideSwaps(ctx, base, sp, 3, 6);
+
       const payload = {
         build: {
           id: build.id,
@@ -26038,6 +26173,7 @@ const ATTACHMENT_ICONS = {
         style_hint: playerProfile.style,   // v2.18: estilo FIXO do perfil (nao inferido da build) - evita objetivo que se move
         player_profile: playerProfile,        // NOVO — contexto do operador
         active_struggles: activeStruggles,    // NOVO — dificuldades cadastradas
+        decided_swaps: decidedSwaps,          // v2.28 — swaps JÁ decididos pela engine; IA só explica
         weapon_rating: (function(){           // v2.19 — avaliação do operador (aba AVALIE): a percepção dele sobre a arma
           var ur = build.userRatings || {};
           var rv = function(k){ return (ur[k] && ur[k].value) || 0; };
@@ -26062,16 +26198,44 @@ const ATTACHMENT_ICONS = {
         if (!res.ok || !data.ok || !data.analysis) {
           _aiAnalysisErrorFor[buildId] = data.error || data.code || 'Falha ao gerar análise.';
         } else {
-          // v2.18: GUARDA DE CONVERGÊNCIA — veta trocas que não melhoram o
-          // objetivo FIXO do perfil. Mata o "destrocar" (idempotente).
+          // v2.28: DECISÃO SERVER-SIDE é a fonte de verdade dos swaps.
+          // A engine já decidiu (decidedSwaps); a IA só forneceu o rationale.
+          // Reconstrói suggestions a partir dos swaps decididos, pegando o
+          // rationale que a IA escreveu pra cada um (casado por nome).
           try {
-            const _catalog = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[base.id] : null;
-            const _gate = _gateBuildSuggestions(data.analysis.suggestions, _catalog, _styleObjectiveWeights(sp), 6);
-            data.analysis.suggestions = _gate.kept;
-            const _hasAtt = _gate.kept.some(function(s){ return s && s.type === 'attachment'; });
-            data.analysis.verdict = _hasAtt ? 'tune' : 'optimal';
-            data.analysis.gated_out = _gate.dropped;
-          } catch (gErr) { console.warn('[analyze-build] guarda de convergência falhou (segue sem):', gErr); }
+            if (Array.isArray(decidedSwaps) && decidedSwaps.length) {
+              // mapa de rationale vindos da IA, por nome normalizado do attachment novo
+              const _aiRat = {};
+              if (Array.isArray(data.analysis.suggestions)) {
+                data.analysis.suggestions.forEach(function (s) {
+                  if (s && s.name) _aiRat[_normalizeAttName(s.name)] = s.rationale || '';
+                });
+              }
+              data.analysis.suggestions = decidedSwaps.map(function (sw) {
+                const out = {
+                  type: 'attachment',
+                  slot: sw.slot,
+                  name: sw.name,
+                  unlock_level: sw.unlock_level,
+                  rationale: _aiRat[_normalizeAttName(sw.name)] || ''
+                };
+                if (sw.replaces) out.replaces = sw.replaces;
+                return out;
+              });
+              data.analysis.verdict = 'tune';
+              data.analysis.gated_out = 0;
+              data.analysis.decided_by = 'engine';   // marca: decisão determinística
+            } else {
+              // sem decisão da engine (catálogo ausente etc.): mantém a guarda v2.18 como fallback
+              const _catalog = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[base.id] : null;
+              const _gate = _gateBuildSuggestions(data.analysis.suggestions, _catalog, _styleObjectiveWeights(sp), 6);
+              data.analysis.suggestions = _gate.kept;
+              const _hasAtt = _gate.kept.some(function(s){ return s && s.type === 'attachment'; });
+              data.analysis.verdict = _hasAtt ? 'tune' : 'optimal';
+              data.analysis.gated_out = _gate.dropped;
+              data.analysis.decided_by = 'ai';
+            }
+          } catch (gErr) { console.warn('[analyze-build] decisão/guarda falhou (segue sem):', gErr); }
           // Salva análise cacheada na build
           build.config = build.config || {};
           build.config.aiAnalysis = {

@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 11 Jun 2026 — v2.27.0 (Histórico de Análises)
+> **Última atualização:** 11 Jun 2026 — v2.28.0 (decisão server-side de análise + i18n EN do login)
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.27.0` (SemVer desde v2.0.0)
+**Versão:** `v2.28.0` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,24 MB, ~42.900 linhas, 16 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 **Captura mobile:** repo `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
 
 ### Marcos recentes
+- **v2.28.0** (11 Jun) — **duas entregas.** (1) **Decisão server-side de análise** (roadmap item 3): o motor determinístico do Hub passou a ESCOLHER os swaps de attachment (função `_decideSwaps`), e o Le Vél só EXPLICA. Garante consistência (mesma build → mesmos swaps). `analyze-build` v6 com regra R5-DECIDIDO. Fallback v5 preservado. (2) **i18n EN da tela de login** (parte do item 11): landing/cadastro/login/reset agora bilíngues via `data-i18n` + chaves `auth.*` no `window.I18N`. Era o maior buraco de i18n (a vitrine ficava em PT mesmo no modo EN).
 - **v2.27.0** (11 Jun) — **Histórico de Análises.** O modal de Histórico (botão na toolbar de Minhas Armas) virou unificado com 2 abas: "Builds Geradas" (gen_history) e "Análises" (novo). Cada análise do Le Vél é registrada automaticamente: veredito, sugestões, ponto fraco percebido (weakest_dim), dificuldade ativa. Filtrável por arma. Backend: tabela `analysis_history` + gravação no `analyze-build` v5 + Edge `analysis-history` v1 (list/delete).
 - **v2.26.1** (11 Jun) — duas correções no Histórico de Builds: (1) ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE) agora grava certo ao salvar do fluxo de variantes simultâneas — antes vinha `null`; (2) render do estado vazio e dos cards corrigido (usava `renderIconsText` que escapa HTML → tags cruas na tela; trocado por `renderIconsHtml`).
 - **v2.26.0** (11 Jun) — **Histórico de Builds.** Gerações da Montagem Inteligente que o operador adota (salva) ficam registradas. Botão "Histórico" na toolbar de Minhas Armas → modal filtrável por arma. Cada card: codename, ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE), foco, modo, mapa, dificuldade ativa na época, attachments, data. **Opção 1: grava só no save** (não em toda geração). Backend: tabela `gen_history` + Edge Function `gen-history` v1.
@@ -59,7 +60,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 ### Edge Functions ativas (principais)
 - `generate-build` v5 — Montagem Inteligente (Gemini). Campo opcional `variant_angle` {id, label, directive} + R13. `verify_jwt: true` (front manda anon key, que é JWT válido)
 - `parse-build-text` v1 — Capturar via Texto (fuzzy matching 3 camadas)
-- `analyze-build` v6 — análise de build com veredito (arquitetura híbrida: engine determinística + IA redige)
+- `analyze-build` v6 — análise de build com veredito. **v6 (11/Jun): DECISÃO SERVER-SIDE** — recebe `decided_swaps` (swaps escolhidos pela engine) e regra R5-DECIDIDO no prompt faz a IA só EXPLICAR (preenche rationale), não escolher. Se `decided_swaps` vazio, cai no comportamento v5 (IA propõe). Grava histórico em `analysis_history`. `verify_jwt: false`. NÃO condensar o SYSTEM_PROMPT em deploys (degrada coaching)
 - `analyze-capture` v13 — Vision API (foto → build)
 - `analysis-history` v1 — **NOVO (v2.27.0)** — leitura do histórico de análises. 2 actions: `list` / `delete` (o `record` acontece dentro do `analyze-build` v5). service_role, resolve local_id→hub_users.id. `verify_jwt: true`. URL: `.../functions/v1/analysis-history`
 - `gen-history` v1 — **NOVO (v2.26.0)** — histórico de gerações adotadas. 3 actions: `record` / `list` / `delete`. service_role, resolve `local_id`→`hub_users.id`, CORS, friendly errors. `verify_jwt: true`. URL: `https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/gen-history`
@@ -96,7 +97,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 1. **Plano de progressão até a build ideal** — roadmap de attachments a desbloquear (level/prestige) pra chegar na build ideal curada (`cat_ideal_builds`). Consome a tabela que já existe
 2. **Loadout completo Primary + Secondary** — montar loadout inteiro, não só arma primária (`hub_loadouts` já tem a estrutura)
-3. **Decisão server-side de análise** (engine decide swaps, IA só explica) — evoluir `analyze-build`. Hoje a IA tem mais autonomia do que devia no veredito
+3. ✅ **Decisão server-side de análise** — FEITO (v2.28.0): `_decideSwaps` no front decide os swaps (melhor candidato por fraqueza relevante ao estilo, valida ganho vs margem, até 3, 1 por slot); payload envia `decided_swaps`; `analyze-build` v6 + regra R5-DECIDIDO faz a IA só explicar. Testado em produção nos dois caminhos (com e sem decided_swaps). Fundação do Pre-Match Advisor (item 10)
 4. ✅ **Histórico de análises no banco** — FEITO (v2.27.0): tabela `analysis_history` + gravação no `analyze-build` v5 + Edge `analysis-history` v1 + UI (aba no modal de histórico). Backend e front completos, testados em produção.
 5. **e-mail de eventos** — notificar novos eventos por e-mail (precisa coletar emails + Resend/SendGrid + cron)
 6. **Controller fase 2** — mais ajuste fino além do que já está mapeado
@@ -104,7 +105,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 8. **UI Codenames** (admin + botão "Sugerir" em build/loadout)
 9. **Avatar IA Nano Banana 2**
 10. **Pre-Match Advisor** (futuro grande) — sugere loadout/arma conforme mapa + modo MP em tempo real
-11. **Marketplace** + **i18n EN** (Loadout/Meus Loadouts) — menor prioridade
+11. **Marketplace** + **i18n EN** — PARCIAL: tela de login/cadastro/reset já 100% EN (v2.28.0). FALTA: Meus Loadouts (~5KB) e Construtor (~8KB) ainda têm strings PT hardcoded; ~74 botões PT sem `data-i18n` mapeados (mas muitos são da área admin, que não precisa EN). Padrão p/ traduzir: dar `data-i18n` ao elemento + chave PT/EN no `window.I18N` (dict principal, 1406+ chaves; aplicado no boot por `window.applyI18N`)
 12. **Atualização de dados de Eventos por Season** — manter a grade de eventos do Painel Hoje em dia
 
 ---
@@ -138,6 +139,11 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - **Apóstrofo em string JS de aspas simples:** dentro de `'...'` no dicionário i18n, `''` (dois apóstrofos) NÃO escapa — fecha a string e quebra o JS. Para apóstrofo literal em conteúdo PT/EN, usar a entidade HTML `&rsquo;` (ex: `weapon&rsquo;s`), nunca `''`. Pego na v2.27.0
 - **Âncora de str_replace que começa com aspa:** ao ancorar numa chave i18n como `'gh.noStruggle':`, garantir que o replacement reponha a aspa inicial — senão a linha fica `gh.noStruggle':` sem abertura e quebra o JS. Pego na v2.27.0
 - **Ângulo de variante vive no wrapper, não no build:** no fluxo de variantes simultâneas, cada variante é `{angle, build, error}` — o `build` em si NÃO carrega o ângulo. Ao passar `v.build` pra funções que precisam do ângulo (ex: histórico), carimbar antes: `v.build._variant_angle_id = v.angle.id`. Bug pego e corrigido na v2.26.1
+
+### i18n (dois sistemas coexistem)
+- **`window.I18N`** (dict `pt`/`en`, 1406+ chaves) + **`window.applyI18N(lang)`** — sistema principal. Aplica `data-i18n` (textContent), `data-i18n-html` (innerHTML), `data-i18n-attr` ("attr:chave", ex placeholder), `data-i18n-placeholder`. Rodado no boot via `initI18N` (DOMContentLoaded) → aplica ANTES do login, então a tela de auth traduz. Idioma em `localStorage['bo7hub_lang_v1']`
+- **`TXT`** + `t()` + `getLang()` — sistema secundário (mesma chave de localStorage). Para traduzir UI: dar `data-i18n` ao elemento + chave PT/EN no `window.I18N`. NÃO traduzir texto direto no HTML
+- A tela de login (`level-auth-gate`, classes `lag-*`) é HTML estático (não injetado por JS) — fica nas linhas ~11255+
 
 ### Supabase Edge Functions
 - Deploy via MCP `deploy_edge_function` com `files: [{name, content}]` funciona direto pra imports via URL (esm.sh) — sem precisar de deno.json
