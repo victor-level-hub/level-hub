@@ -11745,7 +11745,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.26.0 · <span data-i18n="briefing.changelog.date">11 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.26.1 · <span data-i18n="briefing.changelog.date">11 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -14977,6 +14977,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.26.1</span>
+                <span class="vh-date">11 Jun 2026</span>
+                <span class="vh-kind">correção</span>
+              </div>
+              <p class="vh-desc"><strong>Duas corre&ccedil;&otilde;es no Hist&oacute;rico de Builds (v2.26).</strong><br><strong>1 &mdash; &Acirc;ngulo da variante.</strong> Corrigido o registro do &acirc;ngulo (VELOCIDADE/EQUIL&Iacute;BRIO/CONTROLE) quando a build salva vem do fluxo de <strong>variantes simult&acirc;neas</strong>. O <code>saveGeneratedBuild</code> recebia s&oacute; o build da variante, sem o &acirc;ngulo (que vivia no wrapper <code>v.angle</code>), ent&atilde;o <code>recordGenHistory</code> gravava <code>variant_angle: null</code>. Agora o &acirc;ngulo &eacute; carimbado no build antes do save, com normaliza&ccedil;&atilde;o defensiva pra string id.<br><strong>2 &mdash; Render do estado vazio e dos cards.</strong> O modal usava <code>renderIconsText</code> (que escapa HTML) sobre conte&uacute;do que cont&eacute;m tags &mdash; resultado: as tags <code>&lt;div&gt;</code> apareciam cruas na tela. Trocado por <code>renderIconsHtml</code> (resolve <code>{{i:}}</code> sem escapar o resto), tanto no empty-state quanto na lista de cards.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.26.0</span>
                 <span class="vh-date">11 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -16861,7 +16870,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.26.0</strong><span class="ver-tag">Histórico de Builds: as gerações da Montagem Inteligente que tu adotaste ficam registradas (codename, ângulo, foco e dificuldade ativa na época), filtráveis por arma — teu registro de evolução, novo botão na toolbar de Minhas Armas</span>
+        LEVEL · <strong>v2.26.1</strong><span class="ver-tag">Correções no Histórico de Builds: (1) o ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE) agora grava certo ao salvar do fluxo de variantes simultâneas; (2) corrigido o render do estado vazio e dos cards, que mostravam tags HTML cruas</span>
       </div>
       <script>
         (function(){
@@ -18473,9 +18482,9 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '11 Jun 2026',
-    'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Histórico de Builds: as gerações que tu adotaste, registradas',
-    'briefing.changelog.summary':  'Toda build que a <strong>Montagem Inteligente</strong> gera e tu <strong>salvas</strong> agora entra num hist&oacute;rico pr&oacute;prio &mdash; com o <strong>c&oacute;dinome</strong>, o <strong>&acirc;ngulo</strong> da variante (VELOCIDADE/EQUIL&Iacute;BRIO/CONTROLE), o foco, o modo e a <strong>dificuldade ativa na &eacute;poca</strong> em que a montaste. Abre pelo novo bot&atilde;o <em>Hist&oacute;rico</em> na barra de Minhas Armas, filtra por arma e v&ecirc; tua evolu&ccedil;&atilde;o de loadout ao longo do tempo. S&oacute; registra o que tu adotaste (n&atilde;o enche de ru&iacute;do), e remover uma entrada do hist&oacute;rico n&atilde;o mexe na build salva no arsenal. PT + EN.',
+    'briefing.changelog.pill':  'correção',
+    'briefing.changelog.headline': 'Histórico de Builds: duas correções de polimento',
+    'briefing.changelog.summary':  'Ajuste fino no <strong>Hist&oacute;rico de Builds</strong> lan&ccedil;ado na v2.26.0: quando salvas uma build vinda das <strong>variantes simult&acirc;neas</strong>, o &acirc;ngulo dela (VELOCIDADE/EQUIL&Iacute;BRIO/CONTROLE) agora &eacute; <strong>gravado corretamente</strong> no hist&oacute;rico. Antes, s&oacute; o fluxo de gera&ccedil;&atilde;o &uacute;nica carimbava o &acirc;ngulo &mdash; ao adotar uma das tr&ecirc;s variantes paralelas, o registro saía sem essa informa&ccedil;&atilde;o. Agora o teu registro de evolu&ccedil;&atilde;o distingue os tr&ecirc;s &acirc;ngulos em qualquer fluxo. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -19874,9 +19883,9 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 11, 2026',
-    'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Build History: the generations you adopted, logged',
-    'briefing.changelog.summary':  'Every build <strong>Smart Build</strong> generates and you <strong>save</strong> now lands in its own history &mdash; with the <strong>codename</strong>, the variant <strong>angle</strong> (SPEED/BALANCED/CONTROL), the focus, the mode and the <strong>struggle that was active</strong> when you built it. Open it from the new <em>History</em> button in the My Weapons toolbar, filter by weapon and track your loadout evolution over time. It only logs what you adopted (no noise), and removing a history entry doesn&rsquo;t touch the build saved in your arsenal. PT + EN.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Build History: two polish fixes',
+    'briefing.changelog.summary':  'Fine-tuning the <strong>Build History</strong> shipped in v2.26.0: when you save a build from the <strong>simultaneous variants</strong>, its angle (SPEED/BALANCED/CONTROL) now gets <strong>logged correctly</strong> in history. Before, only the single-generation flow stamped the angle &mdash; adopting one of the three parallel variants left that field empty. Your evolution log now distinguishes all three angles in any flow. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -40054,7 +40063,12 @@ ${cbt('share.t.footer')}`;
       b.addEventListener('click', function () {
         const i = parseInt(b.getAttribute('data-sbv-save'), 10);
         const v = _sbVariants && _sbVariants[i];
-        if (v && v.build) saveGeneratedBuild(v.build);
+        if (v && v.build) {
+          // v2.26.1: carimba o ângulo da variante no build pra o histórico
+          // registrar VELOCIDADE/EQUILÍBRIO/CONTROLE (senão grava null no fluxo multi).
+          try { v.build._variant_angle_id = (v.angle && (v.angle.id || v.angle)) || null; } catch (e) {}
+          saveGeneratedBuild(v.build);
+        }
       });
     });
     r.querySelectorAll('[data-sbv-retry]').forEach(function (b) {
@@ -40120,7 +40134,9 @@ ${cbt('share.t.footer')}`;
       struggleTitle = (first && (first.title || first.name)) || null;
     }
     // Ângulo da variante: o build pode carregar de qual variante veio (se multi).
-    var angle = (build._variant_angle_id) || (p.variant_angle && p.variant_angle.id) || null;
+    // Normaliza pra string id ('speed'|'balanced'|'control'), nunca objeto.
+    var rawAngle = (build._variant_angle_id) || (p.variant_angle && p.variant_angle.id) || null;
+    var angle = rawAngle && typeof rawAngle === 'object' ? (rawAngle.id || null) : rawAngle;
     var entry = {
       weapon_id:       p.weapon.id,
       weapon_name:     p.weapon.name,
@@ -40228,7 +40244,7 @@ ${cbt('share.t.footer')}`;
     if (!filtered.length) {
       var msg = _ghWeaponFilter ? t('gh.emptyWeapon') : t('gh.empty');
       wrap.innerHTML = '<div class="gh-empty"><div class="gh-empty-icon">{{i:history}}</div>' + esc(msg) + '</div>';
-      if (window.renderIconsText) wrap.innerHTML = window.renderIconsText(wrap.innerHTML);
+      if (window.renderIconsHtml) wrap.innerHTML = window.renderIconsHtml(wrap.innerHTML);
       return;
     }
 
@@ -40261,7 +40277,7 @@ ${cbt('share.t.footer')}`;
     }).join('');
 
     wrap.innerHTML = html;
-    if (window.renderIconsText) wrap.innerHTML = window.renderIconsText(wrap.innerHTML);
+    if (window.renderIconsHtml) wrap.innerHTML = window.renderIconsHtml(wrap.innerHTML);
   }
 
   async function deleteGhEntry(id) {

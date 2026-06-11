@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 11 Jun 2026 — fecho da v2.26.0 (Histórico de Builds)
+> **Última atualização:** 11 Jun 2026 — v2.26.1 (correções no Histórico de Builds)
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.26.0` (SemVer desde v2.0.0)
+**Versão:** `v2.26.1` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,24 MB, ~42.900 linhas, 16 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 **Captura mobile:** repo `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
 
 ### Marcos recentes
+- **v2.26.1** (11 Jun) — duas correções no Histórico de Builds: (1) ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE) agora grava certo ao salvar do fluxo de variantes simultâneas — antes vinha `null`; (2) render do estado vazio e dos cards corrigido (usava `renderIconsText` que escapa HTML → tags cruas na tela; trocado por `renderIconsHtml`).
 - **v2.26.0** (11 Jun) — **Histórico de Builds.** Gerações da Montagem Inteligente que o operador adota (salva) ficam registradas. Botão "Histórico" na toolbar de Minhas Armas → modal filtrável por arma. Cada card: codename, ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE), foco, modo, mapa, dificuldade ativa na época, attachments, data. **Opção 1: grava só no save** (não em toda geração). Backend: tabela `gen_history` + Edge Function `gen-history` v1.
 - **v2.25.1** (10 Jun) — polimento dos cards de evento: ícones SVG removidos, badges ATIVO/EM BREVE viraram overlay no canto superior direito da arte.
 - **v2.25.0** (10 Jun) — variantes simultâneas na Montagem Inteligente (2-3 gerações em paralelo, ângulos VELOCIDADE/EQUILÍBRIO/CONTROLE) + arte oficial do Double XP. Edge `generate-build` v3.
@@ -114,7 +115,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - **Validação obrigatória após mudanças:**
   - `node --check` em **todos** os 16 blocos `<script>` (extraídos via regex `re.findall(r'<script[^>]*>(.*?)</script>', src, re.S)`, gravados em arquivo `/tmp/*.js` — NÃO testar via `/dev/stdin`, dá falso-positivo de falha)
   - `html5lib` após mudanças estruturais: deve mostrar **1 `<main>` + 13 `<section>`**
-- **Inspeção visual:** Hub tem login gate → extrair CSS (`<style>`) + HTML do componente + bloco JS dos ícones (LUCIDE) pra página de teste isolada, renderizar no Playwright (chromium em `/opt/pw-browsers`)
+- **Inspeção visual:** Hub tem login gate → extrair CSS (`<style>`) + HTML do componente + bloco JS dos ícones (LUCIDE) pra página de teste isolada, renderizar no Playwright (chromium em `/opt/pw-browsers`). **Dica:** extrair a própria função de render do arquivo (ex: `renderGhList`) e rodá-la com dados de teso, em vez de remontar mock — pega bugs reais do código (foi assim que o bug renderIconsText do histórico apareceu)
 - Output final: `/mnt/user-data/outputs/index.html`; Victor commita no GitHub
 
 ### Checklist de release do Hub (aplicar TODOS e listar no fim)
@@ -131,6 +132,8 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - Ícones LUCIDE: o `<svg>` do template só tem `viewBox`; o CSS `.lvl-icon svg` é que aplica `stroke: currentColor; fill: none; stroke-width: 2`. Ao testar ícone isolado, **incluir o `<style>`** ou ele renderiza como bloco preto. Ícones de stroke (ex: `history`) precisam desse CSS
 - Resolução de `{{i:NAME}}` em `data-i18n`: o boot detecta via `window.hasIconPlaceholder` e aplica `window.renderIconsText(valor_do_dict)`. Aplicar `renderIconsText` sobre HTML já-renderizado escapa o conteúdo (vira texto cru)
 - `str_replace` que falha no meio de um script Python que só grava no final: as edições anteriores **se perdem** (não foram gravadas). Sempre reconferir o estado após erro
+- **`renderIconsText` vs `renderIconsHtml`** (ambos em `window`): `renderIconsText` **escapa o HTML** e só resolve `{{i:}}` — usar só em texto plano. Para conteúdo que JÁ contém tags HTML + placeholders de ícone (ex: innerHTML montado com `<div>`), usar **`renderIconsHtml`** (resolve `{{i:}}` sem escapar o resto). Usar o Text no lugar do Html faz as tags aparecerem cruas na tela. Bug pego e corrigido na v2.26.1 (estado vazio + cards do histórico)
+- **Ângulo de variante vive no wrapper, não no build:** no fluxo de variantes simultâneas, cada variante é `{angle, build, error}` — o `build` em si NÃO carrega o ângulo. Ao passar `v.build` pra funções que precisam do ângulo (ex: histórico), carimbar antes: `v.build._variant_angle_id = v.angle.id`. Bug pego e corrigido na v2.26.1
 
 ### Supabase Edge Functions
 - Deploy via MCP `deploy_edge_function` com `files: [{name, content}]` funciona direto pra imports via URL (esm.sh) — sem precisar de deno.json
