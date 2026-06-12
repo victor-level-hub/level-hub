@@ -50,11 +50,12 @@ auto-deploy Netlify. Coach IA interno = **Le Vél**. Site: le-vel.games.
   texto direto no HTML.
 - Apóstrofo em string JS de aspas simples: usar `&rsquo;`, nunca `''` (quebra o JS).
 
-## TIPOGRAFIA (4 famílias)
-- **Black Ops One** → títulos (`.section-header h2`, `.event-card-title`, `.briefing-*-title`)
-- **Rajdhani** → corpo base (`body`) + `.subtab`, `.build-tab`, `.filter-chip`, `.panel-header h3`
-- **JetBrains Mono** → números, stats, labels técnicos (dominante)
-- **Inter** → ~8 pontos soltos (`.btn-edit-status`, `.ca-*`) — candidato a unificar com Rajdhani
+## TIPOGRAFIA (em transição — v2.28.1 aplicou o 3-tier do Claude Design nos build-cards)
+- **Nos `.build-card` (novo 3-tier):** Chakra Petch (display: nomes/abas/botões/badges) ·
+  IBM Plex Sans (prosa do Le Vél, 15px/1.62) · JetBrains Mono (dados: stats/níveis/slots).
+  Regra: valor → mono; frase → Plex Sans; nome/comando → Chakra Petch.
+- **Resto do Hub (sistema antigo):** Black Ops One → títulos de secção · Rajdhani → corpo
+  base · JetBrains Mono → dominante · Inter → ~8 pontos soltos (fora dos cards)
 
 ## PALETA (CSS vars no topo do index.html)
 - `--bg-darkest:#141a2b` · `--bg-dark:#1a2238` · `--bg-panel:#1f283f` · `--bg-row:#25304f`

@@ -27,7 +27,7 @@
 <meta name="twitter:description" content="Tactical Build Hub para Call of Duty Black Ops 7.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@200;300;400;500;600&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@200;300;400;500;600&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     /* LEVEL · Dusk + Amber palette (v3.0) */
@@ -6488,13 +6488,33 @@
   }
   .build-card {
     background: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    border: 1px solid rgba(174,199,224,0.14);
+    border-radius: 8px;
     padding: 16px 18px;
     position: relative;
-    transition: border-color 0.18s ease;
+    box-shadow: 0 2px 10px rgba(8,11,18,0.40);
+    transition: border-color 0.15s cubic-bezier(0.2,0.7,0.2,1), background 0.15s cubic-bezier(0.2,0.7,0.2,1);
   }
-  .build-card:hover { border-color: var(--border-bright); }
+  .build-card:hover { border-color: rgba(174,199,224,0.28); }
+  /* v2.28.1: top edge 2px na cor da classe (direção Claude Design — catálogo escaneia por cor) */
+  .build-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: rgba(174,199,224,0.35);
+    border-radius: 8px 8px 0 0;
+    pointer-events: none;
+  }
+  .build-card.bcc-SMG::before      { background: #ff8155; }
+  .build-card.bcc-AR::before       { background: #93b8d4; }
+  .build-card.bcc-Sniper::before   { background: #c084fc; }
+  .build-card.bcc-MR::before       { background: #f472b6; }
+  .build-card.bcc-LMG::before      { background: #4ade80; }
+  .build-card.bcc-Tac::before      { background: #fbbf24; }
+  .build-card.bcc-SG::before       { background: #f87171; }
+  .build-card.bcc-Pistol::before   { background: #fde68a; }
+  .build-card.bcc-Launcher::before { background: #fb923c; }
 
   /* ─── Tab navigation ─── */
   .build-card .bc-tabs {
@@ -6509,13 +6529,14 @@
     border: none;
     border-bottom: 2px solid transparent;
     color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
     letter-spacing: 1px;
     text-transform: uppercase;
     padding: 9px 6px;
     cursor: pointer;
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    transition: color 0.15s cubic-bezier(0.2,0.7,0.2,1), border-color 0.15s cubic-bezier(0.2,0.7,0.2,1), background 0.15s cubic-bezier(0.2,0.7,0.2,1);
     margin-bottom: -1px;
     white-space: nowrap;
   }
@@ -6540,9 +6561,9 @@
   .build-card .bc-weapon-image {
     width: 154px;
     height: 91px;
-    background: var(--bg-darkest);
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    background: #0F1422;
+    border: 1px solid rgba(174,199,224,0.10);
+    border-radius: 5px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -6571,17 +6592,21 @@
     opacity: 0.85;
   }
 
-  /* ─── Analysis content ─── */
+  /* ─── Analysis content ───
+     v2.28.1 (direção Claude Design): prosa do coach em IBM Plex Sans — mono
+     fica só para dados/valores. 15px/1.62, máx 65ch. Resumo do Le Vél com
+     barra laranja 3px (accent de mensagem de coach). */
   .build-card .bc-analysis {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    line-height: 1.55;
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.62;
     color: var(--text-secondary);
+    max-width: 65ch;
   }
   .build-card .bc-analysis-summary {
-    padding: 8px 10px;
-    background: rgba(125,168,199,0.05);
-    border-left: 2px solid var(--accent-cyan);
+    padding: 10px 12px;
+    background: rgba(240,185,82,0.05);
+    border-left: 3px solid var(--accent-orange);
     border-radius: 0 4px 4px 0;
   }
   .build-card .bc-analysis-summary strong {
@@ -6613,8 +6638,8 @@
     fill: none;
   }
   .build-card .bc-ai-cta-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-primary, #e7eef5);
     letter-spacing: 0.5px;
@@ -6842,6 +6867,7 @@
     margin-bottom: 4px;
   }
   .build-card .bc-suggestions-list .bc-sug-slot-label {
+    font-family: 'JetBrains Mono', monospace;
     color: var(--text-muted);
     font-size: 10px;
     letter-spacing: 1.2px;
@@ -6849,6 +6875,7 @@
     text-transform: uppercase;
   }
   .build-card .bc-suggestions-list .bc-sug-lvl {
+    font-family: 'JetBrains Mono', monospace;
     color: var(--accent-orange);
     font-size: 10px;
     font-weight: 600;
@@ -6857,7 +6884,8 @@
     border-radius: 3px;
   }
   .build-card .bc-suggestions-list .bc-sug-swap {
-    font-size: 12.5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
     line-height: 1.4;
     color: var(--text-secondary);
   }
@@ -6877,15 +6905,15 @@
   }
   .build-card .bc-suggestions-list .bc-sug-rationale {
     margin-top: 4px;
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.5;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.55;
   }
   /* v2.20: contraponto da troca (o que ela custa) */
   .build-card .bc-suggestions-list .bc-sug-tradeoff {
     margin-top: 6px;
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: 12.5px;
+    line-height: 1.55;
     color: #E0B66A;
     background: rgba(240,185,82,0.07);
     border-left: 2px solid var(--accent-orange);
@@ -7084,7 +7112,7 @@
     background: transparent;
     border: 1px solid var(--accent-orange);
     color: var(--accent-orange);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -7127,8 +7155,11 @@
     border-bottom: 1px solid var(--border);
   }
   .build-card .bc-name {
-    font-family: 'Black Ops One', sans-serif;
-    font-size: 16px;
+    /* v2.28.1: Chakra Petch (display tier — direção Claude Design); cantos
+       chanfrados ecoam a wordmark LEVEL. Black Ops One segue nos títulos de secção. */
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
     color: var(--text-primary);
     letter-spacing: 0.5px;
     flex: 1;
@@ -7139,8 +7170,11 @@
     text-transform: uppercase;
   }
   .build-card .bc-class {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
+    /* v2.28.1: ClassBadge promovido (direção Claude Design) — Chakra Petch + tint
+       de fundo na cor da classe, em vez de chip escuro plano. */
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
     letter-spacing: 1.5px;
     padding: 3px 8px;
     background: var(--bg-darkest);
@@ -7148,15 +7182,15 @@
     border-radius: 3px;
     flex-shrink: 0;
   }
-  .build-card .bc-class.cls-SMG    { color: #ff8155; border-color: rgba(255,129,85,0.4); }
-  .build-card .bc-class.cls-AR     { color: #93b8d4; border-color: rgba(147,184,212,0.4); }
-  .build-card .bc-class.cls-Sniper { color: #c084fc; border-color: rgba(192,132,252,0.4); }
-  .build-card .bc-class.cls-MR     { color: #f472b6; border-color: rgba(244,114,182,0.4); }
-  .build-card .bc-class.cls-LMG    { color: #4ade80; border-color: rgba(74,222,128,0.4); }
-  .build-card .bc-class.cls-Tac    { color: #fbbf24; border-color: rgba(251,191,36,0.4); }
-  .build-card .bc-class.cls-SG     { color: #f87171; border-color: rgba(248,113,113,0.4); }
-  .build-card .bc-class.cls-Pistol   { color: #fde68a; border-color: rgba(253,230,138,0.4); }
-  .build-card .bc-class.cls-Launcher { color: #fb923c; border-color: rgba(251,146,60,0.4); }
+  .build-card .bc-class.cls-SMG    { color: #ff8155; border-color: rgba(255,129,85,0.4);  background: rgba(255,129,85,0.10); }
+  .build-card .bc-class.cls-AR     { color: #93b8d4; border-color: rgba(147,184,212,0.4); background: rgba(147,184,212,0.10); }
+  .build-card .bc-class.cls-Sniper { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.10); }
+  .build-card .bc-class.cls-MR     { color: #f472b6; border-color: rgba(244,114,182,0.4); background: rgba(244,114,182,0.10); }
+  .build-card .bc-class.cls-LMG    { color: #4ade80; border-color: rgba(74,222,128,0.4);  background: rgba(74,222,128,0.10); }
+  .build-card .bc-class.cls-Tac    { color: #fbbf24; border-color: rgba(251,191,36,0.4);  background: rgba(251,191,36,0.10); }
+  .build-card .bc-class.cls-SG     { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.10); }
+  .build-card .bc-class.cls-Pistol   { color: #fde68a; border-color: rgba(253,230,138,0.4); background: rgba(253,230,138,0.10); }
+  .build-card .bc-class.cls-Launcher { color: #fb923c; border-color: rgba(251,146,60,0.4);  background: rgba(251,146,60,0.10); }
 
   .build-card .bc-base {
     font-family: 'JetBrains Mono', monospace;
@@ -7177,30 +7211,34 @@
     font-size: 10px;
   }
   .build-card .bc-attachs {
+    /* v2.28.1: spec-sheet num well afundado único (direção Claude Design) —
+       rows apertadas (7px de ritmo vertical), labels dimmed / valores claros. */
     display: flex;
     flex-direction: column;
-    gap: 4px;
     margin: 10px 0;
+    padding: 6px 10px;
+    background: #0F1422;
+    border: 1px solid rgba(174,199,224,0.10);
+    border-radius: 5px;
   }
   .build-card .bc-att {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     color: var(--text-secondary);
-    padding: 4px 8px;
-    background: rgba(0,0,0,0.25);
-    border-radius: 3px;
+    padding: 3px 0 4px;
     display: grid;
     grid-template-columns: 76px 1fr;
     gap: 8px;
     align-items: center;
   }
+  .build-card .bc-att + .bc-att { border-top: 1px solid rgba(174,199,224,0.06); }
   .build-card .bc-att-slot {
     color: var(--text-muted);
     font-size: 10px;
     letter-spacing: 1px;
     text-transform: uppercase;
   }
-  .build-card .bc-att-val { color: var(--text-primary); word-break: break-word; }
+  .build-card .bc-att-val { color: var(--text-primary); font-weight: 500; word-break: break-word; }
   .build-card .bc-att.empty .bc-att-val { color: var(--text-muted); font-style: italic; }
   .build-card .bc-updated {
     font-family: 'JetBrains Mono', monospace;
@@ -7223,18 +7261,20 @@
     padding: 7px 10px;
     border-radius: 4px;
     cursor: pointer;
-    font-family: 'Inter', sans-serif;
+    /* v2.28.1: Chakra Petch (display tier) — remove o "intruso" Inter dos cards */
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: all 0.15s ease;
+    transition: all 0.15s cubic-bezier(0.2,0.7,0.2,1);
     /* v75-95: icon + text alinhados */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
   }
+  .build-card .bc-btn:active { transform: translateY(1px); }
   .build-card .bc-btn svg {
     width: 13px;
     height: 13px;
@@ -15005,6 +15045,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.28.1</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Cards de arsenal com novo visual.</strong> Primeira entrega da dire&ccedil;&atilde;o visual explorada no Claude Design, aplicada aos cards de Minhas Armas. <strong>Tipografia em 3 n&iacute;veis:</strong> nomes de build, abas e bot&otilde;es em <strong>Chakra Petch</strong> (display angular que ecoa a wordmark LEVEL — e elimina a Inter dos cards); a an&aacute;lise do Le V&eacute;l em <strong>IBM Plex Sans</strong> 15px/1.62 (prosa leg&iacute;vel — a mono em texto corrido cansava e gastava ~20% de largura); <strong>JetBrains Mono</strong> mantida nos dados (stats, n&iacute;veis, slots). <strong>Cor por classe:</strong> borda superior de 2px na cor da classe + badge com tint de fundo — o cat&aacute;logo escaneia por cor. <strong>Spec-sheet:</strong> os 9 slots viraram um painel afundado &uacute;nico (labels discretos, valores claros, linhas de 7px). Resumo do Le V&eacute;l com barra laranja de 3px; bot&otilde;es com press de 1px e timing mec&acirc;nico (150ms). Aba Avalie trocou o emoji &#11088; por &iacute;cone Lucide. <strong>Nenhuma mec&acirc;nica mudou:</strong> 3 abas, gloss&aacute;rio, an&aacute;lise server-side e 9 slots fixos intactos.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.28.0</span>
                 <span class="vh-date">11 Jun 2026</span>
                 <span class="vh-kind">melhoria</span>
@@ -16917,7 +16966,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.28.0</strong><span class="ver-tag">Decisão server-side de análise: agora o motor determinístico do Hub escolhe as trocas de attachment (com base no teu estilo fixo e no ganho real de cada peça), e o Le Vél só explica cada uma — em vez de a IA decidir sozinha. Resultado: a mesma build sempre recebe as mesmas sugestões, e nunca uma troca subótima · Tela de login/cadastro agora 100% bilíngue (PT/EN) — quem escolhe English vê a vitrine toda traduzida</span>
+        LEVEL · <strong>v2.28.1</strong><span class="ver-tag">Cards de arsenal com novo visual (direção Claude Design): tipografia em 3 níveis — Chakra Petch nos nomes/abas/botões, IBM Plex Sans na análise do Le Vél, JetBrains Mono nos dados — + borda superior na cor da classe e spec-sheet afundado. Mecânicas intactas</span>
       </div>
       <script>
         (function(){
@@ -18569,10 +18618,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '11 Jun 2026',
-    'briefing.changelog.pill':  'melhoria',
-    'briefing.changelog.headline': 'Análise mais consistente + tela de login em inglês',
-    'briefing.changelog.summary':  'Mudan&ccedil;a na forma como a an&aacute;lise de build decide as trocas. Antes, a IA escolhia sozinha quais attachments sugerir \u2014 o que &agrave;s vezes dava sugest&otilde;es diferentes pra mesma build, ou uma troca que n&atilde;o era a melhor. Agora o <strong>motor determin&iacute;stico do Hub</strong> escolhe os swaps: pra cada fraqueza da build relevante ao teu estilo (rusher CQB), ele pega o <strong>melhor candidato dispon&iacute;vel</strong> no teu n&iacute;vel, confirma que o ganho real supera uma margem, e s&oacute; ent&atilde;o recomenda. O <strong>Le V&eacute;l</strong> recebe essas trocas j&aacute; decididas e foca no que faz melhor: <strong>explicar</strong> cada uma com o porqu&ecirc;, ligando &agrave; tua dificuldade e ao teu estilo. Resultado: <strong>mesma build &rarr; mesmas sugest&otilde;es, sempre</strong>, e nunca uma troca subótima. Se o cat&aacute;logo da arma n&atilde;o estiver dispon&iacute;vel, cai no modo antigo (IA prop&otilde;e, Hub filtra) \u2014 nada quebra. E mais: a <strong>tela de login e cadastro</strong> agora respeita o teu idioma \u2014 quem escolhe English v&ecirc; a vitrine inteira em ingl&ecirc;s (antes ficava em portugu&ecirc;s mesmo no modo EN).',
+    'briefing.changelog.date':  '12 Jun 2026',
+    'briefing.changelog.pill':  'visual',
+    'briefing.changelog.headline': 'Cards de arsenal com novo visual',
+    'briefing.changelog.summary':  'Os cards de Minhas Armas ganharam a primeira entrega da <strong>nova dire&ccedil;&atilde;o visual</strong> explorada no Claude Design. O que mudou: <strong>tipografia em 3 n&iacute;veis</strong> \u2014 nomes de build, abas e bot&otilde;es em <strong>Chakra Petch</strong> (fonte display angular que ecoa a logo LEVEL), a an&aacute;lise do <strong>Le V&eacute;l</strong> agora em <strong>IBM Plex Sans</strong> (texto corrido bem mais leg&iacute;vel que a mono antiga), e a <strong>JetBrains Mono</strong> mantida onde brilha: stats, n&iacute;veis e slots. Cada card ganhou uma <strong>borda superior na cor da classe</strong> (SMG laranja, AR azul, Sniper roxo...) \u2014 o cat&aacute;logo escaneia por cor. A lista de attachments virou um <strong>painel afundado &uacute;nico</strong>, com labels discretos e valores em destaque. Nada de mec&acirc;nica mudou: as 3 abas, o gloss&aacute;rio e a an&aacute;lise do Le V&eacute;l continuam exatamente iguais.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -20004,10 +20053,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 11, 2026',
-    'briefing.changelog.pill':  'improved',
-    'briefing.changelog.headline': 'More consistent analysis + English login screen',
-    'briefing.changelog.summary':  'A change in how build analysis decides swaps. Before, the AI chose which attachments to suggest on its own \u2014 which sometimes gave different suggestions for the same build, or a swap that wasn&rsquo;t the best one. Now the <strong>Hub&rsquo;s deterministic engine</strong> picks the swaps: for each build weakness relevant to your style (rusher CQB), it takes the <strong>best available candidate</strong> at your level, confirms the real gain clears a margin, and only then recommends it. <strong>Le V&eacute;l</strong> gets these already-decided swaps and focuses on what it does best: <strong>explaining</strong> each one, tying it to your struggle and style. Result: <strong>same build &rarr; same suggestions, every time</strong>, and never a subpar swap. If the weapon catalog isn&rsquo;t available, it falls back to the old mode (AI proposes, Hub filters) \u2014 nothing breaks. Also: the <strong>login and signup screen</strong> now respects your language \u2014 pick English and the whole entry screen shows in English (it used to stay in Portuguese even in EN mode).',
+    'briefing.changelog.date':  'Jun 12, 2026',
+    'briefing.changelog.pill':  'visual',
+    'briefing.changelog.headline': 'Arsenal cards, redesigned',
+    'briefing.changelog.summary':  'The My Weapons cards got the first delivery of the <strong>new visual direction</strong> explored in Claude Design. What changed: <strong>3-tier typography</strong> \u2014 build names, tabs and buttons in <strong>Chakra Petch</strong> (angular display face that echoes the LEVEL wordmark), <strong>Le V&eacute;l&rsquo;s</strong> analysis now in <strong>IBM Plex Sans</strong> (running text far more readable than the old mono), and <strong>JetBrains Mono</strong> kept where it shines: stats, levels and slots. Each card got a <strong>class-colored top edge</strong> (SMG orange, AR blue, Sniper violet...) \u2014 the catalog scans by color. The attachment list became a single <strong>sunken spec-sheet panel</strong>, with dimmed labels and bright values. No mechanics changed: the 3 tabs, the glossary and Le V&eacute;l&rsquo;s analysis stay exactly the same.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -26566,7 +26615,8 @@ const ATTACHMENT_ICONS = {
       const tabSelected = (name) => name === activeTab ? 'true' : 'false';
       const panelActive = (name) => name === activeTab ? ' active' : '';
 
-      return '<div class="build-card" data-id="' + build.id + '">' +
+      // v2.28.1: bcc-<classe> na raiz alimenta o top edge 2px na cor da classe (CSS ::before)
+      return '<div class="build-card bcc-' + baseClass + '" data-id="' + build.id + '">' +
         '<div class="bc-head">' +
           '<div class="bc-name" data-glossary-skip>' + escapeHtml(build.name) + '</div>' +
           '<div class="bc-class cls-' + baseClass + '" data-glossary-skip>' + baseClass + '</div>' +
@@ -26576,7 +26626,7 @@ const ATTACHMENT_ICONS = {
         '<div class="bc-tabs" role="tablist">' +
           '<button class="bc-tab' + tabActive('loadout') + '" data-bc-tab="loadout" type="button" role="tab" aria-selected="' + tabSelected('loadout') + '">Loadout</button>' +
           '<button class="bc-tab' + tabActive('analysis') + '" data-bc-tab="analysis" type="button" role="tab" aria-selected="' + tabSelected('analysis') + '">{{i:message-circle}} Nossa Análise</button>' +
-          '<button class="bc-tab' + tabActive('rating') + '" data-bc-tab="rating" type="button" role="tab" aria-selected="' + tabSelected('rating') + '">⭐ Avalie</button>' +
+          '<button class="bc-tab' + tabActive('rating') + '" data-bc-tab="rating" type="button" role="tab" aria-selected="' + tabSelected('rating') + '">{{i:star}} Avalie</button>' +
         '</div>' +
 
         '<div class="bc-tab-panel' + panelActive('loadout') + '" data-bc-panel="loadout" role="tabpanel">' +

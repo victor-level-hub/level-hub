@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 11 Jun 2026 — v2.28.0 (decisão server-side de análise + i18n EN do login)
+> **Última atualização:** 12 Jun 2026 — v2.28.1 (novo visual dos cards de arsenal — direção Claude Design)
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.28.0` (SemVer desde v2.0.0)
+**Versão:** `v2.28.1` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,24 MB, ~42.900 linhas, 16 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 **Captura mobile:** repo `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
 
 ### Marcos recentes
+- **v2.28.1** (12 Jun) — **Novo visual dos cards de arsenal** (primeira entrega da direção Claude Design, vinda do README do design system). Tipografia 3-tier nos cards: **Chakra Petch** (nomes de build, abas, botões — elimina a Inter dos cards), **IBM Plex Sans** (prosa do Le Vél, 15px/1.62, máx 65ch, barra laranja 3px no resumo), **JetBrains Mono** mantida nos dados. Borda superior 2px na cor da classe (classe `bcc-<classe>` na raiz do card, CSS `::before`) + ClassBadge com tint de fundo. Spec-sheet dos 9 slots em well afundado único `#0F1422` (labels dim, valores claros, rows 7px). Radius 8px, hairline azul-claro translúcida, sombra suave, motion 150ms `cubic-bezier(0.2,0.7,0.2,1)`, press 1px nos botões. Emoji ⭐ da aba Avalie → `{{i:star}}`. Paleta de classes MANTIDA (decisão: o README sugeria outras cores de classe, mas a regra acordada era manter a paleta). Fontes novas no link Google Fonts. Mecânicas intactas (3 abas, glossário, análise server-side, 9 slots). Verificado com render isolado (Chrome headless, 3 cards × 3 abas).
 - **v2.28.0** (11 Jun) — **duas entregas.** (1) **Decisão server-side de análise** (roadmap item 3): o motor determinístico do Hub passou a ESCOLHER os swaps de attachment (função `_decideSwaps`), e o Le Vél só EXPLICA. Garante consistência (mesma build → mesmos swaps). `analyze-build` v6 com regra R5-DECIDIDO. Fallback v5 preservado. (2) **i18n EN da tela de login** (parte do item 11): landing/cadastro/login/reset agora bilíngues via `data-i18n` + chaves `auth.*` no `window.I18N`. Era o maior buraco de i18n (a vitrine ficava em PT mesmo no modo EN).
 - **v2.27.0** (11 Jun) — **Histórico de Análises.** O modal de Histórico (botão na toolbar de Minhas Armas) virou unificado com 2 abas: "Builds Geradas" (gen_history) e "Análises" (novo). Cada análise do Le Vél é registrada automaticamente: veredito, sugestões, ponto fraco percebido (weakest_dim), dificuldade ativa. Filtrável por arma. Backend: tabela `analysis_history` + gravação no `analyze-build` v5 + Edge `analysis-history` v1 (list/delete).
 - **v2.26.1** (11 Jun) — duas correções no Histórico de Builds: (1) ângulo da variante (VELOCIDADE/EQUILÍBRIO/CONTROLE) agora grava certo ao salvar do fluxo de variantes simultâneas — antes vinha `null`; (2) render do estado vazio e dos cards corrigido (usava `renderIconsText` que escapa HTML → tags cruas na tela; trocado por `renderIconsHtml`).
@@ -120,12 +121,11 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - Quando Victor escolher uma direção, ele traz o screenshot de volta → Claude implementa no `index.html` real, preservando as mecânicas (abas, glossário, análise do Le Vél).
 - Setup do "design system" no Claude Design: blurb com identidade LEVEL + notas com paleta e tipografia. Em "fonts/logos/assets" anexar SÓ o screenshot (e logo), NÃO arquivos de fonte — pra que ele OPINE sobre tipografia em vez de só executar.
 
-### Sistema de tipografia atual (4 famílias — mapeado pro Claude Design avaliar)
-- **Black Ops One** (display militar, a cara do CoD) → títulos: `.section-header h2`, `.event-card-title`, `.briefing-*-title`, `.bp-card-title`, changelog headline
-- **Rajdhani** (sans condensada técnica) → **corpo base (`body`)** + `.subtab`, `.panel-header h3`, `.filter-chip`, `.build-tab`, tooltips
-- **JetBrains Mono** (dominante, 310x) → números, stats, labels técnicos, maior parte da UI
-- **Inter** (só ~8x) → `.btn-edit-status`, `.btn-add-weapon`, `.import-dd-item`, `.ca-*` — **candidato a unificar com Rajdhani** (é o "intruso" do sistema)
-- Pedido ao Claude Design: avaliar se o pairing de 4 fontes está bem resolvido, se a mono dominante cansa no texto corrido, e recomendar hierarquia ideal. Manter paleta e logo.
+### Sistema de tipografia (em transição — direção Claude Design aplicada nos cards na v2.28.1)
+- **Veredito do Claude Design (README do design system):** 3-tier — **Chakra Petch** 500–700 (display: nomes, botões, abas, badges), **IBM Plex Sans** 400–600 (prosa ≥1 frase, 15px/1.62), **JetBrains Mono** mantida (dados: stats, níveis, slots, timestamps). Regra: "valor → mono; frase → Plex Sans; nome/comando → Chakra Petch".
+- **Aplicado nos `.build-card`** (v2.28.1). README do design system: `Downloads/README.md` (bundle completo não foi descarregado).
+- **Resto do Hub ainda no sistema antigo:** Black Ops One (títulos de secção), Rajdhani (corpo), JetBrains Mono (dominante), Inter (~8 pontos fora dos cards). Migração gradual conforme Victor aprovar tela a tela.
+- Cores de classe NÃO mudaram (README sugeria AR laranja/SMG ciano; mantivemos SMG `#ff8155`, AR `#93b8d4`, Sniper `#c084fc` — regra "manter paleta").
 
 ### Estrutura do card de arsenal (`.build-card`, via `renderBuildCard`)
 - head: `.bc-name` + `.bc-class cls-SMG/AR/Sniper` (SMG laranja `#ff8155`, AR azul `#93b8d4`, Sniper roxo `#c084fc`)
