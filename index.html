@@ -209,25 +209,30 @@
     padding: 0 12px;
   }
   .nav-item {
+    /* v2.31.0: nav mono-caps (espec top-nav do Claude Design) */
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 12px 14px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     cursor: pointer;
     border-radius: 4px;
     margin-bottom: 4px;
-    transition: all 0.2s ease;
+    transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
     border: 1px solid transparent;
     user-select: none;
     background: transparent;
     width: 100%;
     text-align: left;
-    font-family: inherit;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
   }
   .nav-item:hover {
     background: var(--bg-row-hover);
-    color: var(--text-primary);
+    color: var(--ink-100);
   }
   .nav-item.active {
     background: linear-gradient(90deg, rgba(255, 152, 0, 0.15) 0%, transparent 100%);
@@ -572,26 +577,34 @@
     border-radius: 0 2px 2px 0;
   }
   .section-header h2 {
-    font-family: 'Black Ops One', sans-serif;
+    /* v2.31.0: títulos de página no display tier (Claude Design) — Chakra Petch
+       substitui a Black Ops One nos títulos de secção. */
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
     font-size: 28px;
-    font-weight: 400;
-    letter-spacing: 2px;
-    color: var(--text-primary);
-    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink-100);
+    line-height: 1.05;
   }
   .section-header .breadcrumb {
+    /* v2.31.0: eyebrow mono-caps muted (espec Labels & Eyebrows) */
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
-    color: var(--accent-cyan);
-    letter-spacing: 3px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     margin-bottom: 14px;
   }
   .section-header p {
-    font-size: 14px;
+    /* v2.31.0: intro de secção no body tier — IBM Plex Sans, 1.62, máx 65ch */
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.62;
     color: var(--text-secondary);
     margin-top: 10px;
-    max-width: 880px;
+    max-width: 65ch;
   }
 
   /* ===== GLOSSARY TOOLTIPS (technical terms with hover popovers) ===== */
@@ -3009,13 +3022,15 @@
 
   /* ===== APP HEADER (sticky, above main content) ===== */
   .app-header {
+    /* v2.31.0: top-nav de vidro da espec Glass/Neon — mais translúcido, blur 18,
+       hairline azul-clara (nunca branco puro). */
     position: sticky;
     top: 0;
     z-index: 40;
-    background: rgba(15, 23, 41, 0.88);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
+    background: rgba(10, 13, 22, 0.55);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(174,199,224,0.10);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -3049,17 +3064,21 @@
   }
   .app-header-breadcrumb { display: none; }
   .app-header-title {
-    font-family: 'Black Ops One', sans-serif;
+    /* v2.31.0: título visível do Hub no display tier (Chakra Petch) */
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 700;
     font-size: 16px;
-    letter-spacing: 1.5px;
-    color: var(--text-primary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-100);
     line-height: 1.15;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .app-header-intro {
-    font-size: 11px;
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 11.5px;
     color: var(--text-muted);
     line-height: 1.3;
     margin-top: 3px;
@@ -4885,39 +4904,43 @@
     flex-wrap: wrap;
   }
   .arsenal-filter {
-    background: var(--bg-row);
-    border: 1px solid var(--border);
+    /* v2.31.0: SegmentedControl do Claude Design — pills mono; selecionado
+       preenche laranja com texto escuro. */
+    background: var(--surface-raised);
+    border: 1px solid var(--border-default);
     color: var(--text-secondary);
     padding: 7px 14px;
-    border-radius: 20px;
+    border-radius: var(--radius-pill);
     cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    transition: all 0.15s ease;
+    letter-spacing: 0.07em;
+    font-weight: 500;
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
     text-transform: uppercase;
   }
   .arsenal-filter:hover {
-    background: var(--bg-row-hover);
-    color: var(--text-primary);
+    background: #2C3960;
+    color: var(--ink-100);
   }
+  .arsenal-filter:focus-visible { outline: 1px solid var(--accent-orange); outline-offset: 1px; box-shadow: 0 0 0 3px var(--focus-ring); }
   .arsenal-filter.active {
-    background: rgba(255,152,0,0.15);
-    border-color: var(--accent-orange);
-    color: var(--accent-orange);
+    background: var(--accent-orange);
+    border-color: transparent;
+    color: var(--action-ink);
+    font-weight: 700;
   }
   .arsenal-filter .count {
     margin-left: 6px;
     padding: 1px 6px;
     background: var(--bg-darkest);
-    border-radius: 8px;
+    border-radius: var(--radius-pill);
     font-size: 10px;
     color: var(--text-secondary);
   }
   .arsenal-filter.active .count {
-    background: var(--accent-orange);
-    color: var(--bg-darkest);
+    background: rgba(26,18,6,0.22);
+    color: var(--action-ink);
   }
 
   .arsenal-actions {
@@ -4925,59 +4948,48 @@
     gap: 8px;
   }
   .btn-add-weapon {
-    background: linear-gradient(135deg, rgba(207, 141, 82, 0.75) 0%, rgba(189, 124, 68, 0.75) 100%);
-    color: var(--bg-darkest);
-    border: 1px solid transparent;
-    padding: 6px 14px;
-    border-radius: var(--radius-btn);
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 1px;
+    /* v2.31.0: espec Button do Claude Design — secundário em surface-raised,
+       Chakra Petch uppercase, altura md 38, radius 8. Os gradientes âmbar saíram:
+       UMA ação laranja forte por tela (a Montagem Inteligente, .variant-ai). */
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.18s ease;
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    line-height: 1.4;
+    gap: 8px;
+    line-height: 1;
+    white-space: nowrap;
   }
-  .btn-add-weapon:hover {
-    background: linear-gradient(135deg, rgba(207, 141, 82, 0.95) 0%, rgba(189, 124, 68, 0.95) 100%);
-    box-shadow: 0 0 14px rgba(207, 141, 82, 0.35);
-  }
-  /* v75-47: progressão amarelo → laranja, desaturada 25% e com 25% transparência */
-  .btn-add-weapon.variant-orange {
-    background: linear-gradient(135deg, rgba(227, 210, 135, 0.75) 0%, rgba(210, 192, 117, 0.75) 100%);
-    color: var(--bg-darkest);
-    border: 1px solid transparent;
-  }
-  .btn-add-weapon.variant-orange .lvl-icon { color: var(--bg-darkest); }
-  .btn-add-weapon.variant-orange:hover {
-    background: linear-gradient(135deg, rgba(227, 210, 135, 0.95) 0%, rgba(210, 192, 117, 0.95) 100%);
-    box-shadow: 0 0 14px rgba(227, 210, 135, 0.35);
-  }
-  .btn-add-weapon.variant-master {
-    background: linear-gradient(135deg, rgba(217, 182, 118, 0.75) 0%, rgba(201, 159, 92, 0.75) 100%);
-    color: var(--bg-darkest);
-    border: 1px solid transparent;
-  }
-  .btn-add-weapon.variant-master .lvl-icon { color: var(--bg-darkest); }
-  .btn-add-weapon.variant-master:hover {
-    background: linear-gradient(135deg, rgba(217, 182, 118, 0.95) 0%, rgba(201, 159, 92, 0.95) 100%);
-    box-shadow: 0 0 14px rgba(217, 182, 118, 0.35);
-  }
-  /* v2.22: MONTAGEM INTELIGENTE + CAPTURAR VIA TEXTO */
+  .btn-add-weapon:hover { background: #2C3960; color: var(--ink-100); }
+  .btn-add-weapon:active { transform: translateY(1px); }
+  .btn-add-weapon:focus-visible { outline: 1px solid var(--accent-orange); outline-offset: 1px; box-shadow: 0 0 0 3px var(--focus-ring); }
+  /* variants antigos (orange/master) herdam o secundário — mantidos como hooks */
+  .btn-add-weapon.variant-orange { background: var(--surface-raised); color: var(--text-primary); }
+  .btn-add-weapon.variant-orange .lvl-icon { color: inherit; }
+  .btn-add-weapon.variant-master { background: var(--surface-raised); color: var(--text-primary); }
+  .btn-add-weapon.variant-master .lvl-icon { color: inherit; }
   .arsenal-actions { flex-wrap: wrap; }
+  /* Montagem Inteligente = CTA primário com glow (espec Button primary) */
   .btn-add-weapon.variant-ai {
-    background: linear-gradient(135deg, rgba(255, 152, 0, 0.85) 0%, rgba(230, 126, 0, 0.85) 100%);
-    color: var(--bg-darkest);
-    border: 1px solid transparent;
+    background: var(--accent-orange);
+    color: var(--action-ink);
+    border-color: transparent;
+    box-shadow: 0 0 0 1px rgba(255,152,0,0.25), 0 6px 18px rgba(255,152,0,0.18);
   }
-  .btn-add-weapon.variant-ai .lvl-icon { color: var(--bg-darkest); }
+  .btn-add-weapon.variant-ai .lvl-icon { color: var(--action-ink); }
   .btn-add-weapon.variant-ai:hover {
-    background: linear-gradient(135deg, rgba(255, 152, 0, 1) 0%, rgba(230, 126, 0, 1) 100%);
-    box-shadow: 0 0 16px rgba(255, 152, 0, 0.45);
+    background: #FFB23E;
+    color: var(--action-ink);
   }
   /* Capturar via Texto — modal */
   .tc-textarea {
@@ -7403,7 +7415,8 @@
   }
   .build-card .bc-name {
     /* v2.29.0: 22px/600 + gradiente branco→dourado (Glass/Neon). padding-bottom 2px
-       e line-height 1.05 evitam o corte da base das letras no clip do gradiente. */
+       e line-height 1.05 evitam o corte da base das letras no clip do gradiente.
+       (v2.31.0: títulos de secção também migraram pra Chakra — Black Ops One a sair.) */
     font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
     font-weight: 600;
     font-size: 22px;
@@ -12076,7 +12089,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.30.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.31.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -15323,6 +15336,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.31.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Moldura de Minhas Armas + navega&ccedil;&atilde;o no design system.</strong> Quarta entrega da dire&ccedil;&atilde;o Claude Design. <strong>T&iacute;tulos</strong>: o t&iacute;tulo vis&iacute;vel do topo (app-header sticky) migrou de Black Ops One para <strong>Chakra Petch 700</strong> (display tier) com intro em Plex Sans, e o pr&oacute;prio app-header entrou na espec do top-nav de vidro (mais transl&uacute;cido, blur 18px, hairline azul-clara); os headers de sec&ccedil;&atilde;o (h2/breadcrumb/intro, hoje ocultos) tamb&eacute;m foram migrados para quando voltarem a aparecer. <strong>Toolbar de Minhas Armas</strong> na espec Button: altura 38, radius 8, Chakra uppercase — <strong>Montagem Inteligente &eacute; o &uacute;nico CTA prim&aacute;rio laranja</strong> (com glow e texto escuro); Hist&oacute;rico / Importar Build / + Adicionar Arma viraram secund&aacute;rios em surface-raised (adeus gradientes &acirc;mbar v75). <strong>Filtros de classe</strong> como pills SegmentedControl: mono 11px, selecionado preenche <strong>#FF9800</strong> com texto escuro e contador embutido. <strong>Nav lateral mono-caps</strong> (JetBrains Mono 12px, tracking 0.07em) — labels em caixa alta como no prot&oacute;tipo Glass/Neon; estado ativo mant&eacute;m a barra laranja. Foco vis&iacute;vel (ring laranja) em filtros e bot&otilde;es da toolbar. <strong>Nenhuma mec&acirc;nica mudou.</strong></p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.30.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -17262,7 +17284,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.30.0</strong><span class="ver-tag">Estados da tela ⓪ do Claude Design: arsenal vazio com 2 CTAs, filtro sem resultados, Evolução sem registos, erro de sync com retry e copy honesta, skeleton shimmer no Histórico. Mecânicas intactas</span>
+        LEVEL · <strong>v2.31.0</strong><span class="ver-tag">Moldura de Minhas Armas no design system: títulos de secção em Chakra Petch, toolbar na espec Button (Montagem Inteligente = único CTA laranja com glow), filtros de classe em pills, nav lateral mono-caps. Mecânicas intactas</span>
       </div>
       <script>
         (function(){
@@ -18916,8 +18938,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Estados novos: vazios, erros e loading',
-    'briefing.changelog.summary':  'Terceira entrega da dire&ccedil;&atilde;o do Claude Design \u2014 os <strong>estados da tela &#9450;</strong>. O <strong>arsenal vazio</strong> agora recebe-te com &iacute;cone com glow, t&iacute;tulo display e <strong>2 a&ccedil;&otilde;es diretas</strong> (Montagem Inteligente / Importar Build); <strong>filtro sem resultados</strong> ganhou mensagem t&eacute;cnica em mono + atalho para adicionar arma; a <strong>Evolu&ccedil;&atilde;o sem registos</strong> tem shell com acento azul e nudge do Le V&eacute;l para registar dificuldades reais. No <strong>Hist&oacute;rico</strong>, o loading virou <strong>skeleton shimmer</strong> (1.4s) e o erro de sincroniza&ccedil;&atilde;o virou um painel honesto: c&oacute;digo t&eacute;cnico em mono discreto, copy que tranquiliza (&quot;as tuas builds continuam seguras localmente&quot;) e bot&atilde;o <strong>Tentar de novo</strong>. Tudo PT + EN. Nada de mec&acirc;nica mudou.',
+    'briefing.changelog.headline': 'Minhas Armas: moldura no design system',
+    'briefing.changelog.summary':  'Quarta entrega da dire&ccedil;&atilde;o do Claude Design \u2014 a <strong>moldura da tela Minhas Armas</strong> (e a navega&ccedil;&atilde;o do Hub) alinhadas ao design system. Os <strong>t&iacute;tulos de sec&ccedil;&atilde;o</strong> migraram da Black Ops One para <strong>Chakra Petch</strong> (o display tier \u2014 a mesma fonte dos nomes de build), com eyebrow mono discreto e intro em Plex Sans. A <strong>toolbar</strong> entrou na espec Button: a <strong>Montagem Inteligente &eacute; o &uacute;nico CTA laranja</strong> da tela (com glow); Hist&oacute;rico, Importar e Adicionar viraram bot&otilde;es secund&aacute;rios sem os gradientes &acirc;mbar antigos. Os <strong>filtros de classe</strong> viraram pills estilo SegmentedControl \u2014 o selecionado preenche laranja com texto escuro. A <strong>nav lateral</strong> agora &eacute; mono-caps, como o prot\u00f3tipo. Nada de mec&acirc;nica mudou.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -20361,8 +20383,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'New states: empty, error and loading',
-    'briefing.changelog.summary':  'Third delivery of the Claude Design direction \u2014 the <strong>state screens</strong>. The <strong>empty arsenal</strong> now greets you with a glowing icon, display title and <strong>2 direct actions</strong> (Smart Build / Import Build); <strong>filtered with no results</strong> got a technical mono message + a shortcut to add a weapon; <strong>Evolution with no entries</strong> has a blue-accent shell and a Le V&eacute;l nudge to log your real match struggles. In the <strong>History</strong>, loading became a <strong>skeleton shimmer</strong> (1.4s) and the sync error became an honest panel: technical code in subtle mono, reassuring copy (&quot;your builds are safe locally&quot;) and a <strong>Try again</strong> button. All PT + EN. No mechanics changed.',
+    'briefing.changelog.headline': 'My Weapons: frame on the design system',
+    'briefing.changelog.summary':  'Fourth delivery of the Claude Design direction \u2014 the <strong>My Weapons frame</strong> (and the Hub navigation) aligned to the design system. <strong>Section titles</strong> migrated from Black Ops One to <strong>Chakra Petch</strong> (the display tier \u2014 same face as build names), with a subtle mono eyebrow and Plex Sans intro. The <strong>toolbar</strong> moved to the Button spec: <strong>Smart Build is the single orange CTA</strong> on the screen (with glow); History, Import and Add became secondary buttons, dropping the old amber gradients. The <strong>class filters</strong> became SegmentedControl-style pills \u2014 the selected one fills orange with dark text. The <strong>side nav</strong> is now mono caps, matching the prototype. No mechanics changed.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
