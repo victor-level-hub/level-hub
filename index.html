@@ -6587,6 +6587,176 @@
     gap: 9px;
   }
 
+  /* ═══ v2.34.0 · Command Center (tela ② Claude Design) — master-detail com toggle ═══ */
+  .mw-layout-toggle { display: flex; gap: 6px; align-items: center; }
+  .mw-cc { display: flex; gap: 18px; align-items: flex-start; }
+  .mw-cc-side {
+    width: 300px;
+    flex-shrink: 0;
+    background: rgba(31,40,63,0.34);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-default);
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 76px;
+    max-height: calc(100vh - 96px);
+    display: flex;
+    flex-direction: column;
+  }
+  .mw-cc-side-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 2px 2px 10px;
+  }
+  .mw-cc-side-title {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-100);
+  }
+  .mw-cc-side-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+  .mw-cc-search {
+    width: 100%;
+    background: #131A2C;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 9px 11px;
+    margin-bottom: 12px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.40);
+  }
+  .mw-cc-search::placeholder { color: var(--ink-500); }
+  .mw-cc-search:focus {
+    outline: none;
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+  .mw-cc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+  .mw-cc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15,20,34,0.55);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 9px 12px 9px 9px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .mw-cc-item:hover { background: var(--surface-raised); border-color: var(--border-default); }
+  .mw-cc-item:focus-visible { outline: 1px solid var(--accent-orange); outline-offset: 1px; box-shadow: 0 0 0 3px var(--focus-ring); }
+  .mw-cc-item-bar {
+    width: 4px;
+    align-self: stretch;
+    border-radius: 2px;
+    background: var(--text-muted);
+    flex-shrink: 0;
+  }
+  /* barra de classe com halo (espec: acento de classe + glow) */
+  .mw-cc-item.bcc-SMG .mw-cc-item-bar      { background: #58C4DC; box-shadow: 0 0 10px rgba(88,196,220,0.55); }
+  .mw-cc-item.bcc-AR .mw-cc-item-bar       { background: #FF9800; box-shadow: 0 0 10px rgba(255,152,0,0.55); }
+  .mw-cc-item.bcc-Sniper .mw-cc-item-bar   { background: #C77DFF; box-shadow: 0 0 10px rgba(199,125,255,0.55); }
+  .mw-cc-item.bcc-MR .mw-cc-item-bar       { background: #FFC857; box-shadow: 0 0 10px rgba(255,200,87,0.55); }
+  .mw-cc-item.bcc-LMG .mw-cc-item-bar      { background: #4ADE80; box-shadow: 0 0 10px rgba(74,222,128,0.55); }
+  .mw-cc-item.bcc-Tac .mw-cc-item-bar      { background: #fbbf24; box-shadow: 0 0 10px rgba(251,191,36,0.55); }
+  .mw-cc-item.bcc-SG .mw-cc-item-bar       { background: #F2784B; box-shadow: 0 0 10px rgba(242,120,75,0.55); }
+  .mw-cc-item.bcc-Pistol .mw-cc-item-bar   { background: #AEC7E0; box-shadow: 0 0 10px rgba(174,199,224,0.55); }
+  .mw-cc-item.bcc-Launcher .mw-cc-item-bar { background: #fb923c; box-shadow: 0 0 10px rgba(251,146,60,0.55); }
+  .mw-cc-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+  .mw-cc-item-name {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--ink-100);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mw-cc-item-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mw-cc-item-lvl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  /* item ativo = gradiente laranja + borda neon + glow (espec da sidebar) */
+  .mw-cc-item.active {
+    background: linear-gradient(90deg, rgba(255,152,0,0.16), rgba(255,152,0,0.04));
+    border-color: rgba(255,152,0,0.5);
+    box-shadow: 0 0 14px rgba(255,152,0,0.12);
+  }
+  .mw-cc-item.active .mw-cc-item-name { color: var(--accent-orange); }
+
+  .mw-cc-detail-wrap { flex: 1; min-width: 0; }
+  /* o detalhe é um .build-card expandido — overrides de escala */
+  .mw-cc-card { padding: 20px 24px; }
+  .mw-cc-card:hover { transform: none; }
+  .mw-cc-card .bc-name { font-size: 42px; line-height: 1.02; padding-bottom: 3px; }
+  .mw-cc-card .bc-base { font-size: 13px; }
+  .mw-cc-card .bc-weapon-image { width: 100%; max-width: 320px; height: 150px; }
+  .mw-cc-card .bc-analysis { max-width: none; }
+  .bc-cc-cols {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .bc-cc-history {
+    padding: 6px 2px;
+    max-width: 65ch;
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--text-secondary);
+  }
+  .bc-cc-history .bc-btn { margin-top: 12px; flex: none; display: inline-flex; }
+  @media (max-width: 1000px) {
+    .mw-cc { flex-direction: column; }
+    .mw-cc-side { width: 100%; position: static; max-height: 300px; }
+    .bc-cc-cols { grid-template-columns: 1fr; }
+    .mw-cc-card .bc-name { font-size: 28px; }
+  }
+
   @media (max-width: 700px) {
     .arsenal-toolbar { flex-direction: column; align-items: stretch; }
     .arsenal-grid { grid-template-columns: 1fr; }
@@ -12160,7 +12330,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.33.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.34.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -12199,6 +12369,11 @@
         <div class="arsenal-filters" id="mw-filters">
           <!-- populated by JS -->
         </div>
+        <!-- v2.34.0: toggle de layout (Grade · Command Center) — preferência persistida -->
+        <div class="mw-layout-toggle" id="mw-layout-toggle" role="group" aria-label="Layout do arsenal">
+          <button class="arsenal-filter active" type="button" data-mw-layout="grid" data-i18n="mw.layout.grid">Grade</button>
+          <button class="arsenal-filter" type="button" data-mw-layout="cc" data-i18n="mw.layout.cc">Command Center</button>
+        </div>
         <div class="arsenal-actions">
           <button class="btn-add-weapon variant-ai" id="btn-smart-build" data-i18n="mw.btn.smartBuild">{{i:gear-star}} Montagem Inteligente</button>
           <button class="btn-add-weapon" id="btn-gen-history" data-i18n="mw.btn.genHistory">{{i:history}} Histórico</button>
@@ -12217,6 +12392,19 @@
       <!-- Grid -->
       <div class="builds-grid" id="mw-grid">
         <!-- populated by JS -->
+      </div>
+
+      <!-- v2.34.0: Command Center (tela ② Claude Design) — master-detail alternável -->
+      <div class="mw-cc" id="mw-cc" style="display:none">
+        <aside class="mw-cc-side">
+          <div class="mw-cc-side-head">
+            <span class="mw-cc-side-title" data-i18n="mw.cc.arsenal">ARSENAL</span>
+            <span class="mw-cc-side-count" id="mw-cc-count"></span>
+          </div>
+          <input type="text" class="mw-cc-search" id="mw-cc-search" placeholder="Buscar build ou arma..." data-i18n-placeholder="mw.cc.search" autocomplete="off">
+          <div class="mw-cc-list" id="mw-cc-list"></div>
+        </aside>
+        <div class="mw-cc-detail-wrap" id="mw-cc-detail-wrap"></div>
       </div>
 
       <div class="arsenal-empty" id="mw-empty" style="display:none">
@@ -15407,6 +15595,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.34.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Command Center — master-detail altern&aacute;vel em Minhas Armas.</strong> A tela &#9313; da explora&ccedil;&atilde;o Claude Design implementada como <strong>modo de layout</strong>, n&atilde;o como substitui&ccedil;&atilde;o: um toggle <strong>Grade &middot; Command Center</strong> na toolbar (persistido em prefer&ecirc;ncia local) alterna entre o grid de cards cl&aacute;ssico e o novo master-detail. <strong>Sidebar:</strong> contagem do arsenal, <strong>busca em tempo real</strong> (nome da build ou da arma base), lista com barra na cor da classe + halo neon; o item ativo acende com gradiente laranja e borda neon. <strong>Detalhe:</strong> &eacute; o pr&oacute;prio card expandido — nome em 42px com o gradiente branco&rarr;dourado, abas <strong>[Loadout + An&aacute;lise &middot; Avalie &middot; Hist&oacute;rico]</strong>: a primeira mostra spec-sheet e an&aacute;lise do Le V&eacute;l <strong>lado a lado</strong> (a an&aacute;lise deixa de estar escondida atr&aacute;s de aba — espec do design), a Avalie &eacute; a mesma de sempre, e a Hist&oacute;rico d&aacute; acesso ao painel unificado de builds geradas + an&aacute;lises. <strong>Zero duplica&ccedil;&atilde;o de mec&acirc;nica:</strong> o detalhe reutiliza o mesmo render e as mesmas delega&ccedil;&otilde;es do grid (an&aacute;lise IA on-demand, estrelas com rascunho, editar/duplicar/deletar, gloss&aacute;rio, 9 slots fixos) — quem muda &eacute; s&oacute; o layout. Filtros de classe valem nos dois modos. Responsivo: abaixo de 1000px a sidebar empilha sobre o detalhe.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.33.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -17373,7 +17570,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.33.0</strong><span class="ver-tag">Corpo do Hub migrado para IBM Plex Sans (body tier do Claude Design) — a Rajdhani saiu do bundle. O 3-tier está completo em todo o Hub: Chakra Petch (display) · IBM Plex Sans (prosa) · JetBrains Mono (dados)</span>
+        LEVEL · <strong>v2.34.0</strong><span class="ver-tag">Command Center em Minhas Armas: layout master-detail da tela ② do Claude Design (sidebar com busca + detalhe com abas Loadout + Análise · Avalie · Histórico), alternável com a Grade por toggle persistido. Mecânicas 100% reutilizadas</span>
       </div>
       <script>
         (function(){
@@ -19027,8 +19224,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Prosa nova: IBM Plex Sans no Hub inteiro',
-    'briefing.changelog.summary':  'Sexta entrega da dire&ccedil;&atilde;o do Claude Design \u2014 e a que fecha o sistema tipogr&aacute;fico. O <strong>texto corrido de todo o Hub</strong> (par&aacute;grafos, descri&ccedil;&otilde;es, formul&aacute;rios, modais, a tela de entrada) migrou da Rajdhani para <strong>IBM Plex Sans</strong>, o body tier do design system \u2014 a mesma fonte que j&aacute; lias na an&aacute;lise do Le V&eacute;l. O motivo &eacute; leitura: a Rajdhani &eacute; condensada e cansa em frases longas; a Plex Sans foi desenhada para texto cont&iacute;nuo e par para a JetBrains Mono. Com isto o <strong>3-tier est&aacute; completo em 100% do Hub</strong>: Chakra Petch em tudo o que &eacute; nome e t&iacute;tulo, IBM Plex Sans em tudo o que &eacute; frase, JetBrains Mono em tudo o que &eacute; dado. A Rajdhani saiu do bundle de fontes. Nada de mec&acirc;nica mudou.',
+    'briefing.changelog.headline': 'Command Center: o arsenal em master-detail',
+    'briefing.changelog.summary':  'A maior entrega da dire&ccedil;&atilde;o Claude Design at&eacute; agora \u2014 o <strong>Command Center</strong>, o layout master-detail da explora&ccedil;&atilde;o de design, chegou a Minhas Armas. <strong>Sidebar</strong> com busca em tempo real e a lista de builds (barra na cor da classe com glow; a ativa acende em laranja) + <strong>painel de detalhe</strong> com o nome da build em 42px, spec-sheet e an&aacute;lise do Le V&eacute;l <strong>lado a lado</strong> (aba &quot;Loadout + An&aacute;lise&quot;), Avalie e a nova aba <strong>Hist&oacute;rico</strong>. E o melhor: &eacute; <strong>altern&aacute;vel</strong> \u2014 um toggle <strong>Grade &middot; Command Center</strong> na toolbar deixa-te escolher o layout que preferes, e o Hub lembra a escolha. Toda a mec&acirc;nica (an&aacute;lise, estrelas, editar/duplicar/deletar, gloss&aacute;rio, 9 slots) &eacute; a mesma nos dois modos.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -20137,6 +20334,10 @@ window.I18N = {
     'mw.noresults.mono': '// nenhuma build nesta classe',
     'mw.noresults.hint': 'Tenta outro filtro — ou adiciona uma arma nova ao arsenal.',
     'mw.noresults.cta': '+ Adicionar Arma',
+    'mw.layout.grid': 'Grade',
+    'mw.layout.cc': 'Command Center',
+    'mw.cc.arsenal': 'ARSENAL',
+    'mw.cc.search': 'Buscar build ou arma...',
     'gh.errTitle': 'Erro de sincronização',
     'gh.errBody': 'Não consegui carregar o histórico agora. As tuas builds continuam seguras localmente — nada se perdeu.',
     'gh.errRetry': 'Tentar de novo',
@@ -20472,8 +20673,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'New prose: IBM Plex Sans across the Hub',
-    'briefing.changelog.summary':  'Sixth delivery of the Claude Design direction \u2014 the one that closes the type system. The <strong>running text of the entire Hub</strong> (paragraphs, descriptions, forms, modals, the landing screen) migrated from Rajdhani to <strong>IBM Plex Sans</strong>, the design system&rsquo;s body tier \u2014 the same face you already read in Le V&eacute;l&rsquo;s analysis. The reason is readability: Rajdhani is condensed and tires over long sentences; Plex Sans was drawn for continuous text and pairs with JetBrains Mono. With this, the <strong>3-tier system covers 100% of the Hub</strong>: Chakra Petch on every name and title, IBM Plex Sans on every sentence, JetBrains Mono on every value. Rajdhani left the font bundle. No mechanics changed.',
+    'briefing.changelog.headline': 'Command Center: the arsenal in master-detail',
+    'briefing.changelog.summary':  'The biggest Claude Design delivery yet \u2014 the <strong>Command Center</strong>, the master-detail layout from the design exploration, landed in My Weapons. A <strong>sidebar</strong> with real-time search and the build list (class-colored bar with glow; the active one lights up orange) + a <strong>detail panel</strong> with the build name at 42px, spec-sheet and Le V&eacute;l&rsquo;s analysis <strong>side by side</strong> (the &quot;Loadout + Analysis&quot; tab), Rate, and the new <strong>History</strong> tab. Best part: it&rsquo;s <strong>switchable</strong> \u2014 a <strong>Grid &middot; Command Center</strong> toggle in the toolbar lets you pick the layout you prefer, and the Hub remembers it. All mechanics (analysis, stars, edit/duplicate/delete, glossary, 9 slots) are identical in both modes.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -21582,6 +21783,10 @@ window.I18N = {
     'mw.noresults.mono': '// no builds in this class',
     'mw.noresults.hint': 'Try another filter — or add a new weapon to the arsenal.',
     'mw.noresults.cta': '+ Add Weapon',
+    'mw.layout.grid': 'Grid',
+    'mw.layout.cc': 'Command Center',
+    'mw.cc.arsenal': 'ARSENAL',
+    'mw.cc.search': 'Search build or weapon...',
     'gh.errTitle': 'Sync error',
     'gh.errBody': 'The history could not be loaded right now. Your builds are safe locally — nothing was lost.',
     'gh.errRetry': 'Try again',
@@ -26943,6 +27148,13 @@ const ATTACHMENT_ICONS = {
     // back to the "Loadout" tab because the template emits loadout as default.
     const _bcActiveTab = {};
 
+    // ── v2.34.0 · Command Center (toggle Grade · CC) ──
+    // Preferência de layout persistida; estado da seleção/busca do master-detail.
+    let _mwLayout = 'grid';
+    try { _mwLayout = localStorage.getItem('level.mwLayout') || 'grid'; } catch (e) {}
+    let _ccSelectedId = null;
+    let _ccQuery = '';
+
     // Tab switching handler (event delegation)
     document.addEventListener('click', (e) => {
       const tab = e.target.closest('.bc-tab');
@@ -26984,7 +27196,7 @@ const ATTACHMENT_ICONS = {
       saveRating(buildId);
     });
 
-    async function renderBuildCard(build) {
+    async function renderBuildCard(build, mode) {
       const base = await LevelDB.weapons.get(build.weaponBaseId);
       const baseName = base ? base.name : '(arma deletada)';
       const baseClass = base ? base.class : '?';
@@ -27035,40 +27247,75 @@ const ATTACHMENT_ICONS = {
       const analysisText = generateBuildAnalysis(build, base);
       const ratingsHtml = renderRatingsBlock(build);
 
+      // v2.34.0: modo 'cc' (Command Center, tela ② Claude Design) — o detalhe é o
+      // MESMO .build-card (todas as delegações via closest('.build-card') funcionam),
+      // mas com abas fundidas [Loadout + Análise · Avalie · Histórico].
+      // NOTA: .map(renderBuildCard) passa o index como 2º arg — só 'cc' ativa o modo.
+      const isCC = mode === 'cc';
+
       // Restore previously selected tab (e.g. user was on "rating" and clicked
       // a star → re-render fires; without this restore, card would snap back to "loadout").
-      const activeTab = _bcActiveTab[build.id] || 'loadout';
+      let activeTab = _bcActiveTab[build.id] || (isCC ? 'loadana' : 'loadout');
+      if (isCC && (activeTab === 'loadout' || activeTab === 'analysis')) activeTab = 'loadana';
+      if (!isCC && (activeTab === 'loadana' || activeTab === 'history')) activeTab = 'loadout';
       const tabActive = (name) => name === activeTab ? ' active' : '';
       const tabSelected = (name) => name === activeTab ? 'true' : 'false';
       const panelActive = (name) => name === activeTab ? ' active' : '';
 
+      const analysisHtml = '<div class="bc-analysis"><div class="bc-coach-head"><span class="bc-coach-avatar">{{i:bot}}</span><span class="bc-coach-name">Le Vél</span></div>' + analysisText + '</div>';
+
+      const tabsHtml = isCC
+        ? '<div class="bc-tabs" role="tablist">' +
+            '<button class="bc-tab' + tabActive('loadana') + '" data-bc-tab="loadana" type="button" role="tab" aria-selected="' + tabSelected('loadana') + '">Loadout + Análise</button>' +
+            '<button class="bc-tab' + tabActive('rating') + '" data-bc-tab="rating" type="button" role="tab" aria-selected="' + tabSelected('rating') + '">{{i:star}} Avalie</button>' +
+            '<button class="bc-tab' + tabActive('history') + '" data-bc-tab="history" type="button" role="tab" aria-selected="' + tabSelected('history') + '">{{i:history}} Histórico</button>' +
+          '</div>'
+        : '<div class="bc-tabs" role="tablist">' +
+            '<button class="bc-tab' + tabActive('loadout') + '" data-bc-tab="loadout" type="button" role="tab" aria-selected="' + tabSelected('loadout') + '">Loadout</button>' +
+            '<button class="bc-tab' + tabActive('analysis') + '" data-bc-tab="analysis" type="button" role="tab" aria-selected="' + tabSelected('analysis') + '">{{i:message-circle}} Nossa Análise</button>' +
+            '<button class="bc-tab' + tabActive('rating') + '" data-bc-tab="rating" type="button" role="tab" aria-selected="' + tabSelected('rating') + '">{{i:star}} Avalie</button>' +
+          '</div>';
+
+      const panelsHtml = isCC
+        ? '<div class="bc-tab-panel' + panelActive('loadana') + '" data-bc-panel="loadana" role="tabpanel">' +
+            '<div class="bc-cc-cols">' +
+              '<div class="bc-cc-left">' +
+                '<div class="bc-weapon-image">' + wpnImageHtml + '</div>' +
+                '<div class="bc-attachs">' + attRows.join('') + '</div>' +
+              '</div>' +
+              '<div class="bc-cc-right">' + analysisHtml + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="bc-tab-panel' + panelActive('rating') + '" data-bc-panel="rating" role="tabpanel">' +
+            '<div class="bc-ratings">' + ratingsHtml + '</div>' +
+          '</div>' +
+          '<div class="bc-tab-panel' + panelActive('history') + '" data-bc-panel="history" role="tabpanel">' +
+            '<div class="bc-cc-history">' +
+              'O histórico desta build vive no painel unificado — builds geradas que adotaste e todas as análises do Le Vél, filtráveis por arma.' +
+              '<br><button class="bc-btn" data-cc-open-history type="button">{{i:history}}<span>Abrir Histórico</span></button>' +
+            '</div>' +
+          '</div>'
+        : '<div class="bc-tab-panel' + panelActive('loadout') + '" data-bc-panel="loadout" role="tabpanel">' +
+            '<div class="bc-weapon-image">' + wpnImageHtml + '</div>' +
+            '<div class="bc-attachs">' + attRows.join('') + '</div>' +
+          '</div>' +
+          '<div class="bc-tab-panel' + panelActive('analysis') + '" data-bc-panel="analysis" role="tabpanel">' +
+            analysisHtml +
+          '</div>' +
+          '<div class="bc-tab-panel' + panelActive('rating') + '" data-bc-panel="rating" role="tabpanel">' +
+            '<div class="bc-ratings">' + ratingsHtml + '</div>' +
+          '</div>';
+
       // v2.28.1: bcc-<classe> na raiz alimenta o top edge 2px na cor da classe (CSS ::before)
-      return '<div class="build-card bcc-' + baseClass + '" data-id="' + build.id + '">' +
+      return '<div class="build-card bcc-' + baseClass + (isCC ? ' mw-cc-card' : '') + '" data-id="' + build.id + '">' +
         '<div class="bc-head">' +
           '<div class="bc-name" data-glossary-skip>' + escapeHtml(build.name) + '</div>' +
           '<div class="bc-class cls-' + baseClass + '" data-glossary-skip>' + baseClass + '</div>' +
         '</div>' +
         '<div class="bc-base"><span data-glossary-skip>' + escapeHtml(baseName) + '</span> · <strong>' + lvlStr + '</strong></div>' +
 
-        '<div class="bc-tabs" role="tablist">' +
-          '<button class="bc-tab' + tabActive('loadout') + '" data-bc-tab="loadout" type="button" role="tab" aria-selected="' + tabSelected('loadout') + '">Loadout</button>' +
-          '<button class="bc-tab' + tabActive('analysis') + '" data-bc-tab="analysis" type="button" role="tab" aria-selected="' + tabSelected('analysis') + '">{{i:message-circle}} Nossa Análise</button>' +
-          '<button class="bc-tab' + tabActive('rating') + '" data-bc-tab="rating" type="button" role="tab" aria-selected="' + tabSelected('rating') + '">{{i:star}} Avalie</button>' +
-        '</div>' +
-
-        '<div class="bc-tab-panel' + panelActive('loadout') + '" data-bc-panel="loadout" role="tabpanel">' +
-          '<div class="bc-weapon-image">' + wpnImageHtml + '</div>' +
-          '<div class="bc-attachs">' + attRows.join('') + '</div>' +
-        '</div>' +
-
-        '<div class="bc-tab-panel' + panelActive('analysis') + '" data-bc-panel="analysis" role="tabpanel">' +
-          // v2.29.0: cabeçalho do CoachMessage (chip do Le Vél) — espec Claude Design
-          '<div class="bc-analysis"><div class="bc-coach-head"><span class="bc-coach-avatar">{{i:bot}}</span><span class="bc-coach-name">Le Vél</span></div>' + analysisText + '</div>' +
-        '</div>' +
-
-        '<div class="bc-tab-panel' + panelActive('rating') + '" data-bc-panel="rating" role="tabpanel">' +
-          '<div class="bc-ratings">' + ratingsHtml + '</div>' +
-        '</div>' +
+        tabsHtml +
+        panelsHtml +
 
         '<div class="bc-updated">atualizado: ' + updatedStr + '</div>' +
         '<div class="bc-actions">' +
@@ -27085,14 +27332,21 @@ const ATTACHMENT_ICONS = {
       const grid = document.getElementById('mw-grid');
       const empty = document.getElementById('mw-empty');
       if (!grid || !empty) return;
+      const cc = document.getElementById('mw-cc');
 
       const filtered = currentFilter === 'ALL' ? builds : builds.filter(b => {
         const base = weapons.find(w => w.id === b.weaponBaseId);
         return base && base.class === currentFilter;
       });
 
+      // v2.34.0: estado visual do toggle Grade · Command Center
+      document.querySelectorAll('[data-mw-layout]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mwLayout === _mwLayout);
+      });
+
       if (filtered.length === 0) {
         grid.style.display = 'none';
+        if (cc) cc.style.display = 'none';
         empty.style.display = 'block';
         // v2.30.0: tela ⓪ — vazio real (2 CTAs) vs filtro sem resultados (mono + ghost)
         const zeroEl = document.getElementById('mw-empty-zero');
@@ -27102,7 +27356,14 @@ const ATTACHMENT_ICONS = {
           zeroEl.style.display = isZero ? '' : 'none';
           filterEl.style.display = isZero ? 'none' : '';
         }
+      } else if (_mwLayout === 'cc' && cc) {
+        // v2.34.0: modo Command Center (master-detail da tela ②)
+        grid.style.display = 'none';
+        empty.style.display = 'none';
+        cc.style.display = '';
+        await renderCC(filtered, weapons);
       } else {
+        if (cc) cc.style.display = 'none';
         grid.style.display = 'grid';
         empty.style.display = 'none';
         const cards = await Promise.all(filtered.map(renderBuildCard));
@@ -27124,10 +27385,75 @@ const ATTACHMENT_ICONS = {
       }
     }
 
+    // v2.34.0: render do master-detail (sidebar com busca + detalhe expandido).
+    // O detalhe é renderBuildCard(build, 'cc') — mesmas mecânicas do grid.
+    async function renderCC(filtered, weapons) {
+      const listEl = document.getElementById('mw-cc-list');
+      const detailEl = document.getElementById('mw-cc-detail-wrap');
+      const countEl = document.getElementById('mw-cc-count');
+      if (!listEl || !detailEl) return;
+
+      const q = _ccQuery.trim().toLowerCase();
+      const shown = q ? filtered.filter(b => {
+        const base = weapons.find(w => w.id === b.weaponBaseId);
+        return b.name.toLowerCase().indexOf(q) !== -1 ||
+               (base && base.name.toLowerCase().indexOf(q) !== -1);
+      }) : filtered;
+
+      if (countEl) countEl.textContent = filtered.length + ' builds';
+
+      if (!shown.some(b => b.id === _ccSelectedId)) {
+        _ccSelectedId = shown.length ? shown[0].id : null;
+      }
+
+      if (!shown.length) {
+        listEl.innerHTML = '<div class="lvl-empty-mono" style="padding:18px 12px">// nenhum resultado</div>';
+      } else {
+        listEl.innerHTML = shown.map(b => {
+          const base = weapons.find(w => w.id === b.weaponBaseId);
+          const cls = base ? base.class : '?';
+          const lvl = !base ? '' : (base.master ? 'MESTRE' : (base.maxed ? 'MAX' : (base.prestige > 0 ? 'P' + base.prestige + ' ' + base.level + '/' + base.levelMax : 'L' + base.level)));
+          const active = b.id === _ccSelectedId ? ' active' : '';
+          return '<button type="button" class="mw-cc-item bcc-' + cls + active + '" data-cc-id="' + b.id + '">' +
+            '<span class="mw-cc-item-bar"></span>' +
+            '<span class="mw-cc-item-main">' +
+              '<span class="mw-cc-item-name" data-glossary-skip>' + escapeHtml(b.name) + '</span>' +
+              '<span class="mw-cc-item-meta" data-glossary-skip>' + escapeHtml(base ? base.name : '?') + ' · ' + cls + '</span>' +
+            '</span>' +
+            '<span class="mw-cc-item-lvl">' + lvl + '</span>' +
+          '</button>';
+        }).join('');
+      }
+
+      if (_ccSelectedId) {
+        const sel = shown.find(b => b.id === _ccSelectedId);
+        detailEl.innerHTML = await renderBuildCard(sel, 'cc');
+      } else {
+        detailEl.innerHTML = '<div class="lvl-empty"><div class="lvl-empty-mono">// seleciona uma build na lista</div></div>';
+      }
+    }
+
     async function renderAll() {
       await renderBuildsFilters();
       await renderBuildsGrid();
     }
+
+    // v2.34.0: busca em tempo real da sidebar do Command Center
+    (function initCCSearch() {
+      function bind() {
+        const inp = document.getElementById('mw-cc-search');
+        if (!inp) return;
+        inp.addEventListener('input', () => {
+          _ccQuery = inp.value || '';
+          renderBuildsGrid();
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind);
+      } else {
+        bind();
+      }
+    })();
 
     // ─── MAPS SECTION (BO7 Multiplayer) ────────────────────────────────
     // Renderiza grid de cards de mapa com recomendação primary/secondary.
@@ -27454,6 +27780,27 @@ const ATTACHMENT_ICONS = {
       if (filterBtn) {
         currentFilter = filterBtn.dataset.mwFilter;
         await renderAll();
+        return;
+      }
+      // v2.34.0: toggle de layout Grade · Command Center (persiste a preferência)
+      const layoutBtn = e.target.closest('[data-mw-layout]');
+      if (layoutBtn) {
+        _mwLayout = layoutBtn.dataset.mwLayout;
+        try { localStorage.setItem('level.mwLayout', _mwLayout); } catch (err) {}
+        await renderBuildsGrid();
+        return;
+      }
+      // v2.34.0: seleção de build na sidebar do Command Center
+      const ccItem = e.target.closest('[data-cc-id]');
+      if (ccItem) {
+        _ccSelectedId = ccItem.dataset.ccId;
+        await renderBuildsGrid();
+        return;
+      }
+      // v2.34.0: CTA da aba Histórico do CC → abre o modal unificado existente
+      if (e.target.closest('[data-cc-open-history]')) {
+        const ghBtn = document.getElementById('btn-gen-history');
+        if (ghBtn) ghBtn.click();
         return;
       }
       // Add build (toolbar ou CTA do estado "filtro sem resultados" — v2.30.0)
