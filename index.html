@@ -6383,6 +6383,153 @@
     opacity: 0.5;
   }
 
+  /* ═══ v2.30.0 · Estados (tela ⓪ do Claude Design) — vazios, erros, loading ═══ */
+  .lvl-empty {
+    text-align: center;
+    padding: 48px 24px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .lvl-empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255,152,0,0.10);
+    border: 1px solid rgba(255,152,0,0.30);
+    color: var(--accent-orange);
+    box-shadow: 0 0 24px rgba(255,152,0,0.18);
+    margin-bottom: 16px;
+  }
+  .lvl-empty-icon svg { width: 28px; height: 28px; }
+  .lvl-empty.accent-blue .lvl-empty-icon {
+    background: rgba(174,199,224,0.10);
+    border-color: rgba(174,199,224,0.30);
+    color: var(--level-blue);
+    box-shadow: 0 0 24px rgba(174,199,224,0.14);
+  }
+  .lvl-empty-title {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink-100);
+    margin-bottom: 8px;
+  }
+  .lvl-empty-body {
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+  }
+  .lvl-empty-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .lvl-empty-ctas { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .lvl-empty-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 18px;
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .lvl-empty-cta:hover { background: #2C3960; color: var(--ink-100); }
+  .lvl-empty-cta:active { transform: translateY(1px); }
+  .lvl-empty-cta:focus-visible { outline: 1px solid var(--accent-orange); outline-offset: 1px; box-shadow: 0 0 0 3px var(--focus-ring); }
+  .lvl-empty-cta.primary {
+    background: var(--accent-orange);
+    color: var(--action-ink);
+    border-color: transparent;
+    box-shadow: 0 0 0 1px rgba(255,152,0,0.25), 0 6px 18px rgba(255,152,0,0.18);
+  }
+  .lvl-empty-cta.primary:hover { background: #FFB23E; color: var(--action-ink); }
+  .lvl-empty-cta.ghost { background: transparent; border-color: var(--border-default); color: var(--text-secondary); }
+  .lvl-empty-cta.ghost:hover { background: var(--surface-raised); color: var(--ink-100); }
+  .lvl-empty-cta svg { width: 15px; height: 15px; }
+  .lvl-empty-cta .lvl-icon { color: inherit; }
+
+  /* Painel de erro de carregamento/sync — borda vermelha 35%, ponto com glow,
+     código técnico em mono discreto, copy que tranquiliza (espec tela ⓪) */
+  .lvl-error-panel {
+    background: rgba(231,76,60,0.05);
+    border: 1px solid rgba(231,76,60,0.35);
+    border-radius: 8px;
+    padding: 16px 18px;
+    max-width: 560px;
+    margin: 12px auto;
+    text-align: left;
+  }
+  .lvl-error-head { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; flex-wrap: wrap; }
+  .lvl-error-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 10px var(--red);
+    flex-shrink: 0;
+  }
+  .lvl-error-title {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink-100);
+  }
+  .lvl-error-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-left: auto;
+  }
+  .lvl-error-body {
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 14px;
+    line-height: 1.62;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .lvl-error-actions { display: flex; gap: 10px; }
+
+  /* Skeleton shimmer 1.4s linear (espec tela ⓪) */
+  .lvl-skeleton {
+    border-radius: 6px;
+    background: linear-gradient(90deg, rgba(174,199,224,0.08) 25%, rgba(174,199,224,0.16) 50%, rgba(174,199,224,0.08) 75%);
+    background-size: 200% 100%;
+    animation: lvlShimmer 1.4s linear infinite;
+  }
+  @keyframes lvlShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  .gh-skeleton-card {
+    background: var(--bg-darkest);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
   @media (max-width: 700px) {
     .arsenal-toolbar { flex-direction: column; align-items: stretch; }
     .arsenal-grid { grid-template-columns: 1fr; }
@@ -11929,7 +12076,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.29.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.30.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -11989,8 +12136,23 @@
       </div>
 
       <div class="arsenal-empty" id="mw-empty" style="display:none">
-        <div class="arsenal-empty-icon">{{i:crosshair}}</div>
-        <div>Nenhuma build ainda. Clica em <strong>+ Adicionar Arma</strong> pra criar a primeira.</div>
+        <!-- v2.30.0: estados da tela ⓪ (Claude Design) — vazio real vs filtro sem resultados -->
+        <div class="lvl-empty" id="mw-empty-zero">
+          <div class="lvl-empty-icon">{{i:crosshair}}</div>
+          <div class="lvl-empty-title" data-i18n="mw.empty.title">Arsenal vazio</div>
+          <div class="lvl-empty-body" data-i18n="mw.empty.body">Ainda não tens builds aqui. Gera a primeira com a Montagem Inteligente — ou importa uma build que já uses no jogo.</div>
+          <div class="lvl-empty-ctas">
+            <button class="lvl-empty-cta primary" id="mw-empty-smart" type="button" data-i18n="mw.empty.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
+            <button class="lvl-empty-cta" id="mw-empty-import" type="button" data-i18n="mw.empty.ctaImport">{{i:download}} Importar Build</button>
+          </div>
+        </div>
+        <div class="lvl-empty" id="mw-empty-filter" style="display:none">
+          <div class="lvl-empty-mono" data-i18n="mw.noresults.mono">// nenhuma build nesta classe</div>
+          <div class="lvl-empty-body" data-i18n="mw.noresults.hint">Tenta outro filtro — ou adiciona uma arma nova ao arsenal.</div>
+          <div class="lvl-empty-ctas">
+            <button class="lvl-empty-cta ghost" id="mw-empty-add" type="button" data-i18n="mw.noresults.cta">+ Adicionar Arma</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -15161,6 +15323,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.30.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Estados da tela &#9450; (vazios, erros, loading).</strong> Terceira entrega da dire&ccedil;&atilde;o Claude Design. <strong>Arsenal vazio:</strong> &iacute;cone com glow laranja, t&iacute;tulo display, corpo em Plex Sans e 2 CTAs (Montagem Inteligente prim&aacute;rio com glow / Importar Build) — antes era uma linha de texto seca. <strong>Filtro sem resultados</strong> (novo estado separado): mensagem t&eacute;cnica em mono (&quot;// nenhuma build nesta classe&quot;), dica e CTA ghost &quot;+ Adicionar Arma&quot;. <strong>Evolu&ccedil;&atilde;o sem registos:</strong> shell com acento azul + nudge do Le V&eacute;l (&quot;regista as tuas dificuldades reais — a an&aacute;lise fica mais afiada&quot;) + CTA que abre o registo. <strong>Hist&oacute;rico (builds e an&aacute;lises):</strong> loading virou <strong>skeleton shimmer</strong> 1.4s (3 cards fantasma) e o erro de carregamento virou painel da espec — borda vermelha 35%, ponto vermelho com glow, c&oacute;digo t&eacute;cnico em mono discreto (<code>gh.loadErr &middot; hh:mm</code>), copy que tranquiliza e bot&atilde;o &quot;Tentar de novo&quot; que recarrega. Copy nos dois idiomas (chaves <code>mw.empty.*</code>, <code>mw.noresults.*</code>, <code>gh.err*</code>). Regras de copy da espec seguidas: direto, t&eacute;cnico, nunca culpa o jogador, sempre oferece a pr&oacute;xima a&ccedil;&atilde;o.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.29.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -17091,7 +17262,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.29.0</strong><span class="ver-tag">Acabamento Glass/Neon do Claude Design nos cards de arsenal (vidro, glow de classe, nome em gradiente) + paleta nova em todo o Hub: laranja de ação #FF9800, cores de classe do design system, abas mono-caps, spec-sheet com zebra, painel do Le Vél com chip. Mecânicas intactas</span>
+        LEVEL · <strong>v2.30.0</strong><span class="ver-tag">Estados da tela ⓪ do Claude Design: arsenal vazio com 2 CTAs, filtro sem resultados, Evolução sem registos, erro de sync com retry e copy honesta, skeleton shimmer no Histórico. Mecânicas intactas</span>
       </div>
       <script>
         (function(){
@@ -18745,8 +18916,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Visual Glass/Neon nos cards + paleta nova',
-    'briefing.changelog.summary':  'Segunda entrega da dire&ccedil;&atilde;o do Claude Design \u2014 agora o acabamento completo <strong>Glass/Neon</strong>. Os cards de Minhas Armas viraram <strong>pain&eacute;is de vidro</strong> (fundo transl\u00facido com blur) que <strong>elevam no hover com glow na cor da classe</strong>; o nome da build ganhou <strong>gradiente branco&rarr;dourado</strong>. A paleta inteira do Hub foi recalibrada para o design system: o <strong>laranja de a&ccedil;&atilde;o</strong> passou do &acirc;mbar para o <strong>#FF9800</strong> (bot&otilde;es, abas, estrelas, foco), e as <strong>cores de classe</strong> seguem o novo c&oacute;digo \u2014 SMG ciano, AR laranja, Sniper violeta, Shotgun coral. Abas em <strong>mono-caps</strong>, spec-sheet com <strong>zebra</strong> e colunas mais largas, painel do Le V&eacute;l com <strong>chip de coach</strong> e barra laranja, bot&atilde;o prim&aacute;rio com glow, estrelas vazias em contorno neutro e fundo do Hub com <strong>glow ambiente</strong>. Nada de mec&acirc;nica mudou: 3 abas, gloss&aacute;rio, an&aacute;lise server-side e 9 slots fixos intactos.',
+    'briefing.changelog.headline': 'Estados novos: vazios, erros e loading',
+    'briefing.changelog.summary':  'Terceira entrega da dire&ccedil;&atilde;o do Claude Design \u2014 os <strong>estados da tela &#9450;</strong>. O <strong>arsenal vazio</strong> agora recebe-te com &iacute;cone com glow, t&iacute;tulo display e <strong>2 a&ccedil;&otilde;es diretas</strong> (Montagem Inteligente / Importar Build); <strong>filtro sem resultados</strong> ganhou mensagem t&eacute;cnica em mono + atalho para adicionar arma; a <strong>Evolu&ccedil;&atilde;o sem registos</strong> tem shell com acento azul e nudge do Le V&eacute;l para registar dificuldades reais. No <strong>Hist&oacute;rico</strong>, o loading virou <strong>skeleton shimmer</strong> (1.4s) e o erro de sincroniza&ccedil;&atilde;o virou um painel honesto: c&oacute;digo t&eacute;cnico em mono discreto, copy que tranquiliza (&quot;as tuas builds continuam seguras localmente&quot;) e bot&atilde;o <strong>Tentar de novo</strong>. Tudo PT + EN. Nada de mec&acirc;nica mudou.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -19848,6 +20019,16 @@ window.I18N = {
     'mw.btn.mobileCapture': '{{i:smartphone}} Capturar via Celular',
     'mw.btn.importBuild': '{{i:download}} Importar Build ▾',
     'mw.btn.addWeapon': '+ Adicionar Arma',
+    'mw.empty.title': 'Arsenal vazio',
+    'mw.empty.body': 'Ainda não tens builds aqui. Gera a primeira com a Montagem Inteligente — ou importa uma build que já uses no jogo.',
+    'mw.empty.ctaSmart': '{{i:gear-star}} Montagem Inteligente',
+    'mw.empty.ctaImport': '{{i:download}} Importar Build',
+    'mw.noresults.mono': '// nenhuma build nesta classe',
+    'mw.noresults.hint': 'Tenta outro filtro — ou adiciona uma arma nova ao arsenal.',
+    'mw.noresults.cta': '+ Adicionar Arma',
+    'gh.errTitle': 'Erro de sincronização',
+    'gh.errBody': 'Não consegui carregar o histórico agora. As tuas builds continuam seguras localmente — nada se perdeu.',
+    'gh.errRetry': 'Tentar de novo',
     'mw.stats.total': 'Total builds:',
     'mw.stats.perBase': '· Por arma base:',
     'mw.stats.catalog': 'Catálogo de attachments:',
@@ -20180,8 +20361,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Glass/Neon cards + new palette',
-    'briefing.changelog.summary':  'Second delivery of the Claude Design direction \u2014 now the full <strong>Glass/Neon</strong> finish. The My Weapons cards became <strong>frosted-glass panels</strong> (translucent blurred surface) that <strong>lift on hover with a class-colored glow</strong>; the build name got a <strong>white&rarr;gold gradient</strong>. The Hub&rsquo;s entire palette was recalibrated to the design system: the <strong>action orange</strong> moved from amber to <strong>#FF9800</strong> (buttons, tabs, stars, focus), and the <strong>class colors</strong> follow the new code \u2014 SMG cyan, AR orange, Sniper violet, Shotgun coral. Tabs in <strong>mono caps</strong>, spec-sheet with <strong>zebra banding</strong> and wider columns, Le V&eacute;l&rsquo;s panel with a <strong>coach chip</strong> and orange accent bar, primary button with glow, empty stars in neutral outline, and an <strong>ambient glow</strong> on the Hub background. No mechanics changed: 3 tabs, glossary, server-side analysis and the 9 fixed slots stay intact.',
+    'briefing.changelog.headline': 'New states: empty, error and loading',
+    'briefing.changelog.summary':  'Third delivery of the Claude Design direction \u2014 the <strong>state screens</strong>. The <strong>empty arsenal</strong> now greets you with a glowing icon, display title and <strong>2 direct actions</strong> (Smart Build / Import Build); <strong>filtered with no results</strong> got a technical mono message + a shortcut to add a weapon; <strong>Evolution with no entries</strong> has a blue-accent shell and a Le V&eacute;l nudge to log your real match struggles. In the <strong>History</strong>, loading became a <strong>skeleton shimmer</strong> (1.4s) and the sync error became an honest panel: technical code in subtle mono, reassuring copy (&quot;your builds are safe locally&quot;) and a <strong>Try again</strong> button. All PT + EN. No mechanics changed.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -21283,6 +21464,16 @@ window.I18N = {
     'mw.btn.mobileCapture': '{{i:smartphone}} Capture via Phone',
     'mw.btn.importBuild': '{{i:download}} Import Build ▾',
     'mw.btn.addWeapon': '+ Add Weapon',
+    'mw.empty.title': 'Empty arsenal',
+    'mw.empty.body': 'No builds here yet. Generate your first with Smart Build — or import a build you already run in game.',
+    'mw.empty.ctaSmart': '{{i:gear-star}} Smart Build',
+    'mw.empty.ctaImport': '{{i:download}} Import Build',
+    'mw.noresults.mono': '// no builds in this class',
+    'mw.noresults.hint': 'Try another filter — or add a new weapon to the arsenal.',
+    'mw.noresults.cta': '+ Add Weapon',
+    'gh.errTitle': 'Sync error',
+    'gh.errBody': 'The history could not be loaded right now. Your builds are safe locally — nothing was lost.',
+    'gh.errRetry': 'Try again',
     'mw.stats.total': 'Total builds:',
     'mw.stats.perBase': '· Per base weapon:',
     'mw.stats.catalog': 'Attachments catalog:',
@@ -26792,6 +26983,14 @@ const ATTACHMENT_ICONS = {
       if (filtered.length === 0) {
         grid.style.display = 'none';
         empty.style.display = 'block';
+        // v2.30.0: tela ⓪ — vazio real (2 CTAs) vs filtro sem resultados (mono + ghost)
+        const zeroEl = document.getElementById('mw-empty-zero');
+        const filterEl = document.getElementById('mw-empty-filter');
+        if (zeroEl && filterEl) {
+          const isZero = builds.length === 0;
+          zeroEl.style.display = isZero ? '' : 'none';
+          filterEl.style.display = isZero ? 'none' : '';
+        }
       } else {
         grid.style.display = 'grid';
         empty.style.display = 'none';
@@ -27146,8 +27345,8 @@ const ATTACHMENT_ICONS = {
         await renderAll();
         return;
       }
-      // Add build
-      if (e.target.id === 'btn-add-build') {
+      // Add build (toolbar ou CTA do estado "filtro sem resultados" — v2.30.0)
+      if (e.target.id === 'btn-add-build' || (e.target.closest && e.target.closest('#mw-empty-add'))) {
         openBuildModal(null);
         return;
       }
@@ -32890,7 +33089,21 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (!list) return;
       const all = await LevelDB.struggles.list();
       if (all.length === 0) {
-        list.innerHTML = '<div class="struggles-empty">Nenhuma dificuldade registrada ainda. Clica em <strong style="color:var(--accent-orange)">+ Adicionar Dificuldade</strong> pra começar.</div>';
+        // v2.30.0: estado vazio da tela ⓪ (Claude Design) — shell com acento azul + 1 CTA.
+        // Copy nudge do Le Vél: registar dificuldades reais afia a análise.
+        let emptyHtml = '<div class="lvl-empty accent-blue">' +
+          '<div class="lvl-empty-icon">{{i:trending-up}}</div>' +
+          '<div class="lvl-empty-title">Sem registos ainda</div>' +
+          '<div class="lvl-empty-body">Regista as tuas dificuldades reais de partida — assim a análise do Le Vél fica muito mais afiada.</div>' +
+          '<div class="lvl-empty-ctas"><button class="lvl-empty-cta primary" id="str-empty-cta" type="button">+ Adicionar Dificuldade</button></div>' +
+          '</div>';
+        if (window.renderIconsHtml) emptyHtml = window.renderIconsHtml(emptyHtml);
+        list.innerHTML = emptyHtml;
+        const emptyCta = document.getElementById('str-empty-cta');
+        if (emptyCta) emptyCta.addEventListener('click', () => {
+          const b = document.getElementById('btn-add-struggle');
+          if (b) b.click();
+        });
         return;
       }
       const cards = all.map(entry => {
@@ -40598,6 +40811,29 @@ ${cbt('share.t.footer')}`;
     el.innerHTML = '<div class="sb-status show is-' + kind + '" style="display:block">' + esc(msg) + '</div>';
   }
 
+  // ── v2.30.0: estados da tela ⓪ (Claude Design) — skeleton shimmer + painel de erro ──
+  function lvlSkeletonCards(n) {
+    var card = '<div class="gh-skeleton-card">'
+      + '<div class="lvl-skeleton" style="height:14px;width:55%"></div>'
+      + '<div class="lvl-skeleton" style="height:10px;width:82%"></div>'
+      + '<div class="lvl-skeleton" style="height:10px;width:34%"></div>'
+      + '</div>';
+    var out = '';
+    for (var i = 0; i < n; i++) out += card;
+    return out;
+  }
+  function lvlErrorPanel(code, retryId) {
+    var d = new Date();
+    var hhmm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    return '<div class="lvl-error-panel">'
+      + '<div class="lvl-error-head"><span class="lvl-error-dot"></span>'
+      + '<span class="lvl-error-title">' + esc(t('gh.errTitle')) + '</span>'
+      + '<span class="lvl-error-code">' + esc(code) + ' · ' + hhmm + '</span></div>'
+      + '<div class="lvl-error-body">' + esc(t('gh.errBody')) + '</div>'
+      + '<div class="lvl-error-actions"><button class="lvl-empty-cta ghost" id="' + retryId + '" type="button">' + esc(t('gh.errRetry')) + '</button></div>'
+      + '</div>';
+  }
+
   async function openGenHistory() {
     openModal('modal-gen-history');
     // sempre abre na aba Builds; reseta o lazy-load de análises
@@ -40605,7 +40841,10 @@ ${cbt('share.t.footer')}`;
     switchGhTab('builds');
     var lid = getLocalId();
     if (!lid) { renderGhList([]); return; }
-    ghStatus('loading', t('gh.loading'));
+    // v2.30.0: skeleton shimmer no lugar do texto de loading (tela ⓪)
+    var ghWrap = $('gh-list');
+    if (ghWrap) ghWrap.innerHTML = lvlSkeletonCards(3);
+    ghStatus(null);
     try {
       var data = await postJson(GEN_HISTORY_URL, { action: 'list', local_id: lid, limit: 100 });
       _ghCache = Array.isArray(data.entries) ? data.entries : [];
@@ -40614,7 +40853,14 @@ ${cbt('share.t.footer')}`;
       renderGhList(_ghCache);
     } catch (err) {
       console.error('[gen-history] list erro:', err);
-      ghStatus('error', t('gh.loadErr'));
+      // v2.30.0: painel de erro da tela ⓪ — código mono + retry (builds seguras localmente)
+      if (ghWrap) {
+        ghWrap.innerHTML = lvlErrorPanel('gh.loadErr', 'gh-retry-btn');
+        var ghRetry = document.getElementById('gh-retry-btn');
+        if (ghRetry) ghRetry.addEventListener('click', function () { openGenHistory(); });
+      } else {
+        ghStatus('error', t('gh.loadErr'));
+      }
     }
   }
 
@@ -40731,7 +40977,10 @@ ${cbt('share.t.footer')}`;
   async function loadAnalysisHistory() {
     var lid = getLocalId();
     if (!lid) { renderAhList([]); return; }
-    ahStatus('loading', t('gh.loading'));
+    // v2.30.0: skeleton shimmer no lugar do texto de loading (tela ⓪)
+    var ahWrap = $('ah-list');
+    if (ahWrap) ahWrap.innerHTML = lvlSkeletonCards(3);
+    ahStatus(null);
     try {
       var data = await postJson(ANALYSIS_HISTORY_URL, { action: 'list', local_id: lid, limit: 100 });
       _ahCache = Array.isArray(data.entries) ? data.entries : [];
@@ -40740,7 +40989,14 @@ ${cbt('share.t.footer')}`;
       renderAhList(_ahCache);
     } catch (err) {
       console.error('[analysis-history] list erro:', err);
-      ahStatus('error', t('ah.loadErr'));
+      // v2.30.0: painel de erro da tela ⓪ — código mono + retry
+      if (ahWrap) {
+        ahWrap.innerHTML = lvlErrorPanel('ah.loadErr', 'ah-retry-btn');
+        var ahRetry = document.getElementById('ah-retry-btn');
+        if (ahRetry) ahRetry.addEventListener('click', function () { loadAnalysisHistory(); });
+      } else {
+        ahStatus('error', t('ah.loadErr'));
+      }
     }
   }
 
@@ -40892,10 +41148,18 @@ ${cbt('share.t.footer')}`;
       openModal('modal-text-capture');
       return;
     }
-    const sbBtn = e.target.closest && e.target.closest('#btn-smart-build');
+    const sbBtn = e.target.closest && e.target.closest('#btn-smart-build, #mw-empty-smart');
     if (sbBtn) {
       e.preventDefault();
       openSmartBuild();
+      return;
+    }
+    // v2.30.0: CTA "Importar Build" do arsenal vazio → abre o dropdown real da toolbar
+    const impEmpty = e.target.closest && e.target.closest('#mw-empty-import');
+    if (impEmpty) {
+      e.preventDefault();
+      const dd = $('import-dd');
+      if (dd) dd.classList.add('open');
       return;
     }
     const ghBtn = e.target.closest && e.target.closest('#btn-gen-history');
