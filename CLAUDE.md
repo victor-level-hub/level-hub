@@ -50,22 +50,36 @@ auto-deploy Netlify. Coach IA interno = **Le Vél**. Site: le-vel.games.
   texto direto no HTML.
 - Apóstrofo em string JS de aspas simples: usar `&rsquo;`, nunca `''` (quebra o JS).
 
-## TIPOGRAFIA (em transição — v2.28.1 aplicou o 3-tier do Claude Design nos build-cards)
-- **Nos `.build-card` (novo 3-tier):** Chakra Petch (display: nomes/abas/botões/badges) ·
-  IBM Plex Sans (prosa do Le Vél, 15px/1.62) · JetBrains Mono (dados: stats/níveis/slots).
-  Regra: valor → mono; frase → Plex Sans; nome/comando → Chakra Petch.
+## TIPOGRAFIA (em transição — v2.29.0 aplicou o Glass/Neon completo nos build-cards)
+- **Nos `.build-card`:** Chakra Petch (display: nomes/botões/badges) · IBM Plex Sans
+  (prosa do Le Vél, 15px/1.62) · JetBrains Mono (dados E abas — espec do componente Tabs
+  do design: mono-caps 12px). Regra: valor → mono; frase → Plex Sans; nome/comando →
+  Chakra Petch. Nome de build = 22px com gradiente branco→`#FFD79E` (background-clip:text).
 - **Resto do Hub (sistema antigo):** Black Ops One → títulos de secção · Rajdhani → corpo
   base · JetBrains Mono → dominante · Inter → ~8 pontos soltos (fora dos cards)
 
-## PALETA (CSS vars no topo do index.html)
+## PALETA (CSS vars no topo do index.html — desde v2.29.0 alinhada ao Claude Design)
 - `--bg-darkest:#141a2b` · `--bg-dark:#1a2238` · `--bg-panel:#1f283f` · `--bg-row:#25304f`
-- `--accent:#FF9800` (laranja ação) · azul-claro `#AEC7E0`
-- sucesso `#4ade80` · alerta `#e74c3c`
-- Classe de arma: SMG `#ff8155` · AR `#93b8d4` · Sniper `#c084fc`
+- `--accent-orange:#FF9800` (laranja ação; era âmbar `#F0B952` até v2.28.1) · hover `#FFB23E`
+- Texto (ink ramp): primário `#DCE5F2` · secundário `#AEC7E0` · muted `#8497B8`
+- Sucesso `#4ADE80` · alerta `#E74C3C` · âmbar trade-off `#FFC857`
+- Classe de arma (tokens `--class-*`): SMG `#58C4DC` ciano · AR `#FF9800` laranja ·
+  Sniper `#C77DFF` violeta · LMG `#4ADE80` · SG `#F2784B` coral · MR `#FFC857` âmbar ·
+  Pistol `#AEC7E0` · Tac `#fbbf24` / Launcher `#fb923c` (sem token no design — mantidos)
+- Tokens do design system no `:root`: `--shadow-*`, `--glow-*`, `--dur-fast/base`,
+  `--ease-out`, `--border-subtle/default/strong`, `--surface-sunken/raised`,
+  `--action-ink:#1A1206`, `--focus-ring`. Usar SEMPRE estes tokens em UI nova.
+- **Regra (12 Jun 2026):** "manter paleta atual" foi REVOGADA pelo Victor — escolha visual
+  do Claude Design entra sem discussão; só conflito com MECÂNICA (abas, glossário, 9 slots,
+  análise server-side) precisa de aprovação antes.
 
 ## CARD DE ARSENAL (`.build-card`, função `renderBuildCard`)
-- head (`.bc-name` + `.bc-class cls-SMG/AR/Sniper`) · base (arma + level/prestige/master)
-- 3 abas (`.bc-tab`): Loadout / Nossa Análise / Avalie → 3 painéis
+- Vidro Glass/Neon: blur 12px, radius 16, hover -3px com glow da classe, top edge 2px
+  com halo (classe `bcc-<classe>` na raiz + CSS `::before`)
+- head sem divisória (`.bc-name` gradiente + `.bc-class` pill) · `.bc-base` = linha única
+  mono azul (arma · level/prestige/master)
+- 3 abas (`.bc-tab` mono-caps): Loadout / Nossa Análise / Avalie → 3 painéis
+- painel de análise = CoachMessage: `.bc-coach-head` (chip avatar `{{i:bot}}` + "Le Vél")
 - loadout: imagem (`getUserImage` ou silhueta SVG) + 9 slots fixos (`SLOT_LABELS`)
 - `.bc-updated` + `.bc-actions` (Editar/Duplicar/Deletar)
 
