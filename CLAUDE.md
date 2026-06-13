@@ -25,7 +25,7 @@ auto-deploy Netlify. Coach IA interno = **Le Vél**. Site: le-vel.games.
   1. `node --check` em **todos** os 16 blocos `<script>` (extrair via regex
      `<script[^>]*>(.*?)</script>`, gravar cada um em ficheiro `.js` e checar — NÃO
      usar /dev/stdin, dá falso-positivo).
-  2. Estrutura HTML: deve manter **1 `<main>` + 13 `<section>`** (validar com html5lib
+  2. Estrutura HTML: deve manter **1 `<main>` + 14 `<section>`** (era 13 até v2.34.1; v2.35.0 somou a secção Home `#section-home`) (validar com html5lib
      ou parser equivalente). Inserções de bloco podem orfanar `</div>` e expulsar sections.
   3. Mudanças visuais: **renderizar e inspecionar** antes de dar por feito (o Hub tem
      login gate → extrair o componente + CSS + ícones para página de teste isolada).

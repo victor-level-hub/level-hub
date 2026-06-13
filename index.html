@@ -6757,6 +6757,262 @@
     .mw-cc-card .bc-name { font-size: 28px; }
   }
 
+  /* ═══ v2.35.0 · Home (tela ① Claude Design) — hero + continuar + explorar ═══ */
+  .home-hero {
+    position: relative;
+    text-align: center;
+    padding: 48px 20px 38px;
+  }
+  .home-hero::before {
+    /* glow radial laranja atrás do hero (espec Glass/Neon) */
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: min(720px, 100%);
+    height: 100%;
+    background: radial-gradient(55% 55% at 50% 30%, rgba(255,152,0,0.13), transparent 70%);
+    pointer-events: none;
+  }
+  .home-hero > * { position: relative; }
+  .home-hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-orange);
+    background: rgba(255,152,0,0.08);
+    border: 1px solid rgba(255,152,0,0.35);
+    border-radius: var(--radius-pill);
+    padding: 5px 13px;
+  }
+  .home-hero-headline {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: clamp(36px, 5.4vw, 64px);
+    line-height: 1.04;
+    letter-spacing: 0.005em;
+    margin: 18px auto 14px;
+    padding-bottom: 4px;
+    background: linear-gradient(180deg, #FFFFFF, #FFD79E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #FFD79E;
+    max-width: 760px;
+  }
+  .home-hero-sub {
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .home-hero-ctas {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .home-readouts {
+    display: flex;
+    justify-content: center;
+    gap: 44px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .home-readout strong {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink-100);
+    line-height: 1.2;
+  }
+  .home-readout span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .home-resume {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 20px;
+    margin: 26px 0 36px;
+  }
+  .home-continue {
+    background: linear-gradient(135deg, rgba(255,152,0,0.10), rgba(255,152,0,0.02));
+    border: 1px solid rgba(255,152,0,0.35);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .home-continue-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .home-continue-name {
+    /* nome em linha própria (espec: NÃO em flex com o badge, senão corta) */
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    padding-bottom: 2px;
+    margin: 8px 0 4px;
+    background: linear-gradient(180deg, #FFFFFF, #FFD79E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #FFD79E;
+    word-break: break-word;
+  }
+  .home-continue-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--level-blue);
+  }
+  .home-continue-actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .home-tip {
+    background: rgba(31,40,63,0.34);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--accent-orange);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 0 30px rgba(255,152,0,0.05);
+  }
+  .home-tip .bc-coach-head { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
+  .home-tip .bc-coach-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,152,0,0.18);
+    border: 1px solid rgba(255,152,0,0.45);
+    color: var(--accent-orange);
+    flex-shrink: 0;
+  }
+  .home-tip .bc-coach-avatar svg { width: 13px; height: 13px; }
+  .home-tip .bc-coach-name {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    color: var(--ink-100);
+  }
+  .home-tip-tag {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
+  .home-tip-body {
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.62;
+    color: var(--text-primary);
+  }
+  .home-tip-body strong { color: var(--accent-orange); font-weight: 600; }
+  .home-explore-title {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-100);
+    margin: 0 0 14px;
+  }
+  .home-explore {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .home-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+    background: rgba(31,40,63,0.34);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-default);
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+  .home-card:hover { transform: translateY(-3px); }
+  .home-card:focus-visible { outline: 1px solid var(--accent-orange); outline-offset: 1px; box-shadow: 0 0 0 3px var(--focus-ring); }
+  .home-card-icon svg { width: 30px; height: 30px; display: block; }
+  .home-card.hc-orange .home-card-icon { color: #FF9800; }
+  .home-card.hc-cyan   .home-card-icon { color: #58C4DC; }
+  .home-card.hc-green  .home-card-icon { color: #4ADE80; }
+  .home-card.hc-violet .home-card-icon { color: #C77DFF; }
+  .home-card.hc-blue   .home-card-icon { color: #AEC7E0; }
+  .home-card.hc-amber  .home-card-icon { color: #FFC857; }
+  .home-card.hc-coral  .home-card-icon { color: #F2784B; }
+  .home-card.hc-gold   .home-card-icon { color: #fbbf24; }
+  .home-card.hc-orange:hover { border-color: rgba(255,152,0,0.45);   box-shadow: var(--shadow-sm), 0 0 18px rgba(255,152,0,0.14); }
+  .home-card.hc-cyan:hover   { border-color: rgba(88,196,220,0.45);  box-shadow: var(--shadow-sm), 0 0 18px rgba(88,196,220,0.14); }
+  .home-card.hc-green:hover  { border-color: rgba(74,222,128,0.45);  box-shadow: var(--shadow-sm), 0 0 18px rgba(74,222,128,0.14); }
+  .home-card.hc-violet:hover { border-color: rgba(199,125,255,0.45); box-shadow: var(--shadow-sm), 0 0 18px rgba(199,125,255,0.14); }
+  .home-card.hc-blue:hover   { border-color: rgba(174,199,224,0.45); box-shadow: var(--shadow-sm), 0 0 18px rgba(174,199,224,0.14); }
+  .home-card.hc-amber:hover  { border-color: rgba(255,200,87,0.45);  box-shadow: var(--shadow-sm), 0 0 18px rgba(255,200,87,0.14); }
+  .home-card.hc-coral:hover  { border-color: rgba(242,120,75,0.45);  box-shadow: var(--shadow-sm), 0 0 18px rgba(242,120,75,0.14); }
+  .home-card.hc-gold:hover   { border-color: rgba(251,191,36,0.45);  box-shadow: var(--shadow-sm), 0 0 18px rgba(251,191,36,0.14); }
+  .home-card-title {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink-100);
+  }
+  .home-card-desc {
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+  .home-card-go {
+    margin-top: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--accent-orange);
+  }
+  @media (max-width: 1100px) {
+    .home-explore { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 760px) {
+    .home-resume { grid-template-columns: 1fr; }
+    .home-readouts { gap: 26px; }
+  }
+  @media (max-width: 560px) {
+    .home-explore { grid-template-columns: 1fr; }
+    .home-hero { padding: 30px 8px 26px; }
+  }
+
   @media (max-width: 700px) {
     .arsenal-toolbar { flex-direction: column; align-items: stretch; }
     .arsenal-grid { grid-template-columns: 1fr; }
@@ -11953,10 +12209,18 @@
     <div class="nav-divider"></div>
 
     <nav>
-      <button class="nav-item active" data-section="briefing">
+      <!-- v2.35.0: Home (tela ① Claude Design) — nova entrada do Hub -->
+      <button class="nav-item active" data-section="home">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 L12 3 L21 10.5 V20 a1 1 0 0 1 -1 1 H15 V14 H9 V21 H4 a1 1 0 0 1 -1 -1 Z"/></svg></span>
+        <span class="nav-text">
+          <span class="nav-label" data-i18n="nav.home.label">Início</span>
+          <span class="nav-desc" data-i18n="nav.home.desc">Hub · atalhos · dica do dia</span>
+        </span>
+      </button>
+      <button class="nav-item" data-section="briefing">
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><path d="M12 1.5 V4 M12 20 V22.5 M1.5 12 H4 M20 12 H22.5"/></svg></span>
         <span class="nav-text">
-          <span class="nav-label" data-i18n="nav.briefing.label">Home</span>
+          <span class="nav-label" data-i18n="nav.briefing.label">Painel Hoje</span>
           <span class="nav-desc" data-i18n="nav.briefing.desc">Status · live tips · eventos</span>
         </span>
       </button>
@@ -12132,7 +12396,100 @@
       </div>
     </header>
 
-    <section class="section active" id="section-briefing">
+    <!-- =================================================================== -->
+    <!-- SECTION 0: HOME (tela ① Claude Design — v2.35.0) -->
+    <!-- =================================================================== -->
+    <section class="section active" id="section-home">
+      <div class="section-header">
+        <div class="breadcrumb" data-i18n="home.crumb">00 / Início</div>
+        <h2 data-i18n="home.h2">LEVEL</h2>
+        <p data-i18n="home.intro">Companion tático para Black Ops 7 — builds, análise e treino num só lugar.</p>
+      </div>
+
+      <div class="home-hero">
+        <div class="home-hero-chip" data-i18n="home.chip">COMPANION TÁTICO · COD BLACK OPS 7</div>
+        <div class="home-hero-headline">Stop Guessing.<br>Start Improving.</div>
+        <p class="home-hero-sub" data-i18n="home.sub">Sabe exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.</p>
+        <div class="home-hero-ctas">
+          <button class="lvl-empty-cta primary" type="button" data-home-smart data-i18n="home.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
+          <button class="lvl-empty-cta" type="button" data-home-goto="myweapons" data-i18n="home.ctaArsenal">{{i:crosshair}} Ver o Arsenal</button>
+        </div>
+        <div class="home-readouts">
+          <div class="home-readout"><strong id="home-ro-arsenal">—</strong><span data-i18n="home.ro.arsenal">ARMAS NO ARSENAL</span></div>
+          <div class="home-readout"><strong id="home-ro-builds">—</strong><span data-i18n="home.ro.builds">BUILDS SALVAS</span></div>
+          <div class="home-readout"><strong data-i18n="home.ro.styleVal">Rusher</strong><span data-i18n="home.ro.style">ESTILO DE JOGO</span></div>
+        </div>
+      </div>
+
+      <div class="home-resume">
+        <div class="home-continue" id="home-continue" style="display:none">
+          <div class="home-continue-label" data-i18n="home.continue.label">CONTINUAR DE ONDE PARASTE</div>
+          <div class="home-continue-name" id="home-continue-name" data-glossary-skip></div>
+          <div class="home-continue-meta" id="home-continue-meta" data-glossary-skip></div>
+          <div class="home-continue-actions">
+            <button class="lvl-empty-cta primary" type="button" data-home-goto="myweapons" data-i18n="home.continue.open">{{i:pencil}} Abrir no Arsenal</button>
+          </div>
+        </div>
+        <div class="home-tip">
+          <div class="bc-coach-head"><span class="bc-coach-avatar">{{i:bot}}</span><span class="bc-coach-name">Le Vél</span><span class="home-tip-tag" data-i18n="home.tip.tag">DICA DO DIA</span></div>
+          <div class="home-tip-body" id="home-tip-body">—</div>
+        </div>
+      </div>
+
+      <div class="home-explore-title" data-i18n="home.explore">EXPLORAR</div>
+      <div class="home-explore">
+        <button class="home-card hc-orange" type="button" data-home-goto="constructor">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3 a4 4 0 0 0 -5.4 5.4 L3 18 a2 2 0 0 0 2.8 2.8 L12.3 14.7 a4 4 0 0 0 5.4 -5.4 L15 12 12 9 Z"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.constructor.label">Loadout</span>
+          <span class="home-card-desc" data-i18n="home.card.constructor">Monta do zero, slot a slot, com análise do Le Vél.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+        <button class="home-card hc-cyan" type="button" data-home-goto="myweapons">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 14 H6 L7 12 H10 V10 H17 V12 H20.5 V14.5 H17.5 V16 H10.5 L10 14 H7.5"/><path d="M10.5 14 V16.5 H12"/><path d="M14 10 V8 H16 V10"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.myweapons.label">Minhas Armas</span>
+          <span class="home-card-desc" data-i18n="home.card.myweapons">O teu arsenal — grade ou Command Center.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+        <button class="home-card hc-green" type="button" data-home-goto="struggles">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.struggles.label">Evolução</span>
+          <span class="home-card-desc" data-i18n="home.card.struggles">Regista dificuldades reais e acompanha o progresso.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+        <button class="home-card hc-violet" type="button" data-home-goto="aimtraining">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.aimtraining.label">Aim Training</span>
+          <span class="home-card-desc" data-i18n="home.card.aimtraining">Rotinas de mira ligadas às tuas dificuldades.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+        <button class="home-card hc-blue" type="button" data-home-goto="controller">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 C3 9 5 8 7 8 H17 C19 8 21 9 21 11 V14 C21 16 19 17 17 17 H7 C5 17 3 16 3 14 Z"/><line x1="6" y1="11" x2="6" y2="14"/><line x1="4.5" y1="12.5" x2="7.5" y2="12.5"/><circle cx="18" cy="11.5" r="0.7" fill="currentColor"/><circle cx="19.5" cy="13" r="0.7" fill="currentColor"/><circle cx="18" cy="14.5" r="0.7" fill="currentColor"/><circle cx="16.5" cy="13" r="0.7" fill="currentColor"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.controller.label">Controle</span>
+          <span class="home-card-desc" data-i18n="home.card.controller">Sensibilidade, áudio e vídeo afinados pro teu estilo.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+        <button class="home-card hc-amber" type="button" data-home-goto="maps">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6 L9 4 L15 6 L21 4 V18 L15 20 L9 18 L3 20 Z"/><path d="M9 4 V18"/><path d="M15 6 V20"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.maps.label">Mapas</span>
+          <span class="home-card-desc" data-i18n="home.card.maps">A arma certa por mapa e modo de jogo.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+        <button class="home-card hc-coral" type="button" data-home-goto="marketplace">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 L4.5 4 H19.5 L21 9"/><path d="M3 9 V19 a1 1 0 0 0 1 1 H20 a1 1 0 0 0 1 -1 V9"/><path d="M9 9 V5"/><path d="M15 9 V5"/><path d="M9 13 H15"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.marketplace.label">Marketplace</span>
+          <span class="home-card-desc" data-i18n="home.card.marketplace">Builds da comunidade pra importar e votar.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+        <button class="home-card hc-gold" type="button" data-home-goto="perks">
+          <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 L3.5 13.5 H11 L10 22 L20.5 10 H13 Z"/></svg></span>
+          <span class="home-card-title" data-i18n="nav.perks.label">Perks & Streaks</span>
+          <span class="home-card-desc" data-i18n="home.card.perks">Vantagens e séries pro setup completo.</span>
+          <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section" id="section-briefing">
       <div class="section-header">
         <h2 data-i18n="sec.briefing.h2">HOME · PAINEL DO OPERADOR</h2>
         <p data-i18n="sec.briefing.intro">Status do operador · Eventos ativos · Atualizações de patch · Foco recomendado.</p>
@@ -12330,7 +12687,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.34.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.35.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -15595,6 +15952,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.35.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Nova tela de In&iacute;cio (tela &#9312; do Claude Design).</strong> O Hub passou a abrir numa <strong>Home</strong> dedicada, com novo item &quot;In&iacute;cio&quot; no topo da navega&ccedil;&atilde;o; o antigo &quot;Painel Hoje&quot; mant&eacute;m-se logo abaixo, intacto. <strong>Hero:</strong> chip de companion, headline <em>Stop Guessing. Start Improving.</em> em Chakra Petch 64px com gradiente branco&rarr;dourado, subheadline em Plex Sans, dois CTAs (Montagem Inteligente prim&aacute;rio com glow + Ver o Arsenal secund&aacute;rio) e tr&ecirc;s readouts din&acirc;micos (armas no arsenal, builds salvas, estilo de jogo). <strong>Resume strip:</strong> card &quot;Continuar de onde paraste&quot; que mostra a <strong>&uacute;ltima build editada</strong> (nome em gradiente, arma &middot; classe &middot; slots) com atalho pro Arsenal, ao lado do card <strong>Dica do dia do Le V&eacute;l</strong> (6 dicas que rodam por dia do ano, PT/EN). <strong>Grid Explorar:</strong> 8 cards de ferramenta (Loadout, Minhas Armas, Evolu&ccedil;&atilde;o, Aim Training, Controle, Mapas, Marketplace, Perks &amp; Streaks), cada um com &iacute;cone na cor da categoria, hover que eleva com glow, navegando pra sec&ccedil;&atilde;o respetiva. Tudo i18n PT/EN; readouts e &quot;continuar&quot; alimentados pelo LevelDB e atualizados em <code>level:builds-change</code>. A Home &eacute; pura vitrine &mdash; nenhuma mec&acirc;nica nova, s&oacute; navega&ccedil;&atilde;o.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.34.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -17570,7 +17936,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.34.0</strong><span class="ver-tag">Command Center em Minhas Armas: layout master-detail da tela ② do Claude Design (sidebar com busca + detalhe com abas Loadout + Análise · Avalie · Histórico), alternável com a Grade por toggle persistido. Mecânicas 100% reutilizadas</span>
+        LEVEL · <strong>v2.35.0</strong><span class="ver-tag">Nova tela de Início (tela ① do Claude Design): hero "Stop Guessing. Start Improving.", atalho para Montagem Inteligente e Arsenal, readouts do operador, card "Continuar de onde paraste" com a última build, dica do dia do Le Vél e grid Explorar com as 8 ferramentas</span>
       </div>
       <script>
         (function(){
@@ -19029,8 +19395,35 @@ window.I18N = {
     'player.level':         'NV',
 
     // — Nav —
-    'nav.briefing.label':     'Home',
+    'nav.home.label':         'Início',
+    'nav.home.desc':          'Hub · atalhos · dica do dia',
+    'nav.briefing.label':     'Painel Hoje',
     'nav.briefing.desc':      'Status · dicas ao vivo · eventos',
+    // — Home (tela ① — v2.35.0) —
+    'home.crumb':             '00 / Início',
+    'home.h2':                'LEVEL',
+    'home.intro':             'Companion tático para Black Ops 7 — builds, análise e treino num só lugar.',
+    'home.chip':              'COMPANION TÁTICO · COD BLACK OPS 7',
+    'home.sub':               'Sabe exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.',
+    'home.ctaSmart':          '{{i:gear-star}} Montagem Inteligente',
+    'home.ctaArsenal':        '{{i:crosshair}} Ver o Arsenal',
+    'home.ro.arsenal':        'ARMAS NO ARSENAL',
+    'home.ro.builds':         'BUILDS SALVAS',
+    'home.ro.style':          'ESTILO DE JOGO',
+    'home.ro.styleVal':       'Rusher',
+    'home.continue.label':    'CONTINUAR DE ONDE PARASTE',
+    'home.continue.open':     '{{i:pencil}} Abrir no Arsenal',
+    'home.tip.tag':           'DICA DO DIA',
+    'home.explore':           'EXPLORAR',
+    'home.card.go':           'Abrir →',
+    'home.card.constructor':  'Monta do zero, slot a slot, com análise do Le Vél.',
+    'home.card.myweapons':    'O teu arsenal — grade ou Command Center.',
+    'home.card.struggles':    'Regista dificuldades reais e acompanha o progresso.',
+    'home.card.aimtraining':  'Rotinas de mira ligadas às tuas dificuldades.',
+    'home.card.controller':   'Sensibilidade, áudio e vídeo afinados pro teu estilo.',
+    'home.card.maps':         'A arma certa por mapa e modo de jogo.',
+    'home.card.marketplace':  'Builds da comunidade pra importar e votar.',
+    'home.card.perks':        'Vantagens e séries pro setup completo.',
     'nav.myweapons.label':    'Minhas Armas',
     'nav.myweapons.desc':     'Arsenal cadastrado',
     'nav.controller.label':   'Controle',
@@ -19224,8 +19617,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Command Center: o arsenal em master-detail',
-    'briefing.changelog.summary':  'A maior entrega da dire&ccedil;&atilde;o Claude Design at&eacute; agora \u2014 o <strong>Command Center</strong>, o layout master-detail da explora&ccedil;&atilde;o de design, chegou a Minhas Armas. <strong>Sidebar</strong> com busca em tempo real e a lista de builds (barra na cor da classe com glow; a ativa acende em laranja) + <strong>painel de detalhe</strong> com o nome da build em 42px, spec-sheet e an&aacute;lise do Le V&eacute;l <strong>lado a lado</strong> (aba &quot;Loadout + An&aacute;lise&quot;), Avalie e a nova aba <strong>Hist&oacute;rico</strong>. E o melhor: &eacute; <strong>altern&aacute;vel</strong> \u2014 um toggle <strong>Grade &middot; Command Center</strong> na toolbar deixa-te escolher o layout que preferes, e o Hub lembra a escolha. Toda a mec&acirc;nica (an&aacute;lise, estrelas, editar/duplicar/deletar, gloss&aacute;rio, 9 slots) &eacute; a mesma nos dois modos.',
+    'briefing.changelog.headline': 'Nova tela de In\u00edcio \u2014 a porta de entrada do Hub',
+    'briefing.changelog.summary':  'A <strong>tela &#9312;</strong> da dire&ccedil;&atilde;o Claude Design chegou: o Hub agora abre numa <strong>Home</strong> pr&oacute;pria, n&atilde;o no Painel Hoje (que continua na nav, logo abaixo). O <strong>hero</strong> &mdash; &quot;Stop Guessing. Start Improving.&quot; em gradiente dourado &mdash; tem dois atalhos diretos (<strong>Montagem Inteligente</strong> e <strong>Ver o Arsenal</strong>) e tr&ecirc;s readouts do operador (armas no arsenal, builds salvas, estilo). Por baixo, o card <strong>&quot;Continuar de onde paraste&quot;</strong> traz a tua &uacute;ltima build trabalhada com atalho pro Arsenal, ao lado da <strong>dica do dia do Le V&eacute;l</strong> (roda todos os dias). E o grid <strong>Explorar</strong> com as 8 ferramentas do Hub, cada uma na cor da sua categoria. Tudo PT + EN, e o Painel Hoje fica intacto.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -20479,8 +20872,35 @@ window.I18N = {
     'player.level':         'LVL',
 
     // — Nav —
-    'nav.briefing.label':     'Home',
+    'nav.home.label':         'Home',
+    'nav.home.desc':          'Hub · shortcuts · tip of the day',
+    'nav.briefing.label':     'Daily Brief',
     'nav.briefing.desc':      'Status · live tips · events',
+    // — Home (screen ① — v2.35.0) —
+    'home.crumb':             '00 / Home',
+    'home.h2':                'LEVEL',
+    'home.intro':             'Tactical companion for Black Ops 7 — builds, analysis and training in one place.',
+    'home.chip':              'TACTICAL COMPANION · COD BLACK OPS 7',
+    'home.sub':               'Learn exactly what to adjust, what to train, and what to use — from controller and audio settings to weapons, movement, and loadouts.',
+    'home.ctaSmart':          '{{i:gear-star}} Smart Build',
+    'home.ctaArsenal':        '{{i:crosshair}} View the Arsenal',
+    'home.ro.arsenal':        'WEAPONS IN ARSENAL',
+    'home.ro.builds':         'SAVED BUILDS',
+    'home.ro.style':          'PLAYSTYLE',
+    'home.ro.styleVal':       'Rusher',
+    'home.continue.label':    'PICK UP WHERE YOU LEFT OFF',
+    'home.continue.open':     '{{i:pencil}} Open in Arsenal',
+    'home.tip.tag':           'TIP OF THE DAY',
+    'home.explore':           'EXPLORE',
+    'home.card.go':           'Open →',
+    'home.card.constructor':  'Build from scratch, slot by slot, with analysis from Le Vél.',
+    'home.card.myweapons':    'Your arsenal — grid or Command Center.',
+    'home.card.struggles':    'Log real match struggles and track progress.',
+    'home.card.aimtraining':  'Aim routines tied to your struggles.',
+    'home.card.controller':   'Sensitivity, audio and video tuned to your style.',
+    'home.card.maps':         'The right weapon per map and game mode.',
+    'home.card.marketplace':  'Community builds to import and vote on.',
+    'home.card.perks':        'Perks and streaks for the full setup.',
     'nav.myweapons.label':    'My Weapons',
     'nav.myweapons.desc':     'Registered arsenal',
     'nav.controller.label':   'Controller',
@@ -20673,8 +21093,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Command Center: the arsenal in master-detail',
-    'briefing.changelog.summary':  'The biggest Claude Design delivery yet \u2014 the <strong>Command Center</strong>, the master-detail layout from the design exploration, landed in My Weapons. A <strong>sidebar</strong> with real-time search and the build list (class-colored bar with glow; the active one lights up orange) + a <strong>detail panel</strong> with the build name at 42px, spec-sheet and Le V&eacute;l&rsquo;s analysis <strong>side by side</strong> (the &quot;Loadout + Analysis&quot; tab), Rate, and the new <strong>History</strong> tab. Best part: it&rsquo;s <strong>switchable</strong> \u2014 a <strong>Grid &middot; Command Center</strong> toggle in the toolbar lets you pick the layout you prefer, and the Hub remembers it. All mechanics (analysis, stars, edit/duplicate/delete, glossary, 9 slots) are identical in both modes.',
+    'briefing.changelog.headline': 'New Home screen \u2014 the Hub&rsquo;s front door',
+    'briefing.changelog.summary':  'The <strong>&#9312; screen</strong> from the Claude Design direction is here: the Hub now opens on a proper <strong>Home</strong>, not on the Daily Brief (still in the nav, right below). The <strong>hero</strong> &mdash; &quot;Stop Guessing. Start Improving.&quot; in a gold gradient &mdash; has two direct shortcuts (<strong>Smart Build</strong> and <strong>View the Arsenal</strong>) and three operator readouts (weapons in arsenal, saved builds, playstyle). Below it, the <strong>&quot;Pick up where you left off&quot;</strong> card brings your last worked build with a shortcut to the Arsenal, next to <strong>Le V&eacute;l&rsquo;s tip of the day</strong> (rotates daily). And the <strong>Explore</strong> grid with the Hub&rsquo;s 8 tools, each in its category color. All PT + EN, and the Daily Brief stays intact.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -33941,6 +34361,83 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // ── v2.35.0 · Home (tela ① Claude Design) — readouts, continuar, dica do dia ──
+  (function levelHome() {
+    const TIPS_PT = [
+      'Regista as tuas <strong>dificuldades reais</strong> em Evolução — assim a análise das builds fica muito mais afiada.',
+      'O <strong>Dexterity</strong> é a tua perk prioritária: combate o flinch (tremor da mira ao levar dano) — essencial pra rusher.',
+      'Builds com <strong>sprint-to-fire</strong> (tempo entre correr e disparar) baixo encaixam no teu jogo de curta distância. Olha esse stat primeiro.',
+      'Usa a <strong>Montagem Inteligente</strong> com o mapa da partida — a sugestão muda conforme o tamanho e as rotas.',
+      'Depois de algumas partidas, <strong>avalia a build</strong> nas 5 dimensões — o histórico mostra a tua evolução real.',
+      'Compara duas builds da mesma arma no <strong>Command Center</strong> — a busca da sidebar encontra por nome ou arma base.'
+    ];
+    const TIPS_EN = [
+      'Log your <strong>real match struggles</strong> in Evolution — the build analysis gets much sharper.',
+      '<strong>Dexterity</strong> is your priority perk: it fights flinch — essential for a rusher.',
+      'Builds with low <strong>sprint-to-fire</strong> fit your close-range game. Check that stat first.',
+      'Use <strong>Smart Build</strong> with the match map — suggestions change with size and lanes.',
+      'After a few matches, <strong>rate the build</strong> across the 5 dimensions — the history shows your real progress.',
+      'Compare two builds of the same weapon in the <strong>Command Center</strong> — the sidebar search matches name or base weapon.'
+    ];
+    document.addEventListener('click', function (e) {
+      const g = e.target.closest('[data-home-goto]');
+      if (g) {
+        const nav = document.querySelector('.nav-item[data-section="' + g.dataset.homeGoto + '"]');
+        if (nav) nav.click();
+        return;
+      }
+      if (e.target.closest('[data-home-smart]')) {
+        const sb = document.getElementById('btn-smart-build');
+        if (sb) sb.click();
+      }
+    });
+    async function renderHome() {
+      try {
+        const DB = window.LevelDB;
+        if (!DB) return;
+        const builds = await DB.builds.list();
+        const weapons = await DB.weapons.list();
+        const roA = document.getElementById('home-ro-arsenal');
+        const roB = document.getElementById('home-ro-builds');
+        if (roA) roA.textContent = weapons.length;
+        if (roB) roB.textContent = builds.length;
+        const wrap = document.getElementById('home-continue');
+        if (wrap) {
+          const last = builds.slice().sort(function (a, b) {
+            return String(b.updatedAt || b.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || ''));
+          })[0];
+          if (last) {
+            const base = weapons.find(function (w) { return w.id === last.weaponBaseId; });
+            const slots = (last.attachments || []).filter(Boolean).length;
+            const nameEl = document.getElementById('home-continue-name');
+            const metaEl = document.getElementById('home-continue-meta');
+            if (nameEl) nameEl.textContent = last.name;
+            if (metaEl) metaEl.textContent = (base ? base.name : '?') + ' · ' + (base ? base.class : '?') + ' · ' + slots + '/9 slots';
+            wrap.style.display = '';
+          } else {
+            wrap.style.display = 'none';
+          }
+        }
+        const tipEl = document.getElementById('home-tip-body');
+        if (tipEl) {
+          let lang = 'pt';
+          try { lang = localStorage.getItem('bo7hub_lang_v1') || 'pt'; } catch (err) {}
+          const tips = lang === 'en' ? TIPS_EN : TIPS_PT;
+          const now = new Date();
+          const day = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+          tipEl.innerHTML = tips[day % tips.length];
+        }
+      } catch (err) { /* Home é vitrine — nunca quebra o boot */ }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderHome);
+    } else {
+      renderHome();
+    }
+    document.addEventListener('level:builds-change', renderHome);
+    window.addEventListener('languagechange', renderHome);
+  })();
 
   // Subtabs (within sections)
   document.querySelectorAll('.subtab').forEach(tab => {
