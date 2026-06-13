@@ -97,7 +97,22 @@
     --focus-ring: rgba(255,152,0,0.45);
     --dur-fast: 120ms;
     --dur-base: 180ms;
+    --dur-slow: 280ms;
     --ease-out: cubic-bezier(0.2,0.7,0.2,1);
+    --ease-in-out: cubic-bezier(0.4,0,0.2,1);
+    /* v2.43.0 · tokens do handoff Auth + Motion */
+    --navy-850: #141A2B;
+    --navy-800: #1A2236;
+    --surface-input: #131A2C;
+    --surface-hover: #2E3A5C;
+    --inset-input: inset 0 1px 3px rgba(0,0,0,0.45);
+    --border-focus: rgba(255,152,0,0.55);
+    --link: #AEC7E0;
+    --link-hover: #FFB23E;
+    --text-heading: var(--ink-100);
+    --text-body: var(--ink-200);
+    --text-faint: var(--ink-500);
+    --text-placeholder: var(--ink-600);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -12227,6 +12242,26 @@
   }
   /* ═══ END MARKETPLACE ═════════════════════════════════════════════ */
 
+  /* ════════════════════════════════════════════════════════════════════
+     v2.43.0 · MOTION / SCROLL-REVEAL (handoff Auth + Motion)
+     Base = estado final VISÍVEL. Só com .reveal-ready (adicionada por JS)
+     é que se arma o estado escondido — se o JS não correr, o conteúdo fica
+     visível. .settled + reduced-motion garantem que nada fica preso.
+     ════════════════════════════════════════════════════════════════════ */
+  [data-reveal], [data-reveal-stagger] > * { will-change: opacity, transform; }
+  .reveal-ready [data-reveal] { opacity: 0; }
+  .reveal-ready [data-reveal="fade-up"]  { transform: translateY(14px); }
+  .reveal-ready [data-reveal="scale-in"] { transform: scale(0.98); }
+  .reveal-ready [data-reveal].in { opacity: 1; transform: none; transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out); }
+  .reveal-ready [data-reveal="fade-in"].in { transition-duration: 180ms; }
+  .reveal-ready [data-reveal-stagger] > * { opacity: 0; transform: translateY(12px); }
+  .reveal-ready [data-reveal-stagger].in > * { opacity: 1; transform: none; transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out); }
+  .reveal-ready [data-reveal].settled,
+  .reveal-ready [data-reveal-stagger].settled > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-ready [data-reveal], .reveal-ready [data-reveal-stagger] > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
   </style>
 </head>
 <body>
@@ -12236,191 +12271,271 @@
 <!-- Cobre o Hub inteiro quando deslogado. Some quando logado.    -->
 <!-- ============================================================ -->
 <style>
+  /* ════════════════════════════════════════════════════════════════════
+     v2.43.0 · AUTH GATE no padrão (handoff Auth + Motion). Vidro + fio
+     laranja, logo oficial, feature-chips, fields/erros por-campo, typing-
+     dots, ecrã verify, entrada/saída. Tudo scoped + classes lag-* (zero
+     colisão com o app). NÃO usar backdrop-filter (texto em gradiente).
+     ════════════════════════════════════════════════════════════════════ */
   #level-auth-gate {
     position: fixed; inset: 0; z-index: 99999;
-    background: #141a2b;
     display: none; align-items: center; justify-content: center;
-    padding: 24px; overflow-y: auto;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    padding: 84px 20px 40px; overflow-y: auto;
+    font-family: var(--font-body, 'IBM Plex Sans', sans-serif);
+    color: var(--text-body, #DCE5F2);
+    background:
+      radial-gradient(60% 45% at 50% 8%, rgba(255,152,0,0.10), transparent 60%),
+      radial-gradient(55% 50% at 92% 100%, rgba(88,196,220,0.06), transparent 55%),
+      linear-gradient(170deg, var(--navy-850,#141A2B) 0%, var(--navy-800,#1A2236) 52%, #12182a 100%);
   }
   #level-auth-gate.show { display: flex; }
+  #level-auth-gate.anim-in { animation: lag-gate-in var(--dur-slow,280ms) var(--ease-out); }
+  @keyframes lag-gate-in { from { opacity: 0; } }
+  #level-auth-gate.is-leaving { animation: lag-gate-out var(--dur-slow,280ms) var(--ease-out) forwards; }
+  @keyframes lag-gate-out { to { opacity: 0; visibility: hidden; } }
+  /* grelha HUD subtil mascarada */
+  #level-auth-gate::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(174,199,224,0.030) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(174,199,224,0.030) 1px, transparent 1px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 72%);
+    mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 72%);
+  }
+
+  /* cartão */
   #level-auth-gate .lag-card {
-    width: 100%; max-width: 420px;
-    background: #252f48;
-    border: 1px solid var(--border, #2a2a2a);
-    border-radius: 14px; padding: 32px 28px;
+    position: relative; width: 100%; max-width: 420px;
+    background: linear-gradient(180deg, rgba(31,40,63,0.86), rgba(26,34,54,0.92));
+    border: 1px solid var(--border-subtle); border-radius: 16px;
+    box-shadow: var(--shadow-lg, 0 18px 48px rgba(0,0,0,0.50)); padding: 30px 30px 28px;
   }
-  #level-auth-gate .lag-logo {
-    text-align: center;
+  #level-auth-gate .lag-card.anim-in { animation: lag-card-in var(--dur-slow,280ms) var(--ease-out); }
+  @keyframes lag-card-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+  #level-auth-gate .lag-card::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; border-radius: 16px 16px 0 0;
+    background: linear-gradient(90deg, var(--level-orange-deep,#E07B00), var(--level-orange,#FF9800), var(--level-orange-bright,#FFB23E));
   }
-  #level-auth-gate .lag-logo-svg {
-    width: 100%; max-width: 300px; height: auto; display: inline-block;
-  }
-  #level-auth-gate .lag-sub {
-    font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 2px;
-    color: var(--text-muted, #6e6e6e); text-transform: uppercase;
-    text-align: center; margin-top: 6px; margin-bottom: 8px;
-  }
-  #level-auth-gate .lag-tagline {
-    text-align: center; color: var(--text-secondary, #b8b8b8);
-    font-size: 13px; line-height: 1.6; margin: 14px 0 24px;
-  }
-  #level-auth-gate .lag-features {
-    display: flex; gap: 10px; margin: 0 0 24px;
-  }
-  #level-auth-gate .lag-feat {
-    flex: 1; text-align: center; padding: 12px 6px;
-    border: 1px solid var(--border, #2a2a2a); border-radius: 8px;
-  }
-  #level-auth-gate .lag-feat .lag-feat-t {
-    font-size: 12px; font-weight: 600; color: var(--text, #f1f1f1); margin-top: 4px;
-  }
-  #level-auth-gate .lag-feat .lag-feat-d {
-    font-size: 10px; color: var(--text-muted, #6e6e6e); line-height: 1.4; margin-top: 2px;
-  }
-  #level-auth-gate .lag-feat svg { width: 20px; height: 20px; stroke: var(--accent, #ff9800); }
-  #level-auth-gate label.lag-label {
-    display: block; font-size: 13px; color: var(--text-secondary, #b8b8b8);
-    margin: 14px 0 6px;
-  }
-  #level-auth-gate .lag-label-row {
-    display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0 6px;
-  }
-  #level-auth-gate .lag-label-row label { font-size: 13px; color: var(--text-secondary, #b8b8b8); }
-  #level-auth-gate .lag-link {
-    background: none; border: 0; color: var(--accent, #ff9800);
-    font-size: 12px; cursor: pointer; padding: 0; font-family: inherit;
-  }
-  #level-auth-gate input.lag-input {
-    width: 100%; padding: 12px 14px;
-    background: var(--bg, #0a0a0a); color: var(--text, #f1f1f1);
-    border: 1px solid var(--border, #2a2a2a); border-radius: 8px;
-    font-size: 14px; font-family: inherit;
-  }
-  #level-auth-gate input.lag-input:focus { outline: none; border-color: var(--accent, #ff9800); }
-  #level-auth-gate .lag-btn {
-    width: 100%; padding: 14px; margin-top: 22px;
-    background: var(--accent, #ff9800); color: #000;
-    border: 0; border-radius: 8px;
-    font-family: 'Courier New', monospace; font-size: 14px; font-weight: 700;
-    letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
-  }
-  #level-auth-gate .lag-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  #level-auth-gate .lag-btn-ghost {
-    background: transparent; color: var(--text-secondary, #b8b8b8);
-    border: 1px solid var(--border, #2a2a2a);
-  }
-  #level-auth-gate .lag-switch {
-    text-align: center; margin-top: 16px; font-size: 13px; color: var(--text-secondary, #b8b8b8);
-  }
-  #level-auth-gate .lag-switch button {
-    background: none; border: 0; color: var(--accent, #ff9800);
-    cursor: pointer; font-size: 13px; font-family: inherit; padding: 0;
-  }
-  #level-auth-gate .lag-msg {
-    margin-top: 16px; padding: 12px 14px; border-radius: 8px;
-    font-size: 13px; line-height: 1.5; display: none;
-  }
-  #level-auth-gate .lag-msg.show { display: block; }
-  #level-auth-gate .lag-msg.err {
-    background: rgba(231,76,60,0.1); border: 1px solid var(--danger, #e74c3c); color: #e74c3c;
-  }
-  #level-auth-gate .lag-msg.ok {
-    background: rgba(74,222,128,0.1); border: 1px solid var(--success, #4ade80); color: #4ade80;
-  }
+
+  /* cabeça do cartão */
+  #level-auth-gate .lag-head { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 24px; }
+  #level-auth-gate .lag-logo { height: 44px; width: auto; display: block; margin-bottom: 12px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+  #level-auth-gate .lag-sub { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-faint, #5F6E8C); }
+
+  /* ecrãs */
+  #level-auth-gate .lag-screens { position: relative; }
   #level-auth-gate .lag-screen { display: none; }
   #level-auth-gate .lag-screen.active { display: block; }
+  #level-auth-gate .lag-screen.active.anim-in { animation: lag-screen-in var(--dur-base,180ms) var(--ease-out); }
+  @keyframes lag-screen-in { from { opacity: 0; transform: translateX(8px); } }
+
+  #level-auth-gate .lag-tagline { text-align: center; font-size: 14px; line-height: 1.55; color: var(--text-secondary, #AEC7E0); margin: 0 0 22px; }
+  #level-auth-gate .lag-tagline b { color: var(--text-body, #DCE5F2); font-weight: 600; }
+
+  /* feature chips */
+  #level-auth-gate .lag-feats { display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+  #level-auth-gate .lag-feat {
+    display: flex; align-items: center; gap: 13px; padding: 12px 14px; border-radius: 11px;
+    background: rgba(174,199,224,0.04); border: 1px solid var(--border-subtle);
+    transition: border-color var(--dur-fast,120ms) var(--ease-out), background var(--dur-fast,120ms) var(--ease-out);
+  }
+  #level-auth-gate .lag-feat:hover { border-color: rgba(255,152,0,0.3); background: rgba(255,152,0,0.05); }
+  #level-auth-gate .lag-feat-ic { flex: none; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 9px; background: rgba(255,152,0,0.10); border: 1px solid rgba(255,152,0,0.22); color: var(--level-orange,#FF9800); }
+  #level-auth-gate .lag-feat-ic .lvl-icon { width: 18px; height: 18px; }
+  #level-auth-gate .lag-feat-txt { min-width: 0; }
+  #level-auth-gate .lag-feat-t { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 14px; letter-spacing: .03em; color: var(--text-heading, #F2F6FC); }
+  #level-auth-gate .lag-feat-d { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .02em; color: var(--text-muted, #8497B8); margin-top: 2px; }
+
+  /* fields */
+  #level-auth-gate .lag-field { margin-bottom: 15px; }
+  #level-auth-gate .lag-field-lab { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
+  #level-auth-gate .lag-field-lab label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted, #8497B8); }
+  #level-auth-gate .lag-field-lab a, #level-auth-gate .lag-field-lab button.lag-link { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .02em; color: var(--link, #AEC7E0); text-decoration: none; background: none; border: 0; cursor: pointer; padding: 0; }
+  #level-auth-gate .lag-field-lab a:hover, #level-auth-gate .lag-field-lab button.lag-link:hover { color: var(--link-hover, #FFB23E); text-decoration: underline; }
+  #level-auth-gate .lag-input {
+    width: 100%; height: 46px; padding: 0 14px;
+    font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 14px; color: var(--text-body, #DCE5F2);
+    background: var(--surface-input, #131A2C); border: 1px solid var(--border-default); border-radius: 8px;
+    box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)); outline: none;
+    transition: border-color var(--dur-fast,120ms) var(--ease-out), box-shadow var(--dur-fast,120ms) var(--ease-out);
+  }
+  #level-auth-gate .lag-input::placeholder { color: var(--text-placeholder, #43506E); }
+  #level-auth-gate .lag-input:focus { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)), 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45)); }
+  #level-auth-gate .lag-field.is-error .lag-input { border-color: var(--red, #E74C3C); box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)), 0 0 0 3px rgba(231,76,60,0.28); }
+  #level-auth-gate .lag-field-msg { display: none; margin-top: 7px; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10.5px; letter-spacing: .01em; color: var(--red, #E74C3C); align-items: center; gap: 6px; }
+  #level-auth-gate .lag-field.is-error .lag-field-msg { display: flex; }
+  #level-auth-gate .lag-field-msg .lvl-icon { width: 13px; height: 13px; flex: none; color: var(--red, #E74C3C); }
+
+  /* notes (banner form-level) */
+  #level-auth-gate .lag-note { display: none; align-items: flex-start; gap: 9px; padding: 11px 13px; border-radius: 10px; font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 12.5px; line-height: 1.5; margin-bottom: 16px; }
+  #level-auth-gate .lag-note.show { display: flex; }
+  #level-auth-gate .lag-note .lvl-icon { width: 16px; height: 16px; flex: none; margin-top: 1px; }
+  #level-auth-gate .lag-note.ok { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.28); color: var(--ink-200, #DCE5F2); }
+  #level-auth-gate .lag-note.ok .lvl-icon { color: var(--green, #4ADE80); }
+  #level-auth-gate .lag-note.err { background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.30); color: var(--ink-200, #DCE5F2); }
+  #level-auth-gate .lag-note.err .lvl-icon { color: var(--red, #E74C3C); }
+
+  /* botões */
+  #level-auth-gate .lag-btn {
+    position: relative; width: 100%; height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 14px; letter-spacing: .06em; text-transform: uppercase;
+    border-radius: 10px; border: 1px solid transparent; cursor: pointer;
+    transition: background var(--dur-fast,120ms) var(--ease-out), transform var(--dur-fast,120ms) var(--ease-out), box-shadow var(--dur-fast,120ms) var(--ease-out);
+  }
+  #level-auth-gate .lag-btn.primary { background: var(--level-orange, #FF9800); color: var(--action-ink, #1A1206); box-shadow: 0 0 0 1px rgba(255,152,0,0.25), 0 8px 22px rgba(255,152,0,0.22); }
+  #level-auth-gate .lag-btn.primary:hover { background: var(--level-orange-bright, #FFB23E); }
+  #level-auth-gate .lag-btn.primary:active { transform: translateY(1px); }
+  #level-auth-gate .lag-btn.ghost { background: var(--surface-raised, #25304F); color: var(--text-body, #DCE5F2); border-color: var(--border-strong); }
+  #level-auth-gate .lag-btn.ghost:hover { background: var(--surface-hover, #2E3A5C); }
+  #level-auth-gate .lag-btn.ghost:active { transform: translateY(1px); }
+  #level-auth-gate .lag-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45)); }
+  #level-auth-gate .lag-btn[disabled] { opacity: .6; cursor: not-allowed; box-shadow: none; transform: none; }
+  #level-auth-gate .lag-btn-label { display: inline-flex; align-items: center; gap: 9px; }
+  #level-auth-gate .lag-btn.is-loading .lag-btn-label { visibility: hidden; }
+  #level-auth-gate .lag-btn-spin { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; gap: 5px; }
+  #level-auth-gate .lag-btn.is-loading .lag-btn-spin { display: flex; }
+  #level-auth-gate .lag-btn-spin i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .4; animation: lag-dots 1s var(--ease-in-out, ease-in-out) infinite; }
+  #level-auth-gate .lag-btn-spin i:nth-child(2) { animation-delay: .15s; }
+  #level-auth-gate .lag-btn-spin i:nth-child(3) { animation-delay: .30s; }
+  @keyframes lag-dots { 0%,100% { opacity: .3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+  #level-auth-gate .lag-btn-row { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+
+  /* switch link */
+  #level-auth-gate .lag-switch { text-align: center; margin-top: 18px; font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 12.5px; color: var(--text-muted, #8497B8); }
+  #level-auth-gate .lag-switch a, #level-auth-gate .lag-switch button { color: var(--link, #AEC7E0); text-decoration: none; font-weight: 600; background: none; border: 0; cursor: pointer; font-family: inherit; font-size: inherit; padding: 0; }
+  #level-auth-gate .lag-switch a:hover, #level-auth-gate .lag-switch button:hover { color: var(--link-hover, #FFB23E); text-decoration: underline; }
+
+  /* verify (sucesso) */
+  #level-auth-gate .lag-verify { text-align: center; padding: 6px 0 2px; }
+  #level-auth-gate .lag-verify-ic { width: 60px; height: 60px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(74,222,128,0.10); border: 1px solid rgba(74,222,128,0.30); color: var(--green, #4ADE80); box-shadow: 0 0 22px rgba(74,222,128,0.22); }
+  #level-auth-gate .lag-verify-ic .lvl-icon { width: 28px; height: 28px; }
+  #level-auth-gate .lag-verify-t { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 700; font-size: 21px; letter-spacing: .03em; color: var(--text-heading, #F2F6FC); margin: 0 0 10px; }
+  #level-auth-gate .lag-verify-b { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary, #AEC7E0); margin: 0 0 22px; }
+  #level-auth-gate .lag-verify-b b { color: var(--text-body, #DCE5F2); font-weight: 600; }
+
+  #level-auth-gate .lag-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* barra de idioma (rodapé do overlay) */
+  #level-auth-gate .lag-langbar { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 110; display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: rgba(16,21,34,0.85); border: 1px solid var(--border-default); }
+  #level-auth-gate .lag-langbar button { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; padding: 5px 13px; border-radius: 999px; border: none; cursor: pointer; background: transparent; color: var(--text-muted, #8497B8); transition: color var(--dur-fast,120ms) var(--ease-out), background var(--dur-fast,120ms) var(--ease-out); }
+  #level-auth-gate .lag-langbar button.active { background: var(--level-orange, #FF9800); color: var(--action-ink, #1A1206); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #level-auth-gate, #level-auth-gate .lag-card, #level-auth-gate .lag-screen.active, #level-auth-gate .lag-btn-spin i { animation: none !important; }
+    #level-auth-gate .lag-card { opacity: 1; transform: none; }
+  }
+  @media (max-width: 440px) {
+    #level-auth-gate { padding: 80px 14px 32px; }
+    #level-auth-gate .lag-card { padding: 24px 20px 22px; }
+    #level-auth-gate .lag-grid2 { grid-template-columns: 1fr; }
+  }
 </style>
 
 <div id="level-auth-gate" role="dialog" aria-modal="true" aria-label="Acesso ao LEVEL">
-  <div class="lag-card">
-
-    <div class="lag-logo">
-      <svg class="lag-logo-svg" viewBox="0 0 704 178" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LEVEL">
-        <path d="M0.192993 29.017C5.23499 33.291 10.423 38.551 15.356 43.055C27.716 54.341 38.187 64.812 48.346 78.127L48.534 121.364L135.926 121.79C136.062 102.841 135.786 83.544 135.76 64.552C147.211 53.736 157.135 41.97 168.336 31.224C204.018 31.851 240.669 30.288 276.372 31.234C298.136 55.652 325.365 80.888 348.947 103.885C351.025 101.654 353.202 99.143 355.361 97.032C377.677 75.209 398.857 52.452 421.693 31.156C436.52 30.776 452.716 31.07 467.643 31.07L574.348 31.063C583.977 41.14 593.709 51.118 603.543 60.996C607.952 65.475 613.011 71.154 617.556 75.21C617.792 90.294 617.584 105.817 617.553 120.933L703.031 120.951C689.701 135.655 675.663 150.225 662.934 165.362L569.21 165.28L569.055 131.812C558.215 140.791 544.503 154.915 535.024 165.343L418.298 165.328C419.048 146.328 418.811 126.369 418.629 107.316C412.311 111.941 402.127 122.847 396.132 128.841L366.794 158.108C360.538 164.417 354.539 170.899 348.113 177.04C341.756 170.263 333.769 163.295 327.029 156.488C299.954 129.015 272.502 101.915 244.681 75.195L244.668 86.429C233.677 86.504 160.964 85.538 158.924 86.79C158.271 87.191 158.377 87.87 158.248 88.56C159.607 89.525 162.353 91.636 163.773 92.151C170.846 92.741 184.055 92.356 191.678 92.359L244.641 92.368L244.452 111.954L188.303 111.919C188.27 113.711 187.99 115.9 188.847 117.35C191.329 117.984 202.565 117.697 205.931 117.685H244.452C252.5 127.517 253 128.017 259.868 135.903L275 151.017L290.513 166.492C238.443 165.98 186.369 165.869 134.296 166.161C134.462 155.517 134.547 144.872 134.551 134.226C124.671 144.285 115.896 156.37 106.328 165.899C94.174 166.307 80.68 166.097 68.413 166.136L0 166.33L0.192993 29.017Z" fill="#FF9800"/>
-<path d="M161.042 86.017C164.5 86.017 166 86.017 167.5 86.017C167.73 102.687 166.758 123.449 166.785 140.146C188.081 140.528 223.202 140.57 244.5 140.517C244.5 143.017 244.5 145.517 244.5 145.517C244.5 145.517 168.39 146.07 161 146.004L161.042 86.017Z" fill="#AEC7E0"/>
-<path d="M570.914 43.891C570.914 46.517 571.539 113.946 571.54 121.38L499.996 121.083C491.08 121.047 480.426 121.269 471.444 120.643C470.152 120.553 470.166 120.047 469.482 118.997C469.491 117.028 469.255 117.942 470.329 116.188C473.7 113.976 485.061 114.913 489.754 114.903L528.589 114.802L528.637 95.405L448.566 95.012C448.454 110.177 448.422 125.342 448.47 140.508L455.669 140.513L529.814 140.387L529.714 146.493L443.562 146.427L443.518 88.431L528.589 87.951C542.044 74.451 540.284 75.951 546.044 69.951C558.044 57.451 559.044 56.451 570.914 43.891Z" fill="#21293F"/>
-<path d="M433.782 50.531L498.234 50.431C505.175 50.425 524.5 50.517 531 50.517L530.953 52.517C531 52.517 531 55.017 531 56.017C527.5 56.017 501.589 56.049 496.858 56.042L435.151 56.002C417.589 73.956 400.717 92.439 382.505 109.823C371.411 120.413 361.013 131.714 349.463 141.88C341.525 134.96 332.378 125.529 324.9 118.052L287.776 81.069C279.615 72.972 270.864 64.045 262.306 56.468L214.346 56.365C202.721 56.33 190.329 56.495 178.783 55.965C178.679 54.239 178.708 52.326 178.693 50.583C207.745 50.37 236.798 50.511 265.847 51.005C293.231 78.95 321.915 106.613 349.697 134.374C351.747 132.586 353.711 130.512 355.673 128.608C366.364 118.232 376.914 107.793 387.335 97.146L433.782 50.531Z" fill="#AEC7E0"/>
-<path d="M595 76.017C596.991 76.017 600.188 76.017 600.686 76.017C600.686 78.0285 600.686 133.346 600.686 139.904H657.996L658 147.017H595C594.858 123.312 594.61 99.7189 595 76.017Z" fill="#DEDDDC"/>
-<path d="M23.034 78.144C24.817 78.87 27.029 81.135 28.546 82.508L28.476 140.807H75.5C81.5 141.017 95.252 140.807 99.5 140.807C98.5 142.517 98.5 142.517 97 144.517C96.415 145.263 96.098 145.835 95.5 146.571C92.5 146.571 76.533 146.572 72.556 146.571L23.301 146.546L23.034 78.144Z" fill="#AEC7E0"/>
-<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C344.993 42.421 329.95 26.511 325.397 21.665C318.694 14.559 311.95 7.49101 305.167 0.462006C320.111 0.595006 335.057 0.556001 350.001 0.345001Z" fill="#AEC7E0"/>
-<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C349.798 42.792 349.969 33.914 349.969 30.554L350.001 0.345001Z" fill="#FF9800"/>
-<path d="M594.501 76.0015C599 76.0015 596.637 76.0015 601.136 76.0015C601.136 96.5015 601.115 120.137 601.136 139.895C618.501 139.895 650.501 139.517 667.001 139.517C660.001 145.517 658.456 147.001 658.456 147.001C658.456 147.001 600.29 147.095 594.501 147.017V76.0015Z" fill="#AEC7E0"/>
-<path d="M449 95.017C445.5 91.017 445 90.017 443.5 88.517V146.517H499.5C504.025 146.518 526.587 146.517 530 146.517V144.017V140.517C530 140.517 509.52 140.497 502.694 140.289H449.192L449 95.017Z" fill="#AEC7E0"/>
-<path d="M165.995 86.0741L244.645 85.959L244.654 92.3407L166.004 92.4557L165.995 86.0741Z" fill="#AEC7E0"/>
-<path d="M167 111.985L244.5 111.985L244.5 118.097L167 118.097L167 111.985Z" fill="#AEC7E0"/>
-<path d="M443.5 88.517L528.5 88.017L528.5 95.517L470.5 95.517L445 95.517L443.5 88.517Z" fill="#AEC7E0"/>
-<path d="M449 114.517L528.5 115.017L528.5 121.517L476 121.517L449 121.517L449 114.517Z" fill="#AEC7E0"/>
-<path d="M154 86.017H161V91.017H154V86.017Z" fill="#FF9800"/>
-<rect x="244.287" y="74" width="20" height="68" fill="#FF9800"/>
-<rect x="528.287" y="66" width="20" height="68" fill="#FF9800"/>
-      </svg>
+  <div class="lag-card" id="lag-card">
+    <div class="lag-head">
+      <svg viewBox="0 0 703 181" fill="none" xmlns="http://www.w3.org/2000/svg" class="lag-logo" role="img" aria-label="LEVEL"><title>LEVEL</title><defs><mask id="lvl-logo-hollow-auth" maskUnits="userSpaceOnUse" x="0" y="0" width="703" height="181"><rect x="0" y="0" width="703" height="181" fill="white"></rect><path d="M570 119.009C569.999 112.271 570 59.3898 570 57.0094C559.691 70.6065 544 90.9087 544 90.9087V119.009H570Z" fill="black"></path></mask></defs><g mask="url(#lvl-logo-hollow-auth)"><path d="M24 84.6844L18 80.0094V148.684H91L94 142.684H24V84.6844Z" fill="#AEC7E0"></path><path d="M363.435 31.5114C373.78 21.0544 384.18 10.5974 394.388 0.00939941C379.707 0.223399 364.64 0.240399 350 0.00939941H305C311.783 7.0384 343.297 38.9034 350 46.0094C351.5 44.5094 361.18 33.7904 363.435 31.5114Z" fill="#AEC7E0"></path><path d="M49 81L0 32V169.5L69 169H106L136 137V169H295L270 145L245 120V80C251.74 86.807 349 180 349 180L419 110V168L535 169L569.5 119L569 168H663C675.729 152.863 689.67 138.704 703 124L618 123.934V78L597.5 57L575 34C575 34 526.971 34.046 498.672 34.046C470.373 34.046 422 33.9906 422 33.9906L349 107L313.5 70.5L277 34H168L135.98 67.535C136.006 86.527 136 124 136 124H49V81Z" fill="#FF9800"></path><rect x="156" y="86.0094" width="6" height="59" fill="#AEC7E0"></rect><path d="M363.599 31.502C373.916 21.045 384.288 10.588 394.468 0C394.468 0 368.965 0.0093689 350 0.0093689V46.0094C351.226 44.6846 361.35 33.781 363.599 31.502Z" fill="#FF9800"></path><path d="M27 58.5094L49 81.0094L24 84.6844L18 80.0094L0 32.0094L27 58.5094Z" fill="#FFB74D"></path><path d="M18 80.0094V148.684L0 169.509V95.5094V32.0094L18 80.0094Z" fill="#F57C00"></path><path d="M49 81.0094V124.009L24 84.6844L49 81.0094Z" fill="#FB8C00"></path><path d="M24 84.6844L49 124.009L24 142.684V84.6844Z" fill="#D84315"></path><path d="M49 124.009L94 142.684H24.078L49 124.009Z" fill="#C66900"></path><path d="M94 142.684L136 124.009H49L94 142.684Z" fill="#FFB74D"></path><path d="M136 124.009V137.009L106 169.009L91 148.684L94 142.684L136 124.009Z" fill="#FFCC80"></path><path d="M91 148.684L106 169.037L0 169.509L91 148.684Z" fill="#BF360C"></path><path d="M18 148.684H91L0 169.509L18 148.684Z" fill="#C66900"></path><path d="M24 84.6844L18 80.0094V148.684H91L94 142.684H24V84.6844Z" fill="#AEC7E0"></path><path d="M27 58.5094L49 81.0094L24 84.6844L18 80.0094L0 32.0094L27 58.5094Z" fill="#FFB74D"></path><path d="M18 80.0094V148.684L0 169.509V95.5094V32.0094L18 80.0094Z" fill="#F57C00"></path><path d="M49 81.0094V124.009L24 84.6844L49 81.0094Z" fill="#FB8C00"></path><path d="M24 84.6844L49 124.009L24 142.684V84.6844Z" fill="#D84315"></path><path d="M49 124.009L94 142.684H24.078L49 124.009Z" fill="#C66900"></path><path d="M94 142.684L136 124.009H49L94 142.684Z" fill="#FFB74D"></path><path d="M136 124.009V137.009L106 169.009L91 148.684L94 142.684L136 124.009Z" fill="#FFCC80"></path><path d="M91 148.684L106 169.037L0 169.509L91 148.684Z" fill="#BF360C"></path><path d="M18 148.684H91L0 169.509L18 148.684Z" fill="#C66900"></path><path d="M575 34.0094L618 78.0094L595 80H589L570 34.0094H575Z" fill="#FFB74D"></path><path d="M589 80V151.009L569 168.009L570 95.5094V34.0094L589 80Z" fill="#F57C00"></path><path d="M618 78.0094V124.009L595 80L618 78.0094Z" fill="#FB8C00"></path><path d="M595 80L618 124.009L595 145V80Z" fill="#D84315"></path><path d="M618 124.009L659 145H595L618 124.009Z" fill="#C66900"></path><path d="M659 145L703 124.009H618L659 145Z" fill="#FFB74D"></path><path d="M527 145L569.5 119H444L527 145Z" fill="#FFB74D"></path><path d="M703 124.009L659 145L653 151.009L663 168.009L703 124.009Z" fill="#FFCC80"></path><path d="M653 151.009L663 168.009H569L653 151.009Z" fill="#BF360C"></path><path d="M589 151.009H653L569 168.009L589 151.009Z" fill="#C66900"></path><path d="M168 34.0094L175 57.0094L136 67.5094L168 34.0094Z" fill="#FFCC80"></path><path d="M175 57.0094V63.0094L156 80.0094L136 67.5094L175 57.0094Z" fill="#E65100"></path><path d="M136 67.5094L156 80.0094L136 169.009V67.5094Z" fill="#EF6C00"></path><path d="M156 80.0094V151.009L136 169.009L156 80.0094Z" fill="#BF360C"></path><path d="M156 151.009L262 169.009H136L156 151.009Z" fill="#D84315"></path><path d="M262 169.009L245 145.009L233 151.009H156.08L262 169.009Z" fill="#C66900"></path><path d="M295 169.009H262L245 145.009L265 139.509L295 169.009Z" fill="#BF360C"></path><path d="M168 34.0094H238L175 57.0094L168 34.0094Z" fill="#FFB74D"></path><path d="M264 57.0094H175L238.5 34L264 57.0094Z" fill="#FFA000"></path><path d="M175 63.0094H262L245 80.0094H156L175 63.0094Z" fill="#F57C00"></path><path d="M162 119.009L245 145.009H162V119.009Z" fill="#C66900"></path><path d="M233 86.0094L162 112.684V86.0094H233Z" fill="#FFCC80"></path><path opacity="0.7" d="M245 80.0094V112.684H162L233 86.0094L245 80.0094Z" fill="#D84315"></path><path d="M156 145.009H245L233 151.009H156V145.009Z" fill="#AEC7E0"></path><path d="M156 112.684H245L233 118.684H156V112.684Z" fill="#AEC7E0"></path><path d="M245 112.684V120.009L265 139.509L245 145.009L161 118.684H233L245 112.684Z" fill="#E65100"></path><path d="M401 55L422 33.9999L436 56.9999L401 55Z" fill="#FFCC80"></path><path d="M439 62H456L438 80L425.5 75L439 62Z" fill="#E65100"></path><path d="M425.5 74.5L438 80L419 168V111L425.5 74.5Z" fill="#EF6C00"></path><path d="M438 80.5V151L419 168L438 80.5Z" fill="#BF360C"></path><path d="M438 151L535 169L419 168L438 151Z" fill="#D84315"></path><path d="M535 169L527 145L514.92 151H438L535 169Z" fill="#C66900"></path><path d="M569.5 119L535 169L527 145L569.5 119Z" fill="#BF360C"></path><path d="M422 34H504.5L436 57L422 34Z" fill="#FFB74D"></path><path d="M533 57H436L504.5 34L533 57Z" fill="#FFA000"></path><path d="M456 62H546L527 80H438L456 62Z" fill="#F57C00"></path><path d="M444 119L527 145H444V119Z" fill="#C66900"></path><path d="M515 86L444 113V86H515Z" fill="#FFCC80"></path><path opacity="0.7" d="M527 80V113H444L514.5 86L527 80Z" fill="#D84315"></path><path d="M589 80.0094C595 80.0094 595 80.0094 595 80.0094C595 100.493 594.979 125.257 595 145H659L653 151C653 151 589 151.031 589 151V80.0094Z" fill="#AEC7E0"></path><path d="M438 80H527L515 86H438V80Z" fill="#AEC7E0"></path><path d="M438 113H527L515 119H438V113Z" fill="#AEC7E0"></path><path d="M438 145H527L515 151H438V145Z" fill="#AEC7E0"></path><rect x="438" y="86.0094" width="6" height="59" fill="#AEC7E0"></rect><path d="M436 57.0026H533L525 62H439L349 148L262 63.0655H211.269H175C175 63.0655 175.015 58.8117 175 57.0687L264 57C297.195 89.804 349 141 349 141L436 57.0026Z" fill="#AEC7E0"></path><path d="M156 80.0094H245L233 86.0094H156V80.0094Z" fill="#AEC7E0"></path><path d="M239 34H277L264 57L239 34Z" fill="#757575"></path><path d="M264 57H300L334.5 126.5L264 57Z" fill="#B3B3B3"></path><path d="M277 34L300 57H264L277 34Z" fill="#D9D9D9"></path><path d="M300 57L349.5 106.5L334.5 126.5L300 57Z" fill="#D9D9D9"></path><path d="M425.5 75L419 110.5L367 162L381.5 117L425.5 75Z" fill="#B3B3B3"></path><path d="M436 57L378.5 112.5L349 107L401 55L436 57Z" fill="#D9D9D9"></path><path d="M349 107L378.5 112.5L349 141L334.5 126.5L349 107Z" fill="#757575"></path><path d="M295 95.5L349 148L297 130L245 80L295 95.5Z" fill="#D9D9D9"></path><path d="M349 148V180L320 152L297 130L349 148Z" fill="#B3B3B3"></path><path d="M381.5 117L366.5 163L349 180V148L381.5 117Z" fill="#D9D9D9"></path></g></svg>
+      <div class="lag-sub">Tactical Hub · BO7</div>
     </div>
-    <div class="lag-sub">Tactical Hub · BO7</div>
+    <div class="lag-screens">
 
-    <!-- TELA: LANDING -->
-    <div class="lag-screen active" id="lag-landing">
-      <div class="lag-tagline" data-i18n-html="auth.tagline">Le Vél, seu coach personalizado de CoD.<br>Análise tática calibrada pro seu estilo, arsenal e progressão.</div>
-      <div class="lag-features">
-        <div class="lag-feat">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/></svg>
-          <div class="lag-feat-t" data-i18n="auth.feat.loadouts.t">Loadouts</div>
-          <div class="lag-feat-d" data-i18n="auth.feat.loadouts.d">score e ajustes</div>
+      <!-- LANDING -->
+      <div class="lag-screen active" id="lag-landing">
+        <p class="lag-tagline" data-i18n-html="auth.tagline">Le Vél, seu coach personalizado de CoD.<br>Análise tática calibrada pro seu estilo, arsenal e progressão.</p>
+        <div class="lag-feats">
+          <div class="lag-feat"><span class="lag-feat-ic">{{i:wrench:18}}</span><div class="lag-feat-txt"><div class="lag-feat-t" data-i18n="auth.feat.loadouts.t">Loadouts</div><div class="lag-feat-d" data-i18n="auth.feat.loadouts.d">score e ajustes</div></div></div>
+          <div class="lag-feat"><span class="lag-feat-ic">{{i:crosshair:18}}</span><div class="lag-feat-txt"><div class="lag-feat-t" data-i18n="auth.feat.weapons.t">Armas</div><div class="lag-feat-d" data-i18n="auth.feat.weapons.d">compara builds</div></div></div>
+          <div class="lag-feat"><span class="lag-feat-ic">{{i:trending-up:18}}</span><div class="lag-feat-txt"><div class="lag-feat-t" data-i18n="auth.feat.evolution.t">Evolução</div><div class="lag-feat-d" data-i18n="auth.feat.evolution.d">causa e plano</div></div></div>
         </div>
-        <div class="lag-feat">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
-          <div class="lag-feat-t" data-i18n="auth.feat.weapons.t">Armas</div>
-          <div class="lag-feat-d" data-i18n="auth.feat.weapons.d">compara builds</div>
-        </div>
-        <div class="lag-feat">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg>
-          <div class="lag-feat-t" data-i18n="auth.feat.evolution.t">Evolução</div>
-          <div class="lag-feat-d" data-i18n="auth.feat.evolution.d">causa e plano</div>
+        <div class="lag-btn-row">
+          <button class="lag-btn primary" onclick="LEVEL_AUTH.showScreen('signup')"><span class="lag-btn-label" data-i18n="auth.btn.createAccount">Criar conta</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
+          <button class="lag-btn ghost" onclick="LEVEL_AUTH.showScreen('login')"><span class="lag-btn-label" data-i18n="auth.btn.login">Entrar</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
         </div>
       </div>
-      <button class="lag-btn" data-i18n="auth.btn.createAccount" onclick="LEVEL_AUTH.showScreen('signup')">Criar conta</button>
-      <button class="lag-btn lag-btn-ghost" data-i18n="auth.btn.login" onclick="LEVEL_AUTH.showScreen('login')">Entrar</button>
-    </div>
 
-    <!-- TELA: CADASTRO -->
-    <div class="lag-screen" id="lag-signup">
-      <label class="lag-label" for="lag-su-email" data-i18n="auth.label.email">E-mail</label>
-      <input class="lag-input" type="email" id="lag-su-email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
-      <label class="lag-label" for="lag-su-pass" data-i18n="auth.label.password">Senha</label>
-      <input class="lag-input" type="password" id="lag-su-pass" autocomplete="new-password" placeholder="mínimo 8 caracteres" data-i18n-attr="placeholder:auth.ph.minChars">
-      <label class="lag-label" for="lag-su-pass2" data-i18n="auth.label.confirmPassword">Confirmar senha</label>
-      <input class="lag-input" type="password" id="lag-su-pass2" autocomplete="new-password">
-      <label class="lag-label" for="lag-su-birth" data-i18n="auth.label.birthdate">Data de nascimento</label>
-      <input class="lag-input" type="date" id="lag-su-birth">
-      <button class="lag-btn" id="lag-su-btn" data-i18n="auth.btn.createAccount" onclick="LEVEL_AUTH.doSignup()">Criar conta</button>
-      <div class="lag-msg" id="lag-su-msg"></div>
-      <div class="lag-switch"><span data-i18n="auth.switch.hasAccount">Já tem conta?</span> <button data-i18n="auth.btn.login" onclick="LEVEL_AUTH.showScreen('login')">Entrar</button></div>
-    </div>
-
-    <!-- TELA: LOGIN -->
-    <div class="lag-screen" id="lag-login">
-      <label class="lag-label" for="lag-li-email" data-i18n="auth.label.email">E-mail</label>
-      <input class="lag-input" type="email" id="lag-li-email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
-      <div class="lag-label-row">
-        <label for="lag-li-pass" data-i18n="auth.label.password">Senha</label>
-        <button class="lag-link" data-i18n="auth.link.forgotPassword" onclick="LEVEL_AUTH.showScreen('reset')">Esqueci a senha</button>
+      <!-- CRIAR CONTA -->
+      <div class="lag-screen" id="lag-signup">
+        <div class="lag-note err" id="lag-su-msg"><span class="lag-note-ic">{{i:alert-circle}}</span><span class="lag-note-tx"></span></div>
+        <div class="lag-field" data-field="lag-su-email">
+          <div class="lag-field-lab"><label for="lag-su-email" data-i18n="auth.label.email">E-mail</label></div>
+          <input class="lag-input" id="lag-su-email" type="email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
+        <div class="lag-field" data-field="lag-su-pass">
+          <div class="lag-field-lab"><label for="lag-su-pass" data-i18n="auth.label.password">Senha</label></div>
+          <input class="lag-input" id="lag-su-pass" type="password" autocomplete="new-password" placeholder="mínimo 8 caracteres" data-i18n-attr="placeholder:auth.ph.minChars">
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
+        <div class="lag-field" data-field="lag-su-pass2">
+          <div class="lag-field-lab"><label for="lag-su-pass2" data-i18n="auth.label.confirmPassword">Confirmar senha</label></div>
+          <input class="lag-input" id="lag-su-pass2" type="password" autocomplete="new-password" placeholder="••••••••">
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
+        <div class="lag-field" data-field="lag-su-birth">
+          <div class="lag-field-lab"><label for="lag-su-birth" data-i18n="auth.label.birthdate">Data de nascimento</label></div>
+          <input class="lag-input" id="lag-su-birth" type="date">
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
+        <div class="lag-btn-row">
+          <button class="lag-btn primary" id="lag-su-btn" onclick="LEVEL_AUTH.doSignup()"><span class="lag-btn-label" data-i18n="auth.btn.createAccount">Criar conta</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
+        </div>
+        <div class="lag-switch"><span data-i18n="auth.switch.hasAccount">Já tem conta?</span> <button type="button" onclick="LEVEL_AUTH.showScreen('login')" data-i18n="auth.btn.login">Entrar</button></div>
       </div>
-      <input class="lag-input" type="password" id="lag-li-pass" autocomplete="current-password">
-      <button class="lag-btn" id="lag-li-btn" data-i18n="auth.btn.login" onclick="LEVEL_AUTH.doLogin()">Entrar</button>
-      <div class="lag-msg" id="lag-li-msg"></div>
-      <div class="lag-switch"><span data-i18n="auth.switch.noAccount">Não tem conta?</span> <button data-i18n="auth.btn.create" onclick="LEVEL_AUTH.showScreen('signup')">Criar</button></div>
-    </div>
 
-    <!-- TELA: RESGATAR SENHA -->
-    <div class="lag-screen" id="lag-reset">
-      <div class="lag-tagline" data-i18n="auth.reset.tagline">Informa o e-mail da conta. Enviamos um link pra definir uma nova senha.</div>
-      <label class="lag-label" for="lag-rs-email" data-i18n="auth.label.email">E-mail</label>
-      <input class="lag-input" type="email" id="lag-rs-email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
-      <button class="lag-btn" id="lag-rs-btn" data-i18n="auth.btn.sendLink" onclick="LEVEL_AUTH.doReset()">Enviar link</button>
-      <div class="lag-msg" id="lag-rs-msg"></div>
-      <div class="lag-switch"><button data-i18n="auth.btn.backToLogin" onclick="LEVEL_AUTH.showScreen('login')">Voltar ao login</button></div>
-    </div>
+      <!-- ENTRAR -->
+      <div class="lag-screen" id="lag-login">
+        <div class="lag-note err" id="lag-li-msg"><span class="lag-note-ic">{{i:alert-circle}}</span><span class="lag-note-tx"></span></div>
+        <div class="lag-field" data-field="lag-li-email">
+          <div class="lag-field-lab"><label for="lag-li-email" data-i18n="auth.label.email">E-mail</label></div>
+          <input class="lag-input" id="lag-li-email" type="email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
+        <div class="lag-field" data-field="lag-li-pass">
+          <div class="lag-field-lab"><label for="lag-li-pass" data-i18n="auth.label.password">Senha</label><button type="button" class="lag-link" onclick="LEVEL_AUTH.showScreen('reset')" data-i18n="auth.link.forgotPassword">Esqueci a senha</button></div>
+          <input class="lag-input" id="lag-li-pass" type="password" autocomplete="current-password" placeholder="••••••••">
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
+        <div class="lag-btn-row">
+          <button class="lag-btn primary" id="lag-li-btn" onclick="LEVEL_AUTH.doLogin()"><span class="lag-btn-label" data-i18n="auth.btn.login">Entrar</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
+        </div>
+        <div class="lag-switch"><span data-i18n="auth.switch.noAccount">Não tem conta?</span> <button type="button" onclick="LEVEL_AUTH.showScreen('signup')" data-i18n="auth.btn.create">Criar</button></div>
+      </div>
 
+      <!-- RECUPERAR SENHA -->
+      <div class="lag-screen" id="lag-reset">
+        <p class="lag-tagline" data-i18n-html="auth.reset.tagline">Informa o e-mail da conta. Enviamos um link pra definir uma nova senha.</p>
+        <div class="lag-note err" id="lag-rs-msg"><span class="lag-note-ic">{{i:alert-circle}}</span><span class="lag-note-tx"></span></div>
+        <div class="lag-field" data-field="lag-rs-email">
+          <div class="lag-field-lab"><label for="lag-rs-email" data-i18n="auth.label.email">E-mail</label></div>
+          <input class="lag-input" id="lag-rs-email" type="email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
+        <div class="lag-btn-row">
+          <button class="lag-btn primary" id="lag-rs-btn" onclick="LEVEL_AUTH.doReset()"><span class="lag-btn-label" data-i18n="auth.btn.sendLink">Enviar link</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
+        </div>
+        <div class="lag-switch"><button type="button" onclick="LEVEL_AUTH.showScreen('login')" data-i18n="auth.btn.backToLogin">Voltar ao login</button></div>
+      </div>
+
+      <!-- VERIFICA E-MAIL (sucesso) -->
+      <div class="lag-screen" id="lag-verify">
+        <div class="lag-verify">
+          <div class="lag-verify-ic">{{i:mail:28}}</div>
+          <h2 class="lag-verify-t" data-i18n="auth.verify.title">Verifica o teu e-mail</h2>
+          <p class="lag-verify-b" id="lag-verify-body">Enviámos um link para <b>o teu e-mail</b>. Abre-o para concluir.</p>
+          <div class="lag-btn-row">
+            <button class="lag-btn primary" type="button" onclick="LEVEL_AUTH.showScreen('login')"><span class="lag-btn-label" data-i18n="auth.btn.backToLogin">Voltar ao login</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
+            <button class="lag-btn ghost" id="lag-vr-btn" type="button" onclick="LEVEL_AUTH.resend()"><span class="lag-btn-label" data-i18n="auth.btn.resend">Reenviar link</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="lag-langbar" role="group" aria-label="Idioma">
+    <button type="button" onclick="setLanguage('pt')" data-lang="pt">PT</button>
+    <button type="button" onclick="setLanguage('en')" data-lang="en">EN</button>
   </div>
 </div>
 <!-- ============ FIM LEVEL AUTH GATE ============ -->
@@ -12708,13 +12823,13 @@
     <!-- SECTION 0: HOME (tela ① Claude Design — v2.35.0) -->
     <!-- =================================================================== -->
     <section class="section active" id="section-home">
-      <div class="section-header">
+      <div class="section-header" data-reveal="fade-up">
         <div class="breadcrumb" data-i18n="home.crumb">00 / Início</div>
         <h2 data-i18n="home.h2">LEVEL</h2>
         <p data-i18n="home.intro">Companion tático para Black Ops 7 — builds, análise e treino num só lugar.</p>
       </div>
 
-      <div class="home-hero">
+      <div class="home-hero" data-reveal-stagger data-stagger="90">
         <div class="home-hero-chip" data-i18n="home.chip">COMPANION TÁTICO · COD BLACK OPS 7</div>
         <div class="home-hero-headline" data-i18n-html="home.headline">Pare de adivinhar.<br>Comece a evoluir.</div>
         <p class="home-hero-sub" data-i18n="home.sub">Sabe exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.</p>
@@ -12729,7 +12844,7 @@
         </div>
       </div>
 
-      <div class="home-resume">
+      <div class="home-resume" data-reveal="fade-up">
         <div class="home-continue" id="home-continue" style="display:none">
           <div class="home-continue-label" data-i18n="home.continue.label">CONTINUAR DE ONDE PARASTE</div>
           <div class="home-continue-name" id="home-continue-name" data-glossary-skip></div>
@@ -12744,8 +12859,8 @@
         </div>
       </div>
 
-      <div class="home-explore-title" data-i18n="home.explore">EXPLORAR</div>
-      <div class="home-explore">
+      <div class="home-explore-title" data-i18n="home.explore" data-reveal="fade-up">EXPLORAR</div>
+      <div class="home-explore" data-reveal-stagger data-stagger="70">
         <button class="home-card hc-orange" type="button" data-home-goto="constructor">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3 a4 4 0 0 0 -5.4 5.4 L3 18 a2 2 0 0 0 2.8 2.8 L12.3 14.7 a4 4 0 0 0 5.4 -5.4 L15 12 12 9 Z"/></svg></span>
           <span class="home-card-title" data-i18n="nav.constructor.label">Loadout</span>
@@ -12995,7 +13110,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.42.0 · <span data-i18n="briefing.changelog.date">13 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.43.0 · <span data-i18n="briefing.changelog.date">13 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16260,6 +16375,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.43.0</span>
+                <span class="vh-date">13 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Auth Gate no padrão + sistema de Motion/Scroll-Reveal (handoff v4).</strong> Recriado em vanilla com tokens; contrato `LEVEL_AUTH` preservado. <strong>AUTH:</strong> CSS de `#level-auth-gate` reescrito (scoped, classes `lag-*`, zero colisão) — overlay sólido + glow + grelha HUD mascarada, cartão de vidro com fio laranja, <strong>logo oficial metálico inline</strong> (`logo-level.svg`, máscara `lvl-logo-hollow-auth` p/ não colidir com a da sidebar), feature-chips, fields com poço afundado + focus ring. Markup reestruturado preservando ids (`lag-su-*`/`lag-li-*`/`lag-rs-*`, screens `lag-{landing|signup|login|reset|verify}`, botões `lag-*-btn`). Controlador reescrito: <strong>erros por-campo</strong> (`fieldErr` marca `.is-error` + msg no campo certo + foco), banner `.lag-note` só p/ erros de servidor (`friendly` agora i18n), <strong>typing-dots</strong> no loading (`setLoading` `.is-loading`), ecrã <strong>verify</strong> ("verifica o teu e-mail" com `{email}` interpolado; reset→verify; signup→verify só se Confirm-email ON, senão entra direto), `resend()`, <strong>entrada</strong> (gate fade + card fade/scale + screen-in) e <strong>saída</strong> (`is-leaving` fade-out a revelar o app), barra de idioma PT/EN no rodapé (sync via `languagechange`). Novas chaves i18n `auth.verify.*`, `auth.btn.resend`, `auth.err.*` PT/EN. Ícones novos: `mail`, `alert-circle`, `circle-check`. Novos tokens no `:root` (`--surface-input`, `--inset-input`, `--border-focus`, `--link`/`--link-hover`, `--navy-850/800`, `--dur-slow`, `--ease-in-out`, aliases `--text-heading/body/faint/placeholder`). <strong>MOTION:</strong> sistema reutilizável `data-reveal="fade-up|fade-in|scale-in"` + `data-reveal-stagger`/`data-stagger` + count-up; base visível, `.reveal-ready` arma o escondido só via JS, IntersectionObserver (threshold .15, rootMargin -8%, uma vez), `settleAll` (2.2s) anti-stranding, `prefers-reduced-motion` desliga tudo (`window.LevelReveal`). Aplicado à <strong>Home</strong> (section-header fade-up, hero stagger 90ms, resume fade-up, explore-title fade-up, cards explore stagger 70ms) + entrada do auth. Validado: node 16/16, 1 main + 14 sections, render isolado (gate real: landing/login c/ erros por-campo/verify c/ interpolação/EN/langbar/logo metálico; reveal: hero animou, nada preso). NÃO commitado ainda (Victor aprova). Temp: `_v4_*.js`, `_server.js`, `index.html.bak-v4` (limpar antes do commit).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.42.0</span>
                 <span class="vh-date">13 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18307,7 +18431,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.42.0</strong><span class="ver-tag">Operator Profile afinado (handoff v3) + logo LEVEL oficial metálico: avatar retrato 116×146, emblema circular 48px no canto da foto, pílula de estilo sob o nome, caixa 25%/75% Prestígio|Nível com barra de pips segmentada. Rail a 226px. Masthead: "?" do backup como caractere + tooltip 320px</span>
+        LEVEL · <strong>v2.43.0</strong><span class="ver-tag">Auth gate no padrão (vidro + fio laranja + logo oficial): landing/criar/entrar/recuperar + ecrã "verifica e-mail", erros por-campo, typing-dots, entrada/saída animadas, bilingue. + Sistema de scroll-reveal (fade-up/scale-in/stagger/count-up, IntersectionObserver, respeita prefers-reduced-motion) aplicado à Home</span>
       </div>
       <script>
         (function(){
@@ -19768,6 +19892,23 @@ window.I18N = {
     'auth.reset.tagline':        'Informa o e-mail da conta. Enviamos um link pra definir uma nova senha.',
     'auth.ph.email':             'operador@email.com',
     'auth.ph.minChars':          'm\u00ednimo 8 caracteres',
+    'auth.verify.title':         'Verifica o teu e-mail',
+    'auth.verify.body':          'Envi\u00e1mos um link para {email}. Abre-o para concluir.',
+    'auth.btn.resend':           'Reenviar link',
+    'auth.err.emailRequired':    'Informa o e-mail.',
+    'auth.err.emailInvalid':     'E-mail inv\u00e1lido.',
+    'auth.err.passMin':          'M\u00ednimo 8 caracteres.',
+    'auth.err.passMismatch':     'As senhas n\u00e3o coincidem.',
+    'auth.err.birthRequired':    'Informa a data de nascimento.',
+    'auth.err.under18':          'O LEVEL \u00e9 para maiores de 18 anos.',
+    'auth.err.passRequired':     'Senha obrigat\u00f3ria.',
+    'auth.err.badLogin':         'E-mail ou senha incorretos.',
+    'auth.err.exists':           'Esse e-mail j\u00e1 tem conta. Tenta entrar.',
+    'auth.err.weak':             'Senha fraca demais. Usa pelo menos 8 caracteres.',
+    'auth.err.rate':             'Muitas tentativas. Espera um minuto e tenta de novo.',
+    'auth.err.notConfirmed':     'Confirma teu e-mail antes de entrar (verifica a caixa de entrada).',
+    'auth.err.network':          'Falha de conex\u00e3o. Verifica a internet e tenta de novo.',
+    'auth.err.generic':          'Algo deu errado. Tenta de novo.',
     'header.appName':     'LEVEL · BO7 TACTICAL HUB',
 
     // — Player mini —
@@ -20016,8 +20157,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '13 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Operator Profile afinado + logo LEVEL oficial',
-    'briefing.changelog.summary':  'Refinamento do <strong>cartão do operador</strong> na barra lateral (handoff v3) e o <strong>logo LEVEL oficial</strong> (metálico, com o V vazado por máscara). O avatar passou a <strong>retrato</strong> (116×146), o emblema de prestígio ficou mais pequeno e ancorado ao canto da foto, o <strong>estilo</strong> virou uma pílula discreta sob o nome, e Prestígio + Nível juntaram-se numa <strong>caixa 25%/75%</strong> com uma <strong>barra de pips segmentada</strong> (em vez da barra contínua). A barra lateral afinou para 226px. Na masthead, o &ldquo;?&rdquo; do backup ficou como caractere e o tooltip a 320px. PT + EN.',
+    'briefing.changelog.headline': 'Tela de entrada renovada + animações de scroll',
+    'briefing.changelog.summary':  'A <strong>tela de entrada</strong> (login / criar conta / recuperar) entrou no padrão do resto do Hub: cartão de vidro com fio laranja, o <strong>logo LEVEL oficial</strong>, e os botões/campos no estilo do app. Agora os erros aparecem <strong>campo a campo</strong> (em vez de uma mensagem genérica), há um ecrã de <strong>&ldquo;Verifica o teu e-mail&rdquo;</strong> e os botões mostram pontinhos a carregar. Tudo bilingue PT/EN. E entrou um <strong>sistema de animações</strong>: ao abrir o Painel/Home, os textos e cartões <strong>aparecem suavemente ao rolar</strong> (com respeito por &ldquo;reduzir movimento&rdquo;). PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21262,6 +21403,23 @@ window.I18N = {
     'auth.reset.tagline':        'Enter your account email. We\u2019ll send a link to set a new password.',
     'auth.ph.email':             'operator@email.com',
     'auth.ph.minChars':          'minimum 8 characters',
+    'auth.verify.title':         'Check your email',
+    'auth.verify.body':          'We sent a link to {email}. Open it to finish.',
+    'auth.btn.resend':           'Resend link',
+    'auth.err.emailRequired':    'Enter your email.',
+    'auth.err.emailInvalid':     'Invalid email.',
+    'auth.err.passMin':          'Minimum 8 characters.',
+    'auth.err.passMismatch':     "Passwords don't match.",
+    'auth.err.birthRequired':    'Enter your date of birth.',
+    'auth.err.under18':          'LEVEL is for ages 18+.',
+    'auth.err.passRequired':     'Password required.',
+    'auth.err.badLogin':         'Incorrect email or password.',
+    'auth.err.exists':           'That email already has an account. Try logging in.',
+    'auth.err.weak':             'Password too weak. Use at least 8 characters.',
+    'auth.err.rate':             'Too many attempts. Wait a minute and try again.',
+    'auth.err.notConfirmed':     'Confirm your email before logging in (check your inbox).',
+    'auth.err.network':          'Connection failed. Check your internet and try again.',
+    'auth.err.generic':          'Something went wrong. Try again.',
     'header.appName':     'LEVEL · BO7 TACTICAL HUB',
 
     // — Player mini —
@@ -21509,8 +21667,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 13, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Operator Profile refined + official LEVEL logo',
-    'briefing.changelog.summary':  'Refined <strong>operator card</strong> in the sidebar (v3 handoff) plus the <strong>official LEVEL logo</strong> (metallic, with the V hollowed via mask). The avatar is now a <strong>portrait</strong> (116×146), the prestige emblem is smaller and tucked into the photo corner, the <strong>play-style</strong> became a discreet pill under the name, and Prestige + Level merged into one <strong>25%/75% box</strong> with a <strong>segmented pips bar</strong> (instead of the continuous bar). The side rail tightened to 226px. In the masthead, the backup &ldquo;?&rdquo; is now a character and the tooltip is 320px. PT + EN.',
+    'briefing.changelog.headline': 'Revamped sign-in screen + scroll animations',
+    'briefing.changelog.summary':  'The <strong>sign-in screen</strong> (log in / create account / reset) now matches the rest of the Hub: glass card with an orange top edge, the <strong>official LEVEL logo</strong>, and app-style buttons/fields. Errors now show <strong>per field</strong> (instead of one generic message), there is a <strong>&ldquo;Check your email&rdquo;</strong> screen, and buttons show loading dots. Fully bilingual PT/EN. Plus a new <strong>motion system</strong>: on the Home/Dashboard, text and cards <strong>reveal smoothly as you scroll</strong> (honouring &ldquo;reduce motion&rdquo;). PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -40207,7 +40365,10 @@ ${cbt('share.t.footer')}`;
     "trending-up":    "<polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\"/><polyline points=\"16 7 22 7 22 13\"/>",
     "book":           "<path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20\"/><path d=\"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\"/>",
     "chevron-down":   "<path d=\"m6 9 6 6 6-6\"/>",
-    "cloud-check":    "<path d=\"M17.5 21H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 0 1 2.5 8.242\"/><path d=\"m9 14 2 2 4-4\"/>"
+    "cloud-check":    "<path d=\"M17.5 21H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 0 1 2.5 8.242\"/><path d=\"m9 14 2 2 4-4\"/>",
+    "mail":           "<rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/>",
+    "alert-circle":   "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 8v4\"/><path d=\"M12 16h.01\"/>",
+    "circle-check":   "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>"
   });
 
   // {{i:nome}}  ou  {{i:nome:16}}  →  SVG
@@ -40336,6 +40497,70 @@ ${cbt('share.t.footer')}`;
   window.processStaticIcons = processStaticIcons;
   window.hasIconPlaceholder = hasIconPlaceholder;
   window.LEVEL_ICONS = { svgs: LUCIDE, emojiMap: EMOJI_MAP };
+})();
+
+/* ═════════ MOTION · scroll-reveal (v2.43.0) ═════════
+   data-reveal="fade-up|fade-in|scale-in" (um elemento) ou data-reveal-stagger
+   (container que revela os filhos em cascata, data-stagger ms). count-up em
+   [data-count]. Base visível; só arma escondido com .reveal-ready (via JS). */
+(function () {
+  'use strict';
+  var reduced = false;
+  try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  function countUp(node) {
+    if (node._countDone) return; node._countDone = true;
+    var target = parseInt(node.getAttribute('data-count'), 10);
+    if (isNaN(target)) return;
+    var suffix = node.getAttribute('data-suffix') || '';
+    if (reduced) { node.textContent = target + suffix; return; }
+    var fb = setTimeout(function () { node.textContent = target + suffix; }, 1100);
+    var dur = 900, t0 = null;
+    function tick(t) {
+      if (t0 === null) t0 = t;
+      var p = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 3);
+      node.textContent = Math.round(target * e) + suffix;
+      if (p < 1) requestAnimationFrame(tick); else clearTimeout(fb);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function revealEl(el) {
+    if (el.hasAttribute('data-reveal-stagger')) {
+      var step = parseInt(el.getAttribute('data-stagger') || '70', 10);
+      var kids = el.children;
+      for (var i = 0; i < kids.length; i++) kids[i].style.transitionDelay = (i * step) + 'ms';
+    }
+    el.classList.add('in');
+    el.querySelectorAll('[data-count]').forEach(countUp);
+    if (el.hasAttribute('data-count')) countUp(el);
+    setTimeout(function () { el.classList.add('settled'); }, 700);
+  }
+
+  function settleAll() {
+    document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach(function (el) { el.classList.add('settled'); });
+    document.querySelectorAll('[data-count]').forEach(function (n) {
+      if (!n._countDone) { n._countDone = true; n.textContent = (n.getAttribute('data-count') || '') + (n.getAttribute('data-suffix') || ''); }
+    });
+  }
+
+  function init() {
+    document.body.classList.add('reveal-ready');
+    var targets = document.querySelectorAll('[data-reveal], [data-reveal-stagger]');
+    if (reduced || !('IntersectionObserver' in window) || !targets.length) { settleAll(); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { revealEl(en.target); io.unobserve(en.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+    // segurança global: nunca deixar conteúdo preso invisível
+    setTimeout(settleAll, 2200);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+
+  window.LevelReveal = { reveal: revealEl, settleAll: settleAll };
 })();
 </script>
 
@@ -45296,36 +45521,91 @@ ${cbt('share.t.footer')}`;
 
   function gate() { return document.getElementById('level-auth-gate'); }
 
+  function gate() { return document.getElementById('level-auth-gate'); }
+
+  function curLang() { try { return localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'; } catch (e) { return 'pt'; } }
+  function t(key, fb) { try { var d = window.I18N && window.I18N[curLang()]; if (d && d[key] != null) return d[key]; } catch (e) {} return fb || ''; }
+
+  var _reduced = false;
+  try { _reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  function animOnce(el) {
+    if (!el || _reduced) return;
+    el.classList.remove('anim-in'); void el.offsetWidth; el.classList.add('anim-in');
+    var done = function () { el.classList.remove('anim-in'); el.removeEventListener('animationend', done); };
+    el.addEventListener('animationend', done);
+    setTimeout(done, 700);
+  }
+  function syncLangBar() {
+    var l = curLang();
+    document.querySelectorAll('#level-auth-gate .lag-langbar [data-lang]').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-lang') === l);
+    });
+  }
+
   function showGate(show) {
     var g = gate();
     if (!g) return;
-    g.classList.toggle('show', !!show);
+    if (show) {
+      g.classList.remove('is-leaving');
+      g.classList.add('show');
+      syncLangBar();
+      animOnce(g); animOnce(document.getElementById('lag-card'));
+      animOnce(document.querySelector('#level-auth-gate .lag-screen.active'));
+    } else if (_reduced) {
+      g.classList.remove('show');
+    } else {
+      g.classList.add('is-leaving');
+      setTimeout(function () { g.classList.remove('show'); g.classList.remove('is-leaving'); }, 300);
+    }
   }
 
+  var SCREENS = ['landing','signup','login','reset','verify'];
   function showScreen(name) {
-    ['landing','signup','login','reset'].forEach(function (s) {
-      var el = document.getElementById('lag-' + s);
-      if (el) el.classList.toggle('active', s === name);
+    SCREENS.forEach(function (sName) {
+      var el = document.getElementById('lag-' + sName);
+      if (el) el.classList.toggle('active', sName === name);
     });
-    ['su','li','rs'].forEach(function (p) { msg(p, '', null); });
+    clearErrors();
+    ['su','li','rs'].forEach(function (p) { noteMsg(p, '', null); });
+    if (name === 'verify') renderVerify();
+    animOnce(document.querySelector('#level-auth-gate .lag-screen.active'));
   }
 
-  function msg(prefix, text, kind) {
+  function noteMsg(prefix, text, kind) {
     var el = document.getElementById('lag-' + prefix + '-msg');
     if (!el) return;
-    el.textContent = text || '';
-    el.className = 'lag-msg' + (text ? ' show ' + (kind || 'err') : '');
+    var tx = el.querySelector('.lag-note-tx');
+    var ic = el.querySelector('.lag-note-ic');
+    if (tx) tx.textContent = text || '';
+    if (!text) { el.className = 'lag-note'; return; }
+    el.className = 'lag-note show ' + (kind || 'err');
+    if (ic && window.lvlIcon) ic.innerHTML = window.lvlIcon(kind === 'ok' ? 'circle-check' : 'alert-circle', { size: 16 });
   }
 
-  function setBusy(btnId, busy, labelIdle) {
+  function fieldErr(inputId, text) {
+    var inp = document.getElementById(inputId);
+    if (!inp) return;
+    var field = inp.closest('.lag-field');
+    if (!field) return;
+    field.classList.add('is-error');
+    var span = field.querySelector('.lag-field-msg span');
+    if (span) span.textContent = text || '';
+    var ae = document.activeElement;
+    if (!ae || !ae.closest || !ae.closest('.lag-field.is-error')) { try { inp.focus(); } catch (e) {} }
+  }
+  function clearErrors() {
+    document.querySelectorAll('#level-auth-gate .lag-field.is-error').forEach(function (f) { f.classList.remove('is-error'); });
+  }
+
+  function setLoading(btnId, on) {
     var b = document.getElementById(btnId);
     if (!b) return;
-    b.disabled = !!busy;
-    if (busy) { b.dataset.idle = b.textContent; b.textContent = 'Aguarda...'; }
-    else if (b.dataset.idle) { b.textContent = labelIdle || b.dataset.idle; }
+    b.classList.toggle('is-loading', !!on);
+    if (on) b.setAttribute('disabled', ''); else b.removeAttribute('disabled');
   }
 
-  // Idade a partir da data de nascimento (gate 18+ universal)
+  function isEmail(s2) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s2); }
+
   function ageFrom(dateStr) {
     if (!dateStr) return null;
     var d = new Date(dateStr + 'T00:00:00');
@@ -45349,84 +45629,95 @@ ${cbt('share.t.footer')}`;
   function friendly(err) {
     var m = (err && (err.message || err.error_description || err.msg)) || String(err || '');
     var l = m.toLowerCase();
-    if (l.indexOf('invalid login') >= 0 || l.indexOf('invalid credentials') >= 0) return 'E-mail ou senha incorretos.';
-    if (l.indexOf('already registered') >= 0 || l.indexOf('already been registered') >= 0) return 'Esse e-mail já tem conta. Tenta entrar.';
-    if (l.indexOf('password should be') >= 0 || l.indexOf('weak password') >= 0) return 'Senha fraca demais. Usa pelo menos 8 caracteres.';
-    if (l.indexOf('rate limit') >= 0 || l.indexOf('too many') >= 0) return 'Muitas tentativas. Espera um minuto e tenta de novo.';
-    if (l.indexOf('email not confirmed') >= 0) return 'Confirma teu e-mail antes de entrar (verifica a caixa de entrada).';
-    if (l.indexOf('network') >= 0 || l.indexOf('fetch') >= 0) return 'Falha de conexão. Verifica a internet e tenta de novo.';
-    return m || 'Algo deu errado. Tenta de novo.';
+    if (l.indexOf('invalid login') >= 0 || l.indexOf('invalid credentials') >= 0) return t('auth.err.badLogin', 'E-mail ou senha incorretos.');
+    if (l.indexOf('already registered') >= 0 || l.indexOf('already been registered') >= 0) return t('auth.err.exists', 'Esse e-mail já tem conta. Tenta entrar.');
+    if (l.indexOf('password should be') >= 0 || l.indexOf('weak password') >= 0) return t('auth.err.weak', 'Senha fraca demais. Usa pelo menos 8 caracteres.');
+    if (l.indexOf('rate limit') >= 0 || l.indexOf('too many') >= 0) return t('auth.err.rate', 'Muitas tentativas. Espera um minuto e tenta de novo.');
+    if (l.indexOf('email not confirmed') >= 0) return t('auth.err.notConfirmed', 'Confirma teu e-mail antes de entrar (verifica a caixa de entrada).');
+    if (l.indexOf('network') >= 0 || l.indexOf('fetch') >= 0) return t('auth.err.network', 'Falha de conexão. Verifica a internet e tenta de novo.');
+    return m || t('auth.err.generic', 'Algo deu errado. Tenta de novo.');
   }
 
+  var _verifyFlow = 'reset', _verifyEmail = '';
+  function renderVerify() {
+    var b = document.getElementById('lag-verify-body');
+    if (!b) return;
+    var tpl = t('auth.verify.body', 'Enviámos um link para {email}. Abre-o para concluir.');
+    var safe = (_verifyEmail || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+    b.innerHTML = tpl.replace('{email}', '<b>' + (safe || '—') + '</b>');
+  }
+  function goVerify(flow, email) { _verifyFlow = flow; _verifyEmail = email; showScreen('verify'); }
+
   async function doSignup() {
+    clearErrors(); noteMsg('su', '', null);
     var email = (document.getElementById('lag-su-email').value || '').trim();
     var pass  = document.getElementById('lag-su-pass').value || '';
     var pass2 = document.getElementById('lag-su-pass2').value || '';
     var birth = document.getElementById('lag-su-birth').value || '';
-
-    if (!email) return msg('su', 'Informa o e-mail.', 'err');
-    if (pass.length < 8) return msg('su', 'A senha precisa de pelo menos 8 caracteres.', 'err');
-    if (pass !== pass2) return msg('su', 'As senhas não batem.', 'err');
+    var bad = false;
+    if (!email) { fieldErr('lag-su-email', t('auth.err.emailRequired', 'Informa o e-mail.')); bad = true; }
+    else if (!isEmail(email)) { fieldErr('lag-su-email', t('auth.err.emailInvalid', 'E-mail inválido.')); bad = true; }
+    if (pass.length < 8) { fieldErr('lag-su-pass', t('auth.err.passMin', 'Mínimo 8 caracteres.')); bad = true; }
+    if (pass !== pass2) { fieldErr('lag-su-pass2', t('auth.err.passMismatch', 'As senhas não coincidem.')); bad = true; }
     var age = ageFrom(birth);
-    if (age === null) return msg('su', 'Informa a data de nascimento.', 'err');
-    if (age < 18) return msg('su', 'O LEVEL é para maiores de 18 anos.', 'err');
+    if (age === null) { fieldErr('lag-su-birth', t('auth.err.birthRequired', 'Informa a data de nascimento.')); bad = true; }
+    else if (age < 18) { fieldErr('lag-su-birth', t('auth.err.under18', 'O LEVEL é para maiores de 18 anos.')); bad = true; }
+    if (bad) return;
 
-    setBusy('lag-su-btn', true);
+    setLoading('lag-su-btn', true);
     try {
       var c = await getClient();
-      var res = await c.auth.signUp({
-        email: email, password: pass,
-        options: { data: { birth_date: birth } }
-      });
+      var res = await c.auth.signUp({ email: email, password: pass, options: { data: { birth_date: birth } } });
       if (res.error) throw res.error;
-      // Confirm email está OFF: signUp já devolve sessão ativa.
-      if (res.data && res.data.session) {
-        _session = res.data.session;
-        onAuthed();
-      } else {
-        // Caso Confirm email seja religado no futuro
-        msg('su', 'Conta criada. Confirma pelo link enviado ao teu e-mail.', 'ok');
-      }
-    } catch (err) {
-      msg('su', friendly(err), 'err');
-    } finally {
-      setBusy('lag-su-btn', false, 'Criar conta');
-    }
+      if (res.data && res.data.session) { _session = res.data.session; onAuthed(); }
+      else { goVerify('signup', email); }
+    } catch (err) { noteMsg('su', friendly(err), 'err'); }
+    finally { setLoading('lag-su-btn', false); }
   }
 
   async function doLogin() {
+    clearErrors(); noteMsg('li', '', null);
     var email = (document.getElementById('lag-li-email').value || '').trim();
     var pass  = document.getElementById('lag-li-pass').value || '';
-    if (!email || !pass) return msg('li', 'Preenche e-mail e senha.', 'err');
-
-    setBusy('lag-li-btn', true);
+    var bad = false;
+    if (!email) { fieldErr('lag-li-email', t('auth.err.emailRequired', 'Informa o e-mail.')); bad = true; }
+    else if (!isEmail(email)) { fieldErr('lag-li-email', t('auth.err.emailInvalid', 'E-mail inválido.')); bad = true; }
+    if (!pass) { fieldErr('lag-li-pass', t('auth.err.passRequired', 'Senha obrigatória.')); bad = true; }
+    if (bad) return;
+    setLoading('lag-li-btn', true);
     try {
       var c = await getClient();
       var res = await c.auth.signInWithPassword({ email: email, password: pass });
       if (res.error) throw res.error;
-      _session = res.data.session;
-      onAuthed();
-    } catch (err) {
-      msg('li', friendly(err), 'err');
-    } finally {
-      setBusy('lag-li-btn', false, 'Entrar');
-    }
+      _session = res.data.session; onAuthed();
+    } catch (err) { noteMsg('li', friendly(err), 'err'); }
+    finally { setLoading('lag-li-btn', false); }
   }
 
   async function doReset() {
+    clearErrors(); noteMsg('rs', '', null);
     var email = (document.getElementById('lag-rs-email').value || '').trim();
-    if (!email) return msg('rs', 'Informa o e-mail.', 'err');
-    setBusy('lag-rs-btn', true);
+    if (!email) { fieldErr('lag-rs-email', t('auth.err.emailRequired', 'Informa o e-mail.')); return; }
+    if (!isEmail(email)) { fieldErr('lag-rs-email', t('auth.err.emailInvalid', 'E-mail inválido.')); return; }
+    setLoading('lag-rs-btn', true);
     try {
       var c = await getClient();
       var res = await c.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
       if (res.error) throw res.error;
-      msg('rs', 'Se existe conta com esse e-mail, enviamos o link. Verifica a caixa de entrada.', 'ok');
-    } catch (err) {
-      msg('rs', friendly(err), 'err');
-    } finally {
-      setBusy('lag-rs-btn', false, 'Enviar link');
-    }
+      goVerify('reset', email);
+    } catch (err) { noteMsg('rs', friendly(err), 'err'); }
+    finally { setLoading('lag-rs-btn', false); }
+  }
+
+  async function resend() {
+    if (!_verifyEmail) return;
+    setLoading('lag-vr-btn', true);
+    try {
+      var c = await getClient();
+      if (_verifyFlow === 'reset') { await c.auth.resetPasswordForEmail(_verifyEmail, { redirectTo: window.location.origin }); }
+      else { await c.auth.resend({ type: 'signup', email: _verifyEmail }); }
+    } catch (e) {}
+    finally { setLoading('lag-vr-btn', false); }
   }
 
   async function doLogout() {
@@ -45444,12 +45735,12 @@ ${cbt('share.t.footer')}`;
   async function boot() {
     try {
       var c = await getClient();
-      var s = await c.auth.getSession();
-      _session = (s && s.data && s.data.session) || null;
+      var s2 = await c.auth.getSession();
+      _session = (s2 && s2.data && s2.data.session) || null;
     } catch (e) { _session = null; }
 
     if (_session) {
-      showGate(false);
+      var g = gate(); if (g) g.classList.remove('show');
       try { window.dispatchEvent(new CustomEvent('level-auth-ready', { detail: { session: _session } })); } catch (e) {}
     } else {
       showScreen('landing');
@@ -45457,12 +45748,19 @@ ${cbt('share.t.footer')}`;
     }
   }
 
+  window.addEventListener('languagechange', function () {
+    syncLangBar();
+    var v = document.getElementById('lag-verify');
+    if (v && v.classList.contains('active')) renderVerify();
+  });
+
   // API pública
   window.LEVEL_AUTH = {
     showScreen: showScreen,
     doSignup: doSignup,
     doLogin: doLogin,
     doReset: doReset,
+    resend: resend,
     logout: doLogout,
     getSession: function () { return _session; },
     getUserId: function () { return _session && _session.user ? _session.user.id : null; },
