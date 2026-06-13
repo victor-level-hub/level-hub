@@ -54,7 +54,7 @@
     --tier-a: #fbbf24;
     --tier-b: #7DA8C7;
     --tier-c: #9aa3b0;
-    --sidebar-width: 240px;
+    --sidebar-width: 264px; /* v2.40.0: rail do handoff (era 240px) */
     /* v75-42: tokens de radius globais (coerência em todo o Hub) */
     --radius-card: 12px;
     --radius-btn: 10px;
@@ -9040,6 +9040,110 @@
     .oc-stat-label, .oc-style-label { font-size: 8px; }
   }
 
+  /* ════════════════════════════════════════════════════════════════════
+     v2.40.0 · SIDEBAR OPERATOR PROFILE redesenhado (handoff Claude Design)
+     Portrait com moldura tática + fio laranja, emblema circular ancorado
+     (medalhão 90px), stat-blocks prestígio/nível, barra de XP, estilo c/ hairline.
+     Overrides do bloco .oc-* anterior (cascade posterior vence).
+     ════════════════════════════════════════════════════════════════════ */
+  .operator-card {
+    margin: 18px 14px 14px;
+    padding: 20px 18px 22px;
+    background: linear-gradient(180deg, #10141f, #0d111b);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    gap: 0;
+    box-shadow: var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
+  }
+  /* portrait frame tático (224px, well afundado + listras diagonais + fio laranja) */
+  .operator-card .oc-avatar-wrap {
+    width: 100%;
+    margin-bottom: 44px;
+    border-radius: 12px;
+    overflow: visible;
+    position: relative;
+  }
+  .operator-card .operator-avatar {
+    width: 100%;
+    max-width: none;
+    height: 224px;
+    aspect-ratio: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-default);
+    background:
+      repeating-linear-gradient(135deg, rgba(174,199,224,0.04) 0 10px, transparent 10px 20px),
+      var(--surface-sunken, #0F1422);
+    box-shadow: inset 0 1px 0 rgba(0,0,0,.4);
+  }
+  .operator-card .operator-avatar:hover { transform: none; box-shadow: inset 0 1px 0 rgba(0,0,0,.4); }
+  .operator-card .operator-avatar::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; z-index: 3;
+    background: linear-gradient(90deg, var(--level-orange-deep, #E07B00), var(--level-orange, #FF9800), var(--level-orange-bright, #FFB23E));
+  }
+  .operator-card .operator-avatar::after {
+    content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: linear-gradient(180deg, transparent 45%, rgba(8,11,18,0.55) 100%);
+  }
+  .operator-card .operator-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  /* emblema = medalhão circular ancorado centrado (brasão de patente) */
+  .operator-card .oc-prestige-badge {
+    bottom: -38px; left: 50%; right: auto; transform: translateX(-50%);
+    width: 90px; height: 90px; padding: 3px;
+    background: var(--navy-900, #0F1422);
+    border: none;
+    box-shadow: 0 0 0 2px var(--level-orange, #FF9800), 0 0 22px rgba(255,152,0,0.45), var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
+  }
+  .operator-card .oc-prestige-badge img { border-radius: 50%; }
+  /* nome */
+  .operator-card .oc-name {
+    font-size: 22px; letter-spacing: 0.14em; margin-top: 0; margin-bottom: 14px;
+    text-shadow: 0 0 18px rgba(255,152,0,0.25);
+  }
+  /* stat-blocks prestígio/nível (2 células com divisória) */
+  .operator-card .oc-stats {
+    display: flex; align-items: stretch; gap: 0;
+    background: rgba(174,199,224,0.04); border: 1px solid var(--border-subtle);
+    border-radius: 10px; padding: 12px 8px; margin-bottom: 14px;
+  }
+  .operator-card .oc-stat {
+    flex: 1; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .operator-card .oc-stat-num { font-size: 22px; color: var(--text-heading, #F2F6FC); order: 0; }
+  .operator-card .oc-stat-num.accent { color: var(--level-orange, #FF9800); }
+  .operator-card .oc-stat-label { order: 1; font-size: 9px; letter-spacing: 0.14em; }
+  .operator-card .oc-stat-sep { width: 1px; background: var(--border-subtle); align-self: stretch; margin: 2px 0; font-size: 0; opacity: 1; }
+  /* barra de XP */
+  .oc-xp { width: 100%; margin-bottom: 16px; }
+  .oc-xp__track {
+    height: 6px; border-radius: 999px; background: var(--surface-sunken, #0F1422);
+    border: 1px solid var(--border-subtle); overflow: hidden;
+  }
+  .oc-xp__fill {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--level-orange-deep, #E07B00), var(--level-orange, #FF9800));
+    box-shadow: 0 0 10px rgba(255,152,0,0.5);
+    transition: width var(--dur-base, 180ms) var(--ease-out, ease);
+  }
+  .oc-xp__meta {
+    display: flex; justify-content: space-between; margin-top: 7px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.04em; color: var(--text-faint, #5F6E8C);
+  }
+  .oc-xp__meta b { color: var(--text-muted, #8497B8); font-weight: 600; }
+  /* estilo com hairline (a regra antiga já tem border-top; alinhar tokens) */
+  .operator-card .oc-style-row { width: 100%; padding-top: 16px; margin-top: 0; border-top: 1px solid var(--border-subtle); }
+  .operator-card .oc-style-tag {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.12em;
+    padding: 6px 14px; border-radius: 999px; color: var(--level-blue, #AEC7E0);
+    background: rgba(174,199,224,0.08); border: 1px solid rgba(174,199,224,0.28);
+  }
+  @media (prefers-reduced-motion: reduce) { .oc-xp__fill { transition: none; } }
+  @media (max-width: 900px) {
+    .operator-card .operator-avatar { height: 180px; }
+    .operator-card .oc-name { font-size: 18px; }
+    .operator-card .oc-stat-num { font-size: 18px; }
+  }
+
   /* ── Avatar modal ──────────────────────────────────────────────────── */
   .avatar-preview-wrap {
     display: flex;
@@ -12396,6 +12500,12 @@
         </div>
       </div>
 
+      <!-- v2.40.0: barra de XP até ao próximo nível (xpCurrent/xpMax) -->
+      <div class="oc-xp" id="oc-xp" style="display:none">
+        <div class="oc-xp__track"><span class="oc-xp__fill" id="oc-xp-fill"></span></div>
+        <div class="oc-xp__meta"><span id="oc-xp-left">NV —</span><span><b id="oc-xp-cur">—</b> / <span id="oc-xp-max">—</span> XP</span></div>
+      </div>
+
       <!-- Estilo de jogo -->
       <div class="oc-style-row">
         <span class="oc-style-label" data-i18n="player.styleLabel">Estilo</span>
@@ -12909,7 +13019,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.39.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.40.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16174,6 +16284,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.40.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Sidebar · Operator Profile redesenhado + XP real (2ª pe&ccedil;a do handoff).</strong> Overrides v2.40.0 sobre o bloco `.oc-*` (cascade posterior vence) + `--sidebar-width` 240→<strong>264px</strong>. <strong>Portrait:</strong> `.operator-avatar` agora 224px de altura, well afundado (`--surface-sunken` + listras diagonais), `::before` fio laranja 2px, `::after` scrim inferior; imagem do utilizador faz `object-fit:cover`. <strong>Emblema:</strong> `.oc-prestige-badge` reposicionado a medalh&atilde;o 90px centrado (`bottom:-38px; left:50%`), anel laranja 2px + glow + recorte navy. <strong>Stat-blocks:</strong> `.oc-stats` virou caixa com 2 c&eacute;lulas em coluna (n&uacute;mero 22px sobre label mono) e divis&oacute;ria vertical; prest&iacute;gio em laranja, n&iacute;vel em heading. <strong>Barra de XP (NOVA):</strong> markup `#oc-xp` (track+fill+meta) entre stats e estilo; `xpCurrent`/`xpMax` adicionados ao editor de status (`#status-xp-current/max`), lidos no `openStatusModal`, gravados no `saveStatusFromModal` (vazio = null), e renderizados no `renderPrestigeEmblem` (largura = cur/max, esconde-se sem dados v&aacute;lidos, n&uacute;meros com `toLocaleString`). <strong>Estilo:</strong> badge em pill azul Chakra com hairline. A11y: `prefers-reduced-motion` no fill. Validado: node 16/16, html5lib 1 main + 14 sections, render isolado (`shot_sidebar_v2400.png`) fiel ao handoff.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.39.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18194,7 +18313,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.39.0</strong><span class="ver-tag">Header redesenhado (handoff Claude Design): wordmark LEVEL como marca principal + logo do COD reduzido ao lado; os dois seletores de idioma (site + termos técnicos) viraram colunas rotuladas com a bandeira a preencher cada botão e anel laranja no ativo; botão de ajuda abre o tour</span>
+        LEVEL · <strong>v2.40.0</strong><span class="ver-tag">Perfil do operador na sidebar redesenhado (handoff Claude Design): portrait com moldura tática e fio laranja, emblema de prestígio como medalhão circular ancorado, prestígio/nível em stat-blocks, nova barra de XP até ao próximo nível (XP editável no status) e badge de estilo. Sidebar mais larga (264px)</span>
       </div>
       <script>
         (function(){
@@ -18273,6 +18392,17 @@
                 <option value="PC">PC</option>
                 <option value="Xbox">Xbox</option>
               </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end">
+            <div>
+              <div class="form-label">XP atual <span style="color:var(--text-muted);font-size:10px">(no nível)</span></div>
+              <input type="number" id="status-xp-current" class="form-input" min="0" placeholder="7240"/>
+            </div>
+            <div>
+              <div class="form-label">XP do próximo nível</div>
+              <input type="number" id="status-xp-max" class="form-input" min="0" placeholder="9000"/>
             </div>
           </div>
 
@@ -19877,8 +20007,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Header novo: LEVEL em destaque + idiomas',
-    'briefing.changelog.summary':  'O <strong>cabe&ccedil;alho global</strong> foi redesenhado segundo o handoff do Claude Design. O <strong>wordmark LEVEL</strong> passou a ser a marca principal, com o logo do <strong>Call of Duty</strong> reduzido ao lado como afilia&ccedil;&atilde;o (a teu pedido, n&atilde;o foi removido). Os <strong>dois seletores de idioma</strong> &mdash; <strong>Idioma</strong> (do site) e <strong>Termos t&eacute;c.</strong> (s&oacute; os nomes de armas/acess&oacute;rios) &mdash; ficaram em colunas rotuladas, com a <strong>bandeira a preencher cada bot&atilde;o</strong> (BR no PT, UK no EN), esmaecida no inativo e a acender com <strong>anel laranja</strong> no ativo. Mant&eacute;m-se o pill de <strong>backup</strong> com ponto verde e chegou um <strong>bot&atilde;o de ajuda</strong> que abre o tour do Hub. As prefer&ecirc;ncias de idioma continuam independentes e guardadas. PT + EN.',
+    'briefing.changelog.headline': 'Perfil do operador na sidebar, renovado',
+    'briefing.changelog.summary':  'Segunda pe&ccedil;a do handoff do Claude Design: o <strong>cart&atilde;o do operador</strong> no topo da barra lateral. O <strong>portrait</strong> ganhou moldura t&aacute;tica com fio laranja e fundo afundado; o <strong>emblema de prest&iacute;gio</strong> deixou de flutuar no canto e passou a <strong>medalh&atilde;o circular ancorado ao centro</strong>, com anel laranja &mdash; como um bras&atilde;o de patente. <strong>Prest&iacute;gio e N&iacute;vel</strong> viraram dois <strong>stat-blocks</strong> lado a lado (leitura instant&acirc;nea) e chegou uma <strong>barra de XP</strong> que mostra o progresso at&eacute; ao pr&oacute;ximo n&iacute;vel &mdash; o XP atual e o do pr&oacute;ximo n&iacute;vel s&atilde;o agora <strong>edit&aacute;veis em Editar Status</strong> (a barra s&oacute; aparece quando os preencheres). O <strong>estilo de jogo</strong> ganhou o seu pr&oacute;prio rodap&eacute;. A barra lateral ficou um pouco mais larga (264px) para acomodar tudo. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21355,8 +21485,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'New header: LEVEL up front + languages',
-    'briefing.changelog.summary':  'The <strong>global header</strong> was redesigned per the Claude Design handoff. The <strong>LEVEL wordmark</strong> is now the primary brand, with the <strong>Call of Duty</strong> logo shrunk beside it as affiliation (kept, not removed, at your request). The <strong>two language switches</strong> &mdash; <strong>Language</strong> (site) and <strong>Tech terms</strong> (only weapon/attachment names) &mdash; became labelled columns, each button <strong>filled by its flag</strong> (BR on PT, UK on EN), dimmed when inactive and lighting up with an <strong>orange ring</strong> when active. The <strong>backup</strong> pill with its green dot stays, and a new <strong>help button</strong> opens the Hub tour. Both language preferences remain independent and saved. PT + EN.',
+    'briefing.changelog.headline': 'Sidebar operator profile, refreshed',
+    'briefing.changelog.summary':  'Second piece of the Claude Design handoff: the <strong>operator card</strong> at the top of the side rail. The <strong>portrait</strong> got a tactical frame with an orange top edge and a sunken background; the <strong>prestige emblem</strong> no longer floats in the corner &mdash; it&rsquo;s now a <strong>centered circular medallion</strong> with an orange ring, like a rank crest. <strong>Prestige and Level</strong> became two <strong>stat-blocks</strong> side by side (instant read) and a new <strong>XP bar</strong> shows progress to the next level &mdash; current XP and next-level XP are now <strong>editable in Edit Status</strong> (the bar only appears once you fill them in). The <strong>play style</strong> got its own footer. The side rail is now a touch wider (264px) to fit it all. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -25240,6 +25370,26 @@ window.BO7_ASSETS = (function() {
       // v75-34: atualiza fallback da badge sobreposta no avatar (quando não há imagem)
       const pbFallback = document.getElementById('oc-pb-fallback');
       if (pbFallback) pbFallback.textContent = 'P' + (p.prestige != null ? p.prestige : '—');
+
+      // v2.40.0: barra de XP (só aparece com xpCurrent E xpMax válidos)
+      const xpWrap = document.getElementById('oc-xp');
+      if (xpWrap) {
+        const cur = Number(p.xpCurrent), max = Number(p.xpMax);
+        const ok = Number.isFinite(cur) && Number.isFinite(max) && max > 0;
+        xpWrap.style.display = ok ? '' : 'none';
+        if (ok) {
+          const pct = Math.max(0, Math.min(100, (cur / max) * 100));
+          const fill = document.getElementById('oc-xp-fill');
+          if (fill) fill.style.width = pct.toFixed(1) + '%';
+          const fmt = (n) => n.toLocaleString((localStorage.getItem('bo7hub_lang_v1') === 'en') ? 'en-US' : 'pt-BR');
+          const leftEl = document.getElementById('oc-xp-left');
+          const curEl = document.getElementById('oc-xp-cur');
+          const maxEl = document.getElementById('oc-xp-max');
+          if (leftEl) leftEl.textContent = 'NV ' + (p.level != null ? p.level : '—');
+          if (curEl) curEl.textContent = fmt(cur);
+          if (maxEl) maxEl.textContent = fmt(max);
+        }
+      }
     }
 
     // ── Extended data-bind renderer (for briefing card + others) ───────
@@ -25313,6 +25463,11 @@ window.BO7_ASSETS = (function() {
       document.getElementById('status-playstyle').value = p.playstyle || 'RUSHER';
       document.getElementById('status-platform').value = p.platform || 'PS5';
       document.getElementById('status-perms').value = (p.perms || []).join(', ');
+      // v2.40.0: XP do operador (vazio se ainda não definido)
+      const xpCurEl = document.getElementById('status-xp-current');
+      const xpMaxEl = document.getElementById('status-xp-max');
+      if (xpCurEl) xpCurEl.value = (p.xpCurrent != null ? p.xpCurrent : '');
+      if (xpMaxEl) xpMaxEl.value = (p.xpMax != null ? p.xpMax : '');
       await populateWeaponSelect();
       document.getElementById('modal-status').classList.add('visible');
     }
@@ -25332,6 +25487,13 @@ window.BO7_ASSETS = (function() {
         perms: document.getElementById('status-perms').value
                   .split(',').map(s => s.trim()).filter(Boolean)
       };
+      // v2.40.0: XP — campo vazio limpa o valor (null) para a barra esconder-se
+      (function () {
+        const cur = document.getElementById('status-xp-current');
+        const max = document.getElementById('status-xp-max');
+        patch.xpCurrent = (cur && cur.value.trim() !== '') ? Math.max(0, parseInt(cur.value, 10) || 0) : null;
+        patch.xpMax = (max && max.value.trim() !== '') ? Math.max(0, parseInt(max.value, 10) || 0) : null;
+      })();
       if (statusWeaponEl) patch.activeWeaponId = statusWeaponEl.value || null;
 
       // Validation
