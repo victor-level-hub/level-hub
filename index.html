@@ -54,7 +54,7 @@
     --tier-a: #fbbf24;
     --tier-b: #7DA8C7;
     --tier-c: #9aa3b0;
-    --sidebar-width: 264px; /* v2.40.0: rail do handoff (era 240px) */
+    --sidebar-width: 226px; /* v2.42.0: rail do handoff v3 (era 264px) */
     /* v75-42: tokens de radius globais (coerência em todo o Hub) */
     --radius-card: 12px;
     --radius-btn: 10px;
@@ -3003,7 +3003,12 @@
 
   /* backup: ícone cloud + label + dot semáforo */
   .header-sync-cloud { display: inline-flex; }
-  .header-sync-cloud .lvl-icon { width: 15px; height: 15px; color: var(--text-muted); }
+  .header-sync-cloud .lvl-icon { width: 16px; height: 16px; color: var(--ink-500, #5F6E8C); }
+  /* v2.42.0: chip "?" como caractere mono (não ícone), círculo 18px borda strong */
+  .header-sync-status .help-pop-btn--q { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; font-weight: 700; color: var(--text-muted); border-color: var(--border-strong); }
+  .header-sync-status .help-pop-btn--q:hover, .header-sync-status .help-pop-btn--q:focus-visible { color: var(--level-orange, #FF9800); border-color: rgba(255,152,0,0.5); }
+  /* tooltip do backup: 320px (espec v3) */
+  .header-sync-status .help-pop-panel { width: 320px; max-width: min(320px, 82vw); }
 
   /* botão de idioma + popover */
   .lvl-lang { position: relative; }
@@ -3635,6 +3640,13 @@
     margin: 0 auto;
     /* Subtle glow that picks up the orange "7" without overpowering */
     filter: drop-shadow(0 0 12px rgba(255,107,0,0.25));
+  }
+  /* v2.42.0: logo LEVEL oficial (metálico) na sidebar — altura 34px, sombra neutra */
+  .cod-bo7-mark .cod-bo7-logo {
+    height: 34px;
+    width: auto;
+    max-width: 100%;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45));
   }
   /* Legacy classes — preserved so any external JS that may reference
      them keeps working; they are no longer rendered. */
@@ -9069,29 +9081,27 @@
   }
 
   /* ════════════════════════════════════════════════════════════════════
-     v2.41.0 · SIDEBAR OPERATOR PROFILE (handoff final — Option 2)
-     Avatar QUADRADO arredondado + emblema circular maior sobreposto no canto;
-     box de stats com Estilo no topo + Prestígio/Nível; barra de nível como
-     RODAPÉ full-bleed do cartão (1→55, sem fração de XP).
-     Overrides dos blocos .oc-* anteriores (cascade posterior vence).
+     v2.42.0 · SIDEBAR OPERATOR PROFILE (handoff v3 — Option 2 refinada)
+     Avatar RETANGULAR/portrait 116×146, emblema circular 48 no canto,
+     pílula de estilo sob o nome, caixa 25%/75% Prestígio|Nível com barra
+     de pips segmentada. Overrides dos blocos .oc-* anteriores.
      ════════════════════════════════════════════════════════════════════ */
   .operator-card {
     margin: 16px 14px 14px;
-    padding: 18px 18px 0;            /* sem padding-bottom: a barra é o rodapé */
+    padding: 18px 18px 16px;
     background: linear-gradient(180deg, #10141f, #0d111b);
     border: 1px solid var(--border-subtle);
     border-radius: 16px;
     gap: 0;
-    overflow: hidden;                /* clipa a barra-rodapé aos cantos do cartão */
+    overflow: visible;
     box-shadow: var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
   }
-  /* wrap do avatar quadrado, centrado, com folga p/ o emblema sobreposto */
   .operator-card .oc-avatar-wrap {
-    width: 108px; margin: 0 auto 26px; overflow: visible; position: relative; display: block;
+    width: 116px; margin: 4px auto 2px; overflow: visible; position: relative; display: block;
   }
   .operator-card .operator-avatar {
-    width: 108px; height: 108px; max-width: none; aspect-ratio: auto; margin: 0;
-    border-radius: 16px; overflow: hidden; border: 1px solid var(--border-default);
+    width: 116px; height: 146px; max-width: none; aspect-ratio: auto; margin: 0;
+    border-radius: 14px; overflow: hidden; border: 1px solid var(--border-default);
     background:
       repeating-linear-gradient(135deg, rgba(174,199,224,0.05) 0 9px, transparent 9px 18px),
       var(--surface-sunken, #0F1422);
@@ -9104,72 +9114,48 @@
   }
   .operator-card .operator-avatar::after { content: none; }
   .operator-card .operator-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  /* emblema = medalhão circular MAIOR sobreposto no canto inferior-direito */
   .operator-card .oc-prestige-badge {
-    bottom: -14px; right: -14px; left: auto; top: auto; transform: none;
-    width: 60px; height: 60px; padding: 3px; border-radius: 50%;
+    bottom: -11px; right: -18px; left: auto; top: auto; transform: none;
+    width: 48px; height: 48px; padding: 2px; border-radius: 50%;
     background: var(--navy-900, #0F1422); border: none;
-    box-shadow: 0 0 0 2px var(--level-orange, #FF9800), 0 0 20px rgba(255,152,0,0.5), var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
+    box-shadow: 0 0 0 2px var(--level-orange, #FF9800), 0 0 16px rgba(255,152,0,0.5), var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
     z-index: 4;
   }
   .operator-card .oc-prestige-badge img { border-radius: 50%; width: 100%; height: 100%; object-fit: contain; }
-  .operator-card .oc-pb-fallback { font-size: 15px; }
-  /* nome */
+  .operator-card .oc-pb-fallback { font-size: 13px; }
   .operator-card .oc-name {
-    align-self: stretch; font-size: 21px; letter-spacing: 0.14em; margin: 0 0 12px; text-align: center;
+    align-self: stretch; font-size: 20px; letter-spacing: 0.14em; margin: 22px 0 8px; text-align: center;
     color: var(--level-orange, #FF9800); text-shadow: 0 0 18px rgba(255,152,0,0.25);
   }
-  /* box de stats: Estilo no topo + Prestígio | Nível */
-  .operator-card .oc-rank {
-    align-self: stretch; margin: 0 0 18px; border: 1px solid var(--border-subtle); border-radius: 12px;
-    background: rgba(174,199,224,0.04); overflow: hidden;
+  .operator-card .oc-pstyle { display: flex; justify-content: center; margin-bottom: 13px; }
+  .operator-card .oc-pstyle-pill {
+    font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);
+    padding: 3px 12px; border-radius: 999px; background: rgba(174,199,224,0.05); border: 1px solid var(--border-subtle);
   }
-  .operator-card .oc-rank .oc-style-row {
-    display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    width: auto; margin: 0; padding: 10px 14px; border-top: 0; border-bottom: 1px solid var(--border-subtle);
+  .operator-card .oc-profbox {
+    align-self: stretch; display: flex; align-items: stretch; overflow: hidden;
+    background: rgba(174,199,224,0.04); border: 1px solid var(--border-subtle); border-radius: 11px;
   }
-  .operator-card .oc-rank .oc-style-label {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 9px; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--ink-500, #5F6E8C);
+  .operator-card .oc-profbox-prest {
+    flex: 0 0 25%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 10px 6px;
   }
-  .operator-card .oc-rank .oc-style-tag {
-    display: inline-block; font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600;
-    font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--level-blue, #AEC7E0);
-    padding: 5px 12px; border-radius: 999px; background: rgba(174,199,224,0.08); border: 1px solid rgba(174,199,224,0.28);
-  }
-  .operator-card .oc-rank-cells { display: flex; align-items: stretch; }
-  .operator-card .oc-rank-cells .oc-stat {
-    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 12px 8px;
-  }
-  .operator-card .oc-rank-cells .oc-stat + .oc-stat { border-left: 1px solid var(--border-subtle); }
-  .operator-card .oc-rank-cells .oc-stat-num { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-weight: 700; font-size: 22px; color: var(--ink-100, #F2F6FC); order: 0; line-height: 1; }
-  .operator-card .oc-rank-cells .oc-stat-num.accent { color: var(--level-orange, #FF9800); }
-  .operator-card .oc-rank-cells .oc-stat-label { order: 1; font-size: 9px; letter-spacing: 0.14em; color: var(--ink-500, #5F6E8C); }
-  /* barra de nível = RODAPÉ full-bleed do cartão (sem fração de XP) */
-  .operator-card .oc-meter { align-self: stretch; margin: 0 -18px; }
-  .operator-card .oc-meter__top {
-    display: flex; align-items: flex-end; justify-content: space-between; padding: 0 18px 9px;
-  }
-  .operator-card .oc-meter__lab {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 9px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--ink-500, #5F6E8C);
-  }
-  .operator-card .oc-meter__lab b { color: var(--level-orange, #FF9800); font-weight: 700; font-size: 11px; margin-left: 2px; }
-  .operator-card .oc-meter__bar {
-    position: relative; height: 16px; background: var(--surface-sunken, #0F1422);
-    border-top: 1px solid var(--border-subtle); overflow: hidden;
-  }
-  .operator-card .oc-meter__fill {
-    position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
-    background: linear-gradient(90deg, var(--level-orange-deep, #E07B00), var(--level-orange, #FF9800));
-    border-right: 2px solid var(--level-orange-bright, #FFB23E);
-    box-shadow: 0 0 12px rgba(255,152,0,0.5);
-    transition: width var(--dur-base, 180ms) var(--ease-out, ease);
-  }
-  @media (prefers-reduced-motion: reduce) { .operator-card .oc-meter__fill { transition: none; } }
+  .operator-card .oc-profbox-prest b { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-weight: 700; font-size: 22px; line-height: 1; color: var(--level-orange, #FF9800); }
+  .operator-card .oc-profbox-prest span { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-500, #5F6E8C); }
+  .operator-card .oc-profbox-div { width: 1px; background: var(--border-subtle); flex: none; }
+  .operator-card .oc-profbox-lvl { flex: 1; min-width: 0; padding: 11px 13px 12px; }
+  .operator-card .oc-lvlw-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 9px; }
+  .operator-card .oc-lvlw-stat b { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-weight: 700; font-size: 21px; line-height: 1; color: var(--ink-100, #F2F6FC); }
+  .operator-card .oc-lvlw-stat span { display: block; margin-top: 4px; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-500, #5F6E8C); }
+  .operator-card .oc-lvlw-max { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-500, #5F6E8C); }
+  .operator-card .oc-lvlw-max b { color: var(--text-muted); font-weight: 700; }
+  .operator-card .oc-pips { display: flex; gap: 3px; }
+  .operator-card .oc-pips i { flex: 1; height: 10px; border-radius: 2px; background: var(--surface-sunken, #0F1422); border: 1px solid var(--border-subtle); }
+  .operator-card .oc-pips i.on { background: linear-gradient(180deg, var(--level-orange-bright, #FFB23E), var(--level-orange, #FF9800)); border-color: transparent; box-shadow: 0 0 6px rgba(255,152,0,0.5); }
+  @media (prefers-reduced-motion: reduce) { .operator-card .operator-avatar { transition: none; } }
   @media (max-width: 900px) {
-    .operator-card .oc-name { font-size: 19px; }
-    .operator-card .oc-rank-cells .oc-stat-num { font-size: 20px; }
+    .operator-card .oc-name { font-size: 18px; }
+    .operator-card .oc-lvlw-stat b { font-size: 19px; }
   }
 
   /* ── Avatar modal ──────────────────────────────────────────────────── */
@@ -12471,23 +12457,7 @@
 
     <!-- COD BO7 typographic mark (placeholder; swap with own brand later) -->
     <div class="cod-bo7-mark">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 706 178" class="cod-bo7-logo" role="img" aria-label="LEVEL"><title>LEVEL</title><path d="M0.192993 29.017C5.23499 33.291 10.423 38.551 15.356 43.055C27.716 54.341 38.187 64.812 48.346 78.127L48.534 121.364L135.926 121.79C136.062 102.841 135.786 83.544 135.76 64.552C147.211 53.736 157.135 41.97 168.336 31.224C204.018 31.851 240.669 30.288 276.372 31.234C298.136 55.652 325.365 80.888 348.947 103.885C351.025 101.654 353.202 99.143 355.361 97.032C377.677 75.209 398.857 52.452 421.693 31.156C436.52 30.776 452.716 31.07 467.643 31.07L574.348 31.063C583.977 41.14 593.709 51.118 603.543 60.996C607.952 65.475 613.011 71.154 617.556 75.21C617.792 90.294 617.584 105.817 617.553 120.933L703.031 120.951C689.701 135.655 675.663 150.225 662.934 165.362L569.21 165.28L569.055 131.812C558.215 140.791 544.503 154.915 535.024 165.343L418.298 165.328C419.048 146.328 418.811 126.369 418.629 107.316C412.311 111.941 402.127 122.847 396.132 128.841L366.794 158.108C360.538 164.417 354.539 170.899 348.113 177.04C341.756 170.263 333.769 163.295 327.029 156.488C299.954 129.015 272.502 101.915 244.681 75.195L244.668 86.429C233.677 86.504 160.964 85.538 158.924 86.79C158.271 87.191 158.377 87.87 158.248 88.56C159.607 89.525 162.353 91.636 163.773 92.151C170.846 92.741 184.055 92.356 191.678 92.359L244.641 92.368L244.452 111.954L188.303 111.919C188.27 113.711 187.99 115.9 188.847 117.35C191.329 117.984 202.565 117.697 205.931 117.685H244.452C252.5 127.517 253 128.017 259.868 135.903L275 151.017L290.513 166.492C238.443 165.98 186.369 165.869 134.296 166.161C134.462 155.517 134.547 144.872 134.551 134.226C124.671 144.285 115.896 156.37 106.328 165.899C94.174 166.307 80.68 166.097 68.413 166.136L0 166.33L0.192993 29.017Z" fill="#FF9800"/>
-<path d="M161.042 86.017C164.5 86.017 166 86.017 167.5 86.017C167.73 102.687 166.758 123.449 166.785 140.146C188.081 140.528 223.202 140.57 244.5 140.517C244.5 143.017 244.5 145.517 244.5 145.517C244.5 145.517 168.39 146.07 161 146.004L161.042 86.017Z" fill="#AEC7E0"/>
-<path d="M570.914 43.891C570.914 46.517 571.539 113.946 571.54 121.38L499.996 121.083C491.08 121.047 480.426 121.269 471.444 120.643C470.152 120.553 470.166 120.047 469.482 118.997C469.491 117.028 469.255 117.942 470.329 116.188C473.7 113.976 485.061 114.913 489.754 114.903L528.589 114.802L528.637 95.405L448.566 95.012C448.454 110.177 448.422 125.342 448.47 140.508L455.669 140.513L529.814 140.387L529.714 146.493L443.562 146.427L443.518 88.431L528.589 87.951C542.044 74.451 540.284 75.951 546.044 69.951C558.044 57.451 559.044 56.451 570.914 43.891Z" fill="#21293F"/>
-<path d="M433.782 50.531L498.234 50.431C505.175 50.425 524.5 50.517 531 50.517L530.953 52.517C531 52.517 531 55.017 531 56.017C527.5 56.017 501.589 56.049 496.858 56.042L435.151 56.002C417.589 73.956 400.717 92.439 382.505 109.823C371.411 120.413 361.013 131.714 349.463 141.88C341.525 134.96 332.378 125.529 324.9 118.052L287.776 81.069C279.615 72.972 270.864 64.045 262.306 56.468L214.346 56.365C202.721 56.33 190.329 56.495 178.783 55.965C178.679 54.239 178.708 52.326 178.693 50.583C207.745 50.37 236.798 50.511 265.847 51.005C293.231 78.95 321.915 106.613 349.697 134.374C351.747 132.586 353.711 130.512 355.673 128.608C366.364 118.232 376.914 107.793 387.335 97.146L433.782 50.531Z" fill="#AEC7E0"/>
-<path d="M595 76.017C596.991 76.017 600.188 76.017 600.686 76.017C600.686 78.0285 600.686 133.346 600.686 139.904H657.996L658 147.017H595C594.858 123.312 594.61 99.7189 595 76.017Z" fill="#DEDDDC"/>
-<path d="M23.034 78.144C24.817 78.87 27.029 81.135 28.546 82.508L28.476 140.807H75.5C81.5 141.017 95.252 140.807 99.5 140.807C98.5 142.517 98.5 142.517 97 144.517C96.415 145.263 96.098 145.835 95.5 146.571C92.5 146.571 76.533 146.572 72.556 146.571L23.301 146.546L23.034 78.144Z" fill="#AEC7E0"/>
-<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C344.993 42.421 329.95 26.511 325.397 21.665C318.694 14.559 311.95 7.49101 305.167 0.462006C320.111 0.595006 335.057 0.556001 350.001 0.345001Z" fill="#AEC7E0"/>
-<path d="M350.001 0.345001C364.641 0.576001 379.874 0.214 394.555 0C384.347 10.588 373.947 21.045 363.602 31.502C361.347 33.781 351.718 44.688 350.208 45.793C349.798 42.792 349.969 33.914 349.969 30.554L350.001 0.345001Z" fill="#FF9800"/>
-<path d="M594.501 76.0015C599 76.0015 596.637 76.0015 601.136 76.0015C601.136 96.5015 601.115 120.137 601.136 139.895C618.501 139.895 650.501 139.517 667.001 139.517C660.001 145.517 658.456 147.001 658.456 147.001C658.456 147.001 600.29 147.095 594.501 147.017V76.0015Z" fill="#AEC7E0"/>
-<path d="M449 95.017C445.5 91.017 445 90.017 443.5 88.517V146.517H499.5C504.025 146.518 526.587 146.517 530 146.517V144.017V140.517C530 140.517 509.52 140.497 502.694 140.289H449.192L449 95.017Z" fill="#AEC7E0"/>
-<path d="M165.995 86.0741L244.645 85.959L244.654 92.3407L166.004 92.4557L165.995 86.0741Z" fill="#AEC7E0"/>
-<path d="M167 111.985L244.5 111.985L244.5 118.097L167 118.097L167 111.985Z" fill="#AEC7E0"/>
-<path d="M443.5 88.517L528.5 88.017L528.5 95.517L470.5 95.517L445 95.517L443.5 88.517Z" fill="#AEC7E0"/>
-<path d="M449 114.517L528.5 115.017L528.5 121.517L476 121.517L449 121.517L449 114.517Z" fill="#AEC7E0"/>
-<path d="M154 86.017H161V91.017H154V86.017Z" fill="#FF9800"/>
-<rect x="244.287" y="74" width="20" height="68" fill="#FF9800"/>
-<rect x="528.287" y="66" width="20" height="68" fill="#FF9800"/></svg>
+      <svg viewBox="0 0 703 181" fill="none" xmlns="http://www.w3.org/2000/svg" class="cod-bo7-logo" role="img" aria-label="LEVEL"><title>LEVEL</title><defs><mask id="lvl-logo-hollow" maskUnits="userSpaceOnUse" x="0" y="0" width="703" height="181"><rect x="0" y="0" width="703" height="181" fill="white"></rect><path d="M570 119.009C569.999 112.271 570 59.3898 570 57.0094C559.691 70.6065 544 90.9087 544 90.9087V119.009H570Z" fill="black"></path></mask></defs><g mask="url(#lvl-logo-hollow)"><path d="M24 84.6844L18 80.0094V148.684H91L94 142.684H24V84.6844Z" fill="#AEC7E0"></path><path d="M363.435 31.5114C373.78 21.0544 384.18 10.5974 394.388 0.00939941C379.707 0.223399 364.64 0.240399 350 0.00939941H305C311.783 7.0384 343.297 38.9034 350 46.0094C351.5 44.5094 361.18 33.7904 363.435 31.5114Z" fill="#AEC7E0"></path><path d="M49 81L0 32V169.5L69 169H106L136 137V169H295L270 145L245 120V80C251.74 86.807 349 180 349 180L419 110V168L535 169L569.5 119L569 168H663C675.729 152.863 689.67 138.704 703 124L618 123.934V78L597.5 57L575 34C575 34 526.971 34.046 498.672 34.046C470.373 34.046 422 33.9906 422 33.9906L349 107L313.5 70.5L277 34H168L135.98 67.535C136.006 86.527 136 124 136 124H49V81Z" fill="#FF9800"></path><rect x="156" y="86.0094" width="6" height="59" fill="#AEC7E0"></rect><path d="M363.599 31.502C373.916 21.045 384.288 10.588 394.468 0C394.468 0 368.965 0.0093689 350 0.0093689V46.0094C351.226 44.6846 361.35 33.781 363.599 31.502Z" fill="#FF9800"></path><path d="M27 58.5094L49 81.0094L24 84.6844L18 80.0094L0 32.0094L27 58.5094Z" fill="#FFB74D"></path><path d="M18 80.0094V148.684L0 169.509V95.5094V32.0094L18 80.0094Z" fill="#F57C00"></path><path d="M49 81.0094V124.009L24 84.6844L49 81.0094Z" fill="#FB8C00"></path><path d="M24 84.6844L49 124.009L24 142.684V84.6844Z" fill="#D84315"></path><path d="M49 124.009L94 142.684H24.078L49 124.009Z" fill="#C66900"></path><path d="M94 142.684L136 124.009H49L94 142.684Z" fill="#FFB74D"></path><path d="M136 124.009V137.009L106 169.009L91 148.684L94 142.684L136 124.009Z" fill="#FFCC80"></path><path d="M91 148.684L106 169.037L0 169.509L91 148.684Z" fill="#BF360C"></path><path d="M18 148.684H91L0 169.509L18 148.684Z" fill="#C66900"></path><path d="M24 84.6844L18 80.0094V148.684H91L94 142.684H24V84.6844Z" fill="#AEC7E0"></path><path d="M27 58.5094L49 81.0094L24 84.6844L18 80.0094L0 32.0094L27 58.5094Z" fill="#FFB74D"></path><path d="M18 80.0094V148.684L0 169.509V95.5094V32.0094L18 80.0094Z" fill="#F57C00"></path><path d="M49 81.0094V124.009L24 84.6844L49 81.0094Z" fill="#FB8C00"></path><path d="M24 84.6844L49 124.009L24 142.684V84.6844Z" fill="#D84315"></path><path d="M49 124.009L94 142.684H24.078L49 124.009Z" fill="#C66900"></path><path d="M94 142.684L136 124.009H49L94 142.684Z" fill="#FFB74D"></path><path d="M136 124.009V137.009L106 169.009L91 148.684L94 142.684L136 124.009Z" fill="#FFCC80"></path><path d="M91 148.684L106 169.037L0 169.509L91 148.684Z" fill="#BF360C"></path><path d="M18 148.684H91L0 169.509L18 148.684Z" fill="#C66900"></path><path d="M575 34.0094L618 78.0094L595 80H589L570 34.0094H575Z" fill="#FFB74D"></path><path d="M589 80V151.009L569 168.009L570 95.5094V34.0094L589 80Z" fill="#F57C00"></path><path d="M618 78.0094V124.009L595 80L618 78.0094Z" fill="#FB8C00"></path><path d="M595 80L618 124.009L595 145V80Z" fill="#D84315"></path><path d="M618 124.009L659 145H595L618 124.009Z" fill="#C66900"></path><path d="M659 145L703 124.009H618L659 145Z" fill="#FFB74D"></path><path d="M527 145L569.5 119H444L527 145Z" fill="#FFB74D"></path><path d="M703 124.009L659 145L653 151.009L663 168.009L703 124.009Z" fill="#FFCC80"></path><path d="M653 151.009L663 168.009H569L653 151.009Z" fill="#BF360C"></path><path d="M589 151.009H653L569 168.009L589 151.009Z" fill="#C66900"></path><path d="M168 34.0094L175 57.0094L136 67.5094L168 34.0094Z" fill="#FFCC80"></path><path d="M175 57.0094V63.0094L156 80.0094L136 67.5094L175 57.0094Z" fill="#E65100"></path><path d="M136 67.5094L156 80.0094L136 169.009V67.5094Z" fill="#EF6C00"></path><path d="M156 80.0094V151.009L136 169.009L156 80.0094Z" fill="#BF360C"></path><path d="M156 151.009L262 169.009H136L156 151.009Z" fill="#D84315"></path><path d="M262 169.009L245 145.009L233 151.009H156.08L262 169.009Z" fill="#C66900"></path><path d="M295 169.009H262L245 145.009L265 139.509L295 169.009Z" fill="#BF360C"></path><path d="M168 34.0094H238L175 57.0094L168 34.0094Z" fill="#FFB74D"></path><path d="M264 57.0094H175L238.5 34L264 57.0094Z" fill="#FFA000"></path><path d="M175 63.0094H262L245 80.0094H156L175 63.0094Z" fill="#F57C00"></path><path d="M162 119.009L245 145.009H162V119.009Z" fill="#C66900"></path><path d="M233 86.0094L162 112.684V86.0094H233Z" fill="#FFCC80"></path><path opacity="0.7" d="M245 80.0094V112.684H162L233 86.0094L245 80.0094Z" fill="#D84315"></path><path d="M156 145.009H245L233 151.009H156V145.009Z" fill="#AEC7E0"></path><path d="M156 112.684H245L233 118.684H156V112.684Z" fill="#AEC7E0"></path><path d="M245 112.684V120.009L265 139.509L245 145.009L161 118.684H233L245 112.684Z" fill="#E65100"></path><path d="M401 55L422 33.9999L436 56.9999L401 55Z" fill="#FFCC80"></path><path d="M439 62H456L438 80L425.5 75L439 62Z" fill="#E65100"></path><path d="M425.5 74.5L438 80L419 168V111L425.5 74.5Z" fill="#EF6C00"></path><path d="M438 80.5V151L419 168L438 80.5Z" fill="#BF360C"></path><path d="M438 151L535 169L419 168L438 151Z" fill="#D84315"></path><path d="M535 169L527 145L514.92 151H438L535 169Z" fill="#C66900"></path><path d="M569.5 119L535 169L527 145L569.5 119Z" fill="#BF360C"></path><path d="M422 34H504.5L436 57L422 34Z" fill="#FFB74D"></path><path d="M533 57H436L504.5 34L533 57Z" fill="#FFA000"></path><path d="M456 62H546L527 80H438L456 62Z" fill="#F57C00"></path><path d="M444 119L527 145H444V119Z" fill="#C66900"></path><path d="M515 86L444 113V86H515Z" fill="#FFCC80"></path><path opacity="0.7" d="M527 80V113H444L514.5 86L527 80Z" fill="#D84315"></path><path d="M589 80.0094C595 80.0094 595 80.0094 595 80.0094C595 100.493 594.979 125.257 595 145H659L653 151C653 151 589 151.031 589 151V80.0094Z" fill="#AEC7E0"></path><path d="M438 80H527L515 86H438V80Z" fill="#AEC7E0"></path><path d="M438 113H527L515 119H438V113Z" fill="#AEC7E0"></path><path d="M438 145H527L515 151H438V145Z" fill="#AEC7E0"></path><rect x="438" y="86.0094" width="6" height="59" fill="#AEC7E0"></rect><path d="M436 57.0026H533L525 62H439L349 148L262 63.0655H211.269H175C175 63.0655 175.015 58.8117 175 57.0687L264 57C297.195 89.804 349 141 349 141L436 57.0026Z" fill="#AEC7E0"></path><path d="M156 80.0094H245L233 86.0094H156V80.0094Z" fill="#AEC7E0"></path><path d="M239 34H277L264 57L239 34Z" fill="#757575"></path><path d="M264 57H300L334.5 126.5L264 57Z" fill="#B3B3B3"></path><path d="M277 34L300 57H264L277 34Z" fill="#D9D9D9"></path><path d="M300 57L349.5 106.5L334.5 126.5L300 57Z" fill="#D9D9D9"></path><path d="M425.5 75L419 110.5L367 162L381.5 117L425.5 75Z" fill="#B3B3B3"></path><path d="M436 57L378.5 112.5L349 107L401 55L436 57Z" fill="#D9D9D9"></path><path d="M349 107L378.5 112.5L349 141L334.5 126.5L349 107Z" fill="#757575"></path><path d="M295 95.5L349 148L297 130L245 80L295 95.5Z" fill="#D9D9D9"></path><path d="M349 148V180L320 152L297 130L349 148Z" fill="#B3B3B3"></path><path d="M381.5 117L366.5 163L349 180V148L381.5 117Z" fill="#D9D9D9"></path></g></svg>
       <span class="cod-bo7-title-rule" aria-hidden="true"></span>
     </div>
 
@@ -12515,31 +12485,28 @@
       <!-- Nome do operador -->
       <div class="oc-name" id="player-name">—</div>
 
-      <!-- Box de stats: Estilo no topo + Prestígio | Nível -->
-      <div class="oc-rank">
-        <div class="oc-style-row">
-          <span class="oc-style-label" data-i18n="player.styleLabel">Estilo</span>
-          <span class="oc-style-tag" id="player-style">—</span>
-        </div>
-        <div class="oc-rank-cells">
-          <div class="oc-stat">
-            <span class="oc-stat-label" data-i18n="player.prestige">PRESTIGE</span>
-            <strong class="oc-stat-num accent" id="prestige-tier-sidebar">—</strong>
-          </div>
-          <div class="oc-stat">
-            <span class="oc-stat-label" data-i18n="player.level">LVL</span>
-            <strong class="oc-stat-num" id="prestige-level-sidebar">—</strong>
-          </div>
-        </div>
+      <!-- Pílula discreta de estilo, sob o nome -->
+      <div class="oc-pstyle">
+        <span class="oc-pstyle-pill" id="player-style">—</span>
       </div>
 
-      <!-- Barra de nível = rodapé do cartão (1→55, sem fração de XP) -->
-      <div class="oc-meter" id="oc-meter">
-        <div class="oc-meter__top">
-          <span class="oc-meter__lab"><span data-i18n="player.levelMeter.level">NÍVEL</span> <b id="oc-meter-cur">—</b></span>
-          <span class="oc-meter__lab"><span data-i18n="player.levelMeter.max">MÁX</span> <b id="oc-meter-max">55</b></span>
+      <!-- Caixa combinada: 25% Prestígio | 75% Nível (+ barra de pips) -->
+      <div class="oc-profbox">
+        <div class="oc-profbox-prest">
+          <b id="prestige-tier-sidebar">—</b>
+          <span data-i18n="player.prestigeShort">PREST</span>
         </div>
-        <div class="oc-meter__bar"><span class="oc-meter__fill" id="oc-meter-fill"></span></div>
+        <div class="oc-profbox-div"></div>
+        <div class="oc-profbox-lvl">
+          <div class="oc-lvlw-top">
+            <div class="oc-lvlw-stat">
+              <b id="prestige-level-sidebar">—</b>
+              <span data-i18n="player.levelMeter.level">NÍVEL</span>
+            </div>
+            <div class="oc-lvlw-max"><span data-i18n="player.levelMeter.max">MÁX</span> <b id="oc-lvl-max">55</b></div>
+          </div>
+          <div class="oc-pips" id="oc-pips" aria-hidden="true"></div>
+        </div>
       </div>
     </div>
 
@@ -12678,7 +12645,7 @@
           <span class="header-sync-dot" aria-hidden="true"></span>
           <span class="header-sync-label" id="header-sync-label">—</span>
           <span class="help-pop help-pop-right">
-            <button type="button" class="help-pop-btn" aria-label="Sobre o backup automático" data-i18n-attr="aria-label:hdr.sync.help.title" aria-haspopup="true">{{i:help-circle}}</button>
+            <button type="button" class="help-pop-btn help-pop-btn--q" aria-label="Sobre o backup automático" data-i18n-attr="aria-label:hdr.sync.help.title" aria-haspopup="true">?</button>
             <span class="help-pop-panel" role="tooltip">
               <span class="help-pop-title">{{i:refresh-cw}}<span data-i18n="hdr.sync.help.title">BACKUP AUTOMÁTICO</span></span>
               <span class="help-pop-body" data-i18n="hdr.sync.help"></span>
@@ -13028,7 +12995,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.41.0 · <span data-i18n="briefing.changelog.date">13 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.42.0 · <span data-i18n="briefing.changelog.date">13 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16293,6 +16260,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.42.0</span>
+                <span class="vh-date">13 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Operator Profile afinado (handoff v3 &quot;Header &amp; Sidebar&quot;) + logo LEVEL oficial.</strong> Itera sobre a v2.41.0; bloco CSS `.oc-*` v2.41.0 substitu&iacute;do pelo layout v3. <strong>Logo:</strong> SVG inline laranja → `assets/logo-level.svg` oficial (met&aacute;lico, o V vazado é um recorte por `&lt;mask&gt;` — id prefixado `lvl-logo-hollow` p/ não colidir; só o da sidebar, não o do login `lag-logo-svg`), altura 34px, sombra neutra. <strong>Avatar:</strong> de quadrado 108² para <strong>retrato 116×146 raio 14</strong> (`.operator-avatar` + `.oc-avatar-wrap` 116px). <strong>Emblema:</strong> 60→<strong>48px</strong>, reposicionado a `bottom:-11; right:-18` (canto inf-direito da foto). <strong>Estilo:</strong> saiu da caixa de stats e virou <strong>pílula discreta sob o nome</strong> (`.oc-pstyle-pill`, `#player-style`). <strong>Stats:</strong> caixa 50/50 + barra-rodapé contínua → <strong>caixa 25%/75%</strong> (`.oc-profbox`): esquerda = Prestígio (mono 22px laranja + label `PREST`), direita = `Nível 38` + `MÁX 55` + <strong>barra de pips segmentada</strong> (`.oc-pips`, 22 segmentos, `on = round(22·level/max)`, default max 55) — `renderPrestigeEmblem` agora desenha os pips em vez da barra `#oc-meter`. <strong>Rail:</strong> `--sidebar-width` 264→<strong>226px</strong> (spec v3). <strong>Masthead</strong> (polimento): chip `?` do backup virou <strong>caractere mono</strong> (`.help-pop-btn--q`) em vez de ícone, nuvem em `--ink-500`, tooltip do backup a 320px. i18n: `player.prestigeShort` PT/EN. A11y mantida. Validado: node 16/16, 1 main + 14 sections, render isolado (avatar retrato, emblema 48 no canto, pips 15/22 p/ 38/55, logo metálico com V vazado, rail 226). Supersede o Operator Profile da v2.41.0.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.41.0</span>
                 <span class="vh-date">13 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -18331,7 +18307,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.41.0</strong><span class="ver-tag">Masthead + Operator Profile redesenhados (handoff final): masthead só CoD + tagline bilingue, backup como semáforo (verde/âmbar/vermelho) com legenda, e um botão de idioma que abre popover (site + termos técnicos). Sidebar: avatar quadrado, emblema circular maior no canto, stats com estilo no topo e barra de nível (1→55) como rodapé do cartão</span>
+        LEVEL · <strong>v2.42.0</strong><span class="ver-tag">Operator Profile afinado (handoff v3) + logo LEVEL oficial metálico: avatar retrato 116×146, emblema circular 48px no canto da foto, pílula de estilo sob o nome, caixa 25%/75% Prestígio|Nível com barra de pips segmentada. Rail a 226px. Masthead: "?" do backup como caractere + tooltip 320px</span>
       </div>
       <script>
         (function(){
@@ -19956,6 +19932,7 @@ window.I18N = {
     'hdr.sync.tip.error':      'A última sincronização falhou. As tuas alterações estão guardadas localmente e o backup tenta de novo na próxima alteração.',
     'player.levelMeter.level': 'NÍVEL',
     'player.levelMeter.max':   'MÁX',
+    'player.prestigeShort':    'PREST',
     'home.headline':           'Pare de adivinhar.<br>Comece a evoluir.',
     'hdr.techlang.help.title': 'LINGUAGEM TÉCNICA',
     'hdr.techlang.help':       'Idioma das traduções dos termos técnicos do jogo (classes, vantagens, acessórios, stats). Quando diferente do idioma do Hub, mostra a tradução entre parênteses ao lado do termo original. Igual ao Hub = sem tradução.',
@@ -20039,8 +20016,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '13 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Masthead e cartão do operador, redesenhados',
-    'briefing.changelog.summary':  'As duas peças do handoff do Claude Design, juntas. Na <strong>masthead</strong>: saiu o logo LEVEL (já está na barra lateral), ficou só a marca <strong>Black Ops 7</strong> + uma <strong>tagline</strong> que muda com o idioma. O backup virou um <strong>semáforo</strong> (verde = guardado, âmbar = a guardar, vermelho = falha) com legenda no (?). E os dois seletores de idioma deram lugar a <strong>um só botão</strong> que abre um popover com dois ajustes independentes: <strong>idioma do site</strong> e <strong>termos técnicos</strong>. Na barra lateral, o <strong>cartão do operador</strong> foi refeito: avatar <strong>quadrado</strong> de cantos arredondados, <strong>emblema de prestígio circular maior</strong> sobreposto no canto, box de stats com <strong>Estilo</strong> no topo + Prestígio/Nível, e a <strong>barra de nível</strong> (1→55) como rodapé do cartão. PT + EN.',
+    'briefing.changelog.headline': 'Operator Profile afinado + logo LEVEL oficial',
+    'briefing.changelog.summary':  'Refinamento do <strong>cartão do operador</strong> na barra lateral (handoff v3) e o <strong>logo LEVEL oficial</strong> (metálico, com o V vazado por máscara). O avatar passou a <strong>retrato</strong> (116×146), o emblema de prestígio ficou mais pequeno e ancorado ao canto da foto, o <strong>estilo</strong> virou uma pílula discreta sob o nome, e Prestígio + Nível juntaram-se numa <strong>caixa 25%/75%</strong> com uma <strong>barra de pips segmentada</strong> (em vez da barra contínua). A barra lateral afinou para 226px. Na masthead, o &ldquo;?&rdquo; do backup ficou como caractere e o tooltip a 320px. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21452,6 +21429,7 @@ window.I18N = {
     'hdr.sync.tip.error':      'The last sync failed. Your changes are saved locally and the backup retries on the next change.',
     'player.levelMeter.level': 'LEVEL',
     'player.levelMeter.max':   'MAX',
+    'player.prestigeShort':    'PREST',
     'home.headline':           'Stop Guessing.<br>Start Improving.',
     'hdr.techlang.help.title': 'TECHNICAL TERMS',
     'hdr.techlang.help':       'Language of the game technical-term translations (classes, perks, attachments, stats). When different from the Hub language, it shows the translation in parentheses next to the original term. Same as Hub = no translation.',
@@ -21531,8 +21509,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 13, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Masthead and operator card, redesigned',
-    'briefing.changelog.summary':  'The two Claude Design handoff pieces, together. In the <strong>masthead</strong>: the LEVEL logo is gone (it already lives in the sidebar), leaving just the <strong>Black Ops 7</strong> mark + a <strong>tagline</strong> that follows the site language. Backup became a <strong>traffic light</strong> (green = saved, amber = saving, red = failed) with a colour legend under the (?). And the two language switches became <strong>a single button</strong> that opens a popover with two independent settings: <strong>site language</strong> and <strong>technical terms</strong>. In the sidebar, the <strong>operator card</strong> was rebuilt: a <strong>square</strong> rounded avatar, a <strong>larger circular prestige emblem</strong> overlapping the corner, a stats box with <strong>play-style</strong> on top + Prestige/Level, and the <strong>level meter</strong> (1&rarr;55) as the card footer. PT + EN.',
+    'briefing.changelog.headline': 'Operator Profile refined + official LEVEL logo',
+    'briefing.changelog.summary':  'Refined <strong>operator card</strong> in the sidebar (v3 handoff) plus the <strong>official LEVEL logo</strong> (metallic, with the V hollowed via mask). The avatar is now a <strong>portrait</strong> (116×146), the prestige emblem is smaller and tucked into the photo corner, the <strong>play-style</strong> became a discreet pill under the name, and Prestige + Level merged into one <strong>25%/75% box</strong> with a <strong>segmented pips bar</strong> (instead of the continuous bar). The side rail tightened to 226px. In the masthead, the backup &ldquo;?&rdquo; is now a character and the tooltip is 320px. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -25452,20 +25430,18 @@ window.BO7_ASSETS = (function() {
       const pbFallback = document.getElementById('oc-pb-fallback');
       if (pbFallback) pbFallback.textContent = 'P' + (p.prestige != null ? p.prestige : '—');
 
-      // v2.41.0: barra de nível = rodapé do cartão (1→55, sem fração de XP)
-      const meter = document.getElementById('oc-meter');
-      if (meter) {
+      // v2.42.0: barra de pips segmentada (1→55) na caixa 25/75
+      const pips = document.getElementById('oc-pips');
+      if (pips) {
         const lvl = Number(p.level);
         const max = Number(p.levelMax) > 0 ? Number(p.levelMax) : 55;
-        const curEl = document.getElementById('oc-meter-cur');
-        const maxEl = document.getElementById('oc-meter-max');
-        const fill = document.getElementById('oc-meter-fill');
-        if (curEl) curEl.textContent = Number.isFinite(lvl) ? lvl : '—';
+        const maxEl = document.getElementById('oc-lvl-max');
         if (maxEl) maxEl.textContent = max;
-        if (fill) {
-          const pct = Number.isFinite(lvl) ? Math.max(0, Math.min(100, (lvl / max) * 100)) : 0;
-          fill.style.width = pct.toFixed(1) + '%';
-        }
+        const total = 22;
+        const on = Number.isFinite(lvl) ? Math.max(0, Math.min(total, Math.round(total * lvl / max))) : 0;
+        let html = '';
+        for (let i = 0; i < total; i++) html += '<i' + (i < on ? ' class="on"' : '') + '></i>';
+        pips.innerHTML = html;
       }
     }
 
