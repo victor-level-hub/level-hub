@@ -1734,15 +1734,21 @@
 
   /* Cada section-group (DISPOSITIVO DE ENTRADA / ENTRADAS / FEEDBACK) vira card */
   .section-group {
+    /* v2.37.0: componente Panel do Claude Design (Glass/Neon) — vidro fosco,
+       radius 16, hairline azul-clara + sombra suave. Aplica-se às telas ③–⑨
+       (Loadout, Evolução, Controle, Marketplace, Mapas, Aim, Loadouts) de uma vez. */
     margin-bottom: 18px;
     padding: 8px 18px 14px;
-    background: var(--bg-panel);
-    border: 1px solid transparent !important;
-    border-radius: var(--radius-card) !important;
-    transition: border-color 0.22s ease, background-color 0.18s ease;
+    background: rgba(31,40,63,0.34);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: 16px !important;
+    box-shadow: var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
+    transition: border-color var(--dur-base, 180ms) var(--ease-out, ease), box-shadow var(--dur-base, 180ms) var(--ease-out, ease);
   }
   .section-group:hover {
-    border-color: var(--border-bright) !important;
+    border-color: var(--border-default) !important;
   }
   .section-group:last-child {
     margin-bottom: 8px;
@@ -1962,7 +1968,7 @@
     font-size: 12px;
     color: var(--text-muted);
   }
-  .section-group { border-bottom: 1px solid var(--border); }
+  /* v2.37.0: a antiga border-bottom divisória foi substituída pelo painel de vidro */
   .section-group:last-child { border-bottom: none; }
   .group-title {
     font-family: 'JetBrains Mono', monospace;
@@ -12700,7 +12706,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.36.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.37.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -15965,6 +15971,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.37.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Pain&eacute;is de vidro (Panel) nas telas ③–⑨.</strong> Em vez de reescrever sete telas funcionais (alto risco em sliders de controlo, tracking de dificuldades, marketplace), apliquei o componente <strong>Panel</strong> do Claude Design &agrave; superf&iacute;cie partilhada <code>.section-group</code> &mdash; logo <strong>Controle, Evolu&ccedil;&atilde;o, Marketplace, Mapas, Aim Training, Loadout e Meus Loadouts</strong> ganham o acabamento Glass/Neon de uma s&oacute; vez. A caixa passou de bloco chapado (<code>--bg-panel</code>) para <strong>vidro fosco</strong> <code>rgba(31,40,63,0.34)</code> + <code>backdrop-filter: blur(12px)</code>, radius 16, hairline <code>--border-subtle</code> e <code>--shadow-md</code>; a antiga <code>border-bottom</code> divis&oacute;ria foi removida. <strong>Zero mec&acirc;nica tocada</strong> &mdash; s&oacute; a apar&ecirc;ncia do container. Estas telas j&aacute; herdavam paleta, tipografia e os modais/forms novos; agora t&ecirc;m tamb&eacute;m a superf&iacute;cie. <em>Nota:</em> o <strong>layout</strong> espec&iacute;fico de cada protótipo (grids 300/1fr/320, coach ao vivo, strip de presets) fica para um trabalho cir&uacute;rgico por tela, quando fizer sentido.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.36.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -17958,7 +17973,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.36.0</strong><span class="ver-tag">Modais e formulários no design system: Dialog com topo laranja fino, título mono e scrim com blur; campos de formulário com label mono-caps, poço afundado e ring de foco laranja — transversal a todo o Hub</span>
+        LEVEL · <strong>v2.37.0</strong><span class="ver-tag">Painéis de vidro (Glass/Neon) nas telas Controle, Evolução, Marketplace, Mapas, Aim Training, Loadout e Meus Loadouts: as superfícies `.section-group` adotaram o componente Panel do design — vidro fosco, cantos 16px, hairline azul e sombra suave</span>
       </div>
       <script>
         (function(){
@@ -19639,8 +19654,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Modais e formul\u00e1rios no visual novo',
-    'briefing.changelog.summary':  'Polimento transversal da dire&ccedil;&atilde;o Claude Design: <strong>todos os modais e formul&aacute;rios</strong> do Hub adotaram os componentes Dialog e Form do design system. Os <strong>modais</strong> ganharam a <strong>borda superior laranja fina</strong>, t&iacute;tulo em mono mai&uacute;sculo e um <strong>fundo com desfoque</strong> (scrim) por tr&aacute;s. Os <strong>campos</strong> (nome da build, selects, &aacute;reas de texto) passaram a ter <strong>etiqueta em mono mai&uacute;sculo</strong>, <strong>po&ccedil;o afundado</strong> (escuro, com sombra interna) e um <strong>anel de foco laranja</strong> quando ativos &mdash; mais leg&iacute;vel e coerente com o resto do Hub. Vale para a Montagem Inteligente, Importar Build, editor de armas e todos os outros di&aacute;logos. Nada de mec&acirc;nica mudou.',
+    'briefing.changelog.headline': 'Pain\u00e9is de vidro nas telas internas',
+    'briefing.changelog.summary':  'A dire&ccedil;&atilde;o Claude Design chegou &agrave;s telas internas do Hub: <strong>Controle, Evolu&ccedil;&atilde;o, Marketplace, Mapas, Aim Training, Loadout e Meus Loadouts</strong> tiveram as suas superf&iacute;cies (os pain&eacute;is de cada sec&ccedil;&atilde;o) trocadas pelo componente <strong>Panel</strong> do design system &mdash; <strong>vidro fosco</strong> com leve desfoque, cantos de 16px, contorno azul-claro fino e sombra suave, no lugar dos blocos chapados antigos. Como todas estas telas partilham a mesma base de painel, o visual <strong>Glass/Neon</strong> entrou nas sete de uma vez. Junto com a paleta, a tipografia e os modais j&aacute; migrados, o Hub fica coeso de ponta a ponta. Nenhuma mec&acirc;nica mudou &mdash; s&oacute; a apar&ecirc;ncia das caixas.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21115,8 +21130,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Modals and forms in the new look',
-    'briefing.changelog.summary':  'A cross-cutting polish of the Claude Design direction: <strong>every modal and form</strong> in the Hub adopted the design system&rsquo;s Dialog and Form components. <strong>Modals</strong> got the <strong>thin orange top edge</strong>, a mono-caps title and a <strong>blurred backdrop</strong> (scrim) behind them. <strong>Fields</strong> (build name, selects, text areas) now have a <strong>mono-caps label</strong>, a <strong>sunken well</strong> (dark, with inner shadow) and an <strong>orange focus ring</strong> when active &mdash; more legible and consistent with the rest of the Hub. Applies to Smart Build, Import Build, the weapon editor and every other dialog. No mechanics changed.',
+    'briefing.changelog.headline': 'Glass panels on the inner screens',
+    'briefing.changelog.summary':  'The Claude Design direction reached the Hub&rsquo;s inner screens: <strong>Controller, Evolution, Marketplace, Maps, Aim Training, Loadout and My Loadouts</strong> had their surfaces (each section&rsquo;s panels) swapped for the design system&rsquo;s <strong>Panel</strong> component &mdash; <strong>frosted glass</strong> with a light blur, 16px corners, a thin light-blue hairline and a soft shadow, replacing the old flat blocks. Since all these screens share the same panel base, the <strong>Glass/Neon</strong> look landed across all seven at once. Together with the palette, typography and modals already migrated, the Hub now feels cohesive end to end. No mechanics changed &mdash; only the look of the boxes.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
