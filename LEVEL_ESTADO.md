@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 13 Jun 2026 — v2.43.3 (copy: slogan do hero PT)
+> **Última atualização:** 14 Jun 2026 — v2.43.4 (Home: readouts sem rolar + subtítulo PT)
 
 ---
 
@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.43.3` (SemVer desde v2.0.0)
+**Versão:** `v2.43.4` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,24 MB, ~43.000 linhas, 16 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 **Captura mobile:** repo `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
 
 ### Marcos recentes
+- **v2.43.4** (14 Jun) — **Home: readouts acima da dobra + subtítulo PT.** Pedido do Victor (print dos readouts). (1) **Layout:** apertado o espaçamento vertical do `.home-hero` p/ os readouts (armas/builds/estilo) aparecerem sem rolar: `padding` 48px/38px → 22px/30px, `.home-hero-logo` mb 30→16, `.home-hero-headline` margin 18/14 → 8/12, `.home-hero-ctas` mt 24→18, `.home-readouts` mt 32→20 (≈70px; readouts.bottom 590→528 @1366×768). Headline mantém o tamanho (marca). O `.section-header` da home já estava colapsado (display:none desde v2.31). Mobile mantém o seu padding próprio. (2) **Copy:** `home.sub` PT "Sabe exatamente…" → "**Saiba** exatamente…" (chave i18n PT + default do markup `.home-hero-sub`); EN inalterado. Verificado no preview (readouts visíveis @768, textos certos). node 16/16, 1 main + 14 sections.
 - **v2.43.3** (13 Jun) — **Copy: slogan do hero (PT-BR).** `home.headline` PT: "Pare de adivinhar." → **"Pare de querer adivinhar."** (mantém "Comece a evoluir." + `<br>`). Atualizado nos 2 sítios: chave i18n PT (`window.I18N.pt`) + texto default do markup `.home-hero-headline` (`data-i18n-html`). EN inalterado ("Stop Guessing. Start Improving."). Pedido do Victor (o texto original tinha typo de voz "aquerer divinhar" → confirmado por ele como "querer adivinhar"). node 16/16.
 - **v2.43.2** (13 Jun) — **Fix: dot do semáforo de backup invisível (regressão desde v2.41.0).** O Victor reparou que o traffic-light do backup não funcionava. Causa: a regra base `.header-sync-status` estava corrompida desde o v2.41.0 — o script `_redesign_css.js` (substituição "backup pill shape") usou backreference `$1` numa helper `replaceOnce` que **escapava `$`** (`repl.replace(/\$/g,'$$$$')`), tornando `$1` literal. Resultado no CSS: `  $1height: 36px; ...` → o selector e o `display: inline-flex` perdidos. Sem contexto flex, o `.header-sync-dot` (`<span>` inline) ignorava `width/height:9px` → **largura 0** → ponto sempre invisível (parecia "never"/sem cor). FIX: reposta a regra `.header-sync-status` como pílula correta (`display:inline-flex; align-items:center; gap:9px; height:36px; padding:0 12px; border-radius:999px; border 1px var(--border-default)`). Verificado no preview: dot 9×9 visível, `display:flex`, cores por estado corretas (never #5C6478 · fresh/stale `--green` · syncing `--amber` · error `--red`). **MESMA classe de bug** apanhada no v2.43.1 (1ª tentativa) — varri o `index.html` por `$N` vazados: só restava este (os outros são texto/preço e um `$1` legítimo numa regex do glossário). Lição registada: helper de replace que escapa `$` é incompatível com backreferences — usar substituição **literal** (`split/join`) quando o replacement não precisa de grupos. node 16/16, 1 main + 14 sections. Temp: nenhum (edição direta).
 - **v2.43.1** (13 Jun) — **Marca LEVEL em destaque (handoff v5).** PATCH visual incremental, dois pontos. **Hero da Home:** o selo de texto `.home-hero-chip` (`data-i18n="home.chip"`) foi substituído pelo **logo LEVEL oficial inline** (`.home-hero-logo`, height 63px, centrado, `margin:0 auto 30px`; máscara `lvl-logo-hollow-hero`, id próprio p/ não colidir com a da sidebar/auth). Binding i18n removido (logo é neutro; chave `home.chip` fica órfã). **Sidebar:** `.cod-bo7-mark .cod-bo7-logo` 34→**46px**. Resto do hero (h1/sub/CTAs/stats) intacto. ⚠️ Lição: a helper `replaceOnce` que escapava `$` partiu os backreferences `$1` na 1ª tentativa (CSS inválido `$1 .home-hero-logo` → regra ignorada) — refeito com substituições **literais** (sem `$1`). Validado: node 16/16, 1 main + 14 sections, render isolado (hero 245×63 c/ máscara + mb 30; sidebar 167×46). Temp: `_v5.js`, `_v5_check.js`, `index.html.bak-v5`.

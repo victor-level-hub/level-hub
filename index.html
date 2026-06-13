@@ -6991,7 +6991,7 @@
   .home-hero {
     position: relative;
     text-align: center;
-    padding: 48px 20px 38px;
+    padding: 22px 20px 30px; /* v2.43.4: apertado p/ readouts caberem sem rolar */
   }
   .home-hero::before {
     /* glow radial laranja atrás do hero (espec Glass/Neon) */
@@ -7022,14 +7022,14 @@
     padding: 5px 13px;
   }
   /* v2.43.1: logo oficial substitui o pill do hero (height 63px, centrado) */
-  .home-hero-logo { height: 63px; width: auto; display: block; margin: 0 auto 30px; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.40)); }
+  .home-hero-logo { height: 63px; width: auto; display: block; margin: 0 auto 16px; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.40)); }
   .home-hero-headline {
     font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: clamp(36px, 5.4vw, 64px);
     line-height: 1.04;
     letter-spacing: 0.005em;
-    margin: 18px auto 14px;
+    margin: 8px auto 12px;
     padding-bottom: 4px;
     background: linear-gradient(180deg, #FFFFFF, #FFD79E);
     -webkit-background-clip: text;
@@ -7051,14 +7051,14 @@
     justify-content: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-top: 24px;
+    margin-top: 18px;
   }
   .home-readouts {
     display: flex;
     justify-content: center;
     gap: 44px;
     flex-wrap: wrap;
-    margin-top: 32px;
+    margin-top: 20px;
   }
   .home-readout strong {
     display: block;
@@ -12838,7 +12838,7 @@
       <div class="home-hero" data-reveal-stagger data-stagger="90">
         <svg viewBox="0 0 703 181" fill="none" xmlns="http://www.w3.org/2000/svg" class="home-hero-logo" role="img" aria-label="LEVEL"><title>LEVEL</title><defs><mask id="lvl-logo-hollow-hero" maskUnits="userSpaceOnUse" x="0" y="0" width="703" height="181"><rect x="0" y="0" width="703" height="181" fill="white"></rect><path d="M570 119.009C569.999 112.271 570 59.3898 570 57.0094C559.691 70.6065 544 90.9087 544 90.9087V119.009H570Z" fill="black"></path></mask></defs><g mask="url(#lvl-logo-hollow-hero)"><path d="M24 84.6844L18 80.0094V148.684H91L94 142.684H24V84.6844Z" fill="#AEC7E0"></path><path d="M363.435 31.5114C373.78 21.0544 384.18 10.5974 394.388 0.00939941C379.707 0.223399 364.64 0.240399 350 0.00939941H305C311.783 7.0384 343.297 38.9034 350 46.0094C351.5 44.5094 361.18 33.7904 363.435 31.5114Z" fill="#AEC7E0"></path><path d="M49 81L0 32V169.5L69 169H106L136 137V169H295L270 145L245 120V80C251.74 86.807 349 180 349 180L419 110V168L535 169L569.5 119L569 168H663C675.729 152.863 689.67 138.704 703 124L618 123.934V78L597.5 57L575 34C575 34 526.971 34.046 498.672 34.046C470.373 34.046 422 33.9906 422 33.9906L349 107L313.5 70.5L277 34H168L135.98 67.535C136.006 86.527 136 124 136 124H49V81Z" fill="#FF9800"></path><rect x="156" y="86.0094" width="6" height="59" fill="#AEC7E0"></rect><path d="M363.599 31.502C373.916 21.045 384.288 10.588 394.468 0C394.468 0 368.965 0.0093689 350 0.0093689V46.0094C351.226 44.6846 361.35 33.781 363.599 31.502Z" fill="#FF9800"></path><path d="M27 58.5094L49 81.0094L24 84.6844L18 80.0094L0 32.0094L27 58.5094Z" fill="#FFB74D"></path><path d="M18 80.0094V148.684L0 169.509V95.5094V32.0094L18 80.0094Z" fill="#F57C00"></path><path d="M49 81.0094V124.009L24 84.6844L49 81.0094Z" fill="#FB8C00"></path><path d="M24 84.6844L49 124.009L24 142.684V84.6844Z" fill="#D84315"></path><path d="M49 124.009L94 142.684H24.078L49 124.009Z" fill="#C66900"></path><path d="M94 142.684L136 124.009H49L94 142.684Z" fill="#FFB74D"></path><path d="M136 124.009V137.009L106 169.009L91 148.684L94 142.684L136 124.009Z" fill="#FFCC80"></path><path d="M91 148.684L106 169.037L0 169.509L91 148.684Z" fill="#BF360C"></path><path d="M18 148.684H91L0 169.509L18 148.684Z" fill="#C66900"></path><path d="M24 84.6844L18 80.0094V148.684H91L94 142.684H24V84.6844Z" fill="#AEC7E0"></path><path d="M27 58.5094L49 81.0094L24 84.6844L18 80.0094L0 32.0094L27 58.5094Z" fill="#FFB74D"></path><path d="M18 80.0094V148.684L0 169.509V95.5094V32.0094L18 80.0094Z" fill="#F57C00"></path><path d="M49 81.0094V124.009L24 84.6844L49 81.0094Z" fill="#FB8C00"></path><path d="M24 84.6844L49 124.009L24 142.684V84.6844Z" fill="#D84315"></path><path d="M49 124.009L94 142.684H24.078L49 124.009Z" fill="#C66900"></path><path d="M94 142.684L136 124.009H49L94 142.684Z" fill="#FFB74D"></path><path d="M136 124.009V137.009L106 169.009L91 148.684L94 142.684L136 124.009Z" fill="#FFCC80"></path><path d="M91 148.684L106 169.037L0 169.509L91 148.684Z" fill="#BF360C"></path><path d="M18 148.684H91L0 169.509L18 148.684Z" fill="#C66900"></path><path d="M575 34.0094L618 78.0094L595 80H589L570 34.0094H575Z" fill="#FFB74D"></path><path d="M589 80V151.009L569 168.009L570 95.5094V34.0094L589 80Z" fill="#F57C00"></path><path d="M618 78.0094V124.009L595 80L618 78.0094Z" fill="#FB8C00"></path><path d="M595 80L618 124.009L595 145V80Z" fill="#D84315"></path><path d="M618 124.009L659 145H595L618 124.009Z" fill="#C66900"></path><path d="M659 145L703 124.009H618L659 145Z" fill="#FFB74D"></path><path d="M527 145L569.5 119H444L527 145Z" fill="#FFB74D"></path><path d="M703 124.009L659 145L653 151.009L663 168.009L703 124.009Z" fill="#FFCC80"></path><path d="M653 151.009L663 168.009H569L653 151.009Z" fill="#BF360C"></path><path d="M589 151.009H653L569 168.009L589 151.009Z" fill="#C66900"></path><path d="M168 34.0094L175 57.0094L136 67.5094L168 34.0094Z" fill="#FFCC80"></path><path d="M175 57.0094V63.0094L156 80.0094L136 67.5094L175 57.0094Z" fill="#E65100"></path><path d="M136 67.5094L156 80.0094L136 169.009V67.5094Z" fill="#EF6C00"></path><path d="M156 80.0094V151.009L136 169.009L156 80.0094Z" fill="#BF360C"></path><path d="M156 151.009L262 169.009H136L156 151.009Z" fill="#D84315"></path><path d="M262 169.009L245 145.009L233 151.009H156.08L262 169.009Z" fill="#C66900"></path><path d="M295 169.009H262L245 145.009L265 139.509L295 169.009Z" fill="#BF360C"></path><path d="M168 34.0094H238L175 57.0094L168 34.0094Z" fill="#FFB74D"></path><path d="M264 57.0094H175L238.5 34L264 57.0094Z" fill="#FFA000"></path><path d="M175 63.0094H262L245 80.0094H156L175 63.0094Z" fill="#F57C00"></path><path d="M162 119.009L245 145.009H162V119.009Z" fill="#C66900"></path><path d="M233 86.0094L162 112.684V86.0094H233Z" fill="#FFCC80"></path><path opacity="0.7" d="M245 80.0094V112.684H162L233 86.0094L245 80.0094Z" fill="#D84315"></path><path d="M156 145.009H245L233 151.009H156V145.009Z" fill="#AEC7E0"></path><path d="M156 112.684H245L233 118.684H156V112.684Z" fill="#AEC7E0"></path><path d="M245 112.684V120.009L265 139.509L245 145.009L161 118.684H233L245 112.684Z" fill="#E65100"></path><path d="M401 55L422 33.9999L436 56.9999L401 55Z" fill="#FFCC80"></path><path d="M439 62H456L438 80L425.5 75L439 62Z" fill="#E65100"></path><path d="M425.5 74.5L438 80L419 168V111L425.5 74.5Z" fill="#EF6C00"></path><path d="M438 80.5V151L419 168L438 80.5Z" fill="#BF360C"></path><path d="M438 151L535 169L419 168L438 151Z" fill="#D84315"></path><path d="M535 169L527 145L514.92 151H438L535 169Z" fill="#C66900"></path><path d="M569.5 119L535 169L527 145L569.5 119Z" fill="#BF360C"></path><path d="M422 34H504.5L436 57L422 34Z" fill="#FFB74D"></path><path d="M533 57H436L504.5 34L533 57Z" fill="#FFA000"></path><path d="M456 62H546L527 80H438L456 62Z" fill="#F57C00"></path><path d="M444 119L527 145H444V119Z" fill="#C66900"></path><path d="M515 86L444 113V86H515Z" fill="#FFCC80"></path><path opacity="0.7" d="M527 80V113H444L514.5 86L527 80Z" fill="#D84315"></path><path d="M589 80.0094C595 80.0094 595 80.0094 595 80.0094C595 100.493 594.979 125.257 595 145H659L653 151C653 151 589 151.031 589 151V80.0094Z" fill="#AEC7E0"></path><path d="M438 80H527L515 86H438V80Z" fill="#AEC7E0"></path><path d="M438 113H527L515 119H438V113Z" fill="#AEC7E0"></path><path d="M438 145H527L515 151H438V145Z" fill="#AEC7E0"></path><rect x="438" y="86.0094" width="6" height="59" fill="#AEC7E0"></rect><path d="M436 57.0026H533L525 62H439L349 148L262 63.0655H211.269H175C175 63.0655 175.015 58.8117 175 57.0687L264 57C297.195 89.804 349 141 349 141L436 57.0026Z" fill="#AEC7E0"></path><path d="M156 80.0094H245L233 86.0094H156V80.0094Z" fill="#AEC7E0"></path><path d="M239 34H277L264 57L239 34Z" fill="#757575"></path><path d="M264 57H300L334.5 126.5L264 57Z" fill="#B3B3B3"></path><path d="M277 34L300 57H264L277 34Z" fill="#D9D9D9"></path><path d="M300 57L349.5 106.5L334.5 126.5L300 57Z" fill="#D9D9D9"></path><path d="M425.5 75L419 110.5L367 162L381.5 117L425.5 75Z" fill="#B3B3B3"></path><path d="M436 57L378.5 112.5L349 107L401 55L436 57Z" fill="#D9D9D9"></path><path d="M349 107L378.5 112.5L349 141L334.5 126.5L349 107Z" fill="#757575"></path><path d="M295 95.5L349 148L297 130L245 80L295 95.5Z" fill="#D9D9D9"></path><path d="M349 148V180L320 152L297 130L349 148Z" fill="#B3B3B3"></path><path d="M381.5 117L366.5 163L349 180V148L381.5 117Z" fill="#D9D9D9"></path></g></svg>
         <div class="home-hero-headline" data-i18n-html="home.headline">Pare de querer adivinhar.<br>Comece a evoluir.</div>
-        <p class="home-hero-sub" data-i18n="home.sub">Sabe exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.</p>
+        <p class="home-hero-sub" data-i18n="home.sub">Saiba exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.</p>
         <div class="home-hero-ctas">
           <button class="lvl-empty-cta primary" type="button" data-home-smart data-i18n="home.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
           <button class="lvl-empty-cta" type="button" data-home-goto="myweapons" data-i18n="home.ctaArsenal">{{i:crosshair}} Ver o Arsenal</button>
@@ -13116,7 +13116,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.43.3 · <span data-i18n="briefing.changelog.date">13 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.43.4 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16381,6 +16381,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.43.4</span>
+                <span class="vh-date">14 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Home: readouts acima da dobra + subtítulo PT afinado.</strong> (1) <strong>Layout:</strong> apertado o espaçamento vertical do `.home-hero` para os readouts (armas/builds/estilo) aparecerem sem rolar — `padding` 48/38 → 22/30, `.home-hero-logo` margin-bottom 30→16, `.home-hero-headline` margin 18/14 → 8/12, `.home-hero-ctas` margin-top 24→18, `.home-readouts` margin-top 32→20 (≈70px poupados; readouts.bottom 590→528 @1366×768). Headline mantém tamanho (marca). Mobile (≤?) mantém o seu próprio padding. (2) <strong>Copy:</strong> `home.sub` PT "Sabe exatamente…" → "<strong>Saiba</strong> exatamente…" (chave i18n PT + default do markup); EN inalterado. Verificado no preview (readouts visíveis, textos corretos). node 16/16.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.43.3</span>
                 <span class="vh-date">13 Jun 2026</span>
                 <span class="vh-kind">copy</span>
@@ -18464,7 +18473,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.43.3</strong><span class="ver-tag">Copy: slogan do hero PT-BR → "Pare de querer adivinhar. Comece a evoluir." (home.headline + default do markup). Só PT</span>
+        LEVEL · <strong>v2.43.4</strong><span class="ver-tag">Hero da Home compactado (padding/margens) p/ os readouts aparecerem sem rolar; subtítulo PT-BR "Sabe"→"Saiba". Só layout + copy PT</span>
       </div>
       <script>
         (function(){
@@ -19960,7 +19969,7 @@ window.I18N = {
     'home.h2':                'LEVEL',
     'home.intro':             'Companion tático para Black Ops 7 — builds, análise e treino num só lugar.',
     'home.chip':              'COMPANION TÁTICO · COD BLACK OPS 7',
-    'home.sub':               'Sabe exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.',
+    'home.sub':               'Saiba exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.',
     'home.ctaSmart':          '{{i:gear-star}} Montagem Inteligente',
     'home.ctaArsenal':        '{{i:crosshair}} Ver o Arsenal',
     'home.ro.arsenal':        'ARMAS NO ARSENAL',
@@ -20188,10 +20197,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '13 Jun 2026',
-    'briefing.changelog.pill':  'copy',
-    'briefing.changelog.headline': 'Slogan do hero atualizado',
-    'briefing.changelog.summary':  'Ajuste de texto: o slogan principal da Home passou a <strong>&ldquo;Pare de querer adivinhar. Comece a evoluir.&rdquo;</strong> (era &ldquo;Pare de adivinhar.&rdquo;). Só em PT-BR; o resto fica igual.',
+    'briefing.changelog.date':  '14 Jun 2026',
+    'briefing.changelog.pill':  'visual',
+    'briefing.changelog.headline': 'Home mais compacta + subtítulo afinado',
+    'briefing.changelog.summary':  'O <strong>hero da Home</strong> ficou mais compacto para os números (armas no arsenal, builds salvas, estilo) <strong>aparecerem sem precisar rolar</strong>. E o subtítulo passou a &ldquo;<strong>Saiba</strong> exatamente o que ajustar…&rdquo; (era &ldquo;Sabe…&rdquo;). Só PT-BR.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21698,10 +21707,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 13, 2026',
-    'briefing.changelog.pill':  'copy',
-    'briefing.changelog.headline': 'Hero slogan updated',
-    'briefing.changelog.summary':  'Copy tweak: the Home headline is now <strong>&ldquo;Pare de querer adivinhar. Comece a evoluir.&rdquo;</strong> (was &ldquo;Pare de adivinhar.&rdquo;). PT-BR only; everything else stays the same.',
+    'briefing.changelog.date':  'Jun 14, 2026',
+    'briefing.changelog.pill':  'visual',
+    'briefing.changelog.headline': 'Tighter Home + tweaked subhead',
+    'briefing.changelog.summary':  'The <strong>Home hero</strong> is more compact so the stats (weapons in arsenal, saved builds, playstyle) <strong>show without scrolling</strong>. And the PT-BR subhead now reads &ldquo;<strong>Saiba</strong> exatamente o que ajustar…&rdquo; (was &ldquo;Sabe…&rdquo;). PT-BR only.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
