@@ -3300,13 +3300,17 @@
   }
   .app-header-intro:empty { display: none; }
 
-  /* ─── Sync status indicator (v75-68) ─── */
-  $1height: 36px;
+  /* ─── Sync status indicator (v75-68 · pílula v2.41.0) ─── */
+  .header-sync-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 36px;
     padding: 0 12px;
     margin-right: 12px;
     border-radius: 999px;
     background: rgba(174,199,224,0.04);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-default);
     font-family: 'JetBrains Mono', monospace;
     font-size: 10.5px;
     letter-spacing: 0.3px;
@@ -13112,7 +13116,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.43.1 · <span data-i18n="briefing.changelog.date">13 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.43.2 · <span data-i18n="briefing.changelog.date">13 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16377,6 +16381,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.43.2</span>
+                <span class="vh-date">13 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Fix: dot do semáforo de backup invisível (regressão desde v2.41.0).</strong> A regra base `.header-sync-status` tinha sido corrompida no v2.41.0 — um script de edição escapava `$` e partiu o backreference `$1`, deixando `  $1height: 36px;` no CSS (selector + `display: inline-flex` perdidos). Sem flex, o `.header-sync-dot` (um `<span>` inline) ignorava `width/height:9px` e colapsava para <strong>largura 0</strong> → o ponto de estado nunca aparecia. Reposta a regra como pílula (`display:inline-flex; gap:9px; height:36px; radius:999px; border --border-default`). Verificado: dot 9×9 visível; cores por estado corretas (never cinza · fresh/stale verde · syncing âmbar · error vermelho); `display:flex` confirmado. (Mesma classe de bug que apanhei no v2.43.1 e refiz com substituições literais — varri o ficheiro, não há mais `$N` vazados.) node 16/16, 1 main + 14 sections.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.43.1</span>
                 <span class="vh-date">13 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18442,7 +18455,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.43.1</strong><span class="ver-tag">Marca LEVEL em destaque: logo oficial substitui o selo de texto no hero da Home (63px, centrado, sobre o título) e o logo da sidebar aumentou (32→46px). Logo oficial inline (chevron vazado por máscara, id próprio); sem mexer no resto do hero</span>
+        LEVEL · <strong>v2.43.2</strong><span class="ver-tag">Fix: o dot do semáforo de backup estava invisível (largura 0) desde a v2.41.0 — a regra .header-sync-status tinha sido corrompida (perdeu display:inline-flex). Reposta a pílula; dot volta a 9px com cor por estado (verde/âmbar/vermelho)</span>
       </div>
       <script>
         (function(){
@@ -20167,9 +20180,9 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '13 Jun 2026',
-    'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Marca LEVEL em destaque (hero + sidebar)',
-    'briefing.changelog.summary':  'A marca passou a liderar. No <strong>hero da Home</strong>, o pequeno selo de texto deu lugar ao <strong>logo LEVEL oficial</strong> (grande, centrado, por cima do título). E na <strong>barra lateral</strong> o logo do topo ficou maior, para mais presença de marca. Sem mexer em mais nada — título, subtítulo, botões e stats ficam iguais.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Indicador de backup voltou a aparecer',
+    'briefing.changelog.summary':  'Correção: o <strong>ponto de estado do backup</strong> (o semáforo verde/âmbar/vermelho ao lado de &ldquo;BACKUP&rdquo;, no topo) tinha ficado <strong>invisível</strong> — uma regra de estilo da pílula foi corrompida e o ponto colapsava para tamanho zero. Reposto: o ponto volta a mostrar a cor do estado (verde = tudo guardado, âmbar = a guardar, vermelho = falha). Sem mais alterações.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21677,9 +21690,9 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 13, 2026',
-    'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'LEVEL brand emphasis (hero + sidebar)',
-    'briefing.changelog.summary':  'The brand now leads. In the <strong>Home hero</strong>, the small text eyebrow is replaced by the <strong>official LEVEL logo</strong> (large, centered, above the headline). And in the <strong>side rail</strong> the top logo is bigger for stronger brand presence. Nothing else changes — headline, subhead, buttons and stats stay the same.',
+    'briefing.changelog.pill':  'fix',
+    'briefing.changelog.headline': 'Backup indicator is visible again',
+    'briefing.changelog.summary':  'Fix: the <strong>backup status dot</strong> (the green/amber/red traffic light next to &ldquo;BACKUP&rdquo;, up top) had become <strong>invisible</strong> — a pill style rule got corrupted and the dot collapsed to zero size. Restored: the dot shows its state colour again (green = all saved, amber = saving, red = failed). No other changes.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
