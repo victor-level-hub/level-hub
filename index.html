@@ -4148,39 +4148,46 @@
 
   /* --- Save modal --- */
   .modal-overlay {
+    /* v2.36.0: scrim Glass/Neon (espec Dialog) — rgba(8,11,18,0.66) + blur 3px */
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(8, 11, 18, 0.66);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 100;
     padding: 20px;
-    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
   }
   .modal-overlay.visible { display: flex; }
   .modal-box {
+    /* v2.36.0: shell de Dialog (espec) — topo laranja fino, vidro, scrim com blur */
+    position: relative;
     background: var(--bg-panel);
-    border: 1px solid var(--accent-orange);
-    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    border-top: 2px solid var(--accent-orange);
+    border-radius: 12px;
     width: 100%;
     max-width: 480px;
     max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-modal, 0 24px 70px rgba(0,0,0,0.62));
   }
   .modal-header {
     padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   .modal-title {
+    /* v2.36.0: título mono-caps laranja (espec Dialog) */
+    font-family: 'JetBrains Mono', monospace;
     color: var(--accent-orange);
     font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 1px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
   .modal-close {
@@ -4202,19 +4209,24 @@
     justify-content: flex-end;
   }
   .form-input {
+    /* v2.36.0: poço afundado (espec Input/Select/TextArea) + ring de foco laranja */
     width: 100%;
-    background: var(--bg-darkest);
-    border: 1px solid var(--border);
+    background: var(--surface-input, #131A2C);
+    border: 1px solid var(--border-subtle);
     color: var(--text-primary);
     padding: 10px 14px;
-    border-radius: 5px;
+    border-radius: 8px;
     font-family: inherit;
     font-size: 13px;
     margin-bottom: 12px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.40);
+    transition: border-color var(--dur-fast, 120ms) var(--ease-out, ease), box-shadow var(--dur-fast, 120ms) var(--ease-out, ease);
   }
+  .form-input::placeholder { color: var(--ink-600, #43506E); }
   .form-input:focus {
     outline: none;
     border-color: var(--accent-orange);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.40), 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45));
   }
 
   /* v75-95: linha do input "Nome da build" + botão "Sugerir" alinhados */
@@ -4247,10 +4259,11 @@
   .btn-suggest-name:hover { filter: brightness(1.1); }
   .btn-suggest-name:active { transform: translateY(1px); }
   .form-label {
+    /* v2.36.0: label mono-caps muted (espec form fields) */
     font-size: 11px;
-    color: var(--accent-cyan);
+    color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.08em;
     margin-bottom: 6px;
     display: block;
     text-transform: uppercase;
@@ -12687,7 +12700,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.35.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.36.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -15952,6 +15965,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.36.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Dialog + Form fields no design system (transversal).</strong> Os componentes Dialog e Input/Select/TextArea do Claude Design aplicados a TODOS os modais e formul&aacute;rios do Hub de uma vez (via classes partilhadas <code>.modal-*</code> e <code>.form-input</code>/<code>.form-label</code>). <strong>Dialog:</strong> <code>.modal-overlay</code> scrim <code>rgba(8,11,18,0.66)</code> + blur 3px; <code>.modal-box</code> com borda superior 2px laranja, radius 12, sombra de modal; <code>.modal-title</code> em JetBrains Mono mai&uacute;sculo laranja (era sans). <strong>Form fields:</strong> <code>.form-input</code> com po&ccedil;o afundado <code>#131A2C</code> + sombra interna, radius 8, ring de foco laranja 3px (<code>--focus-ring</code>) e placeholder em <code>--ink-600</code>; <code>.form-label</code> em mono-caps muted com tracking 0.08em (era ciano). Cobre Montagem Inteligente, Importar Build, editor de armas, sugerir codename e todos os di&aacute;logos. <strong>Nenhuma mec&acirc;nica mudou.</strong></p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.35.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -17936,7 +17958,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.35.0</strong><span class="ver-tag">Nova tela de Início (tela ① do Claude Design): hero "Stop Guessing. Start Improving.", atalho para Montagem Inteligente e Arsenal, readouts do operador, card "Continuar de onde paraste" com a última build, dica do dia do Le Vél e grid Explorar com as 8 ferramentas</span>
+        LEVEL · <strong>v2.36.0</strong><span class="ver-tag">Modais e formulários no design system: Dialog com topo laranja fino, título mono e scrim com blur; campos de formulário com label mono-caps, poço afundado e ring de foco laranja — transversal a todo o Hub</span>
       </div>
       <script>
         (function(){
@@ -19617,8 +19639,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Nova tela de In\u00edcio \u2014 a porta de entrada do Hub',
-    'briefing.changelog.summary':  'A <strong>tela &#9312;</strong> da dire&ccedil;&atilde;o Claude Design chegou: o Hub agora abre numa <strong>Home</strong> pr&oacute;pria, n&atilde;o no Painel Hoje (que continua na nav, logo abaixo). O <strong>hero</strong> &mdash; &quot;Stop Guessing. Start Improving.&quot; em gradiente dourado &mdash; tem dois atalhos diretos (<strong>Montagem Inteligente</strong> e <strong>Ver o Arsenal</strong>) e tr&ecirc;s readouts do operador (armas no arsenal, builds salvas, estilo). Por baixo, o card <strong>&quot;Continuar de onde paraste&quot;</strong> traz a tua &uacute;ltima build trabalhada com atalho pro Arsenal, ao lado da <strong>dica do dia do Le V&eacute;l</strong> (roda todos os dias). E o grid <strong>Explorar</strong> com as 8 ferramentas do Hub, cada uma na cor da sua categoria. Tudo PT + EN, e o Painel Hoje fica intacto.',
+    'briefing.changelog.headline': 'Modais e formul\u00e1rios no visual novo',
+    'briefing.changelog.summary':  'Polimento transversal da dire&ccedil;&atilde;o Claude Design: <strong>todos os modais e formul&aacute;rios</strong> do Hub adotaram os componentes Dialog e Form do design system. Os <strong>modais</strong> ganharam a <strong>borda superior laranja fina</strong>, t&iacute;tulo em mono mai&uacute;sculo e um <strong>fundo com desfoque</strong> (scrim) por tr&aacute;s. Os <strong>campos</strong> (nome da build, selects, &aacute;reas de texto) passaram a ter <strong>etiqueta em mono mai&uacute;sculo</strong>, <strong>po&ccedil;o afundado</strong> (escuro, com sombra interna) e um <strong>anel de foco laranja</strong> quando ativos &mdash; mais leg&iacute;vel e coerente com o resto do Hub. Vale para a Montagem Inteligente, Importar Build, editor de armas e todos os outros di&aacute;logos. Nada de mec&acirc;nica mudou.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21093,8 +21115,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'New Home screen \u2014 the Hub&rsquo;s front door',
-    'briefing.changelog.summary':  'The <strong>&#9312; screen</strong> from the Claude Design direction is here: the Hub now opens on a proper <strong>Home</strong>, not on the Daily Brief (still in the nav, right below). The <strong>hero</strong> &mdash; &quot;Stop Guessing. Start Improving.&quot; in a gold gradient &mdash; has two direct shortcuts (<strong>Smart Build</strong> and <strong>View the Arsenal</strong>) and three operator readouts (weapons in arsenal, saved builds, playstyle). Below it, the <strong>&quot;Pick up where you left off&quot;</strong> card brings your last worked build with a shortcut to the Arsenal, next to <strong>Le V&eacute;l&rsquo;s tip of the day</strong> (rotates daily). And the <strong>Explore</strong> grid with the Hub&rsquo;s 8 tools, each in its category color. All PT + EN, and the Daily Brief stays intact.',
+    'briefing.changelog.headline': 'Modals and forms in the new look',
+    'briefing.changelog.summary':  'A cross-cutting polish of the Claude Design direction: <strong>every modal and form</strong> in the Hub adopted the design system&rsquo;s Dialog and Form components. <strong>Modals</strong> got the <strong>thin orange top edge</strong>, a mono-caps title and a <strong>blurred backdrop</strong> (scrim) behind them. <strong>Fields</strong> (build name, selects, text areas) now have a <strong>mono-caps label</strong>, a <strong>sunken well</strong> (dark, with inner shadow) and an <strong>orange focus ring</strong> when active &mdash; more legible and consistent with the rest of the Hub. Applies to Smart Build, Import Build, the weapon editor and every other dialog. No mechanics changed.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
