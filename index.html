@@ -2833,6 +2833,65 @@
     font-weight: 700;
   }
 
+  /* ===== v2.38.0 · Mobile tab bar (espec Claude Design 390px) ===== */
+  .mobile-tabbar { display: none; }
+  @media (max-width: 900px) {
+    .mobile-tabbar {
+      display: flex;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: 64px;
+      z-index: 160;
+      align-items: stretch;
+      justify-content: space-around;
+      background: rgba(10,13,22,0.82);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid rgba(174,199,224,0.10);
+      padding: 0 6px env(safe-area-inset-bottom, 0);
+    }
+    .mtab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 8px 2px;
+      transition: color var(--dur-fast, 120ms) var(--ease-out, ease);
+    }
+    .mtab-ico svg { width: 21px; height: 21px; display: block; }
+    .mtab-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .mtab.active { color: var(--accent-orange); }
+    /* FAB central da Montagem Inteligente — elevado, circular, com halo */
+    .mtab-fab {
+      flex: 0 0 auto;
+      width: 52px;
+      height: 52px;
+      margin-top: -22px;
+      border-radius: 50%;
+      background: var(--accent-orange);
+      color: var(--action-ink, #1A1206);
+      box-shadow: 0 0 0 4px rgba(10,13,22,0.82), 0 0 22px rgba(255,152,0,0.45), 0 8px 22px rgba(255,152,0,0.25);
+      align-self: center;
+    }
+    .mtab-fab svg { width: 24px; height: 24px; }
+    .mtab-fab:active { transform: translateY(1px); }
+    /* espaço pro conteúdo não ficar atrás da barra */
+    .main { padding-bottom: 84px !important; }
+  }
+
   /* ===== LANG TOGGLE (i18n) — pill discreto, esmaecido ===== */
   .lang-toggle {
     display: inline-flex;
@@ -7030,6 +7089,9 @@
   @media (max-width: 560px) {
     .home-explore { grid-template-columns: 1fr; }
     .home-hero { padding: 30px 8px 26px; }
+    /* v2.38.0: CTAs do hero empilhados full-width (espec mobile 390px) */
+    .home-hero-ctas { flex-direction: column; align-items: stretch; }
+    .home-hero-ctas .lvl-empty-cta { width: 100%; }
   }
 
   @media (max-width: 700px) {
@@ -12154,6 +12216,29 @@
 
 <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">{{i:menu}}</button>
 
+<!-- v2.38.0: tab bar inferior (mobile, espec Claude Design 390px) — 5 destinos + FAB central -->
+<nav class="mobile-tabbar" id="mobile-tabbar" aria-label="Navegação rápida">
+  <button class="mtab" data-mtab="home" type="button">
+    <span class="mtab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 L12 3 L21 10.5 V20 a1 1 0 0 1 -1 1 H15 V14 H9 V21 H4 a1 1 0 0 1 -1 -1 Z"/></svg></span>
+    <span class="mtab-lbl" data-i18n="nav.home.label">Início</span>
+  </button>
+  <button class="mtab" data-mtab="struggles" type="button">
+    <span class="mtab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg></span>
+    <span class="mtab-lbl" data-i18n="nav.struggles.label">Evolução</span>
+  </button>
+  <button class="mtab mtab-fab" data-home-smart type="button" aria-label="Montagem Inteligente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+  </button>
+  <button class="mtab" data-mtab="myweapons" type="button">
+    <span class="mtab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 14 H6 L7 12 H10 V10 H17 V12 H20.5 V14.5 H17.5 V16 H10.5 L10 14 H7.5"/><path d="M10.5 14 V16.5 H12"/><path d="M14 10 V8 H16 V10"/></svg></span>
+    <span class="mtab-lbl" data-i18n="nav.myweapons.label">Minhas Armas</span>
+  </button>
+  <button class="mtab" data-mtab="controller" type="button">
+    <span class="mtab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 C3 9 5 8 7 8 H17 C19 8 21 9 21 11 V14 C21 16 19 17 17 17 H7 C5 17 3 16 3 14 Z"/><line x1="6" y1="11" x2="6" y2="14"/><line x1="4.5" y1="12.5" x2="7.5" y2="12.5"/></svg></span>
+    <span class="mtab-lbl" data-i18n="nav.controller.label">Controle</span>
+  </button>
+</nav>
+
 <div class="app">
 
   <!-- ============ SIDEBAR ============ -->
@@ -12706,7 +12791,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.37.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.38.0 · <span data-i18n="briefing.changelog.date">12 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -15971,6 +16056,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.38.0</span>
+                <span class="vh-date">12 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Tab bar inferior no mobile (espec 390px do Claude Design).</strong> Nova `&lt;nav class="mobile-tabbar"&gt;` que aparece s&oacute; &agrave; 900px, fixa no fundo, vidro com blur 18px e hairline azul-clara. 5 destinos: In&iacute;cio &middot; Evolu&ccedil;&atilde;o &middot; <strong>FAB Montagem</strong> &middot; Minhas Armas &middot; Controle. O <strong>FAB central</strong> &eacute; um c&iacute;rculo laranja de 52px elevado -22px, com halo (anel do fundo + glow), que dispara a Montagem Inteligente. Labels em JetBrains Mono 8.5px caps; destino ativo em laranja. ARQUITETURA: os tabs reusam 100% a navega&ccedil;&atilde;o existente &mdash; cada `.mtab` clica o `.nav-item[data-section]` correspondente, e o FAB reusa o handler `[data-home-smart]` (→ `btn-smart-build`). `syncActive()` mant&eacute;m o tab ativo em sincronia com a sec&ccedil;&atilde;o vis&iacute;vel, seja qual for a via de navega&ccedil;&atilde;o. Conte&uacute;do ganhou `padding-bottom: 84px` no mobile pra n&atilde;o ficar atr&aacute;s da barra; `env(safe-area-inset-bottom)` respeitado. Hero da Home: CTAs empilham full-width &agrave; 560px. O menu lateral completo continua acess&iacute;vel pelo bot&atilde;o hamburger. <strong>Nenhuma mec&acirc;nica mudou.</strong></p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.37.0</span>
                 <span class="vh-date">12 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -17973,7 +18067,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.37.0</strong><span class="ver-tag">Painéis de vidro (Glass/Neon) nas telas Controle, Evolução, Marketplace, Mapas, Aim Training, Loadout e Meus Loadouts: as superfícies `.section-group` adotaram o componente Panel do design — vidro fosco, cantos 16px, hairline azul e sombra suave</span>
+        LEVEL · <strong>v2.38.0</strong><span class="ver-tag">Barra de navegação inferior no telemóvel (espec mobile 390px do Claude Design): 5 destinos rápidos com o botão da Montagem Inteligente em destaque (FAB circular laranja elevado, com halo); CTAs do hero empilham em ecrã estreito</span>
       </div>
       <script>
         (function(){
@@ -19654,8 +19748,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '12 Jun 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Pain\u00e9is de vidro nas telas internas',
-    'briefing.changelog.summary':  'A dire&ccedil;&atilde;o Claude Design chegou &agrave;s telas internas do Hub: <strong>Controle, Evolu&ccedil;&atilde;o, Marketplace, Mapas, Aim Training, Loadout e Meus Loadouts</strong> tiveram as suas superf&iacute;cies (os pain&eacute;is de cada sec&ccedil;&atilde;o) trocadas pelo componente <strong>Panel</strong> do design system &mdash; <strong>vidro fosco</strong> com leve desfoque, cantos de 16px, contorno azul-claro fino e sombra suave, no lugar dos blocos chapados antigos. Como todas estas telas partilham a mesma base de painel, o visual <strong>Glass/Neon</strong> entrou nas sete de uma vez. Junto com a paleta, a tipografia e os modais j&aacute; migrados, o Hub fica coeso de ponta a ponta. Nenhuma mec&acirc;nica mudou &mdash; s&oacute; a apar&ecirc;ncia das caixas.',
+    'briefing.changelog.headline': 'Navega\u00e7\u00e3o mobile com barra inferior',
+    'briefing.changelog.summary':  'No telem&oacute;vel, o Hub ganhou a <strong>barra de navega&ccedil;&atilde;o inferior</strong> da espec mobile do Claude Design (390px): cinco destinos r&aacute;pidos &mdash; <strong>In&iacute;cio, Evolu&ccedil;&atilde;o, Minhas Armas, Controle</strong> &mdash; e, no centro, o bot&atilde;o da <strong>Montagem Inteligente</strong> em destaque como <strong>FAB</strong> (c&iacute;rculo laranja elevado, com halo). A barra &eacute; de vidro com desfoque, fica sempre &agrave; m&atilde;o e o destino ativo acende em laranja; o menu lateral completo continua acess&iacute;vel pelo bot&atilde;o de menu. No ecr&atilde; estreito, os bot&otilde;es do hero da Home passam a <strong>empilhar a toda a largura</strong>. S&oacute; no telem&oacute;vel &mdash; o desktop n&atilde;o muda. Nenhuma mec&acirc;nica alterada.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21130,8 +21224,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 12, 2026',
     'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Glass panels on the inner screens',
-    'briefing.changelog.summary':  'The Claude Design direction reached the Hub&rsquo;s inner screens: <strong>Controller, Evolution, Marketplace, Maps, Aim Training, Loadout and My Loadouts</strong> had their surfaces (each section&rsquo;s panels) swapped for the design system&rsquo;s <strong>Panel</strong> component &mdash; <strong>frosted glass</strong> with a light blur, 16px corners, a thin light-blue hairline and a soft shadow, replacing the old flat blocks. Since all these screens share the same panel base, the <strong>Glass/Neon</strong> look landed across all seven at once. Together with the palette, typography and modals already migrated, the Hub now feels cohesive end to end. No mechanics changed &mdash; only the look of the boxes.',
+    'briefing.changelog.headline': 'Mobile navigation with a bottom bar',
+    'briefing.changelog.summary':  'On mobile, the Hub gained the <strong>bottom navigation bar</strong> from the Claude Design mobile spec (390px): five quick destinations &mdash; <strong>Home, Evolution, My Weapons, Controller</strong> &mdash; and, in the center, the <strong>Smart Build</strong> button highlighted as a <strong>FAB</strong> (raised orange circle with a halo). The bar is frosted glass, always within reach, and the active destination lights up orange; the full side menu is still available via the menu button. On narrow screens, the Home hero buttons now <strong>stack full-width</strong>. Mobile only &mdash; desktop is unchanged. No mechanics altered.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -34474,6 +34568,33 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
     document.addEventListener('level:builds-change', renderHome);
     window.addEventListener('languagechange', renderHome);
+  })();
+
+  // ── v2.38.0 · Mobile tab bar — navega via nav-items existentes + sincroniza ativo ──
+  (function levelMobileTabbar() {
+    function syncActive() {
+      const activeSec = document.querySelector('.section.active');
+      const cur = activeSec ? activeSec.id.replace('section-', '') : '';
+      document.querySelectorAll('.mtab[data-mtab]').forEach(function (t) {
+        t.classList.toggle('active', t.dataset.mtab === cur);
+      });
+    }
+    document.addEventListener('click', function (e) {
+      const tab = e.target.closest('.mtab[data-mtab]');
+      if (!tab) return;
+      const nav = document.querySelector('.nav-item[data-section="' + tab.dataset.mtab + '"]');
+      if (nav) nav.click();   // reusa toda a lógica de troca de secção + app-header
+      syncActive();
+    });
+    // sincroniza ao trocar de secção por qualquer via (nav lateral, cards, etc.)
+    document.querySelectorAll('.nav-item').forEach(function (n) {
+      n.addEventListener('click', function () { setTimeout(syncActive, 0); });
+    });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', syncActive);
+    } else {
+      syncActive();
+    }
   })();
 
   // Subtabs (within sections)
