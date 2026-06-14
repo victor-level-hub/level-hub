@@ -12926,7 +12926,7 @@
 
       <!-- ═══ DESTAQUES (v2.24) — evento principal em banner ═══ -->
       <!-- ═══ EVENTOS · TEMPORADA ATUAL (v2.21.0) ═══ -->
-      <div class="events-block">
+      <div class="events-block" data-reveal-stagger data-stagger="80">
         <div class="events-section-head">
           <div class="events-section-label" data-i18n="events.section.label">Eventos · Temporada Atual</div>
           <div class="events-section-meta" data-i18n="events.section.meta">BO7 · Season 4 · Junho 2026</div>
@@ -13041,7 +13041,7 @@
       </div>
 
       <!-- EVENTOS ATIVOS -->
-      <div class="briefing-events">
+      <div class="briefing-events" data-reveal-stagger data-stagger="80">
         <div class="hoje-section-head">
           <div class="hoje-section-label" data-i18n="hoje.releases">Lançamentos</div>
         </div>
@@ -13111,12 +13111,12 @@
       </div>
 
       <!-- ═══ CHANGELOG · O QUE MUDOU NESTA VERSÃO (v2.0.0) ═══ -->
-      <div class="briefing-stats" style="margin-top:32px">
+      <div class="briefing-stats" style="margin-top:32px" data-reveal="fade-up">
         <div class="briefing-stats-inner briefing-changelog-inner">
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.43.4 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.44.0 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16381,6 +16381,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.44.0</span>
+                <span class="vh-date">14 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Scroll-reveal espalhado ao Painel Hoje + re-animação por secção.</strong> O sistema de animação de entrada (antes só na Home) chegou ao <strong>Painel Hoje</strong>: o bloco de eventos (eventos + Battle Pass + BlackCell) entra em cascata, os eventos do briefing em cascata e o card "O QUE MUDOU" em fade-up (`data-reveal-stagger`/`data-reveal`). Peça-chave: o `settleAll` global (2.2s) congelava tudo visível, então uma secção aberta depois desse limite nunca animava. Novo `LevelReveal.rearm(secção)` ligado à navegação — ao abrir uma secção, o reveal é re-armado e re-observado, fazendo cada tela <strong>animar a sua entrada sempre que é aberta</strong> (inclui a Home ao voltar). Sem tocar em mecânica nem no contrato LEVEL_AUTH. Validado: node 16/16, 1 main + 14 sections, render isolado (rearm re-arma o estado escondido; cascata 0/80/160ms; opacidades 0→1; assenta em settled).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.43.4</span>
                 <span class="vh-date">14 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18473,7 +18482,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.43.4</strong><span class="ver-tag">Hero da Home compactado (padding/margens) p/ os readouts aparecerem sem rolar; subtítulo PT-BR "Sabe"→"Saiba". Só layout + copy PT</span>
+        LEVEL · <strong>v2.44.0</strong><span class="ver-tag">Scroll-reveal espalhado ao Painel Hoje (entrada em cascata dos blocos) + cada secção re-anima ao ser aberta (LevelReveal.rearm ligado à navegação)</span>
       </div>
       <script>
         (function(){
@@ -20198,9 +20207,9 @@ window.I18N = {
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '14 Jun 2026',
-    'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Home mais compacta + subtítulo afinado',
-    'briefing.changelog.summary':  'O <strong>hero da Home</strong> ficou mais compacto para os números (armas no arsenal, builds salvas, estilo) <strong>aparecerem sem precisar rolar</strong>. E o subtítulo passou a &ldquo;<strong>Saiba</strong> exatamente o que ajustar…&rdquo; (era &ldquo;Sabe…&rdquo;). Só PT-BR.',
+    'briefing.changelog.pill':  'movimento',
+    'briefing.changelog.headline': 'Painel Hoje ganha animação de entrada',
+    'briefing.changelog.summary':  'Os blocos do <strong>Painel Hoje</strong> (eventos, Battle Pass e este card de novidades) agora <strong>surgem em cascata</strong> ao abrir a tela &mdash; o mesmo efeito que já existia na Home. E cada secção do Hub volta a <strong>animar a sua entrada sempre que a abres</strong>, não só no arranque. Puro CSS/JS, nada funcional mexido. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21708,9 +21717,9 @@ window.I18N = {
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 14, 2026',
-    'briefing.changelog.pill':  'visual',
-    'briefing.changelog.headline': 'Tighter Home + tweaked subhead',
-    'briefing.changelog.summary':  'The <strong>Home hero</strong> is more compact so the stats (weapons in arsenal, saved builds, playstyle) <strong>show without scrolling</strong>. And the PT-BR subhead now reads &ldquo;<strong>Saiba</strong> exatamente o que ajustar…&rdquo; (was &ldquo;Sabe…&rdquo;). PT-BR only.',
+    'briefing.changelog.pill':  'motion',
+    'briefing.changelog.headline': 'Daily Brief gets an entrance',
+    'briefing.changelog.summary':  'The <strong>Daily Brief</strong> blocks (events, Battle Pass and this update card) now <strong>cascade in</strong> when you open the screen &mdash; the same effect already on the Home. And every Hub section <strong>replays its entrance each time you open it</strong>, not just on first load. Pure CSS/JS, nothing functional touched. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -35039,6 +35048,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       item.classList.add('active');
       const targetSection = document.getElementById('section-' + target);
       if (targetSection) targetSection.classList.add('active');
+      // v2.44.0: re-arma o scroll-reveal da secção que acabou de ficar ativa
+      // (cada secção faz a sua entrada ao ser aberta — ver LevelReveal.rearm)
+      if (targetSection && window.LevelReveal && window.LevelReveal.rearm) {
+        window.LevelReveal.rearm(targetSection);
+      }
       // Sync app-header with the newly active section's info
       syncAppHeaderFromSection(targetSection);
       // v75.08: re-render weapon card images quando entra em Loadouts (caso usuário
@@ -40549,6 +40563,7 @@ ${cbt('share.t.footer')}`;
   'use strict';
   var reduced = false;
   try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  var io = null;
 
   function countUp(node) {
     if (node._countDone) return; node._countDone = true;
@@ -40591,7 +40606,7 @@ ${cbt('share.t.footer')}`;
     document.body.classList.add('reveal-ready');
     var targets = document.querySelectorAll('[data-reveal], [data-reveal-stagger]');
     if (reduced || !('IntersectionObserver' in window) || !targets.length) { settleAll(); return; }
-    var io = new IntersectionObserver(function (entries) {
+    io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { revealEl(en.target); io.unobserve(en.target); } });
     }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
     targets.forEach(function (el) { io.observe(el); });
@@ -40599,10 +40614,30 @@ ${cbt('share.t.footer')}`;
     setTimeout(settleAll, 2200);
   }
 
+  // Re-arma o reveal de uma secção quando ela fica ativa (display:none → block).
+  // Sem isto, o settleAll global (2.2s) congela tudo visível e as secções abertas
+  // depois desse limite nunca animavam. Cada secção faz a sua entrada ao ser aberta.
+  function rearm(root) {
+    if (!root) return;
+    var els = root.querySelectorAll('[data-reveal], [data-reveal-stagger]');
+    if (!els.length) return;
+    if (reduced || !io) { els.forEach(function (el) { el.classList.add('settled'); }); return; }
+    els.forEach(function (el) {
+      io.unobserve(el);
+      el.classList.remove('in', 'settled');
+      if (el.hasAttribute('data-reveal-stagger')) {
+        var k = el.children;
+        for (var i = 0; i < k.length; i++) k[i].style.transitionDelay = '';
+      }
+    });
+    void root.offsetWidth; // commit do estado escondido antes de re-observar
+    els.forEach(function (el) { io.observe(el); });
+  }
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  window.LevelReveal = { reveal: revealEl, settleAll: settleAll };
+  window.LevelReveal = { reveal: revealEl, settleAll: settleAll, rearm: rearm };
 })();
 </script>
 
