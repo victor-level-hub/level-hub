@@ -13116,7 +13116,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.44.1 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.44.2 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -15048,7 +15048,7 @@
       </div>
 
       <!-- WORKFLOW BANNER -->
-      <div class="aimt-workflow-banner">
+      <div class="aimt-workflow-banner" data-reveal="fade-up">
         <div class="aimt-step">
           <div class="aimt-step-num">01</div>
           <div class="aimt-step-label" data-i18n="aimt.wf.s1.label">Setup PS5/TV</div>
@@ -15069,7 +15069,7 @@
       </div>
 
       <!-- O QUE É AIMLABS -->
-      <div class="aimt-card">
+      <div class="aimt-card" data-reveal="fade-up">
         <div class="aimt-card-header">
           <div class="aimt-icon">{{i:target}}</div>
           <div>
@@ -15081,7 +15081,7 @@
       </div>
 
       <!-- COMO BAIXAR -->
-      <div class="aimt-card">
+      <div class="aimt-card" data-reveal="fade-up">
         <div class="aimt-card-header">
           <div class="aimt-icon">{{i:download}}</div>
           <h3 data-i18n="aimt.download.title">Como instalar na PS5</h3>
@@ -15095,7 +15095,7 @@
       </div>
 
       <!-- PLAYLISTS BO7 -->
-      <div class="aimt-card">
+      <div class="aimt-card" data-reveal="fade-up">
         <div class="aimt-card-header">
           <div class="aimt-icon">{{i:clipboard}}</div>
           <h3 data-i18n="aimt.playlists.title">Playlists oficiais BO7</h3>
@@ -15120,7 +15120,7 @@
       </div>
 
       <!-- ROTINA RECOMENDADA -->
-      <div class="aimt-card highlight">
+      <div class="aimt-card highlight" data-reveal="fade-up">
         <div class="aimt-card-header">
           <div class="aimt-icon">{{i:timer}}</div>
           <h3 data-i18n="aimt.routine.title">Rotina recomendada</h3>
@@ -15133,7 +15133,7 @@
       </div>
 
       <!-- AIMLABS PREMIUM (v75.03) -->
-      <div class="aimt-card highlight">
+      <div class="aimt-card highlight" data-reveal="fade-up">
         <div class="aimt-card-header">
           <div class="aimt-icon">{{i:star}}</div>
           <div>
@@ -15145,7 +15145,7 @@
       </div>
 
       <!-- POR QUE ESSA ORDEM -->
-      <div class="aimt-card">
+      <div class="aimt-card" data-reveal="fade-up">
         <div class="aimt-card-header">
           <div class="aimt-icon">{{i:refresh-cw}}</div>
           <h3 data-i18n="aimt.workflow.title">Por que essa ordem importa</h3>
@@ -16272,7 +16272,7 @@
         <p data-i18n="sec.myloadouts.intro">Loadouts salvos no Hub. Avalie cada arma com sliders (precisão, mobilidade, recuo, TTK [time-to-kill — tempo para eliminar], versatilidade) e compartilhe via Discord, WhatsApp ou copiando o build code.</p>
       </div>
 
-      <div class="backend-banner" data-i18n-html="myl.banner">
+      <div class="backend-banner" data-i18n-html="myl.banner" data-reveal="fade-up">
         <strong>FASE 1 — FRONTEND</strong> · Os dados ficam salvos no localStorage do teu navegador. <strong>Compartilhar</strong> hoje copia o JSON / build code formatado pra clipboard ou abre WhatsApp Web. Quando o backend (servidor + banco) entrar no ar, o mesmo botão vai sincronizar com a nuvem e gerar links públicos.
       </div>
 
@@ -16283,7 +16283,7 @@
         <button class="saved-empty-cta" data-i18n="myl.empty.cta" onclick="document.querySelector('[data-section=&quot;constructor&quot;]').click()">→ Ir pro Construtor</button>
       </div>
 
-      <div id="saved-grid" class="saved-grid" style="display:none"></div>
+      <div id="saved-grid" class="saved-grid" style="display:none" data-reveal="fade-up"></div>
 
     </section>
 
@@ -16330,7 +16330,7 @@
       <!-- Stats do autor (v75-91) - aparece só quando o usuário tem builds publicadas -->
       <div id="mkt-author-stats" class="mkt-author-stats" style="display:none"></div>
 
-      <div class="mkt-toolbar">
+      <div class="mkt-toolbar" data-reveal="fade-up">
         <!-- Toggle Minhas vs Todas (v75-91) -->
         <div class="mkt-scope-toggle" role="tablist">
           <button class="mkt-scope-btn active" data-mkt-scope="all" data-i18n="mkt.tb.scope.all">Todas</button>
@@ -16363,7 +16363,7 @@
         <div data-i18n="mkt.state.empty">Nenhuma build publicada ainda nesta categoria.</div>
         <div style="margin-top:8px;font-size:11px" data-i18n-html="mkt.state.empty.cta">Sê o primeiro: vai em <strong>Meus Loadouts</strong> e clica em "Publicar".</div>
       </div>
-      <div id="mkt-grid" class="mkt-grid"></div>
+      <div id="mkt-grid" class="mkt-grid" data-reveal="fade-up"></div>
 
     </section>
 
@@ -16378,6 +16378,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.44.2</span>
+                <span class="vh-date">14 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Scroll-reveal completo — Marketplace, Meus Loadouts, Mapas, Perks, Aim Training e Progression.</strong> Fecha a fila "espalhar reveal" (v2.44.0 → .2). Só markup. <strong>Aim Training:</strong> banner de workflow + os 6 cards de conteúdo em fade-up (revelam ao rolar). <strong>Meus Loadouts:</strong> `.backend-banner` e `#saved-grid` fade-up. <strong>Marketplace:</strong> `.mkt-toolbar` e `#mkt-grid` fade-up (stats-bar/podium/leaderboard/author-stats são `display:none` carregados async — deixados de fora). <strong>Mapas:</strong> `.maps-toolbar` fade-up, `.maps-grid` stagger 60ms. <strong>Perks:</strong> `.mode-banner` e `.subtabs` fade-up. <strong>Progression:</strong> `.pu-section`, `.mode-banner`, `.stats-grid` e `.subtabs` fade-up. Em Perks/Progression/Controle os `.subpanel` alternados por subtab ficam de fora (a troca de subtab não chama `rearm` → evita stranding). Aplicado via script Node com substituição literal (split/join, assert de ocorrência única — sem a armadilha do `$`). Agora TODAS as 14 telas têm entrada animada. Sem tocar em mecânica nem no `LEVEL_AUTH`. Validado: node 16/16, 1 main + 14 sections, 19 atributos confirmados.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -17182,14 +17191,14 @@
         <p data-i18n="sec.maps.intro">Qual arma do seu catálogo performa melhor em cada mapa do BO7. Recomendações ajustadas pro seu playstyle rusher agressivo (CQB — combate close-quarters).</p>
       </div>
 
-      <div class="maps-toolbar" id="maps-filters">
+      <div class="maps-toolbar" id="maps-filters" data-reveal="fade-up">
         <button class="maps-filter-chip active" data-map-filter="all">TODOS</button>
         <button class="maps-filter-chip" data-map-filter="small">SMALL · CQB</button>
         <button class="maps-filter-chip" data-map-filter="medium">MEDIUM · HYBRID</button>
         <button class="maps-filter-chip" data-map-filter="large">LARGE · 20v20</button><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o tamanho do mapa" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:map}}<span data-i18n="maps.size.help.title">TAMANHO DO MAPA</span></span><span class="help-pop-body" data-i18n-html="maps.size.help">O tamanho muda a arma ideal. <strong>SMALL &middot; CQB</strong> (curta dist&acirc;ncia): SMG e shotgun dominam, &lt;15m. <strong>MEDIUM &middot; HYBRID</strong>: AR (fuzil) equilibra. <strong>LARGE &middot; 20v20</strong>: range e &oacute;ptica pesam &mdash; SMG sofre no dropoff (queda de dano) ap&oacute;s ~20m.</span></span></span>
       </div>
 
-      <div class="maps-grid" id="maps-grid">
+      <div class="maps-grid" id="maps-grid" data-reveal-stagger data-stagger="60">
         <!-- Cards renderizados via JS -->
       </div>
     </section>
@@ -17204,13 +17213,13 @@
         <p data-i18n="sec.perks.intro">Setup completo pra rusher SMG agressivo · Combat Specialty · Wildcards · Field upgrades · Streaks realistas pra skill intermediário.</p>
       </div>
 
-      <div class="mode-banner">
+      <div class="mode-banner" data-reveal="fade-up">
         <span class="pulse"></span>
         <strong data-i18n="perk.banner.title">RUSHER SETUP</strong>
         <span style="color: var(--text-secondary);" data-i18n="perk.banner.note">— configurações otimizadas pra Multiplayer normal (não Ranked)</span>
       </div>
 
-      <div class="subtabs" data-tabgroup="perks">
+      <div class="subtabs" data-tabgroup="perks" data-reveal="fade-up">
         <button class="subtab active" data-subtab="perks-base"><span data-i18n="perk.subtab.base">3 PERKS</span></button>
         <button class="subtab" data-subtab="perks-wildcards"><span data-i18n="perk.subtab.wildcards">WILDCARDS</span></button>
         <button class="subtab" data-subtab="perks-equipment"><span data-i18n="perk.subtab.equipment">EQUIPMENT</span></button>
@@ -17560,7 +17569,7 @@
       </div>
 
       <!-- ETAPA 9: Permanent Unlocks -->
-      <div class="pu-section" id="pu-section">
+      <div class="pu-section" id="pu-section" data-reveal="fade-up">
         <div class="pu-header">
           <h3 data-i18n="prog.pu.header.title">{{i:unlock}} PERMANENT UNLOCKS</h3>
           <div class="pu-header-info">
@@ -17590,14 +17599,14 @@
         <button class="pu-add-btn" id="btn-add-pu" data-i18n="prog.pu.btn.add">+ ADICIONAR PERMANENT UNLOCK</button>
       </div>
 
-      <div class="mode-banner">
+      <div class="mode-banner" data-reveal="fade-up">
         <span class="pulse"></span>
         <strong data-bind="player.status-line">STATUS · LVL — · PRESTIGE —</strong>
         <span style="color: var(--text-secondary);" data-i18n="prog.banner.note">— faltam ~31 dias até fim da Season 3</span>
       </div>
 
       <!-- STATS DO PLAYER -->
-      <div class="stats-grid">
+      <div class="stats-grid" data-reveal="fade-up">
         <div class="stat-card total">
           <div class="stat-num">36</div>
           <div class="stat-label" data-i18n="prog.stat.player-level">Player Level</div>
@@ -17616,7 +17625,7 @@
         </div>
       </div>
 
-      <div class="subtabs" data-tabgroup="progression">
+      <div class="subtabs" data-tabgroup="progression" data-reveal="fade-up">
         <button class="subtab active" data-subtab="prog-mpc"><span data-i18n="prog.subtab.mpc">MPC-25 ROADMAP</span></button>
         <button class="subtab" data-subtab="prog-perks"><span data-i18n="prog.subtab.perks">PERKS BLOQUEADOS</span></button>
         <button class="subtab" data-subtab="prog-weapons"><span data-i18n="prog.subtab.weapons">PRIORIDADE ARMAS</span></button>
@@ -18491,7 +18500,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.44.1</strong><span class="ver-tag">Scroll-reveal estendido a Minhas Armas, Loadout, Controle e Evolução (cards/blocos entram em cascata ao abrir cada tela)</span>
+        LEVEL · <strong>v2.44.2</strong><span class="ver-tag">Scroll-reveal completo: Marketplace, Meus Loadouts, Mapas, Perks, Aim Training e Progression — agora todas as telas do Hub têm entrada animada</span>
       </div>
       <script>
         (function(){
@@ -20217,8 +20226,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '14 Jun 2026',
     'briefing.changelog.pill':  'movimento',
-    'briefing.changelog.headline': 'Animação de entrada em mais 4 telas',
-    'briefing.changelog.summary':  'A entrada em cascata (estreada na Home e no Painel Hoje) chegou a <strong>Minhas Armas</strong>, <strong>Loadout</strong>, <strong>Controle</strong> e <strong>Evolução</strong>. Os cards do arsenal e as dificuldades <strong>surgem em sequência</strong> ao abrir a tela, e os passos do construtor descem em cascata. Cada secção re-anima a sua entrada sempre que a abres. Só apresentação &mdash; nada funcional mexido. PT + EN.',
+    'briefing.changelog.headline': 'Entrada animada em todo o Hub',
+    'briefing.changelog.summary':  'A animação de entrada chegou às últimas telas — <strong>Marketplace</strong>, <strong>Meus Loadouts</strong>, <strong>Mapas</strong>, <strong>Perks</strong>, <strong>Aim Training</strong> e <strong>Progression</strong>. Com isto, <strong>todas as telas do Hub</strong> têm a mesma entrada suave em cascata ao serem abertas. Fecha a frente de polimento visual iniciada na Home. Só apresentação &mdash; nada funcional mexido. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21727,8 +21736,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 14, 2026',
     'briefing.changelog.pill':  'motion',
-    'briefing.changelog.headline': 'Entrance animation on 4 more screens',
-    'briefing.changelog.summary':  'The cascading entrance (first seen on the Home and Daily Brief) now reaches <strong>My Weapons</strong>, <strong>Loadout</strong>, <strong>Controller</strong> and <strong>Evolution</strong>. Arsenal cards and struggles <strong>appear in sequence</strong> when you open the screen, and the builder steps cascade down. Every section replays its entrance each time you open it. Presentation only &mdash; nothing functional touched. PT + EN.',
+    'briefing.changelog.headline': 'Entrance animation across the whole Hub',
+    'briefing.changelog.summary':  'The entrance animation reached the last screens — <strong>Marketplace</strong>, <strong>My Loadouts</strong>, <strong>Maps</strong>, <strong>Perks</strong>, <strong>Aim Training</strong> and <strong>Progression</strong>. With this, <strong>every screen in the Hub</strong> shares the same smooth cascading entrance when opened. Closes the visual-polish pass started on the Home. Presentation only &mdash; nothing functional touched. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
