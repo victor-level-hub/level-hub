@@ -1,7 +1,7 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 14 Jun 2026 — v2.44.0 (pronto no index.html; deploy pendente do OK do Victor).
+> Última atualização: 14 Jun 2026 — v2.44.1 (pronto no index.html; deploy pendente do OK do Victor).
 
 ---
 
@@ -14,14 +14,15 @@ LÊ PRIMEIRO (antes de editar):
 O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
 
 ESTADO ATUAL
-- Versão: v2.44.0 (footer mostra "LEVEL · v2.44.0"). Se ainda não deu push, confirma com o Victor.
+- Versão: v2.44.1 (footer mostra "LEVEL · v2.44.1"). Se ainda não deu push, confirma com o Victor.
 - App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
   vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél.
 - Já no padrão do design system: masthead (CoD + tagline + backup semáforo + popover de
   idioma), sidebar/Operator Profile (avatar portrait, emblema, caixa 25/75 com pips, logo
   oficial metálico), Auth Gate (vidro, verify, erros por-campo, entrada/saída), e um
-  sistema de scroll-reveal aplicado à HOME e ao PAINEL HOJE (v2.44.0), com rearm por secção
-  (cada tela re-anima a entrada ao ser aberta). Interior já tinha Glass/Neon.
+  sistema de scroll-reveal aplicado à HOME, PAINEL HOJE, MINHAS ARMAS, LOADOUT, CONTROLE e
+  EVOLUÇÃO (v2.44.0/.1), com rearm por secção (cada tela re-anima a entrada ao ser aberta).
+  Interior já tinha Glass/Neon.
 
 REGRAS DE EDIÇÃO (CRÍTICAS — não desviar)
 - index.html é UM ficheiro enorme: edita por substituição de string com âncoras longas e
@@ -57,10 +58,11 @@ COMUNICAÇÃO (Victor tem TDAH + ansiedade)
 
 PRÓXIMOS PASSOS (menu — pede ao Victor qual atacar; uma de cada vez)
 1. Espalhar o scroll-reveal (data-reveal / data-reveal-stagger) pelas restantes secções —
-   FEITO na Home e no PAINEL HOJE (v2.44.0). O problema do settleAll global (2.2s) já está
-   resolvido: LevelReveal.rearm(secção) é chamado na navegação → cada secção re-anima ao ser
-   aberta. FALTA aplicar os atributos a: Minhas Armas, Loadout, Controle, Evolução, Marketplace,
-   etc. (mesmo padrão; o rearm já trata todas — só pôr data-reveal/-stagger no markup).
+   FEITO: Home + Painel Hoje (v2.44.0) e Minhas Armas, Loadout, Controle, Evolução (v2.44.1).
+   O settleAll global (2.2s) já não é problema: LevelReveal.rearm(secção) corre na navegação →
+   cada secção re-anima ao ser aberta. FALTA (mesmo padrão, só markup): Marketplace, Meus
+   Loadouts, Mapas, Perks, Aim Training, Progression. Regra: só blocos sempre-visíveis; evitar
+   display:none toggled (ex: subpanels de subtab, estados vazios) — risco de stranding.
 2. Layouts estruturais pendentes dos protótipos ③–⑨ (mais profundos, tocam mecânica —
    confirmar antes): Loadout com coach Le Vél "ao vivo" ao lado dos slots; Controle com strip
    de presets + card "difere do jogo"; Evolução com gráfico de 7 dias; Marketplace com cards
@@ -87,3 +89,4 @@ plano curto. Espera o OK do Victor.
 - **v2.43.3** — slogan PT "Pare de querer adivinhar. Comece a evoluir."
 - **v2.43.4** — Home compactada (readouts sem rolar) + subtítulo PT "Saiba…"
 - **v2.44.0** — scroll-reveal espalhado ao Painel Hoje + LevelReveal.rearm (cada secção re-anima ao abrir)
+- **v2.44.1** — scroll-reveal em Minhas Armas, Loadout, Controle e Evolução (cards/blocos em cascata)

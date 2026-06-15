@@ -13116,7 +13116,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.44.0 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.44.1 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -13140,7 +13140,7 @@
       </div>
 
       <!-- Stats bar -->
-      <div class="arsenal-stats">
+      <div class="arsenal-stats" data-reveal="fade-up">
         <div>
           <span data-i18n="mw.stats.total">Total builds:</span> <strong id="mw-total">0</strong>
           <span data-i18n="mw.stats.perBase">· Por arma base:</span> <strong id="mw-bases">0</strong>
@@ -13151,7 +13151,7 @@
       </div>
 
       <!-- Filters + Add -->
-      <div class="arsenal-toolbar">
+      <div class="arsenal-toolbar" data-reveal="fade-up">
         <div class="arsenal-filters" id="mw-filters">
           <!-- populated by JS -->
         </div>
@@ -13176,7 +13176,7 @@
       </div>
 
       <!-- Grid -->
-      <div class="builds-grid" id="mw-grid">
+      <div class="builds-grid" id="mw-grid" data-reveal-stagger data-stagger="60">
         <!-- populated by JS -->
       </div>
 
@@ -13224,14 +13224,14 @@
         <p data-i18n="sec.controller.intro">Configurações otimizadas para Multiplayer normal — sem CDL Rules. Mais aim assist, mais agressividade.</p>
       </div>
 
-      <div class="mode-banner">
+      <div class="mode-banner" data-reveal="fade-up">
         <span class="pulse"></span>
         <strong data-i18n="ctrl.banner.mode">MULTIPLAYER MODE</strong>
         <span style="color: var(--text-secondary);" data-i18n="ctrl.banner.note">— configs liberadas (sem restrições CDL/Ranked)</span>
       </div>
 
       <!-- v75-37: Visão geral — pra que servem essas configurações -->
-      <div class="ctrl-overview">
+      <div class="ctrl-overview" data-reveal="fade-up">
         <div class="ctrl-overview-head">
           <h3 data-i18n="ctrl.overview.title">Pra que serve esta tela</h3>
           <p data-i18n="ctrl.overview.intro">As configurações abaixo são as mesmas que jogadores profissionais (PROs) e ranqueados de topo usam pra extrair vantagem competitiva do controle. Não é "deixar mais rápido": é calibrar cada eixo — mira, movimento, áudio, vídeo — pra que o tempo entre <em>você ver o inimigo</em> e <em>já estar atirando nele</em> seja o menor possível, sem sacrificar precisão.</p>
@@ -13269,7 +13269,7 @@
         <div class="stat-card critical"><div class="stat-num" id="ctrl-stat-diverge">0</div><div class="stat-label" data-i18n="ctrl.stats.v71.diverge">Não Conforme Indicação</div></div>
       </div>
 
-      <div class="subtabs" data-tabgroup="controller">
+      <div class="subtabs" data-tabgroup="controller" data-reveal="fade-up">
         <button class="subtab active" data-subtab="ctrl-controller"><span data-i18n="ctrl.subtab.controller">CONTROLLER</span> <span class="subtab-counter">17</span></button>
         <button class="subtab" data-subtab="ctrl-aiming"><span data-i18n="ctrl.subtab.aiming">AIMING</span> <span class="subtab-counter">9</span></button>
         <button class="subtab" data-subtab="ctrl-movement"><span data-i18n="ctrl.subtab.movement">MOVEMENT</span> <span class="subtab-counter">14</span></button>
@@ -16078,7 +16078,7 @@
         <p data-i18n-html="sec.constructor.intro">Monte um loadout do zero, escolhendo estilo, modo, classe de arma, attachments, secundária, perks, equipamento e granadas. Aperta <strong>Analisar</strong> e o Hub te dá um score 0-10 com pontos fortes, fracos e sugestões pra otimizar. Aperta <strong>Salvar</strong> e o build vai pro arsenal pessoal em "Meus Loadouts".</p>
       </div>
       <!-- Catalog status (moved from Arsenal · attachments DB info) -->
-      <div class="catalog-status">
+      <div class="catalog-status" data-reveal="fade-up">
         <div class="catalog-status-info">
           <span class="cs-label" data-i18n="con.catalog.label">Catálogo de Attachments (biblioteca)</span>
           <span data-i18n="con.catalog.coverage">Armas com catálogo:</span> <strong id="catalog-coverage">0/0</strong>
@@ -16089,7 +16089,7 @@
         <button class="btn-update-catalog" id="btn-update-catalog" data-i18n="con.catalog.btnUpdate">↻ Atualizar</button>
       </div>
 
-      <div class="constructor-wrapper">
+      <div class="constructor-wrapper" data-reveal-stagger data-stagger="50">
 
         <!-- STEP 1: Estilo de jogo -->
         <div class="constructor-step">
@@ -16378,6 +16378,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.44.1</span>
+                <span class="vh-date">14 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Scroll-reveal estendido a Minhas Armas, Loadout, Controle e Evolução.</strong> Continuação da fila "espalhar reveal" iniciada na v2.44.0. Só markup (o `LevelReveal.rearm` já trata todas as secções). <strong>Minhas Armas:</strong> `.arsenal-stats` e `.arsenal-toolbar` em fade-up, `.builds-grid` (cards) em stagger 60ms. <strong>Loadout (construtor):</strong> `.catalog-status` fade-up, `.constructor-wrapper` (os 9 passos) em stagger 50ms. <strong>Controle:</strong> `.mode-banner`, `.ctrl-overview` e `.subtabs` em fade-up (os subpanels alternados por subtab ficam de fora — evita stranding). <strong>Evolução:</strong> `.struggles-intro` e `.struggles-actions` fade-up, `#struggles-list` em stagger 70ms. Blocos `display:none` toggled (Command Center, estados vazios, painéis de resultado) deixados de fora de propósito. Grids/listas populados por JS são seguros (com o pai em .in/.settled os filhos novos ficam visíveis). Sem tocar em mecânica nem no contrato LEVEL_AUTH. Validado: node 16/16, 1 main + 14 sections.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -17530,15 +17539,15 @@
         <p data-i18n="sec.struggles.intro">Registra os problemas que tens em partida, recebe dicas direcionadas, e acompanha tua melhoria ao longo do tempo. Cada avaliação fica guardada com data — vê tua curva de progresso.</p>
       </div>
 
-      <div class="struggles-intro" data-i18n-html="str.intro">
+      <div class="struggles-intro" data-i18n-html="str.intro" data-reveal="fade-up">
         <strong>Como funciona:</strong> Adiciona uma dificuldade da lista (ex: "atiro primeiro mas morro"). O Hub mostra dicas concretas. Sempre que sentires que melhoraste, clica em <strong>Avaliar</strong> e dá uma nota de 0 a 10. O histórico fica salvo para tu veres a evolução.
       </div>
 
-      <div class="struggles-actions">
+      <div class="struggles-actions" data-reveal="fade-up">
         <button class="btn-add-struggle" id="btn-add-struggle" data-i18n="str.btn.add">+ Adicionar Dificuldade</button>
       </div>
 
-      <div id="struggles-list">
+      <div id="struggles-list" data-reveal-stagger data-stagger="70">
         <!-- populated by JS -->
       </div>
     </section>
@@ -18482,7 +18491,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.44.0</strong><span class="ver-tag">Scroll-reveal espalhado ao Painel Hoje (entrada em cascata dos blocos) + cada secção re-anima ao ser aberta (LevelReveal.rearm ligado à navegação)</span>
+        LEVEL · <strong>v2.44.1</strong><span class="ver-tag">Scroll-reveal estendido a Minhas Armas, Loadout, Controle e Evolução (cards/blocos entram em cascata ao abrir cada tela)</span>
       </div>
       <script>
         (function(){
@@ -20208,8 +20217,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '14 Jun 2026',
     'briefing.changelog.pill':  'movimento',
-    'briefing.changelog.headline': 'Painel Hoje ganha animação de entrada',
-    'briefing.changelog.summary':  'Os blocos do <strong>Painel Hoje</strong> (eventos, Battle Pass e este card de novidades) agora <strong>surgem em cascata</strong> ao abrir a tela &mdash; o mesmo efeito que já existia na Home. E cada secção do Hub volta a <strong>animar a sua entrada sempre que a abres</strong>, não só no arranque. Puro CSS/JS, nada funcional mexido. PT + EN.',
+    'briefing.changelog.headline': 'Animação de entrada em mais 4 telas',
+    'briefing.changelog.summary':  'A entrada em cascata (estreada na Home e no Painel Hoje) chegou a <strong>Minhas Armas</strong>, <strong>Loadout</strong>, <strong>Controle</strong> e <strong>Evolução</strong>. Os cards do arsenal e as dificuldades <strong>surgem em sequência</strong> ao abrir a tela, e os passos do construtor descem em cascata. Cada secção re-anima a sua entrada sempre que a abres. Só apresentação &mdash; nada funcional mexido. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21718,8 +21727,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 14, 2026',
     'briefing.changelog.pill':  'motion',
-    'briefing.changelog.headline': 'Daily Brief gets an entrance',
-    'briefing.changelog.summary':  'The <strong>Daily Brief</strong> blocks (events, Battle Pass and this update card) now <strong>cascade in</strong> when you open the screen &mdash; the same effect already on the Home. And every Hub section <strong>replays its entrance each time you open it</strong>, not just on first load. Pure CSS/JS, nothing functional touched. PT + EN.',
+    'briefing.changelog.headline': 'Entrance animation on 4 more screens',
+    'briefing.changelog.summary':  'The cascading entrance (first seen on the Home and Daily Brief) now reaches <strong>My Weapons</strong>, <strong>Loadout</strong>, <strong>Controller</strong> and <strong>Evolution</strong>. Arsenal cards and struggles <strong>appear in sequence</strong> when you open the screen, and the builder steps cascade down. Every section replays its entrance each time you open it. Presentation only &mdash; nothing functional touched. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
