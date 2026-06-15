@@ -13116,7 +13116,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.44.2 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.44.3 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16381,6 +16381,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.44.3</span>
+                <span class="vh-date">14 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Count-up ligado aos números reais da Home.</strong> Última ponta solta do sistema de movimento (v2.43.0). Os readouts `#home-ro-arsenal` e `#home-ro-builds` deixaram de aparecer secos — agora contam de 0 até ao valor real (armas / builds) numa contagem com easing ~0.9s. CAUSA da ponta solta: o count-up do reveal lê `data-count` no momento do reveal, mas os números chegam **async** (o `renderHome` espera `LevelDB.builds.list()`/`weapons.list()`) — quando o herói revelava, os valores ainda eram "—". SOLUÇÃO: novo helper `LevelReveal.countTo(node, target)` (anima do valor atual ao alvo em runtime, sem depender de `data-count` nem do IntersectionObserver) chamado dentro do `renderHome` **quando os dados resolvem**. Idempotente no `languagechange` (mesmo valor = põe direto, sem flicker); re-render por `level:builds-change` conta do valor atual ao novo. `prefers-reduced-motion` = valor direto. Fallback seco se `LevelReveal` não existir. Validado: node 16/16, 1 main + 14 sections, render isolado do `countTo` (— → 5 → 29 → 33; 33→33 instantâneo; 33→40 a partir de 33). Sem tocar em mecânica nem no `LEVEL_AUTH`.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.44.2</span>
                 <span class="vh-date">14 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18500,7 +18509,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.44.2</strong><span class="ver-tag">Scroll-reveal completo: Marketplace, Meus Loadouts, Mapas, Perks, Aim Training e Progression — agora todas as telas do Hub têm entrada animada</span>
+        LEVEL · <strong>v2.44.3</strong><span class="ver-tag">Count-up nos números da Home: "armas no arsenal" e "builds salvas" agora sobem de 0 até ao valor real ao abrir (resolve a corrida com o carregamento async)</span>
       </div>
       <script>
         (function(){
@@ -20226,8 +20235,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '14 Jun 2026',
     'briefing.changelog.pill':  'movimento',
-    'briefing.changelog.headline': 'Entrada animada em todo o Hub',
-    'briefing.changelog.summary':  'A animação de entrada chegou às últimas telas — <strong>Marketplace</strong>, <strong>Meus Loadouts</strong>, <strong>Mapas</strong>, <strong>Perks</strong>, <strong>Aim Training</strong> e <strong>Progression</strong>. Com isto, <strong>todas as telas do Hub</strong> têm a mesma entrada suave em cascata ao serem abertas. Fecha a frente de polimento visual iniciada na Home. Só apresentação &mdash; nada funcional mexido. PT + EN.',
+    'briefing.changelog.headline': 'Números da Home agora contam até ao valor',
+    'briefing.changelog.summary':  'Os dois números do topo da Home — <strong>armas no arsenal</strong> e <strong>builds salvas</strong> — deixaram de aparecer secos: agora <strong>sobem de 0 até ao valor real</strong> numa contagem suave ao abrir o Hub. Era a última ponta solta do sistema de movimento (a contagem existia mas não estava ligada aos números reais por causa de uma corrida com o carregamento dos dados). Só apresentação &mdash; nada funcional mexido. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21736,8 +21745,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 14, 2026',
     'briefing.changelog.pill':  'motion',
-    'briefing.changelog.headline': 'Entrance animation across the whole Hub',
-    'briefing.changelog.summary':  'The entrance animation reached the last screens — <strong>Marketplace</strong>, <strong>My Loadouts</strong>, <strong>Maps</strong>, <strong>Perks</strong>, <strong>Aim Training</strong> and <strong>Progression</strong>. With this, <strong>every screen in the Hub</strong> shares the same smooth cascading entrance when opened. Closes the visual-polish pass started on the Home. Presentation only &mdash; nothing functional touched. PT + EN.',
+    'briefing.changelog.headline': 'Home numbers now count up to value',
+    'briefing.changelog.summary':  'The two numbers at the top of the Home — <strong>weapons in arsenal</strong> and <strong>saved builds</strong> — no longer pop in flat: they now <strong>count up from 0 to the real value</strong> with a smooth tween when the Hub opens. It was the last loose end of the motion system (the count-up existed but was not wired to the real numbers due to a race with data loading). Presentation only &mdash; nothing functional touched. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -35125,8 +35134,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         const weapons = await DB.weapons.list();
         const roA = document.getElementById('home-ro-arsenal');
         const roB = document.getElementById('home-ro-builds');
-        if (roA) roA.textContent = weapons.length;
-        if (roB) roB.textContent = builds.length;
+        var LR = window.LevelReveal;
+        if (roA) { if (LR && LR.countTo) LR.countTo(roA, weapons.length); else roA.textContent = weapons.length; }
+        if (roB) { if (LR && LR.countTo) LR.countTo(roB, builds.length); else roB.textContent = builds.length; }
         const wrap = document.getElementById('home-continue');
         if (wrap) {
           const last = builds.slice().sort(function (a, b) {
@@ -40601,6 +40611,31 @@ ${cbt('share.t.footer')}`;
     requestAnimationFrame(tick);
   }
 
+  // countTo: anima a contagem até um alvo dado em runtime (não via data-count).
+  // Para readouts dinâmicos que chegam async (ex: Home) — resolve a corrida que
+  // impedia o count-up de ligar aos números reais. Conta do valor atual ao alvo.
+  function countTo(node, target, opts) {
+    if (!node) return;
+    target = parseInt(target, 10);
+    if (isNaN(target)) return;
+    opts = opts || {};
+    var suffix = opts.suffix || '';
+    if (reduced) { node.textContent = target + suffix; return; }
+    var cur = String(node.textContent || '').replace(/[^0-9]/g, '');
+    var start = cur === '' ? 0 : parseInt(cur, 10);
+    if (start === target) { node.textContent = target + suffix; return; }
+    var dur = opts.dur || 900, t0 = null;
+    var fb = setTimeout(function () { node.textContent = target + suffix; }, dur + 200);
+    function tick(t) {
+      if (t0 === null) t0 = t;
+      var p = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 3);
+      node.textContent = Math.round(start + (target - start) * e) + suffix;
+      if (p < 1) requestAnimationFrame(tick); else clearTimeout(fb);
+    }
+    requestAnimationFrame(tick);
+  }
+
   function revealEl(el) {
     if (el.hasAttribute('data-reveal-stagger')) {
       var step = parseInt(el.getAttribute('data-stagger') || '70', 10);
@@ -40655,7 +40690,7 @@ ${cbt('share.t.footer')}`;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  window.LevelReveal = { reveal: revealEl, settleAll: settleAll, rearm: rearm };
+  window.LevelReveal = { reveal: revealEl, settleAll: settleAll, rearm: rearm, countTo: countTo };
 })();
 </script>
 

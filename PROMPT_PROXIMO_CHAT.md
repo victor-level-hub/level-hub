@@ -1,7 +1,7 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 14 Jun 2026 — v2.44.2 (pronto no index.html; deploy pendente do OK do Victor).
+> Última atualização: 14 Jun 2026 — v2.44.3 (pronto no index.html; deploy pendente do OK do Victor).
 
 ---
 
@@ -14,7 +14,7 @@ LÊ PRIMEIRO (antes de editar):
 O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
 
 ESTADO ATUAL
-- Versão: v2.44.2 (footer mostra "LEVEL · v2.44.2"). Se ainda não deu push, confirma com o Victor.
+- Versão: v2.44.3 (footer mostra "LEVEL · v2.44.3"). Se ainda não deu push, confirma com o Victor.
 - App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
   vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél.
 - Já no padrão do design system: masthead (CoD + tagline + backup semáforo + popover de
@@ -64,8 +64,9 @@ PRÓXIMOS PASSOS (menu — pede ao Victor qual atacar; uma de cada vez)
    confirmar antes): Loadout com coach Le Vél "ao vivo" ao lado dos slots; Controle com strip
    de presets + card "difere do jogo"; Evolução com gráfico de 7 dias; Marketplace com cards
    de comunidade.
-3. count-up nos readouts da Home ligado aos valores reais (hoje o sistema suporta count-up
-   mas não está ligado aos números dinâmicos por causa de corrida com o render async).
+3. ✅ count-up nos readouts da Home — FEITO (v2.44.3). Helper `LevelReveal.countTo(node, target)`
+   chamado no `renderHome` quando os dados async resolvem (resolve a corrida). Sistema de
+   movimento (reveal + rearm + count-up) 100% completo.
 4. Verificações: logout → testar o Auth Gate redesenhado (4 ecrãs + verify + erros);
    logado → confirmar o semáforo de backup (verde/âmbar/vermelho) em uso real.
 5. Novos handoffs do Claude Design, se houver (pastas design_handoff_* em Downloads): segue
@@ -88,3 +89,4 @@ plano curto. Espera o OK do Victor.
 - **v2.44.0** — scroll-reveal espalhado ao Painel Hoje + LevelReveal.rearm (cada secção re-anima ao abrir)
 - **v2.44.1** — scroll-reveal em Minhas Armas, Loadout, Controle e Evolução (cards/blocos em cascata)
 - **v2.44.2** — scroll-reveal nas 6 telas restantes (Marketplace, Meus Loadouts, Mapas, Perks, Aim Training, Progression) — fila concluída
+- **v2.44.3** — count-up ligado aos números reais da Home (LevelReveal.countTo) — sistema de movimento 100%
