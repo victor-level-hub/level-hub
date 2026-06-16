@@ -8417,6 +8417,42 @@
     font-size: 10.5px;
     opacity: 0.85;
   }
+  /* v2.45.0 · Plano de Desbloqueio (aba Progressão do card) */
+  .bc-unlock { display: flex; flex-direction: column; gap: 8px; }
+  .bc-unlock-summary {
+    font-size: 13px; line-height: 1.55; color: var(--text-secondary);
+    background: var(--surface-input, #131A2C); border: 1px solid var(--border-subtle, rgba(125,168,199,0.14));
+    border-left: 3px solid var(--accent-orange); border-radius: 8px; padding: 10px 12px;
+  }
+  .bc-unlock-summary strong { color: var(--text-primary); }
+  .bc-unlock-empty {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-600, #5F6E8C); padding: 12px 4px;
+  }
+  .bc-unlock-group-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-muted); margin: 6px 0 2px;
+  }
+  .bc-unlock-group-title.locked { color: var(--accent-orange); }
+  .bc-unlock-row {
+    display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 8px;
+    background: rgba(31,40,63,0.34); border: 1px solid var(--border-subtle, rgba(125,168,199,0.12));
+  }
+  .bc-unlock-row.is-locked { opacity: 0.62; }
+  .bc-unlock-icon { width: 30px; height: 30px; flex: 0 0 30px; display: flex; align-items: center; justify-content: center; }
+  .bc-unlock-icon img.att-icon-img, .bc-unlock-icon svg { width: 26px; height: 26px; object-fit: contain; }
+  .bc-unlock-main { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+  .bc-unlock-slot {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+  .bc-unlock-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .bc-unlock-lvl {
+    flex: 0 0 auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    color: var(--text-secondary); display: inline-flex; align-items: center; gap: 4px;
+  }
+  .bc-unlock-lvl svg { width: 12px; height: 12px; }
+  .bc-unlock-lvl.locked { color: var(--accent-orange); }
+  .bc-unlock-lvl.special { color: var(--accent-cyan, #58C4DC); }
   /* Nome do attachment fica MAIS DESTACADO (peso + tamanho) */
   .att-slot-row-v2 .att-chooser-btn .att-equipped-name {
     font-size: 13.5px;
@@ -13116,7 +13152,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.44.3 · <span data-i18n="briefing.changelog.date">14 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.45.0 · <span data-i18n="briefing.changelog.date">15 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16381,6 +16417,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.45.0</span>
+                <span class="vh-date">15 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Plano de Desbloqueio — nova aba "Progressão" no card da build.</strong> Quarta aba (ao lado de Loadout · Nossa Análise · Avalie) que cruza os attachments equipados da build com o <strong>nível/prestígio atuais da arma</strong> (LevelDB) e o catálogo de desbloqueio (`WEAPON_UNLOCKS`, com `unlockLevel` por attachment). Mostra um <strong>resumo</strong> ("estás no nível X/MAX; faltam N attachments; joga até ao nível Z"), e duas listas — <strong>"Falta desbloquear"</strong> (ordenada pelo nível, esmaecida, badge laranja `L{n}`) e <strong>"Já tens"</strong>. DESCOBERTA: a `cat_ideal_builds` (alvo original "build ideal curada") está vazia, mas a `cat_attachments` tem `unlock_level` em 1048/1102 — então o plano aponta para a <strong>própria build do operador</strong>, 100% suportado por dados reais. Render <strong>reutiliza</strong> `getAttachmentIconHtml` + `formatStats` da montagem (ícone + stats com polaridade fiel ao jogo) — Victor pediu "usem os mesmos". Helper `buildUnlockPlanHtml(build, base)` no mesmo escopo do `renderBuildCard`; aba só no layout Grade (não-CC). Sem dados novos, sem backend, sem tocar em mecânica/`LEVEL_AUTH`. Validado: node 16/16, 1 main + 14 sections, teste de lógica isolado (3 cenários: parcial/MAX/sem-catálogo) + render isolado do painel (resumo, grupos, badges laranja/azul, opacidade 0.62 nos trancados, stats verde/vermelho).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.44.3</span>
                 <span class="vh-date">14 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18509,7 +18554,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.44.3</strong><span class="ver-tag">Count-up nos números da Home: "armas no arsenal" e "builds salvas" agora sobem de 0 até ao valor real ao abrir (resolve a corrida com o carregamento async)</span>
+        LEVEL · <strong>v2.45.0</strong><span class="ver-tag">Nova aba "Progressão" no card da build: mostra o que falta desbloquear (por nível/prestígio) para completar a build, com ícone e stats fiéis ao jogo</span>
       </div>
       <script>
         (function(){
@@ -20233,10 +20278,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '14 Jun 2026',
-    'briefing.changelog.pill':  'movimento',
-    'briefing.changelog.headline': 'Números da Home agora contam até ao valor',
-    'briefing.changelog.summary':  'Os dois números do topo da Home — <strong>armas no arsenal</strong> e <strong>builds salvas</strong> — deixaram de aparecer secos: agora <strong>sobem de 0 até ao valor real</strong> numa contagem suave ao abrir o Hub. Era a última ponta solta do sistema de movimento (a contagem existia mas não estava ligada aos números reais por causa de uma corrida com o carregamento dos dados). Só apresentação &mdash; nada funcional mexido. PT + EN.',
+    'briefing.changelog.date':  '15 Jun 2026',
+    'briefing.changelog.pill':  'novo',
+    'briefing.changelog.headline': 'Plano de Desbloqueio no card da build',
+    'briefing.changelog.summary':  'Cada build ganhou uma aba <strong>Progressão</strong> (ao lado de Loadout · Análise · Avalie). Ela cruza os attachments da build com o teu <strong>nível e prestígio atuais daquela arma</strong> e mostra o que <strong>já tens</strong> e o que <strong>falta desbloquear</strong> — com o nível exato de cada um e um resumo do tipo &ldquo;joga até ao nível X para completar a build&rdquo;. Cada attachment vem com o ícone e os stats fiéis ao jogo, iguais aos da montagem. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21743,10 +21788,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 14, 2026',
-    'briefing.changelog.pill':  'motion',
-    'briefing.changelog.headline': 'Home numbers now count up to value',
-    'briefing.changelog.summary':  'The two numbers at the top of the Home — <strong>weapons in arsenal</strong> and <strong>saved builds</strong> — no longer pop in flat: they now <strong>count up from 0 to the real value</strong> with a smooth tween when the Hub opens. It was the last loose end of the motion system (the count-up existed but was not wired to the real numbers due to a race with data loading). Presentation only &mdash; nothing functional touched. PT + EN.',
+    'briefing.changelog.date':  'Jun 15, 2026',
+    'briefing.changelog.pill':  'new',
+    'briefing.changelog.headline': 'Unlock Plan on the build card',
+    'briefing.changelog.summary':  'Every build got a <strong>Progression</strong> tab (next to Loadout · Analysis · Rate). It crosses the build&rsquo;s attachments with your <strong>current level and prestige on that weapon</strong> and shows what you <strong>already have</strong> and what is <strong>still locked</strong> — with the exact level for each, plus a summary like &ldquo;play to level X to complete the build&rdquo;. Each attachment comes with the game-faithful icon and stats, same as the builder. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -28329,6 +28374,75 @@ const ATTACHMENT_ICONS = {
       saveRating(buildId);
     });
 
+    // ── v2.45.0 · Plano de Desbloqueio ──────────────────────────────────
+    // Cruza os attachments equipados da build com o nível/prestígio atual da
+    // arma (LevelDB) e o catálogo WEAPON_UNLOCKS (unlockLevel por attachment).
+    // Reusa getAttachmentIconHtml + formatStats da montagem (render fiel ao jogo).
+    function buildUnlockPlanHtml(build, base) {
+      const lvl = base ? (base.level || 0) : 0;
+      const prest = base ? (base.prestige || 0) : 0;
+      const lvlMax = base ? (base.levelMax || 0) : 0;
+      const maxed = base ? !!base.maxed : false;
+      const master = base ? !!base.master : false;
+      const cat = (typeof WEAPON_UNLOCKS !== 'undefined' && build.weaponBaseId) ? WEAPON_UNLOCKS[build.weaponBaseId] : null;
+
+      if (!cat || !cat.attachments) {
+        return '<div class="bc-unlock"><div class="bc-unlock-empty">// sem catálogo de desbloqueio para esta arma</div></div>';
+      }
+
+      const have = [], need = [];
+      for (let i = 0; i < 9; i++) {
+        const nm = build.attachments[i] || '';
+        if (!nm) continue;
+        const slotLabel = SLOT_LABELS[i] || 'Extra';
+        const slotType = (SLOT_FILTERS[i] && SLOT_FILTERS[i][0]) || 'generic';
+        const entry = cat.attachments.find(a => a.name === nm) || null;
+        const ul = (entry && entry.unlockLevel != null) ? entry.unlockLevel : null;
+        const special = !!(entry && entry.special);
+        const stats = (entry && entry.stats) ? entry.stats : null;
+        const locked = !maxed && !master && (ul != null) && (ul > lvl);
+        (locked ? need : have).push({ name: nm, slotLabel, slotType, ul, special, stats, locked });
+      }
+      need.sort((a, b) => (a.ul || 0) - (b.ul || 0));
+
+      const nextLvl = need.length ? need.reduce((m, r) => Math.max(m, r.ul || 0), 0) : 0;
+      let summary;
+      if (maxed || master) {
+        summary = '<strong>Arma no máximo.</strong> Todos os attachments desta build já estão desbloqueados.';
+      } else if (!need.length) {
+        summary = '<strong>Tudo desbloqueado.</strong> No teu nível atual (L' + lvl + (prest > 0 ? ' · P' + prest : '') + ') já tens todos os attachments desta build.';
+      } else {
+        summary = 'Estás no <strong>nível ' + lvl + (lvlMax ? '/' + lvlMax : '') + '</strong>' + (prest > 0 ? ' · Prestígio ' + prest : '') +
+                  '. Faltam <strong>' + need.length + '</strong> attachment' + (need.length > 1 ? 's' : '') +
+                  ' — joga esta arma até ao <strong>nível ' + nextLvl + '</strong> para completar a build.';
+      }
+
+      const rowHtml = (r) => {
+        const ic = (typeof getAttachmentIconHtml === 'function') ? getAttachmentIconHtml(r.name, r.slotType) : '';
+        const st = (r.stats && typeof formatStats === 'function') ? formatStats(r.stats) : '';
+        let badge;
+        if (r.locked) badge = '<span class="bc-unlock-lvl locked">{{i:lock}} L' + r.ul + '</span>';
+        else if (r.special) badge = '<span class="bc-unlock-lvl special">{{i:star}}</span>';
+        else badge = '<span class="bc-unlock-lvl">' + (r.ul != null ? 'L' + r.ul : '✓') + '</span>';
+        return '<div class="bc-unlock-row ' + (r.locked ? 'is-locked' : 'is-have') + '">' +
+          '<span class="bc-unlock-icon">' + ic + '</span>' +
+          '<span class="bc-unlock-main">' +
+            '<span class="bc-unlock-slot">' + escapeHtml(r.slotLabel) + '</span>' +
+            '<span class="bc-unlock-name" data-glossary-skip>' + escapeHtml(r.name) + '</span>' +
+            (st ? '<span class="att-stats att-stats-inline">' + st + '</span>' : '') +
+          '</span>' +
+          badge +
+        '</div>';
+      };
+
+      let html = '<div class="bc-unlock">';
+      html += '<div class="bc-unlock-summary">' + summary + '</div>';
+      if (need.length) html += '<div class="bc-unlock-group-title locked">Falta desbloquear</div>' + need.map(rowHtml).join('');
+      if (have.length) html += '<div class="bc-unlock-group-title">Já tens</div>' + have.map(rowHtml).join('');
+      html += '</div>';
+      return html;
+    }
+
     async function renderBuildCard(build, mode) {
       const base = await LevelDB.weapons.get(build.weaponBaseId);
       const baseName = base ? base.name : '(arma deletada)';
@@ -28407,6 +28521,7 @@ const ATTACHMENT_ICONS = {
             '<button class="bc-tab' + tabActive('loadout') + '" data-bc-tab="loadout" type="button" role="tab" aria-selected="' + tabSelected('loadout') + '">Loadout</button>' +
             '<button class="bc-tab' + tabActive('analysis') + '" data-bc-tab="analysis" type="button" role="tab" aria-selected="' + tabSelected('analysis') + '">{{i:message-circle}} Nossa Análise</button>' +
             '<button class="bc-tab' + tabActive('rating') + '" data-bc-tab="rating" type="button" role="tab" aria-selected="' + tabSelected('rating') + '">{{i:star}} Avalie</button>' +
+            '<button class="bc-tab' + tabActive('progression') + '" data-bc-tab="progression" type="button" role="tab" aria-selected="' + tabSelected('progression') + '">{{i:trending-up}} Progressão</button>' +
           '</div>';
 
       const panelsHtml = isCC
@@ -28437,6 +28552,9 @@ const ATTACHMENT_ICONS = {
           '</div>' +
           '<div class="bc-tab-panel' + panelActive('rating') + '" data-bc-panel="rating" role="tabpanel">' +
             '<div class="bc-ratings">' + ratingsHtml + '</div>' +
+          '</div>' +
+          '<div class="bc-tab-panel' + panelActive('progression') + '" data-bc-panel="progression" role="tabpanel">' +
+            buildUnlockPlanHtml(build, base) +
           '</div>';
 
       // v2.28.1: bcc-<classe> na raiz alimenta o top edge 2px na cor da classe (CSS ::before)

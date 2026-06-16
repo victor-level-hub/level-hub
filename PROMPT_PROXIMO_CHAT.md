@@ -1,7 +1,7 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 14 Jun 2026 — v2.44.3 (pronto no index.html; deploy pendente do OK do Victor).
+> Última atualização: 15 Jun 2026 — v2.45.0 (pronto no index.html; deploy pendente do OK do Victor).
 
 ---
 
@@ -14,7 +14,7 @@ LÊ PRIMEIRO (antes de editar):
 O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
 
 ESTADO ATUAL
-- Versão: v2.44.3 (footer mostra "LEVEL · v2.44.3"). Se ainda não deu push, confirma com o Victor.
+- Versão: v2.45.0 (footer mostra "LEVEL · v2.45.0"). Se ainda não deu push, confirma com o Victor.
 - App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
   vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél.
 - Já no padrão do design system: masthead (CoD + tagline + backup semáforo + popover de
@@ -90,3 +90,4 @@ plano curto. Espera o OK do Victor.
 - **v2.44.1** — scroll-reveal em Minhas Armas, Loadout, Controle e Evolução (cards/blocos em cascata)
 - **v2.44.2** — scroll-reveal nas 6 telas restantes (Marketplace, Meus Loadouts, Mapas, Perks, Aim Training, Progression) — fila concluída
 - **v2.44.3** — count-up ligado aos números reais da Home (LevelReveal.countTo) — sistema de movimento 100%
+- **v2.45.0** — Plano de Desbloqueio: aba "Progressão" no card da build (o que falta desbloquear por nível/prestígio, com ícone + stats fiéis)
