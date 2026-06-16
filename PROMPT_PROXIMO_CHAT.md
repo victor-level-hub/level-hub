@@ -1,7 +1,7 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 15 Jun 2026 — v2.46.1 (pronto no index.html; deploy pendente do OK do Victor).
+> Última atualização: 15 Jun 2026 — v2.46.2 (pronto no index.html; deploy pendente do OK do Victor).
 
 ---
 
@@ -14,7 +14,7 @@ LÊ PRIMEIRO (antes de editar):
 O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
 
 ESTADO ATUAL
-- Versão: v2.46.1 (footer mostra "LEVEL · v2.46.1"). Se ainda não deu push, confirma com o Victor.
+- Versão: v2.46.2 (footer mostra "LEVEL · v2.46.2"). Se ainda não deu push, confirma com o Victor.
 - App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
   vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél.
 - Já no padrão do design system: masthead (CoD + tagline + backup semáforo + popover de
@@ -98,3 +98,4 @@ plano curto. Espera o OK do Victor.
 - **v2.45.2** — Nossa Análise: texto do Le Vél em caixa de ~4 linhas com scroll + sugestões em acordeão (abrir uma fecha a outra)
 - **v2.46.0** — upload em massa de imagens (arrasta várias; nome do ficheiro = id técnico → coloca no sítio)
 - **v2.46.1** — logo LEVEL atualizado para a versão facetada (sidebar, hero da Home, login)
+- **v2.46.2** — fix do logo: removida a cunha branca entre o 2º E e o 2º L
