@@ -8453,6 +8453,34 @@
   .bc-unlock-lvl svg { width: 12px; height: 12px; }
   .bc-unlock-lvl.locked { color: var(--accent-orange); }
   .bc-unlock-lvl.special { color: var(--accent-cyan, #58C4DC); }
+  /* v2.45.0 · filtros + caixa de altura fixa */
+  .bc-unlock-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .bc-unlock-chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.05em;
+    padding: 5px 10px; border-radius: 999px; cursor: pointer;
+    background: transparent; color: var(--text-muted);
+    border: 1px solid var(--border-subtle, rgba(125,168,199,0.18));
+  }
+  .bc-unlock-chip:hover { color: var(--text-secondary); }
+  .bc-unlock-chip.active { background: var(--accent-orange); color: var(--action-ink, #1A1206); border-color: transparent; font-weight: 600; }
+  .bc-unlock-scroll { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 2px; }
+  .bc-unlock-eq {
+    margin-left: 8px; font-size: 8.5px; letter-spacing: 0.08em; font-weight: 700;
+    color: var(--accent-orange); border: 1px solid var(--accent-orange); border-radius: 4px; padding: 0 4px; vertical-align: middle;
+  }
+  .bc-unlock-row.is-eq { border-color: rgba(255,152,0,0.45); }
+  .bc-unlock-none { display: none; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--ink-600, #5F6E8C); padding: 10px 4px; }
+  /* filtro: esconde tudo, mostra só a vista ativa */
+  .bc-unlock.flt-next .bc-unlock-row,
+  .bc-unlock.flt-locked .bc-unlock-row,
+  .bc-unlock.flt-unlocked .bc-unlock-row { display: none; }
+  .bc-unlock.flt-next .bc-unlock-row.f-next,
+  .bc-unlock.flt-locked .bc-unlock-row.f-locked,
+  .bc-unlock.flt-unlocked .bc-unlock-row.f-unlocked { display: flex; }
+  /* estado vazio por vista (quando a vista ativa não tem linhas visíveis) */
+  .bc-unlock.flt-next .bc-unlock-scroll:not(:has(.f-next)) .bc-unlock-none,
+  .bc-unlock.flt-locked .bc-unlock-scroll:not(:has(.f-locked)) .bc-unlock-none,
+  .bc-unlock.flt-unlocked .bc-unlock-scroll:not(:has(.f-unlocked)) .bc-unlock-none { display: block; }
   /* Nome do attachment fica MAIS DESTACADO (peso + tamanho) */
   .att-slot-row-v2 .att-chooser-btn .att-equipped-name {
     font-size: 13.5px;
@@ -13152,7 +13180,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.45.0 · <span data-i18n="briefing.changelog.date">15 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.45.1 · <span data-i18n="briefing.changelog.date">15 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16417,6 +16445,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.45.1</span>
+                <span class="vh-date">15 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Aba Progressão refinada (feedback do Victor).</strong> O painel deixou de "esticar" o card: passou a uma <strong>caixa de altura fixa (300px) com scroll</strong> e a listar <strong>todos os attachments da arma</strong> (não só os 9 da build), cruzados com o nível/prestígio atuais. Novo <strong>filtro de 3 vistas</strong> (`.bc-unlock-chip`, default Próximos): <strong>Próximos</strong> (os 5 bloqueados de nível mais baixo), <strong>Bloqueados</strong> (todos) e <strong>Desbloqueados</strong> — alternadas por uma classe no contentor (`flt-next/locked/unlocked`) + CSS show/hide por linha (`f-next/f-locked/f-unlocked`); handler delegado novo. Os attachments equipados na build ganham selo <strong>"NA BUILD"</strong> e o resumo continua focado na build ("faltam N — joga até ao nível Z"). `buildUnlockPlanHtml` reescrita; CSS `.bc-unlock-filters/chip/scroll/eq`. Reutiliza na mesma `getAttachmentIconHtml` + `formatStats`. Validado: node 16/16, 1 main + 14 sections, teste de lógica (3 chips, contagens, Próximos≤5, NA BUILD, MAX) + render isolado (caixa 300px scroll, troca de filtro, selos). NOTA: attachments sem mapeamento de ícone (ex. FANG HoverPoint ELO) caem no ícone do slot — mesmo fallback da montagem.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.45.0</span>
                 <span class="vh-date">15 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -18554,7 +18591,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.45.0</strong><span class="ver-tag">Nova aba "Progressão" no card da build: mostra o que falta desbloquear (por nível/prestígio) para completar a build, com ícone e stats fiéis ao jogo</span>
+        LEVEL · <strong>v2.45.1</strong><span class="ver-tag">Aba Progressão refinada: caixa de altura fixa com scroll + filtro (Próximos · Bloqueados · Desbloqueados), listando a arma toda com os attachments da build marcados</span>
       </div>
       <script>
         (function(){
@@ -20281,7 +20318,7 @@ window.I18N = {
     'briefing.changelog.date':  '15 Jun 2026',
     'briefing.changelog.pill':  'novo',
     'briefing.changelog.headline': 'Plano de Desbloqueio no card da build',
-    'briefing.changelog.summary':  'Cada build ganhou uma aba <strong>Progressão</strong> (ao lado de Loadout · Análise · Avalie). Ela cruza os attachments da build com o teu <strong>nível e prestígio atuais daquela arma</strong> e mostra o que <strong>já tens</strong> e o que <strong>falta desbloquear</strong> — com o nível exato de cada um e um resumo do tipo &ldquo;joga até ao nível X para completar a build&rdquo;. Cada attachment vem com o ícone e os stats fiéis ao jogo, iguais aos da montagem. PT + EN.',
+    'briefing.changelog.summary':  'Cada build ganhou uma aba <strong>Progressão</strong> (ao lado de Loadout · Análise · Avalie). Lista <strong>todos os attachments da arma</strong> numa caixa com scroll, cruzados com o teu <strong>nível e prestígio atuais</strong>, e um filtro: <strong>Próximos</strong> (os 5 mais perto de desbloquear), <strong>Bloqueados</strong> e <strong>Desbloqueados</strong>. Os que a tua build usa ficam marcados &ldquo;NA BUILD&rdquo;, e o resumo diz até que nível jogar para a completar. Cada attachment vem com o ícone e os stats fiéis ao jogo. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21791,7 +21828,7 @@ window.I18N = {
     'briefing.changelog.date':  'Jun 15, 2026',
     'briefing.changelog.pill':  'new',
     'briefing.changelog.headline': 'Unlock Plan on the build card',
-    'briefing.changelog.summary':  'Every build got a <strong>Progression</strong> tab (next to Loadout · Analysis · Rate). It crosses the build&rsquo;s attachments with your <strong>current level and prestige on that weapon</strong> and shows what you <strong>already have</strong> and what is <strong>still locked</strong> — with the exact level for each, plus a summary like &ldquo;play to level X to complete the build&rdquo;. Each attachment comes with the game-faithful icon and stats, same as the builder. PT + EN.',
+    'briefing.changelog.summary':  'Every build got a <strong>Progression</strong> tab (next to Loadout · Analysis · Rate). It lists <strong>all the weapon&rsquo;s attachments</strong> in a scrollable box, crossed with your <strong>current level and prestige</strong>, plus a filter: <strong>Next up</strong> (the 5 closest to unlock), <strong>Locked</strong> and <strong>Unlocked</strong>. The ones your build uses are tagged &ldquo;IN BUILD&rdquo;, and the summary tells you what level to play to in order to complete it. Each attachment comes with the game-faithful icon and stats. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -28352,6 +28389,18 @@ const ATTACHMENT_ICONS = {
       });
     });
 
+    // v2.45.0 · filtro da aba Progressão (Próximos/Bloqueados/Desbloqueados)
+    document.addEventListener('click', (e) => {
+      const chip = e.target.closest('.bc-unlock-chip');
+      if (!chip) return;
+      const wrap = chip.closest('.bc-unlock');
+      if (!wrap) return;
+      const f = chip.dataset.unlockFilter;
+      wrap.classList.remove('flt-next', 'flt-locked', 'flt-unlocked');
+      wrap.classList.add('flt-' + f);
+      wrap.querySelectorAll('.bc-unlock-chip').forEach(c => c.classList.toggle('active', c === chip));
+    });
+
     // Star click handler (event delegation) — agora só atualiza o RASCUNHO
     document.addEventListener('click', (e) => {
       const star = e.target.closest('.bc-star');
@@ -28375,8 +28424,9 @@ const ATTACHMENT_ICONS = {
     });
 
     // ── v2.45.0 · Plano de Desbloqueio ──────────────────────────────────
-    // Cruza os attachments equipados da build com o nível/prestígio atual da
-    // arma (LevelDB) e o catálogo WEAPON_UNLOCKS (unlockLevel por attachment).
+    // Lista TODOS os attachments da arma (WEAPON_UNLOCKS) cruzados com o
+    // nível/prestígio atual (LevelDB). Os equipados na build ficam marcados.
+    // Caixa de altura fixa + filtro (Próximos·5 / Bloqueados / Desbloqueados).
     // Reusa getAttachmentIconHtml + formatStats da montagem (render fiel ao jogo).
     function buildUnlockPlanHtml(build, base) {
       const lvl = base ? (base.level || 0) : 0;
@@ -28386,48 +28436,54 @@ const ATTACHMENT_ICONS = {
       const master = base ? !!base.master : false;
       const cat = (typeof WEAPON_UNLOCKS !== 'undefined' && build.weaponBaseId) ? WEAPON_UNLOCKS[build.weaponBaseId] : null;
 
-      if (!cat || !cat.attachments) {
+      if (!cat || !cat.attachments || !cat.attachments.length) {
         return '<div class="bc-unlock"><div class="bc-unlock-empty">// sem catálogo de desbloqueio para esta arma</div></div>';
       }
 
-      const have = [], need = [];
-      for (let i = 0; i < 9; i++) {
-        const nm = build.attachments[i] || '';
-        if (!nm) continue;
-        const slotLabel = SLOT_LABELS[i] || 'Extra';
-        const slotType = (SLOT_FILTERS[i] && SLOT_FILTERS[i][0]) || 'generic';
-        const entry = cat.attachments.find(a => a.name === nm) || null;
-        const ul = (entry && entry.unlockLevel != null) ? entry.unlockLevel : null;
-        const special = !!(entry && entry.special);
-        const stats = (entry && entry.stats) ? entry.stats : null;
-        const locked = !maxed && !master && (ul != null) && (ul > lvl);
-        (locked ? need : have).push({ name: nm, slotLabel, slotType, ul, special, stats, locked });
-      }
-      need.sort((a, b) => (a.ul || 0) - (b.ul || 0));
+      // attachments equipados nesta build (para marcar "NA BUILD")
+      const equipped = new Set();
+      for (let i = 0; i < 9; i++) { if (build.attachments[i]) equipped.add(build.attachments[i]); }
 
-      const nextLvl = need.length ? need.reduce((m, r) => Math.max(m, r.ul || 0), 0) : 0;
+      // classifica TODOS os attachments da arma
+      const all = cat.attachments.map(a => {
+        const ul = (a.unlockLevel != null) ? a.unlockLevel : null;
+        const locked = !maxed && !master && (ul != null) && (ul > lvl);
+        return { name: a.name, slot: a.slot || '', ul: ul, special: !!a.special, stats: a.stats || null, locked: locked, eq: equipped.has(a.name) };
+      });
+      const lockedArr = all.filter(r => r.locked).sort((x, y) => (x.ul || 0) - (y.ul || 0));
+      const haveArr = all.filter(r => !r.locked);
+      const nextSet = new Set(lockedArr.slice(0, 5).map(r => r.name));
+      const cNext = Math.min(5, lockedArr.length), cLocked = lockedArr.length, cHave = haveArr.length;
+
+      // resumo focado na build do operador
+      const buildLocked = lockedArr.filter(r => r.eq);
       let summary;
       if (maxed || master) {
-        summary = '<strong>Arma no máximo.</strong> Todos os attachments desta build já estão desbloqueados.';
-      } else if (!need.length) {
-        summary = '<strong>Tudo desbloqueado.</strong> No teu nível atual (L' + lvl + (prest > 0 ? ' · P' + prest : '') + ') já tens todos os attachments desta build.';
+        summary = '<strong>Arma no máximo.</strong> Tudo desbloqueado.';
+      } else if (!buildLocked.length) {
+        summary = '<strong>Build completa.</strong> No nível ' + lvl + (prest > 0 ? ' · P' + prest : '') + ' já tens todos os attachments desta build' + (cLocked ? ' (faltam ' + cLocked + ' da arma no total).' : '.');
       } else {
-        summary = 'Estás no <strong>nível ' + lvl + (lvlMax ? '/' + lvlMax : '') + '</strong>' + (prest > 0 ? ' · Prestígio ' + prest : '') +
-                  '. Faltam <strong>' + need.length + '</strong> attachment' + (need.length > 1 ? 's' : '') +
-                  ' — joga esta arma até ao <strong>nível ' + nextLvl + '</strong> para completar a build.';
+        const nextBuild = buildLocked.reduce((m, r) => Math.max(m, r.ul || 0), 0);
+        const n = buildLocked.length;
+        summary = 'Nível <strong>' + lvl + (lvlMax ? '/' + lvlMax : '') + '</strong>' + (prest > 0 ? ' · Prestígio ' + prest : '') +
+                  '. ' + (n > 1 ? 'Faltam' : 'Falta') + ' <strong>' + n + '</strong> attachment' + (n > 1 ? 's' : '') +
+                  ' da tua build — joga até ao <strong>nível ' + nextBuild + '</strong> para a completar.';
       }
 
       const rowHtml = (r) => {
-        const ic = (typeof getAttachmentIconHtml === 'function') ? getAttachmentIconHtml(r.name, r.slotType) : '';
+        const ic = (typeof getAttachmentIconHtml === 'function') ? getAttachmentIconHtml(r.name, r.slot) : '';
         const st = (r.stats && typeof formatStats === 'function') ? formatStats(r.stats) : '';
         let badge;
         if (r.locked) badge = '<span class="bc-unlock-lvl locked">{{i:lock}} L' + r.ul + '</span>';
         else if (r.special) badge = '<span class="bc-unlock-lvl special">{{i:star}}</span>';
         else badge = '<span class="bc-unlock-lvl">' + (r.ul != null ? 'L' + r.ul : '✓') + '</span>';
-        return '<div class="bc-unlock-row ' + (r.locked ? 'is-locked' : 'is-have') + '">' +
+        const fcls = (r.locked ? 'f-locked' : 'f-unlocked') + (nextSet.has(r.name) ? ' f-next' : '') +
+                     (r.locked ? ' is-locked' : ' is-have') + (r.eq ? ' is-eq' : '');
+        const eq = r.eq ? '<span class="bc-unlock-eq">NA BUILD</span>' : '';
+        return '<div class="bc-unlock-row ' + fcls + '">' +
           '<span class="bc-unlock-icon">' + ic + '</span>' +
           '<span class="bc-unlock-main">' +
-            '<span class="bc-unlock-slot">' + escapeHtml(r.slotLabel) + '</span>' +
+            '<span class="bc-unlock-slot">' + escapeHtml(r.slot) + eq + '</span>' +
             '<span class="bc-unlock-name" data-glossary-skip>' + escapeHtml(r.name) + '</span>' +
             (st ? '<span class="att-stats att-stats-inline">' + st + '</span>' : '') +
           '</span>' +
@@ -28435,12 +28491,21 @@ const ATTACHMENT_ICONS = {
         '</div>';
       };
 
-      let html = '<div class="bc-unlock">';
-      html += '<div class="bc-unlock-summary">' + summary + '</div>';
-      if (need.length) html += '<div class="bc-unlock-group-title locked">Falta desbloquear</div>' + need.map(rowHtml).join('');
-      if (have.length) html += '<div class="bc-unlock-group-title">Já tens</div>' + have.map(rowHtml).join('');
-      html += '</div>';
-      return html;
+      const ordered = lockedArr.concat(haveArr); // bloqueados (por nível) e depois desbloqueados
+      const chips =
+        '<div class="bc-unlock-filters" role="tablist">' +
+          '<button type="button" class="bc-unlock-chip active" data-unlock-filter="next">Próximos · ' + cNext + '</button>' +
+          '<button type="button" class="bc-unlock-chip" data-unlock-filter="locked">Bloqueados · ' + cLocked + '</button>' +
+          '<button type="button" class="bc-unlock-chip" data-unlock-filter="unlocked">Desbloqueados · ' + cHave + '</button>' +
+        '</div>';
+
+      return '<div class="bc-unlock flt-next">' +
+        '<div class="bc-unlock-summary">' + summary + '</div>' +
+        chips +
+        '<div class="bc-unlock-scroll">' + ordered.map(rowHtml).join('') +
+          '<div class="bc-unlock-none">// nada nesta vista</div>' +
+        '</div>' +
+      '</div>';
     }
 
     async function renderBuildCard(build, mode) {
