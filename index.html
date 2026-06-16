@@ -7571,7 +7571,11 @@
     color: var(--ink-100);
   }
   .build-card .bc-analysis-summary {
-    padding: 0 0 10px;
+    padding: 0 8px 0 0;          /* espaço p/ a scrollbar à direita */
+    margin-bottom: 10px;
+    max-height: 6.6em;           /* v2.45.2: ~4 linhas; rola para ver o resto */
+    overflow-y: auto;
+    line-height: 1.62;
   }
   .build-card .bc-analysis-summary strong {
     color: var(--accent-orange);
@@ -7892,6 +7896,16 @@
     width: 13px; height: 13px; flex-shrink: 0; margin-top: 1px;
     stroke: var(--accent-orange); fill: none;
   }
+  /* v2.45.2 · sugestões em acordeão (abrir uma fecha a outra) */
+  .build-card .bc-suggestions-list .bc-sug-head { cursor: pointer; }
+  .build-card .bc-suggestions-list .bc-sug-head:focus-visible { outline: 2px solid var(--focus-ring, rgba(255,152,0,0.45)); outline-offset: 2px; border-radius: 3px; }
+  .build-card .bc-suggestions-list .bc-sug-right { display: inline-flex; align-items: center; gap: 6px; }
+  .build-card .bc-suggestions-list .bc-sug-caret { display: inline-flex; color: var(--text-muted); transition: transform var(--dur-base, 0.18s) var(--ease-out, ease); }
+  .build-card .bc-suggestions-list .bc-sug-caret svg { width: 14px; height: 14px; }
+  .build-card .bc-suggestions-list .bc-sug-item.open .bc-sug-caret { transform: rotate(180deg); }
+  .build-card .bc-suggestions-list .bc-sug-body { display: none; }
+  .build-card .bc-suggestions-list .bc-sug-item.open .bc-sug-body { display: block; }
+  .build-card .bc-suggestions-list .bc-sug-item.open { background: rgba(0,0,0,0.28); }
 
   /* ─── Master toggle (build modal) ─── */
   .master-toggle {
@@ -13180,7 +13194,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.45.1 · <span data-i18n="briefing.changelog.date">15 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.45.2 · <span data-i18n="briefing.changelog.date">15 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16445,6 +16459,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.45.2</span>
+                <span class="vh-date">15 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Aba "Nossa Análise" mais compacta (feedback do Victor).</strong> Duas mudanças no render da análise IA (`_renderAIAnalysisHtml`): (1) o texto do Le Vél (`.bc-analysis-summary`) passou a uma <strong>caixa de ~4 linhas com scroll</strong> (`max-height:6.6em; overflow-y:auto`) em vez de ocupar o card todo; (2) as <strong>sugestões de melhoria</strong> (`.bc-sug-item`) viraram <strong>acordeão</strong> — cada uma ganhou um cabeçalho clicável (`.bc-sug-head`, slot + troca + caret `{{i:chevron-down}}`) e o detalhe (rationale + tradeoff) foi para um `.bc-sug-body` colapsável; handler delegado novo fecha as outras ao abrir uma (uma de cada vez), e re-clicar fecha. CSS do acordeão + caret que roda. Estrutura das sugestões (attachment/perk) preservada, só reorganizada em head/body. Validado: node 16/16, 1 main + 14 sections, render isolado (caixa de 105px que rola; default fechado; abrir 1→fecha ao abrir 3; toggle fecha).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.45.1</span>
                 <span class="vh-date">15 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18591,7 +18614,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.45.1</strong><span class="ver-tag">Aba Progressão refinada: caixa de altura fixa com scroll + filtro (Próximos · Bloqueados · Desbloqueados), listando a arma toda com os attachments da build marcados</span>
+        LEVEL · <strong>v2.45.2</strong><span class="ver-tag">Nossa Análise mais compacta: texto do Le Vél numa caixa de ~4 linhas com scroll + sugestões de melhoria em acordeão (abrir uma fecha a outra)</span>
       </div>
       <script>
         (function(){
@@ -20317,8 +20340,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '15 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Plano de Desbloqueio no card da build',
-    'briefing.changelog.summary':  'Cada build ganhou uma aba <strong>Progressão</strong> (ao lado de Loadout · Análise · Avalie). Lista <strong>todos os attachments da arma</strong> numa caixa com scroll, cruzados com o teu <strong>nível e prestígio atuais</strong>, e um filtro: <strong>Próximos</strong> (os 5 mais perto de desbloquear), <strong>Bloqueados</strong> e <strong>Desbloqueados</strong>. Os que a tua build usa ficam marcados &ldquo;NA BUILD&rdquo;, e o resumo diz até que nível jogar para a completar. Cada attachment vem com o ícone e os stats fiéis ao jogo. PT + EN.',
+    'briefing.changelog.headline': 'Nossa Análise mais compacta',
+    'briefing.changelog.summary':  'A aba <strong>Nossa Análise</strong> ficou mais arrumada: o texto do <strong>Le Vél</strong> passou a uma <strong>caixa de ~4 linhas com scroll</strong> (não ocupa o card todo), e as <strong>sugestões de melhoria</strong> viraram <strong>acordeão</strong> — cada uma numa linha que abres para ver o detalhe (o porquê + o que custa a troca), e <strong>abrir uma fecha a outra</strong>. Mais a aba <strong>Progressão</strong> da v2.45.1 (o que falta desbloquear por nível). PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21827,8 +21850,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 15, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Unlock Plan on the build card',
-    'briefing.changelog.summary':  'Every build got a <strong>Progression</strong> tab (next to Loadout · Analysis · Rate). It lists <strong>all the weapon&rsquo;s attachments</strong> in a scrollable box, crossed with your <strong>current level and prestige</strong>, plus a filter: <strong>Next up</strong> (the 5 closest to unlock), <strong>Locked</strong> and <strong>Unlocked</strong>. The ones your build uses are tagged &ldquo;IN BUILD&rdquo;, and the summary tells you what level to play to in order to complete it. Each attachment comes with the game-faithful icon and stats. PT + EN.',
+    'briefing.changelog.headline': 'Tidier Analysis tab',
+    'briefing.changelog.summary':  'The <strong>Analysis</strong> tab is now tidier: the <strong>Le Vél</strong> text moved into a <strong>~4-line scrollable box</strong> (no longer fills the whole card), and the <strong>improvement suggestions</strong> became an <strong>accordion</strong> — each on its own line you expand for the detail (the why + the trade-off), and <strong>opening one closes the others</strong>. Plus the v2.45.1 <strong>Progression</strong> tab (what to unlock by level). PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -27883,16 +27906,24 @@ const ATTACHMENT_ICONS = {
                 + '<span class="bc-sug-to">' + escapeHtml(s.name) + '</span>'
               : '<span class="bc-sug-to">' + escapeHtml(s.name) + '</span>';
             block = '<div class="bc-sug-item">'
-                  +   '<div class="bc-sug-slot-row"><span class="bc-sug-slot-label">' + slotTxt + '</span>' + lvlTag + '</div>'
-                  +   '<div class="bc-sug-swap">' + arrowLine + '</div>'
-                  +   (s.rationale ? '<div class="bc-sug-rationale">' + escapeHtml(s.rationale) + '</div>' : '')
-                  +   _swapTradeoffHtml(s, build)
+                  +   '<div class="bc-sug-head" role="button" tabindex="0">'
+                  +     '<div class="bc-sug-slot-row"><span class="bc-sug-slot-label">' + slotTxt + '</span><span class="bc-sug-right">' + lvlTag + '<span class="bc-sug-caret">{{i:chevron-down}}</span></span></div>'
+                  +     '<div class="bc-sug-swap">' + arrowLine + '</div>'
+                  +   '</div>'
+                  +   '<div class="bc-sug-body">'
+                  +     (s.rationale ? '<div class="bc-sug-rationale">' + escapeHtml(s.rationale) + '</div>' : '')
+                  +     _swapTradeoffHtml(s, build)
+                  +   '</div>'
                   + '</div>';
           } else if (s.type === 'perk') {
             block = '<div class="bc-sug-item">'
-                  +   '<div class="bc-sug-slot-row"><span class="bc-sug-slot-label">PERK</span></div>'
-                  +   '<div class="bc-sug-swap"><span class="bc-sug-to">' + escapeHtml(s.name) + '</span></div>'
-                  +   (s.rationale ? '<div class="bc-sug-rationale">' + escapeHtml(s.rationale) + '</div>' : '')
+                  +   '<div class="bc-sug-head" role="button" tabindex="0">'
+                  +     '<div class="bc-sug-slot-row"><span class="bc-sug-slot-label">PERK</span><span class="bc-sug-right"><span class="bc-sug-caret">{{i:chevron-down}}</span></span></div>'
+                  +     '<div class="bc-sug-swap"><span class="bc-sug-to">' + escapeHtml(s.name) + '</span></div>'
+                  +   '</div>'
+                  +   '<div class="bc-sug-body">'
+                  +     (s.rationale ? '<div class="bc-sug-rationale">' + escapeHtml(s.rationale) + '</div>' : '')
+                  +   '</div>'
                   + '</div>';
           }
           if (block) html += block;
@@ -28399,6 +28430,18 @@ const ATTACHMENT_ICONS = {
       wrap.classList.remove('flt-next', 'flt-locked', 'flt-unlocked');
       wrap.classList.add('flt-' + f);
       wrap.querySelectorAll('.bc-unlock-chip').forEach(c => c.classList.toggle('active', c === chip));
+    });
+
+    // v2.45.2 · acordeão das sugestões de melhoria (abrir uma fecha a outra)
+    document.addEventListener('click', (e) => {
+      const head = e.target.closest('.bc-sug-head');
+      if (!head) return;
+      const item = head.closest('.bc-sug-item');
+      const list = head.closest('.bc-suggestions-list');
+      if (!item) return;
+      const wasOpen = item.classList.contains('open');
+      if (list) list.querySelectorAll('.bc-sug-item.open').forEach(it => it.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
     });
 
     // Star click handler (event delegation) — agora só atualiza o RASCUNHO
