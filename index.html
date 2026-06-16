@@ -3637,6 +3637,26 @@
   .img-card-btn.danger:hover { border-color: #d63d3d; color: #d63d3d; }
   .img-card-btn[disabled] { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
 
+  /* v2.46.0 · dropzone de upload em massa */
+  .set-bulk-drop {
+    margin: 0 0 16px; padding: 14px 16px; cursor: pointer;
+    border: 1.5px dashed var(--border-strong, rgba(125,168,199,0.35)); border-radius: 12px;
+    background: rgba(125,168,199,0.04);
+    transition: border-color var(--dur-base, 0.18s) var(--ease-out, ease), background var(--dur-base, 0.18s) var(--ease-out, ease);
+  }
+  .set-bulk-drop:hover { border-color: var(--accent-orange); background: rgba(255,152,0,0.05); }
+  .set-bulk-drop.is-drag { border-color: var(--accent-orange); background: rgba(255,152,0,0.10); border-style: solid; }
+  .set-bulk-drop .sbd-inner { display: flex; align-items: center; gap: 12px; pointer-events: none; }
+  .set-bulk-drop .sbd-icon { width: 34px; height: 34px; flex: 0 0 34px; display: flex; align-items: center; justify-content: center; color: var(--accent-orange); }
+  .set-bulk-drop .sbd-icon svg { width: 24px; height: 24px; }
+  .set-bulk-drop .sbd-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .set-bulk-drop .sbd-text strong { font-size: 13.5px; color: var(--text-primary); }
+  .set-bulk-drop .sbd-text span { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; }
+  .set-bulk-drop .sbd-result { margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.5; pointer-events: none; }
+  .set-bulk-drop .sbd-result:empty { display: none; }
+  .set-bulk-drop .sbd-result.is-ok { color: var(--green, #4ade80); }
+  .set-bulk-drop .sbd-result.is-warn { color: var(--amber, #E0B66A); }
+
   /* hidden file input */
   .settings-file-input { position: absolute; left: -9999px; }
 
@@ -13194,7 +13214,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.45.2 · <span data-i18n="briefing.changelog.date">15 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.46.0 · <span data-i18n="briefing.changelog.date">15 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -16459,6 +16479,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.46.0</span>
+                <span class="vh-date">15 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Upload em massa de imagens (pedido do Victor).</strong> Em Configurações ▸ Imagens, uma <strong>caixa de drag-drop</strong> (`#set-bulk-drop`) acima da grelha, em cada secção de imagens (escondida nos painéis especiais Operador/API Keys/Processador). Arrastam-se VÁRIAS imagens de uma vez (ou clica → input `multiple`); para cada ficheiro, o <strong>nome sem extensão</strong> é casado (case-insensitive) com os ids da categoria ativa (`cat.source()`), e se bater → `resizeImageToDataUrl` + `setUserImage` (mesmo pipeline cloud+local do upload por-item). Os que não baterem, tipo errado ou grandes ficam de fora e são <strong>listados</strong> (nunca adivinha). Resumo na caixa (`N colocada(s) · M não reconhecida(s): …`) + toast. `processBulkFiles` + listeners delegados (dragenter/over/leave/drop/click/change) no IIFE de Configurações; a caixa é (re)construída por `renderSettings` com i18n (`set.bulk.*` PT/EN no CBI18N). CSS `.set-bulk-drop` (tracejado; sólido laranja ao arrastar; resultado verde/âmbar). Requisito: nome do ficheiro = id técnico (ex. `wpn_rev46.png`) — que é como o Victor já os tem. Validado: node 16/16, 1 main + 14 sections, teste de lógica (3 ids casados incl. case-insensitive; 3 rejeitados: sem-id/tipo/grande) + render isolado (estados idle/drag/resultado).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.45.2</span>
                 <span class="vh-date">15 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18010,6 +18039,10 @@
         <!-- preenchido por JS -->
       </div>
 
+      <!-- v2.46.0 · upload em massa por arrastar (preenchido por renderSettings) -->
+      <div class="set-bulk-drop" id="set-bulk-drop" style="display:none"></div>
+      <input type="file" id="set-bulk-input" accept="image/png,image/jpeg,image/webp" multiple hidden>
+
       <div class="settings-grid" id="set-grid">
         <!-- preenchido por JS -->
       </div>
@@ -18614,7 +18647,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.45.2</strong><span class="ver-tag">Nossa Análise mais compacta: texto do Le Vél numa caixa de ~4 linhas com scroll + sugestões de melhoria em acordeão (abrir uma fecha a outra)</span>
+        LEVEL · <strong>v2.46.0</strong><span class="ver-tag">Upload em massa de imagens: arrasta várias imagens (nome = id técnico, ex. wpn_rev46.png) em Configurações ▸ Imagens e o Hub coloca cada uma no sítio certo</span>
       </div>
       <script>
         (function(){
@@ -20340,8 +20373,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '15 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Nossa Análise mais compacta',
-    'briefing.changelog.summary':  'A aba <strong>Nossa Análise</strong> ficou mais arrumada: o texto do <strong>Le Vél</strong> passou a uma <strong>caixa de ~4 linhas com scroll</strong> (não ocupa o card todo), e as <strong>sugestões de melhoria</strong> viraram <strong>acordeão</strong> — cada uma numa linha que abres para ver o detalhe (o porquê + o que custa a troca), e <strong>abrir uma fecha a outra</strong>. Mais a aba <strong>Progressão</strong> da v2.45.1 (o que falta desbloquear por nível). PT + EN.',
+    'briefing.changelog.headline': 'Upload de imagens em massa',
+    'briefing.changelog.summary':  'Em <strong>Configurações ▸ Imagens</strong>, cada secção ganhou uma <strong>caixa de arrastar</strong>: largas lá <strong>várias imagens de uma vez</strong> e o Hub coloca cada uma no sítio certo. O segredo é o <strong>nome do ficheiro</strong> — tem de ser o id técnico do item (ex. <strong>wpn_rev46.png</strong>). As que não baterem com nenhum id ficam de fora e são listadas (nunca adivinha). Acaba o upload uma a uma. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -21850,8 +21883,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 15, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Tidier Analysis tab',
-    'briefing.changelog.summary':  'The <strong>Analysis</strong> tab is now tidier: the <strong>Le Vél</strong> text moved into a <strong>~4-line scrollable box</strong> (no longer fills the whole card), and the <strong>improvement suggestions</strong> became an <strong>accordion</strong> — each on its own line you expand for the detail (the why + the trade-off), and <strong>opening one closes the others</strong>. Plus the v2.45.1 <strong>Progression</strong> tab (what to unlock by level). PT + EN.',
+    'briefing.changelog.headline': 'Bulk image upload',
+    'briefing.changelog.summary':  'In <strong>Settings ▸ Images</strong>, each section got a <strong>drag-and-drop box</strong>: drop <strong>several images at once</strong> and the Hub places each in the right spot. The trick is the <strong>filename</strong> — it must be the item&rsquo;s technical id (e.g. <strong>wpn_rev46.png</strong>). Files that don&rsquo;t match any id are left out and listed (it never guesses). No more uploading one by one. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -36113,6 +36146,47 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (typeof decoratePerkCards === 'function') decoratePerkCards();
     }
 
+    // v2.46.0 · upload em massa: nome do ficheiro (sem extensão) = id do item.
+    // Casa contra os ids da categoria ativa (case-insensitive); não adivinha.
+    async function processBulkFiles(fileList) {
+      const cat = SETTINGS_CATEGORIES.find(function (c) { return c.id === settingsActiveTab; });
+      if (!cat || cat.customPanel) return;
+      const items = (typeof cat.source === 'function' ? cat.source() : []) || [];
+      const idMap = {};
+      items.forEach(function (it) { if (it && it.id != null) idMap[String(it.id).toLowerCase()] = it.id; });
+      const files = Array.prototype.slice.call(fileList || []);
+      if (!files.length) return;
+      let placed = 0; const unmatched = [];
+      const tasks = [];
+      files.forEach(function (file) {
+        if (!/^image\/(png|jpeg|webp)$/.test(file.type)) { unmatched.push(file.name); return; }
+        if (file.size > USER_IMG_MAX_BYTES) { unmatched.push(file.name + ' (grande)'); return; }
+        const base = String(file.name).replace(/\.[^.]+$/, '').trim().toLowerCase();
+        const realId = idMap[base];
+        if (!realId) { unmatched.push(file.name); return; }
+        tasks.push(
+          resizeImageToDataUrl(file, USER_IMG_MAX_SIZE)
+            .then(function (dataUrl) { if (setUserImage(realId, dataUrl)) placed++; })
+            .catch(function () { unmatched.push(file.name + ' (erro)'); })
+        );
+      });
+      await Promise.all(tasks);
+      refreshAfterImageChange(); // re-renderiza a grelha (e reconstrói esta caixa)
+      const resEl = document.getElementById('set-bulk-result');
+      if (resEl) {
+        if (!placed && unmatched.length) {
+          resEl.className = 'sbd-result is-warn';
+          resEl.textContent = cbt('set.bulk.none');
+        } else {
+          let txt = placed + ' ' + cbt('set.bulk.placed');
+          if (unmatched.length) txt += ' · ' + unmatched.length + ' ' + cbt('set.bulk.unmatched') + ': ' + unmatched.join(', ');
+          resEl.className = 'sbd-result ' + (unmatched.length ? 'is-warn' : 'is-ok');
+          resEl.textContent = txt;
+        }
+      }
+      if (typeof showToast === 'function' && placed) showToast(placed + ' ' + cbt('set.bulk.placed'), 'success');
+    }
+
     function decoratePerkCards() {
       const cards = document.querySelectorAll('[data-perk-img-id]');
       if (!cards.length) return;
@@ -36535,6 +36609,22 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const operator = document.getElementById('operator-panel');
       if (!grid) return;
       const cat = SETTINGS_CATEGORIES.find(c => c.id === settingsActiveTab);
+      // v2.46.0: caixa de upload em massa — só em categorias normais (com source de itens)
+      const bulkBox = document.getElementById('set-bulk-drop');
+      if (bulkBox) {
+        if (cat && !cat.customPanel) {
+          bulkBox.style.display = '';
+          bulkBox.innerHTML =
+            '<div class="sbd-inner">' +
+              '<span class="sbd-icon">{{i:download}}</span>' +
+              '<div class="sbd-text"><strong>' + cbt('set.bulk.title') + '</strong><span>' + cbt('set.bulk.hint') + '</span></div>' +
+            '</div>' +
+            '<div class="sbd-result" id="set-bulk-result"></div>';
+        } else {
+          bulkBox.style.display = 'none';
+          bulkBox.innerHTML = '';
+        }
+      }
       // ── Painel customizado (v75.06+v75.10+v75-51): Image Processor / API Keys / Operator ──
       if (cat && cat.customPanel) {
         grid.style.display = 'none';
@@ -37575,6 +37665,40 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }
     });
 
+    // v2.46.0 · drag-drop + clique + change da caixa de upload em massa
+    (function initBulkDrop() {
+      function inBox(e) { return e.target && e.target.closest ? e.target.closest('#set-bulk-drop') : null; }
+      document.addEventListener('dragenter', function (e) { if (inBox(e)) e.preventDefault(); });
+      document.addEventListener('dragover', function (e) {
+        const box = inBox(e); if (!box) return;
+        e.preventDefault();
+        try { e.dataTransfer.dropEffect = 'copy'; } catch (x) {}
+        box.classList.add('is-drag');
+      });
+      document.addEventListener('dragleave', function (e) {
+        const box = inBox(e); if (!box) return;
+        if (!box.contains(e.relatedTarget)) box.classList.remove('is-drag');
+      });
+      document.addEventListener('drop', function (e) {
+        const box = inBox(e); if (!box) return;
+        e.preventDefault();
+        box.classList.remove('is-drag');
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length) processBulkFiles(dt.files);
+      });
+      document.addEventListener('click', function (e) {
+        if (!inBox(e)) return;
+        const input = document.getElementById('set-bulk-input');
+        if (input) { input.value = ''; input.click(); }
+      });
+      document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'set-bulk-input') {
+          const files = e.target.files;
+          if (files && files.length) processBulkFiles(files);
+        }
+      });
+    })();
+
     // Re-render quando trocar idioma
     window.addEventListener('languagechange', function () {
       try { renderSettings(); } catch (e) {}
@@ -37626,6 +37750,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'tooltip.best': '\u2713 Funciona bem com', 'tooltip.avoid': '\u2717 Evita',
         'tooltip.tip': '\ud83d\udca1 Dica', 'tooltip.moreInfo': 'Mais info', 'combo.choose': 'Selecione…',
         'set.btn.upload': 'Enviar', 'set.btn.replace': 'Trocar', 'set.btn.remove': 'Remover',
+        'set.bulk.title': 'Upload em massa', 'set.bulk.hint': 'Arrasta várias imagens aqui (ou clica para escolher). O nome do ficheiro tem de ser o id — ex. wpn_rev46.png', 'set.bulk.placed': 'colocada(s)', 'set.bulk.unmatched': 'não reconhecida(s)', 'set.bulk.none': 'Nenhuma imagem reconhecida — confere se o nome do ficheiro é o id (ex. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Estilos',
         'con.step4.subgroup.pistols': 'Pistolas', 'con.step4.subgroup.launchers': 'Launchers', 'con.step4.subgroup.specials': 'Specials',
@@ -37780,6 +37905,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'tooltip.best': '\u2713 Works well with', 'tooltip.avoid': '\u2717 Avoids',
         'tooltip.tip': '\ud83d\udca1 Tip', 'tooltip.moreInfo': 'More info', 'combo.choose': 'Select…',
         'set.btn.upload': 'Upload', 'set.btn.replace': 'Replace', 'set.btn.remove': 'Remove',
+        'set.bulk.title': 'Bulk upload', 'set.bulk.hint': 'Drag several images here (or click to pick). The filename must be the id — e.g. wpn_rev46.png', 'set.bulk.placed': 'placed', 'set.bulk.unmatched': 'not recognized', 'set.bulk.none': 'No image recognized — check the filename matches the id (e.g. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Styles',
         'con.step4.subgroup.pistols': 'Pistols', 'con.step4.subgroup.launchers': 'Launchers', 'con.step4.subgroup.specials': 'Specials',
