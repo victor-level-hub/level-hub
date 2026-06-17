@@ -1,7 +1,7 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 15 Jun 2026 — v2.46.2 (pronto no index.html; deploy pendente do OK do Victor).
+> Última atualização: 17 Jun 2026 — v2.47.0 (DEPLOYED em produção / le-vel.games).
 
 ---
 
@@ -14,14 +14,23 @@ LÊ PRIMEIRO (antes de editar):
 O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
 
 ESTADO ATUAL
-- Versão: v2.46.2 (footer mostra "LEVEL · v2.46.2"). Se ainda não deu push, confirma com o Victor.
+- Versão: v2.47.0 (footer "LEVEL · v2.47.0"), já em produção (le-vel.games).
 - App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
-  vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél.
-- Já no padrão do design system: masthead (CoD + tagline + backup semáforo + popover de
-  idioma), sidebar/Operator Profile (avatar portrait, emblema, caixa 25/75 com pips, logo
-  oficial metálico), Auth Gate (vidro, verify, erros por-campo, entrada/saída), e um
-  sistema de scroll-reveal aplicado a TODAS as 14 telas (v2.44.0→.2 — fila concluída), com
-  rearm por secção (cada tela re-anima a entrada ao ser aberta). Interior já tinha Glass/Neon.
+  vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél. APP TODO EM PT-BR
+  (a conversão PT-PT→PT-BR foi feita na v2.47.0 — se vires "teu/tua/telemóvel/ecrã/secção",
+  é regressão).
+- Já no padrão do design system: masthead, sidebar/Operator Profile, Auth Gate, scroll-reveal
+  em TODAS as telas (v2.44.0→.2). Interior Glass/Neon.
+- v2.47.0 (handoff Design System-v7): LOGO+FAVICON oficiais do Figma — logo facetado com chevron
+  embutido como <symbol id="level-logo"> (FONTE ÚNICA; o app NÃO lê assets/level-logo.svg em
+  runtime — editar só o .svg não muda nada), referenciado por <use> no auth/sidebar/hero;
+  favicon chevron (transparente + tiles escuros apple-touch/manifest). MINHAS ARMAS (Command
+  Center) = 4 seções empilhadas (Loadout/Análise/Avalie/Progressão), Progressão derivada de
+  WEAPON_UNLOCKS (buildUnlockPlanHtml). LOADOUT (#section-loadouts) redesenhado: Estilo cartas
+  grandes + segmented Mosaico/Vitrine (renderStyleStep); pickers custom (renderBuildPickers,
+  delegam em onPrimaryBuildSelected/onSecondaryBuildSelected); Wildcard retrato
+  (renderWildcardCards); 12 Field Upgrades (DATA.fieldup + renderFieldUpgrades); tooltips→modais
+  (loOpenModal). Selação reusa o contrato .option-card[data-field][data-value]. CSS .lo-* ≈ L4006.
 
 REGRAS DE EDIÇÃO (CRÍTICAS — não desviar)
 - index.html é UM ficheiro enorme: edita por substituição de string com âncoras longas e
@@ -56,24 +65,26 @@ COMUNICAÇÃO (Victor tem TDAH + ansiedade)
 - Termos técnicos de jogo → tradução em PT entre parênteses. Sem emojis em UI nova.
 
 PRÓXIMOS PASSOS (menu — pede ao Victor qual atacar; uma de cada vez)
-1. ✅ Espalhar o scroll-reveal — CONCLUÍDO (v2.44.0→.2). TODAS as 14 telas têm entrada animada.
-   LevelReveal.rearm(secção) corre na navegação → cada secção re-anima ao ser aberta. Regra
-   seguida: só blocos sempre-visíveis; subpanels de subtab e display:none toggled fora (stranding).
-   Nada a fazer aqui — frente fechada.
-2. Layouts estruturais pendentes dos protótipos ③–⑨ (mais profundos, tocam mecânica —
-   confirmar antes): Loadout com coach Le Vél "ao vivo" ao lado dos slots; Controle com strip
-   de presets + card "difere do jogo"; Evolução com gráfico de 7 dias; Marketplace com cards
-   de comunidade.
-3. ✅ count-up nos readouts da Home — FEITO (v2.44.3). Helper `LevelReveal.countTo(node, target)`
-   chamado no `renderHome` quando os dados async resolvem (resolve a corrida). Sistema de
-   movimento (reveal + rearm + count-up) 100% completo.
-4. ✅ Uploader em massa de imagens — FEITO (v2.46.0). Caixa drag-drop em Configurações ▸ Imagens;
-   nome do ficheiro (= id técnico, ex. `wpn_rev46.png`) casa com o item e coloca no sítio.
-   `processBulkFiles` + `#set-bulk-drop`; reusa resize/setUserImage. Não reconhecidas são listadas.
-5. Verificações: logout → testar o Auth Gate redesenhado (4 ecrãs + verify + erros);
-   logado → confirmar o semáforo de backup (verde/âmbar/vermelho) em uso real.
-5. Novos handoffs do Claude Design, se houver (pastas design_handoff_* em Downloads): segue
+1. FOLLOW-UPS do v2.47.0 (loadout redesign):
+   a. EN i18n das strings NOVAS do Loadout — hoje fixas em PT no JS: segmented "A · Mosaico/
+      B · Vitrine" e "Layout" (renderStyleStep); detalhe do field upgrade "Tipo"/"Recarga" e
+      "Escolha um equipamento…" (renderFieldUpgrades); eyebrows/corpos dos modais
+      (loStyleModalHtml, LO_HELP); placeholders dos pickers. Mover para CBI18N/I18N + cbt().
+   b. Recargas dos 12 Field Upgrades em DATA.fieldup são plausíveis (handoff) — confirmar no jogo.
+   c. Imagens reais (estilos/wildcards/field upgrades) — subir em Configurações ▸ Imagens
+      (nome do ficheiro = id, ex. rusher.png/overkill.png/assault_pack.png). Mostram placeholder até lá.
+   d. Confirmar se converter a SECUNDÁRIA NATURAL (#opt-secondary-weapon, Pistola/Launcher/Special)
+      p/ dropdown e o MELEE (#opt-melee) p/ arte grande, como no handoff (hoje continuam option-card).
+2. Layouts estruturais pendentes dos protótipos (mais profundos, tocam mecânica — confirmar
+   antes): Controle com strip de presets + card "difere do jogo"; Evolução com gráfico de 7
+   dias; Marketplace com cards de comunidade.
+3. Verificações: logout → testar o Auth Gate (4 telas + verify + erros); logado → confirmar
+   o semáforo de backup (verde/âmbar/vermelho) em uso real. Confirmar tudo em PT-BR.
+4. Novos handoffs do Claude Design, se houver (pastas design_handoff_* em Downloads): segue
    sempre PASSO 0 (analisa codebase) → PASSO 1 (lê README) → PASSO 2 (plano + perguntas, espera OK).
+CONCLUÍDO (não refazer): scroll-reveal em todas as telas (v2.44.0→.2) + count-up Home (v2.44.3);
+uploader em massa de imagens (v2.46.0); logo+favicon Figma, Command Center em seções, Loadout
+redesign, PT-BR app-wide (v2.47.0).
 
 Antes de escrever código: confirma o estado, faz as perguntas que precisares e apresenta um
 plano curto. Espera o OK do Victor.
@@ -99,3 +110,4 @@ plano curto. Espera o OK do Victor.
 - **v2.46.0** — upload em massa de imagens (arrasta várias; nome do ficheiro = id técnico → coloca no sítio)
 - **v2.46.1** — logo LEVEL atualizado para a versão facetada (sidebar, hero da Home, login)
 - **v2.46.2** — fix do logo: removida a cunha branca entre o 2º E e o 2º L
+- **v2.47.0** — handoff Design System-v7 (DEPLOYED): logo+favicon oficiais do Figma; Minhas Armas (Command Center) em 4 seções (Loadout/Análise/Avalie/Progressão); Loadout redesenhado (estilo em cartas+segmented, pickers custom, wildcard retrato, 12 field upgrades, tooltips→modais); app inteiro convertido de PT-PT para PT-BR (~400 substituições)
