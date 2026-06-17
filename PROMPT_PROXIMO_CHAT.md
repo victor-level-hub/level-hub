@@ -1,7 +1,7 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 17 Jun 2026 — v2.47.1 (PRONTA p/ deploy; aguarda OK de push do Victor). v2.47.0 já em produção.
+> Última atualização: 17 Jun 2026 — v2.48.0 (Captura de Stats por foto; PRONTA p/ deploy, aguarda OK de push). v2.47.x já em produção.
 
 ---
 
@@ -14,7 +14,7 @@ LÊ PRIMEIRO (antes de editar):
 O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
 
 ESTADO ATUAL
-- Versão: v2.47.1 (footer "LEVEL · v2.47.1") — PRONTA, aguarda OK de push. v2.47.0 já em produção.
+- Versão: v2.48.0 (footer "LEVEL · v2.48.0") — PRONTA, aguarda OK de push. v2.47.x já em produção.
 - App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
   vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél. APP TODO EM PT-BR
   (a conversão PT-PT→PT-BR foi feita na v2.47.0 — se vires "teu/tua/telemóvel/ecrã/secção",
@@ -65,6 +65,19 @@ COMUNICAÇÃO (Victor tem TDAH + ansiedade)
 - Termos técnicos de jogo → tradução em PT entre parênteses. Sem emojis em UI nova.
 
 PRÓXIMOS PASSOS (menu — pede ao Victor qual atacar; uma de cada vez)
+0. ⭐ CAPTURA DE STATS POR FOTO (v2.48.0) — FRONT-END FEITO, aguarda push + 3 follow-ups:
+   CONTEXTO: API da Activision descartada (morta p/ BO7) + gravação automática do PS5 inviável
+   (buffer selado, sem API). Caminho escolhido: captura por PRINT do Combat Record.
+   FEITO E VALIDADO: backend `analyze-stats` v1 deployada; front-end completo no index.html —
+   modo `stats` no pipeline de foto/QR (STATS_FN_URL; fork startCaptureSession/triggerAIAnalysis;
+   roteamento por vision_result.kind), card `openStatsApproval` (18 campos editáveis), grava em
+   `player.stats` via LevelDB.player.update, painel COMBAT RECORD na Progression (renderPlayerStats,
+   botão #btn-stats-capture). node 16/16 + preview OK (11 tiles).
+   FOLLOW-UPS: (a) TESTE END-TO-END AO VIVO — só dá com isto no ar; Victor tira print do Combat
+   Record → confirma a leitura da IA. (b) i18n EN das strings NOVAS (hoje PT no JS/HTML: "Capturar
+   Stats", "COMBAT RECORD", labels do card openStatsApproval/STAT_FIELDS, texto do painel) — mover
+   p/ I18N. (c) app mobile de captura (repo bo7-capture) ainda mostra dica de ARMA com type=stats;
+   faz upload na mesma, mas ajustar a dica p/ "fotografa o Combat Record".
 1. FOLLOW-UPS do Loadout redesign:
    a. EN i18n das strings NOVAS do Loadout — hoje fixas em PT no JS: segmented "A · Mosaico/
       B · Vitrine" e "Layout" (renderStyleStep); detalhe do field upgrade "Tipo"/"Recarga" e

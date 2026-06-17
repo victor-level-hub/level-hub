@@ -13506,12 +13506,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.47.1 · <span data-i18n="briefing.changelog.date">17 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.48.0 · <span data-i18n="briefing.changelog.date">17 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Melee e Secundária do Loadout repaginados</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Refinamento da etapa <strong>Secundária + Melee</strong> do Loadout: o <strong>Melee</strong> passa a aparecer em <strong>cartas de arte grande</strong> (retrato, no mesmo padrão do Wildcard), e a <strong>secundária natural</strong> (Pistola, Lança-granadas e Special) vira um <strong>seletor compacto agrupado por tipo</strong> no lugar das cartas &mdash; menos rolagem, escolha mais clara. Sem mudança de dados nem de mecânica. PT + EN.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura de Stats por foto: lê o teu Combat Record</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Nova funcionalidade: captura os teus <strong>stats de carreira</strong> a partir de um <strong>print do Combat Record</strong>. Na secção <strong>Progression</strong> h&aacute; um painel <strong>COMBAT RECORD</strong> com o bot&atilde;o <strong>Capturar Stats</strong> &mdash; reusa o mesmo fluxo de foto/QR que j&aacute; tens, mas uma IA de vis&atilde;o (Gemini) l&ecirc; os n&uacute;meros (Prest&iacute;gio, N&iacute;vel, K/D, Vit&oacute;rias, W/L, SPM, Precis&atilde;o, Headshots e mais), tu confirmas/corriges num card, e ficam guardados no perfil (sincronizam e entram na curva da Evolu&ccedil;&atilde;o). <strong>Contexto:</strong> a via de API autom&aacute;tica da Activision foi descartada (ativamente bloqueada); a captura por foto &eacute; o caminho fi&aacute;vel.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -16773,6 +16773,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.48.0</span>
+                <span class="vh-date">17 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Captura de Stats do jogador por foto/print (Combat Record → perfil).</strong> Depois de descartar a via de API da Activision (morta p/ BO7 — Akamai 403 + cookie-only 302) e a gravação automática do PS5 (buffer selado, sem API), o caminho escolhido foi a captura por foto. <strong>Backend:</strong> nova Edge Function `analyze-stats` v1 (Gemini Vision, schema fechado de stats de carreira MP — prestige/level/kills/deaths/kd/wins/losses/wl/win%/spm/kills_per_game/games/time_played/longest_streak/accuracy/headshots/assists/score; regra anti-alucinação; instrumentada em `ana_gemini_usage`; verify_jwt:false token-gated). Reusa o pipeline de captura existente (`capture_sessions` + bucket `capture-photos`); grava `vision_result={kind:'stats',...}`. Fonte versionada em `supabase/functions/analyze-stats/`. <strong>Front-end:</strong> o pipeline de foto/QR ganhou um modo `stats` (fork em `startCaptureSession`/`triggerAIAnalysis` → `STATS_FN_URL`; roteamento do resultado por `vision_result.kind`); novo card de aprovação/edição `openStatsApproval` (18 campos editáveis + confiança da leitura); gravação em `player.stats` via `LevelDB.player.update` (sincroniza + reflete prestige/level no perfil → snapshot da Evolução); painel <strong>COMBAT RECORD</strong> na secção Progression (`renderPlayerStats`, re-render ao abrir a secção) com botão <strong>Capturar Stats</strong>. Validado: node 16/16, 1 main; painel + contrato storage↔display confirmados via preview_eval (gravar player.stats → 11 tiles). Pendente: teste end-to-end ao vivo (precisa de no ar), i18n EN das strings novas, e dica `type=stats` no app mobile de captura (repo bo7-capture).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.47.1</span>
                 <span class="vh-date">17 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -18041,6 +18050,19 @@
         <p data-i18n="sec.progression.intro">Status atual · Próximos níveis a focar · Prioridades de upgrade.</p>
       </div>
 
+      <!-- COMBAT RECORD — stats do jogador via captura por foto (v2.48) -->
+      <div class="cr-panel" style="margin-bottom:24px;background:var(--surface,#0f1622);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:18px 20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+          <div>
+            <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:16px;letter-spacing:.5px;color:var(--text,#e8eef5)">COMBAT RECORD</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted,#718497);margin-top:2px">Stats lidos de um print do teu Combat Record</div>
+          </div>
+          <button type="button" id="btn-stats-capture" style="background:var(--accent-orange,#ff6a3d);border:0;color:#0a0e14;border-radius:10px;padding:9px 16px;font-family:'Chakra Petch',sans-serif;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px">{{i:smartphone}} Capturar Stats</button>
+        </div>
+        <div id="cr-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px"></div>
+        <div id="cr-stats-empty" style="color:var(--text-muted,#718497);font-size:13px;line-height:1.5">Ainda sem estatísticas. Tira um print do ecrã de <b>Combat Record</b> no jogo e carrega em <b>Capturar Stats</b> — a IA lê os números.</div>
+      </div>
+
       <!-- ETAPA 9: Permanent Unlocks -->
       <div class="pu-section" id="pu-section" data-reveal="fade-up">
         <div class="pu-header">
@@ -18977,7 +18999,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.47.1</strong><span class="ver-tag">Melee em cartas de arte grande e secundária natural em seletor agrupado no Loadout</span>
+        LEVEL · <strong>v2.48.0</strong><span class="ver-tag">Captura de Stats por foto: lê o teu Combat Record (Prestígio, K/D, W/L, SPM…) e guarda no perfil</span>
       </div>
       <script>
         (function(){
@@ -20703,8 +20725,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '17 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Melee e Secundária do Loadout repaginados',
-    'briefing.changelog.summary':  'Refinamento da etapa <strong>Secundária + Melee</strong> do Loadout: o <strong>Melee</strong> passa a aparecer em <strong>cartas de arte grande</strong> (retrato, no mesmo padrão do Wildcard), e a <strong>secundária natural</strong> (Pistola, Lança-granadas e Special) vira um <strong>seletor compacto agrupado por tipo</strong> no lugar das cartas — menos rolagem, escolha mais clara. Sem mudança de dados nem de mecânica. PT + EN.',
+    'briefing.changelog.headline': 'Captura de Stats por foto: lê o teu Combat Record',
+    'briefing.changelog.summary':  'Nova funcionalidade: captura os teus <strong>stats de carreira</strong> a partir de um <strong>print do Combat Record</strong>. Na secção <strong>Progression</strong> há um painel <strong>COMBAT RECORD</strong> com o botão <strong>Capturar Stats</strong> — reusa o mesmo fluxo de foto/QR que já tens, mas uma IA de visão (Gemini) lê os números (Prestígio, Nível, K/D, Vitórias, W/L, SPM, Precisão, Headshots e mais), tu confirmas/corriges num card, e ficam guardados no perfil (sincronizam e entram na curva da Evolução). <strong>Contexto:</strong> a via de API automática da Activision foi descartada (ativamente bloqueada); a captura por foto é o caminho fiável.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22213,8 +22235,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 17, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Loadout Melee & Secondary refreshed',
-    'briefing.changelog.summary':  'Polish for the Loadout <strong>Secondary + Melee</strong> step: <strong>Melee</strong> now shows as <strong>large art cards</strong> (portrait, matching the Wildcard style), and the <strong>natural secondary</strong> (Pistol, Launcher and Special) becomes a <strong>compact picker grouped by type</strong> instead of cards — less scrolling, a clearer choice. No data or mechanic changes. PT + EN.',
+    'briefing.changelog.headline': 'Stats Capture by photo: read your Combat Record',
+    'briefing.changelog.summary':  'New feature: capture your <strong>career stats</strong> from a <strong>Combat Record screenshot</strong>. The <strong>Progression</strong> section has a <strong>COMBAT RECORD</strong> panel with a <strong>Capture Stats</strong> button — it reuses your existing photo/QR flow, but a vision AI (Gemini) reads the numbers (Prestige, Level, K/D, Wins, W/L, SPM, Accuracy, Headshots and more), you confirm/correct them in a card, and they are saved to your profile (synced, feeding the Evolution curve). <strong>Context:</strong> the automatic Activision API route was dropped (actively blocked); photo capture is the reliable path.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -41680,6 +41702,8 @@ ${cbt('share.t.footer')}`;
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
   const CAPTURE_URL   = 'https://bo7-capture.victor-abap.workers.dev';
   const ANALYZE_FN_URL = `${SUPABASE_URL}/functions/v1/analyze-capture`;
+  const STATS_FN_URL   = `${SUPABASE_URL}/functions/v1/analyze-stats`;
+  let _lastCaptureMode = 'weapon'; // 'weapon' | 'stats' — fork do pipeline de captura
 
   let _supabase = null;
   let _qrLib    = null;
@@ -41897,7 +41921,9 @@ ${cbt('share.t.footer')}`;
   // ─────────────────────────────────────────────────────────────
   // CAPTURA: criar sessão + QR + listener
   // ─────────────────────────────────────────────────────────────
-  async function startCaptureSession() {
+  async function startCaptureSession(mode) {
+    const captureMode = (mode === 'stats') ? 'stats' : 'weapon';
+    _lastCaptureMode = captureMode;
     showState('loading');
 
     try {
@@ -41922,7 +41948,7 @@ ${cbt('share.t.footer')}`;
 
     const token     = data.token;
     const expiresAt = new Date(data.expires_at).getTime();
-    const url       = `${CAPTURE_URL}/?token=${token}&type=weapon`;
+    const url       = `${CAPTURE_URL}/?token=${token}&type=${captureMode}`;
 
     const qrContainer = $('mc-qr-container');
     qrContainer.innerHTML = '';
@@ -41968,7 +41994,7 @@ ${cbt('share.t.footer')}`;
       if (row) handleSessionUpdate(row);
     }, 3000);
 
-    activeSession = { token, expiresAt, channel, timerId, pollId, hasTriggeredAI: false };
+    activeSession = { token, expiresAt, channel, timerId, pollId, hasTriggeredAI: false, mode: captureMode };
     showState('waiting');
   }
 
@@ -41997,11 +42023,15 @@ ${cbt('share.t.footer')}`;
     }
 
     if (row.status === 'ready' && row.vision_result) {
-      // Encerra a sessão e abre o modal de aprovação
+      // Encerra a sessão e abre o modal de aprovação (build ou stats, pelo kind)
       const result = row.vision_result;
       cleanupSession();
       $('modal-mobile-capture').classList.remove('visible');
-      openApprovalModal(result);
+      if (result && result.kind === 'stats') {
+        openStatsApproval(result);
+      } else {
+        openApprovalModal(result);
+      }
       return;
     }
 
@@ -42101,8 +42131,10 @@ ${cbt('share.t.footer')}`;
 
   async function triggerAIAnalysis(token) {
     showState('analyzing');
+    const mode = (activeSession && activeSession.mode) || _lastCaptureMode || 'weapon';
+    const fnUrl = (mode === 'stats') ? STATS_FN_URL : ANALYZE_FN_URL;
     try {
-      const res = await fetch(ANALYZE_FN_URL, {
+      const res = await fetch(fnUrl, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${SUPABASE_ANON}`,
@@ -42160,6 +42192,124 @@ ${cbt('share.t.footer')}`;
 
     $('modal-capture-approval').classList.add('visible');
   }
+
+  // ─────────────────────────────────────────────────────────────
+  // STATS: aprovação/edição + gravação no perfil (player.stats)
+  // ─────────────────────────────────────────────────────────────
+  const STAT_FIELDS = [
+    { key: 'prestige',         label: 'Prestígio' },
+    { key: 'level',            label: 'Nível' },
+    { key: 'kills',            label: 'Kills' },
+    { key: 'deaths',           label: 'Deaths' },
+    { key: 'kd_ratio',         label: 'K/D' },
+    { key: 'wins',             label: 'Vitórias' },
+    { key: 'losses',           label: 'Derrotas' },
+    { key: 'win_loss_ratio',   label: 'W/L' },
+    { key: 'win_pct',          label: '% Vitória' },
+    { key: 'score_per_minute', label: 'Score/min (SPM)' },
+    { key: 'kills_per_game',   label: 'Kills/partida' },
+    { key: 'games_played',     label: 'Partidas' },
+    { key: 'time_played',      label: 'Tempo jogado', text: true },
+    { key: 'longest_streak',   label: 'Maior streak' },
+    { key: 'accuracy_pct',     label: 'Precisão %' },
+    { key: 'headshots',        label: 'Headshots' },
+    { key: 'assists',          label: 'Assists' },
+    { key: 'score',            label: 'Score total' },
+  ];
+
+  function _statsEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  function openStatsApproval(result) {
+    const stats = (result && result.stats) || {};
+    const conf  = (result && result.confidence) || 'low';
+    const notes = (result && result.notes) || '';
+
+    document.querySelectorAll('.stats-approval-ov').forEach(n => n.remove());
+    const ov = document.createElement('div');
+    ov.className = 'stats-approval-ov';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(5,9,16,.78);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto';
+
+    const rows = STAT_FIELDS.map(f => {
+      const v = stats[f.key];
+      const val = (v === null || v === undefined) ? '' : v;
+      return '<label style="display:flex;flex-direction:column;gap:4px;font-family:\'JetBrains Mono\',monospace;font-size:10px;letter-spacing:.4px;color:var(--text-secondary,#9fb0c3);text-transform:uppercase">' +
+        _statsEsc(f.label) +
+        '<input data-stat-key="' + f.key + '" value="' + _statsEsc(val) + '" ' + (f.text ? '' : 'inputmode="decimal"') +
+        ' style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 10px;color:var(--text,#e8eef5);font-size:14px;font-family:\'JetBrains Mono\',monospace"/>' +
+        '</label>';
+    }).join('');
+
+    const confColor = conf === 'high' ? '#3ad17a' : (conf === 'medium' ? '#e0a83a' : '#d15c5c');
+    ov.innerHTML =
+      '<div class="stats-approval-card" style="background:var(--surface,#0f1622);border:1px solid rgba(255,255,255,.12);border-radius:18px;max-width:680px;width:100%;max-height:92vh;overflow:auto;padding:22px">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px">' +
+          '<div style="font-family:\'Chakra Petch\',sans-serif;font-weight:700;font-size:20px;color:var(--text,#e8eef5);letter-spacing:.5px">ESTATÍSTICAS DETECTADAS</div>' +
+          '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;text-transform:uppercase;color:' + confColor + ';border:1px solid ' + confColor + '55;border-radius:999px;padding:3px 9px">leitura ' + _statsEsc(conf) + '</span>' +
+        '</div>' +
+        '<p style="color:var(--text-secondary,#9fb0c3);font-size:13px;line-height:1.5;margin:0 0 16px">Confere e corrige os números lidos do teu Combat Record. Campos vazios podes preencher à mão. Depois é só <b>Guardar</b>.</p>' +
+        (notes ? '<p style="color:var(--text-muted,#7184971);font-size:11px;font-style:italic;margin:0 0 14px">Nota da IA: ' + _statsEsc(notes) + '</p>' : '') +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px">' + rows + '</div>' +
+        '<div style="display:flex;gap:10px;justify-content:flex-end">' +
+          '<button type="button" data-stats-cancel style="background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text-secondary,#9fb0c3);border-radius:10px;padding:10px 18px;font-family:\'Chakra Petch\',sans-serif;font-weight:600;cursor:pointer">Cancelar</button>' +
+          '<button type="button" data-stats-save style="background:var(--accent-orange,#ff6a3d);border:0;color:#0a0e14;border-radius:10px;padding:10px 22px;font-family:\'Chakra Petch\',sans-serif;font-weight:700;cursor:pointer">Guardar</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(ov);
+    ov.addEventListener('click', (e) => { if (e.target === ov || e.target.closest('[data-stats-cancel]')) ov.remove(); });
+    ov.querySelector('[data-stats-save]').addEventListener('click', () => _saveStats(ov));
+  }
+
+  async function _saveStats(ov) {
+    const collected = {};
+    ov.querySelectorAll('[data-stat-key]').forEach(inp => {
+      const k = inp.dataset.statKey;
+      const raw = (inp.value || '').trim();
+      if (raw === '') return;
+      const f = STAT_FIELDS.find(x => x.key === k);
+      if (f && f.text) { collected[k] = raw; return; }
+      const n = Number(raw.replace(',', '.'));
+      collected[k] = isNaN(n) ? raw : n;
+    });
+    try {
+      const cur = (window.LevelDB && (await window.LevelDB.player.get())) || {};
+      const mergedStats = Object.assign({}, cur.stats || {}, collected, { capturedAt: new Date().toISOString() });
+      const patch = { stats: mergedStats };
+      if (collected.prestige != null) patch.prestige = collected.prestige;
+      if (collected.level != null) patch.level = collected.level;
+      await window.LevelDB.player.update(patch);
+      try { if (window.LevelUI && window.LevelUI.renderPlayerEverywhere) await window.LevelUI.renderPlayerEverywhere(); } catch (e) {}
+      try { if (typeof renderPlayerStats === 'function') renderPlayerStats(mergedStats); } catch (e) {}
+      ov.remove();
+    } catch (e) {
+      console.error('[stats] save failed', e);
+      alert('Erro ao guardar os stats: ' + (e.message || e));
+    }
+  }
+
+  async function renderPlayerStats(statsArg) {
+    const grid = document.getElementById('cr-stats-grid');
+    const empty = document.getElementById('cr-stats-empty');
+    if (!grid) return;
+    let stats = statsArg;
+    if (!stats) {
+      try { const p = await window.LevelDB.player.get(); stats = (p && p.stats) || {}; }
+      catch (e) { stats = {}; }
+    }
+    const entries = STAT_FIELDS.filter(f => {
+      const v = stats[f.key];
+      return v !== undefined && v !== null && String(v).trim() !== '';
+    });
+    if (!entries.length) { grid.innerHTML = ''; if (empty) empty.style.display = ''; return; }
+    if (empty) empty.style.display = 'none';
+    grid.innerHTML = entries.map(f =>
+      '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px">' +
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted,#718497);margin-bottom:5px">' + _statsEsc(f.label) + '</div>' +
+        '<div style="font-family:\'Chakra Petch\',sans-serif;font-weight:700;font-size:20px;color:var(--text,#e8eef5)">' + _statsEsc(stats[f.key]) + '</div>' +
+      '</div>'
+    ).join('');
+  }
+  window.renderPlayerStats = renderPlayerStats;
 
   function buildApprovalCard(visionWeapon, idx, allKnownWeapons) {
     const { weapon: matchedWeapon, score: weaponScore } = matchWeapon(
@@ -42615,6 +42765,20 @@ ${cbt('share.t.footer')}`;
       }
       return;
     }
+    // Abrir captura de STATS (mesmo fluxo de foto/QR, modo 'stats')
+    const statsBtn = e.target.closest && e.target.closest('#btn-stats-capture');
+    if (statsBtn) {
+      const modal = document.getElementById('modal-mobile-capture');
+      if (modal) {
+        modal.classList.add('visible');
+        lastFailedToken = null;
+        startCaptureSession('stats');
+      }
+      return;
+    }
+    // Re-render dos stats ao abrir a secção Progressão
+    const progNav = e.target.closest && e.target.closest('.nav-item[data-section="progression"]');
+    if (progNav) { setTimeout(() => { try { renderPlayerStats(); } catch (er) {} }, 60); }
     // Retry após erro — REUSA token se possível (não refaz foto)
     if (e.target && e.target.id === 'mc-error-retry') {
       retryAnalysisOnly();
