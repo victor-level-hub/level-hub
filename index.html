@@ -13506,12 +13506,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.47.0 · <span data-i18n="briefing.changelog.date">17 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.47.1 · <span data-i18n="briefing.changelog.date">17 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Bloco Eventos no Painel Hoje + Battle Pass Season 4</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Novo bloco <strong>EVENTOS · TEMPORADA ATUAL</strong> no Painel Hoje (logo abaixo deste card) com 3 cards de eventos da Season 4: <strong>Nuked</strong> (Zombies, ativo at&eacute; 11 Jun), <strong>Illicit Cargo</strong> (camos BO3 + AR VX Compact, come&ccedil;a em 2d) e <strong>Double XP Event</strong>. Mais um card grande do <strong>Battle Pass Season 4 BLACKCELL</strong> (44 dias restantes, headliner Leon Rook) e um card especial da <strong>BLACKCELL Catalyst Collection</strong>. Tudo em SVG inline + gradientes &mdash; nenhuma imagem externa, sem risco de quebra quando a Activision mudar URLs. PT + EN.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Melee e Secundária do Loadout repaginados</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Refinamento da etapa <strong>Secundária + Melee</strong> do Loadout: o <strong>Melee</strong> passa a aparecer em <strong>cartas de arte grande</strong> (retrato, no mesmo padrão do Wildcard), e a <strong>secundária natural</strong> (Pistola, Lança-granadas e Special) vira um <strong>seletor compacto agrupado por tipo</strong> no lugar das cartas &mdash; menos rolagem, escolha mais clara. Sem mudança de dados nem de mecânica. PT + EN.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -16564,7 +16564,7 @@
             </div>
 
             <div class="form-label" data-i18n="con.step4.melee">Melee</div>
-            <div class="option-grid" id="opt-melee"></div>
+            <div class="lo-wc-host" id="opt-melee"></div>
           </div>
         </div>
 
@@ -16770,6 +16770,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.47.1</span>
+                <span class="vh-date">17 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Etapa "Secundária + Melee" do Loadout repaginada (follow-up 1d do handoff v7).</strong> (1) <strong>Melee</strong> deixou de ser `option-grid` de cartas pequenas e passou a usar o padrão de <strong>arte grande em retrato</strong> do Wildcard (`renderMeleeCards` → `.lo-wc`/`.lo-wcard`, mesma máscara 330/469); corrigido um bug em que o contentor `#opt-melee` mantinha a classe `option-grid` e esmagava as cartas a ~25px de largura — trocada para `lo-wc-host` (como o `#opt-wildcard`), cartas agora a 177px. (2) <strong>Secundária natural</strong> (Pistola/Lança-granadas/Special) converteu de 3 sub-grupos de cartas para um <strong>`&lt;select&gt;` nativo agrupado por `&lt;optgroup&gt;`</strong> (`#secondary-weapon-select`), escrevendo no mesmo `state.secondaryWeaponId` via handler `change`; mesma fonte de dados (`window.DEFAULT_WEAPONS`). Sem mudança de mecânica nem de dados. Validado: node 16/16 blocos, 1 main, builder de optgroups e largura das cartas confirmados via preview_eval.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -18968,7 +18977,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.47.0</strong><span class="ver-tag">Loadout redesenhado, Minhas Armas em seções, logo + favicon oficiais (Figma) e app inteiro em PT-BR</span>
+        LEVEL · <strong>v2.47.1</strong><span class="ver-tag">Melee em cartas de arte grande e secundária natural em seletor agrupado no Loadout</span>
       </div>
       <script>
         (function(){
@@ -20694,8 +20703,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '17 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Loadout redesenhado, Minhas Armas em seções, logo/favicon novos + PT-BR',
-    'briefing.changelog.summary':  'Quatro frentes do design system (handoff v7): (1) <strong>Logo e favicon oficiais</strong> do Figma — wordmark facetado com chevron, sem cunha branca, e novo ícone em todos os pontos. (2) <strong>Minhas Armas</strong> trocou as abas por <strong>4 seções empilhadas</strong> — Loadout, Análise, Avalie e a nova <strong>Progressão</strong> (o que falta desbloquear por nível, com deltas de stat). (3) <strong>Loadout redesenhado</strong>: Estilo de Jogo em cartas grandes (mosaico/vitrine), seletores de arma customizados com arte, Wildcard em cartas retrato, os 12 Field Upgrades reais com recarga e detalhe, e tooltips viram modais. (4) <strong>App inteiro convertido para PT-BR</strong>. PT + EN.',
+    'briefing.changelog.headline': 'Melee e Secundária do Loadout repaginados',
+    'briefing.changelog.summary':  'Refinamento da etapa <strong>Secundária + Melee</strong> do Loadout: o <strong>Melee</strong> passa a aparecer em <strong>cartas de arte grande</strong> (retrato, no mesmo padrão do Wildcard), e a <strong>secundária natural</strong> (Pistola, Lança-granadas e Special) vira um <strong>seletor compacto agrupado por tipo</strong> no lugar das cartas — menos rolagem, escolha mais clara. Sem mudança de dados nem de mecânica. PT + EN.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22204,8 +22213,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 17, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Loadout redesign, My Weapons in sections, new logo/favicon + PT-BR',
-    'briefing.changelog.summary':  'Four design-system fronts (handoff v7): (1) <strong>Official logo and favicon</strong> from Figma — faceted wordmark with chevron, no white wedge, and a new icon everywhere. (2) <strong>My Weapons</strong> swapped tabs for <strong>4 stacked sections</strong> — Loadout, Analysis, Rate, and the new <strong>Progression</strong> (what is left to unlock by level, with stat deltas). (3) <strong>Loadout redesign</strong>: playstyle as large cards (mosaic/showcase), custom weapon pickers with art, Wildcard as portrait cards, the 12 real Field Upgrades with recharge and detail, and tooltips become modals. (4) <strong>Whole app converted to PT-BR</strong>. PT + EN.',
+    'briefing.changelog.headline': 'Loadout Melee & Secondary refreshed',
+    'briefing.changelog.summary':  'Polish for the Loadout <strong>Secondary + Melee</strong> step: <strong>Melee</strong> now shows as <strong>large art cards</strong> (portrait, matching the Wildcard style), and the <strong>natural secondary</strong> (Pistol, Launcher and Special) becomes a <strong>compact picker grouped by type</strong> instead of cards — less scrolling, a clearer choice. No data or mechanic changes. PT + EN.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -38781,6 +38790,21 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }).join('') + '</div>';
     }
 
+    // ── Melee — cartas em retrato grande (mesmo padrão do wildcard, 1 selecionável).
+    function renderMeleeCards(items, selected) {
+      const el = document.getElementById('opt-melee');
+      if (!el) return;
+      const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
+      el.innerHTML = '<div class="lo-wc">' + (items || []).map(it => {
+        const i = (typeof getUserImage === 'function') ? getUserImage(it.id) : null;
+        const art = i ? '<img src="' + esc(i) + '" alt="">' : '<div class="lo-wcard-ph">' + esc(String(it.name || '?').charAt(0).toUpperCase()) + '</div>';
+        return '<div class="option-card lo-wcard' + (it.id === selected ? ' selected' : '') + '" data-field="melee" data-value="' + esc(it.id) + '">' +
+          '<div class="lo-wcard-art">' + art + '<span class="lo-wcard-chk">{{i:check}}</span><span class="lo-wcard-one">Equipado</span></div>' +
+          '<div class="lo-wcard-meta"><div class="lo-wcard-nm">' + esc(it.name) + '</div><div class="lo-wcard-ds">' + esc(it.desc || '') + '</div></div>' +
+        '</div>';
+      }).join('') + '</div>';
+    }
+
     // ── Modal estilo hub (substitui tooltips no Loadout). Feche por X / fora / Esc.
     const LO_MODAL_X = '<button class="lo-modal-x" data-lo-close aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>';
     function loEnsureModal() {
@@ -38940,30 +38964,21 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const secWeaponEl = document.getElementById('opt-secondary-weapon');
       if (secWeaponEl) {
         const arr = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
-        const pistols  = arr.filter(w => w.class === 'Pistol');
-        const launchers = arr.filter(w => w.class === 'Launcher');
-        const specials  = arr.filter(w => w.class === 'Special');
-        const renderGroup = function (items, labelKey) {
+        const escS = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
+        const optGroup = function (items, labelKey) {
           if (items.length === 0) return '';
-          const cards = items.map(w => {
-            // shape para makeOptionCard: precisa { id, name, desc, img }
-            const dataItem = {
-              id: w.id,
-              name: w.name,
-              desc: '',
-              img: (typeof getUserImage === 'function') ? getUserImage(w.id) : null
-            };
-            return makeOptionCard(dataItem, 'secondaryWeaponId', state.secondaryWeaponId);
-          }).join('');
-          return '<div class="sw-subgroup">'
-               +   '<div class="sw-subgroup-label">' + cbt(labelKey) + '</div>'
-               +   '<div class="option-grid">' + cards + '</div>'
-               + '</div>';
+          return '<optgroup label="' + escS(cbt(labelKey)) + '">'
+               + items.map(w => '<option value="' + escS(w.id) + '"' +
+                   (w.id === state.secondaryWeaponId ? ' selected' : '') + '>' + escS(w.name) + '</option>').join('')
+               + '</optgroup>';
         };
         secWeaponEl.innerHTML =
-            renderGroup(pistols,  'con.step4.subgroup.pistols')
-          + renderGroup(launchers,'con.step4.subgroup.launchers')
-          + renderGroup(specials, 'con.step4.subgroup.specials');
+            '<select id="secondary-weapon-select" class="form-input">'
+          +   '<option value="">— Nenhuma —</option>'
+          +   optGroup(arr.filter(w => w.class === 'Pistol'),   'con.step4.subgroup.pistols')
+          +   optGroup(arr.filter(w => w.class === 'Launcher'), 'con.step4.subgroup.launchers')
+          +   optGroup(arr.filter(w => w.class === 'Special'),  'con.step4.subgroup.specials')
+          + '</select>';
       }
       // Toggle exclusivo Secundária ↔ Build Secundária
       const isOverkill = state.wildcard === 'overkill';
@@ -38972,8 +38987,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (secWeaponSec) secWeaponSec.style.display = isOverkill ? 'none' : '';
       if (secBuildSec)  secBuildSec.style.display  = isOverkill ? ''     : 'none';
 
-      document.getElementById('opt-melee').innerHTML =
-        D.melee.map(i => makeOptionCard(i, 'melee', state.melee)).join('');
+      renderMeleeCards(D.melee, state.melee);
       renderFieldUpgrades(D.fieldup, state.fieldup);
       renderComboSelect('opt-tactical', 'tactical', D.tactical, state.tactical);
       renderComboSelect('opt-lethal', 'lethal', D.lethal, state.lethal);
@@ -39236,6 +39250,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     document.addEventListener('change', e => {
       if (e.target.classList && e.target.classList.contains('attach-slot-select')) {
         handleAttachChange(e);
+      }
+      // Secundária natural (Pistol/Launcher/Special) — dropdown nativo.
+      if (e.target.id === 'secondary-weapon-select') {
+        state.secondaryWeaponId = e.target.value || null;
+        renderOptions();
       }
     });
 

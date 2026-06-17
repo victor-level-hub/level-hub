@@ -1,7 +1,7 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 17 Jun 2026 — v2.47.0 (DEPLOYED em produção / le-vel.games).
+> Última atualização: 17 Jun 2026 — v2.47.1 (PRONTA p/ deploy; aguarda OK de push do Victor). v2.47.0 já em produção.
 
 ---
 
@@ -14,7 +14,7 @@ LÊ PRIMEIRO (antes de editar):
 O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
 
 ESTADO ATUAL
-- Versão: v2.47.0 (footer "LEVEL · v2.47.0"), já em produção (le-vel.games).
+- Versão: v2.47.1 (footer "LEVEL · v2.47.1") — PRONTA, aguarda OK de push. v2.47.0 já em produção.
 - App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
   vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél. APP TODO EM PT-BR
   (a conversão PT-PT→PT-BR foi feita na v2.47.0 — se vires "teu/tua/telemóvel/ecrã/secção",
@@ -65,26 +65,35 @@ COMUNICAÇÃO (Victor tem TDAH + ansiedade)
 - Termos técnicos de jogo → tradução em PT entre parênteses. Sem emojis em UI nova.
 
 PRÓXIMOS PASSOS (menu — pede ao Victor qual atacar; uma de cada vez)
-1. FOLLOW-UPS do v2.47.0 (loadout redesign):
+1. FOLLOW-UPS do Loadout redesign:
    a. EN i18n das strings NOVAS do Loadout — hoje fixas em PT no JS: segmented "A · Mosaico/
       B · Vitrine" e "Layout" (renderStyleStep); detalhe do field upgrade "Tipo"/"Recarga" e
       "Escolha um equipamento…" (renderFieldUpgrades); eyebrows/corpos dos modais
-      (loStyleModalHtml, LO_HELP); placeholders dos pickers. Mover para CBI18N/I18N + cbt().
-   b. Recargas dos 12 Field Upgrades em DATA.fieldup são plausíveis (handoff) — confirmar no jogo.
-   c. Imagens reais (estilos/wildcards/field upgrades) — subir em Configurações ▸ Imagens
-      (nome do ficheiro = id, ex. rusher.png/overkill.png/assault_pack.png). Mostram placeholder até lá.
-   d. Confirmar se converter a SECUNDÁRIA NATURAL (#opt-secondary-weapon, Pistola/Launcher/Special)
-      p/ dropdown e o MELEE (#opt-melee) p/ arte grande, como no handoff (hoje continuam option-card).
-2. Layouts estruturais pendentes dos protótipos (mais profundos, tocam mecânica — confirmar
-   antes): Controle com strip de presets + card "difere do jogo"; Evolução com gráfico de 7
-   dias; Marketplace com cards de comunidade.
+      (loStyleModalHtml, LO_HELP); placeholders dos pickers; "— Nenhuma —" do novo
+      #secondary-weapon-select e "Equipado" do renderMeleeCards. Mover para CBI18N/I18N + cbt().
+   b. ⏳ DEPENDE DO VICTOR: recargas dos 12 Field Upgrades em DATA.fieldup são plausíveis
+      (handoff) — confirmar no jogo. (Eu não tenho como verificar valores do jogo.)
+   c. ⏳ DEPENDE DO VICTOR: imagens reais (estilos/wildcards/field upgrades/melee) — subir em
+      Configurações ▸ Imagens (nome = id, ex. rusher.png/overkill.png/knife.png). Placeholder até lá.
+   d. ✅ FEITO (v2.47.1): SECUNDÁRIA NATURAL convertida p/ <select> agrupado por <optgroup>
+      (#secondary-weapon-select) e MELEE p/ arte grande em retrato (renderMeleeCards). 
+2. ⚠️ CORREÇÃO DO HANDOFF ANTERIOR: os "layouts estruturais pendentes" JÁ ESTÃO CONSTRUÍDOS
+   em produção — NÃO redesenhar às cegas. Controle (#section-controller) = config completa por
+   setting com INDICADO×MEU VALOR + stat "Não Conforme Indicação" (já é o card "difere do jogo");
+   Marketplace (#section-marketplace) = builds da comunidade + votação + pódio + leaderboard +
+   stats de autor; Evolução (#section-struggles) = dificuldades com notas 0–10 datadas + curva.
+   A única lacuna plausível: no Controle, um botão/strip que aplica um PRESET COMPLETO de config
+   de uma vez (hoje preenche-se setting a setting) — mas precisa dos VALORES DO PRESET (Victor).
+   Antes de mexer em qualquer uma, MOSTRAR ao Victor o que já existe e perguntar a lacuna concreta.
 3. Verificações: logout → testar o Auth Gate (4 telas + verify + erros); logado → confirmar
-   o semáforo de backup (verde/âmbar/vermelho) em uso real. Confirmar tudo em PT-BR.
+   o semáforo de backup (verde/âmbar/vermelho) em uso real (precisa login Supabase real — a
+   preview estática deslogada não exercita). Confirmar tudo em PT-BR.
 4. Novos handoffs do Claude Design, se houver (pastas design_handoff_* em Downloads): segue
    sempre PASSO 0 (analisa codebase) → PASSO 1 (lê README) → PASSO 2 (plano + perguntas, espera OK).
 CONCLUÍDO (não refazer): scroll-reveal em todas as telas (v2.44.0→.2) + count-up Home (v2.44.3);
 uploader em massa de imagens (v2.46.0); logo+favicon Figma, Command Center em seções, Loadout
-redesign, PT-BR app-wide (v2.47.0).
+redesign, PT-BR app-wide (v2.47.0); Melee em arte grande + secundária natural em <select>
+agrupado, follow-up 1d (v2.47.1).
 
 Antes de escrever código: confirma o estado, faz as perguntas que precisares e apresenta um
 plano curto. Espera o OK do Victor.
@@ -111,3 +120,4 @@ plano curto. Espera o OK do Victor.
 - **v2.46.1** — logo LEVEL atualizado para a versão facetada (sidebar, hero da Home, login)
 - **v2.46.2** — fix do logo: removida a cunha branca entre o 2º E e o 2º L
 - **v2.47.0** — handoff Design System-v7 (DEPLOYED): logo+favicon oficiais do Figma; Minhas Armas (Command Center) em 4 seções (Loadout/Análise/Avalie/Progressão); Loadout redesenhado (estilo em cartas+segmented, pickers custom, wildcard retrato, 12 field upgrades, tooltips→modais); app inteiro convertido de PT-PT para PT-BR (~400 substituições)
+- **v2.47.1** — follow-up 1d (PRONTA, aguarda OK de push): Melee em cartas de arte grande (retrato, padrão do wildcard; fix do contentor option-grid→lo-wc-host) + secundária natural em &lt;select&gt; agrupado por &lt;optgroup&gt;. Descoberta: Controle/Marketplace/Evolução já estão construídos (handoff anterior estava desatualizado)
