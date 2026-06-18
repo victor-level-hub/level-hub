@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 18 Jun 2026 — arranque do **App iOS nativo (Share Extension)**: planeamento + arquitetura definida (ver **§5.C**). Última versão DEPLOYADA do Hub continua **v2.48.0**. Histórico completo de deploys passou para o ficheiro próprio **`HISTORICO_DEPLOYS.md`** (143 deploys web + 31 Edge Functions, já com a `share-ingest`).
+> **Última atualização:** 18 Jun 2026 — arranque do **App iOS nativo (Share Extension)**: planeamento + arquitetura definida (ver **§5.C**). Última versão DEPLOYADA do Hub: **v2.49.0** (reconciliação de capturas partilhadas; commit `cc1cb54`, push 18 Jun) — neste push subiu também a **v2.48.0** (Captura de Stats), que estava commitada mas nunca fora deployada. Histórico completo de deploys passou para o ficheiro próprio **`HISTORICO_DEPLOYS.md`** (143 deploys web + 31 Edge Functions, já com a `share-ingest`).
 
 ---
 
@@ -201,7 +201,7 @@ A Share Extension faz o **mesmo papel do telemóvel**, mas a sessão **não é c
 - **Migração de `capture_sessions`:** ✅ aplicada (18 Jun).
 - **Função `share-ingest` v5:** ✅ deployada + testada (18 Jun). Suporta 3 modos: JSON(base64) / multipart / raw. Decoder base64 **brutal** (mantém só `[A-Za-z0-9+/]`).
 - **MVP VALIDADO via Atalho do iOS (18 Jun)** 🎯 — sem Apple Developer, sem Mac. O Victor compartilha do iPhone → "LEVEL" na share sheet → foto cai na **conta dele** (`source='share'`, resolveu `auth_user_id`). Confirmado com **HEIC (galeria), PNG (screenshot) e JPEG (PS App)**. O Atalho: Receber imagem → Converter p/ JPEG → Obter Conteúdo de URL (POST, headers `apikey`/`Authorization`/`x-local-id`/`x-mime`) → Mostrar Notificação. **O conceito inteiro está provado.**
-- **Reconciliação no Hub:** ✅ **implementada (18 Jun)** no `index.html` — IIFE `initSharedReconcile` no fim do módulo Mobile Capture (`<script type="module">`, bloco #15, ~linha 42850). Ao abrir (setTimeout 2.2s) lê `localStorage['level.sync.local_id']`, consulta `capture_sessions` (`source='share'`, do utilizador, não-consumidas) e mostra um **banner**; o operador escolhe **Estatísticas** ou **Arma** por captura → dispara `STATS_FN_URL`/`ANALYZE_FN_URL`, faz polling até `ready`, e abre `openStatsApproval`/`openApprovalModal` (reusa o pipeline do QR). Tratadas marcadas em `localStorage['level.share.consumed_v1']` (o anon **não** pode dar UPDATE pós-expiry). Só-JS via `createElement` (zero HTML novo). Expõe `window.LevelShareReconcile.check()`. **Validado:** `node --check` 16/16 OK; smoke-test no preview (módulo carrega sem erro; banner mostrou "2 capturas" reais; chooser renderiza Stats/Arma/×/Fechar). **FALTA confirmar ao vivo num device logado o clique → análise → modal** (o passo de análise reusa componentes já em produção, mas não foi clicado end-to-end). **NÃO commitado/released** (sem bump SemVer/changelog/vh-entry ainda — finalizar no release).
+- **Reconciliação no Hub:** ✅ **implementada (18 Jun)** no `index.html` — IIFE `initSharedReconcile` no fim do módulo Mobile Capture (`<script type="module">`, bloco #15, ~linha 42850). Ao abrir (setTimeout 2.2s) lê `localStorage['level.sync.local_id']`, consulta `capture_sessions` (`source='share'`, do utilizador, não-consumidas) e mostra um **banner**; o operador escolhe **Estatísticas** ou **Arma** por captura → dispara `STATS_FN_URL`/`ANALYZE_FN_URL`, faz polling até `ready`, e abre `openStatsApproval`/`openApprovalModal` (reusa o pipeline do QR). Tratadas marcadas em `localStorage['level.share.consumed_v1']` (o anon **não** pode dar UPDATE pós-expiry). Só-JS via `createElement` (zero HTML novo). Expõe `window.LevelShareReconcile.check()`. **Validado:** `node --check` 16/16 OK; smoke-test no preview (módulo carrega sem erro; banner mostrou "2 capturas" reais; chooser renderiza Stats/Arma/×/Fechar). **FALTA confirmar ao vivo num device logado o clique → análise → modal** (o passo de análise reusa componentes já em produção, mas não foi clicado end-to-end). ✅ **RELEASED em v2.49.0** (commit `cc1cb54`, push 18 Jun → Netlify; bump SemVer + changelog PT/EN + `vh-entry` + footer feitos). Confirmado pós-deploy: DOM 1 main + 14 sections, footer/card/histórico em v2.49.0.
 - **App nativo (Capacitor + XcodeGen + Codemagic + Share Extension Swift):** ⬜ futuro — só quando quiser o ícone polido na share sheet. O Atalho cobre o MVP.
 - **Apple Developer $99:** ⬜ Victor — só necessário pro app nativo/TestFlight; o Atalho não precisa.
 - Identidade do Victor no banco: `local_id = u_mpk3pyux_y3eo55ua` / `auth_user_id = 1438a611-556b-4250-a079-c85066d7d781` (ver §3).
@@ -211,6 +211,26 @@ A Share Extension faz o **mesmo papel do telemóvel**, mas a sessão **não é c
 - **O "Codificar em Base64" do Atalhos injeta lixo** (quebras de linha + chars de controlo) no meio da string → `atob` rebenta. Fix: decoder que remove **tudo** fora de `[A-Za-z0-9+/]` antes de decodificar (não basta `\s`, que não apanha chars de controlo). Diagnóstico-chave: `head=/9j/` + `tail=/9k=` provaram que o JPEG chegava **completo e válido** — o erro era só lixo no meio.
 - **Formatos por origem:** screenshot do iPhone = PNG · captura partilhada do PS App = JPEG · foto da galeria = HEIC.
 - Linha de teste órfã (inofensiva, pode apagar): token `34f82260-938e-458b-8350-d431bf4329be` (local_id `u_test_shareingest`).
+
+---
+
+## 5.D · SQUAD FINDER (matchmaking social) — FASE 1 RELEASED (v2.50.0, 18 Jun)
+
+> Ideia do Victor: conectar jogadores compatíveis para formar squad ("momento Zuckerberg"). Fase 1 = perfil social + busca por filtros simples. **SEM chat / score / convite / algoritmo** (fases futuras, fora de escopo agora).
+
+**Privacidade-first (decisão central):** o front **nunca lê `hub_users` direto**. Busca via RPC **`find_squad`** (SECURITY DEFINER) que só projeta campos públicos de quem consentiu. Escrita via RPC **`set_squad_profile`** (por `local_id`). Localização = **texto digitado** (cidade/país), **nunca GPS**.
+
+**Banco (colunas novas em `hub_users`):** `language`, `playtime`, `is_available`, `city`, `country`, `allow_discovery` (consentimento = o portão), `show_language`/`show_platform`/`show_level`/`show_playtime`/`show_location`. **Reaproveita `platform` e `level` existentes.** Índices parciais em `allow_discovery` e `is_available`.
+- `find_squad(p_language,p_platform,p_level,p_level_tol=5,p_playtime,p_country,p_only_available)` → gateia por `allow_discovery=true`; anula campos não-públicos; filtro de país exige `show_location`; `order by is_available desc`. grant anon+authenticated.
+- `set_squad_profile(p_local_id, …)` → UPDATE com `coalesce` das colunas Squad por `local_id`. grant anon+authenticated.
+
+**Front (`index.html`):**
+- **Perfil (`modal-status`, ~linha 19115):** bloco "Encontrar Squad" — toggle mestre `#sq-allow` (allow_discovery) revela `#sq-fields` (disponível-agora + idioma/horário/cidade/país + 5 toggles de visibilidade). `openStatusModal` popula de `player`; `saveStatusFromModal` grava no `player` **e espelha** via `fetch` na `set_squad_profile` (a `sync-push` tem whitelist e NÃO cobre estas colunas — por isso o espelho).
+- **Nav + secção:** item `data-section="squad"` + `#section-squad` (**a 15ª secção**) com filtros + `#sqf-results`. **Bloco `<script>` próprio (o #17)** no fim do ficheiro chama `find_squad` e renderiza os cards.
+
+**Estado:** ✅ released v2.50.0. Validado: node **17/17**, **1 main + 15 sections**, busca real ponta-a-ponta no preview (estado vazio renderiza). **FALTA confirmar ao vivo o card populado** (marcar-se disponível no perfil → buscar). i18n: nav/secção/modal **hardcoded PT** (consistente com o resto do modal; o changelog do release tem PT+EN).
+
+**Fase 2 (futuro, NÃO agora):** chat, convite de equipa, score de compatibilidade, opt-in no cadastro (hoje é no perfil, default-off).
 
 ---
 
