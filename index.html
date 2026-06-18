@@ -13506,12 +13506,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.48.0 · <span data-i18n="briefing.changelog.date">17 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.49.0 · <span data-i18n="briefing.changelog.date">18 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Captura de Stats por foto: lê o teu Combat Record</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Nova funcionalidade: captura os teus <strong>stats de carreira</strong> a partir de um <strong>print do Combat Record</strong>. Na secção <strong>Progression</strong> h&aacute; um painel <strong>COMBAT RECORD</strong> com o bot&atilde;o <strong>Capturar Stats</strong> &mdash; reusa o mesmo fluxo de foto/QR que j&aacute; tens, mas uma IA de vis&atilde;o (Gemini) l&ecirc; os n&uacute;meros (Prest&iacute;gio, N&iacute;vel, K/D, Vit&oacute;rias, W/L, SPM, Precis&atilde;o, Headshots e mais), tu confirmas/corriges num card, e ficam guardados no perfil (sincronizam e entram na curva da Evolu&ccedil;&atilde;o). <strong>Contexto:</strong> a via de API autom&aacute;tica da Activision foi descartada (ativamente bloqueada); a captura por foto &eacute; o caminho fi&aacute;vel.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Capturas por partilha: fotos enviadas ao LEVEL aparecem no Hub</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Quando envias uma foto para o LEVEL pela <strong>partilha do iOS</strong> (em vez de uma nuvem qualquer), ela vai direto para a <strong>tua conta</strong>. Agora, ao abrir o Hub, um <strong>banner</strong> mostra as capturas à espera — escolhes se cada uma é de <strong>Estatísticas</strong> ou de <strong>Arma</strong>, a IA analisa e abre o card de aprovação de sempre. Nos bastidores: a nova função <strong>share-ingest</strong> guarda a foto na tua conta, e o Hub reconcilia essas capturas ao abrir.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -16773,6 +16773,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.49.0</span>
+                <span class="vh-date">18 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Capturas partilhadas do iOS aparecem no Hub (share sheet → nossa nuvem → análise).</strong> Primeira fatia do app de partilha: dentro do PS App (ou Fotos), o operador usa <strong>Compartilhar → LEVEL</strong> e a foto vai direto para a conta dele na nossa nuvem, em vez de uma nuvem de terceiros. <strong>Backend:</strong> migração aditiva em capture_sessions (colunas local_id/auth_user_id/source); nova Edge Function share-ingest (3 modos — JSON base64 / multipart / raw; decoder base64 robusto ao lixo que o iOS Atalhos injeta; cria a sessão com dono source=share e sobe a foto ao bucket capture-photos; verify_jwt:false). MVP validado de ponta a ponta via Atalho do iOS (sem app nativo, sem conta paga), com HEIC/PNG/JPEG. <strong>Front-end:</strong> IIFE initSharedReconcile no fim do módulo Mobile Capture — ao abrir o Hub lê o local_id, consulta as capturas de partilha ainda não tratadas e mostra um banner; o operador escolhe <strong>Estatísticas</strong> ou <strong>Arma</strong> por captura, dispara a análise (reusa analyze-stats/analyze-capture) e abre o card de aprovação existente; as tratadas ficam marcadas em localStorage (o anon não pode dar UPDATE após o expiry de 10 min). Só-JS via createElement (zero HTML novo). Validado: node 16/16, estrutura intacta, smoke-test no preview (banner + chooser com dados reais). Pendente: confirmar ao vivo num device logado o clique análise→modal.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.48.0</span>
                 <span class="vh-date">17 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -18999,7 +19008,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.48.0</strong><span class="ver-tag">Captura de Stats por foto: lê o teu Combat Record (Prestígio, K/D, W/L, SPM…) e guarda no perfil</span>
+        LEVEL · <strong>v2.49.0</strong><span class="ver-tag">Capturas por partilha (iOS): fotos enviadas ao LEVEL aparecem no Hub para análise</span>
       </div>
       <script>
         (function(){
@@ -20723,10 +20732,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '17 Jun 2026',
+    'briefing.changelog.date':  '18 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Captura de Stats por foto: lê o teu Combat Record',
-    'briefing.changelog.summary':  'Nova funcionalidade: captura os teus <strong>stats de carreira</strong> a partir de um <strong>print do Combat Record</strong>. Na secção <strong>Progression</strong> há um painel <strong>COMBAT RECORD</strong> com o botão <strong>Capturar Stats</strong> — reusa o mesmo fluxo de foto/QR que já tens, mas uma IA de visão (Gemini) lê os números (Prestígio, Nível, K/D, Vitórias, W/L, SPM, Precisão, Headshots e mais), tu confirmas/corriges num card, e ficam guardados no perfil (sincronizam e entram na curva da Evolução). <strong>Contexto:</strong> a via de API automática da Activision foi descartada (ativamente bloqueada); a captura por foto é o caminho fiável.',
+    'briefing.changelog.headline': 'Capturas por partilha: fotos enviadas ao LEVEL aparecem no Hub',
+    'briefing.changelog.summary':  'Quando envias uma foto para o LEVEL pela <strong>partilha do iOS</strong> (em vez de uma nuvem qualquer), ela vai direto para a <strong>tua conta</strong>. Agora, ao abrir o Hub, um <strong>banner</strong> mostra as capturas à espera — escolhes se cada uma é de <strong>Estatísticas</strong> ou de <strong>Arma</strong>, a IA analisa e abre o card de aprovação de sempre. Nos bastidores: a nova função <strong>share-ingest</strong> guarda a foto na tua conta, e o Hub reconcilia essas capturas ao abrir.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22233,10 +22242,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 17, 2026',
+    'briefing.changelog.date':  'Jun 18, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Stats Capture by photo: read your Combat Record',
-    'briefing.changelog.summary':  'New feature: capture your <strong>career stats</strong> from a <strong>Combat Record screenshot</strong>. The <strong>Progression</strong> section has a <strong>COMBAT RECORD</strong> panel with a <strong>Capture Stats</strong> button — it reuses your existing photo/QR flow, but a vision AI (Gemini) reads the numbers (Prestige, Level, K/D, Wins, W/L, SPM, Accuracy, Headshots and more), you confirm/correct them in a card, and they are saved to your profile (synced, feeding the Evolution curve). <strong>Context:</strong> the automatic Activision API route was dropped (actively blocked); photo capture is the reliable path.',
+    'briefing.changelog.headline': 'Shared captures: photos you send to LEVEL show up in the Hub',
+    'briefing.changelog.summary':  'When you send a photo to LEVEL via <strong>iOS share</strong> (instead of some random cloud), it goes straight to <strong>your account</strong>. Now, when you open the Hub, a <strong>banner</strong> shows the captures waiting — you pick whether each one is <strong>Stats</strong> or a <strong>Weapon</strong>, the AI analyzes it and opens the usual approval card. Behind the scenes: a new <strong>share-ingest</strong> function stores the photo in your account, and the Hub reconciles those captures on open.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -42847,6 +42856,146 @@ ${cbt('share.t.footer')}`;
     const btn = card.querySelector('[data-ca-action="import"]');
     if (btn) btn.disabled = !sel.value;
   });
+
+  // ═════════ RECONCILIAÇÃO DE CAPTURAS PARTILHADAS (iOS share sheet → share-ingest) ═════════
+  // Ao abrir o Hub, procura sessões source='share' do utilizador ainda não tratadas NESTE
+  // device (marcadas em localStorage — o anon não pode dar UPDATE após o expiry de 10 min da
+  // capture_sessions) e oferece analisá-las (Estatísticas ou Arma), reusando triggerAIA →
+  // openStatsApproval / openApprovalModal. A análise corre via Edge Function (service-role,
+  // ignora o expiry), por isso funciona mesmo horas depois.
+  (function initSharedReconcile() {
+    const CONSUMED_KEY = 'level.share.consumed_v1';
+    const _lang = function () { try { return localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'; } catch (e) { return 'pt'; } };
+    const T = function (pt, en) { return _lang() === 'en' ? en : pt; };
+    function srEsc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+    function myLocalId() { try { return localStorage.getItem('level.sync.local_id') || null; } catch (e) { return null; } }
+    function loadConsumed() { try { return new Set(JSON.parse(localStorage.getItem(CONSUMED_KEY) || '[]')); } catch (e) { return new Set(); } }
+    function markConsumed(tok) { try { const s = loadConsumed(); s.add(tok); localStorage.setItem(CONSUMED_KEY, JSON.stringify(Array.from(s).slice(-300))); } catch (e) {} }
+
+    async function fetchPending() {
+      const localId = myLocalId();
+      if (!localId) return [];
+      try { await loadDeps(); } catch (e) { return []; }
+      const { data, error } = await _supabase
+        .from('capture_sessions')
+        .select('token, status, vision_result, created_at')
+        .eq('source', 'share').eq('local_id', localId)
+        .order('created_at', { ascending: true }).limit(30);
+      if (error || !data) return [];
+      const consumed = loadConsumed();
+      return data.filter(function (r) { return !consumed.has(r.token) && ['uploaded', 'processing', 'ready'].indexOf(r.status) !== -1; });
+    }
+
+    function hasRealResult(r) {
+      const v = r && r.vision_result;
+      return !!(v && (v.kind === 'stats' || v.weapons || v.kind === 'weapon'));
+    }
+
+    // Dispara a Edge Function de análise e espera a sessão ficar 'ready' com vision_result.
+    async function analyzeAndWait(token, mode) {
+      const fnUrl = (mode === 'stats') ? STATS_FN_URL : ANALYZE_FN_URL;
+      const res = await fetch(fnUrl, {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + SUPABASE_ANON, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token })
+      });
+      if (!res.ok) { let b = null; try { b = await res.json(); } catch (e) {} throw new Error((b && b.error) || ('HTTP ' + res.status)); }
+      for (let i = 0; i < 25; i++) {
+        const { data } = await _supabase.from('capture_sessions').select('status, vision_result').eq('token', token).maybeSingle();
+        if (data && data.status === 'ready' && data.vision_result) return data.vision_result;
+        if (data && data.status === 'failed') throw new Error(T('a análise falhou', 'analysis failed'));
+        await new Promise(function (r) { setTimeout(r, 1200); });
+      }
+      throw new Error(T('demorou demais', 'timed out'));
+    }
+
+    async function processOne(row, mode, statusEl) {
+      try {
+        let result = row.vision_result;
+        if (row.status !== 'ready' || !hasRealResult(row)) {
+          if (statusEl) statusEl.textContent = T('A analisar…', 'Analyzing…');
+          result = await analyzeAndWait(row.token, mode);
+        }
+        markConsumed(row.token);
+        if (result && result.kind === 'stats') openStatsApproval(result);
+        else openApprovalModal(result);
+        return true;
+      } catch (e) {
+        console.error('[share-reconcile] processOne falhou:', e);
+        if (statusEl) statusEl.textContent = T('Erro — tenta de novo', 'Error — try again');
+        return false;
+      }
+    }
+
+    function openChooser(pending) {
+      document.querySelectorAll('.share-reconcile-ov').forEach(function (n) { n.remove(); });
+      const ov = document.createElement('div');
+      ov.className = 'share-reconcile-ov';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(5,9,16,.78);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto';
+      const card = document.createElement('div');
+      card.style.cssText = 'background:var(--surface,#0f1622);border:1px solid rgba(255,255,255,.12);border-radius:18px;max-width:520px;width:100%;max-height:88vh;overflow:auto;padding:22px';
+      card.innerHTML =
+        '<div style="font-family:\'Chakra Petch\',sans-serif;font-weight:700;font-size:20px;color:var(--text,#e8eef5);letter-spacing:.5px;margin-bottom:4px">' + srEsc(T('CAPTURAS COMPARTILHADAS', 'SHARED CAPTURES')) + '</div>' +
+        '<p style="color:var(--text-secondary,#9fb0c3);font-size:13px;line-height:1.5;margin:0 0 16px">' + srEsc(T('Fotos que enviaste pelo compartilhamento do iOS. Diz o que cada uma é para eu analisar.', 'Photos you sent via iOS share. Tell me what each one is so I can analyze it.')) + '</p>' +
+        '<div data-sr-list style="display:flex;flex-direction:column;gap:10px"></div>' +
+        '<div style="display:flex;justify-content:flex-end;margin-top:18px"><button type="button" data-sr-close style="background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--text-secondary,#9fb0c3);border-radius:10px;padding:9px 16px;font-family:\'Chakra Petch\',sans-serif;font-weight:600;cursor:pointer">' + srEsc(T('Fechar', 'Close')) + '</button></div>';
+      ov.appendChild(card);
+      const list = card.querySelector('[data-sr-list]');
+
+      pending.forEach(function (row, idx) {
+        const item = document.createElement('div');
+        item.style.cssText = 'border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap';
+        let when = '';
+        try { when = new Date(row.created_at).toLocaleString(); } catch (e) {}
+        item.innerHTML =
+          '<div style="flex:1;min-width:110px"><div style="font-family:\'Chakra Petch\',sans-serif;font-weight:600;color:var(--text,#e8eef5);font-size:14px">' + srEsc(T('Captura', 'Capture')) + ' ' + (idx + 1) + '</div>' +
+          '<div data-sr-status style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:var(--text-muted,#718497);margin-top:2px">' + srEsc(when) + '</div></div>' +
+          '<button type="button" data-sr-mode="stats" style="background:var(--accent-orange,#ff6a3d);border:0;color:#0a0e14;border-radius:9px;padding:8px 13px;font-family:\'Chakra Petch\',sans-serif;font-weight:700;cursor:pointer">' + srEsc(T('Estatísticas', 'Stats')) + '</button>' +
+          '<button type="button" data-sr-mode="weapon" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:var(--text,#e8eef5);border-radius:9px;padding:8px 13px;font-family:\'Chakra Petch\',sans-serif;font-weight:700;cursor:pointer">' + srEsc(T('Arma', 'Weapon')) + '</button>' +
+          '<button type="button" data-sr-skip style="background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--text-muted,#718497);border-radius:9px;padding:8px 11px;font-family:\'Chakra Petch\',sans-serif;cursor:pointer">×</button>';
+        const statusEl = item.querySelector('[data-sr-status]');
+        const handle = async function (mode) {
+          const btns = item.querySelectorAll('button');
+          btns.forEach(function (b) { b.disabled = true; });
+          const ok = await processOne(row, mode, statusEl);
+          if (ok) { item.remove(); if (!list.children.length) ov.remove(); }
+          else { btns.forEach(function (b) { b.disabled = false; }); }
+        };
+        item.querySelector('[data-sr-mode="stats"]').addEventListener('click', function () { handle('stats'); });
+        item.querySelector('[data-sr-mode="weapon"]').addEventListener('click', function () { handle('weapon'); });
+        item.querySelector('[data-sr-skip]').addEventListener('click', function () { markConsumed(row.token); item.remove(); if (!list.children.length) ov.remove(); });
+        list.appendChild(item);
+      });
+
+      ov.addEventListener('click', function (e) { if (e.target === ov || e.target.closest('[data-sr-close]')) ov.remove(); });
+      document.body.appendChild(ov);
+    }
+
+    function showBanner(count, pending) {
+      document.querySelectorAll('.share-reconcile-banner').forEach(function (n) { n.remove(); });
+      const b = document.createElement('div');
+      b.className = 'share-reconcile-banner';
+      b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:96px;z-index:99990;background:var(--surface,#0f1622);border:1px solid var(--accent-orange,#ff6a3d);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:92vw';
+      b.innerHTML =
+        '<span style="font-family:\'JetBrains Mono\',monospace;font-size:12px;color:var(--text,#e8eef5)">' + srEsc(T(count + ' captura(s) compartilhada(s)', count + ' shared capture(s)')) + '</span>' +
+        '<button type="button" data-sr-open style="background:var(--accent-orange,#ff6a3d);border:0;color:#0a0e14;border-radius:9px;padding:7px 14px;font-family:\'Chakra Petch\',sans-serif;font-weight:700;cursor:pointer">' + srEsc(T('Ver', 'View')) + '</button>' +
+        '<button type="button" data-sr-dismiss style="background:transparent;border:0;color:var(--text-muted,#718497);font-size:18px;cursor:pointer;line-height:1;padding:0 4px">×</button>';
+      b.querySelector('[data-sr-open]').addEventListener('click', function () { b.remove(); openChooser(pending); });
+      b.querySelector('[data-sr-dismiss]').addEventListener('click', function () { b.remove(); });
+      document.body.appendChild(b);
+    }
+
+    async function runCheck() {
+      try {
+        const pending = await fetchPending();
+        if (pending && pending.length) showBanner(pending.length, pending);
+      } catch (e) { console.warn('[share-reconcile] check falhou:', e); }
+    }
+
+    window.LevelShareReconcile = { check: runCheck };
+    // Corre uma vez após o boot assentar (precisa de login = local_id presente em localStorage).
+    setTimeout(runCheck, 2200);
+  })();
 </script>
 
 <script>

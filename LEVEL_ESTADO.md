@@ -1,6 +1,6 @@
 # LEVEL · ESTADO DO PROJETO
 > Memória estendida do BO7 Tactical Hub. Atualizado a cada marco.
-> **Última atualização:** 17 Jun 2026 — v2.48.0 (Captura de Stats do jogador por foto/print: analyze-stats Vision + card de aprovação + player.stats + painel Combat Record na Progression)
+> **Última atualização:** 18 Jun 2026 — arranque do **App iOS nativo (Share Extension)**: planeamento + arquitetura definida (ver **§5.C**). Última versão DEPLOYADA do Hub continua **v2.48.0**. Histórico completo de deploys passou para o ficheiro próprio **`HISTORICO_DEPLOYS.md`** (143 deploys web + 31 Edge Functions, já com a `share-ingest`).
 
 ---
 
@@ -96,6 +96,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - `analyze-build` v6 — análise de build com veredito. **v6 (11/Jun): DECISÃO SERVER-SIDE** — recebe `decided_swaps` (swaps escolhidos pela engine) e regra R5-DECIDIDO no prompt faz a IA só EXPLICAR (preenche rationale), não escolher. Se `decided_swaps` vazio, cai no comportamento v5 (IA propõe). Grava histórico em `analysis_history`. `verify_jwt: false`. NÃO condensar o SYSTEM_PROMPT em deploys (degrada coaching)
 - `analyze-capture` v13 — Vision API (foto → build)
 - `analyze-stats` v1 — **NOVO (17/Jun/26)** — Vision API (foto/clip do ecrã de Combat Record → stats de carreira MP). Espelha a analyze-capture: recebe `{token, local_id}`, baixa fotos da `capture_sessions`, Gemini Vision com schema fechado (prestige/level/kills/deaths/kd/wins/losses/wl/win%/spm/kills_per_game/games/time_played/longest_streak/accuracy/headshots/assists/score), grava `vision_result={kind:'stats',stats,confidence,notes}` + status='ready'. Regra anti-alucinação (omite o não-legível). `verify_jwt:false` (token-gated). Fonte em `supabase/functions/analyze-stats/`. **FALTA o front-end** (entrada de captura modo stats, card de aprovação, gravar em player.stats, mostrar no Operator Profile/Progression, i18n, release)
+- `share-ingest` v1 — **NOVO (18/Jun/26)** — ingestão da **Share Extension iOS** (App). `POST {local_id, image_base64, mime?, kind?}` (+ Bearer JWT opcional) → cria `capture_session` com dono (`source='share'`, `local_id`/`auth_user_id`), sobe a foto pro `capture-photos` (`{token}/share_0.{ext}`) e deixa `status='uploaded'`. NÃO dispara Vision (Hub reconcilia). `verify_jwt:false` (gated por local_id/JWT). Fonte em `supabase/functions/share-ingest/`. Ver §5.C
 - `analysis-history` v1 — **NOVO (v2.27.0)** — leitura do histórico de análises. 2 actions: `list` / `delete` (o `record` acontece dentro do `analyze-build` v5). service_role, resolve local_id→hub_users.id. `verify_jwt: true`. URL: `.../functions/v1/analysis-history`
 - `gen-history` v1 — **NOVO (v2.26.0)** — histórico de gerações adotadas. 3 actions: `record` / `list` / `delete`. service_role, resolve `local_id`→`hub_users.id`, CORS, friendly errors. `verify_jwt: true`. URL: `https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/gen-history`
 - `sync-push` v6 / `sync-pull` v6 — sync (JWT do Auth)
@@ -168,6 +169,48 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 - loadout: imagem da arma (`getUserImage` ou silhueta SVG fallback) + 9 slots fixos (`SLOT_LABELS`: Optic/Muzzle/Barrel/Underbarrel/Magazine/Rear Grip/Stock/Laser/Fire Mods)
 - `.bc-updated` + `.bc-actions` (Editar/Duplicar/Deletar)
 - Para testes visuais isolados: a página `test_cards.html` (no working dir do chat anterior) extrai `renderBuildCard` real + CSS + ícones e renderiza com mocks de LevelDB/getUserImage/generateBuildAnalysis/renderRatingsBlock.
+
+---
+
+## 5.C · APP iOS NATIVO (Share Extension) — EM PLANEAMENTO
+
+> Iniciado 18 Jun 2026. Ideia do Victor: um **app iOS nativo** que aparece na **share sheet** do iOS. Quando o utilizador está no **PS App** e toca em *Compartilhar* num print/clip do jogo, o **LEVEL** aparece como destino → a foto vai **direto pra nossa nuvem** (Supabase), em vez de uma nuvem de terceiro. Casa com a decisão de captura por foto/Vision ([[cod-api-stats-inviavel]]).
+
+### Roadmap acordado (curto→médio prazo)
+1. **Login** — saber quem é o utilizador. **JÁ EXISTE** no Hub (Supabase Auth OTP/código por e-mail). Reaproveita-se.
+2. **Registar o LEVEL como destino de partilha no iOS** — Share Extension (Swift).
+3. **Compartilhar IMAGENS** via PS App → o LEVEL recebe a imagem.
+4. *(depois)* **Compartilhar VÍDEOS** — tem teto de memória da extension (~120 MB); o vídeo grande não sobe pela extension, ela copia o ficheiro e o app principal sobe em background upload.
+5. *(depois)* **QR Code abre o nosso app** em vez do browser — via **Universal Links** (exige `apple-app-site-association` hospedado no nosso domínio, ex. le-vel.games). Hoje o QR abre `level-capture.netlify.app` no browser.
+
+### Decisões técnicas
+- **Empacotamento:** **Capacitor** (envolve o `index.html` web que já existe) + a **Share Extension em Swift** por cima. Descartado Swift puro (obrigaria a reescrever todo o Hub; a extension é Swift de qualquer forma, só ela). Descartado também full nativo/React Native pelo mesmo motivo.
+- **Build sem Mac:** Victor está em **Windows**; a extension Swift só compila em macOS/Xcode. Escolhido **Codemagic (CI na nuvem)**. Como não se abre o Xcode, o projeto iOS (incl. o target da extension) é **gerado por config — XcodeGen** (`project.yml`), e a assinatura usa **App Store Connect API key** (automatic signing). 100% sem Mac.
+- **Conta Apple:** falta **ativar o Apple Developer Program ($99/ano)** — tarefa do Victor, dá pra fazer no site em Windows. O *app TestFlight* e o *Apple Beta Program* que ele já tem **não** servem pra publicar/assinar; só o Developer Program pago. Sem ele, o Codemagic não assina. Não bloqueia o trabalho de backend/web, só o "subir pro TestFlight".
+
+### Arquitetura backend (reaproveita o pipeline de captura que já existe)
+O fluxo do QR hoje: o Hub faz `insert({})` em **`capture_sessions`** → recebe `token` (+ `expires_at` = now()+10min) → o telemóvel (página `bo7-capture`) sobe a foto pro bucket **`capture-photos`** e põe `status='uploaded'` + `photo_paths` → o Hub ouve por Realtime e dispara **`analyze-stats`** (Gemini Vision) → resultado em `vision_result` + `status='ready'`.
+
+A Share Extension faz o **mesmo papel do telemóvel**, mas a sessão **não é criada pelo Hub** (que pode nem estar aberto). Logo a única peça nova é **dar dono à sessão**:
+- **Migração (aditiva) em `capture_sessions`** — colunas `local_id text`, `auth_user_id uuid`, `source text default 'qr'` + índice `(local_id, status, created_at desc)`. ✅ **APLICADA (18 Jun 2026)** — colunas confirmadas, `insert({})` do QR intacto.
+- **Função `share-ingest` v1** ✅ **DEPLOYADA + testada (18 Jun 2026)** — `POST {local_id, image_base64, mime?, kind?}` (+ Bearer JWT opcional). Resolve dono (JWT→`auth_user_id`, senão `local_id`→`hub_users`), valida mime (jpeg/png/webp) e tamanho (≤10 MB), cria a sessão **com dono** (`source='share'`), sobe a foto pro `capture-photos` em `{token}/share_0.{ext}` e deixa **`status='uploaded'`**. **NÃO dispara a Vision** (a foto pode ser de stats OU de arma) — o Hub é que reconcilia e decide o analisador. A extension Swift só faz um POST pra esta função. Testada end-to-end (NO_IMAGE/NO_OWNER/BAD_MIME + happy-path 200). Fonte em `supabase/functions/share-ingest/`.
+- **Lado Hub (depois):** ao abrir, o Hub procura sessões `source='share'` do próprio utilizador ainda não consumidas e aplica o resultado no histórico/`player.stats` (reusa o que a aprovação de stats já faz).
+
+### Estado atual
+- **Planeamento + arquitetura:** ✅ definidos (18 Jun).
+- **Migração de `capture_sessions`:** ✅ aplicada (18 Jun).
+- **Função `share-ingest` v5:** ✅ deployada + testada (18 Jun). Suporta 3 modos: JSON(base64) / multipart / raw. Decoder base64 **brutal** (mantém só `[A-Za-z0-9+/]`).
+- **MVP VALIDADO via Atalho do iOS (18 Jun)** 🎯 — sem Apple Developer, sem Mac. O Victor compartilha do iPhone → "LEVEL" na share sheet → foto cai na **conta dele** (`source='share'`, resolveu `auth_user_id`). Confirmado com **HEIC (galeria), PNG (screenshot) e JPEG (PS App)**. O Atalho: Receber imagem → Converter p/ JPEG → Obter Conteúdo de URL (POST, headers `apikey`/`Authorization`/`x-local-id`/`x-mime`) → Mostrar Notificação. **O conceito inteiro está provado.**
+- **Reconciliação no Hub:** ✅ **implementada (18 Jun)** no `index.html` — IIFE `initSharedReconcile` no fim do módulo Mobile Capture (`<script type="module">`, bloco #15, ~linha 42850). Ao abrir (setTimeout 2.2s) lê `localStorage['level.sync.local_id']`, consulta `capture_sessions` (`source='share'`, do utilizador, não-consumidas) e mostra um **banner**; o operador escolhe **Estatísticas** ou **Arma** por captura → dispara `STATS_FN_URL`/`ANALYZE_FN_URL`, faz polling até `ready`, e abre `openStatsApproval`/`openApprovalModal` (reusa o pipeline do QR). Tratadas marcadas em `localStorage['level.share.consumed_v1']` (o anon **não** pode dar UPDATE pós-expiry). Só-JS via `createElement` (zero HTML novo). Expõe `window.LevelShareReconcile.check()`. **Validado:** `node --check` 16/16 OK; smoke-test no preview (módulo carrega sem erro; banner mostrou "2 capturas" reais; chooser renderiza Stats/Arma/×/Fechar). **FALTA confirmar ao vivo num device logado o clique → análise → modal** (o passo de análise reusa componentes já em produção, mas não foi clicado end-to-end). **NÃO commitado/released** (sem bump SemVer/changelog/vh-entry ainda — finalizar no release).
+- **App nativo (Capacitor + XcodeGen + Codemagic + Share Extension Swift):** ⬜ futuro — só quando quiser o ícone polido na share sheet. O Atalho cobre o MVP.
+- **Apple Developer $99:** ⬜ Victor — só necessário pro app nativo/TestFlight; o Atalho não precisa.
+- Identidade do Victor no banco: `local_id = u_mpk3pyux_y3eo55ua` / `auth_user_id = 1438a611-556b-4250-a079-c85066d7d781` (ver §3).
+
+### Aprendizados (debug do MVP, 18 Jun)
+- **iPhone fotografa em HEIC** — o bucket `capture-photos` só aceita jpeg/png/webp. O Atalho **converte p/ JPEG** antes de enviar.
+- **O "Codificar em Base64" do Atalhos injeta lixo** (quebras de linha + chars de controlo) no meio da string → `atob` rebenta. Fix: decoder que remove **tudo** fora de `[A-Za-z0-9+/]` antes de decodificar (não basta `\s`, que não apanha chars de controlo). Diagnóstico-chave: `head=/9j/` + `tail=/9k=` provaram que o JPEG chegava **completo e válido** — o erro era só lixo no meio.
+- **Formatos por origem:** screenshot do iPhone = PNG · captura partilhada do PS App = JPEG · foto da galeria = HEIC.
+- Linha de teste órfã (inofensiva, pode apagar): token `34f82260-938e-458b-8350-d431bf4329be` (local_id `u_test_shareingest`).
 
 ---
 
