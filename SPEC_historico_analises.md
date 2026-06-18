@@ -1,6 +1,7 @@
 # SPEC · Front do Histórico de Análises
 > Desenho técnico. LEVEL · BO7 Tactical Hub. Escrito em 11 Jun 2026.
-> **Backend JÁ PRONTO E TESTADO** (tabela `analysis_history` + gravação no `analyze-build` v5/deploy8). Falta só a UI.
+> **Backend JÁ PRONTO E TESTADO** (tabela `analysis_history` + gravação no `analyze-build` v5/deploy8).
+> **Atualização (18 Jun 2026):** a UI também já foi entregue — Histórico de Análises virou aba no modal de Histórico (v2.27.0, Edge `analysis-history` v1 list/delete). Este SPEC fica como registo de desenho/decisão (opção B escolhida). Evolução futura: visão unificada gen_history + analysis_history + struggles (opção C).
 
 ---
 

@@ -234,6 +234,19 @@ A Share Extension faz o **mesmo papel do telemóvel**, mas a sessão **não é c
 
 ---
 
+## 5.E · PÁGINA INICIAL / PITCH (pré-login) — DIREÇÃO (build é do Claude Design)
+
+> Pedido do Victor (18 Jun): elevar o nível ("separar os meninos dos homens", deixar PRO). Criar uma **página inicial = "pitch"** ANTES do login que apresenta a plataforma e as features, com **texto + imagens + opção de login + seletor de idioma**. Quer **3 protótipos** via **Claude Design** (parte fundamental). Nomenclatura combinada: **"pitch"** = pré-login · **"home/início"** = pós-login.
+- Mover o bloco de **Eventos/Temporada** da Home pra o pitch; destacar as features mais legais do Hub.
+- **Footer profissional** no pitch (não o footer técnico de dev — `LEVEL · vX.Y.Z · changelog…` — que usamos no Hub).
+- Victor vai anexar um documento com as features novas pro Claude Design.
+
+**Ranking das features pra divulgar no pitch:** ✅ feito pelo Cráudio — vive no **`README.md`** (ordenado por engajamento/apelo, Tier 1 gancho → Tier 3 profundidade → base). O Claude Design decide quantas entram, quais e como dispor.
+
+**Contexto (limpeza dos dados fake do Painel Hoje, prep pra mover pro pitch):** removidos os 2 eventos encerrados (NUKED, Double XP), a linha de stats inventada do Battle Pass (1700/2200 etc.) e o pill fake "15/40" do Catalyst; "dias restantes" agora é **contagem ao vivo** (`data-evt-countdown` + script `evtCountdown`, calcula de `Date.now()`). **Princípio firmado: a tela só mostra dado REAL que o Victor dá — chega de placeholder fabricado.** Falta a arte oficial do BLACKCELL (existe em callofduty.com; preciso do binário pra embutir) + encolher o card. Tudo isto **NÃO commitado** ainda (candidato a v2.51.0).
+
+---
+
 ## 6. WORKFLOW & PADRÕES TÉCNICOS
 
 ### Edição
