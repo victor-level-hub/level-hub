@@ -9,7 +9,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@200;300;400;500;600&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     /* ============================================================
@@ -18,28 +18,38 @@
        ============================================================ */
 
     :root {
-      --bg-darkest: #08101f;
-      --bg-dark: #0F1729;
-      --bg-panel: #141C30;
-      --bg-row: #1A2540;
-      --bg-row-hover: #243050;
+      /* Padrão novo · Glass/Neon (alinhado ao hub v2.29.0+) */
+      --bg-darkest: #141a2b;
+      --bg-dark: #1a2238;
+      --bg-panel: #1f283f;
+      --bg-row: #25304f;
+      --bg-row-hover: #303d5f;
       --border: rgba(255, 255, 255, 0.05);
       --border-bright: #3F4D6B;
-      --text-primary: #E8E2D7;
-      --text-secondary: #95A0B5;
-      --text-muted: #5C6478;
-      --accent-orange: #F0B952;
-      --accent-orange-dim: #C89740;
+      --border-subtle: rgba(174,199,224,0.10);
+      --border-default: rgba(174,199,224,0.16);
+      --text-primary: #DCE5F2;
+      --text-secondary: #AEC7E0;
+      --text-muted: #8497B8;
+      --text-heading: #F2F6FC;
+      --accent-orange: #FF9800;
+      --accent-orange-dim: #E07B00;
       --accent-cyan: #7DA8C7;
       --accent-cyan-dim: #5A88A8;
+      --level-orange: #FF9800;
+      --level-orange-bright: #FFB23E;
+      --level-blue: #AEC7E0;
       --status-ok: #4ade80;
-      --status-warn: #fbbf24;
-      --status-critical: #ef4444;
-      --radius-card: 12px;
+      --status-warn: #FFC857;
+      --status-critical: #E74C3C;
+      --radius-card: 14px;
       --radius-btn: 10px;
       --radius-pill: 999px;
-      --radius-tag: 4px;
+      --radius-tag: 6px;
       --max-w: 880px;
+      --font-display: 'Chakra Petch', sans-serif;
+      --font-body: 'IBM Plex Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -55,7 +65,7 @@
 
     /* ===== BODY + BACKGROUND (idêntico ao hub) ===== */
     body {
-      font-family: 'Rajdhani', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       background: var(--bg-darkest);
       color: var(--text-primary);
       min-height: 100vh;
@@ -106,15 +116,8 @@
     }
     .header-left { display: flex; align-items: center; gap: 16px; }
 
-    .logo {
-      font-family: 'Black Ops One', sans-serif;
-      font-size: 26px;
-      letter-spacing: 4px;
-      color: var(--accent-orange);
-      text-decoration: none;
-      text-shadow: 0 0 24px rgba(240,185,82,0.25);
-    }
-    .logo:hover { color: var(--accent-orange); }
+    .logo { display: inline-flex; align-items: center; text-decoration: none; }
+    .logo img { height: 30px; width: auto; display: block; filter: drop-shadow(0 2px 10px rgba(255,152,0,0.25)); }
 
     .back-link {
       font-family: 'JetBrains Mono', monospace;
@@ -163,7 +166,7 @@
     .lang-toggle button:hover:not(.active) { color: var(--text-primary); background: var(--bg-row); }
 
     .title {
-      font-family: 'Rajdhani', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 30px;
       font-weight: 700;
       letter-spacing: 3px;
@@ -189,7 +192,9 @@
       margin: 0 0 28px;
       position: sticky;
       top: 0;
-      background: var(--bg-darkest);
+      background: rgba(20,26,43,0.80);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       z-index: 10;
     }
     .tabs button {
@@ -229,8 +234,10 @@
       font-size: 11px;
       color: var(--text-secondary);
       padding: 12px 16px;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+      background: rgba(31,40,63,0.50);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-tag);
       letter-spacing: 1px;
     }
@@ -247,8 +254,10 @@
       font-size: 14px;
       color: var(--text-secondary);
       line-height: 1.6;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+      background: rgba(31,40,63,0.50);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
     }
     .notice.warn { border-left: 3px solid var(--accent-orange); }
     .notice.info { border-left: 3px solid var(--accent-cyan); }
@@ -268,11 +277,15 @@
        ============================================================ */
     section.policy {
       margin-bottom: 24px;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+      background: rgba(31,40,63,0.50);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--border-default);
       border-radius: var(--radius-card);
       overflow: hidden;
       scroll-margin-top: 80px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 44px rgba(0,0,0,0.32);
     }
 
     .panel-header {
@@ -299,7 +312,7 @@
       flex-shrink: 0;
     }
     .panel-header h2 {
-      font-family: 'Rajdhani', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       font-size: 16px;
       font-weight: 700;
       letter-spacing: 2px;
@@ -448,7 +461,7 @@
     <header class="header">
       <div class="header-top">
         <div class="header-left">
-          <a href="/" class="logo">LEVEL</a>
+          <a href="/" class="logo" aria-label="LEVEL"><img src="assets/level-logo.svg" alt="LEVEL"></a>
           <a href="/" class="back-link">
             <span data-lang="pt">‹ Voltar ao Hub</span>
             <span data-lang="en">‹ Back to Hub</span>
