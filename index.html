@@ -2841,16 +2841,24 @@
     top: 12px;
     left: 12px;
     z-index: 200;
-    background: var(--accent-orange);
-    color: var(--bg-darkest);
-    border: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 4px;
-    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    background: rgba(20,26,43,0.92);
+    color: var(--level-orange-bright, #FFB23E);
+    border: 1px solid rgba(255,152,0,0.55);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 16px rgba(255,152,0,0.30);
     cursor: pointer;
-    font-weight: 700;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .15s ease, box-shadow .15s ease, transform .1s ease;
   }
+  .mobile-toggle svg { width: 26px; height: 26px; display: block; }
+  .mobile-toggle:hover { background: rgba(31,40,63,0.96); box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 22px rgba(255,152,0,0.55); }
+  .mobile-toggle:active { transform: scale(0.94); }
+  .mobile-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45)); }
 
   /* ===== v2.38.0 · Mobile tab bar (espec Claude Design 390px) ===== */
   .mobile-tabbar { display: none; }
@@ -3103,6 +3111,23 @@
   @media (max-width: 760px) {
     .mh-cod svg { height: 22px; }
   }
+
+  /* ===== TOOLTIP DO HUB (data-tip — v2.53.2) =====
+     Substitui o title="" nativo por um tooltip na paleta do Hub. O host precisa estar
+     posicionado (position != static). Texto via attr(data-tip); i18n por data-i18n-attr="data-tip:chave". */
+  [data-tip]::after {
+    content: attr(data-tip);
+    position: absolute; top: calc(100% + 7px); right: 0;
+    white-space: nowrap;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; letter-spacing: .02em;
+    color: var(--text-body, #DCE5F2); background: var(--bg-darkest, #141a2b);
+    border: 1px solid var(--accent-orange); border-radius: 6px; padding: 6px 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.55);
+    opacity: 0; transform: translateY(-4px); pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease; z-index: 200;
+  }
+  [data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { [data-tip]::after { transition: none; } }
 
   /* ===== HELP POPOVER (tooltips de ajuda estilizados — v2.12.1) =====
      Substitui os title="" nativos por um popover na paleta do Hub.
@@ -3714,7 +3739,7 @@
   }
 
   @media (max-width: 900px) {
-    .mobile-toggle { display: block; }
+    .mobile-toggle { display: flex; }
     .sidebar {
       position: fixed;
       left: -260px;
@@ -12842,18 +12867,35 @@
   #level-pitch .lp-reveal.lp-right { transform: translateX(30px); }
   #level-pitch .lp-reveal.in { transform: none; }
 
+  #level-pitch .lp-assemble { max-width: 100%; }
   @media (max-width: 920px) {
     #level-pitch .lp-nav { display: none; }
-    #level-pitch .lp-h1 { font-size: 44px; }
+    #level-pitch .lp-header-in { padding: 10px 18px; gap: 12px; }
+    #level-pitch .lp-hero { padding: 40px 20px 52px; }
+    #level-pitch .lp-assemble { height: 72px; }
+    #level-pitch .lp-assemble-wrap { margin-bottom: 22px; }
+    #level-pitch .lp-h1 { font-size: 42px; }
     #level-pitch .lp-sub { font-size: 16px; }
-    #level-pitch .lp-row { grid-template-columns: 1fr; gap: 22px; }
+    #level-pitch .lp-sec { padding-left: 18px; padding-right: 18px; }
+    #level-pitch .lp-row { grid-template-columns: 1fr; gap: 22px; padding: 22px; }
     #level-pitch .lp-row.flip .lp-row-txt, #level-pitch .lp-row.flip .lp-row-art { order: initial; }
     #level-pitch .lp-row-art .lp-art { height: 220px; }
     #level-pitch .lp-squad { grid-template-columns: 1fr; }
-    #level-pitch .lp-squad-r { padding: 0 28px 32px; }
+    #level-pitch .lp-squad-l { padding: 32px 24px; }
+    #level-pitch .lp-squad-r { padding: 0 24px 28px; }
     #level-pitch .lp-grid2, #level-pitch .lp-grid3, #level-pitch .lp-prices { grid-template-columns: 1fr; }
     #level-pitch .lp-plan.pop { transform: none; }
+    #level-pitch .lp-final { padding: 40px 22px; }
+    #level-pitch .lp-final .lp-h2 { font-size: 30px; }
     #level-pitch .lp-footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    #level-pitch .lp-assemble { height: 56px; }
+    #level-pitch .lp-assemble-wrap { margin-bottom: 18px; }
+    #level-pitch .lp-h1 { font-size: 34px; }
+    #level-pitch .lp-hero { padding: 30px 16px 40px; }
+    #level-pitch .lp-h2 { font-size: 28px; }
+    #level-pitch .lp-footer-top { grid-template-columns: 1fr; gap: 22px; }
   }
   @media (prefers-reduced-motion: reduce) {
     #level-pitch .lp-reveal { transform: none !important; transition: none !important; }
@@ -13560,7 +13602,7 @@
 </div>
 <!-- ============ FIM LEVEL AUTH GATE ============ -->
 
-<button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">{{i:menu}}</button>
+<button class="mobile-toggle" aria-label="Abrir menu" data-i18n-attr="aria-label:nav.menu.open" onclick="document.getElementById('sidebar').classList.toggle('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="3" x2="21" y1="7" y2="7"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="17" y2="17"/></svg></button>
 
 <!-- v2.38.0: tab bar inferior (mobile, espec Claude Design 390px) — 5 destinos + FAB central -->
 <nav class="mobile-tabbar" id="mobile-tabbar" aria-label="Navegação rápida">
@@ -13598,17 +13640,17 @@
 
     <!-- v75-34: CARD UNIFICADO DO OPERADOR (estilo perfil gaming) -->
     <div class="operator-card">
-      <button class="oc-edit-btn" id="btn-edit-status-sidebar" title="Editar status" data-i18n-attr="title:status.editStatus">{{i:pencil}}</button>
+      <button class="oc-edit-btn" id="btn-edit-status-sidebar" data-tip="Editar status" aria-label="Editar status" data-i18n-attr="data-tip:status.editStatus|aria-label:status.editStatus">{{i:pencil}}</button>
 
       <!-- Avatar + badge de prestige sobreposta no canto -->
       <div class="oc-avatar-wrap">
-        <div class="operator-avatar" id="sidebar-avatar" title="Clique para alterar avatar" data-i18n-attr="title:avatar.title">
+        <div class="operator-avatar" id="sidebar-avatar" aria-label="Trocar a foto do avatar" data-i18n-attr="aria-label:avatar.title">
           <div class="oa-placeholder" id="sidebar-avatar-placeholder">
             <div class="oa-icon">{{i:user}}</div>
             <div data-i18n="avatar.placeholder">+ FOTO</div>
           </div>
           <img id="sidebar-avatar-img" src="" alt="Operator avatar" style="display:none">
-          <div class="oa-edit-hint" data-i18n="avatar.editHint">{{i:pencil}} Editar</div>
+          <div class="oa-edit-hint" data-i18n-html="avatar.editHint">{{i:camera}} Trocar foto</div>
         </div>
 
         <div class="oc-prestige-badge" aria-label="Prestige Emblem">
@@ -14091,12 +14133,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.53.1 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.54.0 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Correções de português do Brasil (montagem, Pitch e logout)</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Começamos uma <strong>varredura de qualidade</strong> do Hub. Nesta passagem, ajustamos textos que estavam em <strong>português de Portugal</strong> para <strong>português do Brasil</strong> na montagem da arma (build), no import e na análise da IA, além da nova página inicial e do aviso de logout. Mais correções vêm nas próximas atualizações.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Configurações no idioma do console + ajustes de mobile e interface</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Nas configurações de Controle/Mira/Movimento/Combate/Vídeo, os <strong>nomes das opções e as abas</strong> agora seguem o idioma dos <strong>termos técnicos</strong> (pra você achar igualzinho no seu PS5), enquanto a explicação continua no seu idioma. A aba <strong>Vídeo & Rede</strong> ganhou tradução completa. Também: página inicial corrigida no celular, botão de menu mais claro, e o editar avatar com ícone de câmera.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -14245,11 +14287,11 @@
       </div>
 
       <div class="subtabs" data-tabgroup="controller" data-reveal="fade-up">
-        <button class="subtab active" data-subtab="ctrl-controller"><span data-i18n="ctrl.subtab.controller">CONTROLLER</span> <span class="subtab-counter">17</span></button>
-        <button class="subtab" data-subtab="ctrl-aiming"><span data-i18n="ctrl.subtab.aiming">AIMING</span> <span class="subtab-counter">9</span></button>
-        <button class="subtab" data-subtab="ctrl-movement"><span data-i18n="ctrl.subtab.movement">MOVEMENT</span> <span class="subtab-counter">14</span></button>
-        <button class="subtab" data-subtab="ctrl-combat"><span data-i18n="ctrl.subtab.combat">COMBAT</span> <span class="subtab-counter">9</span></button>
-        <button class="subtab" data-subtab="ctrl-video"><span data-i18n="ctrl.subtab.video">VÍDEO &amp; REDE</span> <span class="subtab-counter">15</span></button>
+        <button class="subtab active" data-subtab="ctrl-controller"><span data-techterm="ctrl.subtab.controller">CONTROLLER</span> <span class="subtab-counter">17</span></button>
+        <button class="subtab" data-subtab="ctrl-aiming"><span data-techterm="ctrl.subtab.aiming">AIMING</span> <span class="subtab-counter">9</span></button>
+        <button class="subtab" data-subtab="ctrl-movement"><span data-techterm="ctrl.subtab.movement">MOVEMENT</span> <span class="subtab-counter">14</span></button>
+        <button class="subtab" data-subtab="ctrl-combat"><span data-techterm="ctrl.subtab.combat">COMBAT</span> <span class="subtab-counter">9</span></button>
+        <button class="subtab" data-subtab="ctrl-video"><span data-techterm="ctrl.subtab.video">VÍDEO &amp; REDE</span> <span class="subtab-counter">15</span></button>
       </div>
 
       <!-- CONTROLLER TAB -->
@@ -14265,7 +14307,7 @@
                     <div class="setting" data-control-id="aiming-input-device" data-indicated="Controller">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.aiming-input-device.name">Aiming Input Device</span>
+              <span class="setting-name" data-techterm="ctrl.set.aiming-input-device.name">Aiming Input Device</span>
               <span class="setting-why" data-i18n-html="ctrl.set.aiming-input-device.why">Bloqueado em Controller (você joga PS5)</span>
             </div>
             <div class="control-fields">
@@ -14295,7 +14337,7 @@
                     <div class="setting" data-control-id="edit-button-layout" data-indicated="Default">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.edit-button-layout.name">Edit Button Layout</span>
+              <span class="setting-name" data-techterm="ctrl.set.edit-button-layout.name">Edit Button Layout</span>
               <span class="setting-why" data-i18n-html="ctrl.set.edit-button-layout.why">Default funciona bem. Avançado: Default Flipped (R1/L1 pra fire/ADS)</span>
             </div>
             <div class="control-fields">
@@ -14321,7 +14363,7 @@
                     <div class="setting" data-control-id="stick-layout-preset" data-indicated="Tactical">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.stick-layout-preset.name">Stick Layout Preset</span>
+              <span class="setting-name" data-techterm="ctrl.set.stick-layout-preset.name">Stick Layout Preset</span>
               <span class="setting-why" data-i18n-html="ctrl.set.stick-layout-preset.why"><strong style="color: var(--accent-orange);">MUDAR.</strong> Tactical põe crouch/prone no L3 — drop-shot sem soltar mira</span>
             </div>
             <div class="control-fields">
@@ -14347,7 +14389,7 @@
                     <div class="setting" data-control-id="horizontal-stick-sensitivity" data-indicated="1.80">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.horizontal-stick-sensitivity.name">Horizontal Stick Sensitivity</span>
+              <span class="setting-name" data-techterm="ctrl.set.horizontal-stick-sensitivity.name">Horizontal Stick Sensitivity</span>
               <span class="setting-why" data-i18n-html="ctrl.set.horizontal-stick-sensitivity.why">1.80 é alto-médio, ideal pra rusher (faixa rusher: 1.6–2.0)</span>
             </div>
             <div class="control-fields">
@@ -14373,7 +14415,7 @@
                     <div class="setting" data-control-id="vertical-stick-sensitivity" data-indicated="1.80">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.vertical-stick-sensitivity.name">Vertical Stick Sensitivity</span>
+              <span class="setting-name" data-techterm="ctrl.set.vertical-stick-sensitivity.name">Vertical Stick Sensitivity</span>
               <span class="setting-why" data-i18n-html="ctrl.set.vertical-stick-sensitivity.why">Pode testar 1.65 (1-2 pontos abaixo do horizontal) pra precisão fina</span>
             </div>
             <div class="control-fields">
@@ -14399,7 +14441,7 @@
                     <div class="setting" data-control-id="simplified-controls-preset" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.simplified-controls-preset.name">Simplified Controls Preset</span>
+              <span class="setting-name" data-techterm="ctrl.set.simplified-controls-preset.name">Simplified Controls Preset</span>
               <span class="setting-why" data-i18n-html="ctrl.set.simplified-controls-preset.why">Mantenha Off pra controle total</span>
             </div>
             <div class="control-fields">
@@ -14425,7 +14467,7 @@
                     <div class="setting" data-control-id="low-motor-strain-preset" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.low-motor-strain-preset.name">Low Motor Strain Preset</span>
+              <span class="setting-name" data-techterm="ctrl.set.low-motor-strain-preset.name">Low Motor Strain Preset</span>
               <span class="setting-why" data-i18n-html="ctrl.set.low-motor-strain-preset.why">Setting de acessibilidade — não precisa</span>
             </div>
             <div class="control-fields">
@@ -14451,7 +14493,7 @@
                     <div class="setting" data-control-id="l1-button-ping" data-indicated="On">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.l1-button-ping.name">L1 Button Ping</span>
+              <span class="setting-name" data-techterm="ctrl.set.l1-button-ping.name">L1 Button Ping</span>
               <span class="setting-why" data-i18n-html="ctrl.set.l1-button-ping.why">Essencial pra calls (marcar inimigos)</span>
             </div>
             <div class="control-fields">
@@ -14477,7 +14519,7 @@
                     <div class="setting" data-control-id="swap-l1r1-l2r2" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.swap-l1r1-l2r2.name">Swap L1/R1 ⟷ L2/R2</span>
+              <span class="setting-name" data-techterm="ctrl.set.swap-l1r1-l2r2.name">Swap L1/R1 ⟷ L2/R2</span>
               <span class="setting-why" data-i18n-html="ctrl.set.swap-l1r1-l2r2.why">Mantenha layout padrão</span>
             </div>
             <div class="control-fields">
@@ -14507,7 +14549,7 @@
                     <div class="setting" data-control-id="controller-vibration" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.controller-vibration.name">Controller Vibration</span>
+              <span class="setting-name" data-techterm="ctrl.set.controller-vibration.name">Controller Vibration</span>
               <span class="setting-why" data-i18n-html="ctrl.set.controller-vibration.why">Vibração introduz micro-movimentos. Todos os pros desligam</span>
             </div>
             <div class="control-fields">
@@ -14533,7 +14575,7 @@
                     <div class="setting" data-control-id="trigger-effect" data-indicated="Off">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.trigger-effect.name">Trigger Effect</span>
+              <span class="setting-name" data-techterm="ctrl.set.trigger-effect.name">Trigger Effect</span>
               <span class="setting-why" data-i18n-html="ctrl.set.trigger-effect.why"><strong style="color: var(--accent-orange);">MUDAR PRA OFF.</strong> Resistência adaptativa do DualSense atrapalha aim</span>
             </div>
             <div class="control-fields">
@@ -14563,7 +14605,7 @@
                     <div class="setting" data-control-id="left-stick-min" data-indicated="0">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.left-stick-min.name">Left Stick Min Input</span>
+              <span class="setting-name" data-techterm="ctrl.set.left-stick-min.name">Left Stick Min Input</span>
               <span class="setting-why" data-i18n-html="ctrl.set.left-stick-min.why">Deadzone do stick esquerdo. 0 = sem zona morta</span>
             </div>
             <div class="control-fields">
@@ -14589,7 +14631,7 @@
                     <div class="setting" data-control-id="left-stick-max" data-indicated="70">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.left-stick-max.name">Left Stick Max Input</span>
+              <span class="setting-name" data-techterm="ctrl.set.left-stick-max.name">Left Stick Max Input</span>
               <span class="setting-why" data-i18n-html="ctrl.set.left-stick-max.why">70 aproveita rotational aim assist agressivamente durante strafe</span>
             </div>
             <div class="control-fields">
@@ -14615,7 +14657,7 @@
           <div class="setting" data-control-id="right-stick-min" data-indicated="1">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.right-stick-min.name">Entrada Mínima do Analógico Direito</span>
+              <span class="setting-name" data-techterm="ctrl.set.right-stick-min.name">Entrada Mínima do Analógico Direito</span>
               <span class="setting-why" data-i18n-html="ctrl.set.right-stick-min.why">Mínimo possível sem stick drift. Rode o teste do jogo primeiro.</span>
             </div>
             <div class="control-fields">
@@ -14641,7 +14683,7 @@
           <div class="setting" data-control-id="right-stick-max" data-indicated="99">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.right-stick-max.name">Entrada Máxima do Analógico Direito</span>
+              <span class="setting-name" data-techterm="ctrl.set.right-stick-max.name">Entrada Máxima do Analógico Direito</span>
               <span class="setting-why" data-i18n-html="ctrl.set.right-stick-max.why">99 mantém range completo de rotação. 95 acelera 180° (com trade-off de precisão).</span>
             </div>
             <div class="control-fields">
@@ -14667,7 +14709,7 @@
           <div class="setting" data-control-id="l2-button-deadzone" data-indicated="0">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.l2-button-deadzone.name">Zona Morta do Gatilho L2</span>
+              <span class="setting-name" data-techterm="ctrl.set.l2-button-deadzone.name">Zona Morta do Gatilho L2</span>
               <span class="setting-why" data-i18n-html="ctrl.set.l2-button-deadzone.why">0 = ADS ativa no primeiro micrômetro do gatilho. Sem delay físico.</span>
             </div>
             <div class="control-fields">
@@ -14693,7 +14735,7 @@
           <div class="setting" data-control-id="r2-button-deadzone" data-indicated="0">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.r2-button-deadzone.name">Zona Morta do Gatilho R2</span>
+              <span class="setting-name" data-techterm="ctrl.set.r2-button-deadzone.name">Zona Morta do Gatilho R2</span>
               <span class="setting-why" data-i18n-html="ctrl.set.r2-button-deadzone.why">0 = tiro sai no primeiro micrômetro do gatilho.</span>
             </div>
             <div class="control-fields">
@@ -14737,7 +14779,7 @@
                     <div class="setting" data-control-id="ads-sens-low-zoom" data-indicated="0.85">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.ads-sens-low-zoom.name">ADS Sens. Multiplier (Low Zoom)</span>
+              <span class="setting-name" data-techterm="ctrl.set.ads-sens-low-zoom.name">ADS Sens. Multiplier (Low Zoom)</span>
               <span class="setting-why" data-i18n-html="ctrl.set.ads-sens-low-zoom.why"><strong style="color:var(--accent-orange)">MUDAR PRA 0.85.</strong> Ajuda muito na precisão de headshots. Crítico pro problema "atiro primeiro mas morro"</span>
             </div>
             <div class="control-fields">
@@ -14763,7 +14805,7 @@
                     <div class="setting" data-control-id="ads-sens-mid-zoom" data-indicated="0.85">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.ads-sens-mid-zoom.name">ADS Sens. Multiplier (2x – 3x)</span>
+              <span class="setting-name" data-techterm="ctrl.set.ads-sens-mid-zoom.name">ADS Sens. Multiplier (2x – 3x)</span>
               <span class="setting-why" data-i18n-html="ctrl.set.ads-sens-mid-zoom.why">Pra optics médios. Mantenha consistência com low zoom</span>
             </div>
             <div class="control-fields">
@@ -14789,7 +14831,7 @@
                     <div class="setting" data-control-id="ads-sens-high-zoom" data-indicated="1.00">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.ads-sens-high-zoom.name">ADS Sens. Multiplier (High Zoom)</span>
+              <span class="setting-name" data-techterm="ctrl.set.ads-sens-high-zoom.name">ADS Sens. Multiplier (High Zoom)</span>
               <span class="setting-why" data-i18n-html="ctrl.set.ads-sens-high-zoom.why">Pra snipers/long range. 1.00 mantém velocidade base</span>
             </div>
             <div class="control-fields">
@@ -14815,7 +14857,7 @@
                     <div class="setting" data-control-id="ads-sens-transition" data-indicated="Instant">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.ads-sens-transition.name">ADS Sens. Transition Timing</span>
+              <span class="setting-name" data-techterm="ctrl.set.ads-sens-transition.name">ADS Sens. Transition Timing</span>
               <span class="setting-why" data-i18n-html="ctrl.set.ads-sens-transition.why">Instant = ADS sens já é a final assim que mira. Gradual = ruim pra rusher</span>
             </div>
             <div class="control-fields">
@@ -14845,7 +14887,7 @@
                     <div class="setting" data-control-id="look-inversion" data-indicated="Standard">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.look-inversion.name">Look Inversion (On Foot)</span>
+              <span class="setting-name" data-techterm="ctrl.set.look-inversion.name">Look Inversion (On Foot)</span>
               <span class="setting-why" data-i18n-html="ctrl.set.look-inversion.why">Standard = empurrar pra cima olha pra cima</span>
             </div>
             <div class="control-fields">
@@ -14875,7 +14917,7 @@
                     <div class="setting" data-control-id="aim-response-curve" data-indicated="Dynamic">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.aim-response-curve.name">Aim Response Curve</span>
+              <span class="setting-name" data-techterm="ctrl.set.aim-response-curve.name">Aim Response Curve</span>
               <span class="setting-why" data-i18n-html="ctrl.set.aim-response-curve.why">Dynamic = mais snap em movimentos pequenos + controle no fim. Padrão dos pros</span>
             </div>
             <div class="control-fields">
@@ -14907,7 +14949,7 @@
                     <div class="setting" data-control-id="target-aim-assist" data-indicated="On">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.target-aim-assist.name">Target Aim Assist</span>
+              <span class="setting-name" data-techterm="ctrl.set.target-aim-assist.name">Target Aim Assist</span>
               <span class="setting-why" data-i18n-html="ctrl.set.target-aim-assist.why">Aim assist principal — sempre On no controller</span>
             </div>
             <div class="control-fields">
@@ -14933,7 +14975,7 @@
                     <div class="setting" data-control-id="aim-assist-type" data-indicated="Black Ops">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.aim-assist-type.name">Aim Assist Type</span>
+              <span class="setting-name" data-techterm="ctrl.set.aim-assist-type.name">Aim Assist Type</span>
               <span class="setting-why" data-i18n-html="ctrl.set.aim-assist-type.why"><strong style="color:var(--accent-orange)">"Black Ops"</strong> tem rotational tracking mais forte — melhor pra rusher SMG strafando</span>
             </div>
             <div class="control-fields">
@@ -14963,7 +15005,7 @@
                     <div class="setting" data-control-id="motion-sensor" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.motion-sensor.name">Motion Sensor Function Behavior</span>
+              <span class="setting-name" data-techterm="ctrl.set.motion-sensor.name">Motion Sensor Function Behavior</span>
               <span class="setting-why" data-i18n-html="ctrl.set.motion-sensor.why">Giroscópio. Mantenha Off — não compensa aprender</span>
             </div>
             <div class="control-fields">
@@ -15012,7 +15054,7 @@
                     <div class="setting" data-control-id="sprint-assist" data-indicated="On">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.sprint-assist.name">Sprint Assist</span>
+              <span class="setting-name" data-techterm="ctrl.set.sprint-assist.name">Sprint Assist</span>
               <span class="setting-why" data-i18n-html="ctrl.set.sprint-assist.why"><strong style="color: var(--accent-orange);">MUDAR PRA ON.</strong> Ativa sprint automaticamente — mantém momentum pra slides/dives</span>
             </div>
             <div class="control-fields">
@@ -15038,7 +15080,7 @@
                     <div class="setting" data-control-id="sprint-assist-delay" data-indicated="0">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.sprint-assist-delay.name">Sprint Assist Delay</span>
+              <span class="setting-name" data-techterm="ctrl.set.sprint-assist-delay.name">Sprint Assist Delay</span>
               <span class="setting-why" data-i18n-html="ctrl.set.sprint-assist-delay.why">0 = sprint instantâneo após movimento detectado</span>
             </div>
             <div class="control-fields">
@@ -15064,7 +15106,7 @@
                     <div class="setting" data-control-id="sprint-assist-sideways" data-indicated="On">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.sprint-assist-sideways.name">Sprint Assist Sideways</span>
+              <span class="setting-name" data-techterm="ctrl.set.sprint-assist-sideways.name">Sprint Assist Sideways</span>
               <span class="setting-why" data-i18n-html="ctrl.set.sprint-assist-sideways.why">Sprint lateral = chave pra rusher fazer flanqueio</span>
             </div>
             <div class="control-fields">
@@ -15090,7 +15132,7 @@
                     <div class="setting" data-control-id="sprint-assist-backward" data-indicated="On">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.sprint-assist-backward.name">Sprint Assist Backward</span>
+              <span class="setting-name" data-techterm="ctrl.set.sprint-assist-backward.name">Sprint Assist Backward</span>
               <span class="setting-why" data-i18n-html="ctrl.set.sprint-assist-backward.why">Permite recuar correndo — escape ou peek-back</span>
             </div>
             <div class="control-fields">
@@ -15116,7 +15158,7 @@
                     <div class="setting" data-control-id="mantle-assist" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.mantle-assist.name">Mantle Assist</span>
+              <span class="setting-name" data-techterm="ctrl.set.mantle-assist.name">Mantle Assist</span>
               <span class="setting-why" data-i18n-html="ctrl.set.mantle-assist.why">Off é melhor pra controle. Você mantle quando quer</span>
             </div>
             <div class="control-fields">
@@ -15142,7 +15184,7 @@
                     <div class="setting" data-control-id="crouch-assist" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.crouch-assist.name">Crouch Assist</span>
+              <span class="setting-name" data-techterm="ctrl.set.crouch-assist.name">Crouch Assist</span>
               <span class="setting-why" data-i18n-html="ctrl.set.crouch-assist.why">Off pra controle manual (essencial pra snake/drop-shot)</span>
             </div>
             <div class="control-fields">
@@ -15168,7 +15210,7 @@
                     <div class="setting" data-control-id="corner-slice" data-indicated="On">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.corner-slice.name">Corner Slice</span>
+              <span class="setting-name" data-techterm="ctrl.set.corner-slice.name">Corner Slice</span>
               <span class="setting-why" data-i18n-html="ctrl.set.corner-slice.why">Permite "espiar" cantos automaticamente em ADS</span>
             </div>
             <div class="control-fields">
@@ -15194,7 +15236,7 @@
                     <div class="setting" data-control-id="wall-jump-assist" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.wall-jump-assist.name">Wall Jump Assist</span>
+              <span class="setting-name" data-techterm="ctrl.set.wall-jump-assist.name">Wall Jump Assist</span>
               <span class="setting-why" data-i18n-html="ctrl.set.wall-jump-assist.why">Off = controle manual evita wall-jumps acidentais</span>
             </div>
             <div class="control-fields">
@@ -15220,7 +15262,7 @@
                     <div class="setting" data-control-id="combat-roll-assist" data-indicated="Off">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.combat-roll-assist.name">Combat Roll Assist</span>
+              <span class="setting-name" data-techterm="ctrl.set.combat-roll-assist.name">Combat Roll Assist</span>
               <span class="setting-why" data-i18n-html="ctrl.set.combat-roll-assist.why">Off pra controle manual</span>
             </div>
             <div class="control-fields">
@@ -15250,7 +15292,7 @@
                     <div class="setting" data-control-id="tactical-sprint" data-indicated="Single Tap">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.tactical-sprint.name">Tactical Sprint Activation</span>
+              <span class="setting-name" data-techterm="ctrl.set.tactical-sprint.name">Tactical Sprint Activation</span>
               <span class="setting-why" data-i18n-html="ctrl.set.tactical-sprint.why">Single Tap é padrão dos pros — Double Tap exige clique extra</span>
             </div>
             <div class="control-fields">
@@ -15276,7 +15318,7 @@
                     <div class="setting" data-control-id="slide-dive-behavior" data-indicated="Hybrid">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.slide-dive-behavior.name">Slide / Dive Behavior</span>
+              <span class="setting-name" data-techterm="ctrl.set.slide-dive-behavior.name">Slide / Dive Behavior</span>
               <span class="setting-why" data-i18n-html="ctrl.set.slide-dive-behavior.why">Hybrid: tap = slide / hold = dive. Os dois movimentos no mesmo botão</span>
             </div>
             <div class="control-fields">
@@ -15302,7 +15344,7 @@
                     <div class="setting" data-control-id="slide-maintains-sprint" data-indicated="On">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.slide-maintains-sprint.name">Slide Maintains Sprint</span>
+              <span class="setting-name" data-techterm="ctrl.set.slide-maintains-sprint.name">Slide Maintains Sprint</span>
               <span class="setting-why" data-i18n-html="ctrl.set.slide-maintains-sprint.why">VITAL pra slide-cancel chains. Sai do slide já em sprint</span>
             </div>
             <div class="control-fields">
@@ -15328,7 +15370,7 @@
                     <div class="setting" data-control-id="auto-airborne-mantle" data-indicated="Off">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.auto-airborne-mantle.name">Automatic Airborne Mantle</span>
+              <span class="setting-name" data-techterm="ctrl.set.auto-airborne-mantle.name">Automatic Airborne Mantle</span>
               <span class="setting-why" data-i18n-html="ctrl.set.auto-airborne-mantle.why">Off = você decide quando subir em obstáculos</span>
             </div>
             <div class="control-fields">
@@ -15354,7 +15396,7 @@
                     <div class="setting" data-control-id="mantle-cancels-reload" data-indicated="On">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.mantle-cancels-reload.name">Mantle Cancels Reload</span>
+              <span class="setting-name" data-techterm="ctrl.set.mantle-cancels-reload.name">Mantle Cancels Reload</span>
               <span class="setting-why" data-i18n-html="ctrl.set.mantle-cancels-reload.why">On = subir janela cancela reload longo (útil em emergência)</span>
             </div>
             <div class="control-fields">
@@ -15380,7 +15422,7 @@
                     <div class="setting" data-control-id="sprint-cancels-reload" data-indicated="Off">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.sprint-cancels-reload.name">Sprint Cancels Reload</span>
+              <span class="setting-name" data-techterm="ctrl.set.sprint-cancels-reload.name">Sprint Cancels Reload</span>
               <span class="setting-why" data-i18n-html="ctrl.set.sprint-cancels-reload.why">Off evita cancelar reload sem querer</span>
             </div>
             <div class="control-fields">
@@ -15424,7 +15466,7 @@
                     <div class="setting" data-control-id="ads-behavior" data-indicated="Hold">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.ads-behavior.name">Aim Down Sight Behavior</span>
+              <span class="setting-name" data-techterm="ctrl.set.ads-behavior.name">Aim Down Sight Behavior</span>
               <span class="setting-why" data-i18n-html="ctrl.set.ads-behavior.why">Hold = segurar L2 pra mirar. Toggle gera bugs em close range</span>
             </div>
             <div class="control-fields">
@@ -15450,7 +15492,7 @@
                     <div class="setting" data-control-id="weapon-mount-activation" data-indicated="ADS + Melee">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.weapon-mount-activation.name">Weapon Mount Activation</span>
+              <span class="setting-name" data-techterm="ctrl.set.weapon-mount-activation.name">Weapon Mount Activation</span>
               <span class="setting-why" data-i18n-html="ctrl.set.weapon-mount-activation.why">ADS + Melee = montar arma em superfície</span>
             </div>
             <div class="control-fields">
@@ -15476,7 +15518,7 @@
                     <div class="setting" data-control-id="dedicated-melee" data-indicated="Hold Melee">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.dedicated-melee.name">Dedicated Melee Weapon Activation</span>
+              <span class="setting-name" data-techterm="ctrl.set.dedicated-melee.name">Dedicated Melee Weapon Activation</span>
               <span class="setting-why" data-i18n-html="ctrl.set.dedicated-melee.why">Hold Melee = trocar pra faca segurando o botão</span>
             </div>
             <div class="control-fields">
@@ -15502,7 +15544,7 @@
                     <div class="setting" data-control-id="body-shield-finishing" data-indicated="Prioritize Finishing">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.body-shield-finishing.name">Body Shield / Finishing Move</span>
+              <span class="setting-name" data-techterm="ctrl.set.body-shield-finishing.name">Body Shield / Finishing Move</span>
               <span class="setting-why" data-i18n-html="ctrl.set.body-shield-finishing.why">Prioritize Finishing Move = animação rápida de execução</span>
             </div>
             <div class="control-fields">
@@ -15528,7 +15570,7 @@
                     <div class="setting" data-control-id="armor-plate-behavior" data-indicated="Apply All">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.armor-plate-behavior.name">Armor Plate Behavior</span>
+              <span class="setting-name" data-techterm="ctrl.set.armor-plate-behavior.name">Armor Plate Behavior</span>
               <span class="setting-why" data-i18n-html="ctrl.set.armor-plate-behavior.why">Apply All = uma tecla aplica todas placas (Warzone)</span>
             </div>
             <div class="control-fields">
@@ -15554,7 +15596,7 @@
                     <div class="setting" data-control-id="c4-detonation" data-indicated="All at Once">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.c4-detonation.name">C4 Detonation Activation</span>
+              <span class="setting-name" data-techterm="ctrl.set.c4-detonation.name">C4 Detonation Activation</span>
               <span class="setting-why" data-i18n-html="ctrl.set.c4-detonation.why">All at Once = todos C4s explodem juntos</span>
             </div>
             <div class="control-fields">
@@ -15580,7 +15622,7 @@
                     <div class="setting" data-control-id="equipment-behavior" data-indicated="Hold">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.equipment-behavior.name">Equipment Behavior</span>
+              <span class="setting-name" data-techterm="ctrl.set.equipment-behavior.name">Equipment Behavior</span>
               <span class="setting-why" data-i18n-html="ctrl.set.equipment-behavior.why">Hold = segurar pra arremessar mais longe</span>
             </div>
             <div class="control-fields">
@@ -15606,7 +15648,7 @@
                     <div class="setting" data-control-id="manual-fire" data-indicated="Press">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="ctrl.set.manual-fire.name">Manual Fire Behavior</span>
+              <span class="setting-name" data-techterm="ctrl.set.manual-fire.name">Manual Fire Behavior</span>
               <span class="setting-why" data-i18n-html="ctrl.set.manual-fire.why">Press = um aperto no R2 = um tiro (semi-auto)</span>
             </div>
             <div class="control-fields">
@@ -15667,7 +15709,7 @@
           <div class="setting" data-control-id="vid-ps5-resolution" data-indicated="1440p">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.ps5-resolution.name">Resolução de Saída</span>
+              <span class="setting-name" data-techterm="vid.set.ps5-resolution.name">Resolução de Saída</span>
               <span class="setting-why" data-i18n-html="vid.set.ps5-resolution.why">A 4K, o PS5 usa <b>dynamic resolution scaling</b> (escala dinâmica de resolução) e cai pra 1440p ou menos em momentos de ação. A 1440p nativo, segura 120fps estáveis. Frametime (tempo entre quadros) estável &gt; pixel count pro seu playstyle rusher.</span>
             </div>
             <div class="control-fields">
@@ -15689,7 +15731,7 @@
           <div class="setting" data-control-id="vid-ps5-fps" data-indicated="120 Hz">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.ps5-fps.name">FPS Output (Frames por Segundo)</span>
+              <span class="setting-name" data-techterm="vid.set.ps5-fps.name">FPS Output (Frames por Segundo)</span>
               <span class="setting-why" data-i18n-html="vid.set.ps5-fps.why">A 120fps o input lag (atraso entre mexer o stick e ver na tela) cai pra metade vs 60fps. Tracking de inimigo em movimento fica visivelmente mais limpo. Crítico em gunfights de 1v1.</span>
             </div>
             <div class="control-fields">
@@ -15711,7 +15753,7 @@
           <div class="setting" data-control-id="vid-ps5-hdr" data-indicated="Ligado">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.ps5-hdr.name">HDR (High Dynamic Range)</span>
+              <span class="setting-name" data-techterm="vid.set.ps5-hdr.name">HDR (High Dynamic Range)</span>
               <span class="setting-why" data-i18n-html="vid.set.ps5-hdr.why">Aumenta o contraste entre áreas claras e escuras. Inimigos em sombras ficam mais visíveis. Vantagem real em mapas com cantos escuros (Paranoia, Cortex).</span>
             </div>
             <div class="control-fields">
@@ -15733,7 +15775,7 @@
           <div class="setting" data-control-id="vid-ps5-vrr" data-indicated="Ligado">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.ps5-vrr.name">VRR (Variable Refresh Rate)</span>
+              <span class="setting-name" data-techterm="vid.set.ps5-vrr.name">VRR (Variable Refresh Rate)</span>
               <span class="setting-why" data-i18n-html="vid.set.ps5-vrr.why">Taxa de atualização variável — sincroniza a TV com o FPS real do jogo. Quando o jogo dropa de 120 pra 90fps, a TV acompanha e você não vê screen tearing (rasgo de tela) nem stutter (engasgo).</span>
             </div>
             <div class="control-fields">
@@ -15760,7 +15802,7 @@
           <div class="setting" data-control-id="vid-bo7-framerate" data-indicated="Performance Mode">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.bo7-framerate.name">Frame Rate Priority</span>
+              <span class="setting-name" data-techterm="vid.set.bo7-framerate.name">Frame Rate Priority</span>
               <span class="setting-why" data-i18n-html="vid.set.bo7-framerate.why"><b>Performance Mode</b>, não Quality Mode. Performance prioriza FPS estável (visual ligeiramente menos detalhado). Quality dá mais detalhe gráfico mas pode dropar frames em ação intensa.</span>
             </div>
             <div class="control-fields">
@@ -15782,7 +15824,7 @@
           <div class="setting" data-control-id="vid-bo7-motionblur" data-indicated="Desligado">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.bo7-motionblur.name">Motion Blur</span>
+              <span class="setting-name" data-techterm="vid.set.bo7-motionblur.name">Motion Blur</span>
               <span class="setting-why" data-i18n-html="vid.set.bo7-motionblur.why">Borrão de movimento — esconde inimigos quando você vira a câmera rápido. Sempre desligado em FPS competitivo. Sem exceção.</span>
             </div>
             <div class="control-fields">
@@ -15804,7 +15846,7 @@
           <div class="setting" data-control-id="vid-bo7-fov" data-indicated="110-120">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.bo7-fov.name">FOV (Field of View · Campo de Visão)</span>
+              <span class="setting-name" data-techterm="vid.set.bo7-fov.name">FOV (Field of View · Campo de Visão)</span>
               <span class="setting-why" data-i18n-html="vid.set.bo7-fov.why">Quanto você vê na tela. Default é 80-100. <b>120</b> = vê mais inimigos nos peeks (espiar canto) mas tudo fica menor. <b>110</b> é meio-termo confortável. Experimenta 110 primeiro.</span>
             </div>
             <div class="control-fields">
@@ -15831,7 +15873,7 @@
           <div class="setting" data-control-id="vid-tv-gamemode" data-indicated="Ligado">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.tv-gamemode.name">Modo Jogo (Game Mode)</span>
+              <span class="setting-name" data-techterm="vid.set.tv-gamemode.name">Modo Jogo (Game Mode)</span>
               <span class="setting-why" data-i18n-html="vid.set.tv-gamemode.why">Reduz o input lag (atraso entre comando e tela) de ~30ms pra ~10ms em TVs modernas. Desative processamento de imagem desnecessário. Sem isso, você sente "atraso" no controle.</span>
             </div>
             <div class="control-fields">
@@ -15853,7 +15895,7 @@
           <div class="setting" data-control-id="vid-tv-motionplus" data-indicated="Desligado">
             <div class="setting-status warn">{{i:alert-triangle}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.tv-motionplus.name">Motion Plus / Interpolação de Quadros</span>
+              <span class="setting-name" data-techterm="vid.set.tv-motionplus.name">Motion Plus / Interpolação de Quadros</span>
               <span class="setting-why" data-i18n-html="vid.set.tv-motionplus.why">A TV "inventa" frames intermediários pra parecer mais fluido (ótimo pra novela). Em jogo, ADICIONA input lag — você pensa que está em 120fps mas o controle responde com atraso. Sempre desligado.</span>
             </div>
             <div class="control-fields">
@@ -15875,7 +15917,7 @@
           <div class="setting" data-control-id="vid-tv-inputlag" data-indicated="Mais Rápido">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.tv-inputlag.name">Desfasamento de Entrada (Input Lag)</span>
+              <span class="setting-name" data-techterm="vid.set.tv-inputlag.name">Desfasamento de Entrada (Input Lag)</span>
               <span class="setting-why" data-i18n-html="vid.set.tv-inputlag.why">Mostra na barra inferior da TV. <b>Mais Rápido</b> confirma que Modo Jogo está ativo de verdade. Se aparece "Normal" ou "Lento", o Modo Jogo não foi aplicado direito.</span>
             </div>
             <div class="control-fields">
@@ -15897,7 +15939,7 @@
           <div class="setting" data-control-id="vid-tv-hdmi" data-indicated="HDMI 2.1">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.tv-hdmi.name">Cabo &amp; Porta HDMI</span>
+              <span class="setting-name" data-techterm="vid.set.tv-hdmi.name">Cabo &amp; Porta HDMI</span>
               <span class="setting-why" data-i18n-html="vid.set.tv-hdmi.why">Pra rodar 4K/1440p a 120Hz precisa de cabo HDMI <b>2.1</b> + porta 2.1 da TV. HDMI 2.0 limita a 4K 60Hz. Geralmente a porta 2.1 é marcada com "Game" ou "120Hz" no chassis.</span>
             </div>
             <div class="control-fields">
@@ -15924,7 +15966,7 @@
           <div class="setting" data-control-id="vid-net-cable" data-indicated="Cabo Ethernet">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.net-cable.name">Tipo de Conexão</span>
+              <span class="setting-name" data-techterm="vid.set.net-cable.name">Tipo de Conexão</span>
               <span class="setting-why" data-i18n-html="vid.set.net-cable.why">Cabo de rede (Ethernet) tem latência menor e mais estável que Wi-Fi. Wi-Fi 6 dá pra jogar, mas qualquer interferência (microondas, vizinho) sobe o ping. Cabo é o padrão competitivo.</span>
             </div>
             <div class="control-fields">
@@ -15946,7 +15988,7 @@
           <div class="setting" data-control-id="vid-net-ping" data-indicated="30-50ms">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.net-ping.name">Ping (Latência ao Servidor)</span>
+              <span class="setting-name" data-techterm="vid.set.net-ping.name">Ping (Latência ao Servidor)</span>
               <span class="setting-why" data-i18n-html="vid.set.net-ping.why">Tempo pro pacote ir até o servidor e voltar. <b>&lt;30ms</b> = excelente. <b>30-50ms</b> = muito bom (seu caso). <b>50-80ms</b> = jogável. <b>&gt;80ms</b> = "shoot first die anyway" começa. Acima de 100ms você vê inimigo teleportando.</span>
             </div>
             <div class="control-fields">
@@ -15968,7 +16010,7 @@
           <div class="setting" data-control-id="vid-net-nat" data-indicated="Tipo 2 ou melhor">
             <div class="setting-status new">+</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.net-nat.name">NAT Type (Tipo de NAT)</span>
+              <span class="setting-name" data-techterm="vid.set.net-nat.name">NAT Type (Tipo de NAT)</span>
               <span class="setting-why" data-i18n-html="vid.set.net-nat.why">Como seu PS5 atravessa o roteador. <b>Tipo 1 (Open)</b> = melhor. <b>Tipo 2 (Moderate)</b> = OK. <b>Tipo 3 (Strict)</b> = matchmaking lento e dropas conexão. Pra ver: PS5 ▸ Configurações ▸ Rede ▸ Status da Conexão.</span>
             </div>
             <div class="control-fields">
@@ -15990,7 +16032,7 @@
           <div class="setting" data-control-id="vid-net-speed" data-indicated="100Mbps+">
             <div class="setting-status ok">{{i:check}}</div>
             <div class="setting-info">
-              <span class="setting-name" data-i18n="vid.set.net-speed.name">Velocidade de Conexão</span>
+              <span class="setting-name" data-techterm="vid.set.net-speed.name">Velocidade de Conexão</span>
               <span class="setting-why" data-i18n-html="vid.set.net-speed.why">CoD usa pouquíssima banda em partida (~10Mbps). <b>100Mbps</b> já sobra. Você tem 1Gb (1000Mbps) — overkill em banda. O que importa é estabilidade (jitter baixo, sem packet loss) e ping baixo, não velocidade bruta.</span>
             </div>
             <div class="control-fields">
@@ -17355,6 +17397,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.54.0</span>
+                <span class="vh-date">19 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Termos técnicos nas configs + correções de mobile/menu/UX.</strong> (1) <strong>Configurações no idioma do console:</strong> nos painéis Controle/Mira/Movimento/Combate/Vídeo, os nomes das opções (64) e os rótulos das abas (5) agora seguem a <strong>linguagem dos termos técnicos</strong> (o que o jogador vê no PS5), e a explicação continua na língua de login. Motor novo `data-techterm` + `applyTechTerms()` (reusa o dicionário I18N chaveado por tech-lang; hooks no boot, setTechLang e languagechange). (2) <strong>Vídeo & Rede:</strong> a aba estava sem dicionário (72 chaves `vid.*` faltando) — adicionado PT + EN técnico; auditoria i18n voltou ao verde (1094 chaves). (3) <strong>Mobile:</strong> logo do Pitch deixou de transbordar/cortar no celular (responsivo 72/56px + breakpoints). (4) <strong>Botão de menu (hambúrguer):</strong> renderizava como quadrado laranja vazio (o `{{i:menu}}` não virava SVG) — agora é SVG inline de 3 linhas laranja-forte com glow e aria-label. (5) <strong>Card do operador:</strong> dois lápis ambíguos resolvidos (câmera "Trocar foto" vs lápis "Editar status") + tooltip nativo trocado pelo do Hub (`data-tip`). Validado: node 19/19, Playwright 19/19 (inclui criar-build E2E na conta real), tech-lang e mobile verificados no preview.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -19661,7 +19712,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.53.1</strong><span class="ver-tag">Correções de português (pt-BR) na montagem da arma, no Pitch e no aviso de logout — início da varredura de QA</span>
+        LEVEL · <strong>v2.54.0</strong><span class="ver-tag">Nomes das configs e abas no idioma dos termos técnicos (achar no console) + Vídeo & Rede traduzido + correções de mobile, menu e UX</span>
       </div>
       <script>
         (function(){
@@ -21132,9 +21183,46 @@ window.I18N = {
   pt: {
     // — Sidebar avatar / status —
     'avatar.placeholder': '+ FOTO',
-    'avatar.editHint':    '{{i:pencil}} Editar',
-    'avatar.title':       'Clique para alterar avatar',
+    'avatar.editHint':    '{{i:camera}} Trocar foto',
+    'avatar.title':       'Trocar a foto do avatar',
+    'nav.menu.open':      'Abrir menu',
     'status.editStatus':  'Editar status',
+    'vid.panel.title': 'Vídeo & Rede',
+    'vid.panel.desc': 'Setup de TV, PS5, BO7 in-game e conexão pra ganhar gunfights de 300ms (TTK — time-to-kill).',
+    'vid.group.ps5': 'PS5 · Saída de Vídeo',
+    'vid.group.bo7': 'BO7 · In-Game (Configurações ▸ Gráficos)',
+    'vid.group.tv': 'TV · Modo Jogo',
+    'vid.group.net': 'REDE · Conexão',
+    'vid.set.ps5-resolution.name': 'Resolução de Saída',
+    'vid.set.ps5-resolution.why': 'A 4K, o PS5 usa <b>dynamic resolution scaling</b> (escala dinâmica de resolução) e cai pra 1440p ou menos em momentos de ação. A 1440p nativo, segura 120fps estáveis. Frametime (tempo entre quadros) estável &gt; pixel count pro seu playstyle rusher.',
+    'vid.set.ps5-fps.name': 'FPS Output (Frames por Segundo)',
+    'vid.set.ps5-fps.why': 'A 120fps o input lag (atraso entre mexer o stick e ver na tela) cai pra metade vs 60fps. Tracking de inimigo em movimento fica visivelmente mais limpo. Crítico em gunfights de 1v1.',
+    'vid.set.ps5-hdr.name': 'HDR (High Dynamic Range)',
+    'vid.set.ps5-hdr.why': 'Aumenta o contraste entre áreas claras e escuras. Inimigos em sombras ficam mais visíveis. Vantagem real em mapas com cantos escuros (Paranoia, Cortex).',
+    'vid.set.ps5-vrr.name': 'VRR (Variable Refresh Rate)',
+    'vid.set.ps5-vrr.why': 'Taxa de atualização variável — sincroniza a TV com o FPS real do jogo. Quando o jogo dropa de 120 pra 90fps, a TV acompanha e você não vê screen tearing (rasgo de tela) nem stutter (engasgo).',
+    'vid.set.bo7-framerate.name': 'Frame Rate Priority',
+    'vid.set.bo7-framerate.why': '<b>Performance Mode</b>, não Quality Mode. Performance prioriza FPS estável (visual ligeiramente menos detalhado). Quality dá mais detalhe gráfico mas pode dropar frames em ação intensa.',
+    'vid.set.bo7-motionblur.name': 'Motion Blur',
+    'vid.set.bo7-motionblur.why': 'Borrão de movimento — esconde inimigos quando você vira a câmera rápido. Sempre desligado em FPS competitivo. Sem exceção.',
+    'vid.set.bo7-fov.name': 'FOV (Field of View · Campo de Visão)',
+    'vid.set.bo7-fov.why': 'Quanto você vê na tela. Default é 80-100. <b>120</b> = vê mais inimigos nos peeks (espiar canto) mas tudo fica menor. <b>110</b> é meio-termo confortável. Experimenta 110 primeiro.',
+    'vid.set.tv-gamemode.name': 'Modo Jogo (Game Mode)',
+    'vid.set.tv-gamemode.why': 'Reduz o input lag (atraso entre comando e tela) de ~30ms pra ~10ms em TVs modernas. Desative processamento de imagem desnecessário. Sem isso, você sente "atraso" no controle.',
+    'vid.set.tv-motionplus.name': 'Motion Plus / Interpolação de Quadros',
+    'vid.set.tv-motionplus.why': 'A TV "inventa" frames intermediários pra parecer mais fluido (ótimo pra novela). Em jogo, ADICIONA input lag — você pensa que está em 120fps mas o controle responde com atraso. Sempre desligado.',
+    'vid.set.tv-inputlag.name': 'Desfasamento de Entrada (Input Lag)',
+    'vid.set.tv-inputlag.why': 'Mostra na barra inferior da TV. <b>Mais Rápido</b> confirma que Modo Jogo está ativo de verdade. Se aparece "Normal" ou "Lento", o Modo Jogo não foi aplicado direito.',
+    'vid.set.tv-hdmi.name': 'Cabo & Porta HDMI',
+    'vid.set.tv-hdmi.why': 'Pra rodar 4K/1440p a 120Hz precisa de cabo HDMI <b>2.1</b> + porta 2.1 da TV. HDMI 2.0 limita a 4K 60Hz. Geralmente a porta 2.1 é marcada com "Game" ou "120Hz" no chassis.',
+    'vid.set.net-cable.name': 'Tipo de Conexão',
+    'vid.set.net-cable.why': 'Cabo de rede (Ethernet) tem latência menor e mais estável que Wi-Fi. Wi-Fi 6 dá pra jogar, mas qualquer interferência (microondas, vizinho) sobe o ping. Cabo é o padrão competitivo.',
+    'vid.set.net-ping.name': 'Ping (Latência ao Servidor)',
+    'vid.set.net-ping.why': 'Tempo pro pacote ir até o servidor e voltar. <b>&lt;30ms</b> = excelente. <b>30-50ms</b> = muito bom (seu caso). <b>50-80ms</b> = jogável. <b>&gt;80ms</b> = "shoot first die anyway" começa. Acima de 100ms você vê inimigo teleportando.',
+    'vid.set.net-nat.name': 'NAT Type (Tipo de NAT)',
+    'vid.set.net-nat.why': 'Como seu PS5 atravessa o roteador. <b>Tipo 1 (Open)</b> = melhor. <b>Tipo 2 (Moderate)</b> = OK. <b>Tipo 3 (Strict)</b> = matchmaking lento e dropas conexão. Pra ver: PS5 ▸ Configurações ▸ Rede ▸ Status da Conexão.',
+    'vid.set.net-speed.name': 'Velocidade de Conexão',
+    'vid.set.net-speed.why': 'CoD usa pouquíssima banda em partida (~10Mbps). <b>100Mbps</b> já sobra. Você tem 1Gb (1000Mbps) — overkill em banda. O que importa é estabilidade (jitter baixo, sem packet loss) e ping baixo, não velocidade bruta.',
 
     // — Brand / header —
     'brand.tagline':      'CALL OF DUTY®',
@@ -21429,8 +21517,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '19 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Correções de português do Brasil (montagem, Pitch e logout)',
-    'briefing.changelog.summary':  'Começamos uma <strong>varredura de qualidade</strong> do Hub. Nesta passagem, ajustamos textos que estavam em <strong>português de Portugal</strong> para <strong>português do Brasil</strong> na montagem da arma (build), no import e na análise da IA, além da nova página inicial e do aviso de logout. Mais correções vêm nas próximas atualizações.',
+    'briefing.changelog.headline': 'Configurações no idioma do console + ajustes de mobile e interface',
+    'briefing.changelog.summary':  'Nas configurações de Controle/Mira/Movimento/Combate/Vídeo, os <strong>nomes das opções e as abas</strong> agora seguem o idioma dos <strong>termos técnicos</strong> (pra você achar igualzinho no seu PS5), enquanto a explicação continua no seu idioma. A aba <strong>Vídeo & Rede</strong> ganhou tradução completa. Também: página inicial corrigida no celular, botão de menu mais claro, e o editar avatar com ícone de câmera.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22644,9 +22732,46 @@ window.I18N = {
   en: {
     // — Sidebar avatar / status —
     'avatar.placeholder': '+ PHOTO',
-    'avatar.editHint':    '{{i:pencil}} Edit',
-    'avatar.title':       'Click to change avatar',
+    'avatar.editHint':    '{{i:camera}} Change photo',
+    'avatar.title':       'Change your avatar photo',
+    'nav.menu.open':      'Open menu',
     'status.editStatus':  'Edit status',
+    'vid.panel.title': 'Video & Network',
+    'vid.panel.desc': 'TV, PS5, in-game BO7 and connection setup to win 300ms gunfights (TTK — time-to-kill).',
+    'vid.group.ps5': 'PS5 · Video Output',
+    'vid.group.bo7': 'BO7 · In-Game (Settings ▸ Graphics)',
+    'vid.group.tv': 'TV · Game Mode',
+    'vid.group.net': 'NETWORK · Connection',
+    'vid.set.ps5-resolution.name': 'Output Resolution',
+    'vid.set.ps5-resolution.why': 'At 4K, the PS5 uses <b>dynamic resolution scaling</b> and drops to 1440p or lower during action. At native 1440p it holds a steady 120fps. Stable frametime &gt; pixel count for your rusher playstyle.',
+    'vid.set.ps5-fps.name': 'FPS Output',
+    'vid.set.ps5-fps.why': 'At 120fps the input lag (delay between moving the stick and seeing it on screen) is halved vs 60fps. Tracking a moving enemy is visibly cleaner. Critical in 1v1 gunfights.',
+    'vid.set.ps5-hdr.name': 'HDR',
+    'vid.set.ps5-hdr.why': 'Increases contrast between bright and dark areas. Enemies in shadow become more visible. A real edge on maps with dark corners (Paranoia, Cortex).',
+    'vid.set.ps5-vrr.name': 'VRR',
+    'vid.set.ps5-vrr.why': 'Variable refresh rate — syncs the TV to the actual game FPS. When the game drops from 120 to 90fps the TV keeps up, so you get no screen tearing or stutter.',
+    'vid.set.bo7-framerate.name': 'Frame Rate Priority',
+    'vid.set.bo7-framerate.why': '<b>Performance Mode</b>, not Quality Mode. Performance prioritizes a stable FPS (slightly less visual detail). Quality gives more graphical detail but can drop frames in heavy action.',
+    'vid.set.bo7-motionblur.name': 'Motion Blur',
+    'vid.set.bo7-motionblur.why': 'Motion blur — hides enemies when you turn the camera fast. Always off in competitive FPS. No exceptions.',
+    'vid.set.bo7-fov.name': 'FOV (Field of View)',
+    'vid.set.bo7-fov.why': 'How much you see on screen. Default is 80-100. <b>120</b> = you see more enemies on peeks but everything looks smaller. <b>110</b> is a comfortable middle ground. Try 110 first.',
+    'vid.set.tv-gamemode.name': 'Game Mode',
+    'vid.set.tv-gamemode.why': 'Cuts input lag (delay between command and screen) from ~30ms to ~10ms on modern TVs. Disables unnecessary image processing. Without it, the controller feels laggy.',
+    'vid.set.tv-motionplus.name': 'Motion Smoothing (Motion Plus)',
+    'vid.set.tv-motionplus.why': 'The TV invents intermediate frames to look smoother (great for soap operas). In games it ADDS input lag — you think you are at 120fps but the controller responds late. Always off.',
+    'vid.set.tv-inputlag.name': 'Input Lag',
+    'vid.set.tv-inputlag.why': 'Shown on the TV bottom bar. <b>Fastest</b> confirms Game Mode is truly active. If it shows Normal or Slow, Game Mode was not applied correctly.',
+    'vid.set.tv-hdmi.name': 'HDMI Cable & Port',
+    'vid.set.tv-hdmi.why': 'To run 4K/1440p at 120Hz you need an HDMI <b>2.1</b> cable + a 2.1 port on the TV. HDMI 2.0 caps at 4K 60Hz. The 2.1 port is usually marked Game or 120Hz on the chassis.',
+    'vid.set.net-cable.name': 'Connection Type',
+    'vid.set.net-cable.why': 'A wired connection (Ethernet) has lower, more stable latency than Wi-Fi. Wi-Fi 6 is playable, but any interference (microwave, neighbor) raises the ping. Cable is the competitive standard.',
+    'vid.set.net-ping.name': 'Ping (Server Latency)',
+    'vid.set.net-ping.why': 'Time for a packet to reach the server and come back. <b>&lt;30ms</b> = excellent. <b>30-50ms</b> = very good (your case). <b>50-80ms</b> = playable. <b>&gt;80ms</b> = shoot-first-die-anyway starts. Above 100ms you see enemies teleporting.',
+    'vid.set.net-nat.name': 'NAT Type',
+    'vid.set.net-nat.why': 'How your PS5 traverses the router. <b>Type 1 (Open)</b> = best. <b>Type 2 (Moderate)</b> = OK. <b>Type 3 (Strict)</b> = slow matchmaking and dropped connections. To check: PS5 ▸ Settings ▸ Network ▸ Connection Status.',
+    'vid.set.net-speed.name': 'Connection Speed',
+    'vid.set.net-speed.why': 'CoD uses very little bandwidth in a match (~10Mbps). <b>100Mbps</b> is already plenty. You have 1Gb (1000Mbps) — overkill on bandwidth. What matters is stability (low jitter, no packet loss) and low ping, not raw speed.',
 
     // — Brand / header —
     'brand.tagline':      'CALL OF DUTY®',
@@ -22940,8 +23065,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 19, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Brazilian Portuguese fixes (build, Pitch and sign-out)',
-    'briefing.changelog.summary':  'We kicked off a Hub <strong>quality sweep</strong>. This pass moved text that was in <strong>European Portuguese</strong> over to <strong>Brazilian Portuguese</strong> across the weapon build, import and AI analysis, plus the new landing page and the sign-out notice. More fixes coming in the next updates.',
+    'briefing.changelog.headline': 'Settings in your console language + mobile & UI fixes',
+    'briefing.changelog.summary':  'In Controller/Aiming/Movement/Combat/Video settings, the <strong>option names and tabs</strong> now follow your <strong>technical-terms language</strong> (so you find them exactly as on your PS5), while the explanation stays in your language. The <strong>Video & Network</strong> tab got a full translation. Also: fixed landing page on mobile, a clearer menu button, and the avatar edit now uses a camera icon.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -24209,6 +24334,27 @@ window.setLanguage = function(lang) {
 
 // ── Linguagem Técnica (v2.11.0) — idioma das traduções dos termos do jogo ──
 // Delega ao módulo LevelGlossary (que persiste em ui_prefs e re-traduz as zonas).
+// ── Termos técnicos por-chave (nomes de config + abas) — v2.53.2 ──
+// Elementos [data-techterm="<chave I18N>"] mostram o texto na LINGUAGEM DOS TERMOS
+// TÉCNICOS (o que o jogador vê no console do PS5), independente da língua de login.
+// Regra: nome da config + rótulo da aba = termo técnico; descrição/explicação = língua de login.
+window.applyTechTerms = function () {
+  var tl = 'pt';
+  try {
+    var p = JSON.parse(localStorage.getItem('bo7hub_ui_prefs_v1') || '{}');
+    var t = p.tech_lang || 'auto';
+    var hub = (localStorage.getItem('bo7hub_lang_v1') === 'en') ? 'en' : 'pt';
+    tl = (t === 'auto') ? hub : (t === 'en' ? 'en' : 'pt');
+  } catch (e) {}
+  var dict = (window.I18N && window.I18N[tl]) || (window.I18N && window.I18N.pt) || {};
+  document.querySelectorAll('[data-techterm]').forEach(function (el) {
+    var k = el.getAttribute('data-techterm');
+    var v = dict[k];
+    if (v != null) el.textContent = v;
+  });
+};
+window.addEventListener('languagechange', function () { try { window.applyTechTerms(); } catch (e) {} });
+
 window.setTechLang = function(lang) {
   if (lang !== 'pt' && lang !== 'en') return;
   if (window.LevelGlossary && typeof window.LevelGlossary.setTechLang === 'function') {
@@ -24222,6 +24368,7 @@ window.setTechLang = function(lang) {
     } catch (e) {}
   }
   window.syncTechLangToggle();
+  try { window.applyTechTerms(); } catch (e) {}
 };
 
 // Marca o botão ativo do switch técnico conforme o idioma EFETIVO dos termos.
@@ -24238,7 +24385,7 @@ window.syncTechLangToggle = function() {
   });
 };
 document.addEventListener('DOMContentLoaded', function () {
-  setTimeout(function () { try { window.syncTechLangToggle(); } catch (e) {} }, 300);
+  setTimeout(function () { try { window.syncTechLangToggle(); } catch (e) {} try { window.applyTechTerms(); } catch (e) {} }, 300);
 });
 
 /* ===== HELP POPOVER controller (v2.12.1) =====
