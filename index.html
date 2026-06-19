@@ -12871,6 +12871,22 @@
   #level-pitch .lp-reveal.lp-right { transform: translateX(30px); }
   #level-pitch .lp-reveal.in { transform: none; }
 
+  /* Hover dos cards de feature — "Precision Lift" (handoff v9 §1.10): elevação + micro-escala + glow por acento */
+  #level-pitch .pitch-fcard { transition: transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms cubic-bezier(.2,.7,.2,1), border-color 200ms cubic-bezier(.2,.7,.2,1); will-change: transform; }
+  #level-pitch .pitch-fcard .lp-ficon { transition: transform 200ms cubic-bezier(.2,.7,.2,1); transform-origin: center; }
+  #level-pitch .pitch-fcard:hover {
+    transform: translateY(-4px) scale(1.012);
+    border-color: color-mix(in oklab, var(--fc-accent, var(--level-orange)) 42%, transparent) !important;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--fc-accent, var(--level-orange)) 22%, transparent),
+                0 0 30px color-mix(in oklab, var(--fc-accent, var(--level-orange)) 16%, transparent),
+                inset 0 1px 0 rgba(255,255,255,0.07),
+                0 26px 58px rgba(0,0,0,0.52) !important;
+  }
+  #level-pitch .pitch-fcard--sm:hover { transform: translateY(-3px) scale(1.008); }
+  #level-pitch .pitch-fcard:hover .lp-ficon { transform: scale(1.06); }
+  #level-pitch .pitch-fcard:active { transform: translateY(-2px) scale(1.006); transition-duration: 90ms; }
+  @media (prefers-reduced-motion: reduce) { #level-pitch .pitch-fcard, #level-pitch .pitch-fcard .lp-ficon { transition: none; } #level-pitch .pitch-fcard:hover { transform: none !important; } }
+
   #level-pitch .lp-assemble { max-width: 100%; }
 
   /* back-to-top (aparece ao rolar) */
@@ -13080,7 +13096,7 @@
 
   function row(f, lang, i) {
     var c = f[lang]; var flip = (i % 2 === 1);
-    return '<div class="lp-row lp-reveal ' + (flip ? 'lp-right flip' : 'lp-left') + '">' +
+    return '<div class="lp-row lp-reveal pitch-fcard ' + (flip ? 'flip' : '') + '" style="--fc-accent:' + f.acc + '">' +
       '<div class="lp-row-txt">' +
         '<div class="lp-row-tagline"><span class="lp-ficon" style="--acc:' + f.acc + ';width:52px;height:52px">' + icon(f.icon, '') + '</span>' +
         '<span class="lp-eyebrow" style="color:' + f.acc + '">' + c.tag + '</span></div>' +
@@ -13134,14 +13150,14 @@
     html += '<div class="lp-grid2 lp-reveal">';
     tier2.forEach(function (f) {
       var c = f[lang];
-      html += '<div class="lp-card2"><span class="lp-ficon" style="--acc:' + f.acc + ';width:48px;height:48px">' + icon(f.icon) + '</span>' +
+      html += '<div class="lp-card2 pitch-fcard" style="--fc-accent:' + f.acc + '"><span class="lp-ficon" style="--acc:' + f.acc + ';width:48px;height:48px">' + icon(f.icon) + '</span>' +
         '<div class="lp-card2-name">' + c.name + '</div><p>' + c.proof + '</p></div>';
     });
     html += '</div>';
     html += '<div class="lp-grid3 lp-reveal">';
     TIER3.forEach(function (f) {
       var c = f[lang];
-      html += '<div class="lp-card3"><span class="lp-ficon" style="--acc:var(--level-blue);width:40px;height:40px">' + icon(f.icon) + '</span>' +
+      html += '<div class="lp-card3 pitch-fcard pitch-fcard--sm" style="--fc-accent:var(--level-blue)"><span class="lp-ficon" style="--acc:var(--level-blue);width:40px;height:40px">' + icon(f.icon) + '</span>' +
         '<div><div class="lp-card3-name">' + c.name + '</div><div class="lp-card3-d">' + c.d + '</div></div></div>';
     });
     html += '</div></div>';
@@ -14188,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.54.1 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.54.2 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Ajustes de mobile: cards do Squad, cabeçalho e voltar ao topo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Vários acertos no celular na página inicial: o bloco <strong>Encontrar Squad</strong> não corta mais na lateral, cada jogador tem uma <strong>bolinha de status</strong> (verde online / vermelha offline), o cabeçalho ficou mais limpo (logo maior, sem o botão grande), surgiu um botão de <strong>voltar ao topo</strong>, e as telas de Entrar/Criar conta agora têm <strong>Voltar</strong> — dá até pra arrastar da beira da tela pra voltar.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Cards de feature com elevação ao passar o mouse (Precision Lift)</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Os cards de features da página inicial agora respondem ao passar o mouse com uma <strong>elevação curta e precisa</strong> — sobem um pouco, ganham um brilho na cor da feature e a borda acende. O slide lateral antigo saiu (parecia datado); a entrada por scroll virou um <strong>fade vertical</strong> mais estável. Respeita "reduzir movimento".</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17455,6 +17471,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.54.2</span>
+                <span class="vh-date">19 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Hover "Precision Lift" nos cards de feature (handoff v9 §1.10).</strong> Aplicado aos 3 tiers via classe `.pitch-fcard` (+ `.pitch-fcard--sm` no Tier 3): transição 200ms cubic-bezier(.2,.7,.2,1) só em transform/box-shadow/border-color (layout nunca reflui); hover = `translateY(-4px) scale(1.012)`, borda acende em `color-mix(--fc-accent 42%)`, sombra de profundidade + glow da marca, ícone `scale(1.06)`; active `translateY(-2px) scale(1.006)` em 90ms; Tier 3 elevação menor. Cada card define `--fc-accent` inline (cor da feature). Reveal das linhas editoriais trocado de slide lateral (lp-left/lp-right) para **fade vertical**. `prefers-reduced-motion` desliga. Validado: node 19/19, Playwright pitch 11/11, classes/transição confirmadas no preview.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.54.1</span>
                 <span class="vh-date">19 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19776,7 +19801,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.54.1</strong><span class="ver-tag">Mobile: Squad sem corte + bolinhas de status, cabeçalho mais limpo, voltar-ao-topo, e Voltar no login/criar conta (+ swipe da beira pra voltar)</span>
+        LEVEL · <strong>v2.54.2</strong><span class="ver-tag">Hover "Precision Lift" nos cards de feature (elevação + glow por acento) + reveal vertical das linhas editoriais (handoff v9)</span>
       </div>
       <script>
         (function(){
@@ -21583,8 +21608,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '19 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Ajustes de mobile: cards do Squad, cabeçalho e voltar ao topo',
-    'briefing.changelog.summary':  'Vários acertos no celular na página inicial: o bloco <strong>Encontrar Squad</strong> não corta mais na lateral, cada jogador tem uma <strong>bolinha de status</strong> (verde online / vermelha offline), o cabeçalho ficou mais limpo (logo maior, sem o botão grande), surgiu um botão de <strong>voltar ao topo</strong>, e as telas de Entrar/Criar conta agora têm <strong>Voltar</strong> — dá até pra arrastar da beira da tela pra voltar.',
+    'briefing.changelog.headline': 'Cards de feature com elevação ao passar o mouse (Precision Lift)',
+    'briefing.changelog.summary':  'Os cards de features da página inicial agora respondem ao passar o mouse com uma <strong>elevação curta e precisa</strong> — sobem um pouco, ganham um brilho na cor da feature e a borda acende. O slide lateral antigo saiu (parecia datado); a entrada por scroll virou um <strong>fade vertical</strong> mais estável. Respeita "reduzir movimento".',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23133,8 +23158,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 19, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Mobile polish: Squad cards, header and back-to-top',
-    'briefing.changelog.summary':  'Several mobile fixes on the landing page: the <strong>Find a Squad</strong> block no longer clips on the side, each player has a <strong>status dot</strong> (green online / red offline), a cleaner header (bigger logo, no oversized button), a new <strong>back-to-top</strong> button, and the Sign in / Create account screens now have a <strong>Back</strong> action — you can even swipe from the screen edge to go back.',
+    'briefing.changelog.headline': 'Feature cards lift on hover (Precision Lift)',
+    'briefing.changelog.summary':  'The landing page feature cards now respond to hover with a <strong>short, precise lift</strong> — they rise slightly, gain a glow in the feature color and the border lights up. The old horizontal slide is gone (looked dated); the scroll-in is now a steadier <strong>vertical fade</strong>. Respects "reduce motion".',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
