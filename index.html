@@ -12719,7 +12719,8 @@
     border-bottom: 1px solid rgba(174,199,224,0.10);
   }
   #level-pitch .lp-header-in { max-width: 1200px; margin: 0 auto; min-height: 66px; padding: 10px 32px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-  #level-pitch .lp-logo { height: 28px; width: auto; display: block; flex: none; }
+  #level-pitch .lp-logo { height: 34px; width: auto; display: block; flex: none; }
+  #level-pitch .lp-header-in .lp-langtoggle { margin-left: auto; }
   #level-pitch .lp-nav { display: flex; gap: 4px; flex: 1; margin-left: 14px; }
   #level-pitch .lp-navlink { font-family: var(--font-mono, monospace); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; padding: 7px 12px; border-radius: 7px; color: var(--text-muted, #8497B8); text-decoration: none; cursor: pointer; transition: color var(--dur-fast,120ms) var(--ease-out), background var(--dur-fast,120ms) var(--ease-out); }
   #level-pitch .lp-navlink:hover { color: var(--text-heading, #F2F6FC); background: rgba(174,199,224,0.06); }
@@ -12794,7 +12795,7 @@
   #level-pitch .lp-squad { position: relative; overflow: hidden; border-radius: 22px; border: 1px solid rgba(174,199,224,0.14);
     background: radial-gradient(70% 120% at 100% 0%, color-mix(in oklab, var(--class-lmg,#4ADE80) 12%, transparent), rgba(20,26,43,0.5) 60%);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: grid; grid-template-columns: 1.05fr 1fr; }
-  #level-pitch .lp-squad-l { padding: 44px; display: flex; flex-direction: column; justify-content: center; }
+  #level-pitch .lp-squad-l { padding: 44px; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
   #level-pitch .lp-squad-priv { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; padding: 8px 14px; border-radius: 999px; align-self: flex-start;
     border: 1px solid color-mix(in oklab, var(--class-marksman,#FFC857) 40%, transparent); background: color-mix(in oklab, var(--class-marksman,#FFC857) 10%, transparent); }
   #level-pitch .lp-squad-priv .lp-ic { width: 15px; height: 15px; color: var(--class-marksman,#FFC857); }
@@ -12803,12 +12804,15 @@
   #level-pitch .lp-chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 8px; font-family: var(--font-mono, monospace); font-size: 11.5px; color: var(--text-muted,#8497B8); border: 1px solid rgba(174,199,224,0.16); background: rgba(174,199,224,0.04); }
   #level-pitch .lp-chip.live { color: var(--class-lmg,#4ADE80); border-color: color-mix(in oklab, var(--class-lmg,#4ADE80) 45%, transparent); background: color-mix(in oklab, var(--class-lmg,#4ADE80) 10%, transparent); }
   #level-pitch .lp-chip .lp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--class-lmg,#4ADE80); box-shadow: 0 0 8px var(--class-lmg,#4ADE80); }
-  #level-pitch .lp-squad-r { position: relative; padding: 36px 36px 36px 12px; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+  #level-pitch .lp-squad-r { position: relative; padding: 36px 36px 36px 12px; display: flex; flex-direction: column; gap: 12px; justify-content: center; min-width: 0; }
+  #level-pitch .lp-poff-txt { font-family: var(--font-mono, monospace); font-size: 10.5px; letter-spacing: .04em; color: var(--text-faint,#5F6E8C); white-space: nowrap; }
   #level-pitch .lp-pcard { display: flex; align-items: center; gap: 16px; padding: 15px 18px; border-radius: 14px; border: 1px solid rgba(174,199,224,0.14); background: rgba(13,18,30,0.72); box-shadow: 0 10px 26px rgba(0,0,0,0.3); }
-  #level-pitch .lp-pav { position: relative; display: inline-flex; width: 52px; height: 52px; flex: none; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden;
+  #level-pitch .lp-pav { position: relative; display: inline-flex; width: 52px; height: 52px; flex: none; align-items: center; justify-content: center; border-radius: 12px; overflow: visible;
     border: 1px solid color-mix(in oklab, var(--acc) 50%, transparent); background: color-mix(in oklab, var(--acc) 12%, #0D121E); }
   #level-pitch .lp-pav svg { width: 60%; height: 60%; color: var(--acc); opacity: .9; }
-  #level-pitch .lp-pav .lp-online { position: absolute; right: -3px; top: -3px; width: 13px; height: 13px; border-radius: 50%; background: #4ADE80; border: 2px solid #0D121E; box-shadow: 0 0 8px #4ADE80; }
+  #level-pitch .lp-pav .lp-online, #level-pitch .lp-pav .lp-offline { position: absolute; right: -3px; top: -3px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #0D121E; }
+  #level-pitch .lp-pav .lp-online { background: #4ADE80; box-shadow: 0 0 8px #4ADE80; }
+  #level-pitch .lp-pav .lp-offline { background: #E74C3C; box-shadow: 0 0 8px rgba(231,76,60,0.7); }
   #level-pitch .lp-pinfo { flex: 1; min-width: 0; }
   #level-pitch .lp-ptop { display: flex; align-items: center; gap: 9px; }
   #level-pitch .lp-ptag { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 15.5px; color: var(--text-heading,#F2F6FC); }
@@ -12868,6 +12872,22 @@
   #level-pitch .lp-reveal.in { transform: none; }
 
   #level-pitch .lp-assemble { max-width: 100%; }
+
+  /* back-to-top (aparece ao rolar) */
+  #level-pitch .lp-totop {
+    position: fixed; right: 18px; bottom: 22px; z-index: 60;
+    width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(20,26,43,0.92);
+    border: 1px solid rgba(255,152,0,0.5); color: var(--level-orange-bright, #FFB23E);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 16px rgba(255,152,0,0.3);
+    cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(10px);
+    transition: opacity .2s ease, transform .2s ease, box-shadow .15s ease;
+  }
+  #level-pitch .lp-totop.show { opacity: 1; pointer-events: auto; transform: none; }
+  #level-pitch .lp-totop:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 22px rgba(255,152,0,0.55); }
+  #level-pitch .lp-totop svg { width: 22px; height: 22px; }
+  @media (prefers-reduced-motion: reduce) { #level-pitch .lp-totop { transition: opacity .2s ease; } }
+
   @media (max-width: 920px) {
     #level-pitch .lp-nav { display: none; }
     #level-pitch .lp-header-in { padding: 10px 18px; gap: 12px; }
@@ -12920,7 +12940,6 @@
           <button type="button" class="lp-langbtn" data-pitch-act="lang-en">EN</button>
         </span>
         <button type="button" class="lp-btn ghost" data-pitch-act="login" data-lp="ctaLogin"></button>
-        <button type="button" class="lp-btn primary" data-pitch-act="signup" data-lp="ctaPrimary"></button>
       </div>
     </div>
 
@@ -12943,6 +12962,7 @@
 
     <div id="lp-rest"></div>
   </div>
+  <button type="button" class="lp-totop" id="lp-totop" aria-label="Voltar ao topo" data-i18n-attr="aria-label:nav.toTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="19" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
 </div>
 
 <script>
@@ -13099,10 +13119,10 @@
     html += '<div class="lp-squad-r">';
     SQUAD.forEach(function (p) {
       html += '<div class="lp-pcard">' +
-        '<span class="lp-pav" style="--acc:' + p.acc + '">' + icon(p.av) + (p.avail ? '<span class="lp-online"></span>' : '') + '</span>' +
+        '<span class="lp-pav" style="--acc:' + p.acc + '">' + icon(p.av) + (p.avail ? '<span class="lp-online"></span>' : '<span class="lp-offline"></span>') + '</span>' +
         '<div class="lp-pinfo"><div class="lp-ptop"><span class="lp-ptag">' + p.tag + '</span><span class="lp-pstyle" style="--acc:' + p.acc + '">' + p.style[lang] + '</span></div>' +
         '<div class="lp-pmeta"><span>' + p.plat + '</span><span>Nv ' + p.level + '</span><span>' + p.ln + '</span></div></div>' +
-        (p.avail ? '<span class="lp-pavail">' + t.squadAvailable + '</span>' : '<span class="lp-poff">' + icon('Lock') + '</span>') +
+        (p.avail ? '<span class="lp-pavail">' + t.squadAvailable + '</span>' : '<span class="lp-poff-txt">Offline</span>') +
       '</div>';
     });
     html += '<div style="align-self:flex-start;margin-top:6px"><button type="button" class="lp-btn ghost" data-pitch-act="signup">' + icon('Users') + '<span>' + t.squadFind + '</span></button></div>';
@@ -13312,6 +13332,28 @@
   }
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && gateCanClose()) LEVEL_AUTH.showGate(false); });
 
+  // back-to-top: aparece ao rolar o Pitch, volta ao topo ao clicar
+  var toTop = document.getElementById('lp-totop');
+  if (pitch && toTop) {
+    pitch.addEventListener('scroll', function () { toTop.classList.toggle('show', pitch.scrollTop > 480); }, { passive: true });
+    toTop.addEventListener('click', function () { try { pitch.scrollTo({ top: 0, behavior: _reduced ? 'auto' : 'smooth' }); } catch (e) { pitch.scrollTop = 0; } });
+  }
+
+  // swipe da beira esquerda → "voltar" (fecha o auth gate e volta ao Pitch)
+  (function () {
+    var sx = 0, sy = 0, tracking = false;
+    document.addEventListener('touchstart', function (e) {
+      if (!gateCanClose()) { tracking = false; return; }
+      var t = e.touches && e.touches[0];
+      if (t && t.clientX <= 28) { sx = t.clientX; sy = t.clientY; tracking = true; } else { tracking = false; }
+    }, { passive: true });
+    document.addEventListener('touchend', function (e) {
+      if (!tracking) return; tracking = false;
+      var t = e.changedTouches && e.changedTouches[0]; if (!t) return;
+      if ((t.clientX - sx) > 60 && Math.abs(t.clientY - sy) < 50 && gateCanClose()) LEVEL_AUTH.showGate(false);
+    }, { passive: true });
+  })();
+
   window.addEventListener('languagechange', function () { render(curLang()); });
 
   window.LevelPitch = { show: show, hide: hide, render: render };
@@ -13375,6 +13417,18 @@
   }
   #level-auth-gate .lag-card.anim-in { animation: lag-card-in var(--dur-slow,280ms) var(--ease-out); }
   @keyframes lag-card-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+  #level-auth-gate .lag-back {
+    position: absolute; top: 12px; left: 12px; z-index: 3;
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px 6px 8px;
+    border-radius: 8px; background: transparent; border: 1px solid var(--border-subtle);
+    color: var(--text-muted, #8497B8); font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 11px; letter-spacing: .04em; cursor: pointer;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  #level-auth-gate .lag-back:hover, #level-auth-gate .lag-back:focus-visible {
+    color: var(--level-orange, #FF9800); border-color: rgba(255,152,0,0.45); background: rgba(255,152,0,0.07); outline: none;
+  }
+  #level-auth-gate .lag-back svg { width: 14px; height: 14px; }
   #level-auth-gate .lag-card::before {
     content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; border-radius: 16px 16px 0 0;
     background: linear-gradient(90deg, var(--level-orange-deep,#E07B00), var(--level-orange,#FF9800), var(--level-orange-bright,#FFB23E));
@@ -13496,6 +13550,7 @@
 
 <div id="level-auth-gate" role="dialog" aria-modal="true" aria-label="Acesso ao LEVEL">
   <div class="lag-card" id="lag-card">
+    <button type="button" class="lag-back" onclick="LEVEL_AUTH.showGate(false)" data-i18n-attr="aria-label:auth.back" aria-label="Voltar ao site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span data-i18n="auth.back">Voltar</span></button>
     <div class="lag-head">
       <svg class="lag-logo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><title>LEVEL</title><use href="#level-logo"></use></svg>
       <div class="lag-sub">Tactical Hub · BO7</div>
@@ -14133,12 +14188,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.54.0 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.54.1 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Configurações no idioma do console + ajustes de mobile e interface</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Nas configurações de Controle/Mira/Movimento/Combate/Vídeo, os <strong>nomes das opções e as abas</strong> agora seguem o idioma dos <strong>termos técnicos</strong> (pra você achar igualzinho no seu PS5), enquanto a explicação continua no seu idioma. A aba <strong>Vídeo & Rede</strong> ganhou tradução completa. Também: página inicial corrigida no celular, botão de menu mais claro, e o editar avatar com ícone de câmera.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Ajustes de mobile: cards do Squad, cabeçalho e voltar ao topo</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Vários acertos no celular na página inicial: o bloco <strong>Encontrar Squad</strong> não corta mais na lateral, cada jogador tem uma <strong>bolinha de status</strong> (verde online / vermelha offline), o cabeçalho ficou mais limpo (logo maior, sem o botão grande), surgiu um botão de <strong>voltar ao topo</strong>, e as telas de Entrar/Criar conta agora têm <strong>Voltar</strong> — dá até pra arrastar da beira da tela pra voltar.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17400,6 +17455,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.54.1</span>
+                <span class="vh-date">19 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Polimento mobile do Pitch + voltar/back.</strong> (1) <strong>Encontrar Squad</strong> deixou de cortar na lateral no mobile — itens do grid ganharam `min-width:0` (texto nowrap já não força largura). (2) <strong>Bolinha de status</strong> em cada jogador: `.lp-pav` passou a `overflow:visible` (dot não é mais cortado) e o offline mostra <strong>bolinha vermelha</strong> (#E74C3C) em vez de cadeado. (3) <strong>Cabeçalho:</strong> removido o botão "Criar conta grátis" (desproporcional no mobile), logo 28→34px, toggle+Entrar empurrados à direita (`margin-left:auto`). (4) <strong>Back-to-top:</strong> botão flutuante que aparece ao rolar (>480px) e volta ao topo. (5) <strong>Auth gate:</strong> botão <strong>Voltar</strong> (← volta ao Pitch) no card; + gesto de <strong>swipe da beira esquerda</strong> pra voltar; Esc/clique-fora já existiam. Validado: node 19/19, Playwright 19/19, medições no preview a 390px (sem overflow, dots íntegros, header limpo, back-to-top toggla).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.54.0</span>
                 <span class="vh-date">19 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -19712,7 +19776,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.54.0</strong><span class="ver-tag">Nomes das configs e abas no idioma dos termos técnicos (achar no console) + Vídeo & Rede traduzido + correções de mobile, menu e UX</span>
+        LEVEL · <strong>v2.54.1</strong><span class="ver-tag">Mobile: Squad sem corte + bolinhas de status, cabeçalho mais limpo, voltar-ao-topo, e Voltar no login/criar conta (+ swipe da beira pra voltar)</span>
       </div>
       <script>
         (function(){
@@ -21186,6 +21250,8 @@ window.I18N = {
     'avatar.editHint':    '{{i:camera}} Trocar foto',
     'avatar.title':       'Trocar a foto do avatar',
     'nav.menu.open':      'Abrir menu',
+    'nav.toTop':          'Voltar ao topo',
+    'auth.back':          'Voltar',
     'status.editStatus':  'Editar status',
     'vid.panel.title': 'Vídeo & Rede',
     'vid.panel.desc': 'Setup de TV, PS5, BO7 in-game e conexão pra ganhar gunfights de 300ms (TTK — time-to-kill).',
@@ -21517,8 +21583,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '19 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Configurações no idioma do console + ajustes de mobile e interface',
-    'briefing.changelog.summary':  'Nas configurações de Controle/Mira/Movimento/Combate/Vídeo, os <strong>nomes das opções e as abas</strong> agora seguem o idioma dos <strong>termos técnicos</strong> (pra você achar igualzinho no seu PS5), enquanto a explicação continua no seu idioma. A aba <strong>Vídeo & Rede</strong> ganhou tradução completa. Também: página inicial corrigida no celular, botão de menu mais claro, e o editar avatar com ícone de câmera.',
+    'briefing.changelog.headline': 'Ajustes de mobile: cards do Squad, cabeçalho e voltar ao topo',
+    'briefing.changelog.summary':  'Vários acertos no celular na página inicial: o bloco <strong>Encontrar Squad</strong> não corta mais na lateral, cada jogador tem uma <strong>bolinha de status</strong> (verde online / vermelha offline), o cabeçalho ficou mais limpo (logo maior, sem o botão grande), surgiu um botão de <strong>voltar ao topo</strong>, e as telas de Entrar/Criar conta agora têm <strong>Voltar</strong> — dá até pra arrastar da beira da tela pra voltar.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22735,6 +22801,8 @@ window.I18N = {
     'avatar.editHint':    '{{i:camera}} Change photo',
     'avatar.title':       'Change your avatar photo',
     'nav.menu.open':      'Open menu',
+    'nav.toTop':          'Back to top',
+    'auth.back':          'Back',
     'status.editStatus':  'Edit status',
     'vid.panel.title': 'Video & Network',
     'vid.panel.desc': 'TV, PS5, in-game BO7 and connection setup to win 300ms gunfights (TTK — time-to-kill).',
@@ -23065,8 +23133,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 19, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Settings in your console language + mobile & UI fixes',
-    'briefing.changelog.summary':  'In Controller/Aiming/Movement/Combat/Video settings, the <strong>option names and tabs</strong> now follow your <strong>technical-terms language</strong> (so you find them exactly as on your PS5), while the explanation stays in your language. The <strong>Video & Network</strong> tab got a full translation. Also: fixed landing page on mobile, a clearer menu button, and the avatar edit now uses a camera icon.',
+    'briefing.changelog.headline': 'Mobile polish: Squad cards, header and back-to-top',
+    'briefing.changelog.summary':  'Several mobile fixes on the landing page: the <strong>Find a Squad</strong> block no longer clips on the side, each player has a <strong>status dot</strong> (green online / red offline), a cleaner header (bigger logo, no oversized button), a new <strong>back-to-top</strong> button, and the Sign in / Create account screens now have a <strong>Back</strong> action — you can even swipe from the screen edge to go back.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
