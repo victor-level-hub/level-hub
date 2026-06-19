@@ -13273,6 +13273,15 @@
   window.addEventListener('languagechange', function () { render(curLang()); });
 
   window.LevelPitch = { show: show, hide: hide, render: render };
+
+  // Anti-flash: o boot() do LEVEL_AUTH é assíncrono (espera o import do Supabase pela rede).
+  // Se não há sessão persistida, assume-se deslogado e mostra-se o Pitch já no parse — assim o
+  // hub não pisca por trás antes do boot decidir. Se houver sessão, o boot() esconde o Pitch.
+  try {
+    var _persisted = null;
+    try { _persisted = localStorage.getItem('level.auth.session'); } catch (e) {}
+    if (!_persisted) show();
+  } catch (e) {}
 })();
 </script>
 <!-- ============ FIM LEVEL · PITCH ============ -->
@@ -14082,12 +14091,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.52.0 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.53.0 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Página inicial nova: o Pitch que apresenta o LEVEL antes do login</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Uma nova superfície <strong>pré-login</strong> (a &ldquo;Pitch&rdquo;) recebe quem ainda não tem conta: <strong>logo animado</strong> que se monta ao carregar, as features-gancho (Le Vél, Montagem Inteligente, Captura por foto), <strong>Encontrar Squad</strong>, planos e um footer profissional — bilíngue PT/EN. Os botões <strong>Entrar</strong> e <strong>Criar conta</strong> abrem o login de sempre por cima; depois de logar, cais direto no Hub. A Temporada &amp; Eventos continua só no Hub.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Botão de sair + a página inicial deixou de piscar o Hub</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Agora dá pra <strong>sair da conta</strong> direto em <strong>Configurações</strong> (com confirmação) — ao sair, voltas para a página inicial (Pitch). E corrigimos um detalhe do arranque: a página inicial já <strong>não pisca o Hub</strong> por um instante antes de aparecer.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17349,6 +17358,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.53.0</span>
+                <span class="vh-date">19 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Botão de logout + fix do flash de arranque do Pitch.</strong> (1) Novo botão <strong>Sair da conta</strong> na barra de ações de Configurações — ícone `log-out` adicionado ao registry LUCIDE, i18n PT/EN (`set.btn.logout` em window.I18N; `set.confirm.logout.*` em CBI18N). Branch no handler delegado de settings: confirma via `LevelModal.confirm` e chama `LEVEL_AUTH.logout()` → `signOut` do Supabase → `showGate(false)` + `LevelPitch.show()` (volta ao Pitch). Antes a função `LEVEL_AUTH.logout` existia mas **não tinha UI nenhuma** (havia até um comentário "logout… não temos isso ainda"). (2) <strong>Anti-flash:</strong> o `boot()` do `LEVEL_AUTH` é assíncrono (espera o `import` do supabase-js pela rede) e o Hub ficava visível nesse intervalo antes de cair no Pitch. Agora o script do Pitch decide **no parse**: sem chave de sessão persistida (`localStorage['level.auth.session']`) → `LevelPitch.show()` imediato; com sessão → não mostra (o `boot()` confirma e esconde). Logado não vê o Pitch; deslogado não vê o Hub piscar. Validado: node `--check` 19/19, 1 main + 15 sections, botão+ícone+i18n+confirm e Pitch-no-parse verificados no Claude Preview.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.52.0</span>
                 <span class="vh-date">19 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -19018,6 +19036,7 @@
         <button class="settings-btn" id="set-export-btn" data-i18n="set.btn.export">{{i:download}} Exportar backup (.json)</button>
         <button class="settings-btn" id="set-import-btn" data-i18n="set.btn.import">{{i:upload}} Importar backup</button>
         <button class="settings-btn danger" id="set-clear-btn" data-i18n="set.btn.clear">{{i:trash-2}} Limpar tudo</button>
+        <button class="settings-btn" id="set-logout-btn" data-i18n="set.btn.logout">{{i:log-out}} Sair da conta</button>
         <input type="file" class="settings-file-input" id="set-import-file" accept="application/json">
       </div>
 
@@ -19633,7 +19652,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.52.0</strong><span class="ver-tag">Nova página inicial (Pitch) pré-login: logo animado, features, Encontrar Squad, planos e footer profissional — bilíngue PT/EN</span>
+        LEVEL · <strong>v2.53.0</strong><span class="ver-tag">Botão Sair da conta (Configurações) + correção do flash do Hub no arranque da página inicial</span>
       </div>
       <script>
         (function(){
@@ -21401,8 +21420,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '19 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Página inicial nova: o Pitch que apresenta o LEVEL antes do login',
-    'briefing.changelog.summary':  'Uma nova superfície <strong>pré-login</strong> (a &ldquo;Pitch&rdquo;) recebe quem ainda não tem conta: <strong>logo animado</strong> que se monta ao carregar, as features-gancho (Le Vél, Montagem Inteligente, Captura por foto), <strong>Encontrar Squad</strong>, planos e um footer profissional — bilíngue PT/EN. Os botões <strong>Entrar</strong> e <strong>Criar conta</strong> abrem o login de sempre por cima; depois de logar, cais direto no Hub. A Temporada &amp; Eventos continua só no Hub.',
+    'briefing.changelog.headline': 'Botão de sair + a página inicial deixou de piscar o Hub',
+    'briefing.changelog.summary':  'Agora dá pra <strong>sair da conta</strong> direto em <strong>Configurações</strong> (com confirmação) — ao sair, voltas para a página inicial (Pitch). E corrigimos um detalhe do arranque: a página inicial já <strong>não pisca o Hub</strong> por um instante antes de aparecer.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22275,6 +22294,7 @@ window.I18N = {
     'set.btn.export': '{{i:download}} Exportar backup (.json)',
     'set.btn.import': '{{i:upload}} Importar backup',
     'set.btn.clear': '{{i:trash-2}} Limpar tudo',
+    'set.btn.logout': '{{i:log-out}} Sair da conta',
     // — Operator Panel · Cloud Sync + Catalog (v75-56 i18n) —
     'opp.cloud.section':      '{{i:cloud}} Backup na cloud',
     'opp.cloud.push.title':   'Enviar para a cloud',
@@ -22911,8 +22931,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 19, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'New landing page: the Pitch that introduces LEVEL before login',
-    'briefing.changelog.summary':  'A new <strong>pre-login</strong> surface (the &ldquo;Pitch&rdquo;) welcomes visitors without an account: an <strong>animated logo</strong> that assembles on load, the hook features (Le Vél, Smart Build, Photo capture), <strong>Find a Squad</strong>, pricing and a professional footer — bilingual PT/EN. The <strong>Sign in</strong> and <strong>Create account</strong> buttons open the existing login on top; after signing in you land straight in the Hub. Season &amp; Events stays in the Hub only.',
+    'briefing.changelog.headline': 'Sign-out button + the landing no longer flashes the Hub',
+    'briefing.changelog.summary':  'You can now <strong>sign out</strong> right from <strong>Settings</strong> (with a confirmation) — signing out takes you back to the landing page (Pitch). We also fixed a startup glitch: the landing page no longer <strong>flashes the Hub</strong> for a moment before showing.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -23785,6 +23805,7 @@ window.I18N = {
     'set.btn.export': '{{i:download}} Export backup (.json)',
     'set.btn.import': '{{i:upload}} Import backup',
     'set.btn.clear': '{{i:trash-2}} Clear all',
+    'set.btn.logout': '{{i:log-out}} Sign out',
     // — Operator Panel · Cloud Sync + Catalog (v75-56 i18n) —
     'opp.cloud.section':      '{{i:cloud}} Cloud backup',
     'opp.cloud.push.title':   'Send to cloud',
@@ -38666,6 +38687,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         refreshAfterImageChange();
         return;
       }
+      // v2.53.0: logout — termina a sessão e volta ao Pitch
+      if (e.target.closest && e.target.closest('#set-logout-btn')) {
+        if (!(await LevelModal.confirm({ title: cbt('set.confirm.logout.title'), message: cbt('set.confirm.logout.msg'), variant: 'danger', confirmText: cbt('set.confirm.logout.btn') }))) return;
+        try { if (window.LEVEL_AUTH && LEVEL_AUTH.logout) await LEVEL_AUTH.logout(); } catch (e2) {}
+        return;
+      }
       // v75-94: Migrar todas as imagens do localStorage pra cloud
       if (e.target.id === 'set-migrate-cloud-btn') {
         const btn = e.target;
@@ -38897,6 +38924,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.extra_equipment': 'Equipamento extra',
         'set.group.constructor': 'Construtor', 'set.group.armament': 'Armamento', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Mapas', 'set.group.perks_streaks': 'Vantagens & Séries', 'set.group.tools': 'Ferramentas', 'set.group.operator': 'Operador', 'set.tab.avatar': 'Avatar',
         'set.confirm.clear': 'Apagar TODAS as imagens salvas? Não dá pra recuperar.',
+        'set.confirm.logout.title': 'Sair da conta',
+        'set.confirm.logout.msg': 'Terminar a sessão neste dispositivo? Vais voltar à página inicial. Os teus dados ficam guardados na conta.',
+        'set.confirm.logout.btn': 'Sair',
         'set.confirm.remove': 'Remover imagem de "{0}"?',
         'set.confirm.migrate.title': 'Migrar imagens pra cloud',
         'set.confirm.migrate.msg': 'Vou enviar {0} imagens locais pro Supabase. Continuar?',
@@ -39052,6 +39082,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.extra_equipment': 'Extra equipment',
         'set.group.constructor': 'Constructor', 'set.group.armament': 'Armament', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Maps', 'set.group.perks_streaks': 'Perks & Streaks', 'set.group.tools': 'Tools', 'set.group.operator': 'Operator', 'set.tab.avatar': 'Avatar',
         'set.confirm.clear': 'Delete ALL saved images? This cannot be undone.',
+        'set.confirm.logout.title': 'Sign out',
+        'set.confirm.logout.msg': 'End your session on this device? You will return to the landing page. Your data stays saved to your account.',
+        'set.confirm.logout.btn': 'Sign out',
         'set.confirm.remove': 'Remove image of "{0}"?',
         'set.confirm.migrate.title': 'Migrate images to cloud',
         'set.confirm.migrate.msg': 'I will upload {0} local images to Supabase. Continue?',
@@ -42180,7 +42213,8 @@ ${cbt('share.t.footer')}`;
     "cloud-check":    "<path d=\"M17.5 21H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 0 1 2.5 8.242\"/><path d=\"m9 14 2 2 4-4\"/>",
     "mail":           "<rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/>",
     "alert-circle":   "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 8v4\"/><path d=\"M12 16h.01\"/>",
-    "circle-check":   "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>"
+    "circle-check":   "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>",
+    "log-out":        "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><polyline points=\"16 17 21 12 16 7\"/><line x1=\"21\" x2=\"9\" y1=\"12\" y2=\"12\"/>"
   });
 
   // {{i:nome}}  ou  {{i:nome:16}}  →  SVG
