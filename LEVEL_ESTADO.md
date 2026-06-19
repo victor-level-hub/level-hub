@@ -31,7 +31,7 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.54.2` (SemVer desde v2.0.0)
+**Versão:** `v2.54.3` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,3 MB, ~48.000 linhas, 17 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
