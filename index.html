@@ -113,6 +113,10 @@
     --text-body: var(--ink-200);
     --text-faint: var(--ink-500);
     --text-placeholder: var(--ink-600);
+    /* família tipográfica (tokens explícitos — já referenciados com fallback no Auth Gate/Pitch) */
+    --font-display: 'Chakra Petch', sans-serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -12663,6 +12667,617 @@
 </g></symbol></svg>
 
 <!-- ============================================================ -->
+<!-- LEVEL · PITCH (pré-login landing) · Direção A · Cinemático   -->
+<!-- Superfície pública mostrada quando deslogado. CTAs abrem o   -->
+<!-- auth gate existente. Vanilla, tokens do :root, i18n próprio. -->
+<!-- ============================================================ -->
+<style>
+  #level-pitch {
+    position: fixed; inset: 0; z-index: 9000; display: none; overflow-y: auto; overflow-x: hidden;
+    font-family: var(--font-body, 'IBM Plex Sans', sans-serif); color: var(--text-body, #DCE5F2);
+    -webkit-font-smoothing: antialiased;
+  }
+  #level-pitch.show { display: block; }
+  #level-pitch .lp-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(70% 50% at 50% -8%, rgba(255,152,0,0.12), transparent 62%),
+      radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,0.55), transparent 60%),
+      linear-gradient(170deg, #0C0F18 0%, #0A0C14 55%, #100B0C 100%);
+  }
+  #level-pitch .lp-wrap { position: relative; z-index: 1; }
+
+  /* header */
+  #level-pitch .lp-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(15,20,34,0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(174,199,224,0.10);
+  }
+  #level-pitch .lp-header-in { max-width: 1200px; margin: 0 auto; min-height: 66px; padding: 10px 32px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  #level-pitch .lp-logo { height: 28px; width: auto; display: block; flex: none; }
+  #level-pitch .lp-nav { display: flex; gap: 4px; flex: 1; margin-left: 14px; }
+  #level-pitch .lp-navlink { font-family: var(--font-mono, monospace); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; padding: 7px 12px; border-radius: 7px; color: var(--text-muted, #8497B8); text-decoration: none; cursor: pointer; transition: color var(--dur-fast,120ms) var(--ease-out), background var(--dur-fast,120ms) var(--ease-out); }
+  #level-pitch .lp-navlink:hover { color: var(--text-heading, #F2F6FC); background: rgba(174,199,224,0.06); }
+
+  /* lang toggle */
+  #level-pitch .lp-langtoggle { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 5px 0 11px; border-radius: 999px; border: 1px solid rgba(174,199,224,0.18); background: rgba(15,20,34,0.5); }
+  #level-pitch .lp-langtoggle .lp-globe { display: inline-flex; width: 14px; height: 14px; color: var(--text-faint, #5F6E8C); }
+  #level-pitch .lp-langbtn { cursor: pointer; border: none; border-radius: 999px; line-height: 1; font-family: var(--font-mono, monospace); font-size: 11px; font-weight: 700; letter-spacing: .06em; padding: 6px 10px; color: var(--text-muted, #8497B8); background: transparent; transition: all var(--dur-fast,120ms); }
+  #level-pitch .lp-langbtn.active { color: var(--action-ink, #1A1206); background: var(--level-orange, #FF9800); }
+
+  /* buttons */
+  #level-pitch .lp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; cursor: pointer; font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 700; letter-spacing: .02em; font-size: 14px; padding: 9px 16px; border-radius: 10px; border: 1px solid transparent; transition: transform var(--dur-base,180ms) var(--ease-out), box-shadow var(--dur-base,180ms), border-color var(--dur-base,180ms), background var(--dur-base,180ms); }
+  #level-pitch .lp-btn .lp-ic { width: 16px; height: 16px; flex: none; }
+  #level-pitch .lp-btn.primary { color: var(--action-ink, #1A1206); background: linear-gradient(180deg, var(--level-orange-bright,#FFB23E), var(--level-orange,#FF9800)); box-shadow: 0 0 28px rgba(255,152,0,0.38), 0 8px 22px rgba(255,152,0,0.22); }
+  #level-pitch .lp-btn.primary:hover { transform: translateY(-2px); }
+  #level-pitch .lp-btn.ghost { color: var(--text-heading, #F2F6FC); background: rgba(174,199,224,0.07); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-color: rgba(174,199,224,0.22); }
+  #level-pitch .lp-btn.ghost:hover { border-color: rgba(174,199,224,0.42); background: rgba(174,199,224,0.12); }
+  #level-pitch .lp-btn.big { font-size: 16px; padding: 15px 26px; }
+  #level-pitch .lp-btn.full { width: 100%; }
+
+  /* hero */
+  #level-pitch .lp-hero { position: relative; overflow: hidden; padding: 60px 32px 72px; text-align: center; }
+  #level-pitch .lp-hud { position: absolute; inset: 0; pointer-events: none; opacity: .22;
+    background-image: linear-gradient(rgba(174,199,224,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(174,199,224,0.05) 1px, transparent 1px);
+    background-size: 46px 46px; -webkit-mask-image: radial-gradient(70% 60% at 50% 30%, #000 0%, transparent 80%); mask-image: radial-gradient(70% 60% at 50% 30%, #000 0%, transparent 80%); }
+  #level-pitch .lp-hero-glow { position: absolute; top: -160px; left: 50%; transform: translateX(-50%); width: 760px; height: 440px; pointer-events: none; background: radial-gradient(50% 50% at 50% 50%, rgba(255,152,0,0.11), transparent 70%); }
+  #level-pitch .lp-hero-in { position: relative; max-width: 940px; margin: 0 auto; }
+  #level-pitch .lp-assemble-wrap { position: relative; display: inline-flex; margin-bottom: 30px; }
+  #level-pitch .lp-assemble-glow { position: absolute; inset: -30% -12%; pointer-events: none; background: radial-gradient(50% 60% at 50% 50%, rgba(255,152,0,0.28), transparent 72%); filter: blur(6px); }
+  #level-pitch .lp-assemble { position: relative; height: 104px; display: block; overflow: visible; filter: drop-shadow(0 14px 40px rgba(255,152,0,0.28)); }
+  #level-pitch .lp-assemble path { transform-box: fill-box; transform-origin: center; }
+  #level-pitch .lp-h1 { margin: 0 0 26px; font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 700; font-size: 66px; line-height: 1.02; letter-spacing: .005em; }
+  #level-pitch .lp-h1 .lp-h1a { color: var(--text-heading, #F2F6FC); }
+  #level-pitch .lp-h1 .lp-h1b { background-image: linear-gradient(180deg, var(--level-orange-bright,#FFB23E) 10%, #FFE0B2 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #level-pitch .lp-sub { margin: 0 auto 42px; max-width: 640px; font-size: 18px; line-height: 1.62; color: var(--text-secondary, #AEC7E0); }
+  #level-pitch .lp-hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* generic section + headings */
+  #level-pitch .lp-sec { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+  #level-pitch .lp-sec-head { text-align: center; margin-bottom: 48px; }
+  #level-pitch .lp-eyebrow { font-family: var(--font-mono, monospace); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+  #level-pitch .lp-h2 { margin: 14px 0 12px; font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 700; font-size: 38px; line-height: 1.08; color: var(--text-heading, #F2F6FC); }
+  #level-pitch .lp-sec-head p { margin: 0 auto; max-width: 600px; font-size: 16px; color: var(--text-muted, #8497B8); }
+
+  /* feature icon chip */
+  #level-pitch .lp-ficon { position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none;
+    clip-path: polygon(0 0, 100% 0, 100% 66%, 66% 100%, 0 100%);
+    background: linear-gradient(148deg, color-mix(in oklab, var(--acc) 30%, #141B2C) 0%, transparent 78%), linear-gradient(148deg, #1B2336, #0F1422);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--acc) 50%, transparent), inset 0 1px 0 rgba(255,255,255,0.07); }
+  #level-pitch .lp-ficon::before { content: ""; position: absolute; left: 0; top: 0; width: 34%; height: 2px; background: var(--acc); box-shadow: 0 0 10px var(--acc); }
+  #level-pitch .lp-ficon .lp-ic { color: var(--acc); filter: drop-shadow(0 0 7px color-mix(in oklab, var(--acc) 55%, transparent)); }
+
+  /* tier 1 editorial rows */
+  #level-pitch .lp-rows { display: flex; flex-direction: column; gap: 28px; }
+  #level-pitch .lp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; border-radius: 22px; padding: 28px;
+    border: 1px solid rgba(174,199,224,0.16); border-top: 1px solid rgba(174,199,224,0.24);
+    background: linear-gradient(180deg, rgba(42,55,86,0.40), rgba(17,23,38,0.52)); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 22px 54px rgba(0,0,0,0.38); }
+  #level-pitch .lp-row-txt { padding: 8px 12px; }
+  #level-pitch .lp-row.flip .lp-row-txt { order: 2; }
+  #level-pitch .lp-row.flip .lp-row-art { order: 1; }
+  #level-pitch .lp-row-tagline { display: inline-flex; align-items: center; gap: 13px; margin-bottom: 18px; }
+  #level-pitch .lp-h3 { margin: 0 0 10px; font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 700; font-size: 30px; line-height: 1.1; color: var(--text-heading, #F2F6FC); }
+  #level-pitch .lp-hook { font-style: italic; font-size: 16px; margin-bottom: 14px; }
+  #level-pitch .lp-proof { margin: 0; max-width: 460px; font-size: 15.5px; line-height: 1.62; color: var(--text-secondary, #AEC7E0); }
+  #level-pitch .lp-art { position: relative; height: 320px; border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center;
+    border: 1px dashed rgba(174,199,224,0.18); background: radial-gradient(120% 100% at 0% 0%, color-mix(in oklab, var(--acc) 14%, transparent), rgba(13,18,30,0.6) 60%); }
+  #level-pitch .lp-art .lp-art-mark { width: 44%; opacity: .14; color: var(--acc); }
+  #level-pitch .lp-art .lp-art-lab { position: absolute; bottom: 14px; left: 16px; font-family: var(--font-mono, monospace); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint, #5F6E8C); }
+
+  /* squad */
+  #level-pitch .lp-squad { position: relative; overflow: hidden; border-radius: 22px; border: 1px solid rgba(174,199,224,0.14);
+    background: radial-gradient(70% 120% at 100% 0%, color-mix(in oklab, var(--class-lmg,#4ADE80) 12%, transparent), rgba(20,26,43,0.5) 60%);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: grid; grid-template-columns: 1.05fr 1fr; }
+  #level-pitch .lp-squad-l { padding: 44px; display: flex; flex-direction: column; justify-content: center; }
+  #level-pitch .lp-squad-priv { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; padding: 8px 14px; border-radius: 999px; align-self: flex-start;
+    border: 1px solid color-mix(in oklab, var(--class-marksman,#FFC857) 40%, transparent); background: color-mix(in oklab, var(--class-marksman,#FFC857) 10%, transparent); }
+  #level-pitch .lp-squad-priv .lp-ic { width: 15px; height: 15px; color: var(--class-marksman,#FFC857); }
+  #level-pitch .lp-squad-priv span { font-family: var(--font-mono, monospace); font-size: 11px; letter-spacing: .04em; color: var(--text-secondary,#AEC7E0); }
+  #level-pitch .lp-chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 24px; }
+  #level-pitch .lp-chip { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 8px; font-family: var(--font-mono, monospace); font-size: 11.5px; color: var(--text-muted,#8497B8); border: 1px solid rgba(174,199,224,0.16); background: rgba(174,199,224,0.04); }
+  #level-pitch .lp-chip.live { color: var(--class-lmg,#4ADE80); border-color: color-mix(in oklab, var(--class-lmg,#4ADE80) 45%, transparent); background: color-mix(in oklab, var(--class-lmg,#4ADE80) 10%, transparent); }
+  #level-pitch .lp-chip .lp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--class-lmg,#4ADE80); box-shadow: 0 0 8px var(--class-lmg,#4ADE80); }
+  #level-pitch .lp-squad-r { position: relative; padding: 36px 36px 36px 12px; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+  #level-pitch .lp-pcard { display: flex; align-items: center; gap: 16px; padding: 15px 18px; border-radius: 14px; border: 1px solid rgba(174,199,224,0.14); background: rgba(13,18,30,0.72); box-shadow: 0 10px 26px rgba(0,0,0,0.3); }
+  #level-pitch .lp-pav { position: relative; display: inline-flex; width: 52px; height: 52px; flex: none; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden;
+    border: 1px solid color-mix(in oklab, var(--acc) 50%, transparent); background: color-mix(in oklab, var(--acc) 12%, #0D121E); }
+  #level-pitch .lp-pav svg { width: 60%; height: 60%; color: var(--acc); opacity: .9; }
+  #level-pitch .lp-pav .lp-online { position: absolute; right: -3px; top: -3px; width: 13px; height: 13px; border-radius: 50%; background: #4ADE80; border: 2px solid #0D121E; box-shadow: 0 0 8px #4ADE80; }
+  #level-pitch .lp-pinfo { flex: 1; min-width: 0; }
+  #level-pitch .lp-ptop { display: flex; align-items: center; gap: 9px; }
+  #level-pitch .lp-ptag { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 15.5px; color: var(--text-heading,#F2F6FC); }
+  #level-pitch .lp-pstyle { font-family: var(--font-mono, monospace); font-size: 10.5px; padding: 2px 7px; border-radius: 5px; color: var(--acc); background: color-mix(in oklab, var(--acc) 14%, transparent); border: 1px solid color-mix(in oklab, var(--acc) 36%, transparent); }
+  #level-pitch .lp-pmeta { display: flex; gap: 14px; margin-top: 5px; font-family: var(--font-mono, monospace); font-size: 11.5px; color: var(--text-faint,#5F6E8C); }
+  #level-pitch .lp-pavail { font-family: var(--font-mono, monospace); font-size: 10.5px; letter-spacing: .04em; color: #4ADE80; white-space: nowrap; }
+  #level-pitch .lp-poff { display: inline-flex; width: 15px; height: 15px; color: var(--text-faint,#5F6E8C); }
+
+  /* tier 2/3 grids */
+  #level-pitch .lp-grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 18px; }
+  #level-pitch .lp-card2 { border-radius: 16px; padding: 24px; border: 1px solid rgba(174,199,224,0.14); border-top: 1px solid rgba(174,199,224,0.2); background: linear-gradient(180deg, rgba(40,52,82,0.4), rgba(20,26,43,0.5)); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 36px rgba(0,0,0,0.3); }
+  #level-pitch .lp-card2-name { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 700; font-size: 19px; color: var(--text-heading,#F2F6FC); margin: 16px 0 8px; }
+  #level-pitch .lp-card2 p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-muted,#8497B8); }
+  #level-pitch .lp-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  #level-pitch .lp-card3 { display: flex; align-items: center; gap: 14px; border-radius: 14px; padding: 16px 18px; border: 1px solid rgba(174,199,224,0.10); background: rgba(20,26,43,0.4); }
+  #level-pitch .lp-card3-name { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 15px; color: var(--text-heading,#F2F6FC); }
+  #level-pitch .lp-card3-d { font-size: 12.5px; line-height: 1.45; color: var(--text-faint,#5F6E8C); margin-top: 2px; }
+
+  /* pricing */
+  #level-pitch .lp-prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+  #level-pitch .lp-plan { position: relative; border-radius: 18px; padding: 28px 26px; display: flex; flex-direction: column; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: rgba(20,26,43,0.55); border: 1px solid rgba(174,199,224,0.14); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  #level-pitch .lp-plan.pop { background: radial-gradient(130% 120% at 50% 0%, rgba(255,152,0,0.12), rgba(20,26,43,0.7) 60%); border-color: rgba(255,152,0,0.4); box-shadow: 0 0 44px rgba(255,152,0,0.12), 0 18px 44px rgba(0,0,0,0.4); transform: translateY(-8px); }
+  #level-pitch .lp-plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono, monospace); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; color: var(--action-ink,#1A1206); background: var(--level-orange,#FF9800); box-shadow: 0 0 18px rgba(255,152,0,0.5); }
+  #level-pitch .lp-plan-name { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 700; font-size: 20px; }
+  #level-pitch .lp-plan-tag { font-size: 13px; color: var(--text-muted,#8497B8); margin: 2px 0 16px; }
+  #level-pitch .lp-plan-price { display: flex; align-items: baseline; gap: 4px; margin-bottom: 20px; }
+  #level-pitch .lp-plan-price b { font-family: var(--font-mono, monospace); font-weight: 700; font-size: 30px; color: var(--text-heading,#F2F6FC); }
+  #level-pitch .lp-plan-price span { font-family: var(--font-mono, monospace); font-size: 12px; color: var(--text-faint,#5F6E8C); }
+  #level-pitch .lp-plan-feats { display: flex; flex-direction: column; gap: 11px; flex: 1; margin-bottom: 22px; }
+  #level-pitch .lp-plan-feat { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text-secondary,#AEC7E0); }
+  #level-pitch .lp-plan-feat .lp-ic { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+  #level-pitch .lp-founder { text-align: center; margin-top: 22px; font-family: var(--font-mono, monospace); font-size: 11.5px; letter-spacing: .04em; color: var(--text-faint,#5F6E8C); }
+
+  /* final cta */
+  #level-pitch .lp-final { position: relative; overflow: hidden; max-width: 1100px; margin: 0 auto; padding: 56px 40px; border-radius: 24px; text-align: center;
+    border: 1px solid rgba(255,152,0,0.28); background: radial-gradient(80% 130% at 50% 0%, rgba(255,152,0,0.16), rgba(20,26,43,0.6) 65%); box-shadow: 0 0 60px rgba(255,152,0,0.1); }
+  #level-pitch .lp-final .lp-h2 { font-size: 40px; margin-top: 0; }
+  #level-pitch .lp-final p { margin: 0 auto 28px; max-width: 520px; font-size: 16px; color: var(--text-secondary,#AEC7E0); }
+  #level-pitch .lp-final-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* footer */
+  #level-pitch .lp-footer { border-top: 1px solid rgba(174,199,224,0.10); background: rgba(15,20,34,0.6); margin-top: 24px; }
+  #level-pitch .lp-footer-in { max-width: 1200px; margin: 0 auto; padding: 52px 32px 30px; }
+  #level-pitch .lp-footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 32px; }
+  #level-pitch .lp-footer-tagline { margin: 16px 0 0; max-width: 280px; font-size: 13.5px; line-height: 1.6; color: var(--text-muted,#8497B8); }
+  #level-pitch .lp-fcol-t { font-family: var(--font-mono, monospace); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint,#5F6E8C); margin-bottom: 14px; }
+  #level-pitch .lp-fcol a { display: block; margin-bottom: 9px; font-size: 13.5px; color: var(--text-secondary,#AEC7E0); text-decoration: none; cursor: pointer; }
+  #level-pitch .lp-fcol a:hover { color: var(--level-orange-bright,#FFB23E); }
+  #level-pitch .lp-footer-bottom { margin-top: 42px; padding-top: 22px; border-top: 1px solid rgba(174,199,224,0.08); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  #level-pitch .lp-footer-rights { font-size: 11.5px; line-height: 1.6; color: var(--text-faint,#5F6E8C); max-width: 720px; }
+  #level-pitch .lp-footer-copy { font-family: var(--font-mono, monospace); font-size: 11px; color: var(--text-faint,#5F6E8C); }
+
+  /* scroll-reveal — TRANSFORM ONLY (opacity sempre 1) */
+  #level-pitch .lp-reveal { transform: translateY(26px); transition: transform .6s var(--ease-out); will-change: transform; }
+  #level-pitch .lp-reveal.lp-left { transform: translateX(-30px); }
+  #level-pitch .lp-reveal.lp-right { transform: translateX(30px); }
+  #level-pitch .lp-reveal.in { transform: none; }
+
+  @media (max-width: 920px) {
+    #level-pitch .lp-nav { display: none; }
+    #level-pitch .lp-h1 { font-size: 44px; }
+    #level-pitch .lp-sub { font-size: 16px; }
+    #level-pitch .lp-row { grid-template-columns: 1fr; gap: 22px; }
+    #level-pitch .lp-row.flip .lp-row-txt, #level-pitch .lp-row.flip .lp-row-art { order: initial; }
+    #level-pitch .lp-row-art .lp-art { height: 220px; }
+    #level-pitch .lp-squad { grid-template-columns: 1fr; }
+    #level-pitch .lp-squad-r { padding: 0 28px 32px; }
+    #level-pitch .lp-grid2, #level-pitch .lp-grid3, #level-pitch .lp-prices { grid-template-columns: 1fr; }
+    #level-pitch .lp-plan.pop { transform: none; }
+    #level-pitch .lp-footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #level-pitch .lp-reveal { transform: none !important; transition: none !important; }
+    #level-pitch .lp-btn.primary:hover { transform: none; }
+  }
+</style>
+
+<div id="level-pitch" role="region" aria-label="LEVEL" aria-hidden="true">
+  <div class="lp-bg" aria-hidden="true"></div>
+  <div class="lp-wrap">
+    <div class="lp-header" role="banner">
+      <div class="lp-header-in">
+        <svg class="lp-logo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
+        <nav class="lp-nav" aria-label="Navegação">
+          <a class="lp-navlink" data-pitch-scroll="lp-anchor-features" data-lp="navFeatures"></a>
+          <a class="lp-navlink" data-pitch-scroll="lp-anchor-pricing" data-lp="navPricing"></a>
+          <a class="lp-navlink" data-pitch-scroll="lp-anchor-squad" data-lp="navSquad"></a>
+        </nav>
+        <span class="lp-langtoggle" role="group" aria-label="Idioma">
+          <span class="lp-globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+          <button type="button" class="lp-langbtn" data-pitch-act="lang-pt">PT</button>
+          <button type="button" class="lp-langbtn" data-pitch-act="lang-en">EN</button>
+        </span>
+        <button type="button" class="lp-btn ghost" data-pitch-act="login" data-lp="ctaLogin"></button>
+        <button type="button" class="lp-btn primary" data-pitch-act="signup" data-lp="ctaPrimary"></button>
+      </div>
+    </div>
+
+    <div class="lp-hero">
+      <div class="lp-hud" aria-hidden="true"></div>
+      <div class="lp-hero-glow" aria-hidden="true"></div>
+      <div class="lp-hero-in">
+        <span class="lp-assemble-wrap">
+          <span class="lp-assemble-glow" aria-hidden="true"></span>
+          <svg class="lp-assemble" id="lp-logo-assemble" viewBox="0 0 703 180" fill="none" role="img" aria-label="LEVEL" focusable="false"></svg>
+        </span>
+        <h1 class="lp-h1 lp-reveal"><span class="lp-h1a" data-lp="h1a"></span><br><span class="lp-h1b" data-lp="h1b"></span></h1>
+        <p class="lp-sub lp-reveal" data-lp="sub" style="transition-delay:.08s"></p>
+        <div class="lp-hero-ctas lp-reveal" style="transition-delay:.16s">
+          <button type="button" class="lp-btn primary big" data-pitch-act="signup"><span data-lp="ctaPrimary"></span><svg class="lp-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+          <button type="button" class="lp-btn ghost big" data-pitch-scroll="lp-anchor-features"><svg class="lp-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg><span data-lp="ctaSecondary"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="lp-rest"></div>
+  </div>
+</div>
+
+<script>
+(function levelPitch() {
+  "use strict";
+  // Markup interno do logo (gerado do level-logo.svg canónico — nunca editar polígonos à mão)
+  window.LEVEL_LOGO_INNER = "<g id=\"logo-level-flaten\">\n<g id=\"Vector\">\n<path d=\"M436 57.0026H533L525 62H439L349 148L262 63L211.269 63.0655H175C175 63.0655 175.015 58.743 175 57H264C297.195 89.804 349 141 349 141L436 57.0026Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M24 84.6844L18 80.0094V148.684H91L94 142.684H24V84.6844Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M305 0.00921631C311.783 7.03822 350 46.0092 350 46.0092V0.00921631H305Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M156 86.0094H162V145.009H156V86.0094Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M363.599 31.502C373.916 21.045 384.288 10.588 394.468 0C394.468 0 368.965 0.00921631 350 0.00921631V46.0092C351.226 44.6844 361.35 33.781 363.599 31.502Z\" fill=\"#FF9800\"></path>\n<path d=\"M27 58.5094L49 81.0094L24 84.6844L18 80.0094L0 32.0094L27 58.5094Z\" fill=\"#FFB74D\"></path>\n<path d=\"M18 80.0094V148.684L0 169.509V32.0094L18 80.0094Z\" fill=\"#F57C00\"></path>\n<path d=\"M49 81.0094V124.009L24 84.6844L49 81.0094Z\" fill=\"#FB8C00\"></path>\n<path d=\"M24 84.6844L49 124.009L24 142.684V84.6844Z\" fill=\"#D84315\"></path>\n<path d=\"M49 124.009L94 142.684H24.078L49 124.009Z\" fill=\"#C66900\"></path>\n<path d=\"M94 142.684L136 124.009H49L94 142.684Z\" fill=\"#FFB74D\"></path>\n<path d=\"M136 124.009V137.009L106 169.009L91 148.684L94 142.684L136 124.009Z\" fill=\"#FFCC80\"></path>\n<path d=\"M91 148.684L106 169.037L0 169.509L91 148.684Z\" fill=\"#BF360C\"></path>\n<path d=\"M18 148.684H91L0 169.509L18 148.684Z\" fill=\"#C66900\"></path>\n<path d=\"M575 34.0094L618 78.0094L595 80H589L569 34.0094H575Z\" fill=\"#FFB74D\"></path>\n<path d=\"M589 80V151.009L569 168.009V34L589 80Z\" fill=\"#F57C00\"></path>\n<path d=\"M618 78.0094V124.009L595 80L618 78.0094Z\" fill=\"#FB8C00\"></path>\n<path d=\"M595 80L618 124.009L595 145V80Z\" fill=\"#D84315\"></path>\n<path d=\"M618 124.009L659 145H595L618 124.009Z\" fill=\"#C66900\"></path>\n<path d=\"M659 145L703 124.009H618L659 145Z\" fill=\"#FFB74D\"></path>\n<path d=\"M527 145L569 119H444L527 145Z\" fill=\"#FFB74D\"></path>\n<path d=\"M703 124.009L659 145L653 151.009L663 168.009L703 124.009Z\" fill=\"#FFCC80\"></path>\n<path d=\"M653 151.009L663 168.009H569L653 151.009Z\" fill=\"#BF360C\"></path>\n<path d=\"M589 151.009L653 151.009L569 168.009L589 151.009Z\" fill=\"#C66900\"></path>\n<path d=\"M168 34.0094L175 57.0094L136 67.5094L168 34.0094Z\" fill=\"#FFCC80\"></path>\n<path d=\"M175 57.0094V63.0094L156 80.0094L136 67.5094L175 57.0094Z\" fill=\"#E65100\"></path>\n<path d=\"M136 67.5094L156 80.0094L136 169.009V67.5094Z\" fill=\"#EF6C00\"></path>\n<path d=\"M156 80.0094V151.009L136 169.009L156 80.0094Z\" fill=\"#BF360C\"></path>\n<path d=\"M156 151.009L262 169.009H136L156 151.009Z\" fill=\"#D84315\"></path>\n<path d=\"M262 169.009L245 145.009L233 151.009H156.08L262 169.009Z\" fill=\"#C66900\"></path>\n<path d=\"M295 169.009H262L245 145.009L265 139.509L295 169.009Z\" fill=\"#BF360C\"></path>\n<path d=\"M168 34.0094H239L175 57.0094L168 34.0094Z\" fill=\"#FFB74D\"></path>\n<path d=\"M264 57.0094H175L239 34L264 57.0094Z\" fill=\"#FFA000\"></path>\n<path d=\"M175 63.0094H262L245 80.0094H156L175 63.0094Z\" fill=\"#F57C00\"></path>\n<path d=\"M162 119.009L245 145.009H162V119.009Z\" fill=\"#C66900\"></path>\n<path d=\"M233 86.0094L162 112.684V86.0094H233Z\" fill=\"#FFCC80\"></path>\n<path d=\"M245 80.0094L245 112.684H162L233 86.0094L245 80.0094Z\" fill=\"#D84315\"></path>\n<path d=\"M156 145.009H245L233 151.009H156V145.009Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M156 112.684H245L233 118.684H156V112.684Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M245 112.684L245 120.009L265 139.509L245 145.009L161 118.684H233L245 112.684Z\" fill=\"#E65100\"></path>\n<path d=\"M401 55L422 33.9999L436 56.9999L401 55Z\" fill=\"#FFE0B2\"></path>\n<path d=\"M439 62H456L438 80L425.5 75L439 62Z\" fill=\"#E65100\"></path>\n<path d=\"M425.5 74.5L438 80L419 168V111L425.5 74.5Z\" fill=\"#EF6C00\"></path>\n<path d=\"M438 80V151L419 168L438 80Z\" fill=\"#BF360C\"></path>\n<path d=\"M438 151L535 169L419 168L438 151Z\" fill=\"#D84315\"></path>\n<path d=\"M535 169L527 145L514.92 151L438 151L535 169Z\" fill=\"#C66900\"></path>\n<path d=\"M569 119L535 169L527 145L569 119Z\" fill=\"#BF360C\"></path>\n<path d=\"M422 33.9999L506 34L436 56.9999L422 33.9999Z\" fill=\"#FB8C00\"></path>\n<path d=\"M533 57L436 56.9999L506 34L533 57Z\" fill=\"#FFA000\"></path>\n<path d=\"M456 62H525L501 80H438L456 62Z\" fill=\"#F57C00\"></path>\n<path d=\"M444 119L527 145H444V119Z\" fill=\"#C66900\"></path>\n<path d=\"M515 86L444 113V86H515Z\" fill=\"#FFCC80\"></path>\n<path d=\"M527 80V113H444L515 86L527 80Z\" fill=\"#D84315\"></path>\n<path d=\"M589 80.0094C595 80.0094 595 80.0094 595 80.0094C595 100.493 594.979 125.257 595 145H659L653 151C653 151 589 151.031 589 151V80.0094Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M438 80H527L515 86H438V80Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M438 113H527L515 119H438V113Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M438 145H527L515 151L438 151V145Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M438 86.0094H444V145.009H438V86.0094Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M156 80.0094H245L233 86.0094H156V80.0094Z\" fill=\"#AEC7E0\"></path>\n<path d=\"M239 34H277L300 57H264L239 34Z\" fill=\"#C66900\"></path>\n<path d=\"M300 57L349 107L334.5 126.5L300 57Z\" fill=\"#FFB74D\"></path>\n<path d=\"M425.5 75L419 111L386 143L349 158.5V148L425.5 75Z\" fill=\"#F57C00\"></path>\n<path d=\"M436 56.9999L378.5 112.5L349 107L401 55L436 56.9999Z\" fill=\"#FFCC80\"></path>\n<path d=\"M349 107L378.5 112.5L349 141L334.5 126.5L349 107Z\" fill=\"#BF360C\"></path>\n<path d=\"M295 95.5L349 148V158.5L309 141.5L297 130L245 80L295 95.5Z\" fill=\"#FFD180\"></path>\n<path d=\"M349 158.5L386 143L349 180L320 152L309 141.5L349 158.5Z\" fill=\"#D84315\"></path>\n<path d=\"M262 63L295 95.5L245 80L262 63Z\" fill=\"#E65100\"></path>\n<path d=\"M506 34H569L533 57L506 34Z\" fill=\"#C66900\"></path>\n<path d=\"M569 34V57L567 61L525 62L569 34Z\" fill=\"#FFB74D\"></path>\n<path d=\"M527 113V80L544 119H515L527 113Z\" fill=\"#D84315\"></path>\n<path d=\"M567 61L544 91V119L527 80L567 61Z\" fill=\"#A85A00\"></path>\n<path d=\"M525 62L567 61L527 80H501L525 62Z\" fill=\"#EF6C00\"></path>\n<path d=\"M264 57H300L334.5 126.5L264 57Z\" fill=\"#E65100\"></path>\n</g>\n</g>";
+
+  var IC = {
+    Bot: '<rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>',
+    Gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+    Camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+    Users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    Trend: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+    Store: '<path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/>',
+    Gamepad: '<line x1="6" y1="11" x2="10" y2="11"/><line x1="8" y1="9" x2="8" y2="13"/><line x1="15" y1="12" x2="15" y2="12"/><line x1="18" y1="10" x2="18" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/>',
+    Map: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+    Shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+    Lock: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    Check: '<polyline points="20 6 9 17 4 12"/>',
+    ArrowRight: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>'
+  };
+  function icon(name, cls) { return '<svg class="lp-ic ' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (IC[name] || '') + '</svg>'; }
+
+  var COPY = {
+    pt: {
+      navFeatures: 'Features', navPricing: 'Planos', navSquad: 'Encontrar Squad',
+      ctaLogin: 'Entrar', ctaPrimary: 'Criar conta grátis', ctaSecondary: 'Ver as features',
+      h1a: 'Pare de querer adivinhar.', h1b: 'Comece a evoluir.',
+      sub: 'Saiba exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.',
+      featuresTitle: 'Tudo que precisas para evoluir',
+      featuresSub: 'Uma plataforma, do gancho à profundidade — coaching de IA, visão computacional e dados da comunidade.',
+      squadTag: 'Encontrar Squad',
+      squadTitle: 'Nunca mais jogue sozinho no nível errado.',
+      squadSub: 'Conecta-te com jogadores compatíveis e monta o squad certo — filtrado por idioma, plataforma, nível e horário.',
+      squadPrivacy: 'Privacidade-first · você só aparece se autorizar',
+      squadAvailable: 'Disponível agora', squadFind: 'Encontrar squad',
+      squadFilters: ['Idioma', 'Plataforma', 'Nível ±5', 'Horário', 'País', 'Disponível agora'],
+      pricingTitle: 'Comece grátis. Evolua quando quiser.', pricingSub: 'Sem cartão para começar. Cancela quando quiser.',
+      perMonth: '/mês', mostPopular: 'Mais popular', choose: 'Escolher',
+      founder: 'Founder vitalício — os 100 primeiros Plus / 50 primeiros Pro travam o preço + badge permanente.',
+      finalTitle: 'Hora de parar de adivinhar.', finalSub: 'Cria a tua conta e deixa o Le Vél assumir o coaching.',
+      footerTagline: 'Coach pessoal de performance para FPS.',
+      product: 'Produto', resources: 'Recursos', legal: 'Legal',
+      rights: 'Companion fan-made para uso pessoal. Call of Duty® e Black Ops® são marcas da Activision Publishing, Inc. LEVEL não é afiliado nem endossado pela Activision.',
+      copyright: '© 2026 LEVEL · le-vel.games',
+      fLinks: { features: 'Features', pricing: 'Planos', squad: 'Encontrar Squad', login: 'Entrar', help: 'Ajuda', guide: 'Guia de início', contact: 'Contato', privacy: 'Privacidade', terms: 'Termos' }
+    },
+    en: {
+      navFeatures: 'Features', navPricing: 'Pricing', navSquad: 'Find a Squad',
+      ctaLogin: 'Sign in', ctaPrimary: 'Create free account', ctaSecondary: 'See the features',
+      h1a: 'Stop guessing.', h1b: 'Start improving.',
+      sub: 'Learn exactly what to adjust, what to train, and what to use — from controller and audio settings to weapons, movement, and loadouts.',
+      featuresTitle: 'Everything you need to level up',
+      featuresSub: 'One platform, from the hook to the depth — AI coaching, computer vision, and community data.',
+      squadTag: 'Find a Squad',
+      squadTitle: 'Never play alone at the wrong level again.',
+      squadSub: 'Connect with compatible players and build the right squad — filtered by language, platform, level and play schedule.',
+      squadPrivacy: 'Privacy-first · you only appear if you opt in',
+      squadAvailable: 'Available now', squadFind: 'Find a squad',
+      squadFilters: ['Language', 'Platform', 'Level ±5', 'Schedule', 'Country', 'Available now'],
+      pricingTitle: 'Start free. Upgrade when you want.', pricingSub: 'No card to start. Cancel anytime.',
+      perMonth: '/mo', mostPopular: 'Most popular', choose: 'Choose',
+      founder: 'Founder for life — first 100 Plus / 50 Pro keep a locked price + a permanent badge.',
+      finalTitle: 'Time to stop guessing.', finalSub: 'Create your account and let Le Vél take over the coaching.',
+      footerTagline: 'Personal FPS performance coach.',
+      product: 'Product', resources: 'Resources', legal: 'Legal',
+      rights: 'Fan-made companion for personal use. Call of Duty® and Black Ops® are trademarks of Activision Publishing, Inc. LEVEL is not affiliated with or endorsed by Activision.',
+      copyright: '© 2026 LEVEL · le-vel.games',
+      fLinks: { features: 'Features', pricing: 'Pricing', squad: 'Find a Squad', login: 'Sign in', help: 'Help', guide: 'Getting started', contact: 'Contact', privacy: 'Privacy', terms: 'Terms' }
+    }
+  };
+
+  var FEATURES = [
+    { icon: 'Bot', acc: 'var(--level-orange)', tier: 1,
+      pt: { tag: 'Le Vél · Coach de IA', name: 'Teu coach de IA pessoal', hook: 'Um coach que aprende como você joga.', proof: 'Analisa cada build, dá um veredito honesto e sugere as trocas certas — respeitando o teu estilo (rusher, slayer, anchor). Não é dica genérica da internet; é coaching adaptado a ti.' },
+      en: { tag: 'Le Vél · AI Coach', name: 'Your personal AI coach', hook: 'A coach that learns how you play.', proof: 'Analyzes every build, gives an honest verdict, and suggests the right swaps — respecting your playstyle (rusher, slayer, anchor). Not generic internet advice; coaching tailored to you.' } },
+    { icon: 'Gear', acc: 'var(--class-ar)', tier: 1,
+      pt: { tag: 'Montagem Inteligente', name: 'O loadout perfeito em segundos', hook: 'Em segundos, não em horas de tentativa-e-erro.', proof: 'A IA gera o loadout otimizado pro teu estilo, mapa e modo — em variantes paralelas: velocidade, equilíbrio e controle.' },
+      en: { tag: 'Smart Build', name: 'The perfect loadout in seconds', hook: 'In seconds, not hours of trial and error.', proof: 'The AI generates the optimized loadout for your style, map and mode — in parallel variants: speed, balance and control.' } },
+    { icon: 'Camera', acc: 'var(--class-smg)', tier: 1,
+      pt: { tag: 'Captura por foto · Vision', name: 'Fotografa a tela. A gente lê o resto.', hook: 'Zero digitação.', proof: 'Tira um print no jogo e o LEVEL lê arma, acessórios e stats sozinho. Compartilha direto do PS App — cai na tua conta. O momento mágico.' },
+      en: { tag: 'Photo capture · Vision', name: 'Snap the screen. We read the rest.', hook: 'Zero typing.', proof: 'Take an in-game screenshot and LEVEL reads weapon, attachments and stats on its own. Share straight from the PS App — it lands in your account. The magic moment.' } },
+    { icon: 'Trend', acc: 'var(--class-marksman)', tier: 2,
+      pt: { name: 'Plano de Progressão', proof: 'Mostra quais acessórios desbloquear e em que nível pra chegar na tua build ideal.' },
+      en: { name: 'Progression Plan', proof: 'Shows which attachments to unlock and at what level to reach your ideal build.' } },
+    { icon: 'Store', acc: 'var(--class-sniper)', tier: 2,
+      pt: { name: 'Marketplace', proof: 'Builds compartilhadas, votação e leaderboard — importa a melhor com um clique.' },
+      en: { name: 'Marketplace', proof: 'Shared builds, voting and a leaderboard — import the best with one click.' } }
+  ];
+  var TIER3 = [
+    { icon: 'Trend', pt: { name: 'Evolução', d: 'Acompanha as tuas dificuldades (0–10) ao longo do tempo + curva de melhoria.' }, en: { name: 'Progress', d: 'Track your struggles (0–10) over time + improvement curve.' } },
+    { icon: 'Gamepad', pt: { name: 'Controle', d: 'Settings de PS5 afinados ao teu estilo de jogo.' }, en: { name: 'Controller', d: 'PS5 settings tuned to your playstyle.' } },
+    { icon: 'Map', pt: { name: 'Mapas', d: 'A arma e o loadout certos pra cada mapa.' }, en: { name: 'Maps', d: 'The right weapon and loadout for every map.' } }
+  ];
+  var PRICING = [
+    { id: 'free', acc: 'var(--level-blue)', pop: false, price: { pt: 'R$0', en: '$0' },
+      pt: { name: 'Free', tagline: 'Para começar a evoluir', feats: ['Regras determinísticas', 'Até 5 loadouts', 'Catálogo de armas', 'Painel da temporada'] },
+      en: { name: 'Free', tagline: 'To start leveling up', feats: ['Deterministic rules', 'Up to 5 loadouts', 'Weapon catalog', 'Season panel'] } },
+    { id: 'plus', acc: 'var(--level-orange)', pop: true, price: { pt: 'R$19,90', en: '$19.90' },
+      pt: { name: 'Plus', tagline: 'O coaching completo', feats: ['Tudo do Free', 'Le Vél conversacional + Vision', 'Loadouts ilimitados + sync', 'Plano de progressão'] },
+      en: { name: 'Plus', tagline: 'The full coaching', feats: ['Everything in Free', 'Conversational Le Vél + Vision', 'Unlimited loadouts + sync', 'Progression plan'] } },
+    { id: 'pro', acc: 'var(--class-sniper)', pop: false, price: { pt: 'R$49,90', en: '$49.90' },
+      pt: { name: 'Pro', tagline: 'Para quem leva a sério', feats: ['Tudo do Plus', 'Análise de replay', 'Sessão de coach', 'Meta builds + comunidade'] },
+      en: { name: 'Pro', tagline: 'For the serious', feats: ['Everything in Plus', 'Replay analysis', 'Coach session', 'Meta builds + community'] } }
+  ];
+  // Exemplos representativos (privacidade-first). Inclui uma operadora (Nyx_Vale).
+  var SQUAD = [
+    { tag: 'RZR_Vortex', av: 'Users', plat: 'PS5', level: 142, acc: 'var(--class-smg)', avail: true, style: { pt: 'Rusher', en: 'Rusher' }, ln: 'PT-BR' },
+    { tag: 'Nyx_Vale', av: 'Users', plat: 'PC', level: 138, acc: 'var(--class-ar)', avail: true, style: { pt: 'Slayer', en: 'Slayer' }, ln: 'EN' },
+    { tag: 'Kowalski.7', av: 'Shield', plat: 'Xbox', level: 151, acc: 'var(--class-lmg)', avail: false, style: { pt: 'Âncora', en: 'Anchor' }, ln: 'PT-BR' }
+  ];
+
+  function curLang() { try { return (localStorage.getItem('bo7hub_lang_v1') === 'en') ? 'en' : 'pt'; } catch (e) { return 'pt'; } }
+
+  function row(f, lang, i) {
+    var c = f[lang]; var flip = (i % 2 === 1);
+    return '<div class="lp-row lp-reveal ' + (flip ? 'lp-right flip' : 'lp-left') + '">' +
+      '<div class="lp-row-txt">' +
+        '<div class="lp-row-tagline"><span class="lp-ficon" style="--acc:' + f.acc + ';width:52px;height:52px">' + icon(f.icon, '') + '</span>' +
+        '<span class="lp-eyebrow" style="color:' + f.acc + '">' + c.tag + '</span></div>' +
+        '<h3 class="lp-h3">' + c.name + '</h3>' +
+        '<div class="lp-hook" style="color:' + f.acc + '">“' + c.hook + '”</div>' +
+        '<p class="lp-proof">' + c.proof + '</p>' +
+      '</div>' +
+      '<div class="lp-row-art"><div class="lp-art" style="--acc:' + f.acc + '"><span class="lp-art-mark">' + icon(f.icon, '') + '</span><span class="lp-art-lab">' + c.tag + '</span></div></div>' +
+    '</div>';
+  }
+
+  function renderRest(t, lang) {
+    var html = '';
+    // FEATURES TIER 1
+    var tier1 = FEATURES.filter(function (f) { return f.tier === 1; });
+    html += '<div class="lp-sec" id="lp-anchor-features" style="padding-top:0;padding-bottom:40px">';
+    html += '<div class="lp-sec-head lp-reveal"><h2 class="lp-h2">' + t.featuresTitle + '</h2><p>' + t.featuresSub + '</p></div>';
+    html += '<div class="lp-rows">';
+    tier1.forEach(function (f, i) { html += row(f, lang, i); });
+    html += '</div></div>';
+
+    // SQUAD
+    html += '<div class="lp-sec" id="lp-anchor-squad" style="padding-top:24px;padding-bottom:64px;max-width:1200px">';
+    html += '<div class="lp-squad lp-reveal">';
+    html += '<div class="lp-squad-l">';
+    html += '<div class="lp-row-tagline"><span class="lp-ficon" style="--acc:var(--class-lmg);width:50px;height:50px">' + icon('Users') + '</span><span class="lp-eyebrow" style="color:var(--class-lmg)">' + t.squadTag + '</span></div>';
+    html += '<h2 class="lp-h2" style="font-size:34px;margin-top:0">' + t.squadTitle + '</h2>';
+    html += '<p class="lp-proof" style="max-width:460px">' + t.squadSub + '</p>';
+    html += '<div class="lp-squad-priv">' + icon('Shield') + '<span>' + t.squadPrivacy + '</span></div>';
+    html += '<div class="lp-chips">';
+    t.squadFilters.forEach(function (f, i) {
+      var live = (i === t.squadFilters.length - 1);
+      html += '<span class="lp-chip' + (live ? ' live' : '') + '">' + (live ? '<span class="lp-dot"></span>' : '') + f + '</span>';
+    });
+    html += '</div></div>';
+    html += '<div class="lp-squad-r">';
+    SQUAD.forEach(function (p) {
+      html += '<div class="lp-pcard">' +
+        '<span class="lp-pav" style="--acc:' + p.acc + '">' + icon(p.av) + (p.avail ? '<span class="lp-online"></span>' : '') + '</span>' +
+        '<div class="lp-pinfo"><div class="lp-ptop"><span class="lp-ptag">' + p.tag + '</span><span class="lp-pstyle" style="--acc:' + p.acc + '">' + p.style[lang] + '</span></div>' +
+        '<div class="lp-pmeta"><span>' + p.plat + '</span><span>Nv ' + p.level + '</span><span>' + p.ln + '</span></div></div>' +
+        (p.avail ? '<span class="lp-pavail">' + t.squadAvailable + '</span>' : '<span class="lp-poff">' + icon('Lock') + '</span>') +
+      '</div>';
+    });
+    html += '<div style="align-self:flex-start;margin-top:6px"><button type="button" class="lp-btn ghost" data-pitch-act="signup">' + icon('Users') + '<span>' + t.squadFind + '</span></button></div>';
+    html += '</div></div></div>';
+
+    // TIER 2 + TIER 3
+    var tier2 = FEATURES.filter(function (f) { return f.tier === 2; });
+    html += '<div class="lp-sec" style="padding-bottom:24px">';
+    html += '<div class="lp-grid2 lp-reveal">';
+    tier2.forEach(function (f) {
+      var c = f[lang];
+      html += '<div class="lp-card2"><span class="lp-ficon" style="--acc:' + f.acc + ';width:48px;height:48px">' + icon(f.icon) + '</span>' +
+        '<div class="lp-card2-name">' + c.name + '</div><p>' + c.proof + '</p></div>';
+    });
+    html += '</div>';
+    html += '<div class="lp-grid3 lp-reveal">';
+    TIER3.forEach(function (f) {
+      var c = f[lang];
+      html += '<div class="lp-card3"><span class="lp-ficon" style="--acc:var(--level-blue);width:40px;height:40px">' + icon(f.icon) + '</span>' +
+        '<div><div class="lp-card3-name">' + c.name + '</div><div class="lp-card3-d">' + c.d + '</div></div></div>';
+    });
+    html += '</div></div>';
+
+    // PRICING
+    html += '<div class="lp-sec" id="lp-anchor-pricing" style="max-width:1100px;padding-top:50px;padding-bottom:72px">';
+    html += '<div class="lp-sec-head lp-reveal"><span class="lp-eyebrow" style="color:var(--level-orange)">' + t.navPricing + '</span><h2 class="lp-h2">' + t.pricingTitle + '</h2><p>' + t.pricingSub + '</p></div>';
+    html += '<div class="lp-prices lp-reveal">';
+    PRICING.forEach(function (p) {
+      var c = p[lang];
+      html += '<div class="lp-plan' + (p.pop ? ' pop' : '') + '">' +
+        (p.pop ? '<span class="lp-plan-badge">' + t.mostPopular + '</span>' : '') +
+        '<div class="lp-plan-name" style="color:' + p.acc + '">' + c.name + '</div>' +
+        '<div class="lp-plan-tag">' + c.tagline + '</div>' +
+        '<div class="lp-plan-price"><b>' + p.price[lang] + '</b>' + (p.id !== 'free' ? '<span>' + t.perMonth + '</span>' : '') + '</div>' +
+        '<div class="lp-plan-feats">';
+      c.feats.forEach(function (ft) { html += '<div class="lp-plan-feat"><span style="color:' + p.acc + '">' + icon('Check') + '</span>' + ft + '</div>'; });
+      html += '</div>' +
+        '<button type="button" class="lp-btn ' + (p.pop ? 'primary' : 'ghost') + ' full" data-pitch-act="signup">' + t.choose + '</button>' +
+      '</div>';
+    });
+    html += '</div>';
+    html += '<div class="lp-founder">' + t.founder + '</div>';
+    html += '</div>';
+
+    // FINAL CTA
+    html += '<div class="lp-sec" style="padding-bottom:72px"><div class="lp-final lp-reveal">' +
+      '<h2 class="lp-h2">' + t.finalTitle + '</h2><p>' + t.finalSub + '</p>' +
+      '<div class="lp-final-ctas">' +
+        '<button type="button" class="lp-btn primary big" data-pitch-act="signup"><span>' + t.ctaPrimary + '</span>' + icon('ArrowRight') + '</button>' +
+        '<button type="button" class="lp-btn ghost big" data-pitch-act="login">' + t.ctaLogin + '</button>' +
+      '</div></div></div>';
+
+    // FOOTER
+    var L = t.fLinks;
+    function fcol(title, items) {
+      var h = '<div class="lp-fcol"><div class="lp-fcol-t">' + title + '</div>';
+      items.forEach(function (it) { h += '<a' + (it.act ? ' data-pitch-act="' + it.act + '"' : '') + (it.href ? ' href="' + it.href + '" target="_blank" rel="noopener"' : '') + '>' + it.label + '</a>'; });
+      return h + '</div>';
+    }
+    html += '<div class="lp-footer" role="contentinfo"><div class="lp-footer-in">';
+    html += '<div class="lp-footer-top">';
+    html += '<div><svg class="lp-logo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>' +
+      '<p class="lp-footer-tagline">' + t.footerTagline + '</p>' +
+      '<div style="margin-top:18px"><span class="lp-langtoggle" role="group" aria-label="' + (lang === 'en' ? 'Language' : 'Idioma') + '">' +
+        '<span class="lp-globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>' +
+        '<button type="button" class="lp-langbtn" data-pitch-act="lang-pt">PT</button>' +
+        '<button type="button" class="lp-langbtn" data-pitch-act="lang-en">EN</button>' +
+      '</span></div></div>';
+    html += fcol(t.product, [{ label: L.features, act: 'scroll:lp-anchor-features' }, { label: L.pricing, act: 'scroll:lp-anchor-pricing' }, { label: L.squad, act: 'scroll:lp-anchor-squad' }, { label: L.login, act: 'login' }]);
+    html += fcol(t.resources, [{ label: L.guide, act: 'signup' }, { label: L.help, act: 'signup' }, { label: L.contact, href: 'mailto:contato@le-vel.games' }]);
+    html += fcol(t.legal, [{ label: L.privacy, href: 'legal.html' }, { label: L.terms, href: 'legal.html' }]);
+    html += '</div>';
+    html += '<div class="lp-footer-bottom"><span class="lp-footer-rights">' + t.rights + '</span><span class="lp-footer-copy">' + t.copyright + '</span></div>';
+    html += '</div></div>';
+
+    return html;
+  }
+
+  function syncToggle(lang) {
+    var root = document.getElementById('level-pitch'); if (!root) return;
+    root.querySelectorAll('.lp-langbtn').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-pitch-act') === ('lang-' + lang));
+    });
+  }
+
+  function render(lang) {
+    lang = (lang === 'en' || lang === 'pt') ? lang : curLang();
+    var t = COPY[lang];
+    var root = document.getElementById('level-pitch'); if (!root) return;
+    root.querySelectorAll('[data-lp]').forEach(function (el) {
+      var k = el.getAttribute('data-lp'); if (t[k] != null) el.textContent = t[k];
+    });
+    var rest = document.getElementById('lp-rest');
+    if (rest) rest.innerHTML = renderRest(t, lang);
+    syncToggle(lang);
+    bindReveal();
+  }
+
+  // ── logo animado (monta 1× por carga; salvaguarda contra relógio congelado) ──
+  var _reduced = false;
+  try { _reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  function playLogo() {
+    var svg = document.getElementById('lp-logo-assemble');
+    if (!svg) return;
+    if (!svg.firstChild) svg.innerHTML = window.LEVEL_LOGO_INNER || '';
+    if (window.__pitchLogoPlayed) return;
+    window.__pitchLogoPlayed = true;
+    if (_reduced || typeof svg.querySelectorAll('path')[0] === 'undefined' || !svg.querySelectorAll('path')[0].animate) return;
+
+    var shapes = Array.prototype.slice.call(svg.querySelectorAll('path, rect'));
+    var cx = 351.5, cy = 90, dur = 600;
+    var seed = 20260618;
+    var rand = function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+    var meta = shapes.map(function (el) {
+      var bb; try { bb = el.getBBox(); } catch (e) { bb = { x: cx, y: cy, width: 1, height: 1 }; }
+      var fill = (el.getAttribute('fill') || '').toUpperCase();
+      return { el: el, ecx: bb.x + bb.width / 2, ecy: bb.y + bb.height / 2, isLetter: fill === '#AEC7E0' };
+    });
+    var byX = function (a, b) { return a.ecx - b.ecx; };
+    var letters = meta.filter(function (m) { return m.isLetter; }).sort(byX);
+    var facets = meta.filter(function (m) { return !m.isLetter; }).sort(byX);
+    var letterStep = 60, gap = 260, facetStep = 26;
+    var lettersEnd = letters.length * letterStep;
+    var maxDelay = 0;
+    var all = [];
+    var launch = function (m, delay) {
+      var ang = Math.atan2(m.ecy - cy, m.ecx - cx) + (rand() - 0.5) * 0.3;
+      var dist = 120 + rand() * 130;
+      var dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist * 0.7;
+      var rot = (rand() - 0.5) * 46, sc = 0.55 + rand() * 0.2;
+      if (delay + dur > maxDelay) maxDelay = delay + dur;
+      var k = 0.05 + rand() * 0.02, ox = -dx * k, oy = -dy * k, orot = -rot * 0.05;
+      return m.el.animate([
+        { transform: 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg) scale(' + sc.toFixed(3) + ')', opacity: 0, easing: 'cubic-bezier(.22,.7,.3,1)' },
+        { opacity: 1, offset: 0.22 },
+        { transform: 'translate(' + ox.toFixed(1) + 'px,' + oy.toFixed(1) + 'px) rotate(' + orot.toFixed(1) + 'deg) scale(1.02)', opacity: 1, offset: 0.8, easing: 'cubic-bezier(.55,0,.25,1)' },
+        { transform: 'translate(0,0) rotate(0) scale(1)', opacity: 1 }
+      ], { duration: dur, delay: delay, easing: 'linear', fill: 'both' });
+    };
+    letters.forEach(function (m, i) { all.push(launch(m, Math.round(i * letterStep))); });
+    facets.forEach(function (m, j) { all.push(launch(m, Math.round(lettersEnd + gap + j * facetStep))); });
+    setTimeout(function () { all.forEach(function (a) { try { a.cancel(); } catch (e) {} }); }, maxDelay + 500);
+  }
+
+  // ── scroll-reveal (transform-only) ──
+  var _io = null;
+  function bindReveal() {
+    var root = document.getElementById('level-pitch'); if (!root) return;
+    var els = root.querySelectorAll('.lp-reveal');
+    if (_reduced || !('IntersectionObserver' in window)) {
+      els.forEach(function (e) { e.classList.add('in'); }); return;
+    }
+    if (_io) _io.disconnect();
+    _io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); _io.unobserve(en.target); } });
+    }, { root: root, rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    els.forEach(function (e) { if (!e.classList.contains('in')) _io.observe(e); });
+  }
+
+  function show() {
+    var root = document.getElementById('level-pitch'); if (!root) return;
+    render(curLang());
+    root.classList.add('show'); root.setAttribute('aria-hidden', 'false');
+    try { document.documentElement.style.overflow = 'hidden'; } catch (e) {}
+    requestAnimationFrame(function () { playLogo(); bindReveal(); });
+  }
+  function hide() {
+    var root = document.getElementById('level-pitch'); if (!root) return;
+    root.classList.remove('show'); root.setAttribute('aria-hidden', 'true');
+    try { document.documentElement.style.overflow = ''; } catch (e) {}
+  }
+
+  function scrollTo(id) {
+    var root = document.getElementById('level-pitch');
+    var el = document.getElementById(id);
+    if (el && root) { try { el.scrollIntoView({ behavior: _reduced ? 'auto' : 'smooth', block: 'start' }); } catch (e) { el.scrollIntoView(); } }
+  }
+
+  // ── wiring ──
+  var pitch = document.getElementById('level-pitch');
+  if (pitch) {
+    pitch.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-pitch-act], [data-pitch-scroll]');
+      if (!el) return;
+      var scroll = el.getAttribute('data-pitch-scroll');
+      if (scroll) { e.preventDefault(); scrollTo(scroll); return; }
+      var act = el.getAttribute('data-pitch-act');
+      if (!act) return;
+      if (act === 'lang-pt') { if (window.setLanguage) setLanguage('pt'); else render('pt'); }
+      else if (act === 'lang-en') { if (window.setLanguage) setLanguage('en'); else render('en'); }
+      else if (act === 'login' || act === 'signup') { if (window.LEVEL_AUTH && LEVEL_AUTH.openAuth) LEVEL_AUTH.openAuth(act); }
+      else if (act.indexOf('scroll:') === 0) { e.preventDefault(); scrollTo(act.slice(7)); }
+    });
+  }
+
+  // fecha o auth gate (volta ao pitch) ao clicar fora do cartão / Esc — só quando deslogado
+  function gateCanClose() {
+    var g = document.getElementById('level-auth-gate');
+    if (!g || !g.classList.contains('show')) return false;
+    if (window.LEVEL_AUTH && LEVEL_AUTH.getSession && LEVEL_AUTH.getSession()) return false;
+    return !!(window.LEVEL_AUTH && LEVEL_AUTH.showGate);
+  }
+  var gateEl = document.getElementById('level-auth-gate');
+  if (gateEl) {
+    gateEl.addEventListener('mousedown', function (e) { if (e.target === gateEl && gateCanClose()) LEVEL_AUTH.showGate(false); });
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && gateCanClose()) LEVEL_AUTH.showGate(false); });
+
+  window.addEventListener('languagechange', function () { render(curLang()); });
+
+  window.LevelPitch = { show: show, hide: hide, render: render };
+})();
+</script>
+<!-- ============ FIM LEVEL · PITCH ============ -->
+
+<!-- ============================================================ -->
 <!-- LEVEL AUTH GATE (v95) — overlay de autenticação              -->
 <!-- Cobre o Hub inteiro quando deslogado. Some quando logado.    -->
 <!-- ============================================================ -->
@@ -13467,12 +14082,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.51.0 · <span data-i18n="briefing.changelog.date">18 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.52.0 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Capturas por partilha: fotos enviadas ao LEVEL aparecem no Hub</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Quando envias uma foto para o LEVEL pela <strong>partilha do iOS</strong> (em vez de uma nuvem qualquer), ela vai direto para a <strong>tua conta</strong>. Agora, ao abrir o Hub, um <strong>banner</strong> mostra as capturas à espera — escolhes se cada uma é de <strong>Estatísticas</strong> ou de <strong>Arma</strong>, a IA analisa e abre o card de aprovação de sempre. Nos bastidores: a nova função <strong>share-ingest</strong> guarda a foto na tua conta, e o Hub reconcilia essas capturas ao abrir.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Página inicial nova: o Pitch que apresenta o LEVEL antes do login</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Uma nova superfície <strong>pré-login</strong> (a &ldquo;Pitch&rdquo;) recebe quem ainda não tem conta: <strong>logo animado</strong> que se monta ao carregar, as features-gancho (Le Vél, Montagem Inteligente, Captura por foto), <strong>Encontrar Squad</strong>, planos e um footer profissional — bilíngue PT/EN. Os botões <strong>Entrar</strong> e <strong>Criar conta</strong> abrem o login de sempre por cima; depois de logar, cais direto no Hub. A Temporada &amp; Eventos continua só no Hub.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -16734,6 +17349,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.52.0</span>
+                <span class="vh-date">19 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Página inicial pré-login (Pitch) — Direção A · Cinemático.</strong> Nova superfície pública mostrada quando deslogado, no lugar da landing mínima do auth gate: header fixo, herói com <strong>logo animado</strong> (monta 1×/carga — letras azul-claro em sweep, depois facetas laranja com overshoot; salvaguarda anti-congelamento; polígonos do level-logo.svg intactos), features T1 editoriais (Le Vél, Montagem, Vision), <strong>Encontrar Squad</strong> (badge privacidade-first + 6 filtros reais + operadora Nyx_Vale), T2/T3, Planos (Free/Plus/Pro + Founder vitalício), CTA final e <strong>footer institucional</strong> (aviso de marca Activision + © le-vel.games). i18n PT/EN próprio sincronizado com setLanguage; scroll-reveal transform-only + prefers-reduced-motion. <strong>Integração:</strong> boot() mostra o Pitch deslogado; CTAs Entrar/Criar conta abrem o auth gate Supabase por cima (Esc/clique-fora fecham e voltam ao Pitch); pós-login esconde tudo e cai no Hub — zero reescrita do hub. Temporada &amp; Eventos mantida só no Hub (decisão do Victor). Vanilla, tokens do :root, só &lt;div&gt; (preserva 1 main + 15 sections). Validado: node 19/19 scripts, fluxo de login e i18n verificados no preview.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.51.0</span>
                 <span class="vh-date">18 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -19009,7 +19633,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.51.0</strong><span class="ver-tag">Painel Hoje com dados reais + arte oficial da Season 04 + contagem regressiva ao vivo</span>
+        LEVEL · <strong>v2.52.0</strong><span class="ver-tag">Nova página inicial (Pitch) pré-login: logo animado, features, Encontrar Squad, planos e footer profissional — bilíngue PT/EN</span>
       </div>
       <script>
         (function(){
@@ -20775,10 +21399,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '18 Jun 2026',
+    'briefing.changelog.date':  '19 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Painel Hoje com dados reais + arte oficial da temporada',
-    'briefing.changelog.summary':  'Limpeza geral do Painel Hoje: eventos encerrados saíram, os números inventados do Battle Pass foram removidos, e tudo agora mostra <strong>dado real</strong> — texto oficial do Passe de Batalha e do BLACKCELL Catalyst, arte oficial da Season 04, e <strong>contagem regressiva ao vivo</strong>. Princípio: a tela só mostra o que é real.',
+    'briefing.changelog.headline': 'Página inicial nova: o Pitch que apresenta o LEVEL antes do login',
+    'briefing.changelog.summary':  'Uma nova superfície <strong>pré-login</strong> (a &ldquo;Pitch&rdquo;) recebe quem ainda não tem conta: <strong>logo animado</strong> que se monta ao carregar, as features-gancho (Le Vél, Montagem Inteligente, Captura por foto), <strong>Encontrar Squad</strong>, planos e um footer profissional — bilíngue PT/EN. Os botões <strong>Entrar</strong> e <strong>Criar conta</strong> abrem o login de sempre por cima; depois de logar, cais direto no Hub. A Temporada &amp; Eventos continua só no Hub.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22285,10 +22909,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 18, 2026',
+    'briefing.changelog.date':  'Jun 19, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Daily Brief with real data + official season art',
-    'briefing.changelog.summary':  'Daily Brief cleanup: ended events removed, made-up Battle Pass numbers gone, and everything now shows <strong>real data</strong> — official Battle Pass and BLACKCELL Catalyst copy, official Season 04 art, and a <strong>live countdown</strong>. The screen only shows what is real.',
+    'briefing.changelog.headline': 'New landing page: the Pitch that introduces LEVEL before login',
+    'briefing.changelog.summary':  'A new <strong>pre-login</strong> surface (the &ldquo;Pitch&rdquo;) welcomes visitors without an account: an <strong>animated logo</strong> that assembles on load, the hook features (Le Vél, Smart Build, Photo capture), <strong>Find a Squad</strong>, pricing and a professional footer — bilingual PT/EN. The <strong>Sign in</strong> and <strong>Create account</strong> buttons open the existing login on top; after signing in you land straight in the Hub. Season &amp; Events stays in the Hub only.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -47239,13 +47863,21 @@ ${cbt('share.t.footer')}`;
   async function doLogout() {
     try { var c = await getClient(); await c.auth.signOut(); } catch (e) {}
     _session = null;
-    showScreen('landing');
-    showGate(true);
+    showGate(false);
+    if (window.LevelPitch && window.LevelPitch.show) { window.LevelPitch.show(); }
+    else { showScreen('landing'); showGate(true); }
   }
 
   function onAuthed() {
     showGate(false);
+    try { if (window.LevelPitch && window.LevelPitch.hide) window.LevelPitch.hide(); } catch (e) {}
     try { window.dispatchEvent(new CustomEvent('level-auth-ready', { detail: { session: _session } })); } catch (e) {}
+  }
+
+  // Abre o auth gate (login/signup) por cima do Pitch — chamado pelos CTAs do Pitch.
+  function openAuth(screen) {
+    showScreen(screen === 'signup' ? 'signup' : 'login');
+    showGate(true);
   }
 
   async function boot() {
@@ -47257,7 +47889,11 @@ ${cbt('share.t.footer')}`;
 
     if (_session) {
       var g = gate(); if (g) g.classList.remove('show');
+      try { if (window.LevelPitch && window.LevelPitch.hide) window.LevelPitch.hide(); } catch (e) {}
       try { window.dispatchEvent(new CustomEvent('level-auth-ready', { detail: { session: _session } })); } catch (e) {}
+    } else if (window.LevelPitch && window.LevelPitch.show) {
+      // sem sessão → mostra a landing pública (Pitch). Auth gate abre por cima via CTAs.
+      window.LevelPitch.show();
     } else {
       showScreen('landing');
       showGate(true);
@@ -47273,6 +47909,8 @@ ${cbt('share.t.footer')}`;
   // API pública
   window.LEVEL_AUTH = {
     showScreen: showScreen,
+    showGate: showGate,
+    openAuth: openAuth,
     doSignup: doSignup,
     doLogin: doLogin,
     doReset: doReset,
