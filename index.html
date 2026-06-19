@@ -12810,9 +12810,9 @@
   #level-pitch .lp-pav { position: relative; display: inline-flex; width: 52px; height: 52px; flex: none; align-items: center; justify-content: center; border-radius: 12px; overflow: visible;
     border: 1px solid color-mix(in oklab, var(--acc) 50%, transparent); background: color-mix(in oklab, var(--acc) 12%, #0D121E); }
   #level-pitch .lp-pav svg { width: 60%; height: 60%; color: var(--acc); opacity: .9; }
-  #level-pitch .lp-pav .lp-online, #level-pitch .lp-pav .lp-offline { position: absolute; right: -3px; top: -3px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #0D121E; }
+  #level-pitch .lp-pav .lp-online, #level-pitch .lp-pav .lp-offline { position: absolute; right: -3px; top: -3px; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #0D121E; }
   #level-pitch .lp-pav .lp-online { background: #4ADE80; box-shadow: 0 0 8px #4ADE80; }
-  #level-pitch .lp-pav .lp-offline { background: #E74C3C; box-shadow: 0 0 8px rgba(231,76,60,0.7); }
+  #level-pitch .lp-pav .lp-offline { background: var(--state-danger, #F4524B); box-shadow: 0 0 8px rgba(244,82,75,0.7); }
   #level-pitch .lp-pinfo { flex: 1; min-width: 0; }
   #level-pitch .lp-ptop { display: flex; align-items: center; gap: 9px; }
   #level-pitch .lp-ptag { font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 15.5px; color: var(--text-heading,#F2F6FC); }
@@ -13138,7 +13138,7 @@
         '<span class="lp-pav" style="--acc:' + p.acc + '">' + icon(p.av) + (p.avail ? '<span class="lp-online"></span>' : '<span class="lp-offline"></span>') + '</span>' +
         '<div class="lp-pinfo"><div class="lp-ptop"><span class="lp-ptag">' + p.tag + '</span><span class="lp-pstyle" style="--acc:' + p.acc + '">' + p.style[lang] + '</span></div>' +
         '<div class="lp-pmeta"><span>' + p.plat + '</span><span>Nv ' + p.level + '</span><span>' + p.ln + '</span></div></div>' +
-        (p.avail ? '<span class="lp-pavail">' + t.squadAvailable + '</span>' : '<span class="lp-poff-txt">Offline</span>') +
+        (p.avail ? '<span class="lp-pavail">' + t.squadAvailable + '</span>' : '<span class="lp-poff">' + icon('Lock') + '</span>') +
       '</div>';
     });
     html += '<div style="align-self:flex-start;margin-top:6px"><button type="button" class="lp-btn ghost" data-pitch-act="signup">' + icon('Users') + '<span>' + t.squadFind + '</span></button></div>';
@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.54.2 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.54.3 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Cards de feature com elevação ao passar o mouse (Precision Lift)</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Os cards de features da página inicial agora respondem ao passar o mouse com uma <strong>elevação curta e precisa</strong> — sobem um pouco, ganham um brilho na cor da feature e a borda acende. O slide lateral antigo saiu (parecia datado); a entrada por scroll virou um <strong>fade vertical</strong> mais estável. Respeita "reduzir movimento".</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Squad: jogador offline mostra cadeado + bolinha vermelha</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Pequeno acerto na seção <strong>Encontrar Squad</strong> da página inicial: quem está <strong>offline</strong> agora aparece com <strong>cadeado</strong> e bolinha vermelha; quem está online segue com a bolinha verde e o aviso "disponível agora" — exatamente como no design.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17471,6 +17471,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.54.3</span>
+                <span class="vh-date">19 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Squad offline = cadeado + bolinha vermelha (handoff v10 §1.11).</strong> Alinhado ao spec: jogador offline mostra o ícone de cadeado (`.lp-poff`) no lugar do label + bolinha vermelha `var(--state-danger, #F4524B)`; online mantém verde #4ADE80 + "disponível agora". Bolinha 13px (era 14). Handoff v10 é byte-idêntico ao v9 — todo o resto do PROMPT já estava implementado (Pitch Direção A, logo animado, scroll-reveal, Precision Lift, planos, footer institucional, login, i18n). Validado: node 19/19, render verificado no preview (RZR/Nyx verde+label, Kowalski vermelho+cadeado).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.54.2</span>
                 <span class="vh-date">19 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -19801,7 +19810,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.54.2</strong><span class="ver-tag">Hover "Precision Lift" nos cards de feature (elevação + glow por acento) + reveal vertical das linhas editoriais (handoff v9)</span>
+        LEVEL · <strong>v2.54.3</strong><span class="ver-tag">Squad: jogador offline mostra cadeado + bolinha vermelha (#F4524B, 13px) — alinhado ao handoff v10</span>
       </div>
       <script>
         (function(){
@@ -21608,8 +21617,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '19 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Cards de feature com elevação ao passar o mouse (Precision Lift)',
-    'briefing.changelog.summary':  'Os cards de features da página inicial agora respondem ao passar o mouse com uma <strong>elevação curta e precisa</strong> — sobem um pouco, ganham um brilho na cor da feature e a borda acende. O slide lateral antigo saiu (parecia datado); a entrada por scroll virou um <strong>fade vertical</strong> mais estável. Respeita "reduzir movimento".',
+    'briefing.changelog.headline': 'Squad: jogador offline mostra cadeado + bolinha vermelha',
+    'briefing.changelog.summary':  'Pequeno acerto na seção <strong>Encontrar Squad</strong> da página inicial: quem está <strong>offline</strong> agora aparece com <strong>cadeado</strong> e bolinha vermelha; quem está online segue com a bolinha verde e o aviso "disponível agora" — exatamente como no design.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23158,8 +23167,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 19, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Feature cards lift on hover (Precision Lift)',
-    'briefing.changelog.summary':  'The landing page feature cards now respond to hover with a <strong>short, precise lift</strong> — they rise slightly, gain a glow in the feature color and the border lights up. The old horizontal slide is gone (looked dated); the scroll-in is now a steadier <strong>vertical fade</strong>. Respects "reduce motion".',
+    'briefing.changelog.headline': 'Squad: offline players show a lock + red dot',
+    'briefing.changelog.summary':  'Small tweak in the <strong>Find a Squad</strong> section: <strong>offline</strong> players now show a <strong>lock</strong> and a red dot; online players keep the green dot and the "available now" label — exactly as in the design.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
