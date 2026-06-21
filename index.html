@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.54.3 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.55.0 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Squad: jogador offline mostra cadeado + bolinha vermelha</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Pequeno acerto na seção <strong>Encontrar Squad</strong> da página inicial: quem está <strong>offline</strong> agora aparece com <strong>cadeado</strong> e bolinha vermelha; quem está online segue com a bolinha verde e o aviso "disponível agora" — exatamente como no design.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Escolha da arma com miniaturas ao criar uma build</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Ao criar ou editar uma <strong>build</strong> (em Minhas Armas), a escolha da arma base deixou de ser uma lista simples e virou um <strong>seletor com miniaturas</strong> — mostra a foto de cada arma (a sua imagem, quando você tem), agrupadas por classe e na cor da classe. Bem mais fácil achar a arma certa.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17471,6 +17471,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.55.0</span>
+                <span class="vh-date">19 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Seletor de arma base com thumbnails no modal de build.</strong> O `&lt;select&gt;` nativo de "Arma base" foi escondido (mantido como fonte de estado + handler de change) e por cima entrou um <strong>picker custom</strong> (`#build-base-picker`): trigger mostra a arma escolhida + miniatura; painel em vidro com as armas <strong>agrupadas por classe</strong>, cada linha com <strong>thumbnail</strong> (foto do utilizador via `getWeaponImage`/`getUserImage`, ou silhueta de mira como fallback), nome, cor da classe (`--wc` via token `--class-*`) e check se tem catálogo. Selecionar → seta `#build-base.value` + dispara `change` (o handler existente seta `modalState.baseId` e re-renderiza) → `saveBuild` intacto. `populateBaseDropdown` agora também chama `renderBasePicker(weapons)`. Não-destrutivo: zero mudança no save/change. Validado: node 19/19, Playwright 19/19 (criar-build E2E real adaptado ao picker), render+seleção+sync verificados no preview (33 armas, 24 com foto real + 9 silhueta, 6 grupos).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.54.3</span>
                 <span class="vh-date">19 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -19810,7 +19819,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.54.3</strong><span class="ver-tag">Squad: jogador offline mostra cadeado + bolinha vermelha (#F4524B, 13px) — alinhado ao handoff v10</span>
+        LEVEL · <strong>v2.55.0</strong><span class="ver-tag">Seletor de arma base com miniaturas (thumbnails) no modal de build — agrupado por classe, com a foto de cada arma</span>
       </div>
       <script>
         (function(){
@@ -20426,9 +20435,41 @@
             </div>
 
             <div class="form-label" style="margin-top:10px">Arma base *</div>
-            <select id="build-base" class="form-input">
+            <style>
+              #build-base-picker { position: relative; }
+              #build-base-picker .wpicker-trigger { width: 100%; display: flex; align-items: center; gap: 11px; padding: 8px 12px; border-radius: var(--radius-input, 8px); background: var(--surface-input, #131A2C); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 14px; cursor: pointer; text-align: left; box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)); transition: border-color .12s, box-shadow .12s; }
+              #build-base-picker .wpicker-trigger:hover { border-color: var(--border-strong, rgba(174,199,224,0.28)); }
+              #build-base-picker.open .wpicker-trigger { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)), 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45)); }
+              #build-base-picker .wpicker-thumb { flex: none; width: 34px; height: 34px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(174,199,224,0.06); border: 1px solid var(--border-subtle, rgba(174,199,224,0.10)); color: var(--text-faint, #5F6E8C); }
+              #build-base-picker .wpicker-thumb.has { border-color: color-mix(in oklab, var(--wc, var(--accent-orange)) 50%, transparent); background: color-mix(in oklab, var(--wc, var(--accent-orange)) 12%, #0D121E); color: var(--wc, var(--accent-orange)); }
+              #build-base-picker .wpicker-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+              #build-base-picker .wpicker-thumb svg { width: 18px; height: 18px; }
+              #build-base-picker .wpicker-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+              #build-base-picker .wpicker-label.placeholder { color: var(--text-placeholder, #43506E); }
+              #build-base-picker .wpicker-caret { flex: none; width: 18px; height: 18px; color: var(--text-muted, #8497B8); transition: transform .15s; }
+              #build-base-picker.open .wpicker-caret { transform: rotate(180deg); }
+              #build-base-picker .wpicker-panel { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30; max-height: 320px; overflow-y: auto; padding: 6px; border-radius: 12px; background: rgba(20,26,43,0.97); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); box-shadow: 0 18px 44px rgba(0,0,0,0.55); }
+              #build-base-picker.open .wpicker-panel { display: block; }
+              #build-base-picker .wpick-group { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint, #5F6E8C); padding: 10px 10px 5px; }
+              #build-base-picker .wpick-opt { width: 100%; display: flex; align-items: center; gap: 11px; padding: 7px 9px; border-radius: 8px; background: transparent; border: 1px solid transparent; color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 13.5px; cursor: pointer; text-align: left; }
+              #build-base-picker .wpick-opt:hover, #build-base-picker .wpick-opt.sel { background: color-mix(in oklab, var(--wc, var(--accent-orange)) 13%, transparent); border-color: color-mix(in oklab, var(--wc, var(--accent-orange)) 38%, transparent); }
+              #build-base-picker .wpick-thumb { flex: none; width: 36px; height: 36px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: color-mix(in oklab, var(--wc, var(--accent-orange)) 12%, #0D121E); border: 1px solid color-mix(in oklab, var(--wc, var(--accent-orange)) 45%, transparent); color: var(--wc, var(--accent-orange)); }
+              #build-base-picker .wpick-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+              #build-base-picker .wpick-thumb svg { width: 19px; height: 19px; }
+              #build-base-picker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+              #build-base-picker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
+            </style>
+            <select id="build-base" class="form-input" style="display:none" aria-hidden="true" tabindex="-1">
               <option value="">— Selecione a arma —</option>
             </select>
+            <div class="wpicker" id="build-base-picker">
+              <button type="button" class="wpicker-trigger" id="build-base-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="wpicker-thumb" id="build-base-trigger-thumb"></span>
+                <span class="wpicker-label placeholder" id="build-base-trigger-label">— Selecione a arma —</span>
+                <svg class="wpicker-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div class="wpicker-panel" id="build-base-panel" role="listbox" aria-label="Arma base"></div>
+            </div>
 
             <div class="form-label" style="margin-top:10px">Build Code do jogo <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;font-size:10px">(opcional · formato BO7 ex: S07-43S8E-MGLI4-5511)</span></div>
             <input type="text" id="build-game-code" class="form-input" placeholder="S07-XXXXX-XXXXX-XXXX" maxlength="40" style="font-family:'JetBrains Mono', monospace; letter-spacing:1px; text-transform:uppercase"/>
@@ -21617,8 +21658,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '19 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Squad: jogador offline mostra cadeado + bolinha vermelha',
-    'briefing.changelog.summary':  'Pequeno acerto na seção <strong>Encontrar Squad</strong> da página inicial: quem está <strong>offline</strong> agora aparece com <strong>cadeado</strong> e bolinha vermelha; quem está online segue com a bolinha verde e o aviso "disponível agora" — exatamente como no design.',
+    'briefing.changelog.headline': 'Escolha da arma com miniaturas ao criar uma build',
+    'briefing.changelog.summary':  'Ao criar ou editar uma <strong>build</strong> (em Minhas Armas), a escolha da arma base deixou de ser uma lista simples e virou um <strong>seletor com miniaturas</strong> — mostra a foto de cada arma (a sua imagem, quando você tem), agrupadas por classe e na cor da classe. Bem mais fácil achar a arma certa.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23167,8 +23208,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 19, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Squad: offline players show a lock + red dot',
-    'briefing.changelog.summary':  'Small tweak in the <strong>Find a Squad</strong> section: <strong>offline</strong> players now show a <strong>lock</strong> and a red dot; online players keep the green dot and the "available now" label — exactly as in the design.',
+    'briefing.changelog.headline': 'Weapon picker with thumbnails when creating a build',
+    'briefing.changelog.summary':  'When creating or editing a <strong>build</strong> (in My Weapons), choosing the base weapon is now a <strong>thumbnail picker</strong> — it shows each weapon image (yours when set), grouped by class and color-coded. Much easier to spot the right weapon.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -28510,6 +28551,62 @@ const ATTACHMENT_ICONS = {
     }
 
     // ── Populate weapon base dropdown ──────────────────────────────────
+    // ── Picker custom de arma base (thumbnails) — sincroniza com o <select> nativo escondido ──
+    const WPICK_CLASS_TOKEN = { SMG: '--class-smg', AR: '--class-ar', Sniper: '--class-sniper', MR: '--class-marksman', LMG: '--class-lmg', SG: '--class-shotgun', Pistol: '--class-pistol', Launcher: '--class-shotgun', Tac: '--class-marksman' };
+    let _pickerWeapons = {};
+    let _basePickerWired = false;
+    function wpickThumb(w) {
+      let img = null;
+      try { img = (window.BO7_ASSETS && window.BO7_ASSETS.getWeaponImage) ? window.BO7_ASSETS.getWeaponImage(w.id) : (typeof getUserImage === 'function' ? getUserImage(w.id) : null); } catch (e) {}
+      if (img) return '<img src="' + img + '" alt="">';
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/></svg>';
+    }
+    function wpickCheck() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'; }
+    function syncBaseTrigger() {
+      const sel = document.getElementById('build-base');
+      const thumb = document.getElementById('build-base-trigger-thumb');
+      const label = document.getElementById('build-base-trigger-label');
+      if (!sel || !thumb || !label) return;
+      const w = sel.value ? _pickerWeapons[sel.value] : null;
+      const panel = document.getElementById('build-base-panel');
+      if (panel) panel.querySelectorAll('.wpick-opt').forEach(function (o) { o.classList.toggle('sel', o.getAttribute('data-wid') === sel.value); });
+      if (!w) { thumb.className = 'wpicker-thumb'; thumb.innerHTML = ''; thumb.style.removeProperty('--wc'); label.className = 'wpicker-label placeholder'; label.textContent = '— Selecione a arma —'; return; }
+      thumb.className = 'wpicker-thumb has'; thumb.style.setProperty('--wc', 'var(' + (WPICK_CLASS_TOKEN[w.class] || '--accent-orange') + ')'); thumb.innerHTML = wpickThumb(w);
+      label.className = 'wpicker-label'; label.textContent = w.name;
+    }
+    function wireBasePicker() {
+      if (_basePickerWired) return;
+      const trigger = document.getElementById('build-base-trigger');
+      const picker = document.getElementById('build-base-picker');
+      const panel = document.getElementById('build-base-panel');
+      if (!trigger || !picker || !panel) return;
+      _basePickerWired = true;
+      trigger.addEventListener('click', function (e) { e.stopPropagation(); const open = picker.classList.toggle('open'); trigger.setAttribute('aria-expanded', open ? 'true' : 'false'); if (open) { const s = panel.querySelector('.wpick-opt.sel'); if (s) s.scrollIntoView({ block: 'nearest' }); } });
+      panel.addEventListener('click', function (e) { const opt = e.target.closest('.wpick-opt'); if (!opt) return; const id = opt.getAttribute('data-wid'); const sel = document.getElementById('build-base'); if (sel) { sel.value = id; sel.dispatchEvent(new Event('change', { bubbles: true })); } syncBaseTrigger(); picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); });
+      document.addEventListener('click', function (e) { if (picker.classList.contains('open') && !picker.contains(e.target)) { picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); } });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && picker.classList.contains('open')) { picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); } });
+    }
+    function renderBasePicker(weapons) {
+      const panel = document.getElementById('build-base-panel');
+      if (!panel) return;
+      _pickerWeapons = {};
+      let html = '', lastClass = '';
+      weapons.forEach(function (w) {
+        _pickerWeapons[w.id] = w;
+        if (w.class !== lastClass) { html += '<div class="wpick-group">' + escapeHtml(w.class) + '</div>'; lastClass = w.class; }
+        const tok = WPICK_CLASS_TOKEN[w.class] || '--accent-orange';
+        const hasCat = (typeof WEAPON_UNLOCKS !== 'undefined' && WEAPON_UNLOCKS[w.id]);
+        html += '<button type="button" class="wpick-opt" role="option" data-wid="' + escapeHtml(w.id) + '" style="--wc:var(' + tok + ')">' +
+          '<span class="wpick-thumb">' + wpickThumb(w) + '</span>' +
+          '<span class="wpick-name">' + escapeHtml(w.name) + '</span>' +
+          (hasCat ? '<span class="wpick-cat" title="Tem catálogo">' + wpickCheck() + '</span>' : '') +
+          '</button>';
+      });
+      panel.innerHTML = html;
+      wireBasePicker();
+      syncBaseTrigger();
+    }
+
     async function populateBaseDropdown() {
       const sel = document.getElementById('build-base');
       if (!sel) return;
@@ -28530,6 +28627,7 @@ const ATTACHMENT_ICONS = {
       });
       if (lastClass) opts.push('</optgroup>');
       sel.innerHTML = opts.join('');
+      renderBasePicker(weapons);
     }
 
     // ── Render P/L section + attachment dropdowns based on selected base ─
