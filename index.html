@@ -14205,12 +14205,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.9 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.10 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Editar status: plataforma e estilo de volta</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Depois de trocar de PC e restaurar, os campos <strong>Plataforma</strong> e <strong>Estilo de jogo</strong> apareciam vazios no editor de status (a nuvem guarda em minúsculo e o seletor não casava). Corrigido — agora recarregam certinho. Também <strong>removidos os campos de XP</strong> do editor, que não faziam sentido.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Dificuldades agora entram no backup</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">As suas <strong>dificuldades</strong> (Evolução · Tracking) não estavam indo pra nuvem — ficavam só no PC. Agora elas <strong>sobem no Backup e voltam no Restaurar</strong>, igual armas e loadouts. Trocou de PC? Faça Backup no que tem os dados → Restaurar no outro e elas aparecem.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17473,6 +17473,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.10</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Dificuldades (struggles) entram no backup/restore.</strong> Reportado pelo Victor: dificuldades não vinham do outro PC; `hub_struggles` estava com 0 linhas. Causa: o `buildSnapshot` retornava só `{user, weapons, loadouts}` — <strong>`struggles` nunca entravam no payload</strong>, apesar de o `sync-push` já tratar `body.struggles` (upsert LWW por `title`) e a tabela existir. Fix (espelha o padrão dos loadouts): (1) `buildSnapshot` lê `LevelDB.struggles.list()` e mapeia pras colunas `title`/`icon`/`root_cause`/`status`, preservando o blob local inteiro em `ai_diagnosis._levelLocal` (pull-back fiel; `title` = chave natural — `catalogId` p/ catálogo, `custom.title` p/ custom). (2) `sync-pull` restaura de `ai_diagnosis._levelLocal`, faz merge LWW por id local em `level.struggles` e dispara `level:struggles-change` (re-render da aba Evolução). Validado node 19/19. <strong>Para o Victor:</strong> Backup no PC que tem as dificuldades → Restaurar no outro.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.9</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19920,7 +19929,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.9</strong><span class="ver-tag">editar status: plataforma e estilo de jogo voltam a aparecer após restaurar (case-insensitive) · campos de XP removidos</span>
+        LEVEL · <strong>v2.57.10</strong><span class="ver-tag">dificuldades agora entram no backup — sobem pra nuvem e voltam ao restaurar, igual armas e loadouts</span>
       </div>
       <script>
         (function(){
@@ -21866,8 +21875,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Editar status: plataforma e estilo de volta',
-    'briefing.changelog.summary':  'Depois de trocar de PC e restaurar, os campos <strong>Plataforma</strong> e <strong>Estilo de jogo</strong> apareciam vazios no editor de status (a nuvem guarda em minúsculo e o seletor não casava). Corrigido — agora recarregam certinho. Também <strong>removidos os campos de XP</strong> do editor, que não faziam sentido.',
+    'briefing.changelog.headline': 'Dificuldades agora entram no backup',
+    'briefing.changelog.summary':  'As suas <strong>dificuldades</strong> (Evolução · Tracking) não estavam indo pra nuvem — ficavam só no PC. Agora elas <strong>sobem no Backup e voltam no Restaurar</strong>, igual armas e loadouts. Trocou de PC? Faça Backup no que tem os dados → Restaurar no outro e elas aparecem.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23515,8 +23524,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Edit status: platform and playstyle back',
-    'briefing.changelog.summary':  'After switching PCs and restoring, the <strong>Platform</strong> and <strong>Playstyle</strong> fields showed up empty in the status editor (the cloud stores them lowercase and the dropdown did not match). Fixed — they reload correctly now. Also <strong>removed the XP fields</strong> from the editor, which did not make sense.',
+    'briefing.changelog.headline': 'Difficulties now sync to backup',
+    'briefing.changelog.summary':  'Your <strong>difficulties</strong> (Evolution · Tracking) were not going to the cloud — they stayed on the PC. Now they <strong>go up on Backup and come back on Restore</strong>, just like weapons and loadouts. Switched PCs? Back up on the one with the data → Restore on the other and they show up.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -32574,6 +32583,9 @@ const ATTACHMENT_ICONS = {
       const loadoutsLocal = window.LevelDB.loadouts
         ? (await window.LevelDB.loadouts.list())
         : [];
+      const strugglesLocal = window.LevelDB.struggles
+        ? (await window.LevelDB.struggles.list())
+        : [];
 
       // Map: hub_users
       const userPayload = {
@@ -32630,11 +32642,28 @@ const ATTACHMENT_ICONS = {
         };
       });
 
+      // Map: hub_struggles — preserva o blob local inteiro em ai_diagnosis._levelLocal
+      // (igual loadouts) pra pull-back fiel; title = chave natural (catalogId p/ catálogo,
+      // custom.title p/ custom) garante dedup entre aparelhos.
+      const struggles = strugglesLocal.map(function (s) {
+        const cst = s.custom || null;
+        const title = (cst && cst.title) || s.catalogId || s.id;
+        return {
+          title:       String(title).slice(0, 200),
+          icon:        (cst && cst.icon) || null,
+          root_cause:  (cst && cst.why) || null,
+          status:      s.status || null,
+          ai_diagnosis: { _levelLocal: s, _schemaVersion: 1 },
+          local_updated_at: s.updatedAt || s.createdAt || new Date().toISOString(),
+        };
+      });
+
       return {
         local_id: getOrCreateLocalId(),
         user: userPayload,
         weapons: weapons,
         loadouts: loadouts,
+        struggles: struggles,
       };
     }
 
@@ -32782,6 +32811,30 @@ const ATTACHMENT_ICONS = {
             console.log('[CloudSync] Loadouts restaurados:', restored, 'de', data.loadouts.length, 'remotos');
           } catch (e) {
             console.error('[CloudSync] erro ao restaurar loadouts:', e);
+          }
+        }
+        // Struggles (dificuldades): restaura a partir de ai_diagnosis._levelLocal
+        if (Array.isArray(data.struggles) && data.struggles.length) {
+          try {
+            const localList = JSON.parse(localStorage.getItem('level.struggles') || '[]');
+            const byLocalId = new Map(localList.map(function (s) { return [s.id, s]; }));
+            let restored = 0;
+            for (const remote of data.struggles) {
+              const blob = (remote.ai_diagnosis && remote.ai_diagnosis._levelLocal) ? remote.ai_diagnosis._levelLocal : null;
+              if (!blob || !blob.id) continue;
+              const localExisting = byLocalId.get(blob.id);
+              const remoteTs = new Date(remote.updated_at || remote.server_updated_at || 0).getTime();
+              const localTs  = localExisting ? new Date(localExisting.updatedAt || localExisting.createdAt || 0).getTime() : 0;
+              if (localExisting && localTs >= remoteTs) continue; // LWW: local mais recente, skip
+              byLocalId.set(blob.id, blob);
+              restored++;
+            }
+            const merged = Array.from(byLocalId.values());
+            localStorage.setItem('level.struggles', JSON.stringify(merged));
+            try { document.dispatchEvent(new CustomEvent('level:struggles-change')); } catch (e) {}
+            console.log('[CloudSync] Struggles restaurados:', restored, 'de', data.struggles.length, 'remotos');
+          } catch (e) {
+            console.error('[CloudSync] erro ao restaurar struggles:', e);
           }
         }
       }
