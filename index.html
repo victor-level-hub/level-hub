@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.0 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.1 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
           <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Encontrar Squad agora em inglês</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português.</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português. O horário de jogo também aparece traduzido nos resultados da busca.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.1</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc"><strong>Horário traduzido nos resultados do Encontrar Squad.</strong> Polimento do i18n EN da v2.57.0: na função `card()` da IIFE `squadFinder()`, o campo `playtime` deixou de ser exibido como slug cru (`esc(r.playtime)` → "noite"/"flexivel") e passou por um mapa `PLAYTIME_KEYS` (manha/tarde/noite/flexivel → chaves `squad.opt.*`) + helper `playtimeLabel()` que resolve via `t()` na língua ativa (Manhã/Tarde/Noite/Flexível em PT; Morning/Afternoon/Night/Flexible em EN). Valores desconhecidos caem no raw como fallback. Os filtros de busca e o select do perfil já estavam corretos (options com `data-i18n`); o gap era só na renderização dos cards de resultado. Validado: node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.0</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -19838,7 +19847,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.0</strong><span class="ver-tag">Encontrar Squad agora com suporte a inglês (navegação, filtros de busca e perfil social)</span>
+        LEVEL · <strong>v2.57.1</strong><span class="ver-tag">Encontrar Squad em inglês — horário de jogo agora traduzido também nos resultados de busca</span>
       </div>
       <script>
         (function(){
@@ -21743,7 +21752,7 @@ window.I18N = {
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
     'briefing.changelog.headline': 'Encontrar Squad agora em inglês',
-    'briefing.changelog.summary':  'A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português.',
+    'briefing.changelog.summary':  'A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português. O horário de jogo também aparece traduzido nos resultados da busca.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23339,7 +23348,7 @@ window.I18N = {
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
     'briefing.changelog.headline': 'Find a Squad now speaks English',
-    'briefing.changelog.summary':  'The <strong>Find a Squad</strong> section — navigation, search filters and the social profile (in Edit Status) — now speaks English along with the rest of the Hub. If you use LEVEL in EN, everything is translated; nothing changes if you&rsquo;re in Portuguese.',
+    'briefing.changelog.summary':  'The <strong>Find a Squad</strong> section — navigation, search filters and the social profile (in Edit Status) — now speaks English along with the rest of the Hub. If you use LEVEL in EN, everything is translated; nothing changes if you&rsquo;re in Portuguese. Play schedule now shows up translated in the search results too.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -48497,12 +48506,14 @@ ${cbt('share.t.footer')}`;
   function chk(id) { var e = document.getElementById(id); return e ? !!e.checked : false; }
   function curLang() { try { return localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'; } catch (e) { return 'pt'; } }
   function t(key, fb) { try { var d = window.I18N && window.I18N[curLang()]; if (d && d[key] != null) return d[key]; } catch (e) {} return fb || ''; }
+  var PLAYTIME_KEYS = { manha: 'squad.opt.morning', tarde: 'squad.opt.afternoon', noite: 'squad.opt.night', flexivel: 'squad.opt.flexible' };
+  function playtimeLabel(v) { var k = PLAYTIME_KEYS[v]; return k ? t(k, v) : v; }
 
   function card(r) {
     var bits = [];
     if (r.platform) bits.push(esc(r.platform));
     if (r.level != null) bits.push(t('squad.js.levelPrefix', 'Nv') + ' ' + esc(r.level));
-    if (r.playtime) bits.push(esc(r.playtime));
+    if (r.playtime) bits.push(esc(playtimeLabel(r.playtime)));
     if (r.language) bits.push(esc(r.language));
     var loc = [r.city, r.country].filter(Boolean).map(esc).join(', ');
     var avail = r.is_available
