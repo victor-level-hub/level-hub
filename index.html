@@ -13621,12 +13621,12 @@
         <div class="lag-note err" id="lag-li-msg"><span class="lag-note-ic">{{i:alert-circle}}</span><span class="lag-note-tx"></span></div>
         <div class="lag-field" data-field="lag-li-email">
           <div class="lag-field-lab"><label for="lag-li-email" data-i18n="auth.label.email">E-mail</label></div>
-          <input class="lag-input" id="lag-li-email" type="email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email">
+          <input class="lag-input" id="lag-li-email" type="email" autocomplete="email" placeholder="operador@email.com" data-i18n-attr="placeholder:auth.ph.email" onkeydown="if(event.key==='Enter'){event.preventDefault();var p=document.getElementById('lag-li-pass');if(p)p.focus();}">
           <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
         </div>
         <div class="lag-field" data-field="lag-li-pass">
           <div class="lag-field-lab"><label for="lag-li-pass" data-i18n="auth.label.password">Senha</label></div>
-          <input class="lag-input" id="lag-li-pass" type="password" autocomplete="current-password" placeholder="••••••••">
+          <input class="lag-input" id="lag-li-pass" type="password" autocomplete="current-password" placeholder="••••••••" onkeydown="if(event.key==='Enter'){event.preventDefault();var b=document.getElementById('lag-li-btn');if(b)b.click();}">
           <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
         </div>
         <div class="lag-btn-row">
@@ -14189,12 +14189,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.13 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.14 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Backup agora é 100% automático</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos o indicador de <strong>BACKUP</strong> do topo — você não precisa mais se preocupar com isso. O <strong>backup automático agora vem ligado por padrão</strong>: tudo que você muda é guardado na nuvem sozinho, e ao logar os dados voltam sozinhos. Sem botão, sem aviso, sem pensar nisso.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Correções de login e sincronização</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Três correções: (1) o <strong>auto-pull voltou a trazer o perfil</strong> ao logar (uma trava de versão anterior estava bloqueando); (2) agora dá pra <strong>logar apertando Enter</strong> depois da senha; (3) corrigido um possível loop de recarregamento no login. Se trocou de PC, é só logar que tudo aparece.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17457,6 +17457,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.14</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Correções de login/sync reportadas pelo Victor.</strong> (1) <strong>Auto-pull não trazia o perfil</strong>: o guard LWW da v2.57.11 (`if (options.lww) ... if(localTs>cloudTs) skip`) bloqueava o restore quando o perfil local VAZIO tinha `updatedAt` mais novo que a nuvem → perfil ficava em branco. Removido — o pull agora SEMPRE aplica o perfil da nuvem ("pegar da nuvem sempre"); auto-backup ligado (v2.57.13) já protege a edição local. (2) <strong>Loop de reload</strong>: `autoPullOnLogin` dava `location.reload()` quando `_localIsEmpty()`; se a nuvem também não tinha armas/loadouts, recarregava em loop (cliques não registravam — explica "Configurações não abre"). Guard `sessionStorage['level.autopull.reloaded']` → reload no máx 1×/sessão, depois cai no re-render. (3) <strong>Enter loga</strong>: inputs de login ganharam `onkeydown` — Enter no e-mail foca a senha, Enter na senha clica ENTRAR (`#lag-li-btn`). Validado node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.13</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -19940,7 +19949,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.13</strong><span class="ver-tag">backup 100% automático e silencioso — indicador BACKUP removido do topo; o auto-backup agora vem ligado por padrão</span>
+        LEVEL · <strong>v2.57.14</strong><span class="ver-tag">corrige auto-pull (perfil voltava vazio) + Enter loga + anti-loop de reload no login</span>
       </div>
       <script>
         (function(){
@@ -21887,8 +21896,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Backup agora é 100% automático',
-    'briefing.changelog.summary':  'Tiramos o indicador de <strong>BACKUP</strong> do topo — você não precisa mais se preocupar com isso. O <strong>backup automático agora vem ligado por padrão</strong>: tudo que você muda é guardado na nuvem sozinho, e ao logar os dados voltam sozinhos. Sem botão, sem aviso, sem pensar nisso.',
+    'briefing.changelog.headline': 'Correções de login e sincronização',
+    'briefing.changelog.summary':  'Três correções: (1) o <strong>auto-pull voltou a trazer o perfil</strong> ao logar (uma trava de versão anterior estava bloqueando); (2) agora dá pra <strong>logar apertando Enter</strong> depois da senha; (3) corrigido um possível loop de recarregamento no login. Se trocou de PC, é só logar que tudo aparece.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23537,8 +23546,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Backup is now 100% automatic',
-    'briefing.changelog.summary':  'We removed the <strong>BACKUP</strong> indicator from the top — you no longer need to worry about it. <strong>Auto-backup is now on by default</strong>: everything you change is saved to the cloud on its own, and on login your data comes back on its own. No button, no notice, no thinking about it.',
+    'briefing.changelog.headline': 'Login and sync fixes',
+    'briefing.changelog.summary':  'Three fixes: (1) <strong>auto-pull brings your profile back</strong> on login again (a guard from a previous version was blocking it); (2) you can now <strong>log in by pressing Enter</strong> after the password; (3) fixed a possible reload loop on login. Switched PCs? Just log in and everything shows up.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -32770,38 +32779,27 @@ const ATTACHMENT_ICONS = {
       if (window.LevelDB) {
         if (data.user) {
           const u = data.user;
-          // options.lww (auto-pull do login): só sobrescreve o perfil se a nuvem
-          // NÃO for mais antiga que o local — protege uma edição local ainda não
-          // sincronizada. Sem timestamp disponível, aplica a nuvem (cloud-wins).
-          // Restaurar manual (sem lww) sempre aplica a nuvem.
-          var _applyUser = true;
-          if (options.lww) {
-            try {
-              var _cur = await window.LevelDB.player.get();
-              var _cloudTs = new Date(u.updated_at || u.server_updated_at || 0).getTime();
-              var _localTs = (_cur && _cur.updatedAt) ? new Date(_cur.updatedAt).getTime() : 0;
-              if (_localTs && _cloudTs && _localTs > _cloudTs) _applyUser = false;
-            } catch (e) {}
-          }
-          if (_applyUser) {
-            await window.LevelDB.player.update({
-              name:     u.display_name || undefined,
-              prestige: u.prestige ?? undefined,
-              level:    u.level ?? undefined,
-              playstyle: u.style || undefined,
-              platform:  u.platform || undefined,
-              photo:     u.photo_inline || undefined,
-              photoEffect: (u.prefs && u.prefs.photoEffect) !== false,
-            });
-            // v2.23: aplica prefs.whatsnew vindas do cloud (modal de novidades)
-            try {
-              var wn = u.prefs && u.prefs.whatsnew;
-              if (wn) {
-                if (wn.dismissed_version) localStorage.setItem('level.wn.dismissed', wn.dismissed_version);
-                if (wn.mute_all) localStorage.setItem('level.wn.muteAll', '1');
-              }
-            } catch (e) {}
-          }
+          // v2.57.14: pull SEMPRE aplica o perfil da nuvem ("pegar da nuvem sempre").
+          // O guard LWW da v2.57.11 bloqueava o restore quando o perfil local vazio
+          // tinha carimbo mais novo que a nuvem → perfil ficava vazio. Removido.
+          // Auto-backup ligado (v2.57.13) já protege a edição local subindo rápido.
+          await window.LevelDB.player.update({
+            name:     u.display_name || undefined,
+            prestige: u.prestige ?? undefined,
+            level:    u.level ?? undefined,
+            playstyle: u.style || undefined,
+            platform:  u.platform || undefined,
+            photo:     u.photo_inline || undefined,
+            photoEffect: (u.prefs && u.prefs.photoEffect) !== false,
+          });
+          // v2.23: aplica prefs.whatsnew vindas do cloud (modal de novidades)
+          try {
+            var wn = u.prefs && u.prefs.whatsnew;
+            if (wn) {
+              if (wn.dismissed_version) localStorage.setItem('level.wn.dismissed', wn.dismissed_version);
+              if (wn.mute_all) localStorage.setItem('level.wn.muteAll', '1');
+            }
+          } catch (e) {}
         }
         // Weapons: matching por catalog_id (wpn_xxx vs xxx)
         if (window.LevelDB.weapons && Array.isArray(data.weapons)) {
@@ -32931,8 +32929,13 @@ const ATTACHMENT_ICONS = {
       var wasEmpty = _localIsEmpty();
       try {
         console.log('[CloudSync] pull automático ao logar (sempre puxa da nuvem)');
-        var r = await pullAll({ full: true, lww: true });
-        if (wasEmpty) {
+        var r = await pullAll({ full: true });
+        var alreadyReloaded = false;
+        try { alreadyReloaded = sessionStorage.getItem('level.autopull.reloaded') === '1'; } catch (e) {}
+        if (wasEmpty && !alreadyReloaded) {
+          // Dispositivo limpo: recarrega UMA vez pra renderizar do zero.
+          // Flag de sessão evita loop de reload se a nuvem também estiver vazia.
+          try { sessionStorage.setItem('level.autopull.reloaded', '1'); } catch (e) {}
           try { setTimeout(function () { location.reload(); }, 300); } catch (e) {}
         } else {
           try { if (window.LevelEtapa7 && window.LevelEtapa7.renderSidebarAvatar) await window.LevelEtapa7.renderSidebarAvatar(); } catch (e) {}
