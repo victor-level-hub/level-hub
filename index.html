@@ -13957,6 +13957,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
         </button>
 
+        <button type="button" class="mh-help mh-logout" data-i18n-attr="title:hdr.logout|aria-label:hdr.logout" title="Sair" aria-label="Sair" onclick="if(window.LEVEL_AUTH&&window.LEVEL_AUTH.logout){window.LEVEL_AUTH.logout();}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
+        </button>
+
       </div>
     </header>
 
@@ -14205,12 +14209,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.11 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.12 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">A nuvem carrega sozinha ao logar</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Agora você <strong>não precisa mais clicar em Restaurar</strong>: ao logar, o Hub puxa automaticamente os seus dados da nuvem (perfil, foto, armas, loadouts, dificuldades). Trocou de PC? É só logar — aparece tudo. Uma edição local mais recente que ainda não subiu é preservada (não é sobrescrita).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Botão de Sair no topo</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Agora tem um <strong>botão de Sair</strong> no canto superior direito (ao lado do "?"). Dá pra <strong>deslogar e logar de novo a qualquer momento</strong> — útil se a tela travar ou a sessão expirar. Ao logar de volta, os seus dados voltam sozinhos da nuvem.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17473,6 +17477,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.12</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Botão de logout no header (IHC).</strong> Reportado pelo Victor: tela travada em estado deslogado (BACKUP cinza, perfil vazio) <strong>sem nenhuma forma de sair/relogar</strong>. Adicionado botão de Sair no `.mh-util` (ao lado do `?` de ajuda), classe `.mh-help.mh-logout`, ícone log-out; `onclick` chama `window.LEVEL_AUTH.logout()` (já exposto → `doLogout`: signOut + volta pro Pitch, de onde dá pra Entrar de novo → auto-pull restaura tudo). Título/aria-label i18n via `hdr.logout` (Sair da conta / Sign out). Validado node 19/19, estrutura intacta. ⬜ Causa-raiz a investigar depois: quando a sessão expira, o Hub fica visível em vez de mostrar o gate de login — o botão é a saída imediata.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.11</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -19938,7 +19951,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.11</strong><span class="ver-tag">a nuvem carrega sozinha ao logar — sem precisar clicar Restaurar; o que está na nuvem aparece automaticamente</span>
+        LEVEL · <strong>v2.57.12</strong><span class="ver-tag">botão de Sair no topo — agora dá pra deslogar/relogar a qualquer momento (recupera de tela travada)</span>
       </div>
       <script>
         (function(){
@@ -21787,6 +21800,7 @@ window.I18N = {
     'hdr.lang.label':          'Idioma',
     'hdr.techlang.label':      'Termos téc.',
     'hdr.help':                'Ajuda · tour do Hub',
+    'hdr.logout':              'Sair da conta',
     // — v2.41.0: masthead redesenhada (tagline, popover de idioma, semáforo) —
     'hdr.tagline':             'Companion tático para <b>Black Ops 7</b>',
     'hdr.lang.site':           'Idioma do site',
@@ -21884,8 +21898,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'A nuvem carrega sozinha ao logar',
-    'briefing.changelog.summary':  'Agora você <strong>não precisa mais clicar em Restaurar</strong>: ao logar, o Hub puxa automaticamente os seus dados da nuvem (perfil, foto, armas, loadouts, dificuldades). Trocou de PC? É só logar — aparece tudo. Uma edição local mais recente que ainda não subiu é preservada (não é sobrescrita).',
+    'briefing.changelog.headline': 'Botão de Sair no topo',
+    'briefing.changelog.summary':  'Agora tem um <strong>botão de Sair</strong> no canto superior direito (ao lado do "?"). Dá pra <strong>deslogar e logar de novo a qualquer momento</strong> — útil se a tela travar ou a sessão expirar. Ao logar de volta, os seus dados voltam sozinhos da nuvem.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23440,6 +23454,7 @@ window.I18N = {
     'hdr.lang.label':          'Language',
     'hdr.techlang.label':      'Tech terms',
     'hdr.help':                'Help · Hub tour',
+    'hdr.logout':              'Sign out',
     // — v2.41.0: redesigned masthead (tagline, language popover, traffic-light) —
     'hdr.tagline':             'Tactical companion for <b>Black Ops 7</b>',
     'hdr.lang.site':           'Site language',
@@ -23533,8 +23548,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'The cloud loads itself on login',
-    'briefing.changelog.summary':  'You <strong>no longer need to click Restore</strong>: on login, the Hub automatically pulls your data from the cloud (profile, photo, weapons, loadouts, difficulties). Switched PCs? Just log in — everything shows up. A more recent local edit that has not been uploaded yet is preserved (not overwritten).',
+    'briefing.changelog.headline': 'Sign out button at the top',
+    'briefing.changelog.summary':  'There is now a <strong>Sign out button</strong> in the top right (next to the "?"). You can <strong>log out and back in any time</strong> — handy if the screen gets stuck or your session expires. When you log back in, your data comes back on its own from the cloud.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
