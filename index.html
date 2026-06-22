@@ -227,6 +227,10 @@
     list-style: none;
     padding: 0 12px;
   }
+  /* v2.57.15: Configurações restrita ao admin — só aparece com body.is-admin */
+  .nav-item[data-section="settings"] { display: none; }
+  body.is-admin .nav-item[data-section="settings"] { display: flex; }
+
   .nav-item {
     /* v2.31.0: nav mono-caps (espec top-nav do Claude Design) */
     display: flex;
@@ -14189,12 +14193,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.14 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.15 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Correções de login e sincronização</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Três correções: (1) o <strong>auto-pull voltou a trazer o perfil</strong> ao logar (uma trava de versão anterior estava bloqueando); (2) agora dá pra <strong>logar apertando Enter</strong> depois da senha; (3) corrigido um possível loop de recarregamento no login. Se trocou de PC, é só logar que tudo aparece.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Configurações agora é área de admin</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A seção <strong>Configurações</strong> (uploads de imagens, catálogos, ajustes do Hub) passou a ser <strong>exclusiva do admin</strong> por enquanto. Usuários comuns não veem mais a aba. Algumas configurações serão abertas a todos mais pra frente.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17457,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.15</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Configurações restrita ao admin.</strong> Pedido do Victor: a seção Configurações (`#section-settings` — uploads de imagem, catálogos, codenames, etc.) deve ficar só pro admin (`victor.abap@outlook.com`) por ora; algumas configs abrem a todos depois. Reaproveita o mecanismo existente (`window.LevelAdmin.isAdmin()` + `hub_users.is_admin` + classe `body.is-admin`; confirmado `is_admin=true` p/ a conta do Victor). (1) CSS: `.nav-item[data-section="settings"]{display:none}` + `body.is-admin .nav-item[...]{display:flex}` — esconde a aba pra não-admin. (2) Guard no handler de navegação: `if (target==='settings' && !LevelAdmin.isAdmin()) return` — bloqueia chegar na seção por qualquer `.nav-item`. `refreshAdminFlag` chama `applyAdminClass()` ao confirmar via DB, então a aba aparece pro admin (cache em LS nos loads seguintes). Validado node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.14</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19949,7 +19962,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.14</strong><span class="ver-tag">corrige auto-pull (perfil voltava vazio) + Enter loga + anti-loop de reload no login</span>
+        LEVEL · <strong>v2.57.15</strong><span class="ver-tag">Configurações agora é só pra admin (por enquanto) — escondida e bloqueada pra usuários comuns</span>
       </div>
       <script>
         (function(){
@@ -21896,8 +21909,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Correções de login e sincronização',
-    'briefing.changelog.summary':  'Três correções: (1) o <strong>auto-pull voltou a trazer o perfil</strong> ao logar (uma trava de versão anterior estava bloqueando); (2) agora dá pra <strong>logar apertando Enter</strong> depois da senha; (3) corrigido um possível loop de recarregamento no login. Se trocou de PC, é só logar que tudo aparece.',
+    'briefing.changelog.headline': 'Configurações agora é área de admin',
+    'briefing.changelog.summary':  'A seção <strong>Configurações</strong> (uploads de imagens, catálogos, ajustes do Hub) passou a ser <strong>exclusiva do admin</strong> por enquanto. Usuários comuns não veem mais a aba. Algumas configurações serão abertas a todos mais pra frente.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23546,8 +23559,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Login and sync fixes',
-    'briefing.changelog.summary':  'Three fixes: (1) <strong>auto-pull brings your profile back</strong> on login again (a guard from a previous version was blocking it); (2) you can now <strong>log in by pressing Enter</strong> after the password; (3) fixed a possible reload loop on login. Switched PCs? Just log in and everything shows up.',
+    'briefing.changelog.headline': 'Settings is now an admin area',
+    'briefing.changelog.summary':  'The <strong>Settings</strong> section (image uploads, catalogs, Hub tweaks) is now <strong>admin-only</strong> for now. Regular users no longer see the tab. Some settings will open up to everyone later on.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -37270,6 +37283,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const target = item.dataset.section;
+      // v2.57.15: Configurações é admin-only por enquanto (só victor.abap@outlook.com).
+      if (target === 'settings' && !(window.LevelAdmin && window.LevelAdmin.isAdmin())) return;
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       item.classList.add('active');
