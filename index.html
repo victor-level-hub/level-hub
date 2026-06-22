@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.5 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.6 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Mais telas em inglês (lote 2)</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Seguindo a faxina de idioma: agora as mensagens de <strong>avatar</strong> (salvar/remover foto), as <strong>validações do perfil</strong> (prestige/level), o convite a <strong>avaliar antes de re-analisar</strong> e o aviso ao <strong>publicar no marketplace</strong> respeitam o idioma do Hub. Mais lotes vêm aí.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Importar arma por foto em inglês (lote 3)</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Mais idioma na faxina: o fluxo de <strong>importar arma por screenshot</strong> (arrastar prints, limite atingido, "carregando OCR", "analisando os prints") e os <strong>estados vazios</strong> ("nenhuma arma carregada", "arma não encontrada") agora seguem o idioma do Hub.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.6</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc"><strong>i18n EN de strings em JS — lote 3 (final do sweep).</strong> Fecha as lacunas do fluxo de <strong>importar arma por screenshot</strong> (o "momento mágico"): título do drop zone, "limite de {n} prints atingido", "+ adicionar mais ({n}/{max})", toast de limite, "carregando motor OCR", "analisando os prints" (Tesseract e Gemini). Reusa `mw.import.dropTitle`/`mw.import.analyzing` (já existiam no dict, mas o JS sobrescrevia com PT cravado) + 5 novas `mw.import.*` com `{n}`/`{max}`. Também os empty states `mw.empty.noWeapons` ("nenhuma arma carregada") e `weapon.notFoundDeleted`. 7 chaves novas. Validado: node 19/19, 42 chaves via `tHub()` com par pt/en, 0 residual. <strong>Sweep de i18n JS concluído</strong> (lotes 1-3): das ~25 lacunas da auditoria, fechadas as user-facing reais; sobram só itens admin (não precisam EN) e dados de operador (que podem já ter EN).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.5</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">patch</span>
@@ -19883,7 +19892,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.5</strong><span class="ver-tag">i18n EN lote 2 — avatar, validações de perfil, re-análise e publicar no marketplace agora respeitam o idioma</span>
+        LEVEL · <strong>v2.57.6</strong><span class="ver-tag">i18n EN lote 3 — importar arma por screenshot (OCR) e estados vazios agora respeitam o idioma</span>
       </div>
       <script>
         (function(){
@@ -21635,6 +21644,13 @@ window.I18N = {
     'rate.before.cancel':         'Re-analisar assim mesmo',
     'mkt.publish.unknownWeapon.title': 'Arma não reconhecida',
     'mkt.publish.unknownWeapon.msg':   'A arma "{name}" deste loadout não está no catálogo do Hub (catálogo BO7). Adiciona ela primeiro em Minhas Armas ou ajusta o nome.',
+    'mw.import.limitReached':     '{{i:check}} Limite de {n} prints atingido',
+    'mw.import.addMore':          '+ Adicionar mais ({n}/{max})',
+    'mw.import.limitToast':       'Limite de {n} prints atingido. Limpa pra recomeçar.',
+    'mw.import.loadingOcr':       'Carregando motor OCR (primeira vez ~3MB)…',
+    'mw.import.analyzingGemini':  'IA Gemini analisando os prints…',
+    'mw.empty.noWeapons':         'Nenhuma arma carregada. Clica em "+ Nova arma" pra começar.',
+    'weapon.notFoundDeleted':     'arma não encontrada no arsenal (deletada?)',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -21832,8 +21848,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mais telas em inglês (lote 2)',
-    'briefing.changelog.summary':  'Seguindo a faxina de idioma: agora as mensagens de <strong>avatar</strong> (salvar/remover foto), as <strong>validações do perfil</strong> (prestige/level), o convite a <strong>avaliar antes de re-analisar</strong> e o aviso ao <strong>publicar no marketplace</strong> respeitam o idioma do Hub. Mais lotes vêm aí.',
+    'briefing.changelog.headline': 'Importar arma por foto em inglês (lote 3)',
+    'briefing.changelog.summary':  'Mais idioma na faxina: o fluxo de <strong>importar arma por screenshot</strong> (arrastar prints, limite atingido, "carregando OCR", "analisando os prints") e os <strong>estados vazios</strong> ("nenhuma arma carregada", "arma não encontrada") agora seguem o idioma do Hub.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23280,6 +23296,13 @@ window.I18N = {
     'rate.before.cancel':         'Re-analyze anyway',
     'mkt.publish.unknownWeapon.title': 'Weapon not recognized',
     'mkt.publish.unknownWeapon.msg':   'The weapon "{name}" in this loadout is not in the Hub catalog (BO7 catalog). Add it first in My Weapons or fix the name.',
+    'mw.import.limitReached':     '{{i:check}} {n}-print limit reached',
+    'mw.import.addMore':          '+ Add more ({n}/{max})',
+    'mw.import.limitToast':       '{n}-print limit reached. Clear to start over.',
+    'mw.import.loadingOcr':       'Loading OCR engine (first time ~3MB)…',
+    'mw.import.analyzingGemini':  'Gemini AI analyzing the screenshots…',
+    'mw.empty.noWeapons':         'No weapons loaded. Click "+ New weapon" to start.',
+    'weapon.notFoundDeleted':     'weapon not found in arsenal (deleted?)',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -23473,8 +23496,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'More screens in English (batch 2)',
-    'briefing.changelog.summary':  'Continuing the language cleanup: <strong>avatar</strong> messages (save/remove photo), <strong>profile validations</strong> (prestige/level), the prompt to <strong>rate before re-analyzing</strong> and the <strong>publish to marketplace</strong> warning now follow the Hub language. More batches coming.',
+    'briefing.changelog.headline': 'Import weapon by photo in English (batch 3)',
+    'briefing.changelog.summary':  'More language cleanup: the <strong>import weapon by screenshot</strong> flow (drag screenshots, limit reached, "loading OCR", "analyzing screenshots") and the <strong>empty states</strong> ("no weapons loaded", "weapon not found") now follow the Hub language.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -31471,13 +31494,13 @@ const ATTACHMENT_ICONS = {
         const title = dz.querySelector('.import-drop-title');
         if (_collectedFiles.length === 0) {
           dz.classList.remove('compact');
-          if (title) title.textContent = 'Arrasta prints, clica pra selecionar ou Ctrl+V pra colar';
+          if (title) title.textContent = tHub('mw.import.dropTitle');
         } else if (_collectedFiles.length >= MAX_FILES) {
           dz.classList.add('compact');
-          if (title) title.textContent = '{{i:check}} Limite de ' + MAX_FILES + ' prints atingido';
+          if (title) title.textContent = tHub('mw.import.limitReached').replace('{n}', MAX_FILES);
         } else {
           dz.classList.add('compact');
-          if (title) title.textContent = '+ Adicionar mais (' + _collectedFiles.length + '/' + MAX_FILES + ')';
+          if (title) title.textContent = tHub('mw.import.addMore').replace('{n}', _collectedFiles.length).replace('{max}', MAX_FILES);
         }
       }
 
@@ -31514,7 +31537,7 @@ const ATTACHMENT_ICONS = {
         // Cap em MAX_FILES — corta o excedente sem erro
         const room = MAX_FILES - _collectedFiles.length;
         if (room <= 0) {
-          if (typeof showToast === 'function') showToast('Limite de ' + MAX_FILES + ' prints atingido. Limpa pra recomeçar.', 'error');
+          if (typeof showToast === 'function') showToast(tHub('mw.import.limitToast').replace('{n}', MAX_FILES), 'error');
           return;
         }
         const accepted = imgs.slice(0, room);
@@ -31554,9 +31577,9 @@ const ATTACHMENT_ICONS = {
         const loadingTxt = ld ? ld.querySelector('div:last-child') : null;
 
         try {
-          if (loadingTxt) loadingTxt.textContent = 'Carregando motor OCR (primeira vez ~3MB)…';
+          if (loadingTxt) loadingTxt.textContent = tHub('mw.import.loadingOcr');
           await loadTesseract();
-          if (loadingTxt) loadingTxt.textContent = 'LE VÉL analisando os prints…';
+          if (loadingTxt) loadingTxt.textContent = tHub('mw.import.analyzing');
           const perImage = await runRealOCR(_collectedFiles);
           const merged = mergeOCRResults(perImage);
           if (ld) ld.style.display = 'none';
@@ -31619,7 +31642,7 @@ const ATTACHMENT_ICONS = {
         if (ld) ld.style.display = 'block';
 
         const loadingTxt = ld ? ld.querySelector('div:last-child') : null;
-        if (loadingTxt) loadingTxt.textContent = 'IA Gemini analisando os prints…';
+        if (loadingTxt) loadingTxt.textContent = tHub('mw.import.analyzingGemini');
 
         try {
           const result = await window.analyzeViaGemini(_collectedFiles);
@@ -40478,7 +40501,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             const lvl = w.maxed ? 'MAX' : (w.prestige > 0 ? 'P' + w.prestige + ' lvl ' + w.level + '/' + w.levelMax : 'lvl ' + w.level + '/' + w.levelMax);
             info.innerHTML = `// ${escapeHtml(w.name)} · ${w.class} · ${lvl}` + (w.isActive ? ' · <strong style="color:var(--accent-orange)">{{i:star}} ATIVA</strong>' : '');
           } else {
-            info.innerHTML = '<span style="color:#f87171">arma não encontrada no arsenal (deletada?)</span>';
+            info.innerHTML = '<span style="color:#f87171">' + tHub('weapon.notFoundDeleted') + '</span>';
           }
         } else {
           info.textContent = wantedArsenalClass
@@ -46115,7 +46138,7 @@ ${cbt('share.t.footer')}`;
     const wrap = document.getElementById('opp-weapons-list');
     if (!wrap) return;
     if (!currentWeapons.length) {
-      wrap.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted)">Nenhuma arma carregada. Clica em "+ Nova arma" pra começar.</div>';
+      wrap.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted)">' + tHub('mw.empty.noWeapons') + '</div>';
       return;
     }
     const rows = currentWeapons.map(w => {
