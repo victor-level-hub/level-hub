@@ -14205,12 +14205,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.8 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.9 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Backup mais confiável entre PCs</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Corrigido um caso em que o <strong>Backup</strong> dizia ter funcionado mas o perfil (nível, prestige, foto) ficava desatualizado nos outros aparelhos. Agora o <strong>backup manual é autoritativo</strong>: o que está no aparelho onde você clica Backup sempre sobe pra nuvem. Trocou de PC? Faça Backup no que tem os dados certos → Restaurar no outro.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Editar status: plataforma e estilo de volta</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Depois de trocar de PC e restaurar, os campos <strong>Plataforma</strong> e <strong>Estilo de jogo</strong> apareciam vazios no editor de status (a nuvem guarda em minúsculo e o seletor não casava). Corrigido — agora recarregam certinho. Também <strong>removidos os campos de XP</strong> do editor, que não faziam sentido.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17473,6 +17473,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.9</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Editar status: plataforma/estilo recarregam + XP removido.</strong> Bug reportado pelo Victor: após trocar de PC e restaurar, os selects <strong>Plataforma</strong> e <strong>Estilo de jogo</strong> vinham vazios. Causa: `sync-push` guarda `style`/`platform` em minúsculo (`toLowerCase`), mas as `<option>` são maiúsculas (`RUSHER`/`PS5`) — `el.value = 'rusher'` não casava nenhuma opção → dropdown vazio. Fix em `openStatusModal`: helper `_setSelCI(id, val)` que seleciona a opção comparando `toLowerCase()` em ambos os lados (cobre `ps5`→`PS5`, `rusher`→`RUSHER`, `xbox`→`Xbox`). Também <strong>removidos os campos de XP</strong> (`#status-xp-current/max`) do editor a pedido do Victor (não faziam sentido): tirados do HTML, do populate e do save (que agora seta `xpCurrent/xpMax=null` → a barra `#oc-xp` do card se esconde). Validado node 19/19. ⬜ Pendente relacionado: dificuldades (`hub_struggles`) não sobem no backup — `buildSnapshot` não inclui `struggles`; próximo fix.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.8</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19911,7 +19920,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.8</strong><span class="ver-tag">backup mais confiável — backup manual agora sempre atualiza o seu perfil (nível/prestige/foto) na nuvem, sem rejeição silenciosa</span>
+        LEVEL · <strong>v2.57.9</strong><span class="ver-tag">editar status: plataforma e estilo de jogo voltam a aparecer após restaurar (case-insensitive) · campos de XP removidos</span>
       </div>
       <script>
         (function(){
@@ -19990,17 +19999,6 @@
                 <option value="PC">PC</option>
                 <option value="Xbox">Xbox</option>
               </select>
-            </div>
-          </div>
-
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end">
-            <div>
-              <div class="form-label">XP atual <span style="color:var(--text-muted);font-size:10px">(no nível)</span></div>
-              <input type="number" id="status-xp-current" class="form-input" min="0" placeholder="7240"/>
-            </div>
-            <div>
-              <div class="form-label">XP do próximo nível</div>
-              <input type="number" id="status-xp-max" class="form-input" min="0" placeholder="9000"/>
             </div>
           </div>
 
@@ -21868,8 +21866,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Backup mais confiável entre PCs',
-    'briefing.changelog.summary':  'Corrigido um caso em que o <strong>Backup</strong> dizia ter funcionado mas o perfil (nível, prestige, foto) ficava desatualizado nos outros aparelhos. Agora o <strong>backup manual é autoritativo</strong>: o que está no aparelho onde você clica Backup sempre sobe pra nuvem. Trocou de PC? Faça Backup no que tem os dados certos → Restaurar no outro.',
+    'briefing.changelog.headline': 'Editar status: plataforma e estilo de volta',
+    'briefing.changelog.summary':  'Depois de trocar de PC e restaurar, os campos <strong>Plataforma</strong> e <strong>Estilo de jogo</strong> apareciam vazios no editor de status (a nuvem guarda em minúsculo e o seletor não casava). Corrigido — agora recarregam certinho. Também <strong>removidos os campos de XP</strong> do editor, que não faziam sentido.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23517,8 +23515,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'More reliable backup across PCs',
-    'briefing.changelog.summary':  'Fixed a case where <strong>Backup</strong> reported success but your profile (level, prestige, photo) stayed outdated on your other devices. Manual <strong>backup is now authoritative</strong>: whatever is on the device where you click Backup always goes up to the cloud. Switched PCs? Back up on the one with the correct data → Restore on the other.',
+    'briefing.changelog.headline': 'Edit status: platform and playstyle back',
+    'briefing.changelog.summary':  'After switching PCs and restoring, the <strong>Platform</strong> and <strong>Playstyle</strong> fields showed up empty in the status editor (the cloud stores them lowercase and the dropdown did not match). Fixed — they reload correctly now. Also <strong>removed the XP fields</strong> from the editor, which did not make sense.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -27566,14 +27564,18 @@ window.BO7_ASSETS = (function() {
       document.getElementById('status-name').value = p.name || '';
       document.getElementById('status-prestige').value = p.prestige != null ? p.prestige : '';
       document.getElementById('status-level').value = p.level != null ? p.level : '';
-      document.getElementById('status-playstyle').value = p.playstyle || 'RUSHER';
-      document.getElementById('status-platform').value = p.platform || 'PS5';
+      // Setter case-insensitive: a nuvem guarda style/platform em minúsculo
+      // (sync-push faz toLowerCase), mas as <option> são maiúsculas (RUSHER/PS5).
+      // Sem isto, depois de um Restaurar o dropdown vinha vazio (valor não casava).
+      var _setSelCI = function (id, val) {
+        var el = document.getElementById(id); if (!el) return;
+        var v = String(val == null ? '' : val).toLowerCase();
+        for (var i = 0; i < el.options.length; i++) { if (el.options[i].value.toLowerCase() === v) { el.selectedIndex = i; return; } }
+        if (el.options.length) el.selectedIndex = 0;
+      };
+      _setSelCI('status-playstyle', p.playstyle || 'RUSHER');
+      _setSelCI('status-platform', p.platform || 'PS5');
       document.getElementById('status-perms').value = (p.perms || []).join(', ');
-      // v2.40.0: XP do operador (vazio se ainda não definido)
-      const xpCurEl = document.getElementById('status-xp-current');
-      const xpMaxEl = document.getElementById('status-xp-max');
-      if (xpCurEl) xpCurEl.value = (p.xpCurrent != null ? p.xpCurrent : '');
-      if (xpMaxEl) xpMaxEl.value = (p.xpMax != null ? p.xpMax : '');
       // v2.50.0 — Squad Finder: popula os campos sociais a partir do player
       (function () {
         var sc = function (id, v) { var e = document.getElementById(id); if (e) e.checked = !!v; };
@@ -27605,13 +27607,9 @@ window.BO7_ASSETS = (function() {
         perms: document.getElementById('status-perms').value
                   .split(',').map(s => s.trim()).filter(Boolean)
       };
-      // v2.40.0: XP — campo vazio limpa o valor (null) para a barra esconder-se
-      (function () {
-        const cur = document.getElementById('status-xp-current');
-        const max = document.getElementById('status-xp-max');
-        patch.xpCurrent = (cur && cur.value.trim() !== '') ? Math.max(0, parseInt(cur.value, 10) || 0) : null;
-        patch.xpMax = (max && max.value.trim() !== '') ? Math.max(0, parseInt(max.value, 10) || 0) : null;
-      })();
+      // XP removido do modal (não fazia sentido): zera para a barra do card esconder-se.
+      patch.xpCurrent = null;
+      patch.xpMax = null;
       if (statusWeaponEl) patch.activeWeaponId = statusWeaponEl.value || null;
 
       // Validation
