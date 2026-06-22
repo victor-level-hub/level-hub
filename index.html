@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.3 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.4 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Sugerir codename agora em inglês</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O recurso <strong>Sugerir codename</strong> (no modal de salvar loadout) agora fala inglês: título, instruções, categorias e mensagens respeitam o idioma do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda em português.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Mensagens críticas agora em inglês</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">As confirmações e avisos dos fluxos mais sensíveis — <strong>salvar e apagar build</strong>, <strong>restaurar do cloud</strong> e <strong>resetar arsenal</strong> — estavam cravados em português. Agora respeitam o idioma do Hub: quem joga em inglês não vê mais aviso de perda de dados em PT.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.4</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc"><strong>i18n EN de strings críticas geradas em JS (lote 1).</strong> Auditoria achou ~25 strings user-facing cravadas em PT dentro de JS (toasts/`LevelModal`/validações) que o checador de simetria do dict não pega. Criado helper global <strong><code>window.tHub(key, fb)</code></strong> (lê do dict central pela língua ativa; suporta `{placeholder}` via `.replace`) — reusável p/ próximos lotes. Lote 1 cobre os fluxos de maior severidade (perda de dados): <strong>salvar build</strong> (nome/arma obrigatórios), <strong>apagar build</strong> (confirmação danger), <strong>restaurar do cloud</strong> (confirmação + loading + sucesso) e <strong>resetar arsenal</strong> (aviso de wipe + loading). 16 chaves novas (`common.*`/`build.*`/`sync.*`, PT+EN). `LevelModal` usa `textContent` → valores com caracteres literais (sem entidades), EN reescrito p/ evitar apóstrofo. Validado: node 19/19, 16 chaves com par pt/en. Restam ~19 lacunas (avatar/OCR/marketplace/profile) p/ próximos lotes.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.3</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">patch</span>
@@ -19865,7 +19874,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.3</strong><span class="ver-tag">Sugerir codename agora em inglês — modal, categorias e mensagens respeitam o idioma do Hub</span>
+        LEVEL · <strong>v2.57.4</strong><span class="ver-tag">i18n EN dos fluxos críticos — salvar/apagar build e restaurar/resetar arsenal agora respeitam o idioma</span>
       </div>
       <script>
         (function(){
@@ -21584,6 +21593,23 @@ window.I18N = {
     'codename.suggest.anyCat':    'Aleatório (todas)',
     'codename.suggest.emptyPool': 'Catálogo de codenames vazio ou ainda a carregar. Aguarda 1s e tenta de novo.',
     'codename.suggest.emptyCat':  'Sem codenames ativos nessa categoria.',
+    // — Strings JS user-facing (LevelModal/toasts) · i18n EN —
+    'common.requiredField':       'Campo obrigatório',
+    'common.delete':              'Apagar',
+    'build.save.needName':        'Dê um nome à build.',
+    'build.save.needBase':        'Selecione a arma base.',
+    'build.delete.title':         'Apagar build',
+    'build.delete.msg':           'Apagar a build "{name}"? Esta ação não pode ser desfeita.',
+    'sync.restore.title':         'Restaurar do cloud',
+    'sync.restore.msg':           'Vai substituir os seus dados locais (player, weapons) pela versão do cloud. Loadouts não são afetados nesta versão. Continuar?',
+    'sync.restore.confirm':       'Restaurar',
+    'sync.restore.loading':       'A restaurar...',
+    'sync.restoreDone.title':     'Restauro concluído',
+    'sync.restoreDone.msg':       'Trouxe {w} weapons, {l} loadouts e dados do operador. O Hub vai recarregar os painéis.',
+    'sync.reset.title':           'Resetar arsenal?',
+    'sync.reset.msg':             'Isto vai LIMPAR todas as armas e builds (incluindo as que você adicionou ou customizou) e re-sincronizar com o servidor.\n\nTombstones (deleções anteriores) também serão limpos.\n\nFizeste Backup na cloud? Sem backup, o que está aqui se perde.',
+    'sync.reset.confirm':         'Sim, resetar tudo',
+    'sync.reset.loading':         'A resetar...',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -21781,8 +21807,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Sugerir codename agora em inglês',
-    'briefing.changelog.summary':  'O recurso <strong>Sugerir codename</strong> (no modal de salvar loadout) agora fala inglês: título, instruções, categorias e mensagens respeitam o idioma do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda em português.',
+    'briefing.changelog.headline': 'Mensagens críticas agora em inglês',
+    'briefing.changelog.summary':  'As confirmações e avisos dos fluxos mais sensíveis — <strong>salvar e apagar build</strong>, <strong>restaurar do cloud</strong> e <strong>resetar arsenal</strong> — estavam cravados em português. Agora respeitam o idioma do Hub: quem joga em inglês não vê mais aviso de perda de dados em PT.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23196,6 +23222,23 @@ window.I18N = {
     'codename.suggest.anyCat':    'Random (all)',
     'codename.suggest.emptyPool': 'Codename catalog is empty or still loading. Wait 1s and try again.',
     'codename.suggest.emptyCat':  'No active codenames in this category.',
+    // — Strings JS user-facing (LevelModal/toasts) · i18n EN —
+    'common.requiredField':       'Required field',
+    'common.delete':              'Delete',
+    'build.save.needName':        'Name your build.',
+    'build.save.needBase':        'Select the base weapon.',
+    'build.delete.title':         'Delete build',
+    'build.delete.msg':           'Delete build "{name}"? This action cannot be undone.',
+    'sync.restore.title':         'Restore from cloud',
+    'sync.restore.msg':           'This will replace your local data (player, weapons) with the cloud version. Loadouts are not affected in this version. Continue?',
+    'sync.restore.confirm':       'Restore',
+    'sync.restore.loading':       'Restoring...',
+    'sync.restoreDone.title':     'Restore complete',
+    'sync.restoreDone.msg':       'Brought {w} weapons, {l} loadouts and operator data. The Hub will reload the panels.',
+    'sync.reset.title':           'Reset arsenal?',
+    'sync.reset.msg':             'This will CLEAR all weapons and builds (including ones you added or customized) and re-sync with the server.\n\nTombstones (previous deletions) will also be cleared.\n\nDid you back up to the cloud? Without a backup, what is here will be lost.',
+    'sync.reset.confirm':         'Yes, reset everything',
+    'sync.reset.loading':         'Resetting...',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -23389,8 +23432,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Suggest codename now in English',
-    'briefing.changelog.summary':  'The <strong>Suggest codename</strong> feature (in the save-loadout modal) now speaks English: title, instructions, categories and messages follow the Hub language. If you use LEVEL in EN, everything is translated; nothing changes in Portuguese.',
+    'briefing.changelog.headline': 'Critical messages now in English',
+    'briefing.changelog.summary':  'The confirmations and warnings on the most sensitive flows — <strong>save and delete build</strong>, <strong>restore from cloud</strong> and <strong>reset arsenal</strong> — were hardcoded in Portuguese. They now follow the Hub language: English players no longer see data-loss warnings in PT.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -24610,6 +24653,18 @@ window.I18N = {
     'mod.share.native': 'System (Web Share)',
     'mod.share.previewLabel': 'Preview of what will be shared',
   }
+};
+
+// Helper global de i18n p/ strings geradas em JS (toasts, modais LevelModal,
+// validações) — lê do dict central pela língua ativa. Use tHub('chave') com a
+// chave PT/EN definida em window.I18N. Suporta {placeholder} via .replace no call site.
+window.tHub = function (key, fb) {
+  try {
+    var lang = (localStorage.getItem('bo7hub_lang_v1') === 'en') ? 'en' : 'pt';
+    var d = window.I18N && window.I18N[lang];
+    if (d && d[key] != null) return d[key];
+  } catch (e) {}
+  return (fb != null) ? fb : key;
 };
 
 window.applyI18N = function(lang) {
@@ -30755,8 +30810,8 @@ const ATTACHMENT_ICONS = {
 
     async function saveBuild() {
       const name = document.getElementById('build-name').value.trim();
-      if (!name) { LevelModal.alert({ title: 'Campo obrigatório', message: 'Dê um nome à build.', variant: 'warning' }); return; }
-      if (!modalState.baseId) { LevelModal.alert({ title: 'Campo obrigatório', message: 'Selecione a arma base.', variant: 'warning' }); return; }
+      if (!name) { LevelModal.alert({ title: tHub('common.requiredField'), message: tHub('build.save.needName'), variant: 'warning' }); return; }
+      if (!modalState.baseId) { LevelModal.alert({ title: tHub('common.requiredField'), message: tHub('build.save.needBase'), variant: 'warning' }); return; }
 
       // First: update the base weapon's P/L if changed
       const base = await LevelDB.weapons.get(modalState.baseId);
@@ -30922,7 +30977,7 @@ const ATTACHMENT_ICONS = {
           }
         } else if (action.dataset.action === 'delete') {
           const b = await LevelDB.builds.get(id);
-          if (b && await LevelModal.confirm({ title: 'Apagar build', message: 'Apagar build "' + b.name + '"? Esta ação não pode ser desfeita.', variant: 'danger', confirmText: 'Apagar' })) {
+          if (b && await LevelModal.confirm({ title: tHub('build.delete.title'), message: tHub('build.delete.msg').replace('{name}', b.name), variant: 'danger', confirmText: tHub('common.delete') })) {
             await LevelDB.builds.delete(id);
             await renderAll();
           }
@@ -32760,24 +32815,24 @@ const ATTACHMENT_ICONS = {
       if (e.target.closest('#opp-btn-cloud-pull')) {
         const ok = window.LevelModal && window.LevelModal.confirm
           ? await window.LevelModal.confirm({
-              title: 'Restaurar do cloud',
-              message: 'Vai substituir os seus dados locais (player, weapons) pela versão do cloud. Loadouts não são afetados nesta versão. Continuar?',
+              title: tHub('sync.restore.title'),
+              message: tHub('sync.restore.msg'),
               variant: 'danger',
-              confirmText: 'Restaurar',
+              confirmText: tHub('sync.restore.confirm'),
             })
-          : confirm('Restaurar do cloud (sobrescreve player/weapons locais)?');
+          : confirm(tHub('sync.restore.title'));
         if (!ok) return;
         const btn = e.target.closest('#opp-btn-cloud-pull');
         const orig = btn.textContent;
         btn.disabled = true;
-        btn.textContent = 'A restaurar...';
+        btn.textContent = tHub('sync.restore.loading');
         try {
           // Botão Restaurar: força full snapshot (não-incremental)
           const result = await pullAll({ full: true });
           if (window.LevelModal && window.LevelModal.alert) {
             window.LevelModal.alert({
-              title: 'Restauro concluído',
-              message: 'Trouxe ' + (result.weapons?.length || 0) + ' weapons, ' + (result.loadouts?.length || 0) + ' loadouts e dados do operador. O Hub vai recarregar os painéis.',
+              title: tHub('sync.restoreDone.title'),
+              message: tHub('sync.restoreDone.msg').replace('{w}', (result.weapons?.length || 0)).replace('{l}', (result.loadouts?.length || 0)),
               variant: 'success',
             });
           }
@@ -33339,16 +33394,16 @@ const ATTACHMENT_ICONS = {
       const btn = e.target.closest('#opp-btn-reset-arsenal');
 
       const confirmed = window.LevelModal && await window.LevelModal.confirm({
-        title: 'Resetar arsenal?',
-        message: 'Isto vai LIMPAR todas as armas e builds (incluindo as que você adicionou ou customizou) e re-sincronizar com o servidor.\n\nTombstones (deleções anteriores) também serão limpos.\n\nFizeste Backup na cloud? Sem backup, o que está aqui se perde.',
+        title: tHub('sync.reset.title'),
+        message: tHub('sync.reset.msg'),
         variant: 'danger',
-        confirmText: 'Sim, resetar tudo'
+        confirmText: tHub('sync.reset.confirm')
       });
       if (!confirmed) return;
 
       const orig = btn.innerHTML;
       btn.disabled = true;
-      btn.textContent = 'A resetar...';
+      btn.textContent = tHub('sync.reset.loading');
       try {
         // Limpa tudo que controla o seed
         const keysToClear = [
