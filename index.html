@@ -14193,12 +14193,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.15 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.16 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Configurações agora é área de admin</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A seção <strong>Configurações</strong> (uploads de imagens, catálogos, ajustes do Hub) passou a ser <strong>exclusiva do admin</strong> por enquanto. Usuários comuns não veem mais a aba. Algumas configurações serão abertas a todos mais pra frente.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Imagens do Hub agora são compartilhadas</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">As imagens curadas pelo time (armas, perks, mapas...) agora viram <strong>padrão para todos os usuários</strong> automaticamente — você não precisa subir as suas. Se quiser, ainda pode usar a sua própria imagem, que tem prioridade sobre o padrão.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.16</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Imagens default globais (admin → todos).</strong> Pedido do Victor: imagens salvas nas Configurações (admin) devem aparecer p/ todos os usuários. Antes `getUserImage`/`user_assets` era 100% per-user. Agora: <strong>tabela `cat_default_images`</strong> (`item_id` PK, `data_url` webp base64 inline) com RLS <strong>leitura pública</strong> (anon+auth) + <strong>escrita só admin</strong> (`exists hub_users.is_admin`). Frontend: `GLOBAL_DEFAULT_IMG` carregado no boot (`loadGlobalDefaultImages`, select público via client) e usado como <strong>3º fallback</strong> no `getUserImage` (cloud pessoal → localStorage pessoal → default global). `setUserImage`: se `LevelAdmin.isAdmin()`, faz `upsert` em `cat_default_images` (espelha como global); `removeUserImage` admin → delete. Prioridade: imagem pessoal do usuário > default global. Validado node 19/19, migration aplicada. <strong>Nota:</strong> imagens que o admin JÁ tinha (localStorage/bucket) só viram global ao serem RE-salvas (saves novos espelham automático). Otimização futura: data_url inline é pesado p/ muitas imagens — migrar p/ bucket público + URL.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.15</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -19962,7 +19971,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.15</strong><span class="ver-tag">Configurações agora é só pra admin (por enquanto) — escondida e bloqueada pra usuários comuns</span>
+        LEVEL · <strong>v2.57.16</strong><span class="ver-tag">imagens que o admin salva viram default global — aparecem automaticamente para todos os usuários</span>
       </div>
       <script>
         (function(){
@@ -21909,8 +21918,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Configurações agora é área de admin',
-    'briefing.changelog.summary':  'A seção <strong>Configurações</strong> (uploads de imagens, catálogos, ajustes do Hub) passou a ser <strong>exclusiva do admin</strong> por enquanto. Usuários comuns não veem mais a aba. Algumas configurações serão abertas a todos mais pra frente.',
+    'briefing.changelog.headline': 'Imagens do Hub agora são compartilhadas',
+    'briefing.changelog.summary':  'As imagens curadas pelo time (armas, perks, mapas...) agora viram <strong>padrão para todos os usuários</strong> automaticamente — você não precisa subir as suas. Se quiser, ainda pode usar a sua própria imagem, que tem prioridade sobre o padrão.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23559,8 +23568,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Settings is now an admin area',
-    'briefing.changelog.summary':  'The <strong>Settings</strong> section (image uploads, catalogs, Hub tweaks) is now <strong>admin-only</strong> for now. Regular users no longer see the tab. Some settings will open up to everyone later on.',
+    'briefing.changelog.headline': 'Hub images are now shared',
+    'briefing.changelog.summary':  'Images curated by the team (weapons, perks, maps...) now become the <strong>default for all users</strong> automatically — you do not have to upload your own. You can still use your own image if you want, which takes priority over the default.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -37897,6 +37906,23 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // getUserImage tenta primeiro a cloud, cai pro localStorage como fallback.
     // ═══════════════════════════════════════════════════════════════
     const CLOUD_URL_CACHE = {};   // { itemId: signed_url }
+    // v2.57.16: imagens DEFAULT GLOBAIS (curadas pelo admin, tabela cat_default_images).
+    // Lidas por TODOS os usuários (leitura pública); usadas como fallback no getUserImage.
+    const GLOBAL_DEFAULT_IMG = {};   // { item_id: data_url }
+    async function loadGlobalDefaultImages() {
+      try {
+        if (!window.LEVEL_AUTH || !window.LEVEL_AUTH.getClient) return;
+        const c = await window.LEVEL_AUTH.getClient();
+        const resp = await c.from('cat_default_images').select('item_id,data_url');
+        if (resp && Array.isArray(resp.data)) {
+          resp.data.forEach(function (row) {
+            if (row && row.item_id && row.data_url) GLOBAL_DEFAULT_IMG[row.item_id] = row.data_url;
+          });
+          if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange();
+        }
+      } catch (e) { console.warn('[default-images] load falhou:', e && e.message); }
+    }
+    setTimeout(loadGlobalDefaultImages, 700);
     const TAB_TO_CATSUB = {
       style:           ['construtor', 'estilos'],
       wildcards:       ['construtor', 'wildcards'],
@@ -38033,6 +38059,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (map[itemId]) return map[itemId];
       if (itemId.startsWith('map_') && map[itemId.slice(4)]) return map[itemId.slice(4)];
       if (!itemId.startsWith('map_') && map['map_' + itemId]) return map['map_' + itemId];
+      // 3. Fallback DEFAULT GLOBAL (imagens do admin, visíveis a todos) — v2.57.16
+      if (GLOBAL_DEFAULT_IMG[itemId]) return GLOBAL_DEFAULT_IMG[itemId];
+      if (itemId.startsWith('map_') && GLOBAL_DEFAULT_IMG[itemId.slice(4)]) return GLOBAL_DEFAULT_IMG[itemId.slice(4)];
+      if (!itemId.startsWith('map_') && GLOBAL_DEFAULT_IMG['map_' + itemId]) return GLOBAL_DEFAULT_IMG['map_' + itemId];
       return null;
     }
     function setUserImage(itemId, dataUrl) {
@@ -38048,6 +38078,17 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           // Retorna true otimisticamente — cache local segue como backup
         }
       } catch (e) {}
+      // v2.57.16: se ADMIN, espelha como DEFAULT GLOBAL (todos os usuários passam a ver).
+      try {
+        if (window.LevelAdmin && window.LevelAdmin.isAdmin() && window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+          window.LEVEL_AUTH.getClient().then(function (c) {
+            c.from('cat_default_images').upsert({ item_id: itemId, data_url: dataUrl, updated_at: new Date().toISOString() }, { onConflict: 'item_id' }).then(function (r) {
+              if (r && !r.error) { GLOBAL_DEFAULT_IMG[itemId] = dataUrl; }
+              else if (r && r.error) console.warn('[default-images] upsert admin falhou:', r.error.message);
+            });
+          });
+        }
+      } catch (e) {}
       // Sempre salva também no localStorage (fallback + compat)
       const map = loadUserImages();
       map[itemId] = dataUrl;
@@ -38056,6 +38097,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     function removeUserImage(itemId) {
       // Cloud delete (best-effort)
       try { cloudDeleteAsset(itemId); } catch (e) {}
+      // v2.57.16: admin removendo → tira também o default global.
+      try {
+        if (window.LevelAdmin && window.LevelAdmin.isAdmin() && window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+          window.LEVEL_AUTH.getClient().then(function (c) {
+            c.from('cat_default_images').delete().eq('item_id', itemId).then(function () { delete GLOBAL_DEFAULT_IMG[itemId]; });
+          });
+        }
+      } catch (e) {}
       const map = loadUserImages();
       delete map[itemId];
       return saveUserImages(map);
