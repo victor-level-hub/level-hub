@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.4 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.5 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Mensagens críticas agora em inglês</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">As confirmações e avisos dos fluxos mais sensíveis — <strong>salvar e apagar build</strong>, <strong>restaurar do cloud</strong> e <strong>resetar arsenal</strong> — estavam cravados em português. Agora respeitam o idioma do Hub: quem joga em inglês não vê mais aviso de perda de dados em PT.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Mais telas em inglês (lote 2)</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Seguindo a faxina de idioma: agora as mensagens de <strong>avatar</strong> (salvar/remover foto), as <strong>validações do perfil</strong> (prestige/level), o convite a <strong>avaliar antes de re-analisar</strong> e o aviso ao <strong>publicar no marketplace</strong> respeitam o idioma do Hub. Mais lotes vêm aí.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.5</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc"><strong>i18n EN de strings em JS — lote 2.</strong> Continuação do lote 1 (mesmo helper `tHub()`). 16 chaves novas (PT+EN): <strong>avatar</strong> (`avatar.save.errTitle`, `avatar.remove.*`, `avatar.import.*` — esta em 2 call sites), <strong>perfil</strong> (`common.invalidValue`, `profile.prestige.range`, `profile.level.range`, `common.none` na opção "— nenhuma —"), <strong>re-análise</strong> (`rate.before.*` — convite a avaliar a arma antes de re-analisar, com confirm/cancel) e <strong>marketplace publish</strong> (`mkt.publish.unknownWeapon.*` — arma fora do catálogo, com `{name}` interpolado). Reuso de `common.remove`/`common.delete`. Validado: node 19/19, 33 chaves via tHub com par pt/en, cada string PT trocada some dos call sites (1x só no dict). Restam ~9 lacunas menores (OCR/import de prints, empty states, help tooltips do construtor) p/ lote 3.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.4</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">patch</span>
@@ -19874,7 +19883,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.4</strong><span class="ver-tag">i18n EN dos fluxos críticos — salvar/apagar build e restaurar/resetar arsenal agora respeitam o idioma</span>
+        LEVEL · <strong>v2.57.5</strong><span class="ver-tag">i18n EN lote 2 — avatar, validações de perfil, re-análise e publicar no marketplace agora respeitam o idioma</span>
       </div>
       <script>
         (function(){
@@ -21610,6 +21619,22 @@ window.I18N = {
     'sync.reset.msg':             'Isto vai LIMPAR todas as armas e builds (incluindo as que você adicionou ou customizou) e re-sincronizar com o servidor.\n\nTombstones (deleções anteriores) também serão limpos.\n\nFizeste Backup na cloud? Sem backup, o que está aqui se perde.',
     'sync.reset.confirm':         'Sim, resetar tudo',
     'sync.reset.loading':         'A resetar...',
+    'common.remove':              'Remover',
+    'common.invalidValue':        'Valor inválido',
+    'common.none':                '— nenhuma —',
+    'avatar.save.errTitle':       'Erro ao salvar avatar',
+    'avatar.remove.title':        'Remover foto',
+    'avatar.remove.msg':          'Remover a foto do operador?',
+    'avatar.import.title':        'Avatar importado',
+    'avatar.import.msg':          'Avatar atualizado com sucesso.',
+    'profile.prestige.range':     'Prestige deve estar entre 0 e 20.',
+    'profile.level.range':        'Level deve estar entre 1 e 55.',
+    'rate.before.title':          'Avalia a arma antes?',
+    'rate.before.msg':            'O Le Vél usa a sua avaliação da arma (aba AVALIE) pra entender o que não está funcionando pra você. Uma avaliação fresca deixa a re-análise muito mais certeira.',
+    'rate.before.confirm':        'Avaliar agora',
+    'rate.before.cancel':         'Re-analisar assim mesmo',
+    'mkt.publish.unknownWeapon.title': 'Arma não reconhecida',
+    'mkt.publish.unknownWeapon.msg':   'A arma "{name}" deste loadout não está no catálogo do Hub (catálogo BO7). Adiciona ela primeiro em Minhas Armas ou ajusta o nome.',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -21807,8 +21832,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mensagens críticas agora em inglês',
-    'briefing.changelog.summary':  'As confirmações e avisos dos fluxos mais sensíveis — <strong>salvar e apagar build</strong>, <strong>restaurar do cloud</strong> e <strong>resetar arsenal</strong> — estavam cravados em português. Agora respeitam o idioma do Hub: quem joga em inglês não vê mais aviso de perda de dados em PT.',
+    'briefing.changelog.headline': 'Mais telas em inglês (lote 2)',
+    'briefing.changelog.summary':  'Seguindo a faxina de idioma: agora as mensagens de <strong>avatar</strong> (salvar/remover foto), as <strong>validações do perfil</strong> (prestige/level), o convite a <strong>avaliar antes de re-analisar</strong> e o aviso ao <strong>publicar no marketplace</strong> respeitam o idioma do Hub. Mais lotes vêm aí.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23239,6 +23264,22 @@ window.I18N = {
     'sync.reset.msg':             'This will CLEAR all weapons and builds (including ones you added or customized) and re-sync with the server.\n\nTombstones (previous deletions) will also be cleared.\n\nDid you back up to the cloud? Without a backup, what is here will be lost.',
     'sync.reset.confirm':         'Yes, reset everything',
     'sync.reset.loading':         'Resetting...',
+    'common.remove':              'Remove',
+    'common.invalidValue':        'Invalid value',
+    'common.none':                '— none —',
+    'avatar.save.errTitle':       'Error saving avatar',
+    'avatar.remove.title':        'Remove photo',
+    'avatar.remove.msg':          'Remove the operator photo?',
+    'avatar.import.title':        'Avatar imported',
+    'avatar.import.msg':          'Avatar updated successfully.',
+    'profile.prestige.range':     'Prestige must be between 0 and 20.',
+    'profile.level.range':        'Level must be between 1 and 55.',
+    'rate.before.title':          'Rate the weapon first?',
+    'rate.before.msg':            'Le Vél uses your weapon rating (RATE tab) to understand what is not working for you. A fresh rating makes the re-analysis much more accurate.',
+    'rate.before.confirm':        'Rate now',
+    'rate.before.cancel':         'Re-analyze anyway',
+    'mkt.publish.unknownWeapon.title': 'Weapon not recognized',
+    'mkt.publish.unknownWeapon.msg':   'The weapon "{name}" in this loadout is not in the Hub catalog (BO7 catalog). Add it first in My Weapons or fix the name.',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -23432,8 +23473,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Critical messages now in English',
-    'briefing.changelog.summary':  'The confirmations and warnings on the most sensitive flows — <strong>save and delete build</strong>, <strong>restore from cloud</strong> and <strong>reset arsenal</strong> — were hardcoded in Portuguese. They now follow the Hub language: English players no longer see data-loss warnings in PT.',
+    'briefing.changelog.headline': 'More screens in English (batch 2)',
+    'briefing.changelog.summary':  'Continuing the language cleanup: <strong>avatar</strong> messages (save/remove photo), <strong>profile validations</strong> (prestige/level), the prompt to <strong>rate before re-analyzing</strong> and the <strong>publish to marketplace</strong> warning now follow the Hub language. More batches coming.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -27467,7 +27508,7 @@ window.BO7_ASSETS = (function() {
       if (!sel) return;
       const weapons = await LevelDB.weapons.list();
       const p = await LevelDB.player.get();
-      sel.innerHTML = '<option value="">— nenhuma —</option>' +
+      sel.innerHTML = '<option value="">' + tHub('common.none') + '</option>' +
         weapons.map(w => {
           const sel = w.id === p.activeWeaponId ? ' selected' : '';
           const lvl = w.maxed ? 'MAX' : (w.prestige > 0 ? 'P' + w.prestige + ' ' + w.level + '/' + w.levelMax : 'L' + w.level + '/' + w.levelMax);
@@ -27530,8 +27571,8 @@ window.BO7_ASSETS = (function() {
       if (statusWeaponEl) patch.activeWeaponId = statusWeaponEl.value || null;
 
       // Validation
-      if (patch.prestige < 0 || patch.prestige > 20) { LevelModal.alert({ title: 'Valor inválido', message: 'Prestige deve estar entre 0 e 20.', variant: 'warning' }); return; }
-      if (patch.level < 1 || patch.level > 55) { LevelModal.alert({ title: 'Valor inválido', message: 'Level deve estar entre 1 e 55.', variant: 'warning' }); return; }
+      if (patch.prestige < 0 || patch.prestige > 20) { LevelModal.alert({ title: tHub('common.invalidValue'), message: tHub('profile.prestige.range'), variant: 'warning' }); return; }
+      if (patch.level < 1 || patch.level > 55) { LevelModal.alert({ title: tHub('common.invalidValue'), message: tHub('profile.level.range'), variant: 'warning' }); return; }
 
       // Update activeWeapon flags on weapons table — só se patch tem activeWeaponId
       if ('activeWeaponId' in patch) {
@@ -29958,10 +29999,10 @@ const ATTACHMENT_ICONS = {
         if (window.LevelModal && window.LevelModal.confirm) {
           usedModal = true;
           goRate = await window.LevelModal.confirm({
-            title: 'Avalia a arma antes?',
-            message: 'O Le Vél usa a sua avaliação da arma (aba AVALIE) pra entender o que não está funcionando pra você. Uma avaliação fresca deixa a re-análise muito mais certeira.',
-            confirmText: 'Avaliar agora',
-            cancelText: 'Re-analisar assim mesmo'
+            title: tHub('rate.before.title'),
+            message: tHub('rate.before.msg'),
+            confirmText: tHub('rate.before.confirm'),
+            cancelText: tHub('rate.before.cancel')
           });
         }
       } catch (e) { goRate = false; usedModal = false; }
@@ -32037,7 +32078,7 @@ const ATTACHMENT_ICONS = {
         document.getElementById('modal-avatar').classList.remove('visible');
         await renderSidebarAvatar();
       } catch (e) {
-        LevelModal.alert({ title: 'Erro ao salvar avatar', message: e.message || String(e), variant: 'error' });
+        LevelModal.alert({ title: tHub('avatar.save.errTitle'), message: e.message || String(e), variant: 'error' });
       }
     }
 
@@ -32057,7 +32098,7 @@ const ATTACHMENT_ICONS = {
       }
       // Remove photo
       if (e.target.id === 'avatar-remove-btn') {
-        if (await LevelModal.confirm({ title: 'Remover foto', message: 'Remover a foto do operador?', variant: 'danger', confirmText: 'Remover' })) {
+        if (await LevelModal.confirm({ title: tHub('avatar.remove.title'), message: tHub('avatar.remove.msg'), variant: 'danger', confirmText: tHub('common.remove') })) {
           modalState.dataUrl = null;
           modalState.dirty = true;
           renderModalPreview();
@@ -32075,7 +32116,7 @@ const ATTACHMENT_ICONS = {
               await renderSidebarAvatar();
               if (typeof window.renderOperatorPanel === 'function') window.renderOperatorPanel();
               if (window.LevelModal && window.LevelModal.alert) {
-                window.LevelModal.alert({ title: 'Avatar importado', message: 'Avatar atualizado com sucesso.', variant: 'success' });
+                window.LevelModal.alert({ title: tHub('avatar.import.title'), message: tHub('avatar.import.msg'), variant: 'success' });
               }
             } catch (err) {
               if (window.LevelModal && window.LevelModal.alert) {
@@ -32421,7 +32462,7 @@ const ATTACHMENT_ICONS = {
                 window.LevelEtapa7.renderSidebarAvatar();
               }
               if (window.LevelModal && window.LevelModal.alert) {
-                window.LevelModal.alert({ title: 'Avatar importado', message: 'Avatar atualizado com sucesso.', variant: 'success' });
+                window.LevelModal.alert({ title: tHub('avatar.import.title'), message: tHub('avatar.import.msg'), variant: 'success' });
               }
             }
           } catch (err) {
@@ -34718,8 +34759,8 @@ const ATTACHMENT_ICONS = {
         const weaponCatId = findWeaponCatalogIdByName(c.primaryName);
         if (!weaponCatId) {
           if (window.LevelModal) window.LevelModal.alert({
-            title: 'Arma não reconhecida',
-            message: 'A arma "' + (c.primaryName || '?') + '" deste loadout não está no catálogo do Hub (catálogo BO7). Adiciona ela primeiro em Minhas Armas ou ajusta o nome.',
+            title: tHub('mkt.publish.unknownWeapon.title'),
+            message: tHub('mkt.publish.unknownWeapon.msg').replace('{name}', (c.primaryName || '?')),
             variant: 'warning'
           });
           return;
