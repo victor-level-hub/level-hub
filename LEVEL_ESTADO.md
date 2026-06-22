@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.57.7` (SemVer desde v2.0.0)
+**Versão:** `v2.57.8` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,3 MB, ~48.000 linhas, 17 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 **Captura mobile:** repo `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
 
 ### Marcos recentes
+- **v2.57.8** (22 Jun) — **Backup manual autoritativo (sync robusto).** Diagnóstico real (logs edge + DB): o perfil `hub_users` sincronizava por LWW (carimbo local vs `server_updated_at`); backup rejeitado em silêncio ("server newer") quando o aparelho editava sobre estado mais antigo OU auto-push de um restore re-carimbava a nuvem → perfil ficava desatualizado nos outros PCs. **Fix:** botão Backup (`#opp-btn-cloud-push`) → `pushAll({force:true})` → `snapshot.force=true`; **`sync-push` Edge deployada v7** aplica perfil+settings incondicionalmente com `force`. Auto-sync segue SEM force (LWW, não clobbera). Resposta agora inclui `forced:true`. Frontend node 19/19. **Edge atualizada:** `sync-push` v6→**v7** (lista de Edge Functions no §3 a ajustar se necessário).
 - **v2.57.7** (22 Jun) — **Polimento UI/IHC.** (1) Ícone do Le Vél no pitch: `IC.Bot` reescrito (robô mais bonito — antena+nó, orelhas, olhos preenchidos, sorriso); afeta `.lp-ficon` + `.lp-art-mark`. (2) Login (IHC): "Esqueci a senha" saiu de dentro da label da senha (TAB do e-mail caía nele) → movido pra baixo do "Não tem conta? Criar"; agora e-mail→senha direto. (3) Logo da sidebar (`.cod-bo7-mark`): `role=button`+tabindex+onclick/onkeydown aciona `[data-section=home]` (abre Início); `<title>`/`aria-label` i18n via `nav.home.tooltip` (Início/Home) em vez de "LEVEL". Validado node 19/19.
 - **v2.57.6** (22 Jun) — **i18n EN de strings em JS (lote 3, fim do sweep).** Fluxo de importar arma por screenshot (drop title, limite {n}, +adicionar {n}/{max}, toast, loading OCR/Tesseract/Gemini) + empty states (`mw.empty.noWeapons`, `weapon.notFoundDeleted`). Reusa `mw.import.dropTitle`/`analyzing` (existiam mas JS sobrescrevia) + 7 chaves novas. Validado node 19/19, 42 chaves via `tHub()` simétricas. **Sweep i18n JS concluído** (lotes 1-3 = v2.57.4/5/6): das ~25 lacunas da auditoria, fechadas as user-facing reais; sobram itens admin (não precisam EN) e subtitles de operador (verificar se já têm EN). Helper `window.tHub()` disponível p/ futuras.
 - **v2.57.5** (22 Jun) — **i18n EN de strings em JS (lote 2).** Mesmo helper `tHub()`. 16 chaves: avatar (save/remove/import — import em 2 call sites), perfil (`common.invalidValue`, `profile.prestige/level.range`, `common.none`), re-análise (`rate.before.*`), marketplace publish (`mkt.publish.unknownWeapon.*` com `{name}`). Validado node 19/19, strings PT só no dict. **Restam ~9 lacunas menores** (OCR/import de prints `~31378-31463`, empty states de armas/builds, help tooltips do construtor `~40195`) p/ lote 3.
