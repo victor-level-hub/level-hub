@@ -13817,8 +13817,8 @@
       <button class="nav-item" data-section="squad">
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 20 a5.5 5.5 0 0 1 11 0"/><path d="M16 5.4 a3 3 0 0 1 0 5.2"/><path d="M17.5 14.2 a5.5 5.5 0 0 1 3.5 5.8"/></svg></span>
         <span class="nav-text">
-          <span class="nav-label">Encontrar Squad</span>
-          <span class="nav-desc">Jogadores no teu nível</span>
+          <span class="nav-label" data-i18n="squad.nav.label">Encontrar Squad</span>
+          <span class="nav-desc" data-i18n="squad.nav.desc">Jogadores no teu nível</span>
         </span>
       </button>
       <!-- v75-37: Controle e Aim Training movidos pra DEPOIS do featured group -->
@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.56.0 · <span data-i18n="briefing.changelog.date">19 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.0 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Adicionar armas via PS Remote Play (captura na nuvem)</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Nova forma de cadastrar suas armas: em <strong>Minhas Armas → Importar → Adicionar via PS Remote Play</strong>. Você baixa um capturador, joga o BO7 por Remote Play no PC e ele envia os prints do Gunsmith direto pro LEVEL (na nuvem — nada fica no seu PC). A IA lê a arma e monta a build; a foto é apagada depois de lida.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Encontrar Squad agora em inglês</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.0</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>i18n EN do Encontrar Squad.</strong> A seção <strong>Encontrar Squad</strong> estava com strings cravadas em PT; agora suporta inglês no padrão i18n do projeto (<strong>34 chaves novas</strong> no namespace `squad.*`, PT + EN em `window.I18N`). Cobertura: <strong>nav</strong> (label + descrição), <strong>seção `#section-squad`</strong> (breadcrumb, h2, intro, 5 filtros + options + placeholders, checkbox &ldquo;disponíveis agora&rdquo;, botão Buscar) e <strong>perfil social</strong> no modal de Status (autorização, dica, campos, checkboxes de visibilidade). As 6 strings geradas em runtime pela IIFE `squadFinder()` (busca/vazio/erro, badge &ldquo;DISPONÍVEL AGORA&rdquo;, prefixo de nível, fallback &ldquo;Operador&rdquo;) passaram a usar um helper `t()` lendo de `window.I18N`. <strong>Detalhes que evitaram bug:</strong> `data-i18n` aplica via `textContent` (não decodifica entidades) → `&plusmn;`/`&rarr;` viraram `±`/`→` literais no dict; placeholders usam `data-i18n-attr="placeholder:chave"` (padrão comprovado do auth gate — `applyI18N` não tem handler de `data-i18n-placeholder`); textos em `&lt;label&gt;` embrulhados em `&lt;span&gt;` pra não sobrescrever os inputs. Validado: node 19/19, estrutura `&lt;main&gt;` 1/1 + `&lt;section&gt;` 19/19, cross-check 34 chaves referenciadas = 34 definidas (todas com par pt/en, 0 órfãs).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.56.0</span>
                 <span class="vh-date">19 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -18475,21 +18484,21 @@
     <!-- =================================================================== -->
     <section class="section" id="section-squad">
       <div class="section-header">
-        <div class="breadcrumb">S / Encontrar Squad</div>
-        <h2>ENCONTRAR SQUAD</h2>
-        <p>Acha jogadores compatíveis pra formar squad. Só aparece aqui quem autorizou ser localizado (Perfil &rarr; Encontrar Squad). Combina o jogo fora do Hub.</p>
+        <div class="breadcrumb" data-i18n="squad.sec.crumb">S / Encontrar Squad</div>
+        <h2 data-i18n="squad.sec.h2">ENCONTRAR SQUAD</h2>
+        <p data-i18n="squad.sec.intro">Acha jogadores compatíveis pra formar squad. Só aparece aqui quem autorizou ser localizado (Perfil &rarr; Encontrar Squad). Combina o jogo fora do Hub.</p>
       </div>
       <div class="section-group" style="padding:18px">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end">
-          <div><div class="form-label">Idioma</div><input type="text" id="sqf-language" class="form-input" placeholder="ex: PT"/></div>
-          <div><div class="form-label">Plataforma</div><select id="sqf-platform" class="form-input"><option value="">Qualquer</option><option value="PS5">PS5</option><option value="PC">PC</option><option value="Xbox">Xbox</option></select></div>
-          <div><div class="form-label">Nível <span style="color:var(--text-muted);font-size:10px">(&plusmn;5)</span></div><input type="number" id="sqf-level" class="form-input" min="1" max="55" placeholder="ex: 35"/></div>
-          <div><div class="form-label">Horário</div><select id="sqf-playtime" class="form-input"><option value="">Qualquer</option><option value="manha">Manhã</option><option value="tarde">Tarde</option><option value="noite">Noite</option><option value="flexivel">Flexível</option></select></div>
-          <div><div class="form-label">País</div><input type="text" id="sqf-country" class="form-input" placeholder="ex: Portugal"/></div>
+          <div><div class="form-label" data-i18n="squad.f.language">Idioma</div><input type="text" id="sqf-language" class="form-input" data-i18n-attr="placeholder:squad.ph.langShort" placeholder="ex: PT"/></div>
+          <div><div class="form-label" data-i18n="squad.f.platform">Plataforma</div><select id="sqf-platform" class="form-input"><option value="" data-i18n="squad.opt.any">Qualquer</option><option value="PS5">PS5</option><option value="PC">PC</option><option value="Xbox">Xbox</option></select></div>
+          <div><div class="form-label"><span data-i18n="squad.f.level">Nível</span> <span style="color:var(--text-muted);font-size:10px" data-i18n="squad.f.levelTol">(&plusmn;5)</span></div><input type="number" id="sqf-level" class="form-input" min="1" max="55" data-i18n-attr="placeholder:squad.ph.level" placeholder="ex: 35"/></div>
+          <div><div class="form-label" data-i18n="squad.f.playtime">Horário</div><select id="sqf-playtime" class="form-input"><option value="" data-i18n="squad.opt.any">Qualquer</option><option value="manha" data-i18n="squad.opt.morning">Manhã</option><option value="tarde" data-i18n="squad.opt.afternoon">Tarde</option><option value="noite" data-i18n="squad.opt.night">Noite</option><option value="flexivel" data-i18n="squad.opt.flexible">Flexível</option></select></div>
+          <div><div class="form-label" data-i18n="squad.f.country">País</div><input type="text" id="sqf-country" class="form-input" data-i18n-attr="placeholder:squad.ph.country" placeholder="ex: Portugal"/></div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text-secondary,#9fb0c3)"><input type="checkbox" id="sqf-only-available" style="accent-color:#3ad17a;width:16px;height:16px"/> Apenas disponíveis agora</label>
-          <button type="button" id="sqf-search" class="btn-action btn-save" style="flex:0 0 auto;min-width:auto;padding:10px 22px">Buscar</button>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text-secondary,#9fb0c3)"><input type="checkbox" id="sqf-only-available" style="accent-color:#3ad17a;width:16px;height:16px"/> <span data-i18n="squad.onlyAvailable">Apenas disponíveis agora</span></label>
+          <button type="button" id="sqf-search" class="btn-action btn-save" style="flex:0 0 auto;min-width:auto;padding:10px 22px" data-i18n="squad.search">Buscar</button>
         </div>
       </div>
       <div id="sqf-results" style="margin-top:16px;display:flex;flex-direction:column;gap:10px"></div>
@@ -19829,7 +19838,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.56.0</strong><span class="ver-tag">Nova opção: Adicionar armas via PS Remote Play (capturador → nuvem → Gemini lê → cria a build → apaga a foto)</span>
+        LEVEL · <strong>v2.57.0</strong><span class="ver-tag">Encontrar Squad agora com suporte a inglês (navegação, filtros de busca e perfil social)</span>
       </div>
       <script>
         (function(){
@@ -19939,40 +19948,40 @@
           <div class="squad-profile" style="margin-top:18px;border-top:1px solid var(--border-subtle,rgba(255,255,255,.1));padding-top:16px">
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
               <input type="checkbox" id="sq-allow" onchange="var f=document.getElementById('sq-fields'); if(f) f.style.display=this.checked?'':'none';" style="width:18px;height:18px;accent-color:var(--accent-orange,#ff9800);cursor:pointer;flex:0 0 auto"/>
-              <span class="form-label" style="margin:0">Autorizo ser localizado no <strong>Encontrar Squad</strong></span>
+              <span class="form-label" style="margin:0" data-i18n-html="squad.profile.allow">Autorizo ser localizado no <strong>Encontrar Squad</strong></span>
             </label>
-            <div style="font-size:11px;color:var(--text-muted,#718497);margin:4px 0 0 28px">Só apareces na busca de outros jogadores se ligares isto. Desligado = invisível.</div>
+            <div style="font-size:11px;color:var(--text-muted,#718497);margin:4px 0 0 28px" data-i18n="squad.profile.allowHint">Só apareces na busca de outros jogadores se ligares isto. Desligado = invisível.</div>
 
             <div id="sq-fields" style="display:none;margin-top:14px">
               <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:14px">
                 <input type="checkbox" id="sq-available" style="width:18px;height:18px;accent-color:#3ad17a;cursor:pointer;flex:0 0 auto"/>
-                <span class="form-label" style="margin:0">Disponível para jogar agora</span>
+                <span class="form-label" style="margin:0" data-i18n="squad.profile.availableNow">Disponível para jogar agora</span>
               </label>
 
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div><div class="form-label">Idioma</div>
-                  <input type="text" id="sq-language" class="form-input" placeholder="ex: PT, EN" maxlength="20"/></div>
-                <div><div class="form-label">Horário</div>
+                <div><div class="form-label" data-i18n="squad.f.language">Idioma</div>
+                  <input type="text" id="sq-language" class="form-input" data-i18n-attr="placeholder:squad.ph.langPair" placeholder="ex: PT, EN" maxlength="20"/></div>
+                <div><div class="form-label" data-i18n="squad.f.playtime">Horário</div>
                   <select id="sq-playtime" class="form-input">
                     <option value="">—</option>
-                    <option value="manha">Manhã</option>
-                    <option value="tarde">Tarde</option>
-                    <option value="noite">Noite</option>
-                    <option value="flexivel">Flexível</option>
+                    <option value="manha" data-i18n="squad.opt.morning">Manhã</option>
+                    <option value="tarde" data-i18n="squad.opt.afternoon">Tarde</option>
+                    <option value="noite" data-i18n="squad.opt.night">Noite</option>
+                    <option value="flexivel" data-i18n="squad.opt.flexible">Flexível</option>
                   </select></div>
-                <div><div class="form-label">Cidade</div>
-                  <input type="text" id="sq-city" class="form-input" placeholder="ex: Lisboa" maxlength="40"/></div>
-                <div><div class="form-label">País</div>
-                  <input type="text" id="sq-country" class="form-input" placeholder="ex: Portugal" maxlength="40"/></div>
+                <div><div class="form-label" data-i18n="squad.f.city">Cidade</div>
+                  <input type="text" id="sq-city" class="form-input" data-i18n-attr="placeholder:squad.ph.city" placeholder="ex: Lisboa" maxlength="40"/></div>
+                <div><div class="form-label" data-i18n="squad.f.country">País</div>
+                  <input type="text" id="sq-country" class="form-input" data-i18n-attr="placeholder:squad.ph.country" placeholder="ex: Portugal" maxlength="40"/></div>
               </div>
 
-              <div class="form-label" style="margin-top:14px">Visível na busca (o que outros veem)</div>
+              <div class="form-label" style="margin-top:14px" data-i18n="squad.profile.visibleTitle">Visível na busca (o que outros veem)</div>
               <div style="display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--text-secondary,#9fb0c3)">
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-platform" style="accent-color:var(--accent-orange,#ff9800)"/> Plataforma</label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-level" style="accent-color:var(--accent-orange,#ff9800)"/> Nível</label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-language" style="accent-color:var(--accent-orange,#ff9800)"/> Idioma</label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-playtime" style="accent-color:var(--accent-orange,#ff9800)"/> Horário</label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-location" style="accent-color:var(--accent-orange,#ff9800)"/> Cidade/País</label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-platform" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.f.platform">Plataforma</span></label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-level" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.f.level">Nível</span></label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-language" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.f.language">Idioma</span></label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-playtime" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.f.playtime">Horário</span></label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-location" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.vis.location">Cidade/País</span></label>
               </div>
             </div>
           </div>
@@ -21500,6 +21509,42 @@ window.I18N = {
     'nav.myloadouts.label':   'Meus Loadouts',
     'nav.marketplace.label':  'Marketplace',
     'nav.marketplace.desc':   'Builds da comunidade',
+    // — Encontrar Squad (i18n EN) —
+    'squad.nav.label':           'Encontrar Squad',
+    'squad.nav.desc':            'Jogadores no teu nível',
+    'squad.sec.crumb':           'S / Encontrar Squad',
+    'squad.sec.h2':              'ENCONTRAR SQUAD',
+    'squad.sec.intro':           'Acha jogadores compatíveis pra formar squad. Só aparece aqui quem autorizou ser localizado (Perfil → Encontrar Squad). Combina o jogo fora do Hub.',
+    'squad.f.language':          'Idioma',
+    'squad.f.platform':          'Plataforma',
+    'squad.f.level':             'Nível',
+    'squad.f.levelTol':          '(±5)',
+    'squad.f.playtime':          'Horário',
+    'squad.f.country':           'País',
+    'squad.f.city':              'Cidade',
+    'squad.opt.any':             'Qualquer',
+    'squad.opt.morning':         'Manhã',
+    'squad.opt.afternoon':       'Tarde',
+    'squad.opt.night':           'Noite',
+    'squad.opt.flexible':        'Flexível',
+    'squad.ph.langShort':        'ex: PT',
+    'squad.ph.level':            'ex: 35',
+    'squad.ph.country':          'ex: Portugal',
+    'squad.ph.langPair':         'ex: PT, EN',
+    'squad.ph.city':             'ex: Lisboa',
+    'squad.onlyAvailable':       'Apenas disponíveis agora',
+    'squad.search':              'Buscar',
+    'squad.profile.allow':       'Autorizo ser localizado no <strong>Encontrar Squad</strong>',
+    'squad.profile.allowHint':   'Só apareces na busca de outros jogadores se ligares isto. Desligado = invisível.',
+    'squad.profile.availableNow':'Disponível para jogar agora',
+    'squad.profile.visibleTitle':'Visível na busca (o que outros veem)',
+    'squad.vis.location':        'Cidade/País',
+    'squad.js.levelPrefix':      'Nv',
+    'squad.js.availableNow':     'DISPONÍVEL AGORA',
+    'squad.js.operator':         'Operador',
+    'squad.js.searching':        'A procurar&hellip;',
+    'squad.js.empty':            'Ninguém encontrado com esses filtros. Lembra: só aparece quem ligou &ldquo;Autorizo ser localizado&rdquo; no perfil.',
+    'squad.js.error':            'Erro na busca &mdash; tenta de novo.',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -21695,10 +21740,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '19 Jun 2026',
+    'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Escolha da arma com miniaturas ao criar uma build',
-    'briefing.changelog.summary':  'Ao criar ou editar uma <strong>build</strong> (em Minhas Armas), a escolha da arma base deixou de ser uma lista simples e virou um <strong>seletor com miniaturas</strong> — mostra a foto de cada arma (a sua imagem, quando você tem), agrupadas por classe e na cor da classe. Bem mais fácil achar a arma certa.',
+    'briefing.changelog.headline': 'Encontrar Squad agora em inglês',
+    'briefing.changelog.summary':  'A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23064,6 +23109,42 @@ window.I18N = {
     'nav.maps.desc':          'Right weapon per MP map',
     'nav.marketplace.label':  'Marketplace',
     'nav.marketplace.desc':   'Community builds',
+    // — Encontrar Squad (i18n EN) —
+    'squad.nav.label':           'Find a Squad',
+    'squad.nav.desc':            'Players at your level',
+    'squad.sec.crumb':           'S / Find a Squad',
+    'squad.sec.h2':              'FIND A SQUAD',
+    'squad.sec.intro':           'Find compatible players to form a squad. Only those who opted in to be found show up here (Profile → Find a Squad). You arrange the games outside the Hub.',
+    'squad.f.language':          'Language',
+    'squad.f.platform':          'Platform',
+    'squad.f.level':             'Level',
+    'squad.f.levelTol':          '(±5)',
+    'squad.f.playtime':          'Schedule',
+    'squad.f.country':           'Country',
+    'squad.f.city':              'City',
+    'squad.opt.any':             'Any',
+    'squad.opt.morning':         'Morning',
+    'squad.opt.afternoon':       'Afternoon',
+    'squad.opt.night':           'Night',
+    'squad.opt.flexible':        'Flexible',
+    'squad.ph.langShort':        'e.g. EN',
+    'squad.ph.level':            'e.g. 35',
+    'squad.ph.country':          'e.g. Portugal',
+    'squad.ph.langPair':         'e.g. PT, EN',
+    'squad.ph.city':             'e.g. Lisbon',
+    'squad.onlyAvailable':       'Available now only',
+    'squad.search':              'Search',
+    'squad.profile.allow':       'I allow being found in <strong>Find a Squad</strong>',
+    'squad.profile.allowHint':   'You only appear in other players&rsquo; searches if you enable this. Off = invisible.',
+    'squad.profile.availableNow':'Available to play now',
+    'squad.profile.visibleTitle':'Visible in search (what others see)',
+    'squad.vis.location':        'City/Country',
+    'squad.js.levelPrefix':      'Lv',
+    'squad.js.availableNow':     'AVAILABLE NOW',
+    'squad.js.operator':         'Operator',
+    'squad.js.searching':        'Searching&hellip;',
+    'squad.js.empty':            'No one found with these filters. Remember: only players who enabled &ldquo;allow being found&rdquo; in their profile show up.',
+    'squad.js.error':            'Search failed &mdash; try again.',
     // — Marketplace (v75-57 i18n) —
     'sec.marketplace.crumb':  'M / Marketplace',
     'sec.marketplace.h2':     'MARKETPLACE',
@@ -23255,10 +23336,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 19, 2026',
+    'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Add weapons via PS Remote Play (cloud capture)',
-    'briefing.changelog.summary':  'A new way to add your weapons: in <strong>My Weapons → Import → Add via PS Remote Play</strong>. Download a small capturer, play BO7 via Remote Play on your PC, and it sends Gunsmith screenshots straight to LEVEL (to the cloud — nothing stays on your PC). The AI reads the weapon and builds it; the photo is deleted after it&rsquo;s read.',
+    'briefing.changelog.headline': 'Find a Squad now speaks English',
+    'briefing.changelog.summary':  'The <strong>Find a Squad</strong> section — navigation, search filters and the social profile (in Edit Status) — now speaks English along with the rest of the Hub. If you use LEVEL in EN, everything is translated; nothing changes if you&rsquo;re in Portuguese.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -48414,20 +48495,22 @@ ${cbt('share.t.footer')}`;
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
   function val(id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; }
   function chk(id) { var e = document.getElementById(id); return e ? !!e.checked : false; }
+  function curLang() { try { return localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'; } catch (e) { return 'pt'; } }
+  function t(key, fb) { try { var d = window.I18N && window.I18N[curLang()]; if (d && d[key] != null) return d[key]; } catch (e) {} return fb || ''; }
 
   function card(r) {
     var bits = [];
     if (r.platform) bits.push(esc(r.platform));
-    if (r.level != null) bits.push('Nv ' + esc(r.level));
+    if (r.level != null) bits.push(t('squad.js.levelPrefix', 'Nv') + ' ' + esc(r.level));
     if (r.playtime) bits.push(esc(r.playtime));
     if (r.language) bits.push(esc(r.language));
     var loc = [r.city, r.country].filter(Boolean).map(esc).join(', ');
     var avail = r.is_available
-      ? '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#3ad17a;border:1px solid #3ad17a55;border-radius:999px;padding:2px 8px;white-space:nowrap">DISPONÍVEL AGORA</span>'
+      ? '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#3ad17a;border:1px solid #3ad17a55;border-radius:999px;padding:2px 8px;white-space:nowrap">' + t('squad.js.availableNow', 'DISPONÍVEL AGORA') + '</span>'
       : '';
     return '<div style="background:var(--surface,#0f1622);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">' +
       '<div style="flex:1;min-width:140px">' +
-        '<div style="font-family:\'Chakra Petch\',sans-serif;font-weight:700;font-size:16px;color:var(--text,#e8eef5)">' + esc(r.display_name || 'Operador') + '</div>' +
+        '<div style="font-family:\'Chakra Petch\',sans-serif;font-weight:700;font-size:16px;color:var(--text,#e8eef5)">' + esc(r.display_name || t('squad.js.operator', 'Operador')) + '</div>' +
         '<div style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:var(--text-muted,#718497);margin-top:3px">' + (bits.join(' · ') + (loc ? ' · ' + loc : '') || '&mdash;') + '</div>' +
       '</div>' + avail + '</div>';
   }
@@ -48435,7 +48518,7 @@ ${cbt('share.t.footer')}`;
   function msg(html) { var r = document.getElementById('sqf-results'); if (r) r.innerHTML = '<div style="color:var(--text-muted,#718497);font-family:\'JetBrains Mono\',monospace;font-size:12px;padding:10px">' + html + '</div>'; }
 
   async function search() {
-    msg('A procurar&hellip;');
+    msg(t('squad.js.searching', 'A procurar&hellip;'));
     var lvl = val('sqf-level');
     var body = {
       p_language: val('sqf-language') || null,
@@ -48456,13 +48539,13 @@ ${cbt('share.t.footer')}`;
       if (!res.ok) throw new Error((data && data.message) || ('HTTP ' + res.status));
       var out = document.getElementById('sqf-results');
       if (!Array.isArray(data) || !data.length) {
-        msg('Ninguém encontrado com esses filtros. Lembra: só aparece quem ligou &ldquo;Autorizo ser localizado&rdquo; no perfil.');
+        msg(t('squad.js.empty', 'Ninguém encontrado com esses filtros. Lembra: só aparece quem ligou &ldquo;Autorizo ser localizado&rdquo; no perfil.'));
         return;
       }
       if (out) out.innerHTML = data.map(card).join('');
     } catch (e) {
       console.warn('[squad] busca falhou:', e);
-      msg('Erro na busca &mdash; tenta de novo.');
+      msg(t('squad.js.error', 'Erro na busca &mdash; tenta de novo.'));
     }
   }
 
