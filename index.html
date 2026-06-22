@@ -14204,12 +14204,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.1 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.2 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Encontrar Squad agora em inglês</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português. O horário de jogo também aparece traduzido nos resultados da busca.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Encontrar Squad no visual oficial</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Ajuste fino visual: os resultados de busca e os filtros do <strong>Encontrar Squad</strong> agora usam as cores e o acabamento do design oficial do Hub (Glass/Neon) em vez de tons soltos — fica tudo coerente com o resto da interface.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.2</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">patch</span>
+              </div>
+              <p class="vh-desc"><strong>Encontrar Squad alinhado aos tokens do design Glass/Neon.</strong> A seção foi construída (v2.57.0) com cores cravadas e tokens inexistentes (`var(--surface,#0f1622)` e `var(--text,#e8eef5)` — nomes que não existem no `:root`, caíam nos fallbacks off-palette; verde `#3ad17a` em vez do `--green` #4ADE80 do sistema). Agora os cards de resultado da IIFE `squadFinder()` usam `--bg-panel` + `--border-subtle` + `--text-primary`/`--text-muted`; o badge "DISPONÍVEL AGORA" e os checkboxes de "disponíveis agora" usam `var(--green)`. Zero mudança de comportamento, só consistência visual com o resto do Hub. Validado node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.1</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">patch</span>
@@ -18506,7 +18515,7 @@
           <div><div class="form-label" data-i18n="squad.f.country">País</div><input type="text" id="sqf-country" class="form-input" data-i18n-attr="placeholder:squad.ph.country" placeholder="ex: Portugal"/></div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text-secondary,#9fb0c3)"><input type="checkbox" id="sqf-only-available" style="accent-color:#3ad17a;width:16px;height:16px"/> <span data-i18n="squad.onlyAvailable">Apenas disponíveis agora</span></label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text-secondary,#9fb0c3)"><input type="checkbox" id="sqf-only-available" style="accent-color:var(--green);width:16px;height:16px"/> <span data-i18n="squad.onlyAvailable">Apenas disponíveis agora</span></label>
           <button type="button" id="sqf-search" class="btn-action btn-save" style="flex:0 0 auto;min-width:auto;padding:10px 22px" data-i18n="squad.search">Buscar</button>
         </div>
       </div>
@@ -19847,7 +19856,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.1</strong><span class="ver-tag">Encontrar Squad em inglês — horário de jogo agora traduzido também nos resultados de busca</span>
+        LEVEL · <strong>v2.57.2</strong><span class="ver-tag">Encontrar Squad alinhado ao design Glass/Neon — cores e tokens do sistema oficial nos resultados e filtros</span>
       </div>
       <script>
         (function(){
@@ -19963,7 +19972,7 @@
 
             <div id="sq-fields" style="display:none;margin-top:14px">
               <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:14px">
-                <input type="checkbox" id="sq-available" style="width:18px;height:18px;accent-color:#3ad17a;cursor:pointer;flex:0 0 auto"/>
+                <input type="checkbox" id="sq-available" style="width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex:0 0 auto"/>
                 <span class="form-label" style="margin:0" data-i18n="squad.profile.availableNow">Disponível para jogar agora</span>
               </label>
 
@@ -21751,8 +21760,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Encontrar Squad agora em inglês',
-    'briefing.changelog.summary':  'A seção <strong>Encontrar Squad</strong> — a navegação, os filtros de busca e o perfil social (em Editar Status) — agora fala inglês junto com o resto do Hub. Quem usa o LEVEL em EN vê tudo traduzido; nada muda pra quem está em português. O horário de jogo também aparece traduzido nos resultados da busca.',
+    'briefing.changelog.headline': 'Encontrar Squad no visual oficial',
+    'briefing.changelog.summary':  'Ajuste fino visual: os resultados de busca e os filtros do <strong>Encontrar Squad</strong> agora usam as cores e o acabamento do design oficial do Hub (Glass/Neon) em vez de tons soltos — fica tudo coerente com o resto da interface.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23347,8 +23356,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Find a Squad now speaks English',
-    'briefing.changelog.summary':  'The <strong>Find a Squad</strong> section — navigation, search filters and the social profile (in Edit Status) — now speaks English along with the rest of the Hub. If you use LEVEL in EN, everything is translated; nothing changes if you&rsquo;re in Portuguese. Play schedule now shows up translated in the search results too.',
+    'briefing.changelog.headline': 'Find a Squad in the official look',
+    'briefing.changelog.summary':  'Visual fine-tuning: the search results and filters in <strong>Find a Squad</strong> now use the Hub&rsquo;s official design colors and finish (Glass/Neon) instead of one-off shades — consistent with the rest of the interface.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -48517,16 +48526,16 @@ ${cbt('share.t.footer')}`;
     if (r.language) bits.push(esc(r.language));
     var loc = [r.city, r.country].filter(Boolean).map(esc).join(', ');
     var avail = r.is_available
-      ? '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#3ad17a;border:1px solid #3ad17a55;border-radius:999px;padding:2px 8px;white-space:nowrap">' + t('squad.js.availableNow', 'DISPONÍVEL AGORA') + '</span>'
+      ? '<span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:var(--green);border:1px solid rgba(74,222,128,.34);border-radius:999px;padding:2px 8px;white-space:nowrap">' + t('squad.js.availableNow', 'DISPONÍVEL AGORA') + '</span>'
       : '';
-    return '<div style="background:var(--surface,#0f1622);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">' +
+    return '<div style="background:var(--bg-panel);border:1px solid var(--border-subtle);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">' +
       '<div style="flex:1;min-width:140px">' +
-        '<div style="font-family:\'Chakra Petch\',sans-serif;font-weight:700;font-size:16px;color:var(--text,#e8eef5)">' + esc(r.display_name || t('squad.js.operator', 'Operador')) + '</div>' +
-        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:var(--text-muted,#718497);margin-top:3px">' + (bits.join(' · ') + (loc ? ' · ' + loc : '') || '&mdash;') + '</div>' +
+        '<div style="font-family:\'Chakra Petch\',sans-serif;font-weight:700;font-size:16px;color:var(--text-primary)">' + esc(r.display_name || t('squad.js.operator', 'Operador')) + '</div>' +
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:var(--text-muted);margin-top:3px">' + (bits.join(' · ') + (loc ? ' · ' + loc : '') || '&mdash;') + '</div>' +
       '</div>' + avail + '</div>';
   }
 
-  function msg(html) { var r = document.getElementById('sqf-results'); if (r) r.innerHTML = '<div style="color:var(--text-muted,#718497);font-family:\'JetBrains Mono\',monospace;font-size:12px;padding:10px">' + html + '</div>'; }
+  function msg(html) { var r = document.getElementById('sqf-results'); if (r) r.innerHTML = '<div style="color:var(--text-muted);font-family:\'JetBrains Mono\',monospace;font-size:12px;padding:10px">' + html + '</div>'; }
 
   async function search() {
     msg(t('squad.js.searching', 'A procurar&hellip;'));
