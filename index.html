@@ -14193,7 +14193,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.25 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.26 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.26</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Limpeza automática do cache local de imagens (resolve o "storage cheio").</strong> O Victor reportou o erro de upload voltando nos Personagens, com o <code>localStorage</code> em ~4.8&nbsp;MB / 51 imagens (perto do teto de 5&nbsp;MB). O erro em si já foi silenciado na v2.57.24 (a imagem salva na nuvem), mas o armazenamento <strong>cheio</strong> ainda apertava o save local de perfil/armas. Agora, no boot — assim que o catálogo da nuvem é confirmado (<code>CLOUD_URL_CACHE</code>) — o <code>pruneLocalImagesInCloud</code> <strong>remove do cache local toda imagem já garantida na nuvem</strong>, libertando espaço (loga quantos KB). Imagens que só existem localmente (upload cujo cloud falhou) <strong>não</strong> são tocadas; o <code>getUserImage</code> segue mostrando tudo via nuvem (cloud-first). Resultado: o localStorage deixa de encher e o upload para de dar erro. node 19/19. <em>Obs.: quem viu a chave crua <code>set.toast.storageError</code> estava numa versão anterior à .24 — basta recarregar.</em></p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.25</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20052,7 +20061,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.25</strong><span class="ver-tag">mapas: lista verificada vs site oficial (removidos ~12 inventados, +S2/S3/S4), ordem alfabética, modos por mapa (6v6/2v2) + descrições PT-BR; zoom da imagem removido</span>
+        LEVEL · <strong>v2.57.26</strong><span class="ver-tag">imagens: limpeza automática do cache local — remove do navegador o que já está na nuvem, liberando espaço (resolve o "storage cheio" que dava erro no upload)</span>
       </div>
       <script>
         (function(){
@@ -21999,8 +22008,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mapas: lista verificada, alfabética e com modos',
-    'briefing.changelog.summary':  'Arrumamos as Configurações dos Mapas: <strong>conferimos a lista contra o site oficial</strong> (removemos ~12 mapas que estavam errados e adicionamos os que faltavam, incluindo toda a Season 4), colocamos em <strong>ordem alfabética</strong>, e cada mapa agora tem os <strong>modos</strong> que rodam nele (6v6 / 6v6 &amp; 2v2 / 20v20) e uma <strong>descrição em PT-BR</strong>. Também tiramos o <strong>zoom</strong> da imagem nas Configurações.',
+    'briefing.changelog.headline': 'Cache de imagens mais leve',
+    'briefing.changelog.summary':  'O navegador estava ficando <strong>sem espaço</strong> de tanto guardar imagens (o que dava aquele erro no upload e ainda apertava o save do perfil). Como tudo já fica salvo na <strong>nuvem</strong>, agora o Hub <strong>limpa do navegador as imagens que já estão na nuvem</strong> automaticamente, liberando espaço. As imagens continuam aparecendo normalmente. Se você ainda vê um erro com um código técnico no upload, é só recarregar a página.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23650,8 +23659,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Maps: verified list, alphabetical, with modes',
-    'briefing.changelog.summary':  'We cleaned up the Maps settings: <strong>checked the list against the official site</strong> (removed ~12 wrong maps and added the missing ones, including all of Season 4), put it in <strong>alphabetical order</strong>, and each map now has the <strong>modes</strong> it plays (6v6 / 6v6 &amp; 2v2 / 20v20) plus a <strong>PT-BR description</strong>. We also removed the image <strong>zoom</strong> in Settings.',
+    'briefing.changelog.headline': 'Lighter image cache',
+    'briefing.changelog.summary':  'The browser was running <strong>out of space</strong> from storing images (which caused that upload error and squeezed your profile saves). Since everything is already saved to the <strong>cloud</strong>, the Hub now <strong>clears images that are already in the cloud</strong> from the browser automatically, freeing space. Images still show normally. If you still see an error with a technical code on upload, just reload the page.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -38137,12 +38146,37 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // (sintoma: emblema de Prestige cai no "P10" até dar reload). Fix: re-tenta até
     // ~8s e também reage ao evento `level-auth-ready` (login resolvido) — aí lista
     // na hora. cloudListAssets() devolve array (sucesso, mesmo vazio) ou null (falha).
+    // v2.57.26: liberta espaço do localStorage. As imagens são grandes (~140KB) e o
+    // localStorage (~5MB) enche — o que afeta também o save local de perfil/armas.
+    // Como a fonte de verdade é a NUVEM, removemos do cache LOCAL toda imagem já
+    // CONFIRMADA na nuvem (presente em CLOUD_URL_CACHE). Imagens que só existem
+    // localmente (upload cujo cloud falhou) NÃO são tocadas. getUserImage continua
+    // a mostrá-las via CLOUD_URL_CACHE (cloud-first).
+    function pruneLocalImagesInCloud() {
+      try {
+        var map = loadUserImages();
+        var ids = Object.keys(map);
+        var freed = 0, removed = 0;
+        ids.forEach(function (id) {
+          if (CLOUD_URL_CACHE[id]) { freed += (map[id] || '').length; delete map[id]; removed++; }
+        });
+        if (removed > 0) {
+          try { localStorage.setItem(USER_IMG_KEY, JSON.stringify(map)); } catch (e) {}
+          console.log('[user-images] prune: ' + removed + ' imagens já na nuvem removidas do cache local (~' + Math.round(freed / 1024) + ' KB libertos).');
+          if (typeof updateSettingsUsage === 'function') updateSettingsUsage();
+        }
+      } catch (e) {}
+    }
     (function scheduleCloudAssetList() {
       var tries = 0;
       function attempt() {
         tries++;
         cloudListAssets().then(function (items) {
-          if (items) { if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange(); return; }
+          if (items) {
+            pruneLocalImagesInCloud();   // v2.57.26: liberta espaço assim que a nuvem confirma
+            if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange();
+            return;
+          }
           if (tries < 10) setTimeout(attempt, 800);
         });
       }
