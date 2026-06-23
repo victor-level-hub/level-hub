@@ -14204,7 +14204,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.29 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.30 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.30</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Avatar IA: direcionamento do visual + comparar "de frente" vs "pose do exemplo".</strong> Pedidos do Victor. <strong>Prompts (Edge generate-avatar v4/v5):</strong> os 10 personagens agora pedem operador <strong>mais jovem, pele jovial, físico atlético/forte, expressão de determinação (indo pra guerra) e DE FRENTE</strong> (encarando a câmera), preservando a identidade do rosto. <strong>Comparar A vs B:</strong> a Edge ganhou suporte a <code>pose_ref_b64</code> — manda 2 imagens pro NB2 (1ª = selfie p/ rosto, 2ª = foto-exemplo do personagem p/ pose/enquadramento). No Hub, o estado "pronto" ganhou o botão <strong>"Pose do exemplo"</strong> (só p/ personagens com foto real, ex.: Price, Farah) que gera a versão (B) na pose da arte oficial, pra comparar com a versão de frente (A) e aprovar a preferida. <code>AvatarBackend.generatePose</code> + handler; o aprovar usa a imagem que estiver na tela. node 19/19, sem erros de console. Obs.: cada geração consome 1 das 3 tentativas da sessão (se esgotar, gerar QR novo).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.29</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20099,7 +20108,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.29</strong><span class="ver-tag">avatar IA: preview do avatar gerado aparecia quebrado (URL com '/' codificada errada) + modal recarregando; corrigidos — a geração já funcionava</span>
+        LEVEL · <strong>v2.57.30</strong><span class="ver-tag">avatar IA: prompts mais jovens/fortes/determinados e de frente + botão "Pose do exemplo" (gera versão na pose da arte oficial pra comparar)</span>
       </div>
       <script>
         (function(){
@@ -22046,8 +22055,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Avatar com IA: preview corrigido',
-    'briefing.changelog.summary':  'A geração do avatar por IA <strong>sempre funcionou</strong> (confirmado nos logs) — o que estava quebrado era só a <strong>pré-visualização</strong> no Hub: a imagem aparecia partida e o modal ficava recarregando. Eram dois detalhes técnicos (a URL da imagem montada errada e o modal sem parar de atualizar). Corrigidos — agora o avatar gerado aparece e você aprova ou regenera normalmente.',
+    'briefing.changelog.headline': 'Avatar IA: mais militar + comparar poses',
+    'briefing.changelog.summary':  'Afinamos o avatar por IA: agora ele sai <strong>mais jovem, atlético, com cara de determinação e de frente</strong> (encarando a câmera), com a temática militar. E você pode <strong>comparar dois estilos</strong>: o botão <strong>"Pose do exemplo"</strong> (no Price, Farah, etc.) gera uma versão na mesma pose da arte oficial do personagem, pra você escolher entre essa e a "de frente". Cada geração usa 1 das 3 tentativas da sessão — se esgotar, é só gerar um QR novo.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23697,8 +23706,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'AI avatar: preview fixed',
-    'briefing.changelog.summary':  'AI avatar generation <strong>always worked</strong> (confirmed in the logs) — what was broken was only the <strong>preview</strong> in the Hub: the image showed up broken and the modal kept reloading. It was two technical details (the image URL built wrong and the modal not stopping its refresh). Both fixed — the generated avatar now shows and you can approve or regenerate normally.',
+    'briefing.changelog.headline': 'AI avatar: more military + pose compare',
+    'briefing.changelog.summary':  'We tuned the AI avatar: it now comes out <strong>younger, athletic, with a determined look and front-facing</strong>, with the military theme. And you can <strong>compare two styles</strong>: the <strong>"Example pose"</strong> button (on Price, Farah, etc.) generates a version in the same pose as the character official art, so you choose between it and the front-facing one. Each generation uses 1 of the 3 attempts per session — if you run out, just generate a new QR.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -35806,9 +35815,22 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       return qr.createDataURL(6, 2);
     }
 
+    // ── generatePose (v5: modo B — manda a foto-exemplo como ref de pose) ──
+    async function generatePose(token, poseRefB64, poseRefMime) {
+      const r = await fetch(FN_BASE + '/generate-avatar', {
+        method: 'POST',
+        headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: token, pose_ref_b64: poseRefB64, pose_ref_mime: poseRefMime || 'image/jpeg' }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data.error || ('generatePose ' + r.status));
+      return data; // { ok, generated_path, variant }
+    }
+
     // Expõe pro resto do app
     window.AvatarBackend = {
       createSession: createSession,
+      generatePose: generatePose,
       getStatus: getStatus,
       approveSession: approveSession,
       regenerate: regenerate,
@@ -36156,8 +36178,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         return '<button class="btn-action btn-reset" disabled style="min-width:auto; opacity:0.5; cursor:not-allowed">{{i:loader}} A gerar...</button>';
       }
       if (phase === 'ready') {
+        // v5: botão "Pose do exemplo" só aparece p/ personagens com foto-exemplo real (raster, não SVG)
+        var _selC = (window.AVATAR_CHARACTERS || []).find(function (c) { return c.id === window.avatarIAState.selectedCharId; });
+        var _hasRef = _selC && /^data:image\/(jpeg|png|webp)/i.test(_selC.thumb || '');
         return ''
           + '<button class="btn-action btn-reset" id="amt-btn-regenerate" style="min-width:auto">{{i:refresh-cw}} Regenerar</button>'
+          + (_hasRef ? '<button class="btn-action btn-reset" id="amt-btn-pose" style="min-width:auto">{{i:sparkles}} Pose do exemplo</button>' : '')
           + '<button class="btn-action btn-save" id="amt-btn-approve" style="min-width:auto">{{i:check}} Aprovar e usar</button>';
       }
       if (phase === 'failed' || phase === 'expired') {
@@ -36265,6 +36291,36 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         } catch (err) {
           console.error('[avatar-regen] erro:', err);
           window.avatarIAState.errorMessage = err.message || 'Falha ao regenerar';
+          window.avatarIAState.phase = 'failed';
+          renderAvatarDetailReactive();
+        }
+        return;
+      }
+
+      // Gerar na pose do exemplo (modo B — manda a foto-exemplo como referência)
+      if (e.target.closest('#amt-btn-pose')) {
+        if (!currentToken) return;
+        var selChar = (window.AVATAR_CHARACTERS || []).find(function (c) { return c.id === window.avatarIAState.selectedCharId; });
+        var mm = selChar && selChar.thumb ? /^data:([^;]+);base64,(.*)$/.exec(selChar.thumb) : null;
+        if (!mm) {
+          window.avatarIAState.errorMessage = 'Este personagem não tem foto-exemplo de referência.';
+          window.avatarIAState.phase = 'failed';
+          renderAvatarDetailReactive();
+          return;
+        }
+        lastSignedUrl = null;
+        lastGeneratedPath = null;
+        window.avatarIAState.phase = 'generating';
+        renderAvatarDetailReactive();
+        try {
+          var poseData = await window.AvatarBackend.generatePose(currentToken, mm[2], mm[1]);
+          lastGeneratedPath = poseData.generated_path || null;
+          lastSignedUrl = null;
+          window.avatarIAState.phase = 'ready';
+          renderAvatarDetailReactive(); // dispara tryLoadPreview com o novo path (versão B)
+        } catch (err) {
+          console.error('[avatar-pose] erro:', err);
+          window.avatarIAState.errorMessage = err.message || 'Falha ao gerar na pose do exemplo';
           window.avatarIAState.phase = 'failed';
           renderAvatarDetailReactive();
         }
