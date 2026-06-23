@@ -13606,7 +13606,7 @@
         </div>
         <div class="lag-field" data-field="lag-su-pass2">
           <div class="lag-field-lab"><label for="lag-su-pass2" data-i18n="auth.label.confirmPassword">Confirmar senha</label></div>
-          <input class="lag-input" id="lag-su-pass2" type="password" autocomplete="new-password" placeholder="••••••••">
+          <input class="lag-input" id="lag-su-pass2" type="password" autocomplete="new-password">
           <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
         </div>
         <div class="lag-field" data-field="lag-su-birth">
@@ -13630,7 +13630,7 @@
         </div>
         <div class="lag-field" data-field="lag-li-pass">
           <div class="lag-field-lab"><label for="lag-li-pass" data-i18n="auth.label.password">Senha</label></div>
-          <input class="lag-input" id="lag-li-pass" type="password" autocomplete="current-password" placeholder="••••••••" onkeydown="if(event.key==='Enter'){event.preventDefault();var b=document.getElementById('lag-li-btn');if(b)b.click();}">
+          <input class="lag-input" id="lag-li-pass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter'){event.preventDefault();var b=document.getElementById('lag-li-btn');if(b)b.click();}">
           <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
         </div>
         <div class="lag-btn-row">
@@ -14193,12 +14193,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.18 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.19 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Login traz seus dados de novo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Corrigido o bug em que o perfil voltava <strong>vazio</strong> mesmo logado: o auto-pull dos seus dados agora dispara de forma garantida ao entrar (não dependia mais do tempo certo de um evento) e <strong>sem recarregar a página</strong>. Ao logar, perfil, foto e dados aparecem sozinhos.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Detalhe no campo de senha</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O campo de <strong>senha</strong> vazio mostrava bolinhas (••••), dando impressão de que já tinha algo digitado. Removido — agora o campo vazio fica realmente vazio, no login e no confirmar senha do cadastro.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.19</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Placeholder de senha (IHC).</strong> Reportado pelo Victor: os campos de senha tinham `placeholder="••••••••"`, que num campo vazio parece senha já preenchida (afeta percepção do usuário). Removido o placeholder de bolinhas do login (`#lag-li-pass`) e do confirmar-senha do cadastro (`#lag-su-pass2`) — campo vazio agora fica vazio (o label "SENHA" acima já identifica). O signup principal já usava texto real (`mínimo 8 caracteres`). Validado node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.18</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19989,7 +19998,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.18</strong><span class="ver-tag">cache do HTML desligado — o navegador para de servir versão antiga; correções de login passam a aplicar na hora</span>
+        LEVEL · <strong>v2.57.19</strong><span class="ver-tag">campo de senha vazio não mostra mais bolinhas (não parece preenchido) — login e confirmar senha</span>
       </div>
       <script>
         (function(){
@@ -21936,8 +21945,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Login traz seus dados de novo',
-    'briefing.changelog.summary':  'Corrigido o bug em que o perfil voltava <strong>vazio</strong> mesmo logado: o auto-pull dos seus dados agora dispara de forma garantida ao entrar (não dependia mais do tempo certo de um evento) e <strong>sem recarregar a página</strong>. Ao logar, perfil, foto e dados aparecem sozinhos.',
+    'briefing.changelog.headline': 'Detalhe no campo de senha',
+    'briefing.changelog.summary':  'O campo de <strong>senha</strong> vazio mostrava bolinhas (••••), dando impressão de que já tinha algo digitado. Removido — agora o campo vazio fica realmente vazio, no login e no confirmar senha do cadastro.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23586,8 +23595,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Login brings your data back',
-    'briefing.changelog.summary':  'Fixed the bug where your profile came back <strong>empty</strong> even while logged in: the auto-pull of your data now fires reliably on login (no longer depending on an event firing at the right time) and <strong>without reloading the page</strong>. On login, profile, photo and data show up on their own.',
+    'briefing.changelog.headline': 'Password field detail',
+    'briefing.changelog.summary':  'The empty <strong>password</strong> field showed dots (••••), giving the impression something was already typed. Removed — an empty field is now truly empty, on login and on the signup confirm-password.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
