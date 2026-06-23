@@ -14204,7 +14204,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.30 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.31 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.31</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Avatar IA: opção "Usar foto do PC" (sem QR/celular) + dicas de foto ideal.</strong> Pedido do Victor. No "Gerar com IA", além do <strong>Gerar QR code</strong> (selfie pelo celular), agora há <strong>"Usar foto do PC"</strong> — escolhe um ficheiro de imagem e a IA gera o avatar a partir dele. Reusa todo o backend: o Hub cria a sessão (<code>createSession</code>), sobe o ficheiro via a mesma Edge <code>upload-avatar-selfie</code> (multipart, novo <code>AvatarBackend.uploadSelfieFile</code>) que dispara o <code>generate-avatar</code>, e segue o mesmo fluxo de preview/aprovar/regenerar/pose. Validação no cliente: só JPG/PNG/WebP até 10&nbsp;MB. As <strong>dicas</strong> foram reescritas pra "Foto ideal" (vale pra selfie ou ficheiro): rosto visível/de frente/centralizado, boa luz, sem óculos escuros/boné, nítida e de perto, fundo neutro, só você, expressão séria. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.30</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20108,7 +20117,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.30</strong><span class="ver-tag">avatar IA: prompts mais jovens/fortes/determinados e de frente + botão "Pose do exemplo" (gera versão na pose da arte oficial pra comparar)</span>
+        LEVEL · <strong>v2.57.31</strong><span class="ver-tag">avatar IA: opção "Usar foto do PC" (em vez do QR/selfie no celular) + dicas de foto ideal pra geração sair com qualidade</span>
       </div>
       <script>
         (function(){
@@ -22055,8 +22064,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Avatar IA: mais militar + comparar poses',
-    'briefing.changelog.summary':  'Afinamos o avatar por IA: agora ele sai <strong>mais jovem, atlético, com cara de determinação e de frente</strong> (encarando a câmera), com a temática militar. E você pode <strong>comparar dois estilos</strong>: o botão <strong>"Pose do exemplo"</strong> (no Price, Farah, etc.) gera uma versão na mesma pose da arte oficial do personagem, pra você escolher entre essa e a "de frente". Cada geração usa 1 das 3 tentativas da sessão — se esgotar, é só gerar um QR novo.',
+    'briefing.changelog.headline': 'Avatar IA: usar foto do PC',
+    'briefing.changelog.summary':  'Agora dá pra gerar o avatar <strong>sem o celular</strong>: no "Gerar com IA", além do QR, tem o botão <strong>"Usar foto do PC"</strong> — escolhe uma foto do computador e a IA cria o avatar a partir dela. Pra sair com qualidade, seguimos as <strong>dicas de foto ideal</strong>: rosto bem visível e de frente, boa luz, sem óculos escuros/boné, foto nítida e de perto, fundo neutro e só você. JPG/PNG/WebP até 10 MB.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23706,8 +23715,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'AI avatar: more military + pose compare',
-    'briefing.changelog.summary':  'We tuned the AI avatar: it now comes out <strong>younger, athletic, with a determined look and front-facing</strong>, with the military theme. And you can <strong>compare two styles</strong>: the <strong>"Example pose"</strong> button (on Price, Farah, etc.) generates a version in the same pose as the character official art, so you choose between it and the front-facing one. Each generation uses 1 of the 3 attempts per session — if you run out, just generate a new QR.',
+    'briefing.changelog.headline': 'AI avatar: use a photo from your PC',
+    'briefing.changelog.summary':  'You can now generate the avatar <strong>without your phone</strong>: in "Generate with AI", besides the QR there is a <strong>"Use a photo from PC"</strong> button — pick a photo from your computer and the AI builds the avatar from it. For best quality, follow the <strong>ideal photo tips</strong>: face clearly visible and front-facing, good lighting, no sunglasses/cap, sharp and close-up, neutral background, just you. JPG/PNG/WebP up to 10 MB.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -35827,10 +35836,27 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       return data; // { ok, generated_path, variant }
     }
 
+    // ── uploadSelfieFile (v6: foto do PC → upload-avatar-selfie multipart) ──
+    // Mesmo endpoint que o telemóvel usa; aqui a foto vem de um <input type=file>.
+    async function uploadSelfieFile(token, file) {
+      const fd = new FormData();
+      fd.append('token', token);
+      fd.append('selfie', file);
+      const r = await fetch(FN_BASE + '/upload-avatar-selfie', {
+        method: 'POST',
+        headers: { 'Authorization': AUTH_HEADERS.Authorization, 'apikey': AUTH_HEADERS.apikey },
+        body: fd,
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || data.error) throw new Error(data.error || ('uploadSelfie ' + r.status));
+      return data;
+    }
+
     // Expõe pro resto do app
     window.AvatarBackend = {
       createSession: createSession,
       generatePose: generatePose,
+      uploadSelfieFile: uploadSelfieFile,
       getStatus: getStatus,
       approveSession: approveSession,
       regenerate: regenerate,
@@ -36074,12 +36100,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (phase === 'idle' || phase === 'qr_shown') {
         return ''
           + '<div class="amt-detail-tips">'
-          +   '<strong>{{i:lightbulb}} Dicas de selfie</strong>'
+          +   '<strong>{{i:lightbulb}} Foto ideal (selfie ou ficheiro)</strong>'
           +   '<ul>'
-          +     '<li>Rosto bem iluminado, frontal</li>'
-          +     '<li>Sem óculos escuros ou chapéu</li>'
-          +     '<li>Fundo neutro (parede)</li>'
-          +     '<li>Expressão séria funciona melhor</li>'
+          +     '<li>Rosto bem visível, de frente e centralizado</li>'
+          +     '<li>Boa iluminação no rosto (sem sombra forte nem contraluz)</li>'
+          +     '<li>Sem óculos escuros, boné ou nada cobrindo o rosto</li>'
+          +     '<li>Foto nítida e de perto (do peito pra cima)</li>'
+          +     '<li>Fundo neutro/simples · só você na foto</li>'
+          +     '<li>Expressão séria/neutra funciona melhor</li>'
           +   '</ul>'
           + '</div>';
       }
@@ -36169,7 +36197,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
     function buildActionsBlock(phase) {
       if (phase === 'idle') {
-        return '<button class="btn-action btn-save" id="amt-btn-qr" style="min-width:auto">{{i:smartphone}} Gerar QR code</button>';
+        return ''
+          + '<button class="btn-action btn-save" id="amt-btn-qr" style="min-width:auto">{{i:smartphone}} Gerar QR code</button>'
+          + '<button class="btn-action btn-reset" id="amt-btn-file" style="min-width:auto">{{i:upload}} Usar foto do PC</button>'
+          + '<input type="file" id="amt-file-input" accept="image/jpeg,image/png,image/webp" style="display:none">';
       }
       if (phase === 'qr_shown') {
         return '<button class="btn-action btn-reset" id="amt-btn-cancel" style="min-width:auto">{{i:x}} Cancelar</button>';
@@ -36227,6 +36258,48 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }
     }
 
+    // ── Foto do PC: ao escolher um ficheiro, cria sessão + sobe a selfie ──
+    // Reusa o backend (upload-avatar-selfie dispara o generate-avatar). Mesmo
+    // fluxo de preview/aprovar do QR — só a origem da foto muda (PC em vez do celular).
+    document.addEventListener('change', async function (e) {
+      if (!e.target || e.target.id !== 'amt-file-input') return;
+      var file = e.target.files && e.target.files[0];
+      try { e.target.value = ''; } catch (_) {}  // permite re-escolher o mesmo ficheiro
+      if (!file) return;
+      var charId = window.avatarIAState && window.avatarIAState.selectedCharId;
+      if (!charId) return;
+      if (!/^image\/(jpeg|png|webp)$/i.test(file.type)) {
+        window.avatarIAState.errorMessage = 'Formato inválido. Usa JPG, PNG ou WebP.';
+        window.avatarIAState.phase = 'failed'; renderAvatarDetailReactive(); return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        window.avatarIAState.errorMessage = 'Foto muito grande (máx 10 MB).';
+        window.avatarIAState.phase = 'failed'; renderAvatarDetailReactive(); return;
+      }
+      currentToken = null; qrDataUrl = null; lastGeneratedPath = null; lastSignedUrl = null;
+      window.avatarIAState.errorMessage = null;
+      window.avatarIAState.phase = 'generating';
+      renderAvatarDetailReactive();
+      try {
+        var userId = null;
+        try {
+          if (window.LevelDB && window.LevelDB.player) {
+            var p = await window.LevelDB.player.get();
+            userId = p && p.name ? p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 64) : null;
+          }
+        } catch (_) { /* anon ok */ }
+        var session = await window.AvatarBackend.createSession(charId, userId);
+        currentToken = session.token;
+        await window.AvatarBackend.uploadSelfieFile(currentToken, file);
+        startPolling(currentToken); // upload-avatar-selfie já disparou o generate-avatar
+      } catch (err) {
+        console.error('[avatar-file] erro:', err);
+        window.avatarIAState.errorMessage = err.message || 'Falha ao enviar a foto';
+        window.avatarIAState.phase = 'failed';
+        renderAvatarDetailReactive();
+      }
+    });
+
     // ── Click handlers ──────────────────────────────────────────────
     document.addEventListener('click', async function (e) {
       // Gerar QR code (estado idle ou expired/failed = "Nova sessão")
@@ -36264,6 +36337,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           window.avatarIAState.phase = 'failed';
           renderAvatarDetailReactive();
         }
+        return;
+      }
+
+      // Usar foto do PC — abre o seletor de ficheiro
+      if (e.target.closest('#amt-btn-file')) {
+        var fi = document.getElementById('amt-file-input');
+        if (fi) fi.click();
         return;
       }
 
