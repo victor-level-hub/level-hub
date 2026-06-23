@@ -31,13 +31,14 @@ Sem o `index.html` anexado, **não começar a editar**. Pedir o arquivo primeiro
 
 ## 2. ESTADO ATUAL DO HUB
 
-**Versão:** `v2.57.19` (SemVer desde v2.0.0)
+**Versão:** `v2.57.20` (SemVer desde v2.0.0)
 **Arquivo:** single-file `index.html` (~3,3 MB, ~48.000 linhas, 17 blocos `<script>`)
 **Stack:** HTML/CSS/JS inline + Supabase backend
 **Deploy:** repo `victor-level-hub/level-hub` (privado) → branch main → auto-deploy Netlify `le-vel-hub` → domínio le-vel.games
 **Captura mobile:** repo `victor-level-hub/bo7-capture` → `level-capture.netlify.app`
 
 ### Marcos recentes
+- **v2.57.20** (22 Jun) — **CAUSA-RAIZ do perfil vazio: `boot()` não disparava o pull.** O disparo direto (v2.57.17) estava só no `onAuthed()` (chamado só no login explícito). O `boot()` (refresh/reabrir com sessão) só fazia `dispatchEvent('level-auth-ready')`, NÃO chamava `onAuthed()` → no refresh o pull dependia só do listener (timing) e não rodava. Fix: (1) `boot()` com sessão → `onAuthed()`; (2) gatilho do pull = loop retry `_triggerCloudPull` (12×/400ms até `window.CloudSync` pronto); (3) `boot()` sem sessão → se Pitch falhar, `showGate(true)` (não fica preso em Hub vazio). node 19/19. **Lição:** havia DOIS caminhos de auth (doLogin→onAuthed e boot→dispatch) e o fix só cobria um. Sempre cobrir login E boot.
 - **v2.57.19** (22 Jun) — **Placeholder de senha (IHC).** Campos de senha tinham `placeholder="••••••••"` → campo vazio parecia preenchido. Removido de `#lag-li-pass` (login) e `#lag-su-pass2` (confirmar senha cadastro). node 19/19.
 - **v2.57.18** (22 Jun) — **Cache do HTML desligado (`_headers`).** CAUSA-RAIZ de "fix não aplica mesmo com hard-refresh": projeto sem `_headers`/`netlify.toml`/SW → `index.html` em cache do navegador/CDN → Victor rodava versão ANTIGA (logs: zero `sync-pull` novo apesar da v2.57.17 deployada). Criado `_headers` com `Cache-Control: public, max-age=0, must-revalidate` em `/`+`/index.html`+`/*.html`. Deploys passam a aplicar na hora; refresh normal pega a nova versão. Carregar AGORA antes do header propagar: aba incognito. **Aprendizado:** sempre que "o fix não aparece pro Victor", suspeitar de cache de HTML — agora resolvido na origem.
 - **v2.57.17** (22 Jun) — **Auto-pull no login não rodava (perfil vazio).** Logs edge: só `sync-push` (auto-backup), zero `sync-pull` → `autoPullOnLogin` não invocado (timing do listener `level-auth-ready`). Cloud INTACTO (auto-backup do perfil vazio rejeitado pelo gate). Fix: (1) `onAuthed()` chama `window.CloudSync.autoPullIfEmpty()` DIRETO (setTimeout 700ms) além do evento; (2) `autoPullOnLogin` SEM `location.reload()` (loop/não-persistia) → sempre re-renderiza painéis. node 19/19. **Se ainda falhar:** ver console (`[CloudSync] auto-pull ao logar — iniciando`/`OK`/`falhou`) — se `falhou`, é o token/sessão no `pullAll`; se nem aparece, o `onAuthed` não roda.

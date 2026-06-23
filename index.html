@@ -14193,12 +14193,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.19 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.20 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Detalhe no campo de senha</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O campo de <strong>senha</strong> vazio mostrava bolinhas (••••), dando impressão de que já tinha algo digitado. Removido — agora o campo vazio fica realmente vazio, no login e no confirmar senha do cadastro.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Dados carregam ao abrir o Hub</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A causa de o perfil voltar vazio: ao <strong>abrir/atualizar</strong> o Hub já logado, o carregamento dos seus dados da nuvem não disparava (só funcionava no momento exato do login). Corrigido — agora dispara em ambos os casos, com novas tentativas até ficar pronto. E sem sessão, o Hub te leva direto pro login (nada de tela vazia).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.20</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>CAUSA-RAIZ do perfil vazio: `boot()` não disparava o auto-pull.</strong> O disparo direto do pull (v2.57.17) estava só no `onAuthed()`, chamado APENAS no login explícito (`doLogin`/`doSignup`). O `boot()` (abrir/atualizar com sessão persistida) só fazia `dispatchEvent('level-auth-ready')` — NÃO chamava `onAuthed()` — então no refresh/reabrir o pull dependia só do listener (timing) e não rodava (logs: zero `sync-pull`). Fix: (1) `boot()` no ramo com sessão agora chama `onAuthed()` → pull dispara ao abrir/atualizar também. (2) O gatilho do pull virou <strong>loop com retry</strong> (`_triggerCloudPull`, até 12× a cada 400ms) — espera o `window.CloudSync` (carrega async) ficar pronto antes de chamar, em vez de um único setTimeout que podia disparar cedo demais. (3) `boot()` sem sessão: se o Pitch falhar ao mostrar, cai pro gate de login (`showGate(true)`) — usuário nunca fica preso num Hub vazio sem como logar. Logs `[auth] disparando auto-pull (tentativa N)`. node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.19</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19998,7 +20007,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.19</strong><span class="ver-tag">campo de senha vazio não mostra mais bolinhas (não parece preenchido) — login e confirmar senha</span>
+        LEVEL · <strong>v2.57.20</strong><span class="ver-tag">corrige de vez o carregamento dos dados — pull dispara ao abrir/atualizar (não só no login) com retry; sem sessão vai pro login</span>
       </div>
       <script>
         (function(){
@@ -21945,8 +21954,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '22 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Detalhe no campo de senha',
-    'briefing.changelog.summary':  'O campo de <strong>senha</strong> vazio mostrava bolinhas (••••), dando impressão de que já tinha algo digitado. Removido — agora o campo vazio fica realmente vazio, no login e no confirmar senha do cadastro.',
+    'briefing.changelog.headline': 'Dados carregam ao abrir o Hub',
+    'briefing.changelog.summary':  'A causa de o perfil voltar vazio: ao <strong>abrir/atualizar</strong> o Hub já logado, o carregamento dos seus dados da nuvem não disparava (só funcionava no momento exato do login). Corrigido — agora dispara em ambos os casos, com novas tentativas até ficar pronto. E sem sessão, o Hub te leva direto pro login (nada de tela vazia).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23595,8 +23604,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 22, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Password field detail',
-    'briefing.changelog.summary':  'The empty <strong>password</strong> field showed dots (••••), giving the impression something was already typed. Removed — an empty field is now truly empty, on login and on the signup confirm-password.',
+    'briefing.changelog.headline': 'Data loads when you open the Hub',
+    'briefing.changelog.summary':  'The cause of the empty profile: when <strong>opening/refreshing</strong> the Hub while already logged in, loading your cloud data did not trigger (it only worked at the exact moment of login). Fixed — it now triggers in both cases, retrying until ready. And with no session, the Hub takes you straight to login (no more empty screen).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -48851,18 +48860,22 @@ ${cbt('share.t.footer')}`;
     showGate(false);
     try { if (window.LevelPitch && window.LevelPitch.hide) window.LevelPitch.hide(); } catch (e) {}
     try { window.dispatchEvent(new CustomEvent('level-auth-ready', { detail: { session: _session } })); } catch (e) {}
-    // v2.57.17: dispara o auto-pull DIRETO (robustez — o listener de
-    // level-auth-ready pode perder o evento por timing). Pequeno delay garante
-    // CloudSync + sessão prontos. autoPullIfEmpty == autoPullOnLogin (idempotente).
-    try {
-      setTimeout(function () {
-        try {
-          if (window.CloudSync && typeof window.CloudSync.autoPullIfEmpty === 'function') {
-            window.CloudSync.autoPullIfEmpty();
-          }
-        } catch (e) {}
-      }, 700);
-    } catch (e) {}
+    // v2.57.20: dispara o auto-pull DIRETO com RETRY até o CloudSync estar pronto
+    // (o módulo carrega async; sem retry o disparo podia acontecer antes dele existir
+    // → pull nunca rodava). Chamado tanto no login explícito quanto no boot c/ sessão.
+    var _pullTries = 0;
+    (function _triggerCloudPull() {
+      _pullTries++;
+      try {
+        if (window.CloudSync && typeof window.CloudSync.autoPullIfEmpty === 'function') {
+          console.log('[auth] disparando auto-pull (tentativa ' + _pullTries + ')');
+          window.CloudSync.autoPullIfEmpty();
+          return;
+        }
+      } catch (e) {}
+      if (_pullTries < 12) setTimeout(_triggerCloudPull, 400);
+      else console.warn('[auth] CloudSync nunca ficou pronto — auto-pull não disparou');
+    })();
   }
 
   // Abre o auth gate (login/signup) por cima do Pitch — chamado pelos CTAs do Pitch.
@@ -48880,14 +48893,15 @@ ${cbt('share.t.footer')}`;
 
     if (_session) {
       var g = gate(); if (g) g.classList.remove('show');
-      try { if (window.LevelPitch && window.LevelPitch.hide) window.LevelPitch.hide(); } catch (e) {}
-      try { window.dispatchEvent(new CustomEvent('level-auth-ready', { detail: { session: _session } })); } catch (e) {}
-    } else if (window.LevelPitch && window.LevelPitch.show) {
-      // sem sessão → mostra a landing pública (Pitch). Auth gate abre por cima via CTAs.
-      window.LevelPitch.show();
+      // v2.57.20: chama onAuthed() (em vez de só dispatch) — assim o auto-pull
+      // DIRETO também roda ao ABRIR/ATUALIZAR com sessão, não só no login explícito.
+      onAuthed();
     } else {
-      showScreen('landing');
-      showGate(true);
+      // sem sessão → landing pública (Pitch). Se o Pitch falhar, cai pro login direto
+      // pra o usuário NUNCA ficar preso num Hub vazio sem como logar.
+      var _pitchShown = false;
+      try { if (window.LevelPitch && window.LevelPitch.show) { window.LevelPitch.show(); _pitchShown = true; } } catch (e) {}
+      if (!_pitchShown) { try { showScreen('login'); } catch (e) {} showGate(true); }
     }
   }
 
