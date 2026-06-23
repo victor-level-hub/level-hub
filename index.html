@@ -9480,6 +9480,17 @@
   }
   .operator-card .oc-prestige-badge img { border-radius: 50%; width: 100%; height: 100%; object-fit: contain; }
   .operator-card .oc-pb-fallback { font-size: 13px; }
+  /* v2.57.28: emblema de prestige SEM imagem = círculo escuro, sem aro/brilho laranja
+     nem texto "P10". Enquanto a imagem da nuvem carrega (ou se não houver), fica preto. */
+  .oc-prestige-badge.is-empty {
+    background: var(--bg-darkest, #0A0E1A);
+    border-color: transparent;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.55);
+  }
+  .operator-card .oc-prestige-badge.is-empty {
+    background: var(--navy-900, #0F1422);
+    box-shadow: var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
+  }
   .operator-card .oc-name {
     align-self: stretch; font-size: 20px; letter-spacing: 0.14em; margin: 22px 0 8px; text-align: center;
     color: var(--level-orange, #FF9800); text-shadow: 0 0 18px rgba(255,152,0,0.25);
@@ -14193,7 +14204,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.27 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.28 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.28</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Emblema de prestige: estado vazio = círculo preto (sem "P10").</strong> Pedido do Victor. A foto do operador (<code>level.player.photo</code>) é local+sincronizada → carrega instantânea; já o emblema de prestige vem da <strong>nuvem</strong> (URL assinada) → demora um pouco. Antes, enquanto não carregava, o badge mostrava o texto <strong>"P10"</strong> sobre um círculo com aro/brilho laranja. Agora, sem imagem, o badge recebe a classe <code>.is-empty</code> → fica um <strong>círculo escuro liso</strong> (sem texto, sem aro/brilho), e o emblema aparece suave quando a imagem chega. <code>renderPrestigeEmblem</code> alterna <code>.is-empty</code> conforme há ou não <code>src</code>, e o texto do fallback (<code>#oc-pb-fallback</code>) foi zerado. node 19/19, ambos os estados verificados no preview.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.27</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20070,7 +20090,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.27</strong><span class="ver-tag">mapas: descrições oficiais (PT-BR) em 48 dos 51 mapas + Sleighjacked e Vault Town re-adicionados (confirmados como reais)</span>
+        LEVEL · <strong>v2.57.28</strong><span class="ver-tag">emblema de prestige: enquanto a imagem da nuvem carrega, fica um círculo preto (sem o texto "P10" nem aro/brilho laranja)</span>
       </div>
       <script>
         (function(){
@@ -22017,8 +22037,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Descrições oficiais dos mapas',
-    'briefing.changelog.summary':  'Os mapas agora têm <strong>descrições oficiais em PT-BR</strong> (48 dos 51) — origem do remaster, pontos-chave do layout, etc. — além dos modos e da ordem alfabética. Também trouxemos de volta o <strong>Sleighjacked</strong> (variante natalina do Hijacked) e o <strong>Vault Town</strong> (variante Fallout do Nuketown), que são mapas de evento reais. Total: 51 mapas.',
+    'briefing.changelog.headline': 'Emblema de prestige carrega mais limpo',
+    'briefing.changelog.summary':  'O emblema de prestige vem da nuvem e pode demorar um instante a carregar. Antes, nesse meio-tempo, aparecia o texto <strong>"P10"</strong> num círculo laranja. Agora, enquanto a imagem não chega, fica um <strong>círculo preto liso</strong> — sem texto e sem o aro laranja — e o emblema aparece suave quando carrega. A tua foto de operador continua instantânea (fica salva localmente).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23668,8 +23688,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Official map descriptions',
-    'briefing.changelog.summary':  'Maps now have <strong>official descriptions in PT-BR</strong> (48 of 51) — remaster origin, key layout points, etc. — on top of the modes and alphabetical order. We also brought back <strong>Sleighjacked</strong> (holiday Hijacked variant) and <strong>Vault Town</strong> (Fallout Nuketown variant), which are real event maps. Total: 51 maps.',
+    'briefing.changelog.headline': 'Prestige emblem loads cleaner',
+    'briefing.changelog.summary':  'The prestige emblem comes from the cloud and can take a moment to load. Before, in the meantime, the text <strong>"P10"</strong> showed on an orange circle. Now, while the image has not arrived, it stays a <strong>plain black circle</strong> — no text and no orange ring — and the emblem fades in when it loads. Your operator photo stays instant (it is saved locally).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -27614,15 +27634,20 @@ window.BO7_ASSETS = (function() {
       if (sidebarImg) {
         sidebarImg.src = src;
         sidebarImg.style.display = src ? '' : 'none';
+        // v2.57.28: sem imagem → badge PRETO (sem aro/brilho laranja); com imagem → normal
+        var _sbBadge = sidebarImg.closest('.oc-prestige-badge');
+        if (_sbBadge) _sbBadge.classList.toggle('is-empty', !src);
       }
-      // v75-34: fallback texto da badge — só aparece se não há imagem do emblema
+      // v2.57.28: nunca mostra o texto "P10" — pedido do Victor (fica preto enquanto carrega)
       const pbFallbackEl = document.getElementById('oc-pb-fallback');
-      if (pbFallbackEl) pbFallbackEl.style.display = src ? 'none' : '';
+      if (pbFallbackEl) pbFallbackEl.style.display = 'none';
 
       const briefingImg = document.getElementById('prestige-img-briefing');
       if (briefingImg) {
         briefingImg.src = src;
         briefingImg.style.display = src ? '' : 'none';
+        var _bfBadge = briefingImg.closest('.oc-prestige-badge');
+        if (_bfBadge) _bfBadge.classList.toggle('is-empty', !src);
       }
 
       const sidebarTier = document.getElementById('prestige-tier-sidebar');
@@ -27633,7 +27658,7 @@ window.BO7_ASSETS = (function() {
 
       // v75-34: atualiza fallback da badge sobreposta no avatar (quando não há imagem)
       const pbFallback = document.getElementById('oc-pb-fallback');
-      if (pbFallback) pbFallback.textContent = 'P' + (p.prestige != null ? p.prestige : '—');
+      if (pbFallback) pbFallback.textContent = '';  // v2.57.28: sem texto "P10"
 
       // v2.42.0: barra de pips segmentada (1→55) na caixa 25/75
       const pips = document.getElementById('oc-pips');
