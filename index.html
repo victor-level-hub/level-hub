@@ -14193,7 +14193,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.20 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.21 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.21</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>CAUSA-RAIZ de "está tudo uma bagunça": uma tag <code>&lt;title&gt;</code> literal num texto de changelog quebrava o parser de HTML.</strong> Na entrada da v2.57.7, o texto descritivo escreveu <code>`&lt;title&gt;`</code> entre crases — mas crases NÃO escapam HTML, então o navegador via uma tag <code>&lt;title&gt;</code> de verdade. <code>&lt;title&gt;</code> é elemento RCDATA: o parser trata <strong>tudo depois dele como texto puro</strong> até achar o próximo <code>&lt;/title&gt;</code> (que só vinha ~18 mil linhas depois). Resultado: <strong>5 blocos de <code>&lt;script&gt;</code> eram engolidos</strong> e nunca executavam — derrubando de uma só vez <code>I18N</code>/<code>setLanguage</code> (botão de idioma morto), <code>LevelAdmin</code> (acesso às Configurações sumia, mesmo pro admin) e <code>LevelDB</code>/<code>CloudSync</code> (perfil não carregava: foto, prestige, level, estilo). Fix de 1 caractere de efeito: <code>&lt;title&gt;</code> → <code>&amp;lt;title&amp;gt;</code>. Confirmado no preview: 14→<strong>19 scripts</strong>, todos os globais de volta, idioma alterna, Configurações visível pro admin. O acesso de admin continua resolvido pela conta (<code>hub_users.is_admin</code> no servidor) — só o teu usuário.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.20</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -17582,7 +17591,7 @@
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">patch</span>
               </div>
-              <p class="vh-desc"><strong>Polimento de UI/IHC.</strong> Três ajustes a pedido do Victor: (1) <strong>ícone do Le Vél no pitch</strong> — `IC.Bot` reescrito (robô lucide genérico → cabeça arredondada com antena+nó, "orelhas" laterais, olhos preenchidos e sorriso); afeta o chip `.lp-ficon` e a ilustração grande `.lp-art-mark`. (2) <strong>login — ordem de TAB (IHC)</strong>: o link "Esqueci a senha" estava DENTRO da label da senha (no DOM antes do input), então TAB do e-mail caía nele; movido pra baixo do "Não tem conta? Criar" → agora e-mail→senha direto. (3) <strong>logo da sidebar</strong> (`.cod-bo7-mark`): virou `role="button"` + `tabindex` + onclick/onkeydown que aciona o nav `[data-section=home]` (abre o Início); `<title>` e `aria-label` agora i18n via `nav.home.tooltip` (Início/Home) em vez de "LEVEL" fixo. Validado: node 19/19, estrutura intacta.</p>
+              <p class="vh-desc"><strong>Polimento de UI/IHC.</strong> Três ajustes a pedido do Victor: (1) <strong>ícone do Le Vél no pitch</strong> — `IC.Bot` reescrito (robô lucide genérico → cabeça arredondada com antena+nó, "orelhas" laterais, olhos preenchidos e sorriso); afeta o chip `.lp-ficon` e a ilustração grande `.lp-art-mark`. (2) <strong>login — ordem de TAB (IHC)</strong>: o link "Esqueci a senha" estava DENTRO da label da senha (no DOM antes do input), então TAB do e-mail caía nele; movido pra baixo do "Não tem conta? Criar" → agora e-mail→senha direto. (3) <strong>logo da sidebar</strong> (`.cod-bo7-mark`): virou `role="button"` + `tabindex` + onclick/onkeydown que aciona o nav `[data-section=home]` (abre o Início); `&lt;title&gt;` e `aria-label` agora i18n via `nav.home.tooltip` (Início/Home) em vez de "LEVEL" fixo. Validado: node 19/19, estrutura intacta.</p>
             </div>
 
             <div class="vh-entry">
@@ -20007,7 +20016,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.20</strong><span class="ver-tag">corrige de vez o carregamento dos dados — pull dispara ao abrir/atualizar (não só no login) com retry; sem sessão vai pro login</span>
+        LEVEL · <strong>v2.57.21</strong><span class="ver-tag">site restaurado — uma tag &lt;title&gt; literal num changelog engolia 5 blocos de script (idioma, Configurações, perfil); escapada</span>
       </div>
       <script>
         (function(){
@@ -21952,10 +21961,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '22 Jun 2026',
+    'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Dados carregam ao abrir o Hub',
-    'briefing.changelog.summary':  'A causa de o perfil voltar vazio: ao <strong>abrir/atualizar</strong> o Hub já logado, o carregamento dos seus dados da nuvem não disparava (só funcionava no momento exato do login). Corrigido — agora dispara em ambos os casos, com novas tentativas até ficar pronto. E sem sessão, o Hub te leva direto pro login (nada de tela vazia).',
+    'briefing.changelog.headline': 'Site restaurado — idioma, Configurações e perfil de volta',
+    'briefing.changelog.summary':  'Uma entrada antiga de changelog tinha escrito a tag <strong>&lt;title&gt;</strong> literal (entre crases, mas crases não escapam HTML). Isso fazia o navegador <strong>engolir 5 blocos de código</strong> — derrubando de uma vez o botão de idioma, o acesso às Configurações e o carregamento do perfil (foto, prestige, level, estilo). Corrigido: a tag foi escapada e tudo voltou. O acesso de admin às Configurações é resolvido pela tua conta no servidor — só o teu usuário.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23602,10 +23611,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 22, 2026',
+    'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Data loads when you open the Hub',
-    'briefing.changelog.summary':  'The cause of the empty profile: when <strong>opening/refreshing</strong> the Hub while already logged in, loading your cloud data did not trigger (it only worked at the exact moment of login). Fixed — it now triggers in both cases, retrying until ready. And with no session, the Hub takes you straight to login (no more empty screen).',
+    'briefing.changelog.headline': 'Site restored — language, Settings and profile back',
+    'briefing.changelog.summary':  'An old changelog entry had written the literal <strong>&lt;title&gt;</strong> tag (inside backticks, but backticks do not escape HTML). That made the browser <strong>swallow 5 code blocks</strong> — taking down the language button, Settings access and profile loading (photo, prestige, level, style) all at once. Fixed: the tag was escaped and everything is back. Admin access to Settings is resolved by your account on the server — your user only.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
