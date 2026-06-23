@@ -14204,7 +14204,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.58.0 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.58.1 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.58.1</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Avatar IA: fundo de combate variado + cor do dropdown de Estilo.</strong> Pedidos do Victor. <strong>Fundo variado (Edge generate-avatar v7):</strong> no modo de frente, cada geração sorteia um cenário militar de um pool de 12 (selva de guerra, deck de porta-aviões, stand de tiro indoor, sala de comando ultra-moderna com telas holográficas, rua urbana destruída, base no deserto, posição na montanha nevada, hangar com helicópteros, base futurista com robôs/mechs militares ao fundo, FOB ao amanhecer, operação noturna com holofotes, bunker subterrâneo) — então a cada Regenerar o fundo muda. O personagem, roupa e enquadramento de frente são mantidos; o fundo entra desfocado. O cenário sorteado fica gravado no <code>generation_meta.background</code>. No modo "Pose do exemplo" o fundo continua seguindo a arte oficial (não sorteia). <strong>Dropdown de Estilo:</strong> a lista nativa abria com texto cinza-claro em fundo branco (ilegível) — corrigido com <code>color-scheme:dark</code> e cor explícita nas opções. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.58.0</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20126,7 +20135,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.58.0</strong><span class="ver-tag">avatar IA: seletor de "Estilo" artístico (24 opções) no Gerar com IA — aplica-se ao Regenerar/Pose, via modificador de prompt no Gemini</span>
+        LEVEL · <strong>v2.58.1</strong><span class="ver-tag">avatar IA: fundo de combate variado a cada geração (selva, porta-aviões, stand de tiro, sala de comando, robôs militares...) + cor do dropdown de Estilo corrigida</span>
       </div>
       <script>
         (function(){
@@ -22073,8 +22082,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Avatar IA: seletor de "Estilo"',
-    'briefing.changelog.summary':  'No "Gerar com IA" agora há um dropdown <strong>Estilo</strong> com 24 opções artísticas (Realista/Militar = padrão, + Illustration, Bold Sketch, Pixel art, Watercolor, Kawaii, Cartoon, e mais). O estilo vira um <strong>modificador de prompt</strong> no Gemini. Aplica-se quando clicas em <strong>Regenerar</strong> ou <strong>Pose do exemplo</strong> — a 1ª geração sai no padrão e tu trocas o estilo e regeneras.',
+    'briefing.changelog.headline': 'Avatar IA: fundo de combate variado',
+    'briefing.changelog.summary':  'Agora cada geração do avatar (de frente) sorteia um <strong>cenário militar diferente</strong> de fundo: selva, deck de porta-aviões, stand de tiro, sala de comando ultra-moderna, robôs militares ao fundo, base no deserto, e mais. Toda vez que clicas em <strong>Regenerar</strong> o fundo muda. Também corrigimos a cor do <strong>dropdown de Estilo</strong>, que estava ilegível (texto claro em fundo branco).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23724,8 +23733,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'AI avatar: "Style" selector',
-    'briefing.changelog.summary':  '"Generate with AI" now has a <strong>Style</strong> dropdown with 24 artistic options (Realistic/Military = default, plus Illustration, Bold Sketch, Pixel art, Watercolor, Kawaii, Cartoon, and more). The style becomes a <strong>prompt modifier</strong> for Gemini. It applies when you hit <strong>Regenerate</strong> or <strong>Pose from example</strong> — the first generation uses the default and you switch the style and regenerate.',
+    'briefing.changelog.headline': 'AI avatar: varied combat backdrop',
+    'briefing.changelog.summary':  'Each front-facing avatar generation now picks a <strong>different military scenario</strong> for the background: jungle, aircraft-carrier deck, shooting range, ultra-modern command room, military robots in the back, desert base, and more. Every time you hit <strong>Regenerate</strong> the backdrop changes. We also fixed the <strong>Style dropdown</strong> color, which was unreadable (light text on a white background).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -36149,12 +36158,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     function buildStyleSelector(state) {
       var cur = (state && state.selectedStyle) || 'realista';
       var opts = (window.AVATAR_STYLE_OPTIONS || []).map(function (o) {
-        return '<option value="' + o.id + '"' + (o.id === cur ? ' selected' : '') + '>' + o.label + '</option>';
+        return '<option value="' + o.id + '"' + (o.id === cur ? ' selected' : '') + ' style="background:#161a23; color:#e8eaed">' + o.label + '</option>';
       }).join('');
       return ''
         + '<div style="margin:10px 0 2px; display:flex; align-items:center; gap:8px; flex-wrap:wrap">'
         +   '<label for="amt-style-select" style="font-family:\'JetBrains Mono\', monospace; font-size:11px; color:var(--text-secondary); white-space:nowrap">{{i:sparkles}} Estilo</label>'
-        +   '<select id="amt-style-select" style="flex:1; min-width:160px; background:var(--bg-elev); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 8px; font-size:12px">' + opts + '</select>'
+        +   '<select id="amt-style-select" style="flex:1; min-width:160px; color-scheme:dark; background:var(--bg-elev); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 8px; font-size:12px">' + opts + '</select>'
         + '</div>'
         + '<div style="font-family:\'JetBrains Mono\', monospace; font-size:10px; color:var(--text-muted); margin:0 0 6px">Aplica-se ao <strong>Regenerar</strong> / <strong>Pose do exemplo</strong>.</div>';
     }
