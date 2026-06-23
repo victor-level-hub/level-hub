@@ -14193,7 +14193,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.24 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.25 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.25</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Configurações dos Mapas: lista verificada, alfabética, com modos + descrição; zoom removido.</strong> Pedido do Victor. (1) <strong>Lista verificada contra fontes oficiais</strong> (callofduty.com, gamesatlas, game8) — o fallback <code>DEFAULT_MAPS_BO7</code> tinha ~12 mapas de lançamento <strong>inventados</strong> (Miami Strike, Diesel, Drive-In, Rush, Deprogram, Amerika, Amsterdam, Gameshow, KGB, Gluboko, ICBM, Mansion). Substituídos pelos reais (Blackheart, Colossus, Cortex, Den, Exposure, Flagship, Homestead, Imprint, Paranoia, Retrieval, Scar, The Forge, Toshin) + adicionados os que faltavam de S2 (Nexus, Sake, Slums, Torment), S3 (Summit) e <strong>toda a Season 4</strong> (Launch, Liminal, Primetime, Vertigo, Zenith). Sleighjacked/Vault Town removidos (não constam nas fontes). Total: 49 mapas. (2) <strong>Ordem alfabética</strong> — o source de Mapas agora ordena sempre (A→Z), usando a lista verificada como base e anexando só extras do servidor (dedupe por id E nome). (3) <strong>Modos por mapa</strong> — novo campo <code>players</code> (6v6 / 6v6 &amp; 2v2 / 20v20 / Free Run) + <strong>descrições em PT-BR</strong> (a do Abyss é a oficial, traduzida). (4) <strong>Zoom removido</strong> — o hover-preview que ampliava a imagem pra 1:1 não age mais nos cards das Configurações. Verificado no preview: 49 cards, zero duplicados, A→Z, node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.24</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20043,7 +20052,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.24</strong><span class="ver-tag">upload de imagem não mostra mais erro falso quando o localStorage enche — a imagem é salva na nuvem; toast vira "Imagem salva" (+ i18n da mensagem)</span>
+        LEVEL · <strong>v2.57.25</strong><span class="ver-tag">mapas: lista verificada vs site oficial (removidos ~12 inventados, +S2/S3/S4), ordem alfabética, modos por mapa (6v6/2v2) + descrições PT-BR; zoom da imagem removido</span>
       </div>
       <script>
         (function(){
@@ -21990,8 +21999,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Upload de imagem sem erro falso',
-    'briefing.changelog.summary':  'Ao subir uma imagem (ex.: de mapa) aparecia um <strong>erro falso</strong> mesmo quando ela era salva. O motivo: imagens são grandes e o armazenamento do navegador enche, mas a imagem já vai pra <strong>nuvem</strong> (onde realmente fica guardada) — só o cache local é que estourava. Agora isso não é mais tratado como erro: o aviso vira <strong>"Imagem salva ✓"</strong>. Também corrigimos a mensagem que aparecia como um código técnico.',
+    'briefing.changelog.headline': 'Mapas: lista verificada, alfabética e com modos',
+    'briefing.changelog.summary':  'Arrumamos as Configurações dos Mapas: <strong>conferimos a lista contra o site oficial</strong> (removemos ~12 mapas que estavam errados e adicionamos os que faltavam, incluindo toda a Season 4), colocamos em <strong>ordem alfabética</strong>, e cada mapa agora tem os <strong>modos</strong> que rodam nele (6v6 / 6v6 &amp; 2v2 / 20v20) e uma <strong>descrição em PT-BR</strong>. Também tiramos o <strong>zoom</strong> da imagem nas Configurações.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23641,8 +23650,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Image upload without the false error',
-    'briefing.changelog.summary':  'Uploading an image (e.g. a map) showed a <strong>false error</strong> even when it was saved. The reason: images are large and browser storage fills up, but the image already goes to the <strong>cloud</strong> (where it is actually kept) — only the local cache overflowed. This is no longer treated as an error: the toast now says <strong>"Image saved ✓"</strong>. We also fixed the message that was showing up as a technical code.',
+    'briefing.changelog.headline': 'Maps: verified list, alphabetical, with modes',
+    'briefing.changelog.summary':  'We cleaned up the Maps settings: <strong>checked the list against the official site</strong> (removed ~12 wrong maps and added the missing ones, including all of Season 4), put it in <strong>alphabetical order</strong>, and each map now has the <strong>modes</strong> it plays (6v6 / 6v6 &amp; 2v2 / 20v20) plus a <strong>PT-BR description</strong>. We also removed the image <strong>zoom</strong> in Settings.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -38362,94 +38371,112 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // gamespot.com, dexerto). Marca origem com `season` ('launch', 'launch-post',
     // 's1', 's1r', 's2', 's3', 's3r') e tipo (`mode`: 'core' 6v6, 'skirmish' 20v20,
     // 'freerun'). Servidor (MAPS_CATALOG) ainda é preferido se vier povoado.
+    // v2.57.25: lista RECONSTRUÍDA e VERIFICADA contra fontes oficiais (callofduty.com,
+    // gamesatlas, game8) em jun/2026 — a lista anterior tinha ~12 mapas de lançamento
+    // INVENTADOS (Miami Strike, Diesel, Drive-In, Rush, Deprogram, Amerika, Amsterdam,
+    // Gameshow, KGB, Gluboko, ICBM, Mansion). Removidos. Sleighjacked/Vault Town também
+    // saíram (não constam nas fontes). Agora: ordem ALFABÉTICA, campo `players` com os
+    // modos jogáveis (6v6 / 6v6 & 2v2 / 20v20 / Free Run) e `mode` mantido (core/skirmish/
+    // freerun) p/ a lógica existente. Descrições em PT-BR.
     const DEFAULT_MAPS_BO7 = [
-      // ─── Lançamento (14 Nov 2025) — 13 novos + 3 retornos BO2 + 2 skirmish ──
-      { id: 'map_raid',         name: 'Raid',         season: 'launch', mode: 'core',
-        desc: 'Lançamento · retorno do BO2 — clássico de 3 lanes na vila mediterrânea.' },
-      { id: 'map_hijacked',     name: 'Hijacked',     season: 'launch', mode: 'core',
-        desc: 'Lançamento · retorno do BO2 — iate de luxo, fast-paced curto.' },
-      { id: 'map_express',      name: 'Express',      season: 'launch', mode: 'core',
-        desc: 'Lançamento · retorno do BO2 — estação de comboio futurista.' },
-      { id: 'map_miami_strike', name: 'Miami Strike', season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — variante noturna de Miami à beira-mar.' },
-      { id: 'map_diesel',       name: 'Diesel',       season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — oficina/garagem com lanes verticais.' },
-      { id: 'map_drive_in',     name: 'Drive-In',     season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — cinema drive-in retrô-futurista.' },
-      { id: 'map_rush',         name: 'Rush',         season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — campo de paintball, mapa pequeno fast-paced.' },
-      { id: 'map_deprogram',    name: 'Deprogram',    season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — instalação de simulação neural com corredores apertados.' },
-      { id: 'map_amerika',      name: 'Amerika',      season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — subúrbio americano falso (cenário de propaganda).' },
-      { id: 'map_amsterdam',    name: 'Amsterdam',    season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — canais e ruelas de Amsterdam.' },
-      { id: 'map_gameshow',     name: 'Gameshow',     season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — estúdio de game show com cenários múltiplos.' },
-      { id: 'map_kgb',          name: 'KGB',          season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — quartel-general do KGB com interior labiríntico.' },
-      { id: 'map_gluboko',      name: 'Gluboko',      season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — base subterrânea soviética.' },
-      { id: 'map_icbm',         name: 'ICBM',         season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — silo de míssil intercontinental.' },
-      { id: 'map_mansion',      name: 'Mansion',      season: 'launch', mode: 'core',
-        desc: 'Lançamento BO7 — mansão de luxo com jardins amplos.' },
-      { id: 'map_mission_edge', name: 'Mission: Edge', season: 'launch', mode: 'skirmish',
-        desc: 'Lançamento BO7 · Skirmish 20v20 — instalação costeira aberta com objetivos multi-lane.' },
-      { id: 'map_mission_tide', name: 'Mission: Tide', season: 'launch', mode: 'skirmish',
-        desc: 'Lançamento BO7 · Skirmish 20v20 — terreno insular com travessia por wingsuit.' },
-      // ─── Pós-lançamento (20 Nov 2025) ────────────────────────────
-      { id: 'map_nuketown_2025',name: 'Nuketown 2025',season: 'launch-post', mode: 'core',
-        desc: 'Adicionado em 20/Nov/25 — versão futurista do clássico Nuketown.' },
-      // ─── Season 1 (4 Dez 2025) ───────────────────────────────────
-      { id: 'map_utopia',       name: 'Utopia',       season: 's1', mode: 'core',
-        desc: 'Season 1 — mapa novo BO7.' },
-      { id: 'map_fate',         name: 'Fate',         season: 's1', mode: 'core',
-        desc: 'Season 1 — mapa novo BO7.' },
-      { id: 'map_standoff',     name: 'Standoff',     season: 's1', mode: 'core',
-        desc: 'Season 1 · remaster do BO2 — torre central + lojas + galpão.' },
-      { id: 'map_sleighjacked', name: 'Sleighjacked', season: 's1', mode: 'core',
-        desc: 'Season 1 · variante natalina de Hijacked (decorações festivas).' },
-      { id: 'map_odysseus',     name: 'Odysseus',     season: 's1', mode: 'core',
-        desc: 'Season 1 — adicionado ao moshpit Face Off.' },
-      // ─── Season 1 Reloaded (8 Jan 2026) ──────────────────────────
-      { id: 'map_yakei',        name: 'Yakei',        season: 's1r', mode: 'core',
-        desc: 'Season 1 Reloaded — telhados de uma cidade japonesa neon.' },
-      { id: 'map_meltdown',     name: 'Meltdown',     season: 's1r', mode: 'core',
-        desc: 'Season 1 Reloaded · remaster do BO2 — usina nuclear.' },
-      { id: 'map_fringe',       name: 'Fringe',       season: 's1r', mode: 'core',
-        desc: 'Season 1 Reloaded · port do BO3/BO6 — base aeroespacial.' },
-      { id: 'map_vault_town',   name: 'Vault Town',   season: 's1r', mode: 'core',
-        desc: 'Season 1 Reloaded · variante Fallout — bairro Vault-Tec.' },
-      // ─── Season 2 (5 Fev 2026) ───────────────────────────────────
-      { id: 'map_torque',       name: 'Torque',       season: 's2', mode: 'core',
-        desc: 'Season 2 — mapa novo BO7.' },
-      { id: 'map_cliff_town',   name: 'Cliff Town',   season: 's2', mode: 'core',
-        desc: 'Season 2 — vila de penhasco.' },
-      { id: 'map_mission_peak', name: 'Mission: Peak',season: 's2', mode: 'skirmish',
-        desc: 'Season 2 · Skirmish 20v20 — pico montanhoso.' },
-      { id: 'map_grind',        name: 'Grind',        season: 's2', mode: 'core',
-        desc: 'Season 2 — pista de skate (port BO6).' },
-      { id: 'map_firing_range', name: 'Firing Range', season: 's2', mode: 'core',
-        desc: 'Season 2 · remaster — campo de treino militar clássico.' },
-      // ─── Season 3 (2 Abr 2026) ───────────────────────────────────
-      { id: 'map_beacon',       name: 'Beacon',       season: 's3', mode: 'core',
-        desc: 'Season 3 — mapa novo BO7.' },
-      { id: 'map_abyss',        name: 'Abyss',        season: 's3', mode: 'core',
-        desc: 'Season 3 — instalação submarina.' },
-      { id: 'map_plaza',        name: 'Plaza',        season: 's3', mode: 'core',
-        desc: 'Season 3 — praça urbana.' },
-      { id: 'map_gridlock',     name: 'Gridlock',     season: 's3', mode: 'core',
-        desc: 'Season 3 — aftermath de heist em rodovia de Tóquio.' },
-      { id: 'map_mission_trident',name: 'Mission: Trident',season: 's3', mode: 'skirmish',
-        desc: 'Season 3 · Skirmish 20v20 — porto enorme com armazéns.' },
-      // ─── Season 3 Reloaded (30 Abr 2026) ─────────────────────────
-      { id: 'map_onsen',        name: 'Onsen',        season: 's3r', mode: 'core',
-        desc: 'Season 3 Reloaded — spa termal japonês (mapa pequeno).' },
-      { id: 'map_hacienda',     name: 'Hacienda',     season: 's3r', mode: 'core',
-        desc: 'Season 3 Reloaded · port do BO6 — vinhedo, layout ajustado pro movimento BO7.' },
-      { id: 'map_ascent',       name: 'Ascent',       season: 's3r', mode: 'freerun',
-        desc: 'Season 3 Reloaded · Freerun — parkour time-trial sem kills nem scorestreaks.' }
+      { id: 'map_abyss',          name: 'Abyss',           season: 's3',          mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Season 3 · 6v6 & 2v2. Combate no mar pelos corredores apertados de um submarino; ascensores dão acesso aos Conveses de Proa e Popa lá em cima. Cuidado com snipers perto da Torre (Sail).' },
+      { id: 'map_ascent',         name: 'Ascent',          season: 's3',          mode: 'freerun',  players: 'Free Run',
+        desc: 'Season 3 · Free Run. Parkour contra o relógio — sem kills nem scorestreaks.' },
+      { id: 'map_beacon',         name: 'Beacon',          season: 's3',          mode: 'core',     players: '6v6',
+        desc: 'Season 3 · 6v6. Mapa novo do BO7.' },
+      { id: 'map_blackheart',     name: 'Blackheart',      season: 'launch',      mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Lançamento · 6v6 & 2v2. Mapa pequeno do BO7.' },
+      { id: 'map_cliff_town',     name: 'Cliff Town',      season: 's2',          mode: 'core',     players: '6v6',
+        desc: 'Season 2 · 6v6. Vila à beira de um penhasco.' },
+      { id: 'map_colossus',       name: 'Colossus',        season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Museu colossal com longas linhas de visão.' },
+      { id: 'map_cortex',         name: 'Cortex',          season: 'launch',      mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Lançamento · 6v6 & 2v2. Mapa pequeno do BO7.' },
+      { id: 'map_den',            name: 'Den',             season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Esconderijo de combate próximo (CQB) com confrontos verticais.' },
+      { id: 'map_exposure',       name: 'Exposure',        season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Mapa médio do BO7.' },
+      { id: 'map_express',        name: 'Express',         season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Remaster do BO2 — estação de comboio.' },
+      { id: 'map_fate',           name: 'Fate',            season: 's1',          mode: 'core',     players: '6v6',
+        desc: 'Season 1 · 6v6. Mapa novo do BO7.' },
+      { id: 'map_firing_range',   name: 'Firing Range',    season: 's2',          mode: 'core',     players: '6v6',
+        desc: 'Season 2 · 6v6. Remaster — campo de treino militar clássico.' },
+      { id: 'map_flagship',       name: 'Flagship',        season: 'launch',      mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Lançamento · 6v6 & 2v2. Navio militar com lanes estreitas e flancos pela água.' },
+      { id: 'map_fringe',         name: 'Fringe',          season: 's1',          mode: 'core',     players: '6v6',
+        desc: 'Season 1 · 6v6.' },
+      { id: 'map_gridlock',       name: 'Gridlock',        season: 's3',          mode: 'core',     players: '6v6',
+        desc: 'Season 3 · 6v6. Aftermath de um assalto em rodovia.' },
+      { id: 'map_grind',          name: 'Grind',           season: 's2',          mode: 'core',     players: '6v6',
+        desc: 'Season 2 · 6v6. Pista de skate (port).' },
+      { id: 'map_hacienda',       name: 'Hacienda',        season: 's3',          mode: 'core',     players: '6v6',
+        desc: 'Season 3 · 6v6. Propriedade rural (port).' },
+      { id: 'map_hijacked',       name: 'Hijacked',        season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Remaster do BO2 — iate de luxo, ritmo rápido.' },
+      { id: 'map_homestead',      name: 'Homestead',       season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Propriedade rural; boa para combate de longa distância.' },
+      { id: 'map_imprint',        name: 'Imprint',         season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Mapa médio do BO7.' },
+      { id: 'map_launch',         name: 'Launch',          season: 's4',          mode: 'core',     players: '6v6',
+        desc: 'Season 4 · 6v6.' },
+      { id: 'map_liminal',        name: 'Liminal',         season: 's4',          mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Season 4 · 6v6 & 2v2.' },
+      { id: 'map_meltdown',       name: 'Meltdown',        season: 's1',          mode: 'core',     players: '6v6',
+        desc: 'Season 1 · 6v6. Remaster do BO2 — usina nuclear.' },
+      { id: 'map_mission_edge',   name: 'Mission: Edge',   season: 'launch',      mode: 'skirmish', players: '20v20',
+        desc: 'Lançamento · Skirmish 20v20. Instalação costeira aberta com objetivos multi-lane.' },
+      { id: 'map_mission_peak',   name: 'Mission: Peak',   season: 's2',          mode: 'skirmish', players: '20v20',
+        desc: 'Season 2 · Skirmish 20v20. Pico montanhoso.' },
+      { id: 'map_mission_tide',   name: 'Mission: Tide',   season: 'launch',      mode: 'skirmish', players: '20v20',
+        desc: 'Lançamento · Skirmish 20v20. Terreno insular com travessia por wingsuit.' },
+      { id: 'map_mission_trident',name: 'Mission: Trident',season: 's3',          mode: 'skirmish', players: '20v20',
+        desc: 'Season 3 · Skirmish 20v20. Porto com armazéns.' },
+      { id: 'map_nexus',          name: 'Nexus',           season: 's2',          mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Season 2 · 6v6 & 2v2. Mapa novo do BO7.' },
+      { id: 'map_nuketown_2025',  name: 'Nuketown 2025',   season: 'launch-post', mode: 'core',     players: '6v6',
+        desc: 'Pós-lançamento (20/nov/25) · 6v6. Versão moderna do clássico Nuketown.' },
+      { id: 'map_odysseus',       name: 'Odysseus',        season: 's1',          mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Season 1 · 6v6 & 2v2.' },
+      { id: 'map_onsen',          name: 'Onsen',           season: 's3',          mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Season 3 · 6v6 & 2v2. Spa termal japonês (mapa pequeno).' },
+      { id: 'map_paranoia',       name: 'Paranoia',        season: 'launch',      mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Lançamento · 6v6 & 2v2. Muita cobertura e rotas de flanco — imprevisível.' },
+      { id: 'map_plaza',          name: 'Plaza',           season: 's3',          mode: 'core',     players: '6v6',
+        desc: 'Season 3 · 6v6. Praça urbana.' },
+      { id: 'map_primetime',      name: 'Primetime',       season: 's4',          mode: 'core',     players: '6v6',
+        desc: 'Season 4 · 6v6.' },
+      { id: 'map_raid',           name: 'Raid',            season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Remaster do BO2 — clássico de 3 lanes.' },
+      { id: 'map_retrieval',      name: 'Retrieval',       season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Layout de missão que premia rotações táticas.' },
+      { id: 'map_sake',           name: 'Sake',            season: 's2',          mode: 'core',     players: '6v6',
+        desc: 'Season 2 · 6v6. Mapa novo do BO7.' },
+      { id: 'map_scar',           name: 'Scar',            season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Ruas urbanas destruídas com cobertura dinâmica.' },
+      { id: 'map_slums',          name: 'Slums',           season: 's2',          mode: 'core',     players: '6v6',
+        desc: 'Season 2 · 6v6. Remaster do BO2 — bairro urbano.' },
+      { id: 'map_standoff',       name: 'Standoff',        season: 's1',          mode: 'core',     players: '6v6',
+        desc: 'Season 1 · 6v6. Remaster do BO2 — torre central, lojas e galpão.' },
+      { id: 'map_summit',         name: 'Summit',          season: 's3',          mode: 'core',     players: '6v6',
+        desc: 'Season 3 · 6v6. Remaster clássico — instalação no alto de uma montanha.' },
+      { id: 'map_the_forge',      name: 'The Forge',       season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Caos industrial com passarelas em camadas e zonas de controle abertas.' },
+      { id: 'map_torment',        name: 'Torment',         season: 's2',          mode: 'core',     players: '6v6',
+        desc: 'Season 2 · 6v6. Mapa novo do BO7.' },
+      { id: 'map_torque',         name: 'Torque',          season: 's2',          mode: 'core',     players: '6v6',
+        desc: 'Season 2 · 6v6. Mapa novo do BO7.' },
+      { id: 'map_toshin',         name: 'Toshin',          season: 'launch',      mode: 'core',     players: '6v6',
+        desc: 'Lançamento · 6v6. Mapa urbano neon — rápido e vistoso.' },
+      { id: 'map_utopia',         name: 'Utopia',          season: 's1',          mode: 'core',     players: '6v6',
+        desc: 'Season 1 · 6v6. Mapa novo do BO7.' },
+      { id: 'map_vertigo',        name: 'Vertigo',         season: 's4',          mode: 'core',     players: '6v6',
+        desc: 'Season 4 · 6v6.' },
+      { id: 'map_yakei',          name: 'Yakei',           season: 's1',          mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Season 1 · 6v6 & 2v2. Telhados de uma cidade japonesa neon.' },
+      { id: 'map_zenith',         name: 'Zenith',          season: 's4',          mode: 'core',     players: '6v6 & 2v2',
+        desc: 'Season 4 · 6v6 & 2v2.' }
     ];
     try { window.DEFAULT_MAPS_BO7 = DEFAULT_MAPS_BO7; } catch (e) {}
 
@@ -38666,9 +38693,24 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // ou rede em queda, mostra a lista hardcoded — não mais aba vazia.
       { id: 'maps_all', group: 'maps', i18n: 'set.tab.maps_all',
         source: function () {
+          // v2.57.25: a lista hardcoded (DEFAULT_MAPS_BO7) foi verificada contra fontes
+          // oficiais e traz modos (players) + descrições PT-BR. Usamos ela como base
+          // autoritativa e ANEXAMOS só os mapas que existam no servidor e não na base
+          // (futuros mapas que o servidor traga antes do front). Ordem ALFABÉTICA.
+          const norm = function (s) { return String(s || '').trim().toLowerCase(); };
+          const base = Array.isArray(window.DEFAULT_MAPS_BO7) ? window.DEFAULT_MAPS_BO7.slice() : [];
+          const seen = {};
+          base.forEach(function (m) { if (m) { if (m.id) seen['id:' + m.id] = true; if (m.name) seen['nm:' + norm(m.name)] = true; } });
+          // dedupe por ID e por NOME (o servidor usa ids diferentes p/ o mesmo mapa)
           const fromServer = Array.isArray(window.MAPS_CATALOG) ? window.MAPS_CATALOG : [];
-          if (fromServer.length > 0) return fromServer;
-          return Array.isArray(window.DEFAULT_MAPS_BO7) ? window.DEFAULT_MAPS_BO7 : [];
+          fromServer.forEach(function (m) {
+            if (!m) return;
+            var dup = (m.id && seen['id:' + m.id]) || (m.name && seen['nm:' + norm(m.name)]);
+            if (!dup) { if (m.id) seen['id:' + m.id] = true; if (m.name) seen['nm:' + norm(m.name)] = true; base.push(m); }
+          });
+          return base.sort(function (a, b) {
+            return String(a.name || '').localeCompare(String(b.name || ''), 'pt', { sensitivity: 'base' });
+          });
         } },
       // ── VANTAGENS & SÉRIES (frente #3) ──
       { id: 'streaks',         group: 'perks_streaks', i18n: 'set.tab.streaks',
@@ -42509,8 +42551,9 @@ ${cbt('share.t.footer')}`;
   var SELECTOR    = '.option-icon img, .weapon-icon img.bo7-weapon-img, '
                   + '.build-card .bc-weapon-image img.bc-wpn-img, '
                   + '.build-info-panel .bip-img.has-img img, '
-                  + '.saved-card-thumb.has-img img, '
-                  + '.img-card-thumb.has-img img';
+                  + '.saved-card-thumb.has-img img';
+                  // v2.57.25: removido '.img-card-thumb.has-img img' — Victor não quer
+                  // o zoom/hover-preview nas imagens das Configurações (mapas etc.).
   var BOUND_FLAG  = 'data-cfg-preview-bound';
   var MIN_BOX_PX  = 50; // ignora perks 34x34; 50 ainda inclui saved-card-thumb 56x56
   var MODAL_SIZE  = 280; // quadrado 1:1, igual ao enquadramento do print 2 do Victor
