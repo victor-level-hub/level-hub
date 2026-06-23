@@ -14193,7 +14193,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.21 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.22 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.22</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Dois fixes de imagem.</strong> (1) <strong>Thumbnails dos personagens (Avatar → Gerar com IA) apareciam pretos.</strong> O render montava <code>style="background-image:url(' + JSON.stringify(thumb) + ')"</code> — o <code>JSON.stringify</code> devolve a string <strong>com aspas duplas</strong>, que colidiam com o <code>style="…"</code> e fechavam o atributo no primeiro caractere (HTML saía mangled, fundo vazio). Corrigido usando aspas simples no <code>url()</code> (base64 nunca contém aspas), em 2 sítios: a grelha (<code>renderAvatarCharGrid</code>) e o hero do detalhe. Price/Farah voltam a mostrar o retrato; os outros 8 seguem com placeholder SVG até terem retrato real. (2) <strong>Emblema de Prestige da nuvem não carregava em login novo</strong> (caía no texto "P10" até dar reload). O boot listava os assets da nuvem num timer fixo de 500ms, mas o <code>user-asset</code> v2 exige o JWT do Auth — numa sessão recém-criada o token ainda não estava pronto e o fetch falhava silenciosamente. Agora re-tenta até ~8s e reage ao evento <code>level-auth-ready</code>, listando assim que o login resolve. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.21</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20016,7 +20025,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.21</strong><span class="ver-tag">site restaurado — uma tag &lt;title&gt; literal num changelog engolia 5 blocos de script (idioma, Configurações, perfil); escapada</span>
+        LEVEL · <strong>v2.57.22</strong><span class="ver-tag">imagens dos personagens (Gerar com IA) apareciam pretas — colisão de aspas no style; + emblema de Prestige da nuvem agora carrega em login novo (retry)</span>
       </div>
       <script>
         (function(){
@@ -21963,8 +21972,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Site restaurado — idioma, Configurações e perfil de volta',
-    'briefing.changelog.summary':  'Uma entrada antiga de changelog tinha escrito a tag <strong>&lt;title&gt;</strong> literal (entre crases, mas crases não escapam HTML). Isso fazia o navegador <strong>engolir 5 blocos de código</strong> — derrubando de uma vez o botão de idioma, o acesso às Configurações e o carregamento do perfil (foto, prestige, level, estilo). Corrigido: a tag foi escapada e tudo voltou. O acesso de admin às Configurações é resolvido pela tua conta no servidor — só o teu usuário.',
+    'briefing.changelog.headline': 'Imagens dos personagens e emblema de Prestige',
+    'briefing.changelog.summary':  'Dois fixes de imagem. <strong>(1)</strong> Os personagens do "Gerar com IA" apareciam <strong>pretos</strong> — uma colisão de aspas no estilo fechava o atributo cedo demais. Corrigido: Captain Price e Farah voltam a mostrar o retrato (os outros 8 seguem com placeholder até ganharem retrato real). <strong>(2)</strong> O <strong>emblema de Prestige</strong> guardado na nuvem não aparecia logo após um login novo (caía no "P10" até recarregar) — agora ele tenta de novo e reage ao login, carregando assim que a sessão fica pronta.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23613,8 +23622,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Site restored — language, Settings and profile back',
-    'briefing.changelog.summary':  'An old changelog entry had written the literal <strong>&lt;title&gt;</strong> tag (inside backticks, but backticks do not escape HTML). That made the browser <strong>swallow 5 code blocks</strong> — taking down the language button, Settings access and profile loading (photo, prestige, level, style) all at once. Fixed: the tag was escaped and everything is back. Admin access to Settings is resolved by your account on the server — your user only.',
+    'briefing.changelog.headline': 'Character images and Prestige emblem',
+    'briefing.changelog.summary':  'Two image fixes. <strong>(1)</strong> The "Generate with AI" characters showed up <strong>black</strong> — a quote collision in the style closed the attribute too early. Fixed: Captain Price and Farah show their portrait again (the other 8 keep a placeholder until they get a real portrait). <strong>(2)</strong> The cloud-saved <strong>Prestige emblem</strong> did not appear right after a fresh login (fell back to "P10" until reload) — it now retries and reacts to login, loading as soon as the session is ready.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -32452,7 +32461,7 @@ const ATTACHMENT_ICONS = {
         const cs = c.available ? '' : ' coming-soon';
         return ''
           + '<div class="amt-char-card' + sel + cs + '" data-char-id="' + c.id + '"' + (c.available ? '' : ' aria-disabled="true"') + '>'
-          +   '<div class="amt-char-thumb" style="background-image:url(' + JSON.stringify(c.thumb) + ')"></div>'
+          +   '<div class="amt-char-thumb" style="background-image:url(\'' + (c.thumb || '') + '\')"></div>'
           +   '<div class="amt-char-meta">'
           +     '<div class="amt-char-name">' + escapeHtmlSafe(c.name) + '</div>'
           +     '<div class="amt-char-sub">' + escapeHtmlSafe(c.subtitle) + '</div>'
@@ -35935,7 +35944,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // ── Bloco hero (sempre presente) ──
       const heroHtml = ''
         + '<div class="amt-detail-hero-row">'
-        +   '<div class="amt-detail-hero" style="background-image:url(' + JSON.stringify(c.thumb) + ')"></div>'
+        +   '<div class="amt-detail-hero" style="background-image:url(\'' + (c.thumb || '') + '\')"></div>'
         +   '<div class="amt-detail-meta">'
         +     '<div class="amt-detail-name">' + escapeFn(c.name) + '<span id="amt-rt-badge" class="amt-rt-badge" data-mode="idle" style="display:none"></span></div>'
         +     '<div class="amt-detail-sub">' + escapeFn(c.subtitle) + '</div>'
@@ -38083,10 +38092,24 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         return res.ok;
       } catch (e) { return false; }
     }
-    // Dispara list no boot, sem await — UI usa fallback localStorage até cache popular
-    setTimeout(function () { cloudListAssets().then(function () {
-      if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange();
-    }); }, 500);
+    // Dispara list no boot, sem await — UI usa fallback localStorage até cache popular.
+    // v2.57.22: user-asset v2 exige JWT do Auth. Num login NOVO a sessão pode não
+    // estar pronta no primeiro disparo → o fetch falha e o cache da nuvem fica vazio
+    // (sintoma: emblema de Prestige cai no "P10" até dar reload). Fix: re-tenta até
+    // ~8s e também reage ao evento `level-auth-ready` (login resolvido) — aí lista
+    // na hora. cloudListAssets() devolve array (sucesso, mesmo vazio) ou null (falha).
+    (function scheduleCloudAssetList() {
+      var tries = 0;
+      function attempt() {
+        tries++;
+        cloudListAssets().then(function (items) {
+          if (items) { if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange(); return; }
+          if (tries < 10) setTimeout(attempt, 800);
+        });
+      }
+      setTimeout(attempt, 500);
+      try { window.addEventListener('level-auth-ready', function () { tries = 0; attempt(); }); } catch (e) {}
+    })();
 
     function getUserImage(itemId) {
       if (!itemId) return null;
