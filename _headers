@@ -1,0 +1,10 @@
+# Netlify headers — v2.57.18
+# O Hub é um único index.html que muda a cada deploy. Sem isto, o navegador/CDN
+# pode servir uma versão ANTIGA em cache (causa de "fix não aplica / hard-refresh
+# não pega"). Forçamos revalidação do HTML a cada carga; assets versionados podem cachear.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

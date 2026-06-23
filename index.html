@@ -14193,7 +14193,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.17 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.18 · <span data-i18n="briefing.changelog.date">22 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.18</span>
+                <span class="vh-date">22 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Cache do HTML desligado (`_headers` Netlify).</strong> Causa-raiz de "as correções não aplicam mesmo com hard-refresh": o projeto NÃO tinha `_headers`/`netlify.toml` nem service worker, então o `index.html` ficava em cache do navegador/CDN e o Victor rodava uma versão ANTIGA (logout presente + BACKUP removido = v2.57.13+, mas SEM o auto-pull direto da v2.57.17 → perfil vazio; logs confirmam zero `sync-pull` novo). Adicionado `_headers` forçando `Cache-Control: public, max-age=0, must-revalidate` em `/`, `/index.html` e `/*.html` → o HTML revalida a cada carga, deploys passam a aplicar na hora. Daqui pra frente um refresh normal já pega a versão nova. (Pra carregar a versão atual AGORA, antes do header propagar: aba anônima/incognito.) Cloud do Victor segue intacto.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.17</span>
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19980,7 +19989,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.17</strong><span class="ver-tag">corrige o auto-pull no login (perfil voltava vazio) — agora dispara direto do onAuthed, sem reload</span>
+        LEVEL · <strong>v2.57.18</strong><span class="ver-tag">cache do HTML desligado — o navegador para de servir versão antiga; correções de login passam a aplicar na hora</span>
       </div>
       <script>
         (function(){
