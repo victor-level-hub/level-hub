@@ -14193,7 +14193,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.23 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.24 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.24</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Upload de imagem mostrava erro falso (<code>set.toast.storageError</code>) mesmo salvando.</strong> Reportado pelo Victor ao subir imagens de mapa pelo botão Enviar. <strong>Causa dupla:</strong> (1) imagens são grandes (~140KB) e o <code>localStorage</code> (~5MB) enche rápido — o <code>saveUserImages</code> tratava a cota cheia como erro fatal, mesmo a imagem já tendo ido pra <strong>nuvem</strong> (fonte de verdade) com sucesso; (2) o toast mostrava a <strong>chave crua</strong> porque <code>set.toast.storageError</code> faltava no dicionário <code>CBI18N</code> (existia só no I18N principal). <strong>Fix:</strong> <code>setUserImage</code> agora marca <code>serverBacked</code> (nuvem do user ou espelho global do admin) e passa <code>silentOnQuota</code> ao <code>saveUserImages</code> — com a imagem no servidor, a cota cheia do cache local <strong>não é erro</strong> (retorna sucesso → toast vira "Imagem salva ✓"). E a chave foi adicionada ao <code>CBI18N</code> PT/EN, com texto que reflete a realidade (salvo na nuvem; cache local é dispensável). Verificado: cota forçada → <code>setUserImage</code> devolve true sem exceção nem toast de erro; node 19/19.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.23</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20034,7 +20043,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.23</strong><span class="ver-tag">nova aba Configurações ▸ Operador ▸ Personagens: sobe os retratos dos 10 personagens do "Gerar com IA" (sincroniza na nuvem, admin = global)</span>
+        LEVEL · <strong>v2.57.24</strong><span class="ver-tag">upload de imagem não mostra mais erro falso quando o localStorage enche — a imagem é salva na nuvem; toast vira "Imagem salva" (+ i18n da mensagem)</span>
       </div>
       <script>
         (function(){
@@ -21981,8 +21990,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Subir os retratos dos personagens',
-    'briefing.changelog.summary':  'Agora dá pra <strong>trocar/subir os retratos dos personagens</strong> do "Gerar com IA" direto nas <strong>Configurações ▸ Operador ▸ Personagens</strong> — um slot por personagem (os 10). Sobe pra nuvem e, como admin, vira o <strong>padrão pra todos</strong> os usuários. Os 8 que estavam com placeholder cinza podem finalmente ganhar retrato real. Reusa o mesmo sistema de imagens das outras abas — nada novo pra aprender.',
+    'briefing.changelog.headline': 'Upload de imagem sem erro falso',
+    'briefing.changelog.summary':  'Ao subir uma imagem (ex.: de mapa) aparecia um <strong>erro falso</strong> mesmo quando ela era salva. O motivo: imagens são grandes e o armazenamento do navegador enche, mas a imagem já vai pra <strong>nuvem</strong> (onde realmente fica guardada) — só o cache local é que estourava. Agora isso não é mais tratado como erro: o aviso vira <strong>"Imagem salva ✓"</strong>. Também corrigimos a mensagem que aparecia como um código técnico.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23632,8 +23641,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Upload the character portraits',
-    'briefing.changelog.summary':  'You can now <strong>swap/upload the character portraits</strong> for "Generate with AI" right in <strong>Settings ▸ Operator ▸ Characters</strong> — one slot per character (all 10). It saves to the cloud and, as admin, becomes the <strong>default for everyone</strong>. The 8 that had a gray placeholder can finally get a real portrait. Reuses the same image system as the other tabs — nothing new to learn.',
+    'briefing.changelog.headline': 'Image upload without the false error',
+    'briefing.changelog.summary':  'Uploading an image (e.g. a map) showed a <strong>false error</strong> even when it was saved. The reason: images are large and browser storage fills up, but the image already goes to the <strong>cloud</strong> (where it is actually kept) — only the local cache overflowed. This is no longer treated as an error: the toast now says <strong>"Image saved ✓"</strong>. We also fixed the message that was showing up as a technical code.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -37951,11 +37960,20 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         return raw ? JSON.parse(raw) : {};
       } catch (e) { return {}; }
     }
-    function saveUserImages(map) {
+    function saveUserImages(map, opts) {
+      opts = opts || {};
       try {
         localStorage.setItem(USER_IMG_KEY, JSON.stringify(map));
         return true;
       } catch (e) {
+        // v2.57.24: cota do localStorage (~5MB) estourada. Se a imagem foi enviada
+        // à NUVEM (fonte de verdade), o cache local é dispensável — NÃO é erro.
+        // Sem isto, cada upload de mapa (imagens grandes) disparava um toast de
+        // erro assustador mesmo tendo salvo na nuvem com sucesso.
+        if (opts.silentOnQuota) {
+          console.warn('[user-images] localStorage cheio — imagem salva na nuvem; cache local ignorado.');
+          return true;
+        }
         if (typeof showToast === 'function') showToast(cbt('set.toast.storageError'), 'error');
         return false;
       }
@@ -38141,10 +38159,15 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       return null;
     }
     function setUserImage(itemId, dataUrl) {
+      // v2.57.24: rastreia se a imagem está indo pro SERVIDOR (nuvem do user OU
+      // espelho global do admin). Se sim, uma falha de cota no localStorage (cache
+      // offline) não é erro — a fonte de verdade é o servidor.
+      var serverBacked = false;
       // Tenta cloud primeiro (resolvendo category pela tab ativa)
       try {
         const cs = _deriveCatSub(settingsActiveTab, itemId);
         if (cs && _getLocalIdSafe()) {
+          serverBacked = true;
           cloudUploadAsset(itemId, dataUrl, cs.category, cs.subcategory)
             .then(function () { if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange(); })
             .catch(function (err) {
@@ -38156,6 +38179,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // v2.57.16: se ADMIN, espelha como DEFAULT GLOBAL (todos os usuários passam a ver).
       try {
         if (window.LevelAdmin && window.LevelAdmin.isAdmin() && window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+          serverBacked = true;
           window.LEVEL_AUTH.getClient().then(function (c) {
             c.from('cat_default_images').upsert({ item_id: itemId, data_url: dataUrl, updated_at: new Date().toISOString() }, { onConflict: 'item_id' }).then(function (r) {
               if (r && !r.error) { GLOBAL_DEFAULT_IMG[itemId] = dataUrl; }
@@ -38164,10 +38188,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           });
         }
       } catch (e) {}
-      // Sempre salva também no localStorage (fallback + compat)
+      // Sempre salva também no localStorage (fallback + compat). Se a imagem já
+      // está indo pro servidor, a cota cheia aqui é silenciosa (não é erro).
       const map = loadUserImages();
       map[itemId] = dataUrl;
-      return saveUserImages(map);
+      return saveUserImages(map, { silentOnQuota: serverBacked });
     }
     function removeUserImage(itemId) {
       // Cloud delete (best-effort)
@@ -39907,6 +39932,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.toast.imported': '{{i:check}} {0} imagens importadas',
         'set.toast.tooLarge': 'Arquivo muito grande (max 5 MB)',
         'set.toast.invalidType': 'Formato inválido (use PNG, JPG ou WebP)',
+        'set.toast.storageError': 'Sem espaço no cache do navegador. A imagem foi salva na nuvem; remova imagens antigas se quiser limpar o cache local.',
         'set.toast.invalidBackup': 'Arquivo de backup inválido',
         'perk.slot': 'Perk', 'perk.score': 'score', 'perk.viaGreed': 'extra · via Perk Greed',
         'perk.allPerks': 'Todos os Perks ativos', 'perk.specialty': 'Combat Specialty:', 'perk.specNone': '— escolha 3 perks base —',
@@ -40065,6 +40091,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.toast.imported': '{{i:check}} {0} images imported',
         'set.toast.tooLarge': 'File too large (max 5 MB)',
         'set.toast.invalidType': 'Invalid format (use PNG, JPG or WebP)',
+        'set.toast.storageError': 'Browser cache is full. The image was saved to the cloud; remove old images if you want to clear local cache.',
         'set.toast.invalidBackup': 'Invalid backup file',
         'perk.slot': 'Perk', 'perk.score': 'score', 'perk.viaGreed': 'extra · via Perk Greed',
         'perk.allPerks': 'All Perks active', 'perk.specialty': 'Combat Specialty:', 'perk.specNone': '— pick 3 base perks —',
