@@ -14204,7 +14204,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.31 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.58.0 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.58.0</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Avatar IA: seletor de "Estilo" artístico no "Gerar com IA".</strong> Pedido do Victor. Agora há um dropdown <strong>Estilo</strong> com 24 opções (Realista/Militar = padrão, + Mystic Naturalism, Illustration, Bold Sketch, Hand-drawn, Retro Pop, Pixel art, Bold fantasy, Hard Comics, Plastic 3D, Watercolor, Kawaii, Cartoon, etc.). O estilo vira um <strong>modificador de prompt no Gemini</strong> (Edge <code>generate-avatar</code> v6, mapa <code>STYLE_MODIFIERS</code>): a Edge anexa <code>". Art style: …"</code> ao fim do prompt do personagem ou da pose. Sem estilo (ou "Realista") = militar fotorrealista como antes. <strong>Decisão:</strong> o estilo aplica-se às gerações disparadas pelo Hub — <strong>Regenerar</strong> e <strong>Pose do exemplo</strong> (<code>AvatarBackend.regenerate</code>/<code>generatePose</code> passam <code>style</code>); a 1ª geração (QR/foto do PC) sai no padrão e o user troca o estilo e Regenera (sem mexer no schema). Os <code>style_id</code> do Recraft ficam guardados só como referência futura — quem renderiza é o Gemini. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.31</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20117,7 +20126,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.31</strong><span class="ver-tag">avatar IA: opção "Usar foto do PC" (em vez do QR/selfie no celular) + dicas de foto ideal pra geração sair com qualidade</span>
+        LEVEL · <strong>v2.58.0</strong><span class="ver-tag">avatar IA: seletor de "Estilo" artístico (24 opções) no Gerar com IA — aplica-se ao Regenerar/Pose, via modificador de prompt no Gemini</span>
       </div>
       <script>
         (function(){
@@ -22064,8 +22073,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Avatar IA: usar foto do PC',
-    'briefing.changelog.summary':  'Agora dá pra gerar o avatar <strong>sem o celular</strong>: no "Gerar com IA", além do QR, tem o botão <strong>"Usar foto do PC"</strong> — escolhe uma foto do computador e a IA cria o avatar a partir dela. Pra sair com qualidade, seguimos as <strong>dicas de foto ideal</strong>: rosto bem visível e de frente, boa luz, sem óculos escuros/boné, foto nítida e de perto, fundo neutro e só você. JPG/PNG/WebP até 10 MB.',
+    'briefing.changelog.headline': 'Avatar IA: seletor de "Estilo"',
+    'briefing.changelog.summary':  'No "Gerar com IA" agora há um dropdown <strong>Estilo</strong> com 24 opções artísticas (Realista/Militar = padrão, + Illustration, Bold Sketch, Pixel art, Watercolor, Kawaii, Cartoon, e mais). O estilo vira um <strong>modificador de prompt</strong> no Gemini. Aplica-se quando clicas em <strong>Regenerar</strong> ou <strong>Pose do exemplo</strong> — a 1ª geração sai no padrão e tu trocas o estilo e regeneras.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23715,8 +23724,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'AI avatar: use a photo from your PC',
-    'briefing.changelog.summary':  'You can now generate the avatar <strong>without your phone</strong>: in "Generate with AI", besides the QR there is a <strong>"Use a photo from PC"</strong> button — pick a photo from your computer and the AI builds the avatar from it. For best quality, follow the <strong>ideal photo tips</strong>: face clearly visible and front-facing, good lighting, no sunglasses/cap, sharp and close-up, neutral background, just you. JPG/PNG/WebP up to 10 MB.',
+    'briefing.changelog.headline': 'AI avatar: "Style" selector',
+    'briefing.changelog.summary':  '"Generate with AI" now has a <strong>Style</strong> dropdown with 24 artistic options (Realistic/Military = default, plus Illustration, Bold Sketch, Pixel art, Watercolor, Kawaii, Cartoon, and more). The style becomes a <strong>prompt modifier</strong> for Gemini. It applies when you hit <strong>Regenerate</strong> or <strong>Pose from example</strong> — the first generation uses the default and you switch the style and regenerate.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -32547,9 +32556,43 @@ const ATTACHMENT_ICONS = {
       phase: 'idle',               // 'idle' | 'qr_shown' | 'waiting_selfie' | 'generating' | 'ready' | 'error'
       sessionToken: null,          // token da avatar_sessions (Supabase)
       generatedDataUrl: null,      // PNG gerado, pronto para aprovar
-      importDataUrl: null          // PNG carregado na tab Importar
+      importDataUrl: null,         // PNG carregado na tab Importar
+      selectedStyle: 'realista'    // estilo artístico do "Gerar com IA" (aplicado ao Regenerar/Pose)
     };
     window.avatarIAState = avatarIAState;
+
+    // ── Estilos artísticos do "Gerar com IA" ────────────────────────
+    // O estilo vira um modificador de prompt no Gemini (Edge generate-avatar).
+    // 'realista' = sem modificador (militar fotorrealista, default). As chaves têm
+    // de bater com o STYLE_MODIFIERS da Edge. NOTA: o estilo só é aplicado nas
+    // gerações disparadas pelo Hub (Regenerar / Pose do exemplo) — a 1ª geração
+    // (QR/foto do PC) sai sempre no default e o user troca o estilo + Regenera.
+    window.AVATAR_STYLE_OPTIONS = [
+      { id: 'realista',          label: 'Realista / Militar (padrão)' },
+      { id: 'mystic_naturalism', label: 'Mystic Naturalism' },
+      { id: 'illustration',      label: 'Illustration' },
+      { id: 'bold_sketch',       label: 'Bold Sketch' },
+      { id: 'recraft_v3_raw',    label: 'Recraft V3 Raw' },
+      { id: 'hand_drawn',        label: 'Hand-drawn' },
+      { id: 'retro_pop',         label: 'Retro Pop' },
+      { id: 'antiquarian',       label: 'Antiquarian' },
+      { id: 'color_engraving',   label: 'Color engraving' },
+      { id: 'pixel_art',         label: 'Pixel art' },
+      { id: 'engraving',         label: 'Engraving' },
+      { id: 'bold_fantasy',      label: 'Bold fantasy' },
+      { id: 'child_book',        label: 'Child book' },
+      { id: 'hard_comics',       label: 'Hard Comics' },
+      { id: 'modern_folk',       label: 'Modern Folk' },
+      { id: 'multicolor',        label: 'Multicolor' },
+      { id: 'plastic_3d',        label: 'Plastic 3D' },
+      { id: 'outline_details',   label: 'Outline details' },
+      { id: 'tablet_sketch',     label: 'Tablet sketch' },
+      { id: 'illustration_2',    label: 'Illustration 2' },
+      { id: 'glow',              label: 'Glow' },
+      { id: 'watercolor',        label: 'Watercolor' },
+      { id: 'kawaii',            label: 'Kawaii' },
+      { id: 'cartoon',           label: 'Cartoon' }
+    ];
 
     // ── Render do grid de characters ────────────────────────────────
     function renderAvatarCharGrid() {
@@ -35775,7 +35818,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
 
     // ── regenerate (PATCH rejected + chama generate-avatar) ────────
-    async function regenerate(token) {
+    async function regenerate(token, style) {
       // Marca rejected (RLS permite UPDATE se status NOT IN approved/expired AND expires_at > now())
       const patchUrl = REST_BASE + '/avatar_sessions?token=eq.' + encodeURIComponent(token);
       const r1 = await fetch(patchUrl, {
@@ -35788,11 +35831,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         throw new Error('regenerate PATCH ' + r1.status + ': ' + txt.slice(0, 200));
       }
 
-      // Dispara generate-avatar de novo
+      // Dispara generate-avatar de novo (style opcional — só Hub-initiated)
+      const genBody = { token };
+      if (style && style !== 'realista') genBody.style = style;
       const r2 = await fetch(FN_BASE + '/generate-avatar', {
         method: 'POST',
         headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify(genBody),
       });
       const data = await r2.json().catch(() => ({}));
       if (!r2.ok) throw new Error(data.error || ('regenerate ' + r2.status));
@@ -35825,11 +35870,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
 
     // ── generatePose (v5: modo B — manda a foto-exemplo como ref de pose) ──
-    async function generatePose(token, poseRefB64, poseRefMime) {
+    async function generatePose(token, poseRefB64, poseRefMime, style) {
+      const poseBody = { token: token, pose_ref_b64: poseRefB64, pose_ref_mime: poseRefMime || 'image/jpeg' };
+      if (style && style !== 'realista') poseBody.style = style;
       const r = await fetch(FN_BASE + '/generate-avatar', {
         method: 'POST',
         headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: token, pose_ref_b64: poseRefB64, pose_ref_mime: poseRefMime || 'image/jpeg' }),
+        body: JSON.stringify(poseBody),
       });
       const data = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(data.error || ('generatePose ' + r.status));
@@ -36088,12 +36135,29 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // ── Bloco actions ──
       const actionsHtml = buildActionsBlock(phase);
 
-      wrap.innerHTML = heroHtml + centerHtml + '<div class="amt-detail-actions">' + actionsHtml + '</div>';
+      // ── Seletor de estilo (idle/ready) — aplica-se ao Regenerar/Pose ──
+      const styleHtml = (phase === 'idle' || phase === 'ready') ? buildStyleSelector(state) : '';
+
+      wrap.innerHTML = heroHtml + centerHtml + styleHtml + '<div class="amt-detail-actions">' + actionsHtml + '</div>';
       if (window.replaceIcons) window.replaceIcons(wrap);
       // Sincroniza badge Realtime com estado atual (acaba de ser recriado no DOM)
       if (typeof updateRealtimeBadge === 'function') updateRealtimeBadge();
     }
     window.renderAvatarDetailReactive = renderAvatarDetailReactive;
+
+    // ── Seletor de estilo artístico ("Gerar com IA") ──────────────────
+    function buildStyleSelector(state) {
+      var cur = (state && state.selectedStyle) || 'realista';
+      var opts = (window.AVATAR_STYLE_OPTIONS || []).map(function (o) {
+        return '<option value="' + o.id + '"' + (o.id === cur ? ' selected' : '') + '>' + o.label + '</option>';
+      }).join('');
+      return ''
+        + '<div style="margin:10px 0 2px; display:flex; align-items:center; gap:8px; flex-wrap:wrap">'
+        +   '<label for="amt-style-select" style="font-family:\'JetBrains Mono\', monospace; font-size:11px; color:var(--text-secondary); white-space:nowrap">{{i:sparkles}} Estilo</label>'
+        +   '<select id="amt-style-select" style="flex:1; min-width:160px; background:var(--bg-elev); color:var(--text-primary); border:1px solid var(--border); border-radius:6px; padding:6px 8px; font-size:12px">' + opts + '</select>'
+        + '</div>'
+        + '<div style="font-family:\'JetBrains Mono\', monospace; font-size:10px; color:var(--text-muted); margin:0 0 6px">Aplica-se ao <strong>Regenerar</strong> / <strong>Pose do exemplo</strong>.</div>';
+    }
 
     function buildPhaseAwareTips(phase) {
       // Mostra dicas de selfie só quando ainda não tem QR ou está mostrando QR
@@ -36261,6 +36325,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     // ── Foto do PC: ao escolher um ficheiro, cria sessão + sobe a selfie ──
     // Reusa o backend (upload-avatar-selfie dispara o generate-avatar). Mesmo
     // fluxo de preview/aprovar do QR — só a origem da foto muda (PC em vez do celular).
+    // Estilo: guarda a escolha no estado (sem re-render, pra não perder o foco)
+    document.addEventListener('change', function (e) {
+      if (!e.target || e.target.id !== 'amt-style-select') return;
+      if (window.avatarIAState) window.avatarIAState.selectedStyle = e.target.value;
+    });
+
     document.addEventListener('change', async function (e) {
       if (!e.target || e.target.id !== 'amt-file-input') return;
       var file = e.target.files && e.target.files[0];
@@ -36365,7 +36435,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         window.avatarIAState.phase = 'generating';
         renderAvatarDetailReactive();
         try {
-          await window.AvatarBackend.regenerate(currentToken);
+          await window.AvatarBackend.regenerate(currentToken, window.avatarIAState.selectedStyle);
           // Backend já retornou — status estará ready em segundos via polling
           startPolling(currentToken);
         } catch (err) {
@@ -36393,7 +36463,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         window.avatarIAState.phase = 'generating';
         renderAvatarDetailReactive();
         try {
-          var poseData = await window.AvatarBackend.generatePose(currentToken, mm[2], mm[1]);
+          var poseData = await window.AvatarBackend.generatePose(currentToken, mm[2], mm[1], window.avatarIAState.selectedStyle);
           lastGeneratedPath = poseData.generated_path || null;
           lastSignedUrl = null;
           window.avatarIAState.phase = 'ready';
