@@ -14204,7 +14204,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.28 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.29 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17472,6 +17472,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.29</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Avatar IA: preview do avatar gerado aparecia quebrado + modal recarregando.</strong> Diagnóstico via logs Supabase: o <code>generate-avatar</code> retornou <strong>200 em ~13s</strong> — ou seja, <strong>a geração SEMPRE funcionou</strong> e a imagem estava no bucket. O bug era só no Hub ao mostrar o preview: (1) <code>tryLoadPreview</code> fazia <code>encodeURIComponent(generated_path)</code> no caminho inteiro, transformando a <code>/</code> em <code>%2F</code> → o Storage não achava o objeto → URL vazia → <code>&lt;img src=""&gt;</code> (ícone quebrado). Fix: codifica por segmento preservando as <code>/</code> (<code>split('/').map(encodeURIComponent).join('/')</code>). (2) O modal ficava <strong>recarregando</strong> (flicker) porque o polling de 10s nunca parava no estado <code>ready</code> e o <code>updatePhase</code> forçava re-render a cada ciclo. Fix: <code>stopPolling()</code> assim que a sessão fica <code>ready</code>. node 19/19, sem erros de console; encoding verificado (preserva <code>/</code>, sem <code>%2F</code>).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.28</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20090,7 +20099,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.28</strong><span class="ver-tag">emblema de prestige: enquanto a imagem da nuvem carrega, fica um círculo preto (sem o texto "P10" nem aro/brilho laranja)</span>
+        LEVEL · <strong>v2.57.29</strong><span class="ver-tag">avatar IA: preview do avatar gerado aparecia quebrado (URL com '/' codificada errada) + modal recarregando; corrigidos — a geração já funcionava</span>
       </div>
       <script>
         (function(){
@@ -22037,8 +22046,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Emblema de prestige carrega mais limpo',
-    'briefing.changelog.summary':  'O emblema de prestige vem da nuvem e pode demorar um instante a carregar. Antes, nesse meio-tempo, aparecia o texto <strong>"P10"</strong> num círculo laranja. Agora, enquanto a imagem não chega, fica um <strong>círculo preto liso</strong> — sem texto e sem o aro laranja — e o emblema aparece suave quando carrega. A tua foto de operador continua instantânea (fica salva localmente).',
+    'briefing.changelog.headline': 'Avatar com IA: preview corrigido',
+    'briefing.changelog.summary':  'A geração do avatar por IA <strong>sempre funcionou</strong> (confirmado nos logs) — o que estava quebrado era só a <strong>pré-visualização</strong> no Hub: a imagem aparecia partida e o modal ficava recarregando. Eram dois detalhes técnicos (a URL da imagem montada errada e o modal sem parar de atualizar). Corrigidos — agora o avatar gerado aparece e você aprova ou regenera normalmente.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23688,8 +23697,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Prestige emblem loads cleaner',
-    'briefing.changelog.summary':  'The prestige emblem comes from the cloud and can take a moment to load. Before, in the meantime, the text <strong>"P10"</strong> showed on an orange circle. Now, while the image has not arrived, it stays a <strong>plain black circle</strong> — no text and no orange ring — and the emblem fades in when it loads. Your operator photo stays instant (it is saved locally).',
+    'briefing.changelog.headline': 'AI avatar: preview fixed',
+    'briefing.changelog.summary':  'AI avatar generation <strong>always worked</strong> (confirmed in the logs) — what was broken was only the <strong>preview</strong> in the Hub: the image showed up broken and the modal kept reloading. It was two technical details (the image URL built wrong and the modal not stopping its refresh). Both fixed — the generated avatar now shows and you can approve or regenerate normally.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -35956,6 +35965,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       else if (status === 'rejected')        updatePhase('generating');
       else if (status === 'ready') {
         lastGeneratedPath = s.generated_path;
+        stopPolling();  // v2.57.29: para o loop ao ficar pronto (evita re-render/flicker a cada 10s)
         updatePhase('ready');
       }
       else if (status === 'approved')        updatePhase('approved');
@@ -36164,7 +36174,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (!lastGeneratedPath) return;
       try {
         // Para o preview usamos a Edge function approve-session é overkill — gera signed URL via storage API direta
-        const url = window.AvatarBackend.SUPABASE_URL + '/storage/v1/object/sign/avatar-generated/' + encodeURIComponent(lastGeneratedPath);
+        // v2.57.29: codifica cada segmento mas PRESERVA as '/' — encodeURIComponent
+        // do path inteiro virava %2F e o storage não achava o objeto (imagem quebrada).
+        const safePath = String(lastGeneratedPath).split('/').map(encodeURIComponent).join('/');
+        const url = window.AvatarBackend.SUPABASE_URL + '/storage/v1/object/sign/avatar-generated/' + safePath;
         const r = await fetch(url, {
           method: 'POST',
           headers: {
