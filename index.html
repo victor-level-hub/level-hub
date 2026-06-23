@@ -14193,7 +14193,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.57.22 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.57.23 · <span data-i18n="briefing.changelog.date">23 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17461,6 +17461,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.57.23</span>
+                <span class="vh-date">23 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Nova aba para subir os retratos dos personagens do "Gerar com IA" (pedido do Victor).</strong> Em <strong>Configurações ▸ Operador ▸ Personagens</strong> agora há um slot por personagem (os 10: Price, Farah + os 8 que estavam com placeholder SVG). <strong>Sem backend novo</strong> — reusa toda a infra de imagens que já existe: categoria normal no <code>SETTINGS_CATEGORIES</code> (<code>id: 'avatar_chars'</code>) cujo <code>source()</code> mapeia <code>AVATAR_CHARACTERS</code> → itens <code>avatar_char_&lt;id&gt;</code>; o upload usa o mesmo <code>setUserImage</code> (nuvem via <code>user-asset</code> + localStorage; e como admin, espelha em <code>cat_default_images</code> → <strong>todos os usuários passam a ver</strong>); a grelha do modal e o hero do detalhe agora leem <code>getUserImage('avatar_char_'+id)</code> com <strong>fallback</strong> pro thumb embutido. <code>TAB_TO_CATSUB</code> mapeia a aba p/ <code>operador/personagens</code>. i18n <code>set.tab.avatar_chars</code> PT/EN. Verificado no preview: aba lista 10 slots c/ botão, roundtrip upload→getUserImage→grid OK, node 19/19, 6/6 títulos.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.57.22</span>
                 <span class="vh-date">23 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20025,7 +20034,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.57.22</strong><span class="ver-tag">imagens dos personagens (Gerar com IA) apareciam pretas — colisão de aspas no style; + emblema de Prestige da nuvem agora carrega em login novo (retry)</span>
+        LEVEL · <strong>v2.57.23</strong><span class="ver-tag">nova aba Configurações ▸ Operador ▸ Personagens: sobe os retratos dos 10 personagens do "Gerar com IA" (sincroniza na nuvem, admin = global)</span>
       </div>
       <script>
         (function(){
@@ -21972,8 +21981,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Imagens dos personagens e emblema de Prestige',
-    'briefing.changelog.summary':  'Dois fixes de imagem. <strong>(1)</strong> Os personagens do "Gerar com IA" apareciam <strong>pretos</strong> — uma colisão de aspas no estilo fechava o atributo cedo demais. Corrigido: Captain Price e Farah voltam a mostrar o retrato (os outros 8 seguem com placeholder até ganharem retrato real). <strong>(2)</strong> O <strong>emblema de Prestige</strong> guardado na nuvem não aparecia logo após um login novo (caía no "P10" até recarregar) — agora ele tenta de novo e reage ao login, carregando assim que a sessão fica pronta.',
+    'briefing.changelog.headline': 'Subir os retratos dos personagens',
+    'briefing.changelog.summary':  'Agora dá pra <strong>trocar/subir os retratos dos personagens</strong> do "Gerar com IA" direto nas <strong>Configurações ▸ Operador ▸ Personagens</strong> — um slot por personagem (os 10). Sobe pra nuvem e, como admin, vira o <strong>padrão pra todos</strong> os usuários. Os 8 que estavam com placeholder cinza podem finalmente ganhar retrato real. Reusa o mesmo sistema de imagens das outras abas — nada novo pra aprender.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22973,6 +22982,7 @@ window.I18N = {
     'set.group.tools': 'Ferramentas',
     'set.group.operator': 'Operador',
     'set.tab.avatar': 'Avatar',
+    'set.tab.avatar_chars': 'Personagens',
     // ── Image Processor (v75.06) ──
     'imgproc.intro': '<strong>Processador de Imagem.</strong> Remove o fundo automaticamente (IA roda no seu navegador, sem servidor) e redimensiona pra qualquer tamanho. Útil pra fotos de armas, emblemas, mapas — qualquer imagem que você vá subir no Hub.',
     'imgproc.warn': '{{i:alert-triangle}} <strong>Primeira execução baixa o modelo de IA (~80MB)</strong>. Acontece uma vez só, depois fica em cache. Funciona melhor em desktop. Se o navegador travar, fecha e tenta uma imagem menor.',
@@ -23622,8 +23632,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Character images and Prestige emblem',
-    'briefing.changelog.summary':  'Two image fixes. <strong>(1)</strong> The "Generate with AI" characters showed up <strong>black</strong> — a quote collision in the style closed the attribute too early. Fixed: Captain Price and Farah show their portrait again (the other 8 keep a placeholder until they get a real portrait). <strong>(2)</strong> The cloud-saved <strong>Prestige emblem</strong> did not appear right after a fresh login (fell back to "P10" until reload) — it now retries and reacts to login, loading as soon as the session is ready.',
+    'briefing.changelog.headline': 'Upload the character portraits',
+    'briefing.changelog.summary':  'You can now <strong>swap/upload the character portraits</strong> for "Generate with AI" right in <strong>Settings ▸ Operator ▸ Characters</strong> — one slot per character (all 10). It saves to the cloud and, as admin, becomes the <strong>default for everyone</strong>. The 8 that had a gray placeholder can finally get a real portrait. Reuses the same image system as the other tabs — nothing new to learn.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -24623,6 +24633,7 @@ window.I18N = {
     'set.group.tools': 'Tools',
     'set.group.operator': 'Operator',
     'set.tab.avatar': 'Avatar',
+    'set.tab.avatar_chars': 'Characters',
     // ── Image Processor (v75.06) ──
     'imgproc.intro': '<strong>Image Processor.</strong> Automatically removes the background (AI runs in your browser, no server) and resizes to any dimensions. Useful for weapon photos, emblems, maps — any image you want to upload to the Hub.',
     'imgproc.warn': '{{i:alert-triangle}} <strong>First run downloads the AI model (~80MB)</strong>. Happens only once, then cached. Works best on desktop. If your browser freezes, close it and try a smaller image.',
@@ -32461,7 +32472,7 @@ const ATTACHMENT_ICONS = {
         const cs = c.available ? '' : ' coming-soon';
         return ''
           + '<div class="amt-char-card' + sel + cs + '" data-char-id="' + c.id + '"' + (c.available ? '' : ' aria-disabled="true"') + '>'
-          +   '<div class="amt-char-thumb" style="background-image:url(\'' + (c.thumb || '') + '\')"></div>'
+          +   '<div class="amt-char-thumb" style="background-image:url(\'' + ((window.getUserImage && window.getUserImage('avatar_char_' + c.id)) || c.thumb || '') + '\')"></div>'
           +   '<div class="amt-char-meta">'
           +     '<div class="amt-char-name">' + escapeHtmlSafe(c.name) + '</div>'
           +     '<div class="amt-char-sub">' + escapeHtmlSafe(c.subtitle) + '</div>'
@@ -35944,7 +35955,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // ── Bloco hero (sempre presente) ──
       const heroHtml = ''
         + '<div class="amt-detail-hero-row">'
-        +   '<div class="amt-detail-hero" style="background-image:url(\'' + (c.thumb || '') + '\')"></div>'
+        +   '<div class="amt-detail-hero" style="background-image:url(\'' + ((window.getUserImage && window.getUserImage('avatar_char_' + c.id)) || c.thumb || '') + '\')"></div>'
         +   '<div class="amt-detail-meta">'
         +     '<div class="amt-detail-name">' + escapeFn(c.name) + '<span id="amt-rt-badge" class="amt-rt-badge" data-mode="idle" style="display:none"></span></div>'
         +     '<div class="amt-detail-sub">' + escapeFn(c.subtitle) + '</div>'
@@ -37995,6 +38006,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       specialties:     ['vantagens',  'especialidades'],
       extra_equipment: ['vantagens',  'equipamento-extra'],
       avatar:          ['operador',   'avatar'],
+      avatar_chars:    ['operador',   'personagens'],
     };
     function _deriveCatSub(tabId, itemId) {
       const cs = TAB_TO_CATSUB[tabId];
@@ -38652,6 +38664,17 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       { id: 'avatar', group: 'operator', i18n: 'set.tab.avatar',
         customPanel: true,
         source: function () { return []; } },
+      // ── PERSONAGENS (v2.57.23) ── retratos de referência do "Gerar com IA" ──
+      // Itens = AVATAR_CHARACTERS; id prefixado 'avatar_char_' p/ não colidir.
+      // Admin sobe → cat_default_images (global, todos veem) + cloud/local; a
+      // grelha do modal lê via getUserImage('avatar_char_'+id) com fallback pro
+      // thumb embutido (Price/Farah reais; os 8 outros placeholder até subir).
+      { id: 'avatar_chars', group: 'operator', i18n: 'set.tab.avatar_chars',
+        source: function () {
+          return (window.AVATAR_CHARACTERS || []).map(function (c) {
+            return { id: 'avatar_char_' + c.id, name: c.name, desc: c.subtitle };
+          });
+        } },
     ];
     // Ordem dos grupos + chave i18n do cabeçalho
     const SETTINGS_GROUPS = [
@@ -39868,7 +39891,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.streaks': 'Scorestreaks',
         'set.tab.specialties': 'Especialidades',
         'set.tab.extra_equipment': 'Equipamento extra',
-        'set.group.constructor': 'Construtor', 'set.group.armament': 'Armamento', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Mapas', 'set.group.perks_streaks': 'Vantagens & Séries', 'set.group.tools': 'Ferramentas', 'set.group.operator': 'Operador', 'set.tab.avatar': 'Avatar',
+        'set.group.constructor': 'Construtor', 'set.group.armament': 'Armamento', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Mapas', 'set.group.perks_streaks': 'Vantagens & Séries', 'set.group.tools': 'Ferramentas', 'set.group.operator': 'Operador', 'set.tab.avatar': 'Avatar', 'set.tab.avatar_chars': 'Personagens',
         'set.confirm.clear': 'Apagar TODAS as imagens salvas? Não dá pra recuperar.',
         'set.confirm.logout.title': 'Sair da conta',
         'set.confirm.logout.msg': 'Encerrar a sessão neste dispositivo? Você volta para a página inicial. Seus dados ficam salvos na conta.',
@@ -40026,7 +40049,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.streaks': 'Scorestreaks',
         'set.tab.specialties': 'Specialties',
         'set.tab.extra_equipment': 'Extra equipment',
-        'set.group.constructor': 'Constructor', 'set.group.armament': 'Armament', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Maps', 'set.group.perks_streaks': 'Perks & Streaks', 'set.group.tools': 'Tools', 'set.group.operator': 'Operator', 'set.tab.avatar': 'Avatar',
+        'set.group.constructor': 'Constructor', 'set.group.armament': 'Armament', 'set.group.prestiges': 'Prestiges', 'set.group.maps': 'Maps', 'set.group.perks_streaks': 'Perks & Streaks', 'set.group.tools': 'Tools', 'set.group.operator': 'Operator', 'set.tab.avatar': 'Avatar', 'set.tab.avatar_chars': 'Characters',
         'set.confirm.clear': 'Delete ALL saved images? This cannot be undone.',
         'set.confirm.logout.title': 'Sign out',
         'set.confirm.logout.msg': 'End your session on this device? You will return to the landing page. Your data stays saved to your account.',
