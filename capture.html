@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>LEVEL · Captura</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card: #171717;
+      --border: #2a2a2a;
+      --text: #f5f5f5;
+      --muted: #888;
+      --accent: #ff6b35;
+      --accent-dim: #ff6b3522;
+      --ok: #34d399;
+      --error: #ef4444;
+      --error-dim: #ef444422;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      -webkit-tap-highlight-color: transparent;
+    }
+    main {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+    .subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .card h1 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      margin: 20px auto;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .file-trigger {
+      display: block;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 16px;
+      text-align: center;
+      padding: 16px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      user-select: none;
+      transition: opacity 0.15s;
+    }
+    .file-trigger:active { opacity: 0.7; }
+    .file-trigger input { display: none; }
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    .preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .thumb {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--border);
+      position: relative;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .thumb-count {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(0,0,0,0.7);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 16px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:active { opacity: 0.7; }
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .progress {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 14px;
+      color: var(--accent);
+      text-align: center;
+      margin-top: 16px;
+    }
+    .error-card {
+      background: var(--error-dim);
+      border-color: var(--error);
+    }
+    .error-card h1 { color: var(--error); }
+    .icon-big {
+      font-size: 48px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .done-card {
+      text-align: center;
+    }
+    .done-card h1 { color: var(--ok); }
+    .meta {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      word-break: break-all;
+    }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <span class="logo">LEVEL</span>
+      <span class="subtitle">// captura</span>
+    </header>
+
+    <!-- Estado: carregando -->
+    <div id="state-loading" class="card">
+      <h1>Validando link...</h1>
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Estado: erro -->
+    <div id="state-error" class="card error-card" hidden>
+      <div class="icon-big">⚠️</div>
+      <h1>Link inválido</h1>
+      <p id="error-msg">—</p>
+      <p style="margin-top:16px">Gera um novo QR no Hub e tenta de novo.</p>
+    </div>
+
+    <!-- Estado: pronto para capturar -->
+    <div id="state-ready" class="card" hidden>
+      <h1>Envia tua(s) arma(s)</h1>
+      <p>Tira foto da tela ou escolhe da galeria. Podes enviar várias armas de uma vez.</p>
+      <label class="file-trigger">
+        📸 Escolher fotos
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" multiple>
+      </label>
+      <div class="hint">JPEG · PNG · WEBP · até 10MB cada</div>
+      <div class="preview" id="preview"></div>
+      <button class="btn-primary" id="btn-upload" disabled>Enviar</button>
+    </div>
+
+    <!-- Estado: enviando -->
+    <div id="state-uploading" class="card" hidden>
+      <h1>Enviando...</h1>
+      <div class="spinner"></div>
+      <div class="progress" id="upload-progress">—</div>
+    </div>
+
+    <!-- Estado: concluído -->
+    <div id="state-done" class="card done-card" hidden>
+      <div class="icon-big">✅</div>
+      <h1>Recebido!</h1>
+      <p>Volta pro Hub no PC pra rever e aprovar as armas detectadas.</p>
+    </div>
+
+    <div class="meta" id="token-meta" hidden>
+      <span id="token-display">—</span>
+    </div>
+  </main>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const $ = id => document.getElementById(id);
+    const STATES = ['loading', 'error', 'ready', 'uploading', 'done'];
+    const showState = name => {
+      STATES.forEach(s => $('state-' + s).hidden = s !== name);
+    };
+    const showError = msg => {
+      $('error-msg').textContent = msg;
+      showState('error');
+    };
+
+    // 1. Ler token + tipo da URL. O Hub e as Edge functions enviam ?token=UUID
+    //    e &type=weapon|stats|avatar. Mantemos ?t= como fallback de QRs antigos.
+    //    Página MULTI-MODO: armas/stats (capture_sessions) ou avatar (avatar_sessions).
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token') || params.get('t');
+    const mode  = (params.get('type') || 'weapon').toLowerCase();
+    const isAvatar = mode === 'avatar';
+
+    if (isAvatar) applyAvatarUI();
+
+    if (!token) {
+      showError('Token ausente na URL.');
+    } else {
+      // Mostra token curto no rodapé pra debug
+      $('token-meta').hidden = false;
+      $('token-display').textContent = 'token: ' + token.slice(0, 8) + '...';
+      validateToken();
+    }
+
+    // Ajusta os textos/itens da UI quando o modo é avatar (selfie única).
+    function applyAvatarUI() {
+      try {
+        const r = $('state-ready');
+        const h = r.querySelector('h1'); if (h) h.textContent = 'Envia tua selfie';
+        const p = r.querySelector('p');  if (p) p.textContent = 'Tira uma selfie com o rosto bem iluminado e frontal. A IA cria teu avatar tático.';
+        const fi = $('file-input'); if (fi) fi.removeAttribute('multiple');
+        const dp = $('state-done').querySelector('p'); if (dp) dp.textContent = 'Volta pro Hub no PC — teu avatar está sendo gerado.';
+      } catch (e) { /* noop */ }
+    }
+
+    // 2. Validar token
+    async function validateToken() {
+      const table     = isAvatar ? 'avatar_sessions' : 'capture_sessions';
+      const okStatus  = isAvatar ? 'pending' : 'waiting';
+      const { data, error } = await supabase
+        .from(table)
+        .select('token, status, expires_at')
+        .eq('token', token)
+        .maybeSingle();
+
+      if (error) {
+        showError('Erro de conexão. Verifica a internet.');
+        console.error(error);
+        return;
+      }
+      if (!data) {
+        showError('Sessão não encontrada.');
+        return;
+      }
+
+      const expired = new Date(data.expires_at) < new Date();
+      if (expired) {
+        showError(isAvatar ? 'Link expirado (30 min de validade).' : 'Link expirado (10 min de validade).');
+        return;
+      }
+      if (data.status !== okStatus) {
+        showError('Esta sessão já foi usada.');
+        return;
+      }
+
+      showState('ready');
+    }
+
+    // 3. Preview de fotos selecionadas
+    let selectedFiles = [];
+    $('file-input').addEventListener('change', e => {
+      selectedFiles = Array.from(e.target.files);
+      renderPreview();
+      $('btn-upload').disabled = selectedFiles.length === 0;
+    });
+
+    function renderPreview() {
+      const preview = $('preview');
+      preview.innerHTML = '';
+      selectedFiles.forEach((file, i) => {
+        const url = URL.createObjectURL(file);
+        const div = document.createElement('div');
+        div.className = 'thumb';
+        div.innerHTML = `
+          <img src="${url}" alt="foto ${i+1}">
+          <span class="thumb-count">${i+1}</span>
+        `;
+        preview.appendChild(div);
+      });
+    }
+
+    // 4. Upload
+    $('btn-upload').addEventListener('click', async () => {
+      if (selectedFiles.length === 0) return;
+      showState('uploading');
+
+      // ── Modo AVATAR: 1 selfie → Edge upload-avatar-selfie (multipart) ──
+      // A Edge valida a avatar_session, sobe pro bucket avatar-selfies e dispara
+      // generate-avatar. verify_jwt:false, mas mandamos o anon (apikey) p/ o gateway.
+      if (isAvatar) {
+        $('upload-progress').textContent = 'Enviando selfie...';
+        try {
+          const fd = new FormData();
+          fd.append('token', token);
+          fd.append('selfie', selectedFiles[0]);
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/upload-avatar-selfie`, {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + SUPABASE_ANON, 'apikey': SUPABASE_ANON },
+            body: fd,
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || data.error) {
+            showError('Falha no envio: ' + (data.error || ('HTTP ' + res.status)));
+            return;
+          }
+          showState('done');
+        } catch (e) {
+          showError('Falha no envio: ' + (e && e.message ? e.message : e));
+        }
+        return;
+      }
+
+      // ── Modo ARMAS/STATS: N fotos → storage capture-photos + capture_sessions ──
+      const total = selectedFiles.length;
+      const paths = [];
+
+      for (let i = 0; i < total; i++) {
+        const file = selectedFiles[i];
+        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        const path = `${token}/${Date.now()}-${i}.${ext}`;
+
+        $('upload-progress').textContent = `${i+1} / ${total}`;
+
+        const { error: upErr } = await supabase.storage
+          .from('capture-photos')
+          .upload(path, file, {
+            contentType: file.type,
+            upsert: false
+          });
+
+        if (upErr) {
+          showError(`Falha no upload: ${upErr.message}`);
+          console.error(upErr);
+          return;
+        }
+        paths.push(path);
+      }
+
+      // 5. Atualiza a sessão com os paths + status
+      $('upload-progress').textContent = 'Finalizando...';
+      const { error: updErr } = await supabase
+        .from('capture_sessions')
+        .update({ photo_paths: paths, status: 'uploaded' })
+        .eq('token', token);
+
+      if (updErr) {
+        showError(`Erro ao atualizar sessão: ${updErr.message}`);
+        console.error(updErr);
+        return;
+      }
+
+      showState('done');
+    });
+  </script>
+</body>
+</html>
