@@ -1,7 +1,8 @@
-<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-<!-- Tile 600x600: 1 logo pequena (~25% da largura) centralizada, resto transparente.
-     Ao repetir (background-repeat), gera logos pequenas com gap de ~3 logos entre elas. -->
-<g opacity="0.1" fill="#FF9800" transform="translate(225 261) scale(0.53)">
+<svg width="566" height="294" viewBox="0 0 566 294" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Tile 566x294 = 2x a logo (283x147): logo ocupa ~50% → gap de ~1 logo entre elas.
+     Ao repetir (background-repeat), gera logos pequenas e densas (uma logo, pula 1, outra)
+     cobrindo todo o retângulo. Centralizada via translate; resto transparente. -->
+<g opacity="0.1" fill="#FF9800" transform="translate(141.5 73.5)">
 <path d="M229 24.0027L232 29.0001L142 115L51 29L53.5 24.5L142 108L229 24.0027Z"/>
 <path d="M97 2.00928C103.783 9.03828 142 48.0093 142 48.0093V2.00928H97Z"/>
 <path d="M142 48.0093L186.468 2C186.468 2 160.965 2.00928 142 2.00928V48.0093Z"/>

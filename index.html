@@ -3971,7 +3971,7 @@
     background-color: var(--bg-darkest, #0a1118);
     background-image: url('assets/equip-watermark.svg');
     background-repeat: repeat;
-    background-size: 100px auto;
+    background-size: 52px auto;
     background-position: center;
     border: 1px solid var(--accent-orange, #FF9800);
     border-radius: 8px;
@@ -3997,7 +3997,7 @@
   #modal-build .build-photo-frame {
     background-image: url('assets/equip-watermark.svg') !important;
     background-repeat: repeat !important;
-    background-size: 92px auto !important;
+    background-size: 52px auto !important;
     background-position: center !important;
   }
   @media (max-width: 560px) {
@@ -14458,7 +14458,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.63.4 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.64.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17723,6 +17723,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.64.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Imagens de equipamento: arma maximizada + watermark denso + recortar as já salvas.</strong> Pedidos do Victor. <strong>(1) Maximizar:</strong> o recorte no popup de hover passou a ser por <strong>canal alfa robusto</strong> — ignora o halo/resíduo translúcido (alfa ≤ ~40) e pixels de ruído isolados (densidade mínima por linha/coluna), então a arma enche o popup (testado: ~95% da largura, antes ~50%). <strong>(2) Watermark:</strong> ficou um padrão de logos pequenas e mais densas (gap ~1 logo) cobrindo o <strong>retângulo inteiro</strong>, igual no popup e nos cards. <strong>(3) Reprocessar:</strong> botão em Configurações ▸ (categorias de equipamento) <em>"Recortar fundo das imagens já salvas"</em> que remove o fundo de todas as imagens opacas guardadas (armas/melee/field/tactical/lethal), com progresso. <strong>Hardening</strong> (revisão adversarial por workflow): guarda de tamanho antes da IA, parada limpa se o armazenamento encher, <code>crossOrigin</code> p/ evitar canvas-taint, e cede o thread entre imagens (não trava a UI). node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.63.4</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -19961,6 +19970,9 @@
       <!-- v2.46.0 · upload em massa por arrastar (preenchido por renderSettings) -->
       <div class="set-bulk-drop" id="set-bulk-drop" style="display:none"></div>
       <input type="file" id="set-bulk-input" accept="image/png,image/jpeg,image/webp" multiple hidden>
+      <!-- v2.63: recortar fundo de TODAS as imagens de equipamento já salvas (só categorias de equipamento) -->
+      <button type="button" id="set-reprocess-bg" class="opp-action-btn secondary" style="display:none;margin-top:10px">{{i:scissors}} Recortar fundo das imagens já salvas (equipamentos)</button>
+      <div id="set-reprocess-bg-status" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--text-muted);margin-top:6px;min-height:13px"></div>
 
       <div class="settings-grid" id="set-grid">
         <!-- preenchido por JS -->
@@ -20545,7 +20557,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.63.4</strong><span class="ver-tag">watermark da logo no fundo: virou um padrão de logos bem menores e espaçadas (1 logo, gap de ~3) cobrindo o retângulo inteiro, de baixo a cima — em vez de logos grandes e juntas</span>
+        LEVEL · <strong>v2.64.0</strong><span class="ver-tag">imagens de equipamento: recorte por alfa robusto (arma maximizada mesmo com halo/ruído), watermark mais denso cobrindo todo o fundo, e botão pra recortar o fundo de TODAS as imagens já salvas (armas/melee/field/tactical/lethal)</span>
       </div>
       <script>
         (function(){
@@ -22529,8 +22541,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Watermark menor e espaçado',
-    'briefing.changelog.summary':  'O fundo com a logo (atrás das imagens recortadas) virou um padrão de <strong>logos bem menores e espaçadas</strong> cobrindo o <strong>retângulo inteiro</strong>, de baixo a cima — em vez de logos grandes e juntas.',
+    'briefing.changelog.headline': 'Arma maximizada + reprocessar fundos',
+    'briefing.changelog.summary':  'No popup de hover, a arma agora aparece <strong>maximizada</strong> (recorte por alfa que ignora halo/ruído), o <strong>watermark da logo</strong> ficou mais denso cobrindo todo o fundo, e há um botão em Configurações pra <strong>recortar o fundo de todas as imagens já salvas</strong> (armas/melee/field/tactical/lethal).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24193,8 +24205,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Smaller, spaced watermark',
-    'briefing.changelog.summary':  'The logo backdrop (behind cut-out images) is now a pattern of <strong>much smaller, spaced-out logos</strong> covering the <strong>whole rectangle</strong>, top to bottom — instead of large logos packed together.',
+    'briefing.changelog.headline': 'Maximized weapon + reprocess BGs',
+    'briefing.changelog.summary':  'In the hover preview the weapon now shows <strong>maximized</strong> (alpha crop that ignores halo/noise), the <strong>logo watermark</strong> is denser across the whole backdrop, and there is a Settings button to <strong>remove the background of all already-saved images</strong> (weapons/melee/field/tactical/lethal).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -39639,6 +39651,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           bulkBox.innerHTML = '';
         }
       }
+      // v2.63: botão "recortar fundo das salvas" só em categorias de equipamento
+      var _rbtn = document.getElementById('set-reprocess-bg');
+      if (_rbtn) _rbtn.style.display = (cat && isEquipmentCategory(cat.id) && typeof window.LevelBgRemoval === 'function') ? '' : 'none';
       // ── Painel customizado (v75.06+v75.10+v75-51): Image Processor / API Keys / Operator ──
       if (cat && cat.customPanel) {
         grid.style.display = 'none';
@@ -39904,6 +39919,80 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     function isEquipmentCategory(tab) {
       return /^weapons_/.test(tab || '') || ['melee', 'fieldup', 'tactical', 'lethal'].indexOf(tab) !== -1;
     }
+
+    // v2.63: ids de todos os itens de equipamento (armas + melee/field/tactical/lethal).
+    function _equipmentImageIds() {
+      var ids = {};
+      SETTINGS_CATEGORIES.forEach(function (c) {
+        if (!isEquipmentCategory(c.id) || typeof c.source !== 'function') return;
+        var items = [];
+        try { items = c.source() || []; } catch (e) { items = []; }
+        items.forEach(function (it) { if (it && it.id != null) ids[String(it.id)] = true; });
+      });
+      return Object.keys(ids);
+    }
+
+    // v2.63: true se o dataURL é OPACO (precisa remover o fundo); false se já transparente/erro.
+    function _imageIsOpaque(dataUrl) {
+      return new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = function () {
+          try {
+            var s = 64, c = document.createElement('canvas'); c.width = s; c.height = s;
+            var x = c.getContext('2d'); x.clearRect(0, 0, s, s); x.drawImage(img, 0, 0, s, s);
+            var d = x.getImageData(0, 0, s, s).data, transp = 0, tot = s * s;
+            for (var p = 0; p < tot; p++) { if (d[p * 4 + 3] < 200) transp++; }
+            resolve(transp < tot * 0.02); // <2% translúcido → opaco (tem fundo)
+          } catch (e) { resolve(false); }
+        };
+        img.onerror = function () { resolve(false); };
+        try { img.crossOrigin = 'anonymous'; } catch (e) {} // evita taint se vier de URL externa
+        img.src = dataUrl;
+      });
+    }
+
+    // v2.63: reprocessa TODAS as imagens de equipamento JÁ SALVAS — remove o fundo das opacas.
+    var _reprocessing = false;
+    async function reprocessSavedEquipmentImages() {
+      if (_reprocessing || typeof window.LevelBgRemoval !== 'function') return;
+      var btn = document.getElementById('set-reprocess-bg');
+      var statusEl = document.getElementById('set-reprocess-bg-status');
+      var en = (function () { try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) { return false; } })();
+      var setS = function (t) { if (statusEl) statusEl.textContent = t; };
+      var imgs = loadUserImages() || {};
+      var targets = _equipmentImageIds().filter(function (id) {
+        return typeof imgs[id] === 'string' && imgs[id].indexOf('data:image') === 0;
+      });
+      if (!targets.length) { setS(en ? 'No saved equipment images.' : 'Nenhuma imagem de equipamento salva.'); return; }
+      _reprocessing = true;
+      if (btn) btn.disabled = true;
+      var changed = 0, skipped = 0, failed = 0, quotaHit = false;
+      for (var i = 0; i < targets.length; i++) {
+        var id = targets[i];
+        setS((en ? 'Processing ' : 'Processando ') + (i + 1) + '/' + targets.length + '… '
+          + (en ? '(first time downloads the AI model ~80MB)' : '(1ª vez baixa o modelo de IA ~80MB)'));
+        try {
+          if (!(await _imageIsOpaque(imgs[id]))) { skipped++; continue; } // já recortada
+          var blob = await (await fetch(imgs[id])).blob();
+          if (blob.size > USER_IMG_MAX_BYTES) { failed++; continue; } // grande demais p/ a IA (igual ao upload)
+          var cut = await window.LevelBgRemoval(blob).catch(function () { return null; });
+          if (!cut) { failed++; continue; }
+          var dataUrl = await resizeImageToDataUrl(cut, USER_IMG_MAX_SIZE);
+          if (setUserImage(id, dataUrl)) { changed++; }
+          else { failed++; quotaHit = true; break; } // setUserImage false → provável quota cheia: para
+        } catch (e) { failed++; }
+        await new Promise(function (r) { setTimeout(r, 0); }); // cede o thread entre imagens (não trava a UI)
+      }
+      _reprocessing = false;
+      if (btn) btn.disabled = false;
+      setS((quotaHit ? (en ? 'Storage full — stopped. ' : 'Armazenamento cheio — parei. ') : (en ? 'Done: ' : 'Pronto: '))
+        + changed + (en ? ' processed, ' : ' processadas, ') + skipped + (en ? ' already cut' : ' já recortadas') + (failed ? (', ' + failed + (en ? ' failed' : ' falharam')) : '') + '.');
+      try { refreshAfterImageChange(); } catch (e) {}
+      if (typeof showToast === 'function') showToast((en ? 'Backgrounds removed: ' : 'Fundos removidos: ') + changed, 'success');
+    }
+    document.addEventListener('click', function (e) {
+      if (e.target && e.target.closest && e.target.closest('#set-reprocess-bg')) reprocessSavedEquipmentImages();
+    });
 
     async function imgprocProcess() {
       if (!imgprocState.originalFile) return;
@@ -43476,23 +43565,29 @@ ${cbt('share.t.footer')}`;
   // Só retorna bbox se a imagem tiver fundo transparente real (>2% de pixels translúcidos);
   // aí o recorte é exatamente o equipamento (o "quadrado vermelho" do Victor), sem heurística.
   function detectAlphaBBox(data, W, H) {
-    var minX = W, minY = H, maxX = 0, maxY = 0, found = 0, transparent = 0, total = W * H;
+    var total = W * H, transparent = 0, content = 0;
+    var colCount = new Uint16Array(W), rowCount = new Uint16Array(H);
+    var ALPHA = 96; // alfa mínimo p/ contar como SÓLIDO — ignora halo translúcido (~≤40) mas mantém bordas anti-aliased
     for (var p = 0; p < total; p++) {
       var a = data[p * 4 + 3];
       if (a < 200) transparent++;
-      if (a <= 24) continue; // transparente → fundo
-      var x = p % W, y = (p / W) | 0;
-      if (x < minX) minX = x;
-      if (y < minY) minY = y;
-      if (x > maxX) maxX = x;
-      if (y > maxY) maxY = y;
-      found++;
+      if (a < ALPHA) continue;
+      colCount[p % W]++; rowCount[(p / W) | 0]++; content++;
     }
-    if (transparent < total * 0.02 || found < 20) return null; // sem fundo transparente real
+    // só é "fundo removido" se houver bastante transparência real
+    if (transparent < total * 0.02 || content < 30) return null;
+    // uma coluna/linha só conta se tiver densidade mínima → ignora ruído/halo isolado,
+    // assim o recorte fica no CORPO do equipamento (maximizado), não em pixels soltos.
+    var colMin = Math.max(2, Math.round(H * 0.02));
+    var rowMin = Math.max(2, Math.round(W * 0.02));
+    var minX = -1, maxX = -1, minY = -1, maxY = -1, cx, cy;
+    for (cx = 0; cx < W; cx++) { if (colCount[cx] >= colMin) { if (minX < 0) minX = cx; maxX = cx; } }
+    for (cy = 0; cy < H; cy++) { if (rowCount[cy] >= rowMin) { if (minY < 0) minY = cy; maxY = cy; } }
+    if (minX < 0 || minY < 0) return null;
     return {
       x: minX / W, y: minY / H,
       w: (maxX - minX + 1) / W, h: (maxY - minY + 1) / H,
-      coverage: found / total
+      coverage: content / total
     };
   }
 
@@ -43529,8 +43624,8 @@ ${cbt('share.t.footer')}`;
             return resolve(src);
           }
 
-          // margem mínima no modo alfa (recorte justo, igual ao "quadrado vermelho"); 4% no luminância
-          var margin = alphaBox ? 0.015 : 0.04;
+          // margem mínima no modo alfa (recorte JUSTO/maximizado); 4% no luminância (assets opacos)
+          var margin = alphaBox ? 0.01 : 0.04;
           var sx = Math.max(0, (bbox.x - margin) * W);
           var sy = Math.max(0, (bbox.y - margin) * H);
           var sw = Math.min(W - sx, (bbox.w + margin * 2) * W);
@@ -43574,6 +43669,7 @@ ${cbt('share.t.footer')}`;
         processedCache.set(src, src);
         resolve(src);
       };
+      try { probe.crossOrigin = 'anonymous'; } catch (e) {} // evita canvas taint p/ URLs externas (getImageData/toDataURL)
       probe.src = src;
     });
     inflightProcess.set(src, p);
