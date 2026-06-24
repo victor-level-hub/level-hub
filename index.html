@@ -3976,18 +3976,25 @@
     padding: 10px;
     box-sizing: border-box;
   }
-  /* SECUNDÁRIA (pistola/launcher/special): tira o zoom de scale e põe o fundo de combate */
-  #opt-secondary-weapon .option-icon {
+  /* SECUNDÁRIA (pistola/launcher/special) — v2.70: cards com imagem (igual melee),
+     agrupados por classe, mesma caixa horizontal + contain + fundo de combate. */
+  #opt-secondary-weapon .lo-wcard-art {
+    aspect-ratio: 16 / 10;
     background-color: var(--bg-darkest, #0a1118);
     background-image: url('assets/equip-watermark.svg');
     background-repeat: repeat;
-    background-size: 30px auto;
+    background-size: 44px auto;
   }
-  #opt-secondary-weapon .option-icon img,
-  #opt-secondary-weapon .option-card:hover .option-icon img {
+  #opt-secondary-weapon .lo-wcard-art img {
     object-fit: contain;
-    transform: none;
+    padding: 10px;
+    box-sizing: border-box;
   }
+  .sec-wgroup-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--text-muted); margin: 14px 0 8px;
+  }
+  .sec-wgroup-label:first-child { margin-top: 0; }
 
   /* Modal de preview no hover — mostra a imagem inteira sem zoom, perto
      do cursor. Único elemento compartilhado, posicionado via JS. */
@@ -4700,6 +4707,7 @@
   }
   .form-input {
     /* v2.36.0: poço afundado (espec Input/Select/TextArea) + ring de foco laranja */
+    color-scheme: dark; /* v2.70: lista do <select> nativo (e spinners) escura, não branca */
     width: 100%;
     background: var(--surface-input, #131A2C);
     border: 1px solid var(--border-subtle);
@@ -14534,7 +14542,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.69.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.70.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17799,6 +17807,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.70.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Secundária em cards com imagem + dropdowns nativos escuros.</strong> (1) No construtor, o slot de <strong>secundária</strong> (Pistolas/Launchers/Specials) deixou de ser um <code>&lt;select&gt;</code> e virou <strong>cards com imagem</strong> agrupados por classe — mesmo estilo do melee (caixa horizontal, <code>contain</code>, fundo de combate). A seleção reusa o handler genérico <code>.option-card[data-field="secondaryWeaponId"]</code> (single-select, badge Equipado). (2) <code>color-scheme: dark</code> no <code>.form-input</code> → a lista de <strong>todos</strong> os <code>&lt;select&gt;</code> nativos (e os spinners de número) abrem escuros, não brancos. Verificado em harness: 3 grupos, 6 cards, seleção/toggle/single-select OK; melee = contain/16-10/backdrop confirmado por screenshot. node 20/20.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.69.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20699,7 +20716,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.69.0</strong><span class="ver-tag">melee e secundárias sem corte: a caixa era retrato com object-fit:cover (cortava katana/serra) — agora é horizontal com a arma inteira (contain) sobre o fundo de combate; wildcards intactos</span>
+        LEVEL · <strong>v2.70.0</strong><span class="ver-tag">secundária (pistola/launcher/special) no construtor virou cards com imagem agrupados por classe (igual melee); e todos os &lt;select&gt; nativos abrem com tema escuro (color-scheme:dark)</span>
       </div>
       <script>
         (function(){
@@ -22684,8 +22701,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Melee/secundárias sem corte (horizontal)',
-    'briefing.changelog.summary':  'Os cards de <strong>melee</strong> (e secundárias) mostravam a arma cortada — a caixa era retrato com <code>object-fit:cover</code>, que corta armas largas (katana/serra). Agora é uma caixa <strong>horizontal</strong> com a arma <strong>inteira</strong> (contain) sobre o <strong>fundo de combate</strong>. Os wildcards ficaram intactos.',
+    'briefing.changelog.headline': 'Secundária em cards + dropdowns escuros',
+    'briefing.changelog.summary':  'A <strong>secundária</strong> (pistola/launcher/special) no construtor virou <strong>cards com imagem</strong> (igual ao melee), agrupados por classe — não mais um dropdown de texto. E todos os <code>&lt;select&gt;</code> nativos agora abrem com <strong>tema escuro</strong> (não mais lista branca).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24352,8 +24369,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Melee/secondary no longer cropped',
-    'briefing.changelog.summary':  'The <strong>melee</strong> (and secondary) cards showed the weapon cropped — the box was portrait with <code>object-fit:cover</code>, which cuts off wide weapons (katana/saw). Now it&rsquo;s a <strong>landscape</strong> box showing the <strong>whole</strong> weapon (contain) on the <strong>combat backdrop</strong>. Wildcards are untouched.',
+    'briefing.changelog.headline': 'Secondary as cards + dark dropdowns',
+    'briefing.changelog.summary':  'The <strong>secondary</strong> (pistol/launcher/special) in the builder is now <strong>image cards</strong> (like melee), grouped by class — no longer a text dropdown. And all native <code>&lt;select&gt;</code> dropdowns now open with a <strong>dark theme</strong> (no more white list).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -42074,6 +42091,38 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }).join('') + '</div>';
     }
 
+    // ── Secundária natural (Pistol/Launcher/Special) — v2.70: cards com imagem (igual melee),
+    //    agrupados por classe. Seleção reusa o handler genérico .option-card[data-field].
+    function renderSecondaryWeaponCards(arr, selected) {
+      const el = document.getElementById('opt-secondary-weapon');
+      if (!el) return;
+      const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
+      const groups = [
+        { cls: 'Pistol',   labelKey: 'con.step4.subgroup.pistols' },
+        { cls: 'Launcher', labelKey: 'con.step4.subgroup.launchers' },
+        { cls: 'Special',  labelKey: 'con.step4.subgroup.specials' }
+      ];
+      const cardFor = function (w) {
+        const img = (typeof getUserImage === 'function') ? getUserImage(w.id) : null;
+        const art = img
+          ? '<img src="' + esc(img) + '" alt="">'
+          : '<div class="lo-wcard-ph">' + esc(String(w.name || '?').charAt(0).toUpperCase()) + '</div>';
+        return '<div class="option-card lo-wcard' + (w.id === selected ? ' selected' : '') + '" data-field="secondaryWeaponId" data-value="' + esc(w.id) + '">' +
+          '<div class="lo-wcard-art">' + art + '<span class="lo-wcard-chk">{{i:check}}</span><span class="lo-wcard-one">Equipado</span></div>' +
+          '<div class="lo-wcard-meta"><div class="lo-wcard-nm">' + esc(w.name) + '</div><div class="lo-wcard-ds">' + esc(w.class || '') + '</div></div>' +
+        '</div>';
+      };
+      let html = '';
+      groups.forEach(function (g) {
+        const items = (arr || []).filter(function (w) { return w.class === g.cls; });
+        if (!items.length) return;
+        html += '<div class="sec-wgroup-label">' + esc(cbt(g.labelKey)) + '</div>';
+        html += '<div class="lo-wc">' + items.map(cardFor).join('') + '</div>';
+      });
+      el.innerHTML = html || '<div style="color:var(--text-muted);font-size:12px;padding:8px 0">—</div>';
+      if (window.replaceIcons) window.replaceIcons(el);
+    }
+
     // ── Modal estilo hub (substitui tooltips no Loadout). Feche por X / fora / Esc.
     const LO_MODAL_X = '<button class="lo-modal-x" data-lo-close aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>';
     function loEnsureModal() {
@@ -42230,25 +42279,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // ── Nova seção (16-mai-26): Secundária natural (Pistol/Launcher/Special).
       // Renderiza 3 sub-grupos com separadores leves. Apenas 1 selecionável.
       // Toggle: aparece quando wildcard ≠ Overkill; com Overkill, mostra "Build Secundária" no lugar.
-      const secWeaponEl = document.getElementById('opt-secondary-weapon');
-      if (secWeaponEl) {
-        const arr = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
-        const escS = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
-        const optGroup = function (items, labelKey) {
-          if (items.length === 0) return '';
-          return '<optgroup label="' + escS(cbt(labelKey)) + '">'
-               + items.map(w => '<option value="' + escS(w.id) + '"' +
-                   (w.id === state.secondaryWeaponId ? ' selected' : '') + '>' + escS(w.name) + '</option>').join('')
-               + '</optgroup>';
-        };
-        secWeaponEl.innerHTML =
-            '<select id="secondary-weapon-select" class="form-input">'
-          +   '<option value="">— Nenhuma —</option>'
-          +   optGroup(arr.filter(w => w.class === 'Pistol'),   'con.step4.subgroup.pistols')
-          +   optGroup(arr.filter(w => w.class === 'Launcher'), 'con.step4.subgroup.launchers')
-          +   optGroup(arr.filter(w => w.class === 'Special'),  'con.step4.subgroup.specials')
-          + '</select>';
-      }
+      // v2.70: secundária natural agora em CARDS com imagem (igual melee), via renderSecondaryWeaponCards.
+      renderSecondaryWeaponCards(Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [], state.secondaryWeaponId);
       // Toggle exclusivo Secundária ↔ Build Secundária
       const isOverkill = state.wildcard === 'overkill';
       const secWeaponSec = document.getElementById('secondary-weapon-section');
