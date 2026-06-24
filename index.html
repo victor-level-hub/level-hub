@@ -14505,7 +14505,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.68.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.68.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17770,6 +17770,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.68.1</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Ícone <code>scissors</code> faltava no registry.</strong> O botão &ldquo;Recortar fundo das imagens já salvas (equipamentos)&rdquo; e 2 mensagens de status usavam <code>{{i:scissors}}</code>, mas o ícone não estava no mapa <code>LUCIDE</code> → o <code>lvlIcon()</code> caía no fallback e renderizava o <strong>texto cru &ldquo;scissors&rdquo; sobreposto</strong> ao label. Adicionado o SVG do scissors (Lucide). node 20/20; SVG validado (2 círculos + 3 paths).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.68.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20652,7 +20661,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.68.0</strong><span class="ver-tag">Processador: salvar a imagem tratada direto no item pela tag do nome do arquivo (knife.png → item knife) — sobe pro bucket + default global e propaga pro site; mostra o item-alvo na hora</span>
+        LEVEL · <strong>v2.68.1</strong><span class="ver-tag">corrige o ícone da tesoura: o botão "Recortar fundo das imagens já salvas" mostrava o texto cru "scissors" sobreposto ao label (ícone faltava no registry) — adicionado</span>
       </div>
       <script>
         (function(){
@@ -22637,8 +22646,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Processador: salvar imagem no item pela tag',
-    'briefing.changelog.summary':  'No Processador de Imagem, dê ao arquivo o nome da <strong>tag (id)</strong> do item (ex.: <code>knife.png</code>): ao processar, o botão <strong>Salvar no item</strong> envia a imagem tratada direto pro item certo no bucket e propaga pro site inteiro. Mostra o item-alvo na hora (ou avisa se a tag não existe).',
+    'briefing.changelog.headline': 'Ícone da tesoura corrigido',
+    'briefing.changelog.summary':  'O botão <strong>Recortar fundo das imagens já salvas</strong> mostrava o texto cru &ldquo;scissors&rdquo; sobreposto ao label (o ícone não existia no registry). Ícone <code>scissors</code> adicionado — o botão e as mensagens de status agora mostram a tesoura.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24305,8 +24314,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Processor: save image to item by tag',
-    'briefing.changelog.summary':  'In the Image Processor, name the file after the item&rsquo;s <strong>tag (id)</strong> (e.g. <code>knife.png</code>): after processing, <strong>Save to item</strong> sends the treated image straight to the right item in the bucket and propagates site-wide. It shows the target item live (or warns if the tag is unknown).',
+    'briefing.changelog.headline': 'Scissors icon fixed',
+    'briefing.changelog.summary':  'The <strong>Re-crop saved images</strong> button showed the raw text &ldquo;scissors&rdquo; overlapping its label (the icon was missing from the registry). The <code>scissors</code> icon was added — the button and status messages now show the scissors.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -44687,7 +44696,8 @@ ${cbt('share.t.footer')}`;
     "mail":           "<rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/>",
     "alert-circle":   "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 8v4\"/><path d=\"M12 16h.01\"/>",
     "circle-check":   "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>",
-    "log-out":        "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><polyline points=\"16 17 21 12 16 7\"/><line x1=\"21\" x2=\"9\" y1=\"12\" y2=\"12\"/>"
+    "log-out":        "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><polyline points=\"16 17 21 12 16 7\"/><line x1=\"21\" x2=\"9\" y1=\"12\" y2=\"12\"/>",
+    "scissors":       "<circle cx=\"6\" cy=\"6\" r=\"3\"/><path d=\"M8.12 8.12 12 12\"/><path d=\"M20 4 8.12 15.88\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><path d=\"M14.8 14.8 20 20\"/>"
   });
 
   // {{i:nome}}  ou  {{i:nome:16}}  →  SVG
