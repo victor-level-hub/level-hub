@@ -9537,9 +9537,20 @@
     background: var(--navy-900, #0F1422); border: none;
     box-shadow: 0 0 0 2px var(--level-orange, #FF9800), 0 0 16px rgba(255,152,0,0.5), var(--shadow-md, 0 4px 14px rgba(0,0,0,0.35));
     z-index: 4;
+    transition: transform .25s cubic-bezier(.34,1.4,.64,1), filter .2s ease, box-shadow .2s ease;
   }
-  .operator-card .oc-prestige-badge img { border-radius: 50%; width: 100%; height: 100%; object-fit: contain; }
+  .operator-card .oc-prestige-badge img { border-radius: 50%; width: 100%; height: 100%; object-fit: contain; transition: filter .25s ease; }
   .operator-card .oc-pb-fallback { font-size: 13px; }
+  /* v2.59.1: ao passar o mouse no avatar, o emblema desliza pro centro e clareia */
+  .operator-card .oc-avatar-wrap:hover .oc-prestige-badge:not(.is-empty) {
+    transform: translate(-52px, -60px) scale(1.55);
+    filter: brightness(1.4) saturate(1.08);
+    box-shadow: 0 0 0 2px var(--level-orange, #FF9800), 0 0 30px rgba(255,152,0,0.8), 0 8px 22px rgba(0,0,0,0.55);
+    z-index: 6;
+  }
+  .operator-card .oc-avatar-wrap:hover .oc-prestige-badge:not(.is-empty) img {
+    filter: brightness(1.2) drop-shadow(0 0 6px rgba(255,152,0,0.85));
+  }
   /* v2.57.28: emblema de prestige SEM imagem = círculo escuro, sem aro/brilho laranja
      nem texto "P10". Enquanto a imagem da nuvem carrega (ou se não houver), fica preto. */
   .oc-prestige-badge.is-empty {
@@ -9580,7 +9591,7 @@
   .operator-card .oc-pips { display: flex; gap: 3px; }
   .operator-card .oc-pips i { flex: 1; height: 10px; border-radius: 2px; background: var(--surface-sunken, #0F1422); border: 1px solid var(--border-subtle); }
   .operator-card .oc-pips i.on { background: linear-gradient(180deg, var(--level-orange-bright, #FFB23E), var(--level-orange, #FF9800)); border-color: transparent; box-shadow: 0 0 6px rgba(255,152,0,0.5); }
-  @media (prefers-reduced-motion: reduce) { .operator-card .operator-avatar { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .operator-card .operator-avatar, .operator-card .oc-prestige-badge { transition: none; } }
   @media (max-width: 900px) {
     .operator-card .oc-name { font-size: 18px; }
     .operator-card .oc-lvlw-stat b { font-size: 19px; }
@@ -14339,7 +14350,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.59.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.59.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17604,6 +17615,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.59.1</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Operador: emblema desliza pro centro no hover.</strong> Ajuste do Victor. Ao passar o mouse sobre o avatar do operador (card da sidebar), o <strong>emblema</strong> que fica no canto inferior direito agora <strong>desliza suavemente pro centro</strong> do avatar, cresce um pouco e fica <strong>mais claro/destacado</strong> (brilho + glow). Só acontece quando há emblema (se vazio, nada muda). Transição com <code>transform</code>; respeita <code>prefers-reduced-motion</code>. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.59.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20330,7 +20350,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.59.0</strong><span class="ver-tag">Início redesenhado: marketing só no pitch · painel com foto da arma ativa à esquerda + mais stats (maxadas, prestígios, progresso) · foto da arma também à esquerda do modal de build</span>
+        LEVEL · <strong>v2.59.1</strong><span class="ver-tag">operador: ao passar o mouse no avatar, o emblema do canto desliza pro centro e fica mais claro/destacado</span>
       </div>
       <script>
         (function(){
@@ -22289,8 +22309,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Início redesenhado',
-    'briefing.changelog.summary':  'O <strong>Início</strong> virou um painel: à esquerda a <strong>foto da arma ativa</strong>, à direita os botões e mais estatísticas (armas, builds, <strong>maxadas</strong>, <strong>prestígios</strong>, <strong>progresso médio</strong>). A apresentação de marketing ficou só no pitch. A <strong>foto da arma</strong> também passou a aparecer à esquerda do modal de build. As imagens vêm de Configurações ▸ Armas.',
+    'briefing.changelog.headline': 'Emblema do operador no hover',
+    'briefing.changelog.summary':  'Ao passar o mouse no <strong>avatar do operador</strong>, o emblema do canto agora <strong>desliza pro centro</strong> e fica mais claro/destacado. (Continua valendo o Início redesenhado e a foto da arma no modal de build.)',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23944,8 +23964,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Home redesigned',
-    'briefing.changelog.summary':  'The <strong>Home</strong> is now a panel: the <strong>active weapon photo</strong> on the left, buttons and more stats on the right (weapons, builds, <strong>maxed</strong>, <strong>prestiges</strong>, <strong>avg progress</strong>). The marketing pitch now lives only on the landing page. The <strong>weapon photo</strong> also shows on the left of the build modal. Images come from Settings ▸ Weapons.',
+    'briefing.changelog.headline': 'Operator emblem on hover',
+    'briefing.changelog.summary':  'Hovering the <strong>operator avatar</strong> now <strong>slides the corner emblem to the center</strong> and makes it brighter/highlighted. (The redesigned Home and the weapon photo in the build modal still apply.)',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
