@@ -9604,6 +9604,9 @@
     align-self: stretch; font-size: 20px; letter-spacing: 0.14em; margin: 22px 0 8px; text-align: center;
     color: var(--level-orange, #FF9800); text-shadow: 0 0 18px rgba(255,152,0,0.25);
   }
+  /* v2.65: nome em moderação — pontinho de status (só o próprio operador vê, via tooltip) */
+  .operator-card .oc-name.name-pending::after { content: '•'; color: var(--accent-orange, #FF9800); margin-left: 6px; font-size: 0.8em; vertical-align: middle; opacity: 0.85; }
+  .operator-card .oc-name.name-rejected::after { content: '•'; color: #e74c3c; margin-left: 6px; font-size: 0.8em; vertical-align: middle; }
   /* v2.60: frase pessoal (citação) entre nome e estilo — laranja discreto */
   .operator-card .oc-quote {
     align-self: stretch; text-align: center; margin: -2px 0 10px; padding: 0 10px;
@@ -14458,12 +14461,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.64.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.65.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Dados carregam ao abrir o Hub</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A causa de o perfil voltar vazio: ao <strong>abrir/atualizar</strong> o Hub já logado, o carregamento dos seus dados da nuvem não disparava (só funcionava no momento exato do login). Corrigido — agora dispara em ambos os casos, com novas tentativas até ficar pronto. E sem sessão, o Hub te leva direto pro login (nada de tela vazia).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Moderação do nome do operador</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O nome público (mostrado no <strong>Encontrar Squad</strong>) agora passa por moderação. Nome limpo entra na hora; nome suspeito fica <strong>em análise</strong> e os outros veem o nome anterior até a aprovação. Nome reprovado gera advertência (red flag).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -17723,6 +17726,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.65.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Moderação do nome do operador (display_name).</strong> O nome público — o único campo que aparece pra outros jogadores no <strong>Encontrar Squad</strong> — agora passa por moderação, fechando a maior brecha de conteúdo exposto. <strong>Fluxo:</strong> ao salvar um nome novo, o Gemini pré-analisa (multilíngue + evasão por troca de caracteres); <strong>limpo → auto-aprova na hora</strong>; <strong>suspeito → segura na fila</strong> e os outros continuam vendo o nome anterior aprovado até um avaliador decidir. Reprovar gera <strong>red flag</strong> (3 → perfil somente-leitura por 1 semana, sistema que já existia). <strong>Backend:</strong> coluna <code>name_status</code> em hub_users; <code>moderate-text</code> v3 (auto-aprovação), <code>moderation</code> v2 (a decisão aplica o nome) e <code>sync-push</code> v2.3 — que <strong>parou de reescrever o nome no auto-backup</strong> (era por aí que um nome não-aprovado vazava pro Squad Finder). node 20/20.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.64.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20557,7 +20569,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.64.0</strong><span class="ver-tag">imagens de equipamento: recorte por alfa robusto (arma maximizada mesmo com halo/ruído), watermark mais denso cobrindo todo o fundo, e botão pra recortar o fundo de TODAS as imagens já salvas (armas/melee/field/tactical/lethal)</span>
+        LEVEL · <strong>v2.65.0</strong><span class="ver-tag">moderação do nome do operador: o nome público (Encontrar Squad) passa por moderação — limpo entra na hora, suspeito segura na fila e os outros veem o nome anterior até aprovar; reprovado gera red flag</span>
       </div>
       <script>
         (function(){
@@ -20617,8 +20629,9 @@
           <button class="modal-close" data-close-modal="modal-status">×</button>
         </div>
         <div class="modal-body">
-          <div class="form-label">Nome do operador</div>
+          <div class="form-label">Nome do operador <span style="color:var(--text-muted);font-size:10px">(público no Encontrar Squad · passa por moderação)</span></div>
           <input type="text" id="status-name" class="form-input" placeholder="ex: VICTOR" maxlength="20" style="text-transform:uppercase"/>
+          <div id="status-name-status" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;margin:5px 0 2px;min-height:13px"></div>
 
           <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: end">
             <div>
@@ -22539,10 +22552,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '23 Jun 2026',
+    'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Arma maximizada + reprocessar fundos',
-    'briefing.changelog.summary':  'No popup de hover, a arma agora aparece <strong>maximizada</strong> (recorte por alfa que ignora halo/ruído), o <strong>watermark da logo</strong> ficou mais denso cobrindo todo o fundo, e há um botão em Configurações pra <strong>recortar o fundo de todas as imagens já salvas</strong> (armas/melee/field/tactical/lethal).',
+    'briefing.changelog.headline': 'Moderação do nome do operador',
+    'briefing.changelog.summary':  'O nome público (mostrado no <strong>Encontrar Squad</strong>) agora passa por moderação. Nome limpo entra na hora; nome suspeito fica <strong>em análise</strong> e os outros veem o nome anterior até a aprovação. Nome reprovado gera advertência (red flag).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24203,10 +24216,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 23, 2026',
+    'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Maximized weapon + reprocess BGs',
-    'briefing.changelog.summary':  'In the hover preview the weapon now shows <strong>maximized</strong> (alpha crop that ignores halo/noise), the <strong>logo watermark</strong> is denser across the whole backdrop, and there is a Settings button to <strong>remove the background of all already-saved images</strong> (weapons/melee/field/tactical/lethal).',
+    'briefing.changelog.headline': 'Operator name moderation',
+    'briefing.changelog.summary':  'Your public name (shown in <strong>Find Squad</strong>) now goes through moderation. A clean name goes live instantly; a suspicious one is held <strong>for review</strong> and others keep seeing your previous name until it is approved. A rejected name raises a red flag.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -28030,7 +28043,16 @@ window.BO7_ASSETS = (function() {
       const lvlEl = document.getElementById('player-level');
       const prestigeEl = document.getElementById('player-prestige');
       const styleEl = document.getElementById('player-style');
-      if (nameEl) nameEl.textContent = p.name || '—';
+      if (nameEl) {
+        nameEl.textContent = p.name || '—';
+        // v2.65 — selo discreto quando o nome está em moderação/reprovado (só o próprio vê)
+        var _ns = p.nameStatus || 'none';
+        var _enN = (function () { try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) { return false; } })();
+        nameEl.title = _ns === 'pending' ? (_enN ? 'Name under review' : 'Nome em análise')
+                     : _ns === 'rejected' ? (_enN ? 'Name rejected — choose another' : 'Nome reprovado — escolha outro') : '';
+        nameEl.classList.toggle('name-pending', _ns === 'pending');
+        nameEl.classList.toggle('name-rejected', _ns === 'rejected');
+      }
       if (lvlEl) lvlEl.textContent = p.level != null ? p.level : '—';
       if (prestigeEl) prestigeEl.textContent = p.prestige != null ? p.prestige : '—';
       if (styleEl) styleEl.textContent = p.playstyle || '—';
@@ -28314,6 +28336,15 @@ window.BO7_ASSETS = (function() {
         else if (status === 'rejected') { st.textContent = en ? '✕ Rejected — edit and resend' : '✕ Reprovada — edite e reenvie'; st.style.color = '#e74c3c'; }
         else { st.textContent = ''; }
       })();
+      // v2.65 — estado da moderação do NOME público (display_name)
+      (function () {
+        var st = document.getElementById('status-name-status'); if (!st) return;
+        var en = localStorage.getItem('bo7hub_lang_v1') === 'en';
+        var status = p.nameStatus || (p.name ? 'approved' : 'none');
+        if (status === 'pending') { st.textContent = en ? '⏳ Name under review — others see your previous name until approval' : '⏳ Nome em análise — os outros veem o nome anterior até aprovar'; st.style.color = 'var(--accent-orange)'; }
+        else if (status === 'rejected') { st.textContent = en ? '✕ Name rejected — choose another' : '✕ Nome reprovado — escolha outro'; st.style.color = '#e74c3c'; }
+        else { st.textContent = ''; }
+      })();
       await populateWeaponSelect();
       document.getElementById('modal-status').classList.add('visible');
     }
@@ -28422,6 +28453,35 @@ window.BO7_ASSETS = (function() {
             ? 'Phrase sent for review — it shows on your profile after approval.'
             : 'Frase enviada para análise — aparece no perfil após aprovação.', 'success');
         }
+      }
+
+      // v2.65 — nome novo passa por moderação (Gemini pré-analisa; LIMPO auto-aprova na hora,
+      // SUSPEITO segura na fila). O nome público no Encontrar Squad só muda após aprovação
+      // (o sync-push v2.3 não reescreve mais display_name).
+      var _prevName = (_prevPlayer && _prevPlayer.name) || '';
+      var _nameChanged = !!patch.name && patch.name !== _prevName;
+      if (_nameChanged) {
+        (async function () {
+          try {
+            var lid = localStorage.getItem('level.sync.local_id');
+            var lang = (localStorage.getItem('bo7hub_lang_v1') || 'pt');
+            var AKn = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+            var resp = await fetch('https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/moderate-text', {
+              method: 'POST',
+              headers: { 'apikey': AKn, 'Authorization': 'Bearer ' + AKn, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ content: patch.name, field: 'name', user_local_id: lid, language: lang })
+            });
+            var jr = await resp.json().catch(function () { return {}; });
+            var ns = (jr && jr.status) || 'pending';
+            try { await LevelDB.player.update({ nameStatus: ns }); } catch (e2) {}
+            if (typeof renderPlayerMini === 'function') renderPlayerMini();
+            var en2 = localStorage.getItem('bo7hub_lang_v1') === 'en';
+            if (typeof showToast === 'function') {
+              if (ns === 'approved') showToast(en2 ? 'Name updated.' : 'Nome atualizado.', 'success');
+              else showToast(en2 ? 'Name sent for review — others keep seeing your previous name until approval.' : 'Nome em análise — os outros veem o nome anterior até a aprovação.', 'info');
+            }
+          } catch (e) { console.warn('[name-moderation] falhou:', e); }
+        })();
       }
 
       // v2.62 — registra as alterações de perfil no histórico de progressão
@@ -50158,12 +50218,15 @@ ${cbt('share.t.footer')}`;
       al.style.display = (s.is_staff && n>0) ? 'inline-flex' : 'none';
       var c = document.getElementById('home-mod-alert-count'); if (c) c.textContent = '(' + n + ')';
     }
-    // sincroniza quote_status local + sidebar
+    // sincroniza quote_status + name_status local + sidebar
     try {
       if (window.LevelDB && window.LevelDB.player) {
         var p = await window.LevelDB.player.get();
-        if (p && p.quoteStatus !== s.quote_status) {
-          await window.LevelDB.player.update({ quoteStatus: s.quote_status });
+        var _ms = {};
+        if (p && p.quoteStatus !== s.quote_status) _ms.quoteStatus = s.quote_status;
+        if (p && s.name_status && p.nameStatus !== s.name_status) _ms.nameStatus = s.name_status;
+        if (Object.keys(_ms).length) {
+          await window.LevelDB.player.update(_ms);
           if (typeof window.renderPlayerMini === 'function') window.renderPlayerMini();
         }
       }
@@ -50184,8 +50247,9 @@ ${cbt('share.t.footer')}`;
     box.innerHTML = items.map(function(it){
       var v = it.gemini_verdict || {}; var sev = (v.severity||'none');
       var cats = (v.categories||[]).join(', ');
+      var fieldLbl = (function(f){ var m = en() ? { quote:'phrase', name:'name' } : { quote:'frase', name:'nome' }; return m[f] || f; })(it.field);
       return '<div class="mod-item" data-qid="'+esc(it.id)+'">'
-        + '<div class="mod-item-head"><span class="mod-item-field">'+esc(it.field)+'</span>'
+        + '<div class="mod-item-head"><span class="mod-item-field">'+esc(fieldLbl)+'</span>'
         + '<span class="mod-item-sev '+esc(sev)+'">'+ (v.flagged?'⚑ ':'') + esc(sev)+'</span>'
         + '<span style="font-size:10px;color:var(--text-muted);font-family:\'JetBrains Mono\',monospace">'+esc(it.user_local_id||'')+'</span></div>'
         + '<div class="mod-item-content">“'+esc(it.content)+'”</div>'
