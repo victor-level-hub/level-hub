@@ -14405,7 +14405,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.61.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.61.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17670,6 +17670,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.61.1</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Uso de IA · Gemini + snapshots: consertados (chave de local_id errada).</strong> Achado do Victor. Três pontos liam <code>localStorage['level.localId']</code> (chave inexistente) em vez de <code>level.sync.local_id</code> — por isso o tracker de Gemini, o snapshot manual e o auto-snapshot de progressão <strong>nunca disparavam</strong> ("Faz um backup primeiro" / "Nenhum snapshot ainda"). Corrigidos os 3. <strong>Tracker de Gemini</strong> também foi reescrito (Edge <code>get-gemini-usage</code> v2): como a maioria das linhas de uso tem <code>user_id</code> nulo, agora para <strong>admin/avaliador</strong> ele mostra o <strong>consumo GLOBAL do projeto</strong> (custo, chamadas, tokens, latência + breakdown por função), que é o que faz sentido num painel de custo. Testado: $0.49 · 83 chamadas · 388.8k tokens este mês. node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.61.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20464,7 +20473,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.61.0</strong><span class="ver-tag">moderação fase 2/3: painel Operador com fila de análise (aprovar/reprovar, 1º avaliador trava) + papéis (convite admin/avaliador) · red light na home · red flag com contestação + perfil só-leitura ao atingir 3</span>
+        LEVEL · <strong>v2.61.1</strong><span class="ver-tag">fix: tracker "Uso de IA · Gemini" agora mostra o consumo global do projeto (custo/chamadas/tokens/latência) + snapshots de progressão voltaram a salvar — era chave errada de local_id (level.localId → level.sync.local_id)</span>
       </div>
       <script>
         (function(){
@@ -22448,8 +22457,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Painel de moderação + red flags',
-    'briefing.changelog.summary':  'Para administradores/avaliadores: o painel Operador ganhou a <strong>fila de análise</strong> das frases (aprovar/reprovar, com o parecer do Gemini), um <strong>alerta</strong> "🔴 Análise" na home, e o convite de <strong>papéis</strong> (admin/avaliador). Para todos: ao ter conteúdo reprovado, você recebe um aviso de <strong>red flag</strong> (com motivo, contagem e opção de contestar); ao chegar a <strong>3</strong>, o perfil fica <strong>só-leitura por 1 semana</strong>.',
+    'briefing.changelog.headline': 'Uso de IA · Gemini consertado',
+    'briefing.changelog.summary':  'O painel <strong>Uso de IA · Gemini</strong> (admin) voltou a funcionar e agora mostra o <strong>consumo global do projeto</strong> — custo, chamadas, tokens e latência do mês, com breakdown por função. De quebra, os <strong>snapshots de progressão</strong> (manual e automático) voltaram a salvar. Tudo era uma chave de identidade errada no código.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24109,8 +24118,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Moderation panel + red flags',
-    'briefing.changelog.summary':  'For admins/evaluators: the Operator panel now has the phrase <strong>review queue</strong> (approve/reject, with Gemini''s verdict), a "🔴 Review" alert on the home, and <strong>role</strong> invites (admin/evaluator). For everyone: when content is rejected you get a <strong>red flag</strong> notice (reason, count, option to contest); reaching <strong>3</strong> makes your profile <strong>read-only for 1 week</strong>.',
+    'briefing.changelog.headline': 'AI usage · Gemini fixed',
+    'briefing.changelog.summary':  'The <strong>AI usage · Gemini</strong> panel (admin) works again and now shows the <strong>project-wide consumption</strong> — cost, calls, tokens and latency for the month, with a per-function breakdown. Bonus: <strong>progression snapshots</strong> (manual and automatic) save again. It was all a wrong identity key in the code.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -27676,7 +27685,7 @@ window.BO7_ASSETS = (function() {
     // ─── Auto-snapshot helper (v75-60) ────────────────────────────────
     // Dispara record-player-snapshot em background quando prestige/level mudam.
     // Fire-and-forget: não bloqueia, não toasta erro (UI manual é o caminho explícito).
-    // Pré-requisito: localStorage['level.localId'] precisa existir (Backup na cloud feito 1× antes).
+    // Pré-requisito: localStorage['level.sync.local_id'] precisa existir (Backup na cloud feito 1× antes).
     // Throttle local: máx 1 snapshot a cada 60s (dedup adicional no servidor).
     let _lastAutoSnapTs = 0;
     function _maybeAutoSnapshot(prev, next) {
@@ -27688,7 +27697,7 @@ window.BO7_ASSETS = (function() {
         // Não snapshot se está caindo (improvável mas evita ruído por bugs)
         if (nP < pP || (nP === pP && nL < pL)) return;
 
-        const localId = localStorage.getItem('level.localId');
+        const localId = localStorage.getItem('level.sync.local_id');
         if (!localId) return; // sem identidade cloud, skip silenciosamente
 
         const now = Date.now();
@@ -34434,7 +34443,11 @@ const ATTACHMENT_ICONS = {
       }
 
       function getLocalId() {
-        try { return localStorage.getItem('level.localId'); } catch (e) { return null; }
+        try {
+          return localStorage.getItem('level.sync.local_id')
+            || (window.CloudSync && window.CloudSync.getOrCreateLocalId && window.CloudSync.getOrCreateLocalId())
+            || null;
+        } catch (e) { return null; }
       }
 
       // Total weighted "rank score" = prestige*250 + level (continuous progression)
@@ -34788,7 +34801,11 @@ const ATTACHMENT_ICONS = {
       }
 
       function getLocalId() {
-        try { return localStorage.getItem('level.localId'); } catch (e) { return null; }
+        try {
+          return localStorage.getItem('level.sync.local_id')
+            || (window.CloudSync && window.CloudSync.getOrCreateLocalId && window.CloudSync.getOrCreateLocalId())
+            || null;
+        } catch (e) { return null; }
       }
 
       function formatUSD(n) {
