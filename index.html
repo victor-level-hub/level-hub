@@ -1232,12 +1232,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.72.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.72.2 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Moderação do nome do operador</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O nome público (mostrado no <strong>Encontrar Squad</strong>) agora passa por moderação. Nome limpo entra na hora; nome suspeito fica <strong>em análise</strong> e os outros veem o nome anterior até a aprovação. Nome reprovado gera advertência (red flag).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Painel do Operador mais limpo</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A aba <strong>Operador</strong> ficou mais enxuta: a barra de armazenamento de imagens (Migrar/Exportar/Importar/Limpar) agora aparece só nas abas de imagem e some no perfil. O card de avatar duplicado saiu — a foto troca-se clicando no avatar da barra lateral. Também corrigimos ícones que apareciam como texto.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4497,6 +4497,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.72.2</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">fix · ux</span>
+              </div>
+              <p class="vh-desc"><strong>Painel do Operador mais limpo + ícones que faltavam.</strong> A barra de armazenamento de imagens (contador + <strong>Migrar/Exportar/Importar/Limpar</strong>) agora só aparece nas abas de imagem — na aba <strong>Operador</strong> some, deixando só "Sair da conta" (tudo é cloud-first; o local é só cache). O <strong>card de avatar duplicado</strong> e a ação "Trocar avatar" saíram daqui — a foto edita-se clicando no avatar da barra lateral (abre o mesmo modal); removidos <strong>em par</strong> p/ preservar a paridade do grid 280px/1fr (as seções seguintes mantêm as mesmas colunas). E <strong>6 ícones</strong> que apareciam como texto cru nas seções admin (<code>users</code>, <code>plus</code>, <code>key</code>, <code>tag</code>, <code>play</code>, <code>book-open</code>) foram adicionados ao registo <code>assets/js/ui/icon.js</code>. <code>node --check</code> OK; sem mudança nas abas de imagem.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.72.1</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">refac</span>
@@ -7032,35 +7041,10 @@
             <button class="opp-admin-banner-exit" id="opp-admin-exit" type="button" title="Sair do modo admin nesta sessão">SAIR</button>
           </div>
 
-          <!-- Card resumo do operador (à esquerda) -->
-          <div class="opp-avatar-card">
-            <div class="opp-avatar-img" id="opp-avatar-img-wrap">
-              <div class="opp-avatar-img-placeholder">{{i:user}}</div>
-            </div>
-            <div class="opp-name" id="opp-name">—</div>
-            <div class="opp-meta">
-              <span data-i18n="player.prestige">PRESTIGE</span>
-              <span class="accent" id="opp-prestige">—</span>
-              <span> · </span>
-              <span data-i18n="player.level">LVL</span>
-              <span class="accent" id="opp-level">—</span>
-            </div>
-            <div class="opp-meta" style="margin-top:6px">
-              Estilo: <span id="opp-style" style="color:var(--accent-cyan)">—</span>
-            </div>
-          </div>
-
-          <!-- Ações (à direita) -->
-          <div class="opp-actions">
-            <div class="opp-action-item">
-              <div class="opp-action-icon">{{i:user}}</div>
-              <div class="opp-action-body">
-                <div class="opp-action-title">Trocar avatar</div>
-                <div class="opp-action-desc">Abra o modal com 3 opções: upload de foto, geração via IA com template do catálogo, ou reimportar PNG salvo.</div>
-              </div>
-              <button class="opp-action-btn" id="opp-btn-change-avatar">Abrir</button>
-            </div>
-          </div>
+          <!-- v2.72.2: card de avatar + ação "Trocar avatar" removidos daqui. Duplicavam o Início
+               (avatar/prestígio/nível já aparecem na sidebar) e a troca de foto faz-se clicando no
+               avatar da sidebar (abre o mesmo modal). Removidos EM PAR p/ preservar a paridade do
+               grid 280px/1fr — as seções seguintes mantêm exatamente as mesmas colunas. -->
 
           <!-- ═══ Cloud Sync (v75-53 · i18n v75-56) ═════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.cloud.section">
@@ -7442,7 +7426,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.72.1</strong><span class="ver-tag">arquitetura: primeiros módulos JS — sistema de ícones e de animação saíram do index.html pra assets/js/ui/icon.js e ui/motion.js (sem mudança visual). Ver ARCHITECTURE.md</span>
+        LEVEL · <strong>v2.72.2</strong><span class="ver-tag">painel Operador mais limpo — barra de armazenamento de imagens só nas abas de imagem, card de avatar duplicado removido, e 6 ícones que faltavam (users/plus/key/tag/play/book-open) adicionados ao registo</span>
       </div>
       <script>
         (function(){
@@ -9402,10 +9386,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '24 Jun 2026',
+    'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Arquitetura: ícones e animação em módulos',
-    'briefing.changelog.summary':  'Continuação da modularização (sem mudança visual): o sistema de <strong>ícones</strong> e o de <strong>animação</strong> (scroll-reveal) saíram do <code>index.html</code> pra <code>assets/js/ui/icon.js</code> e <code>ui/motion.js</code>. Primeiros módulos JS — o padrão está estabelecido. Ver <code>ARCHITECTURE.md</code>.',
+    'briefing.changelog.headline': 'Painel do Operador mais limpo',
+    'briefing.changelog.summary':  'A aba <strong>Operador</strong> ficou mais enxuta: a barra de armazenamento de imagens (Migrar/Exportar/Importar/Limpar) agora aparece só nas abas de imagem e some no perfil. O card de avatar duplicado saiu — a foto troca-se clicando no avatar da barra lateral. Também corrigimos ícones que apareciam como texto nas seções de admin.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -11070,10 +11054,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 24, 2026',
+    'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Architecture: icons and motion as modules',
-    'briefing.changelog.summary':  'Modularization continues (no visual change): the <strong>icon</strong> system and the <strong>motion</strong> (scroll-reveal) system moved out of <code>index.html</code> into <code>assets/js/ui/icon.js</code> and <code>ui/motion.js</code>. First JS modules — the pattern is set. See <code>ARCHITECTURE.md</code>.',
+    'briefing.changelog.headline': 'Cleaner Operator panel',
+    'briefing.changelog.summary':  'The <strong>Operator</strong> tab is leaner: the image-storage bar (Migrate/Export/Import/Clear) now shows only on the image tabs and is hidden on your profile. The duplicate avatar card is gone — change your photo by clicking the sidebar avatar. We also fixed icons that were showing up as raw text in the admin sections.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -26735,6 +26719,18 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const operator = document.getElementById('operator-panel');
       if (!grid) return;
       const cat = SETTINGS_CATEGORIES.find(c => c.id === settingsActiveTab);
+      // v2.72.2: a barra de armazenamento de IMAGENS (contador + Migrar/Exportar/Importar/Limpar)
+      // pertence às abas de imagem. Na aba OPERADOR (perfil/conta) só confundia — esconde esses
+      // controlos ali e deixa só "Sair da conta". (Tudo é cloud-first; o local é só cache.)
+      (function () {
+        var hideImgTools = (settingsActiveTab === 'avatar');
+        ['set-migrate-cloud-btn', 'set-export-btn', 'set-import-btn', 'set-clear-btn'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.style.display = hideImgTools ? 'none' : '';
+        });
+        var sab = document.querySelector('.settings-actions-bar .sab-info');
+        if (sab) sab.style.display = hideImgTools ? 'none' : '';
+      })();
       // v2.46.0: caixa de upload em massa — só em categorias normais (com source de itens)
       const bulkBox = document.getElementById('set-bulk-drop');
       if (bulkBox) {
