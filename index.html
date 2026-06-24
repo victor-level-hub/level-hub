@@ -14490,7 +14490,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.66.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.66.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17755,6 +17755,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.66.1</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Edição do perfil já entra no gráfico de progressão.</strong> O auto-snapshot tinha um <strong>throttle de 60s</strong> que engolia as edições rápidas de prestígio/nível feitas direto no cadastro → o gráfico ficava vazio mesmo depois de mudar os valores. Trocado por <strong>dedup por valor</strong>: toda mudança real (prestígio/nível pra cima) vira ponto na hora, sem depender do botão Snapshot; o mesmo valor não duplica (o servidor <code>record-player-snapshot</code> também dedupa). Quedas (correção pra baixo) seguem ignoradas pra não fazer o gráfico descer. node 20/20.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.66.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20607,7 +20616,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.66.0</strong><span class="ver-tag">gráfico de progressão por linhas no Histórico: X=tempo, Y=prestígio/nível, um ponto por snapshot, visão por dia/semana/mês/ano e emblema redondo a cada virada de prestígio (hover mostra emblema grande + qual prestígio + dia/hora)</span>
+        LEVEL · <strong>v2.66.1</strong><span class="ver-tag">correção do gráfico: mudança de prestígio/nível feita direto no perfil já vira ponto no gráfico (antes um throttle de 60s engolia as edições rápidas e o gráfico ficava vazio)</span>
       </div>
       <script>
         (function(){
@@ -22592,8 +22601,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Gráfico de progressão (linhas)',
-    'briefing.changelog.summary':  'O <strong>Histórico de progressão</strong> agora tem um gráfico de linhas: cada snapshot vira um ponto, com visão por <strong>dia, semana, mês ou ano</strong>. A cada virada de prestígio aparece um emblema redondo — passa o mouse pra ver o emblema grande, qual prestígio e quando você passou pra ele.',
+    'briefing.changelog.headline': 'Gráfico: edição do perfil já conta',
+    'briefing.changelog.summary':  'Agora qualquer mudança de <strong>prestígio/nível</strong> feita direto no seu perfil já vira ponto no gráfico de progressão — não precisa mais clicar em Snapshot. (Antes um limite de tempo de 60s engolia as edições rápidas e o gráfico ficava vazio.)',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24256,8 +24265,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Progression line chart',
-    'briefing.changelog.summary':  'Your <strong>Progression History</strong> now has a line chart: every snapshot is a point, with <strong>day, week, month or year</strong> views. Each prestige turnover shows a round emblem — hover to see the big emblem, which prestige, and when you reached it.',
+    'briefing.changelog.headline': 'Chart: profile edits now count',
+    'briefing.changelog.summary':  'Any <strong>prestige/level</strong> change you make directly in your profile now becomes a point on the progression chart — no need to click Snapshot anymore. (A 60s time limit used to swallow quick edits and leave the chart empty.)',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -27827,23 +27836,26 @@ window.BO7_ASSETS = (function() {
     // Dispara record-player-snapshot em background quando prestige/level mudam.
     // Fire-and-forget: não bloqueia, não toasta erro (UI manual é o caminho explícito).
     // Pré-requisito: localStorage['level.sync.local_id'] precisa existir (Backup na cloud feito 1× antes).
-    // Throttle local: máx 1 snapshot a cada 60s (dedup adicional no servidor).
-    let _lastAutoSnapTs = 0;
+    // v2.66.1: dedup por VALOR (não por tempo). Antes havia um throttle de 60s que comia
+    // edições rápidas do cadastro → o gráfico ficava vazio. Agora TODA mudança real de
+    // prestige/level (inclusive editada direto no perfil) vira ponto; só o mesmo valor não
+    // duplica (e o servidor record-player-snapshot também dedupa).
+    let _lastAutoSnapKey = '';
     function _maybeAutoSnapshot(prev, next) {
       try {
         if (!prev || !next) return; // primeiro seed: ignora
         const pP = prev.prestige|0, pL = prev.level|0;
         const nP = next.prestige|0, nL = next.level|0;
         if (pP === nP && pL === nL) return; // nada mudou
-        // Não snapshot se está caindo (improvável mas evita ruído por bugs)
+        // Não registra quedas (correção pra baixo não deve fazer o gráfico descer)
         if (nP < pP || (nP === pP && nL < pL)) return;
 
         const localId = localStorage.getItem('level.sync.local_id');
         if (!localId) return; // sem identidade cloud, skip silenciosamente
 
-        const now = Date.now();
-        if (now - _lastAutoSnapTs < 60_000) return;
-        _lastAutoSnapTs = now;
+        const key = nP + '·' + nL;
+        if (key === _lastAutoSnapKey) return; // mesmo valor já registrado nesta sessão
+        _lastAutoSnapKey = key;
 
         // Fire-and-forget — não await, não trata erro além de console
         const SUPABASE_URL = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
