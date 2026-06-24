@@ -3967,22 +3967,38 @@
     z-index: 9999;
     display: none;
     pointer-events: none;
-    background: var(--bg-darkest, #0a1118);
+    /* v2.63: fundo discreto com a logo LEVEL (em vez do preto) atrás das imagens recortadas */
+    background-color: var(--bg-darkest, #0a1118);
+    background-image: url('assets/equip-watermark.svg');
+    background-repeat: repeat;
+    background-size: 96px auto;
+    background-position: center;
     border: 1px solid var(--accent-orange, #FF9800);
     border-radius: 8px;
     padding: 6px;
     box-shadow: 0 12px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,152,0,0.25);
   }
   /* v2.63: popup landscape e ampliado (a arma é horizontal). O JS recorta a arma
-     bem justa e centraliza no retângulo, então sobra pouca borda. */
+     bem justa e centraliza no retângulo. Canvas TRANSPARENTE → o watermark aparece. */
   #cfg-img-preview img,
   #cfg-img-preview canvas {
     display: block;
     width: 440px;
     height: 280px;
     object-fit: contain;
-    background: var(--bg-darkest, #0a1118);
+    background: transparent;
     border-radius: 4px;
+  }
+  /* v2.63: mesmo fundo-watermark discreto nos frames que mostram a imagem do equipamento.
+     !important porque as regras originais usam o shorthand `background:` (que vem depois
+     no CSS e reseta o background-image); a cor-base delas é mantida, só somamos a logo. */
+  .build-card .bc-weapon-image,
+  .home-weapon-frame,
+  #modal-build .build-photo-frame {
+    background-image: url('assets/equip-watermark.svg') !important;
+    background-repeat: repeat !important;
+    background-size: 84px auto !important;
+    background-position: center !important;
   }
   @media (max-width: 560px) {
     #cfg-img-preview img, #cfg-img-preview canvas { width: 300px; height: 190px; }
@@ -14442,7 +14458,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.63.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.63.2 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17707,6 +17723,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.63.2</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Imagens sem fundo: watermark discreto da logo em vez do preto.</strong> Pedido do Victor. As imagens de equipamento com fundo removido ficavam sobre um <strong>preto estranho</strong>. Agora aparecem sobre um <strong>fundo discreto com a logo LEVEL</strong> (em laranja, bem fraquinho — opacidade 10%, repetido em mosaico) — no <strong>popup de hover</strong> e nos frames (Início, cards de build, modal de build). É <strong>100% sem IA</strong> (puro CSS + um SVG da logo recolorido e faded em <code>assets/equip-watermark.svg</code>; usei o SVG por ser leve e escalável). No popup, o canvas virou transparente pra o watermark aparecer atrás da arma recortada. node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.63.1</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20502,7 +20527,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.63.1</strong><span class="ver-tag">popup de hover da arma: maior e landscape (440×280), com a arma recortada bem justa e centralizada — vale pra todas as armas e equipamentos</span>
+        LEVEL · <strong>v2.63.2</strong><span class="ver-tag">imagens de equipamento sem fundo: agora aparecem sobre um fundo discreto com a logo LEVEL (watermark fraquinho) em vez do preto — no popup de hover e nos frames. Puro CSS/SVG, sem IA</span>
       </div>
       <script>
         (function(){
@@ -22486,8 +22511,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Hover da arma maior e ampliado',
-    'briefing.changelog.summary':  'O preview que abre ao passar o mouse numa <strong>arma/equipamento</strong> ficou <strong>bem maior</strong> e na proporção certa (horizontal), com a arma <strong>ampliada e centralizada</strong> em vez de pequena com bordas. Vale pra todas as armas e equipamentos.',
+    'briefing.changelog.headline': 'Fundo com a logo nas imagens',
+    'briefing.changelog.summary':  'As imagens de equipamento com o fundo removido agora aparecem sobre um <strong>fundo discreto com a logo LEVEL</strong> (bem fraquinho) em vez do preto — no popup de hover e nos cards. É puro CSS/SVG, sem IA.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24150,8 +24175,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Weapon hover bigger and zoomed',
-    'briefing.changelog.summary':  'The preview that opens when you hover a <strong>weapon/equipment</strong> is now <strong>much bigger</strong> and in the right (landscape) ratio, with the weapon <strong>enlarged and centered</strong> instead of small with borders. Applies to all weapons and equipment.',
+    'briefing.changelog.headline': 'Logo backdrop on cut-out images',
+    'briefing.changelog.summary':  'Equipment images with the background removed now sit on a <strong>subtle LEVEL-logo backdrop</strong> (very faint) instead of black — in the hover preview and the cards. Pure CSS/SVG, no AI.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -43478,8 +43503,8 @@ ${cbt('share.t.footer')}`;
           var canvas = document.createElement('canvas');
           canvas.width = TW; canvas.height = TH;
           var ctx = canvas.getContext('2d');
-          ctx.fillStyle = '#0a1118';
-          ctx.fillRect(0, 0, TW, TH);
+          // v2.63: NÃO preenche o fundo — canvas transparente deixa o watermark
+          // (fundo discreto da logo no #cfg-img-preview) aparecer atrás da arma.
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
 
