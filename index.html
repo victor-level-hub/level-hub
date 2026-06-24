@@ -3995,6 +3995,19 @@
     text-transform: uppercase; color: var(--text-muted); margin: 14px 0 8px;
   }
   .sec-wgroup-label:first-child { margin-top: 0; }
+  /* v2.71: display adaptativo — imagem TRATADA (transparente) mostra-se sem o zoom de scale,
+     sobre o fundo de combate; imagem opaca (não-tratada) mantém o look atual (zero regressão). */
+  .bc-wpn-img.img-treated,
+  .bip-img img.img-treated,
+  .saved-card-thumb img.img-treated { transform: none !important; }
+  .build-card .bc-weapon-image.has-treated,
+  .bip-img.has-treated,
+  .saved-card-thumb.has-treated {
+    background-color: var(--bg-darkest, #0a1118);
+    background-image: url('assets/equip-watermark.svg');
+    background-repeat: repeat;
+    background-size: 40px auto;
+  }
 
   /* Modal de preview no hover — mostra a imagem inteira sem zoom, perto
      do cursor. Único elemento compartilhado, posicionado via JS. */
@@ -14542,7 +14555,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.70.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.71.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17807,6 +17820,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.71.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Display adaptativo nos cards de build/info/salvos (fim do "virar o display").</strong> Diferente do melee (que era <code>cover</code> em retrato = corte), estes já eram <code>contain</code> em caixa landscape (sem corte) — só tinham o zoom <code>scale(1.18)</code> pra esconder o fundo azul das imagens não-tratadas. Agora um listener global de <code>load</code> + helper <code>LevelImgTreat</code> detecta por <strong>canal alfa</strong> (cantos transparentes) se a imagem foi tratada: se sim, <code>.img-treated</code> tira o zoom e o container ganha o <strong>fundo de combate</strong>; se opaca, mantém o <code>scale(1.18)</code> atual (<strong>zero regressão</strong>). CORS-safe (canvas tainted → catch → mantém o look). Verificado em harness: transparente → img-treated / transform:none / has-treated; opaca → img-untreated / scale(1.18) mantido. node 20/20.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.70.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20716,7 +20738,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.70.0</strong><span class="ver-tag">secundária (pistola/launcher/special) no construtor virou cards com imagem agrupados por classe (igual melee); e todos os &lt;select&gt; nativos abrem com tema escuro (color-scheme:dark)</span>
+        LEVEL · <strong>v2.71.0</strong><span class="ver-tag">display adaptativo nos cards de build/info/salvos: imagem tratada (transparente) mostra-se sem zoom sobre o fundo de combate; imagem opaca mantém o look atual — detecção por alfa, zero regressão</span>
       </div>
       <script>
         (function(){
@@ -22701,8 +22723,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Secundária em cards + dropdowns escuros',
-    'briefing.changelog.summary':  'A <strong>secundária</strong> (pistola/launcher/special) no construtor virou <strong>cards com imagem</strong> (igual ao melee), agrupados por classe — não mais um dropdown de texto. E todos os <code>&lt;select&gt;</code> nativos agora abrem com <strong>tema escuro</strong> (não mais lista branca).',
+    'briefing.changelog.headline': 'Display adaptativo nos cards de build',
+    'briefing.changelog.summary':  'Fecha o &ldquo;virar o display&rdquo;: nos cards de build/info/salvos, a imagem <strong>tratada</strong> (transparente) passou a mostrar-se sem zoom, sobre o <strong>fundo de combate</strong>. A imagem ainda não-tratada (opaca) mantém o look atual — detecção por transparência, <strong>zero regressão</strong>.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24369,8 +24391,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Secondary as cards + dark dropdowns',
-    'briefing.changelog.summary':  'The <strong>secondary</strong> (pistol/launcher/special) in the builder is now <strong>image cards</strong> (like melee), grouped by class — no longer a text dropdown. And all native <code>&lt;select&gt;</code> dropdowns now open with a <strong>dark theme</strong> (no more white list).',
+    'briefing.changelog.headline': 'Adaptive display on build cards',
+    'briefing.changelog.summary':  'Completes the display flip: on build/info/saved cards, a <strong>treated</strong> (transparent) image now shows without zoom, on the <strong>combat backdrop</strong>. A still-untreated (opaque) image keeps its current look — transparency detection, <strong>zero regression</strong>.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -42122,6 +42144,37 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       el.innerHTML = html || '<div style="color:var(--text-muted);font-size:12px;padding:8px 0">—</div>';
       if (window.replaceIcons) window.replaceIcons(el);
     }
+
+    // ── v2.71: detecção adaptativa "imagem tratada" (transparente) ──
+    // Marca .img-treated nas imagens de equipamento que têm transparência real nas bordas
+    // → o CSS tira o zoom de scale e põe o fundo de combate. Opacas (codmunity) ficam como estão.
+    // Falha de CORS (signed URL sem cabeçalho) cai no catch → mantém o look atual (sem regressão).
+    window.LevelImgTreat = function (img) {
+      try {
+        if (!img || img.classList.contains('img-treated') || img.classList.contains('img-untreated')) return;
+        var nw = img.naturalWidth || 0, nh = img.naturalHeight || 0;
+        if (!nw || !nh) return;
+        var w = Math.min(nw, 48), h = Math.min(nh, 48);
+        var c = document.createElement('canvas'); c.width = w; c.height = h;
+        var x = c.getContext('2d'); x.drawImage(img, 0, 0, w, h);
+        var d = x.getImageData(0, 0, w, h).data;
+        var corners = [0, w - 1, (h - 1) * w, h * w - 1];
+        var t = 0; corners.forEach(function (p) { if (d[p * 4 + 3] < 40) t++; });
+        var treated = t >= 3; // maioria dos cantos transparentes → fundo já removido
+        img.classList.add(treated ? 'img-treated' : 'img-untreated');
+        if (treated) {
+          var box = img.closest('.bc-weapon-image, .bip-img, .saved-card-thumb');
+          if (box) box.classList.add('has-treated');
+        }
+      } catch (e) { /* canvas tainted (CORS) → mantém o look atual */ }
+    };
+    document.addEventListener('load', function (e) {
+      var img = e.target;
+      if (img && img.tagName === 'IMG' && img.matches &&
+          img.matches('.bc-wpn-img, .bip-img.has-img img, .saved-card-thumb.has-img img')) {
+        window.LevelImgTreat(img);
+      }
+    }, true);
 
     // ── Modal estilo hub (substitui tooltips no Loadout). Feche por X / fora / Esc.
     const LO_MODAL_X = '<button class="lo-modal-x" data-lo-close aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>';
