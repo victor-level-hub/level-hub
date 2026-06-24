@@ -14267,7 +14267,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.58.5 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.58.6 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17535,6 +17535,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.58.6</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Arsenal: nova SMG CBRS-3 no catálogo.</strong> Pedido do Victor. A <strong>CBRS-3</strong> (submachine gun nova da Season 04 — mag de 60 com rechamber a cada 20 tiros, ótimo alcance/recoil) foi adicionada ao catálogo de armas no servidor (tabela <code>cat_default_weapons</code>, <code>id wpn_cbrs3</code>, classe SMG, nível 1/42, marcada como nova). Antes, ao tentar adicionar/capturar uma arma fora do catálogo, o reconhecimento por foto (Vision/Gemini → <code>matchWeapon</code>) <strong>se perdia</strong> por não achar correspondência. Agora a CBRS-3 está na lista que o Hub puxa do servidor a cada carregamento, então a captura a reconhece normalmente. Sem mudança de código — só dado no DB (o fallback offline do index.html é mínimo de propósito). Dá um Ctrl+Shift+R pra atualizar o catálogo local.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.58.5</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20234,7 +20243,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.58.5</strong><span class="ver-tag">avatar IA: miniatura do estilo selecionado +25% (90px → 112px) pra distinguir melhor o estilo</span>
+        LEVEL · <strong>v2.58.6</strong><span class="ver-tag">arsenal: nova SMG CBRS-3 adicionada ao catálogo (cat_default_weapons) — captura/Vision agora a reconhece em vez de se perder</span>
       </div>
       <script>
         (function(){
@@ -22181,8 +22190,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Avatar IA: estilos com miniatura',
-    'briefing.changelog.summary':  'O dropdown de <strong>Estilo</strong> do "Gerar com IA" agora mostra uma <strong>miniatura de exemplo</strong> grande em cada um dos 24 estilos — dá pra ver na hora como cada um fica (realista, aquarela, pixel art, cartoon, comics, e mais), e o painel abre por cima dos botões. As miniaturas foram geradas com óculos escuros e fundo militar pra dar o clima. A escolha vale no <strong>Regenerar</strong> / <strong>Pose do exemplo</strong>.',
+    'briefing.changelog.headline': 'Nova arma: CBRS-3 (SMG)',
+    'briefing.changelog.summary':  'Adicionamos a <strong>CBRS-3</strong> (submachine gun nova da Season 04) ao catálogo de armas. Antes, ao adicionar/capturar uma arma que ainda não estava no catálogo, o reconhecimento por foto se perdia — agora a CBRS-3 está na lista e a captura a reconhece normal. Dá um <strong>Ctrl+Shift+R</strong> pra atualizar o catálogo no teu Hub.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23832,8 +23841,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'AI avatar: styles with thumbnails',
-    'briefing.changelog.summary':  'The <strong>Style</strong> dropdown in "Generate with AI" now shows a large <strong>example thumbnail</strong> for each of the 24 styles — so you can see at a glance how each one looks (realistic, watercolor, pixel art, cartoon, comics, and more), and the panel opens above the buttons. The thumbnails were generated with sunglasses and a military backdrop for the vibe. Your pick applies on <strong>Regenerate</strong> / <strong>Pose from example</strong>.',
+    'briefing.changelog.headline': 'New weapon: CBRS-3 (SMG)',
+    'briefing.changelog.summary':  'We added the <strong>CBRS-3</strong> (the new Season 04 submachine gun) to the weapon catalog. Before, adding/capturing a weapon that wasn\'t in the catalog made the photo recognition get lost — now the CBRS-3 is on the list and capture recognizes it fine. Hit <strong>Ctrl+Shift+R</strong> to refresh the catalog in your Hub.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
