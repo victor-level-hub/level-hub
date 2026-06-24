@@ -1,5 +1,5 @@
 # BACKLOG — LEVEL Hub
-> Lista de pontos a fazer (débito técnico / arquitetura). Atualizado: 24 Jun 2026.
+> Lista de pontos a fazer (débito técnico / arquitetura). Atualizado: 25 Jun 2026.
 > Pendências de **produto/feature** ficam no `PROMPT_PROXIMO_CHAT.md`. Este ficheiro é o **refactor/arquitetura**.
 
 ## ⏱️ Altura certa (recomendação)
@@ -26,6 +26,9 @@
 5. **Lint/format mínimos** — ESLint + Prettier.
 6. **Componentes UI "quase-framework"** — fábricas vanilla: `createModal()`, `createCard()`, `createTabs()`, `mountToast()`. (Componentização sem React.)
 7. **Separar frontend de domínio** — `features/*`, `services/supabase.js`, `services/gemini.js` (bridge via Edge Functions), `ui/components/*`.
+
+## 🔵 A reavaliar (dívidas pontuais)
+8. **"Migrar pra cloud" (Configurações ▸ barra de imagens)** — único sobrevivente da barra de backup local (v2.72.3 removeu Exportar/Importar/Limpar/Sair). Só apanha imagens órfãs de *antes* do cloud-first; upload novo já vai pra cloud via `setUserImage` (upsert em `cat_default_images` + bucket). **Verificar na modularização** (pedido do Victor): confirmar que nada fica só-local e então remover o botão + contador + handler `set-migrate-cloud-btn`. Já varrer junto as órfãs: i18n `set.btn.export/import/clear/logout`, `set.toast.exported/imported/cleared/invalidBackup`, `set.confirm.clear/logout.*`, e a função `clearUserImages`.
 
 ---
 *Origem: lista do Victor (24 Jun 2026). Recomendação de timing = Cráudio.*
