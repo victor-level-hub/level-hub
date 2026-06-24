@@ -9566,6 +9566,15 @@
     align-self: stretch; font-size: 20px; letter-spacing: 0.14em; margin: 22px 0 8px; text-align: center;
     color: var(--level-orange, #FF9800); text-shadow: 0 0 18px rgba(255,152,0,0.25);
   }
+  /* v2.60: frase pessoal (citação) entre nome e estilo — laranja discreto */
+  .operator-card .oc-quote {
+    align-self: stretch; text-align: center; margin: -2px 0 10px; padding: 0 10px;
+    font-family: 'IBM Plex Sans', sans-serif; font-style: italic; font-size: 12px; line-height: 1.35;
+    color: var(--level-orange, #FF9800); opacity: 0.82;
+  }
+  .operator-card .oc-quote::before { content: '\201C'; margin-right: 1px; }
+  .operator-card .oc-quote::after  { content: '\201D'; margin-left: 1px; }
+  .operator-card .oc-quote.pending { opacity: 0.5; }
   .operator-card .oc-pstyle { display: flex; justify-content: center; margin-bottom: 13px; }
   .operator-card .oc-pstyle-pill {
     font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 10px;
@@ -13174,7 +13183,7 @@
       product: 'Produto', resources: 'Recursos', legal: 'Legal',
       rights: 'Companion fan-made para uso pessoal. Call of Duty® e Black Ops® são marcas da Activision Publishing, Inc. LEVEL não é afiliado nem endossado pela Activision.',
       copyright: '© 2026 LEVEL · le-vel.games',
-      fLinks: { features: 'Features', pricing: 'Planos', squad: 'Encontrar Squad', login: 'Entrar', help: 'Ajuda', guide: 'Guia de início', contact: 'Contato', privacy: 'Privacidade', terms: 'Termos' }
+      fLinks: { features: 'Features', pricing: 'Planos', squad: 'Encontrar Squad', login: 'Entrar', help: 'Ajuda', guide: 'Guia de início', contact: 'Contato', privacy: 'Privacidade', terms: 'Termos', conduct: 'Regras de Conduta' }
     },
     en: {
       navFeatures: 'Features', navPricing: 'Pricing', navSquad: 'Find a Squad',
@@ -13197,7 +13206,7 @@
       product: 'Product', resources: 'Resources', legal: 'Legal',
       rights: 'Fan-made companion for personal use. Call of Duty® and Black Ops® are trademarks of Activision Publishing, Inc. LEVEL is not affiliated with or endorsed by Activision.',
       copyright: '© 2026 LEVEL · le-vel.games',
-      fLinks: { features: 'Features', pricing: 'Pricing', squad: 'Find a Squad', login: 'Sign in', help: 'Help', guide: 'Getting started', contact: 'Contact', privacy: 'Privacy', terms: 'Terms' }
+      fLinks: { features: 'Features', pricing: 'Pricing', squad: 'Find a Squad', login: 'Sign in', help: 'Help', guide: 'Getting started', contact: 'Contact', privacy: 'Privacy', terms: 'Terms', conduct: 'Conduct Rules' }
     }
   };
 
@@ -13358,7 +13367,7 @@
       '</span></div></div>';
     html += fcol(t.product, [{ label: L.features, act: 'scroll:lp-anchor-features' }, { label: L.pricing, act: 'scroll:lp-anchor-pricing' }, { label: L.squad, act: 'scroll:lp-anchor-squad' }, { label: L.login, act: 'login' }]);
     html += fcol(t.resources, [{ label: L.guide, act: 'signup' }, { label: L.help, act: 'signup' }, { label: L.contact, href: 'mailto:contato@le-vel.games' }]);
-    html += fcol(t.legal, [{ label: L.privacy, href: 'legal.html' }, { label: L.terms, href: 'legal.html' }]);
+    html += fcol(t.legal, [{ label: L.privacy, href: 'legal.html' }, { label: L.terms, href: 'legal.html' }, { label: L.conduct, href: 'legal.html#conduct' }]);
     html += '</div>';
     html += '<div class="lp-footer-bottom"><span class="lp-footer-rights">' + t.rights + '</span><span class="lp-footer-copy">' + t.copyright + '</span></div>';
     html += '</div></div>';
@@ -13759,6 +13768,15 @@
           <input class="lag-input" id="lag-su-birth" type="date">
           <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
         </div>
+        <div class="lag-field" data-field="lag-su-conduct">
+          <div style="max-height:124px;overflow-y:auto;background:rgba(255,255,255,0.03);border:1px solid var(--border,rgba(174,199,224,0.16));border-radius:8px;padding:10px 12px;font-size:11px;line-height:1.5;color:var(--text-secondary,#9fb0c3)">
+            <strong style="color:var(--accent-orange,#FF9800);display:block;margin-bottom:4px" data-i18n="auth.conduct.title">Regras de conduta</strong>
+            <span data-i18n="auth.conduct.body">Não será tolerada qualquer tentativa de: palavrões/baixo calão; discurso de ódio e xingamentos (raça, etnia, nacionalidade, religião, sexo, gênero, orientação sexual, idade, deficiência); assédio, ameaças, intimidação ou incitação à violência; discriminação e preconceito; conteúdo sexual ou explícito; extremismo, terrorismo, glorificação de violência e símbolos/números de ódio; doxxing ou exposição de dados pessoais; atividades ilegais; incentivo à automutilação; troca de caracteres para esconder palavra ofensiva (ex.: "FUDƎR", "f@g"); e tentativas de burlar punições (contas novas, terceiros). Todo conteúdo público passa por moderação. Violações geram red flags — ao atingir 3, o perfil fica só-leitura por 1 semana.</span>
+            <a href="legal.html#conduct" target="_blank" rel="noopener" style="color:var(--accent-orange,#FF9800);display:inline-block;margin-top:6px" data-i18n="auth.conduct.readMore">Ler as regras completas</a>
+          </div>
+          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;margin-top:8px;font-size:12px;color:var(--text-secondary,#9fb0c3)"><input type="checkbox" id="lag-su-conduct" style="width:16px;height:16px;accent-color:var(--accent-orange,#FF9800);flex:0 0 auto;margin-top:1px"/> <span data-i18n="auth.conduct.agree">Li e concordo com as Regras de Conduta e os Termos.</span></label>
+          <div class="lag-field-msg">{{i:alert-circle}}<span></span></div>
+        </div>
         <div class="lag-btn-row">
           <button class="lag-btn primary" id="lag-su-btn" onclick="LEVEL_AUTH.doSignup()"><span class="lag-btn-label" data-i18n="auth.btn.createAccount">Criar conta</span><span class="lag-btn-spin"><i></i><i></i><i></i></span></button>
         </div>
@@ -13882,6 +13900,9 @@
 
       <!-- Nome do operador -->
       <div class="oc-name" id="player-name">—</div>
+
+      <!-- v2.60: frase pessoal (citação) entre nome e estilo -->
+      <div class="oc-quote" id="player-quote" style="display:none"></div>
 
       <!-- Pílula discreta de estilo, sob o nome -->
       <div class="oc-pstyle">
@@ -14130,21 +14151,6 @@
         </div>
       </div>
 
-      <div class="home-resume" data-reveal="fade-up">
-        <div class="home-continue" id="home-continue" style="display:none">
-          <div class="home-continue-label" data-i18n="home.continue.label">CONTINUAR DE ONDE PARASTE</div>
-          <div class="home-continue-name" id="home-continue-name" data-glossary-skip></div>
-          <div class="home-continue-meta" id="home-continue-meta" data-glossary-skip></div>
-          <div class="home-continue-actions">
-            <button class="lvl-empty-cta primary" type="button" data-home-goto="myweapons" data-i18n="home.continue.open">{{i:pencil}} Abrir no Arsenal</button>
-          </div>
-        </div>
-        <div class="home-tip">
-          <div class="bc-coach-head"><span class="bc-coach-avatar">{{i:bot}}</span><span class="bc-coach-name">Le Vél</span><span class="home-tip-tag" data-i18n="home.tip.tag">DICA DO DIA</span></div>
-          <div class="home-tip-body" id="home-tip-body">—</div>
-        </div>
-      </div>
-
       <div class="home-explore-title" data-i18n="home.explore" data-reveal="fade-up">EXPLORAR</div>
       <div class="home-explore" data-reveal-stagger data-stagger="70">
         <button class="home-card hc-orange" type="button" data-home-goto="constructor">
@@ -14350,7 +14356,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.59.2 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.60.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17615,6 +17621,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.60.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Moderação de conteúdo (fase 1) + frase de perfil + consentimento.</strong> Pedido do Victor. <strong>(1) Frase pessoal:</strong> em Editar status agora há um campo de <strong>frase (≤50)</strong> + toggle "exibir no perfil"; ela aparece como <strong>citação em laranja discreto</strong> no card do operador (entre o nome e o estilo). Ao salvar, a frase vai pra Edge <code>moderate-text</code> (Gemini pré-analisa multilíngue + evasão por troca de caractere) e entra numa <strong>fila de aval humano</strong> — só fica pública depois de aprovada (enquanto isso mostra "em análise"). <strong>(2) Consentimento:</strong> o cadastro ganhou as <strong>Regras de Conduta</strong> + checkbox obrigatório (grava data/hora/versão do aceite); também adicionadas ao rodapé Privacidade·Termos·Cookies e ao <code>legal.html#conduct</code>. <strong>(3) Início:</strong> removido o bloco "Continuar de onde paraste / Dica do dia". Back-end pronto no Supabase (tabelas moderation_queue, user_red_flags, role_invites; colunas role/quote/red_flags/restricted_until/terms_agreed_at). <strong>Próximas fases:</strong> painel de moderação + papéis (admin/avaliador) + red flags com contestação. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.59.2</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20359,7 +20374,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.59.2</strong><span class="ver-tag">avatar IA: Helen Park removida do catálogo de personagens (9 personagens agora)</span>
+        LEVEL · <strong>v2.60.0</strong><span class="ver-tag">moderação: frase pessoal no perfil (≤50, citação no sidebar) com aval do Gemini + fila humana · consentimento das regras de conduta no cadastro + rodapé · removido o "Continuar/Dica" do Início</span>
       </div>
       <script>
         (function(){
@@ -20451,6 +20466,10 @@
             <option value="FLEX">Flex · adaptável</option>
           </select>
 
+          <div class="form-label">Frase pessoal <span style="color:var(--text-muted);font-size:10px">(máx 50 · aparece no teu perfil · passa por moderação)</span></div>
+          <input type="text" id="status-quote" class="form-input" maxlength="50" placeholder="ex: Sempre evoluindo, nunca parando"/>
+          <div id="status-quote-status" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;margin:5px 0 2px;min-height:13px"></div>
+
           <div class="status-perms-legacy"><div class="form-label">Permanent Unlocks ativos (separados por vírgula)</div>
           <input type="text" id="status-perms" class="form-input" placeholder="ex: Lightweight, Ghost, Ninja, Gunfighter Wildcard"/></div>
 
@@ -20492,6 +20511,7 @@
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-language" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.f.language">Idioma</span></label>
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-playtime" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.f.playtime">Horário</span></label>
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-location" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.vis.location">Cidade/País</span></label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-quote" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.vis.quote">Frase pessoal</span></label>
               </div>
             </div>
           </div>
@@ -21969,6 +21989,11 @@ window.I18N = {
     'auth.err.passMismatch':     'As senhas n\u00e3o coincidem.',
     'auth.err.birthRequired':    'Informa a data de nascimento.',
     'auth.err.under18':          'O LEVEL \u00e9 para maiores de 18 anos.',
+    'auth.err.conductRequired':  'Precisa aceitar as Regras de Conduta para continuar.',
+    'auth.conduct.title':        'Regras de conduta',
+    'auth.conduct.body':         'N\u00e3o ser\u00e1 tolerada qualquer tentativa de: palavr\u00f5es/baixo cal\u00e3o; discurso de \u00f3dio e xingamentos (ra\u00e7a, etnia, nacionalidade, religi\u00e3o, sexo, g\u00eanero, orienta\u00e7\u00e3o sexual, idade, defici\u00eancia); ass\u00e9dio, amea\u00e7as, intimida\u00e7\u00e3o ou incita\u00e7\u00e3o \u00e0 viol\u00eancia; discrimina\u00e7\u00e3o e preconceito; conte\u00fado sexual ou expl\u00edcito; extremismo, terrorismo, glorifica\u00e7\u00e3o de viol\u00eancia e s\u00edmbolos/n\u00fameros de \u00f3dio; doxxing ou exposi\u00e7\u00e3o de dados pessoais; atividades ilegais; incentivo \u00e0 automutila\u00e7\u00e3o; troca de caracteres para esconder palavra ofensiva (ex.: "FUD\u018eR", "f@g"); e tentativas de burlar puni\u00e7\u00f5es (contas novas, terceiros). Todo conte\u00fado p\u00fablico passa por modera\u00e7\u00e3o. Viola\u00e7\u00f5es geram red flags \u2014 ao atingir 3, o perfil fica s\u00f3-leitura por 1 semana.',
+    'auth.conduct.readMore':     'Ler as regras completas',
+    'auth.conduct.agree':        'Li e concordo com as Regras de Conduta e os Termos.',
     'auth.err.passRequired':     'Senha obrigat\u00f3ria.',
     'auth.err.badLogin':         'E-mail ou senha incorretos.',
     'auth.err.exists':           'Esse e-mail j\u00e1 tem conta. Tenta entrar.',
@@ -22062,6 +22087,7 @@ window.I18N = {
     'squad.profile.availableNow':'Disponível para jogar agora',
     'squad.profile.visibleTitle':'Visível na busca (o que outros veem)',
     'squad.vis.location':        'Cidade/País',
+    'squad.vis.quote':           'Frase pessoal',
     'squad.js.levelPrefix':      'Nv',
     'squad.js.availableNow':     'DISPONÍVEL AGORA',
     'squad.js.operator':         'Operador',
@@ -22318,8 +22344,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Helen Park saiu do catálogo',
-    'briefing.changelog.summary':  'A personagem <strong>Helen Park</strong> foi removida do catálogo do "Gerar com IA" — agora são <strong>9 personagens</strong>. (Foto de referência: <strong>3:4 vertical</strong>; o Hub redimensiona pra 1280px no upload.)',
+    'briefing.changelog.headline': 'Frase no perfil + moderação',
+    'briefing.changelog.summary':  'Agora dá pra pôr uma <strong>frase pessoal</strong> (≤50) no perfil — aparece como citação laranja no card do operador. Toda frase passa por <strong>moderação</strong> (Gemini + aval humano) e só fica pública após aprovada. O <strong>cadastro</strong> ganhou as <strong>Regras de Conduta</strong> com aceite obrigatório (e estão no rodapé Termos). Também limpamos o bloco "Continuar/Dica" do Início.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -22481,7 +22507,7 @@ window.I18N = {
     'footer.ipNotice':        'Call of Duty®, Black Ops® e ativos relacionados são marcas registradas de Activision Publishing, Inc.',
     'footer.fanMade':         'Projeto fan-made · uso pessoal não-comercial',
     'footer.copyrightLink':   'Política de Copyright →',
-    'footer.legalLink':       'Privacidade · Termos · Cookies',
+    'footer.legalLink':       'Privacidade · Termos · Cookies · Regras de Conduta',
     'footer.legalAria':       'Abrir documentos legais (privacidade, termos e cookies)',
 
     // — Cookie banner —
@@ -23625,6 +23651,11 @@ window.I18N = {
     'auth.err.passMismatch':     "Passwords don't match.",
     'auth.err.birthRequired':    'Enter your date of birth.',
     'auth.err.under18':          'LEVEL is for ages 18+.',
+    'auth.err.conductRequired':  'You must accept the Conduct Rules to continue.',
+    'auth.conduct.title':        'Conduct rules',
+    'auth.conduct.body':         'No attempt at any of the following will be tolerated: profanity/vulgar language; hate speech and slurs (race, ethnicity, nationality, religion, sex, gender, sexual orientation, age, disability); harassment, threats, intimidation or incitement to violence; discrimination and prejudice; sexual or explicit content; extremism, terrorism, glorification of violence and hate symbols/numbers; doxxing or exposing personal data; illegal activity; encouraging self-harm; character substitution to hide an offensive word (e.g. "FUDƎR", "f@g"); and attempts to evade penalties (new accounts, third parties). All public content is moderated. Violations earn red flags — at 3, your profile becomes read-only for 1 week.',
+    'auth.conduct.readMore':     'Read the full rules',
+    'auth.conduct.agree':        'I have read and agree to the Conduct Rules and Terms.',
     'auth.err.passRequired':     'Password required.',
     'auth.err.badLogin':         'Incorrect email or password.',
     'auth.err.exists':           'That email already has an account. Try logging in.',
@@ -23721,6 +23752,7 @@ window.I18N = {
     'squad.profile.availableNow':'Available to play now',
     'squad.profile.visibleTitle':'Visible in search (what others see)',
     'squad.vis.location':        'City/Country',
+    'squad.vis.quote':           'Personal phrase',
     'squad.js.levelPrefix':      'Lv',
     'squad.js.availableNow':     'AVAILABLE NOW',
     'squad.js.operator':         'Operator',
@@ -23973,8 +24005,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Helen Park removed from catalog',
-    'briefing.changelog.summary':  'The character <strong>Helen Park</strong> was removed from the "Generate with AI" catalog — now <strong>9 characters</strong>. (Reference photo: <strong>3:4 vertical</strong>; the Hub resizes to 1280px on upload.)',
+    'briefing.changelog.headline': 'Profile phrase + moderation',
+    'briefing.changelog.summary':  'You can now add a <strong>personal phrase</strong> (≤50) to your profile — it shows as an orange quote on the operator card. Every phrase goes through <strong>moderation</strong> (Gemini + human review) and only goes public once approved. <strong>Sign-up</strong> now includes the <strong>Conduct Rules</strong> with mandatory consent (also in the footer Terms). We also cleared the "Continue/Tip" block from the Home.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -24136,7 +24168,7 @@ window.I18N = {
     'footer.ipNotice':        'Call of Duty®, Black Ops® and related assets are registered trademarks of Activision Publishing, Inc.',
     'footer.fanMade':         'Fan-made project · personal non-commercial use',
     'footer.copyrightLink':   'Copyright Policy →',
-    'footer.legalLink':       'Privacy · Terms · Cookies',
+    'footer.legalLink':       'Privacy · Terms · Cookies · Conduct Rules',
     'footer.legalAria':       'Open legal documents (privacy, terms and cookies)',
 
     // — Cookie banner —
@@ -27799,6 +27831,21 @@ window.BO7_ASSETS = (function() {
       if (lvlEl) lvlEl.textContent = p.level != null ? p.level : '—';
       if (prestigeEl) prestigeEl.textContent = p.prestige != null ? p.prestige : '—';
       if (styleEl) styleEl.textContent = p.playstyle || '—';
+      // v2.60 — frase pessoal (citação): mostra se aprovada; se pendente, dimmed c/ tooltip
+      const quoteEl = document.getElementById('player-quote');
+      if (quoteEl) {
+        const q = (p.quote || '').trim();
+        const status = p.quoteStatus || (q ? 'approved' : 'none');
+        if (q && (status === 'approved' || status === 'pending')) {
+          const en = (function () { try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) { return false; } })();
+          quoteEl.textContent = q;
+          quoteEl.classList.toggle('pending', status === 'pending');
+          quoteEl.title = status === 'pending' ? (en ? 'Under review' : 'Em análise') : '';
+          quoteEl.style.display = '';
+        } else {
+          quoteEl.style.display = 'none';
+        }
+      }
     }
 
     // 3. Render any other player-bound elements (progression banner, etc.)
@@ -28052,6 +28099,18 @@ window.BO7_ASSETS = (function() {
         sc('sq-show-location', p.showLocation);
         var f = document.getElementById('sq-fields'); if (f) f.style.display = p.allowDiscovery ? '' : 'none';
       })();
+      // v2.60 — frase pessoal + estado da moderação
+      (function () {
+        var qi = document.getElementById('status-quote'); if (qi) qi.value = p.quote || '';
+        var qs = document.getElementById('sq-show-quote'); if (qs) qs.checked = (p.showQuote !== false);
+        var st = document.getElementById('status-quote-status'); if (!st) return;
+        var en = localStorage.getItem('bo7hub_lang_v1') === 'en';
+        var status = p.quoteStatus || (p.quote ? 'approved' : 'none');
+        if (status === 'pending') { st.textContent = en ? '⏳ Under review' : '⏳ Em análise'; st.style.color = 'var(--accent-orange)'; }
+        else if (status === 'approved') { st.textContent = en ? '✓ Approved' : '✓ Aprovada'; st.style.color = 'var(--accent-cyan)'; }
+        else if (status === 'rejected') { st.textContent = en ? '✕ Rejected — edit and resend' : '✕ Reprovada — edite e reenvie'; st.style.color = '#e74c3c'; }
+        else { st.textContent = ''; }
+      })();
       await populateWeaponSelect();
       document.getElementById('modal-status').classList.add('visible');
     }
@@ -28105,6 +28164,16 @@ window.BO7_ASSETS = (function() {
       patch.showPlaytime   = _sqC('sq-show-playtime');
       patch.showLocation   = _sqC('sq-show-location');
 
+      // v2.60 — frase pessoal (passa por moderação; texto só fica público após aprovação)
+      const _prevPlayer = await LevelDB.player.get();
+      const _quoteVal = (function () { var e = document.getElementById('status-quote'); return e ? e.value.trim().slice(0, 50) : ''; })();
+      const _showQuote = _sqC('sq-show-quote');
+      const _prevQuote = (_prevPlayer && _prevPlayer.quote) || '';
+      const _quoteChanged = !!_quoteVal && _quoteVal !== _prevQuote;
+      patch.quote = _quoteVal;
+      patch.showQuote = _showQuote;
+      patch.quoteStatus = !_quoteVal ? 'none' : (_quoteChanged ? 'pending' : ((_prevPlayer && _prevPlayer.quoteStatus) || 'pending'));
+
       await LevelDB.player.update(patch);
 
       // Espelha os campos Squad no servidor (a busca find_squad lê de lá; sync-push não cobre estas colunas)
@@ -28129,6 +28198,28 @@ window.BO7_ASSETS = (function() {
           });
         } catch (e) { console.warn('[squad] set_squad_profile falhou:', e); }
       })();
+
+      // v2.60 — frase nova vai pra moderação (Gemini pré-analisa → fila de aval humano).
+      // Aparece no perfil só após aprovação; o sidebar mostra "em análise" enquanto isso.
+      if (_quoteChanged) {
+        (async function () {
+          try {
+            var lid = localStorage.getItem('level.sync.local_id');
+            var lang = (localStorage.getItem('bo7hub_lang_v1') || 'pt');
+            var AKq = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+            await fetch('https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/moderate-text', {
+              method: 'POST',
+              headers: { 'apikey': AKq, 'Authorization': 'Bearer ' + AKq, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ content: _quoteVal, field: 'quote', show_quote: _showQuote, user_local_id: lid, language: lang })
+            });
+          } catch (e) { console.warn('[quote-moderation] falhou:', e); }
+        })();
+        if (typeof showToast === 'function') {
+          showToast((localStorage.getItem('bo7hub_lang_v1') === 'en')
+            ? 'Phrase sent for review — it shows on your profile after approval.'
+            : 'Frase enviada para análise — aparece no perfil após aprovação.', 'success');
+        }
+      }
 
       document.getElementById('modal-status').classList.remove('visible');
     }
@@ -49524,12 +49615,17 @@ ${cbt('share.t.footer')}`;
     var age = ageFrom(birth);
     if (age === null) { fieldErr('lag-su-birth', t('auth.err.birthRequired', 'Informa a data de nascimento.')); bad = true; }
     else if (age < 18) { fieldErr('lag-su-birth', t('auth.err.under18', 'O LEVEL é para maiores de 18 anos.')); bad = true; }
+    var conductEl = document.getElementById('lag-su-conduct');
+    if (!conductEl || !conductEl.checked) { fieldErr('lag-su-conduct', t('auth.err.conductRequired', 'Precisa aceitar as Regras de Conduta para continuar.')); bad = true; }
     if (bad) return;
 
+    var TERMS_VERSION = 'conduct-2026-06-24';
+    var agreedAt = new Date().toISOString();
     setLoading('lag-su-btn', true);
     try {
       var c = await getClient();
-      var res = await c.auth.signUp({ email: email, password: pass, options: { data: { birth_date: birth } } });
+      var res = await c.auth.signUp({ email: email, password: pass, options: { data: { birth_date: birth, terms_agreed_at: agreedAt, terms_version: TERMS_VERSION } } });
+      try { localStorage.setItem('level.terms.agreedAt', agreedAt); localStorage.setItem('level.terms.version', TERMS_VERSION); } catch (e) {}
       if (res.error) throw res.error;
       if (res.data && res.data.session) { _session = res.data.session; onAuthed(); }
       else { goVerify('signup', email); }
