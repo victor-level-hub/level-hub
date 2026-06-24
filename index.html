@@ -7463,6 +7463,26 @@
     color: var(--text-primary);
   }
   .home-tip-body strong { color: var(--accent-orange); font-weight: 600; }
+  /* v2.62: Histórico de progressão no Início */
+  .home-history {
+    background: var(--bg-elev, rgba(255,255,255,0.02));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 22px;
+  }
+  .home-history .hh-top { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
+  .home-history .hh-desc { flex: 1; min-width: 200px; font-size: 12.5px; line-height: 1.5; color: var(--text-secondary); }
+  .home-history .hh-top button { flex: 0 0 auto; }
+  .home-history .hh-log-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted); margin: 16px 0 8px;
+  }
+  .home-history .hh-log { display: flex; flex-direction: column; gap: 0; max-height: 260px; overflow-y: auto; }
+  .hh-log-row { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.06)); }
+  .hh-log-row .hh-when { flex: 0 0 auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); min-width: 96px; }
+  .hh-log-row .hh-kind { flex: 0 0 auto; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-cyan); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; }
+  .hh-log-row .hh-sum { flex: 1; min-width: 0; font-size: 12.5px; color: var(--text-primary); }
   .home-explore-title {
     font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
     font-weight: 700;
@@ -14200,6 +14220,21 @@
         </div>
       </div>
 
+      <!-- v2.62: Histórico de progressão (movido das Configurações) -->
+      <div class="home-explore-title" data-i18n="opp.stats.section" data-reveal="fade-up">{{i:chart-line}} Histórico de progressão</div>
+      <div class="home-history" data-reveal="fade-up">
+        <div class="hh-top">
+          <div class="hh-desc" data-i18n-html="home.hist.desc">Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
+          <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
+        </div>
+        <div id="opp-stats-chart-wrap" style="background:var(--bg-darkest);border-radius:8px;padding:12px;min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px">
+          <span data-i18n="opp.stats.chart.empty">Nenhum snapshot ainda. Clica em "Snapshot" pra começar.</span>
+        </div>
+        <div id="opp-stats-list" style="margin-top:10px;font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--text-secondary);max-height:120px;overflow-y:auto"></div>
+        <div class="hh-log-title" data-i18n="home.hist.changes">Alterações recentes</div>
+        <div id="hist-log-list" class="hh-log"><div class="mod-empty">—</div></div>
+      </div>
+
       <div class="home-explore-title" data-i18n="home.explore" data-reveal="fade-up">EXPLORAR</div>
       <div class="home-explore" data-reveal-stagger data-stagger="70">
         <button class="home-card hc-orange" type="button" data-home-goto="constructor">
@@ -14405,7 +14440,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.61.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.62.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17670,6 +17705,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.62.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Histórico de progressão no Início + log de alterações; limpeza das Configurações.</strong> Pedidos do Victor. <strong>(1)</strong> O <strong>Histórico de progressão</strong> (snapshot + gráfico de evolução) saiu das Configurações e foi pro <strong>Início</strong>. <strong>(2)</strong> Agora, além dos snapshots, o Hub <strong>grava sozinho as tuas alterações</strong> num timeline "Alterações recentes": mudanças de <strong>perfil</strong> (prestige, nível, nome, estilo, plataforma) e de <strong>builds</strong> (criar/editar, com a arma e o P/level). Guardado no servidor (tabela <code>player_history</code>, Edge <code>player-history</code>). <strong>(3)</strong> Removidos os botões redundantes em Configurações: <strong>Baixar/Importar avatar</strong> (a foto já sincroniza no BD) e o <strong>"Enviar para a cloud" manual</strong> (o backup automático + Restaurar já cobrem). node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.61.1</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20038,24 +20082,6 @@
               </div>
               <button class="opp-action-btn" id="opp-btn-change-avatar">Abrir</button>
             </div>
-
-            <div class="opp-action-item">
-              <div class="opp-action-icon">{{i:download}}</div>
-              <div class="opp-action-body">
-                <div class="opp-action-title">Baixar avatar atual</div>
-                <div class="opp-action-desc">Descarrega o PNG do avatar atual para o seu disco. Backup local — usa para restaurar em outro dispositivo.</div>
-              </div>
-              <button class="opp-action-btn secondary" id="opp-btn-download-avatar">{{i:download}} PNG</button>
-            </div>
-
-            <div class="opp-action-item">
-              <div class="opp-action-icon">{{i:upload}}</div>
-              <div class="opp-action-body">
-                <div class="opp-action-title">Importar avatar de ficheiro</div>
-                <div class="opp-action-desc">Carregue um PNG previamente baixado deste Hub. Atalho rápido — mesma função da tab "Importar PNG" no modal.</div>
-              </div>
-              <button class="opp-action-btn secondary" id="opp-btn-import-avatar">{{i:upload}} Importar</button>
-            </div>
           </div>
 
           <!-- ═══ Cloud Sync (v75-53 · i18n v75-56) ═════════════════ -->
@@ -20063,15 +20089,6 @@
             {{i:cloud}} Backup na cloud
           </div>
           <div class="opp-actions-list">
-            <div class="opp-action-item">
-              <div class="opp-action-icon">{{i:cloud-upload}}</div>
-              <div class="opp-action-body">
-                <div class="opp-action-title" data-i18n="opp.cloud.push.title">Enviar para a cloud</div>
-                <div class="opp-action-desc" data-i18n-html="opp.cloud.push.desc">Faz backup do operador + arsenal + loadouts no Supabase (LEVEL Cloud). Útil se trocares de navegador ou limpares o localStorage. <span id="opp-cloud-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">Nunca sincronizado</span></div>
-              </div>
-              <button class="opp-action-btn" id="opp-btn-cloud-push" data-i18n="opp.cloud.push.btn">{{i:cloud-upload}} Backup</button>
-            </div>
-
             <div class="opp-action-item">
               <div class="opp-action-icon">{{i:cloud-download}}</div>
               <div class="opp-action-body">
@@ -20385,31 +20402,7 @@
             </div>
           </div>
 
-          <!-- ═══ Stats Tracker (v75-59) — histórico de progressão ═══ -->
-          <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.stats.section">
-            {{i:chart-line}} Histórico de progressão
-          </div>
-          <div class="opp-actions-list">
-            <div class="opp-action-item">
-              <div class="opp-action-icon">{{i:camera}}</div>
-              <div class="opp-action-body">
-                <div class="opp-action-title" data-i18n="opp.stats.snap.title">Registrar snapshot atual</div>
-                <div class="opp-action-desc" data-i18n-html="opp.stats.snap.desc">Salve o seu prestige + level atual no servidor. Cria um "ponto no tempo" pra ver sua evolução depois. Recomendado: 1× por dia ou após levelar. <span id="opp-stats-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
-              </div>
-              <button class="opp-action-btn" id="opp-btn-stats-snap" data-i18n="opp.stats.snap.btn">{{i:camera}} Snapshot</button>
-            </div>
-
-            <div class="opp-action-item" style="flex-direction:column;align-items:stretch">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-                <div class="opp-action-icon">{{i:trending-up}}</div>
-                <div class="opp-action-title" data-i18n="opp.stats.chart.title" style="flex:1">Evolução nos últimos snapshots</div>
-              </div>
-              <div id="opp-stats-chart-wrap" style="background:var(--bg-darkest);border-radius:6px;padding:12px;min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px">
-                <span data-i18n="opp.stats.chart.empty">Nenhum snapshot ainda. Clica em "Snapshot" pra começar.</span>
-              </div>
-              <div id="opp-stats-list" style="margin-top:10px;font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--text-secondary);max-height:120px;overflow-y:auto"></div>
-            </div>
-          </div>
+          <!-- (Histórico de progressão movido para o Início — v2.62) -->
 
           <!-- ═══ Gemini Usage Tracker (v75-71) ═══════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.gemini.section">
@@ -20473,7 +20466,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.61.1</strong><span class="ver-tag">fix: tracker "Uso de IA · Gemini" agora mostra o consumo global do projeto (custo/chamadas/tokens/latência) + snapshots de progressão voltaram a salvar — era chave errada de local_id (level.localId → level.sync.local_id)</span>
+        LEVEL · <strong>v2.62.0</strong><span class="ver-tag">Histórico de progressão movido pro Início + log automático das tuas alterações (perfil, prestige/level, builds) · removidos Baixar/Importar avatar e o "Enviar manual" da cloud (auto-backup + Restaurar bastam)</span>
       </div>
       <script>
         (function(){
@@ -22457,8 +22450,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Uso de IA · Gemini consertado',
-    'briefing.changelog.summary':  'O painel <strong>Uso de IA · Gemini</strong> (admin) voltou a funcionar e agora mostra o <strong>consumo global do projeto</strong> — custo, chamadas, tokens e latência do mês, com breakdown por função. De quebra, os <strong>snapshots de progressão</strong> (manual e automático) voltaram a salvar. Tudo era uma chave de identidade errada no código.',
+    'briefing.changelog.headline': 'Histórico de progressão no Início',
+    'briefing.changelog.summary':  'O <strong>Histórico de progressão</strong> saiu das Configurações e foi pro <strong>Início</strong>. Além dos snapshots de prestige/level, o Hub agora <strong>registra sozinho as tuas alterações</strong> (perfil, nível/prestige, builds) num timeline "Alterações recentes". Também tiramos botões redundantes das Configurações (baixar/importar avatar e o backup manual — o automático já cobre).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23373,6 +23366,9 @@ window.I18N = {
     'opp.pwa.alert.installed.msg':   'LEVEL agora aparece no seu menu de apps. Abra de lá pra ter a experiência fullscreen.',
     // — Stats Tracker (v75-59) —
     'opp.stats.section':       '{{i:chart-line}} Histórico de progressão',
+    'opp.stats.snap.btn2':     'Snapshot',
+    'home.hist.changes':       'Alterações recentes',
+    'home.hist.desc':          'Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">A carregar histórico...</span>',
     'opp.stats.snap.title':    'Registrar snapshot atual',
     'opp.stats.snap.desc':     'Salva o seu prestige + level atual no servidor. Cria um "ponto no tempo" pra ver sua evolução depois. Recomendado: 1× por dia ou após levelar. <span id="opp-stats-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">A carregar histórico...</span>',
     'opp.stats.snap.btn':      '{{i:camera}} Snapshot',
@@ -24118,8 +24114,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'AI usage · Gemini fixed',
-    'briefing.changelog.summary':  'The <strong>AI usage · Gemini</strong> panel (admin) works again and now shows the <strong>project-wide consumption</strong> — cost, calls, tokens and latency for the month, with a per-function breakdown. Bonus: <strong>progression snapshots</strong> (manual and automatic) save again. It was all a wrong identity key in the code.',
+    'briefing.changelog.headline': 'Progression history on Home',
+    'briefing.changelog.summary':  'The <strong>Progression history</strong> moved from Settings to the <strong>Home</strong>. Beyond prestige/level snapshots, the Hub now <strong>logs your changes automatically</strong> (profile, level/prestige, builds) in a "Recent changes" timeline. We also removed redundant Settings buttons (download/import avatar and the manual cloud backup — auto-backup already covers it).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -25034,6 +25030,9 @@ window.I18N = {
     'opp.pwa.alert.installed.msg':   'LEVEL is now in your app menu. Open it from there for the full screen experience.',
     // — Stats Tracker (v75-59) —
     'opp.stats.section':       '{{i:chart-line}} Progression history',
+    'opp.stats.snap.btn2':     'Snapshot',
+    'home.hist.changes':       'Recent changes',
+    'home.hist.desc':          'Record your current prestige + level to track your evolution. The Hub also logs your changes automatically below. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">Loading history...</span>',
     'opp.stats.snap.title':    'Record current snapshot',
     'opp.stats.snap.desc':     'Saves your current prestige + level on the server. Creates a "moment in time" so you can track your evolution. Recommended: once a day or after leveling. <span id="opp-stats-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">Loading history...</span>',
     'opp.stats.snap.btn':      '{{i:camera}} Snapshot',
@@ -28334,6 +28333,22 @@ window.BO7_ASSETS = (function() {
         }
       }
 
+      // v2.62 — registra as alterações de perfil no histórico de progressão
+      try {
+        if (window.LevelHistory && _prevPlayer) {
+          if ((_prevPlayer.prestige || 0) !== (patch.prestige || 0))
+            window.LevelHistory.log('profile', 'Prestígio ' + (_prevPlayer.prestige || 0) + ' → ' + (patch.prestige || 0), { field: 'prestige', from: _prevPlayer.prestige, to: patch.prestige });
+          if ((_prevPlayer.level || 0) !== (patch.level || 0))
+            window.LevelHistory.log('profile', 'Nível ' + (_prevPlayer.level || 0) + ' → ' + (patch.level || 0), { field: 'level', from: _prevPlayer.level, to: patch.level });
+          if ((_prevPlayer.name || '') !== (patch.name || ''))
+            window.LevelHistory.log('profile', 'Nome → ' + (patch.name || ''), { field: 'name', to: patch.name });
+          if ((_prevPlayer.playstyle || '') !== (patch.playstyle || ''))
+            window.LevelHistory.log('profile', 'Estilo → ' + (patch.playstyle || ''), { field: 'playstyle', to: patch.playstyle });
+          if ((_prevPlayer.platform || '') !== (patch.platform || ''))
+            window.LevelHistory.log('profile', 'Plataforma → ' + (patch.platform || ''), { field: 'platform', to: patch.platform });
+        }
+      } catch (e) { /* histórico é best-effort */ }
+
       document.getElementById('modal-status').classList.remove('visible');
     }
 
@@ -31623,11 +31638,21 @@ const ATTACHMENT_ICONS = {
         mastery: modalState.mastery || null,
         weaponPrestige: weaponPrestige
       };
+      const _wasEditing = !!modalState.editingId;
       if (modalState.editingId) {
         await LevelDB.builds.update(modalState.editingId, payload);
       } else {
         await LevelDB.builds.create(payload);
       }
+      // v2.62 — registra no histórico de progressão (build + nível/prestige da arma)
+      try {
+        if (window.LevelHistory) {
+          var _bn = base ? base.name : '?';
+          var _pl = (isMaster ? 'Mestre' : 'P' + newPrestige) + ' ' + finalLevel;
+          window.LevelHistory.log('build', (_wasEditing ? 'Build editada: ' : 'Build criada: ') + name + ' (' + _bn + ' · ' + _pl + ')',
+            { build: name, weapon: _bn, prestige: isMaster ? 'master' : newPrestige, level: finalLevel });
+        }
+      } catch (e) { /* best-effort */ }
       document.getElementById('modal-build').classList.remove('visible');
       await renderAll();
     }
@@ -50141,6 +50166,42 @@ ${cbt('share.t.footer')}`;
   window.LevelModeration = { refresh: refresh, renderQueue: renderQueue, renderInvites: renderInvites };
   function boot(){ setTimeout(refresh, 1500); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+
+// LEVEL · Histórico de alterações (v2.62) — log no servidor + timeline no Início
+(function LevelHistory(){
+  var SB = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  var AK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  var FN = SB + '/functions/v1/player-history';
+  function lid(){ try { return localStorage.getItem('level.sync.local_id'); } catch(e){ return null; } }
+  function en(){ try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch(e){ return false; } }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function fmtDT(iso){ try { return new Date(iso).toLocaleString(en()?'en-GB':'pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}); } catch(e){ return ''; } }
+  function log(kind, summary, detail){
+    var id = lid(); if (!id || !summary) return;
+    fetch(FN, { method:'POST', headers:{ 'apikey':AK, 'Authorization':'Bearer '+AK, 'Content-Type':'application/json' },
+      body: JSON.stringify({ action:'log', local_id:id, kind:kind, summary:summary, detail:detail||null }) })
+      .then(function(){ setTimeout(render, 500); }).catch(function(){});
+  }
+  async function render(){
+    var box = document.getElementById('hist-log-list'); if (!box) return;
+    var id = lid();
+    if (!id) { box.innerHTML = '<div class="mod-empty">' + (en()?'Do a cloud backup to enable history.':'Faz um backup na cloud pra ativar o histórico.') + '</div>'; return; }
+    try {
+      var r = await fetch(FN, { method:'POST', headers:{ 'apikey':AK, 'Authorization':'Bearer '+AK, 'Content-Type':'application/json' }, body: JSON.stringify({ action:'list', local_id:id, limit:50 }) });
+      var d = await r.json(); var items = (d && d.items) || [];
+      if (!items.length) { box.innerHTML = '<div class="mod-empty">' + (en()?'No changes recorded yet.':'Sem alterações registradas ainda.') + '</div>'; return; }
+      box.innerHTML = items.map(function(it){
+        return '<div class="hh-log-row"><span class="hh-when">' + fmtDT(it.created_at) + '</span>'
+          + '<span class="hh-kind">' + esc(it.kind) + '</span>'
+          + '<span class="hh-sum">' + esc(it.summary) + '</span></div>';
+      }).join('');
+    } catch(e){ box.innerHTML = '<div class="mod-empty">—</div>'; }
+  }
+  window.LevelHistory = { log: log, render: render };
+  function boot(){ setTimeout(render, 1700); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  document.addEventListener('click', function(e){ var n = e.target.closest && e.target.closest('.nav-item[data-section="home"]'); if (n) setTimeout(render, 300); });
 })();
 </script>
 </body>
