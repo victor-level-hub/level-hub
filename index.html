@@ -14458,7 +14458,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.63.2 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.63.3 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17723,6 +17723,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.63.3</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Popup de hover: recorte exato (canal alfa) pra imagens com fundo removido.</strong> Pedido do Victor. Antes o popup detectava a arma por luminância (heurística pros assets opacos antigos) e deixava o equipamento pequeno com muito espaço em volta. Agora, quando a imagem tem <strong>fundo transparente</strong> (removido no upload), o recorte é feito pelo <strong>canal alfa</strong> — ou seja, exatamente o equipamento (o "quadrado vermelho"), <strong>centralizado</strong> e enchendo a largura do popup, <strong>sem perder resolução</strong> (recorta do original em alta e renderiza a 792px). Margem mínima de 1,5%. Vale pra todos os equipamentos com fundo removido. Verificado: arma de teste passou de ~50% pra <strong>93% da largura</strong>. node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.63.2</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20527,7 +20536,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.63.2</strong><span class="ver-tag">imagens de equipamento sem fundo: agora aparecem sobre um fundo discreto com a logo LEVEL (watermark fraquinho) em vez do preto — no popup de hover e nos frames. Puro CSS/SVG, sem IA</span>
+        LEVEL · <strong>v2.63.3</strong><span class="ver-tag">popup de hover: pra imagens com fundo removido, recorta EXATO pelo canal alfa (só o equipamento, centralizado, sem perder resolução) — enche a largura do popup em vez de ficar pequeno</span>
       </div>
       <script>
         (function(){
@@ -22511,8 +22520,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Fundo com a logo nas imagens',
-    'briefing.changelog.summary':  'As imagens de equipamento com o fundo removido agora aparecem sobre um <strong>fundo discreto com a logo LEVEL</strong> (bem fraquinho) em vez do preto — no popup de hover e nos cards. É puro CSS/SVG, sem IA.',
+    'briefing.changelog.headline': 'Hover: recorte exato do equipamento',
+    'briefing.changelog.summary':  'No popup que abre ao passar o mouse, as imagens com <strong>fundo removido</strong> agora são recortadas <strong>exatamente no equipamento</strong> (pelo canal alfa), <strong>centralizadas</strong> e preenchendo o popup, <strong>sem perder resolução</strong>. Acabou o equipamento pequeno com espaço sobrando.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24175,8 +24184,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Logo backdrop on cut-out images',
-    'briefing.changelog.summary':  'Equipment images with the background removed now sit on a <strong>subtle LEVEL-logo backdrop</strong> (very faint) instead of black — in the hover preview and the cards. Pure CSS/SVG, no AI.',
+    'briefing.changelog.headline': 'Hover: exact equipment crop',
+    'briefing.changelog.summary':  'In the hover preview, images with the <strong>background removed</strong> are now cropped <strong>exactly to the equipment</strong> (via the alpha channel), <strong>centered</strong> and filling the popup, <strong>without losing resolution</strong>. No more tiny equipment with empty space around it.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -43454,6 +43463,30 @@ ${cbt('share.t.footer')}`;
     };
   }
 
+  // v2.63: bbox pelo canal ALFA — preciso pro caso de FUNDO REMOVIDO (transparente).
+  // Só retorna bbox se a imagem tiver fundo transparente real (>2% de pixels translúcidos);
+  // aí o recorte é exatamente o equipamento (o "quadrado vermelho" do Victor), sem heurística.
+  function detectAlphaBBox(data, W, H) {
+    var minX = W, minY = H, maxX = 0, maxY = 0, found = 0, transparent = 0, total = W * H;
+    for (var p = 0; p < total; p++) {
+      var a = data[p * 4 + 3];
+      if (a < 200) transparent++;
+      if (a <= 24) continue; // transparente → fundo
+      var x = p % W, y = (p / W) | 0;
+      if (x < minX) minX = x;
+      if (y < minY) minY = y;
+      if (x > maxX) maxX = x;
+      if (y > maxY) maxY = y;
+      found++;
+    }
+    if (transparent < total * 0.02 || found < 20) return null; // sem fundo transparente real
+    return {
+      x: minX / W, y: minY / H,
+      w: (maxX - minX + 1) / W, h: (maxY - minY + 1) / H,
+      coverage: found / total
+    };
+  }
+
   // Gera versão processada (crop + zoom centralizado em 1:1) e cacheia.
   // Retorna Promise<dataURL processada ou src original como fallback>.
   function processImage(src) {
@@ -43476,7 +43509,10 @@ ${cbt('share.t.footer')}`;
           var actx = ac.getContext('2d');
           actx.drawImage(probe, 0, 0, aw, ah);
           var data = actx.getImageData(0, 0, aw, ah).data;
-          var bbox = detectWeaponBBox(data, aw, ah);
+          // v2.63: ALFA primeiro (fundo removido = recorte EXATO do equipamento);
+          // senão a heurística de luminância (pros assets opacos antigos).
+          var alphaBox = detectAlphaBBox(data, aw, ah);
+          var bbox = alphaBox || detectWeaponBBox(data, aw, ah);
 
           // Sem bbox confiável → devolve src original (modal vai usar contain)
           if (!bbox) {
@@ -43484,15 +43520,16 @@ ${cbt('share.t.footer')}`;
             return resolve(src);
           }
 
-          // v2.63: margem menor (4%) → arma bem ampliada, quase sem borda
-          var margin = 0.04;
+          // margem mínima no modo alfa (recorte justo, igual ao "quadrado vermelho"); 4% no luminância
+          var margin = alphaBox ? 0.015 : 0.04;
           var sx = Math.max(0, (bbox.x - margin) * W);
           var sy = Math.max(0, (bbox.y - margin) * H);
           var sw = Math.min(W - sx, (bbox.w + margin * 2) * W);
           var sh = Math.min(H - sy, (bbox.h + margin * 2) * H);
 
-          // Se a bbox já ocupa quase tudo, não vale processar (raro)
-          if (bbox.coverage > 0.92) {
+          // No modo luminância (assets opacos), se já ocupa quase tudo não vale processar.
+          // No modo ALFA sempre recortamos+centralizamos (é o que o Victor quer).
+          if (!alphaBox && bbox.coverage > 0.92) {
             processedCache.set(src, src);
             return resolve(src);
           }
