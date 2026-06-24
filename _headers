@@ -12,3 +12,7 @@
 # (mesma política do HTML), pra um deploy de CSS aplicar na hora, sem cache stale.
 /assets/css/level.css
   Cache-Control: public, max-age=0, must-revalidate
+# v2.72.1: módulos JS extraídos do index.html (ui/icon, ui/motion, …). Sem versão no
+# nome → revalidar a cada carga (mesma política do HTML), pra não servir JS stale.
+/assets/js/*
+  Cache-Control: public, max-age=0, must-revalidate
