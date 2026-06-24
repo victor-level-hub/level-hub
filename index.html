@@ -3971,7 +3971,7 @@
     background-color: var(--bg-darkest, #0a1118);
     background-image: url('assets/equip-watermark.svg');
     background-repeat: repeat;
-    background-size: 96px auto;
+    background-size: 100px auto;
     background-position: center;
     border: 1px solid var(--accent-orange, #FF9800);
     border-radius: 8px;
@@ -3997,7 +3997,7 @@
   #modal-build .build-photo-frame {
     background-image: url('assets/equip-watermark.svg') !important;
     background-repeat: repeat !important;
-    background-size: 84px auto !important;
+    background-size: 92px auto !important;
     background-position: center !important;
   }
   @media (max-width: 560px) {
@@ -14458,7 +14458,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.63.3 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.63.4 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17723,6 +17723,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.63.4</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Watermark da logo: padrão menor e espaçado cobrindo o fundo inteiro.</strong> Ajuste do Victor. O fundo com a logo estava com logos grandes e juntas. Agora o <code>equip-watermark.svg</code> é um <strong>tile</strong> com a logo pequena (~25% do tile) centralizada e o resto transparente, então ao repetir gera <strong>logos bem menores e espaçadas</strong> (uma logo, gap de ~3 logos) cobrindo o <strong>retângulo inteiro, de baixo a cima</strong> — no popup de hover e nos frames. Continua 100% sem IA. node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.63.3</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20536,7 +20545,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.63.3</strong><span class="ver-tag">popup de hover: pra imagens com fundo removido, recorta EXATO pelo canal alfa (só o equipamento, centralizado, sem perder resolução) — enche a largura do popup em vez de ficar pequeno</span>
+        LEVEL · <strong>v2.63.4</strong><span class="ver-tag">watermark da logo no fundo: virou um padrão de logos bem menores e espaçadas (1 logo, gap de ~3) cobrindo o retângulo inteiro, de baixo a cima — em vez de logos grandes e juntas</span>
       </div>
       <script>
         (function(){
@@ -22520,8 +22529,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Hover: recorte exato do equipamento',
-    'briefing.changelog.summary':  'No popup que abre ao passar o mouse, as imagens com <strong>fundo removido</strong> agora são recortadas <strong>exatamente no equipamento</strong> (pelo canal alfa), <strong>centralizadas</strong> e preenchendo o popup, <strong>sem perder resolução</strong>. Acabou o equipamento pequeno com espaço sobrando.',
+    'briefing.changelog.headline': 'Watermark menor e espaçado',
+    'briefing.changelog.summary':  'O fundo com a logo (atrás das imagens recortadas) virou um padrão de <strong>logos bem menores e espaçadas</strong> cobrindo o <strong>retângulo inteiro</strong>, de baixo a cima — em vez de logos grandes e juntas.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24184,8 +24193,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Hover: exact equipment crop',
-    'briefing.changelog.summary':  'In the hover preview, images with the <strong>background removed</strong> are now cropped <strong>exactly to the equipment</strong> (via the alpha channel), <strong>centered</strong> and filling the popup, <strong>without losing resolution</strong>. No more tiny equipment with empty space around it.',
+    'briefing.changelog.headline': 'Smaller, spaced watermark',
+    'briefing.changelog.summary':  'The logo backdrop (behind cut-out images) is now a pattern of <strong>much smaller, spaced-out logos</strong> covering the <strong>whole rectangle</strong>, top to bottom — instead of large logos packed together.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
