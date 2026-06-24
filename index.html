@@ -14555,7 +14555,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.71.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.71.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17820,6 +17820,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.71.1</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Edição do perfil deixava de persistir ao recarregar.</strong> Aumentar o nível (52→53), salvar e dar hard-refresh fazia voltar pro 52. Causa-raiz: o <strong>auto-backup do perfil rodava só a cada 5 min</strong>, mas o <code>autoPullOnLogin</code> do boot aplica a nuvem sempre — então o pull trazia o valor antigo por cima da edição (o snapshot do gráfico gravava na hora, mas o perfil em <code>hub_users</code> não). Fix: o <code>saveStatusFromModal</code> agora dispara <code>CloudSync.pushAll({force:true})</code> <strong>na hora do save</strong> — a nuvem fica atual antes de qualquer reload. <code>force</code> garante o perfil mesmo com relógio dessincronizado e só afeta perfil+settings; armas/loadouts seguem LWW (sem clobber). node 20/20. (Teste real = login.)</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.71.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20738,7 +20747,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.71.0</strong><span class="ver-tag">display adaptativo nos cards de build/info/salvos: imagem tratada (transparente) mostra-se sem zoom sobre o fundo de combate; imagem opaca mantém o look atual — detecção por alfa, zero regressão</span>
+        LEVEL · <strong>v2.71.1</strong><span class="ver-tag">edição do perfil deixava de persistir ao recarregar (nível voltava de 53→52): o backup só subia a cada 5min e o boot puxava o valor antigo da nuvem — agora o perfil sobe na hora que salvas</span>
       </div>
       <script>
         (function(){
@@ -22723,8 +22732,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Display adaptativo nos cards de build',
-    'briefing.changelog.summary':  'Fecha o &ldquo;virar o display&rdquo;: nos cards de build/info/salvos, a imagem <strong>tratada</strong> (transparente) passou a mostrar-se sem zoom, sobre o <strong>fundo de combate</strong>. A imagem ainda não-tratada (opaca) mantém o look atual — detecção por transparência, <strong>zero regressão</strong>.',
+    'briefing.changelog.headline': 'Perfil salva na hora (sem reverter)',
+    'briefing.changelog.summary':  'Bug: aumentar o nível, salvar e recarregar fazia voltar ao valor antigo. Causa: o backup do perfil só subia a cada 5 min, e o boot puxava o valor antigo da nuvem por cima. Agora o perfil sobe pra nuvem <strong>na hora que você salva</strong> — não reverte mais.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24391,8 +24400,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Adaptive display on build cards',
-    'briefing.changelog.summary':  'Completes the display flip: on build/info/saved cards, a <strong>treated</strong> (transparent) image now shows without zoom, on the <strong>combat backdrop</strong>. A still-untreated (opaque) image keeps its current look — transparency detection, <strong>zero regression</strong>.',
+    'briefing.changelog.headline': 'Profile saves instantly (no revert)',
+    'briefing.changelog.summary':  'Bug: raising your level, saving and reloading reverted to the old value. Cause: the profile backup only ran every 5 min, and boot pulled the old cloud value over it. Now the profile is pushed to the cloud <strong>the moment you save</strong> — no more reverts.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -28679,6 +28688,16 @@ window.BO7_ASSETS = (function() {
             window.LevelHistory.log('profile', 'Plataforma → ' + (patch.platform || ''), { field: 'platform', to: patch.platform });
         }
       } catch (e) { /* histórico é best-effort */ }
+
+      // v2.71.1: persiste o perfil na nuvem NA HORA (não espera o auto-sync de 5min).
+      // Sem isto, recarregar logo após salvar fazia o auto-pull do boot trazer o valor
+      // ANTIGO da nuvem e reverter a edição (ex.: o nível voltava de 53 → 52). force=true
+      // garante o perfil mesmo com relógio dessincronizado; armas/loadouts seguem LWW (sem clobber).
+      try {
+        if (window.CloudSync && typeof window.CloudSync.pushAll === 'function') {
+          window.CloudSync.pushAll({ force: true }).catch(function (e) { console.warn('[status-save] push imediato falhou:', e && e.message); });
+        }
+      } catch (e) {}
 
       document.getElementById('modal-status').classList.remove('visible');
     }
