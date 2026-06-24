@@ -3973,17 +3973,19 @@
     padding: 6px;
     box-shadow: 0 12px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,152,0,0.25);
   }
-  /* v69 17/Mai: era 640×360 (16:9). Victor pediu voltar pra quadrado e 20%
-     menor que o quadrado original (280→224). Imagens entregues em 16:9
-     aparecem com letterbox aqui (faixas pretas em cima/baixo). */
+  /* v2.63: popup landscape e ampliado (a arma é horizontal). O JS recorta a arma
+     bem justa e centraliza no retângulo, então sobra pouca borda. */
   #cfg-img-preview img,
   #cfg-img-preview canvas {
     display: block;
-    width: 224px;
-    height: 224px;
+    width: 440px;
+    height: 280px;
     object-fit: contain;
     background: var(--bg-darkest, #0a1118);
     border-radius: 4px;
+  }
+  @media (max-width: 560px) {
+    #cfg-img-preview img, #cfg-img-preview canvas { width: 300px; height: 190px; }
   }
   #cfg-img-preview .cfg-img-preview-label {
     font-family: 'JetBrains Mono', monospace;
@@ -14440,7 +14442,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.63.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.63.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17705,6 +17707,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.63.1</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Popup de hover da arma: bem maior e a arma ampliada.</strong> Pedido do Victor. O preview que abre ao passar o mouse numa arma/equipamento era um quadrado 224×224 — como as armas são horizontais, sobrava muita borda em cima/baixo (a arma ficava pequena). Agora o popup é <strong>landscape e maior (440×280)</strong>, o recorte da arma ficou <strong>bem mais justo</strong> (margem 12% → 4%) e o limiar pra processar subiu (mais imagens ganham o recorte), então a arma fica <strong>bem ampliada e centralizada</strong> — vale pra todas as armas e equipamentos. node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.63.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20491,7 +20502,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.63.0</strong><span class="ver-tag">imagens de equipamento: fundo removido automaticamente no upload (Armas/Melee/Field/Tactical/Lethal, individual e em massa) via IA no navegador + correção: a imagem agora aparece na hora no Início e nos cards (sem precisar recarregar)</span>
+        LEVEL · <strong>v2.63.1</strong><span class="ver-tag">popup de hover da arma: maior e landscape (440×280), com a arma recortada bem justa e centralizada — vale pra todas as armas e equipamentos</span>
       </div>
       <script>
         (function(){
@@ -22475,8 +22486,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Equipamento: fundo removido + fix',
-    'briefing.changelog.summary':  'Ao subir a imagem de <strong>Arma, Melee, Field Upgrade, Tactical ou Lethal</strong> (no Enviar ou no Upload em massa), o <strong>fundo é removido automaticamente</strong> por IA — o equipamento fica recortado. E corrigimos um bug: a imagem agora <strong>aparece na hora</strong> no Início e nos cards, sem precisar recarregar a página.',
+    'briefing.changelog.headline': 'Hover da arma maior e ampliado',
+    'briefing.changelog.summary':  'O preview que abre ao passar o mouse numa <strong>arma/equipamento</strong> ficou <strong>bem maior</strong> e na proporção certa (horizontal), com a arma <strong>ampliada e centralizada</strong> em vez de pequena com bordas. Vale pra todas as armas e equipamentos.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24139,8 +24150,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Equipment: background removed + fix',
-    'briefing.changelog.summary':  'When you upload an image for a <strong>Weapon, Melee, Field Upgrade, Tactical or Lethal</strong> (single or bulk upload), the <strong>background is removed automatically</strong> by AI — the equipment ends up cut out. We also fixed a bug: the image now <strong>shows up instantly</strong> on the Home and in the cards, no reload needed.',
+    'briefing.changelog.headline': 'Weapon hover bigger and zoomed',
+    'briefing.changelog.summary':  'The preview that opens when you hover a <strong>weapon/equipment</strong> is now <strong>much bigger</strong> and in the right (landscape) ratio, with the weapon <strong>enlarged and centered</strong> instead of small with borders. Applies to all weapons and equipment.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -43359,7 +43370,9 @@ ${cbt('share.t.footer')}`;
                   // o zoom/hover-preview nas imagens das Configurações (mapas etc.).
   var BOUND_FLAG  = 'data-cfg-preview-bound';
   var MIN_BOX_PX  = 50; // ignora perks 34x34; 50 ainda inclui saved-card-thumb 56x56
-  var MODAL_SIZE  = 280; // quadrado 1:1, igual ao enquadramento do print 2 do Victor
+  // v2.63: popup landscape e bem ampliado (a arma é horizontal). Casa com o CSS 440×280.
+  var MODAL_W     = 440;
+  var MODAL_H     = 280;
 
   // Cache src → dataURL processado (centrado + ampliado pra 1:1)
   var processedCache = new Map();
@@ -43446,40 +43459,35 @@ ${cbt('share.t.footer')}`;
             return resolve(src);
           }
 
-          // Margem de 12% em volta da arma pra não ficar colada na borda
-          var margin = 0.12;
+          // v2.63: margem menor (4%) → arma bem ampliada, quase sem borda
+          var margin = 0.04;
           var sx = Math.max(0, (bbox.x - margin) * W);
           var sy = Math.max(0, (bbox.y - margin) * H);
           var sw = Math.min(W - sx, (bbox.w + margin * 2) * W);
           var sh = Math.min(H - sy, (bbox.h + margin * 2) * H);
 
-          // Se a bbox for muito grande (já ocupa quase tudo), não vale processar
-          if (bbox.coverage > 0.55) {
+          // Se a bbox já ocupa quase tudo, não vale processar (raro)
+          if (bbox.coverage > 0.92) {
             processedCache.set(src, src);
             return resolve(src);
           }
 
-          // v67: era target=MODAL_SIZE*2 (560). Agora MODAL_SIZE*2.5 (700)
-          // pra preservar detalhes das imagens 720px sem downscale agressivo.
-          var target = Math.round(MODAL_SIZE * 2.5);
+          // v2.63: canvas LANDSCAPE (a arma é horizontal) em alta resolução.
+          var TW = Math.round(MODAL_W * 1.8);   // ~792 — retina
+          var TH = Math.round(MODAL_H * 1.8);   // ~504
           var canvas = document.createElement('canvas');
-          canvas.width = target; canvas.height = target;
+          canvas.width = TW; canvas.height = TH;
           var ctx = canvas.getContext('2d');
           ctx.fillStyle = '#0a1118';
-          ctx.fillRect(0, 0, target, target);
+          ctx.fillRect(0, 0, TW, TH);
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
 
-          // Encaixa o recorte no quadrado mantendo aspect ratio (letterbox)
-          var sa = sw / sh;
+          // Encaixa o recorte no retângulo mantendo aspect ratio (centralizado)
+          var sa = sw / sh, ta = TW / TH;
           var dw, dh, dx, dy;
-          if (sa >= 1) {
-            dw = target; dh = target / sa;
-            dx = 0; dy = (target - dh) / 2;
-          } else {
-            dh = target; dw = target * sa;
-            dy = 0; dx = (target - dw) / 2;
-          }
+          if (sa >= ta) { dw = TW; dh = TW / sa; dx = 0; dy = (TH - dh) / 2; }
+          else { dh = TH; dw = TH * sa; dy = 0; dx = (TW - dw) / 2; }
           ctx.drawImage(probe, sx, sy, sw, sh, dx, dy, dw, dh);
 
           var dataUrl = canvas.toDataURL('image/png');
