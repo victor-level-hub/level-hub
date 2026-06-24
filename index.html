@@ -3960,6 +3960,35 @@
   }
   .saved-card-thumb.has-img:hover img { transform: scale(1.28); }
 
+  /* ═══ v2.69 (Passo 3): display de equipamento — sem corte, sobre o fundo de combate ═══ */
+  /* MELEE: era retrato (330/469) com object-fit:cover → cortava as armas largas (katana/serra).
+     Override SÓ pro #opt-melee (o .lo-wcard é partilhado com os wildcards, que ficam intactos):
+     caixa HORIZONTAL + contain (arma inteira) sobre o watermark de combate. */
+  #opt-melee .lo-wcard-art {
+    aspect-ratio: 16 / 10;
+    background-color: var(--bg-darkest, #0a1118);
+    background-image: url('assets/equip-watermark.svg');
+    background-repeat: repeat;
+    background-size: 44px auto;
+  }
+  #opt-melee .lo-wcard-art img {
+    object-fit: contain;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  /* SECUNDÁRIA (pistola/launcher/special): tira o zoom de scale e põe o fundo de combate */
+  #opt-secondary-weapon .option-icon {
+    background-color: var(--bg-darkest, #0a1118);
+    background-image: url('assets/equip-watermark.svg');
+    background-repeat: repeat;
+    background-size: 30px auto;
+  }
+  #opt-secondary-weapon .option-icon img,
+  #opt-secondary-weapon .option-card:hover .option-icon img {
+    object-fit: contain;
+    transform: none;
+  }
+
   /* Modal de preview no hover — mostra a imagem inteira sem zoom, perto
      do cursor. Único elemento compartilhado, posicionado via JS. */
   #cfg-img-preview {
@@ -14505,7 +14534,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.68.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.69.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17770,6 +17799,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.69.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Passo 3: melee e secundárias sem corte, na horizontal.</strong> Causa-raiz: o card de melee (<code>.lo-wcard-art img</code>) usava <code>object-fit:cover</code> numa caixa <strong>retrato</strong> (330/469) → cortava as laterais das armas largas (katana, serra). Como o <code>.lo-wcard</code> é partilhado com os wildcards, o fix é um <strong>override scoped</strong> a <code>#opt-melee</code>: caixa <strong>16/10 (horizontal)</strong> + <code>object-fit:contain</code> (arma inteira) + <strong>fundo de combate</strong> (watermark da logo). Secundárias (<code>#opt-secondary-weapon</code>): tirado o zoom de <code>scale(1.18)</code> + mesmo fundo. Verificado em harness (computed styles): melee = contain / 16-10 / backdrop; wildcard intacto = cover / 330-469. node 20/20. (Restam build-cards/bip/saved com scale leve — flip adaptativo num próximo passo, pra não piorar imagens ainda não tratadas.)</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.68.1</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20661,7 +20699,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.68.1</strong><span class="ver-tag">corrige o ícone da tesoura: o botão "Recortar fundo das imagens já salvas" mostrava o texto cru "scissors" sobreposto ao label (ícone faltava no registry) — adicionado</span>
+        LEVEL · <strong>v2.69.0</strong><span class="ver-tag">melee e secundárias sem corte: a caixa era retrato com object-fit:cover (cortava katana/serra) — agora é horizontal com a arma inteira (contain) sobre o fundo de combate; wildcards intactos</span>
       </div>
       <script>
         (function(){
@@ -22646,8 +22684,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Ícone da tesoura corrigido',
-    'briefing.changelog.summary':  'O botão <strong>Recortar fundo das imagens já salvas</strong> mostrava o texto cru &ldquo;scissors&rdquo; sobreposto ao label (o ícone não existia no registry). Ícone <code>scissors</code> adicionado — o botão e as mensagens de status agora mostram a tesoura.',
+    'briefing.changelog.headline': 'Melee/secundárias sem corte (horizontal)',
+    'briefing.changelog.summary':  'Os cards de <strong>melee</strong> (e secundárias) mostravam a arma cortada — a caixa era retrato com <code>object-fit:cover</code>, que corta armas largas (katana/serra). Agora é uma caixa <strong>horizontal</strong> com a arma <strong>inteira</strong> (contain) sobre o <strong>fundo de combate</strong>. Os wildcards ficaram intactos.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24314,8 +24352,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Scissors icon fixed',
-    'briefing.changelog.summary':  'The <strong>Re-crop saved images</strong> button showed the raw text &ldquo;scissors&rdquo; overlapping its label (the icon was missing from the registry). The <code>scissors</code> icon was added — the button and status messages now show the scissors.',
+    'briefing.changelog.headline': 'Melee/secondary no longer cropped',
+    'briefing.changelog.summary':  'The <strong>melee</strong> (and secondary) cards showed the weapon cropped — the box was portrait with <code>object-fit:cover</code>, which cuts off wide weapons (katana/saw). Now it&rsquo;s a <strong>landscape</strong> box showing the <strong>whole</strong> weapon (contain) on the <strong>combat backdrop</strong>. Wildcards are untouched.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
