@@ -7333,6 +7333,48 @@
     text-transform: uppercase;
     color: var(--text-muted);
   }
+  /* v2.59: painel do Início — foto da arma ativa à esquerda + ações/stats à direita */
+  .home-panel {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+    max-width: 840px;
+    margin: 0 auto;
+    text-align: left;
+    background: var(--bg-elev, rgba(255,255,255,0.02));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .home-panel-weapon { flex: 0 0 210px; display: flex; flex-direction: column; gap: 6px; }
+  .home-weapon-frame {
+    width: 210px; height: 158px;
+    border-radius: 10px;
+    background: var(--bg-base, #0D121E);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .home-weapon-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .home-weapon-frame svg { width: 46px; height: 46px; opacity: 0.35; }
+  .home-weapon-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent-orange);
+  }
+  .home-weapon-name { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 19px; color: var(--ink-100); line-height: 1.15; }
+  .home-weapon-pl { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+  .home-panel-main { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+  .home-panel .home-hero-ctas { justify-content: flex-start; margin-top: 0; }
+  .home-panel .home-readouts { justify-content: flex-start; gap: 30px; row-gap: 16px; margin-top: 0; }
+  @media (max-width: 640px) {
+    .home-panel { flex-direction: column; align-items: stretch; gap: 16px; padding: 16px; }
+    .home-panel-weapon { flex: none; align-items: center; text-align: center; }
+    .home-weapon-frame { width: 100%; height: 170px; }
+    .home-panel .home-hero-ctas, .home-panel .home-readouts { justify-content: center; }
+    .home-panel { text-align: center; }
+  }
   .home-resume {
     display: grid;
     grid-template-columns: 1.3fr 1fr;
@@ -8557,6 +8599,24 @@
 
   /* ── Build Modal ─────────────────────────────────────────────────── */
   .modal-box.modal-wide { max-width: 720px; }
+  /* v2.59: foto da arma à esquerda do modal de build (aproveita o espaço lateral) */
+  #modal-build .modal-body { display: flex; gap: 20px; align-items: flex-start; }
+  #modal-build .build-modal-photo { flex: 0 0 220px; position: sticky; top: 0; display: flex; flex-direction: column; gap: 9px; }
+  #modal-build .build-photo-frame {
+    width: 220px; height: 165px; border-radius: 10px;
+    background: var(--bg-base, #0D121E); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    color: var(--text-muted);
+  }
+  #modal-build .build-photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #modal-build .build-photo-frame svg { width: 46px; height: 46px; opacity: 0.35; }
+  #modal-build .build-photo-name { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 16px; color: var(--ink-100); text-align: center; min-height: 1.2em; }
+  #modal-build .build-modal-form { flex: 1; min-width: 0; }
+  @media (max-width: 600px) {
+    #modal-build .modal-body { flex-direction: column; }
+    #modal-build .build-modal-photo { flex: none; width: 100%; align-items: center; position: static; }
+    #modal-build .build-photo-frame { width: 100%; height: 175px; }
+  }
   .build-modal-section {
     margin-bottom: 18px;
     padding-bottom: 14px;
@@ -14033,17 +14093,29 @@
       </div>
 
       <div class="home-hero" data-reveal-stagger data-stagger="90">
-        <svg class="home-hero-logo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><title>LEVEL</title><use href="#level-logo"></use></svg>
-        <div class="home-hero-headline" data-i18n-html="home.headline">Pare de querer adivinhar.<br>Comece a evoluir.</div>
-        <p class="home-hero-sub" data-i18n="home.sub">Saiba exatamente o que ajustar, o que treinar e o que usar — das configurações de controle e áudio às armas, movimento e loadouts.</p>
-        <div class="home-hero-ctas">
-          <button class="lvl-empty-cta primary" type="button" data-home-smart data-i18n="home.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
-          <button class="lvl-empty-cta" type="button" data-home-goto="myweapons" data-i18n="home.ctaArsenal">{{i:crosshair}} Ver o Arsenal</button>
-        </div>
-        <div class="home-readouts">
-          <div class="home-readout"><strong id="home-ro-arsenal">—</strong><span data-i18n="home.ro.arsenal">ARMAS NO ARSENAL</span></div>
-          <div class="home-readout"><strong id="home-ro-builds">—</strong><span data-i18n="home.ro.builds">BUILDS SALVAS</span></div>
-          <div class="home-readout"><strong data-i18n="home.ro.styleVal">Rusher</strong><span data-i18n="home.ro.style">ESTILO DE JOGO</span></div>
+        <div class="home-panel">
+          <div class="home-panel-weapon">
+            <div class="home-weapon-frame" id="home-active-weapon-frame">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+            </div>
+            <div class="home-weapon-tag" data-i18n="home.activeWeapon">ARMA ATIVA</div>
+            <div class="home-weapon-name" id="home-active-weapon-name">—</div>
+            <div class="home-weapon-pl" id="home-active-weapon-pl"></div>
+          </div>
+          <div class="home-panel-main">
+            <div class="home-hero-ctas">
+              <button class="lvl-empty-cta primary" type="button" data-home-smart data-i18n="home.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
+              <button class="lvl-empty-cta" type="button" data-home-goto="myweapons" data-i18n="home.ctaArsenal">{{i:crosshair}} Ver o Arsenal</button>
+            </div>
+            <div class="home-readouts">
+              <div class="home-readout"><strong id="home-ro-arsenal">—</strong><span data-i18n="home.ro.arsenal">ARMAS NO ARSENAL</span></div>
+              <div class="home-readout"><strong id="home-ro-builds">—</strong><span data-i18n="home.ro.builds">BUILDS SALVAS</span></div>
+              <div class="home-readout"><strong id="home-ro-maxed">—</strong><span data-i18n="home.ro.maxed">ARMAS MAXADAS</span></div>
+              <div class="home-readout"><strong id="home-ro-prestige">—</strong><span data-i18n="home.ro.prestige">PRESTÍGIOS</span></div>
+              <div class="home-readout"><strong id="home-ro-progress">—</strong><span data-i18n="home.ro.progress">PROGRESSO MÉDIO</span></div>
+              <div class="home-readout"><strong data-i18n="home.ro.styleVal">Rusher</strong><span data-i18n="home.ro.style">ESTILO DE JOGO</span></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -14267,7 +14339,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.58.7 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.59.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17532,6 +17604,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.59.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Início redesenhado + foto da arma nos painéis.</strong> Pedidos do Victor. <strong>(1)</strong> O bloco de marketing do Início (logo + "Pare de querer adivinhar. Comece a evoluir." + subtítulo) saiu do Hub e ficou <strong>só no pitch</strong> (landing pré-login). O resto subiu. <strong>(2)</strong> O Início virou um <strong>painel</strong>: à esquerda a <strong>foto da arma ativa</strong> (com nome + P/level), à direita os botões (Montagem Inteligente · Ver o Arsenal) e os readouts reorganizados, agora com <strong>mais estatísticas</strong>: Armas no arsenal, Builds salvas, <strong>Armas maxadas</strong>, <strong>Prestígios</strong>, <strong>Progresso médio</strong> e Estilo de jogo. <strong>(3)</strong> No <strong>modal de build</strong> (ao abrir/editar uma arma) a foto da arma agora aparece <strong>à esquerda</strong>, aproveitando o espaço lateral (empilha no mobile). As fotos vêm das imagens enviadas em Configurações ▸ Armas (<code>getUserImage(weapon.id)</code>); sem imagem, mostra um placeholder. Obs.: a CBRS-3, já no catálogo, aparece sozinha em Configurações ▸ Armas ▸ SMG pra subir a imagem dela. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.58.7</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20249,7 +20330,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.58.7</strong><span class="ver-tag">arsenal: removida a linha "Catálogo de attachments: X de Y armas (codmunity.gg)" da barra de stats de Minhas Armas</span>
+        LEVEL · <strong>v2.59.0</strong><span class="ver-tag">Início redesenhado: marketing só no pitch · painel com foto da arma ativa à esquerda + mais stats (maxadas, prestígios, progresso) · foto da arma também à esquerda do modal de build</span>
       </div>
       <script>
         (function(){
@@ -20872,6 +20953,13 @@
           <button class="modal-close" data-close-modal="modal-build">×</button>
         </div>
         <div class="modal-body">
+          <div class="build-modal-photo">
+            <div class="build-photo-frame" id="build-photo-frame">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+            </div>
+            <div class="build-photo-name" id="build-photo-name"></div>
+          </div>
+          <div class="build-modal-form">
 
           <!-- Section: identification -->
           <div class="build-modal-section">
@@ -20957,6 +21045,7 @@
             </div>
           </div>
 
+          </div><!-- /build-modal-form -->
         </div>
         <div class="modal-actions">
           <button class="btn-action btn-reset" data-close-modal="modal-build" style="flex:0 0 auto; min-width:auto; padding:10px 18px">Cancelar</button>
@@ -21882,8 +21971,12 @@ window.I18N = {
     'home.ctaArsenal':        '{{i:crosshair}} Ver o Arsenal',
     'home.ro.arsenal':        'ARMAS NO ARSENAL',
     'home.ro.builds':         'BUILDS SALVAS',
+    'home.ro.maxed':          'ARMAS MAXADAS',
+    'home.ro.prestige':       'PRESTÍGIOS',
+    'home.ro.progress':       'PROGRESSO MÉDIO',
     'home.ro.style':          'ESTILO DE JOGO',
     'home.ro.styleVal':       'Rusher',
+    'home.activeWeapon':      'ARMA ATIVA',
     'home.continue.label':    'CONTINUAR DE ONDE PARASTE',
     'home.continue.open':     '{{i:pencil}} Abrir no Arsenal',
     'home.tip.tag':           'DICA DO DIA',
@@ -22196,8 +22289,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Minhas Armas: linha removida',
-    'briefing.changelog.summary':  'Removemos da barra de stats de <strong>Minhas Armas</strong> a linha <em>"Catálogo de attachments: X de Y armas (codmunity.gg)"</em>. A barra agora mostra só <strong>Total de builds</strong> e <strong>Por arma base</strong>.',
+    'briefing.changelog.headline': 'Início redesenhado',
+    'briefing.changelog.summary':  'O <strong>Início</strong> virou um painel: à esquerda a <strong>foto da arma ativa</strong>, à direita os botões e mais estatísticas (armas, builds, <strong>maxadas</strong>, <strong>prestígios</strong>, <strong>progresso médio</strong>). A apresentação de marketing ficou só no pitch. A <strong>foto da arma</strong> também passou a aparecer à esquerda do modal de build. As imagens vêm de Configurações ▸ Armas.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23534,8 +23627,12 @@ window.I18N = {
     'home.ctaArsenal':        '{{i:crosshair}} View the Arsenal',
     'home.ro.arsenal':        'WEAPONS IN ARSENAL',
     'home.ro.builds':         'SAVED BUILDS',
+    'home.ro.maxed':          'MAXED WEAPONS',
+    'home.ro.prestige':       'PRESTIGES',
+    'home.ro.progress':       'AVG PROGRESS',
     'home.ro.style':          'PLAYSTYLE',
     'home.ro.styleVal':       'Rusher',
+    'home.activeWeapon':      'ACTIVE WEAPON',
     'home.continue.label':    'PICK UP WHERE YOU LEFT OFF',
     'home.continue.open':     '{{i:pencil}} Open in Arsenal',
     'home.tip.tag':           'TIP OF THE DAY',
@@ -23847,8 +23944,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'My Weapons: line removed',
-    'briefing.changelog.summary':  'We removed the <em>"Attachment catalog: X of Y weapons (codmunity.gg)"</em> line from the <strong>My Weapons</strong> stats bar. The bar now shows only <strong>Total builds</strong> and <strong>Per base weapon</strong>.',
+    'briefing.changelog.headline': 'Home redesigned',
+    'briefing.changelog.summary':  'The <strong>Home</strong> is now a panel: the <strong>active weapon photo</strong> on the left, buttons and more stats on the right (weapons, builds, <strong>maxed</strong>, <strong>prestiges</strong>, <strong>avg progress</strong>). The marketing pitch now lives only on the landing page. The <strong>weapon photo</strong> also shows on the left of the build modal. Images come from Settings ▸ Weapons.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -29237,6 +29334,12 @@ const ATTACHMENT_ICONS = {
       const w = sel.value ? _pickerWeapons[sel.value] : null;
       const panel = document.getElementById('build-base-panel');
       if (panel) panel.querySelectorAll('.wpick-opt').forEach(function (o) { o.classList.toggle('sel', o.getAttribute('data-wid') === sel.value); });
+      // v2.59: foto grande à esquerda do modal (img se houver upload; senão placeholder)
+      const _pf = document.getElementById('build-photo-frame');
+      const _pn = document.getElementById('build-photo-name');
+      if (_pf) _pf.innerHTML = w ? wpickThumb(w)
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>';
+      if (_pn) _pn.textContent = w ? w.name : '';
       if (!w) { thumb.className = 'wpicker-thumb'; thumb.innerHTML = ''; thumb.style.removeProperty('--wc'); label.className = 'wpicker-label placeholder'; label.textContent = '— Selecione a arma —'; return; }
       thumb.className = 'wpicker-thumb has'; thumb.style.setProperty('--wc', 'var(' + (WPICK_CLASS_TOKEN[w.class] || '--accent-orange') + ')'); thumb.innerHTML = wpickThumb(w);
       label.className = 'wpicker-label'; label.textContent = w.name;
@@ -37856,6 +37959,44 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         var LR = window.LevelReveal;
         if (roA) { if (LR && LR.countTo) LR.countTo(roA, weapons.length); else roA.textContent = weapons.length; }
         if (roB) { if (LR && LR.countTo) LR.countTo(roB, builds.length); else roB.textContent = builds.length; }
+
+        // v2.59: stats extra do arsenal
+        const maxedN = weapons.filter(function (w) { return w.maxed || (w.level && w.levelMax && w.level >= w.levelMax); }).length;
+        const prestN = weapons.filter(function (w) { return (w.prestige || 0) > 0 || w.master; }).length;
+        const avgProg = weapons.length
+          ? Math.round(weapons.reduce(function (s, w) { return s + Math.min(1, (w.level || 0) / (w.levelMax || 1)); }, 0) / weapons.length * 100)
+          : 0;
+        const roMax = document.getElementById('home-ro-maxed');
+        const roPre = document.getElementById('home-ro-prestige');
+        const roPrg = document.getElementById('home-ro-progress');
+        if (roMax) { if (LR && LR.countTo) LR.countTo(roMax, maxedN); else roMax.textContent = maxedN; }
+        if (roPre) { if (LR && LR.countTo) LR.countTo(roPre, prestN); else roPre.textContent = prestN; }
+        if (roPrg) roPrg.textContent = avgProg + '%';
+
+        // v2.59: arma ativa (foto + nome + prestige/level) no painel do Início
+        try {
+          let player = null;
+          if (DB.player && DB.player.get) player = await DB.player.get();
+          const activeId = player && player.activeWeaponId;
+          const active = (activeId && weapons.find(function (w) { return w.id === activeId; }))
+            || weapons.find(function (w) { return w.isActive; }) || null;
+          const nameEl2 = document.getElementById('home-active-weapon-name');
+          const plEl = document.getElementById('home-active-weapon-pl');
+          const frameEl = document.getElementById('home-active-weapon-frame');
+          const esc = (typeof escapeHtml === 'function') ? escapeHtml : function (s) { return String(s == null ? '' : s); };
+          if (nameEl2) nameEl2.textContent = active ? active.name : '—';
+          if (plEl) {
+            plEl.textContent = active
+              ? ((active.master ? 'Mestre' : 'P' + (active.prestige || 0)) + ' · ' + (active.level || 0) + '/' + (active.levelMax || '?'))
+              : '';
+          }
+          if (frameEl) {
+            const img = (active && typeof getUserImage === 'function') ? getUserImage(active.id) : null;
+            if (img) {
+              frameEl.innerHTML = '<img src="' + img + '" alt="' + esc(active.name) + '">';
+            }
+          }
+        } catch (e2) { /* painel é vitrine */ }
         const wrap = document.getElementById('home-continue');
         if (wrap) {
           const last = builds.slice().sort(function (a, b) {
