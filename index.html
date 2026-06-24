@@ -11776,6 +11776,14 @@
     padding: 14px;
     text-align: center;
   }
+  /* v2.67: preview da imagem PROCESSADA sobre o fundo de combate (logo watermark) — mostra o look final do site */
+  .imgproc-preview-box.proc .imgproc-preview-img {
+    background-color: var(--bg-darkest, #0a1118);
+    background-image: url('assets/equip-watermark.svg');
+    background-repeat: repeat;
+    background-size: 46px auto;
+    border-radius: 6px;
+  }
   .imgproc-preview-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -14490,7 +14498,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.66.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.67.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17755,6 +17763,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.67.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Processador de Imagem: Centralizar + Expandir item.</strong> Passo 1 da virada de tratar a imagem <strong>no cadastro</strong> (e não no display). No Processador (Configurações), dois toggles novos: <strong>Centralizar item</strong> (recorta o equipamento pelo canal alfa e centra) e <strong>Expandir item</strong> (maximiza pra ~88% do quadro com 6% de margem, centrado). Reusa a mesma detecção de bbox por alfa do recorte de hover. O preview da imagem <strong>processada</strong> passou a aparecer sobre o <strong>fundo de combate</strong> (watermark da logo) — o look final do site. Removido o aviso dos ~80MB (é o motor de IA, one-time; as imagens vão pro bucket). Verificado em harness isolado (item movido do canto pro centro; e maximizado a 88% centrado). node 20/20. Próximo: salvar por tag no bucket (Passo 2) + seletor de fundo (Passo 3).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.66.1</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20043,9 +20060,7 @@
           <strong>Processador de Imagem.</strong> Remove o fundo automaticamente (IA roda no seu navegador, sem servidor) e redimensiona pra qualquer tamanho. Útil pra fotos de armas, emblemas, mapas — qualquer imagem que você vá subir no Hub.
         </p>
 
-        <div class="imgproc-warn" data-i18n-html="imgproc.warn">
-          {{i:alert-triangle}} <strong>Primeira execução baixa o modelo de IA (~80MB)</strong>. Acontece uma vez só, depois fica em cache. Funciona melhor em desktop. Se o navegador travar, fecha e tenta uma imagem menor.
-        </div>
+        <!-- v2.67: aviso dos ~80MB removido a pedido do Victor (é o motor de IA, one-time; as imagens vão pro bucket). -->
 
         <!-- STEP 1: Upload -->
         <div class="imgproc-step">
@@ -20080,6 +20095,8 @@
           <div class="imgproc-options">
             <label><input type="checkbox" id="imgproc-keep-ratio" checked> <span data-i18n="imgproc.opt.keepRatio">Manter proporção (sem distorcer)</span></label>
             <label><input type="checkbox" id="imgproc-remove-bg" checked> <span data-i18n="imgproc.opt.removeBg">Remover fundo (IA)</span></label>
+            <label><input type="checkbox" id="imgproc-center" checked> <span data-i18n="imgproc.opt.center">Centralizar item</span></label>
+            <label><input type="checkbox" id="imgproc-expand" checked> <span data-i18n="imgproc.opt.expand">Expandir item (maximizar)</span></label>
           </div>
         </div>
 
@@ -20106,7 +20123,7 @@
               <img class="imgproc-preview-img" id="imgproc-prev-orig" alt="">
               <div class="imgproc-preview-info" id="imgproc-prev-orig-info">—</div>
             </div>
-            <div class="imgproc-preview-box">
+            <div class="imgproc-preview-box proc">
               <div class="imgproc-preview-label" data-i18n="imgproc.prev.processed">Processada</div>
               <img class="imgproc-preview-img" id="imgproc-prev-out" alt="">
               <div class="imgproc-preview-info" id="imgproc-prev-out-info">—</div>
@@ -20616,7 +20633,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.66.1</strong><span class="ver-tag">correção do gráfico: mudança de prestígio/nível feita direto no perfil já vira ponto no gráfico (antes um throttle de 60s engolia as edições rápidas e o gráfico ficava vazio)</span>
+        LEVEL · <strong>v2.67.0</strong><span class="ver-tag">Processador de Imagem: Centralizar + Expandir item (recorta o equipamento pelo fundo e centra/maximiza no quadro); preview da processada sobre o fundo de combate; aviso dos ~80MB removido</span>
       </div>
       <script>
         (function(){
@@ -22601,8 +22618,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Gráfico: edição do perfil já conta',
-    'briefing.changelog.summary':  'Agora qualquer mudança de <strong>prestígio/nível</strong> feita direto no seu perfil já vira ponto no gráfico de progressão — não precisa mais clicar em Snapshot. (Antes um limite de tempo de 60s engolia as edições rápidas e o gráfico ficava vazio.)',
+    'briefing.changelog.headline': 'Processador: centralizar + expandir item',
+    'briefing.changelog.summary':  'O <strong>Processador de Imagem</strong> (Configurações) ganhou <strong>Centralizar item</strong> e <strong>Expandir item</strong>: recorta o equipamento pelo fundo transparente e o centraliza/maximiza no quadro. O preview da imagem processada já aparece sobre o <strong>fundo de combate</strong> (o look final do site). Aviso dos ~80MB removido.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23623,6 +23640,8 @@ window.I18N = {
     'imgproc.size.height': 'Altura',
     'imgproc.opt.keepRatio': 'Manter proporção (sem distorcer)',
     'imgproc.opt.removeBg': 'Remover fundo (IA)',
+    'imgproc.opt.center': 'Centralizar item',
+    'imgproc.opt.expand': 'Expandir item (maximizar)',
     'imgproc.btn.process': '▶ Processar',
     'imgproc.btn.download': '⬇ Baixar PNG',
     'imgproc.btn.reset': '↺ Resetar',
@@ -24265,8 +24284,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Chart: profile edits now count',
-    'briefing.changelog.summary':  'Any <strong>prestige/level</strong> change you make directly in your profile now becomes a point on the progression chart — no need to click Snapshot anymore. (A 60s time limit used to swallow quick edits and leave the chart empty.)',
+    'briefing.changelog.headline': 'Processor: center + expand item',
+    'briefing.changelog.summary':  'The <strong>Image Processor</strong> (Settings) gained <strong>Center item</strong> and <strong>Expand item</strong>: it crops the gear by its transparent background and centers/maximizes it in the frame. The processed preview now shows on the <strong>combat backdrop</strong> (the final on-site look). The ~80MB notice was removed.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -25287,6 +25306,8 @@ window.I18N = {
     'imgproc.size.height': 'Height',
     'imgproc.opt.keepRatio': 'Keep aspect ratio (no distortion)',
     'imgproc.opt.removeBg': 'Remove background (AI)',
+    'imgproc.opt.center': 'Center item',
+    'imgproc.opt.expand': 'Expand item (maximize)',
     'imgproc.btn.process': '▶ Process',
     'imgproc.btn.download': '⬇ Download PNG',
     'imgproc.btn.reset': '↺ Reset',
@@ -40279,6 +40300,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       var btnDownload = document.getElementById('imgproc-download');
       var removeBg = document.getElementById('imgproc-remove-bg').checked;
       var keepRatio = document.getElementById('imgproc-keep-ratio').checked;
+      var centerItem = !!(document.getElementById('imgproc-center') || {}).checked;
+      var expandItem = !!(document.getElementById('imgproc-expand') || {}).checked;
       var targetW = parseInt(document.getElementById('imgproc-width').value, 10) || 400;
       var targetH = parseInt(document.getElementById('imgproc-height').value, 10) || 300;
 
@@ -40309,7 +40332,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
         // ── Etapa 2: redimensionar via canvas ──
         imgprocSetStatus(cbt('imgproc.status.resizing') || 'Redimensionando…', '');
-        var finalBlob = await imgprocResize(sourceBlob, targetW, targetH, keepRatio);
+        var finalBlob = await imgprocResize(sourceBlob, targetW, targetH, keepRatio, centerItem, expandItem);
         imgprocSetProgress(95);
 
         imgprocState.processedBlob = finalBlob;
@@ -40336,9 +40359,33 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }
     }
 
+    // v2.67: detecta a caixa (bbox) do item pelo canal alfa — mesma lógica do recorte do hover.
+    // data = Uint8ClampedArray RGBA; devolve {x,y,w,h} normalizado (0..1) ou null se for opaco.
+    function imgprocAlphaBBox(data, W, H) {
+      var total = W * H, transparent = 0, content = 0;
+      var colCount = new Uint16Array(W), rowCount = new Uint16Array(H);
+      var ALPHA = 96; // alfa mínimo p/ contar como sólido (ignora halo translúcido, mantém anti-aliasing)
+      for (var p = 0; p < total; p++) {
+        var a = data[p * 4 + 3];
+        if (a < 200) transparent++;
+        if (a < ALPHA) continue;
+        colCount[p % W]++; rowCount[(p / W) | 0]++; content++;
+      }
+      if (transparent < total * 0.02 || content < 30) return null; // sem transparência real → opaco, sem bbox
+      var colMin = Math.max(2, Math.round(H * 0.02));
+      var rowMin = Math.max(2, Math.round(W * 0.02));
+      var minX = -1, maxX = -1, minY = -1, maxY = -1, cx, cy;
+      for (cx = 0; cx < W; cx++) { if (colCount[cx] >= colMin) { if (minX < 0) minX = cx; maxX = cx; } }
+      for (cy = 0; cy < H; cy++) { if (rowCount[cy] >= rowMin) { if (minY < 0) minY = cy; maxY = cy; } }
+      if (minX < 0 || minY < 0) return null;
+      return { x: minX / W, y: minY / H, w: (maxX - minX + 1) / W, h: (maxY - minY + 1) / H };
+    }
+
     // Redimensiona blob via canvas, preservando transparência.
-    // Se keepRatio = true: imagem é centralizada em canvas (targetW × targetH) com fundo transparente.
-    function imgprocResize(blob, targetW, targetH, keepRatio) {
+    // v2.67: se centerItem/expandItem, recorta o item pelo alfa e o centraliza/maximiza no canvas
+    //        (precisa do "remover fundo" pra ter transparência; senão cai no contain/stretch).
+    // keepRatio = contain (centralizado, fundo transparente); !keepRatio = stretch.
+    function imgprocResize(blob, targetW, targetH, keepRatio, centerItem, expandItem) {
       return new Promise(function (resolve, reject) {
         var url = URL.createObjectURL(blob);
         var img = new Image();
@@ -40350,25 +40397,42 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
 
-          if (keepRatio) {
+          var bbox = null;
+          if (centerItem || expandItem) {
+            try {
+              var sw = img.naturalWidth, sh = img.naturalHeight;
+              var SCANMAX = 240;
+              var s = Math.min(1, SCANMAX / Math.max(sw, sh, 1));
+              var scan = document.createElement('canvas');
+              scan.width = Math.max(1, Math.round(sw * s));
+              scan.height = Math.max(1, Math.round(sh * s));
+              var sctx = scan.getContext('2d');
+              sctx.drawImage(img, 0, 0, scan.width, scan.height);
+              var d = sctx.getImageData(0, 0, scan.width, scan.height).data;
+              bbox = imgprocAlphaBBox(d, scan.width, scan.height);
+            } catch (e) { bbox = null; }
+          }
+
+          if (bbox) {
+            // região do item em px reais da imagem
+            var sx = bbox.x * img.naturalWidth, sy = bbox.y * img.naturalHeight;
+            var sWi = Math.max(1, bbox.w * img.naturalWidth), sHi = Math.max(1, bbox.h * img.naturalHeight);
+            var margin = 0.06;
+            var availW = targetW * (1 - 2 * margin), availH = targetH * (1 - 2 * margin);
+            var fit = Math.min(availW / sWi, availH / sHi);
+            // expandir = preenche (pode ampliar); só centralizar = não amplia além de 1:1
+            var scale = expandItem ? fit : Math.min(1, fit);
+            var dw = sWi * scale, dh = sHi * scale;
+            var dx = (targetW - dw) / 2, dy = (targetH - dh) / 2;
+            ctx.drawImage(img, sx, sy, sWi, sHi, dx, dy, dw, dh);
+          } else if (keepRatio) {
             // Fit (contain): toda a imagem cabe, sem cortar
             var srcRatio = img.naturalWidth / img.naturalHeight;
             var dstRatio = targetW / targetH;
-            var dw, dh, dx, dy;
-            if (srcRatio > dstRatio) {
-              // Imagem mais larga: limita pela largura
-              dw = targetW;
-              dh = targetW / srcRatio;
-              dx = 0;
-              dy = (targetH - dh) / 2;
-            } else {
-              // Imagem mais alta: limita pela altura
-              dh = targetH;
-              dw = targetH * srcRatio;
-              dx = (targetW - dw) / 2;
-              dy = 0;
-            }
-            ctx.drawImage(img, dx, dy, dw, dh);
+            var dw2, dh2, dx2, dy2;
+            if (srcRatio > dstRatio) { dw2 = targetW; dh2 = targetW / srcRatio; dx2 = 0; dy2 = (targetH - dh2) / 2; }
+            else { dh2 = targetH; dw2 = targetH * srcRatio; dx2 = (targetW - dw2) / 2; dy2 = 0; }
+            ctx.drawImage(img, dx2, dy2, dw2, dh2);
           } else {
             // Stretch: distorce pra preencher
             ctx.drawImage(img, 0, 0, targetW, targetH);
