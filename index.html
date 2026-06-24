@@ -1232,12 +1232,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.72.2 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.72.3 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Painel do Operador mais limpo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A aba <strong>Operador</strong> ficou mais enxuta: a barra de armazenamento de imagens (Migrar/Exportar/Importar/Limpar) agora aparece só nas abas de imagem e some no perfil. O card de avatar duplicado saiu — a foto troca-se clicando no avatar da barra lateral. Também corrigimos ícones que apareciam como texto.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Configurações mais enxutas</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos das Configurações os botões de backup local que já não fazem falta — <strong>Exportar/Importar/Limpar</strong> — e o <strong>Sair</strong> duplicado (o logout continua no topo). O backup de verdade é o <strong>Backup na cloud</strong>; sobrou só o <strong>Migrar pra cloud</strong>, em avaliação.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4497,6 +4497,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.72.3</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">refac · ux</span>
+              </div>
+              <p class="vh-desc"><strong>Configurações: removidas as ferramentas de backup local legadas.</strong> Saíram <strong>Exportar/Importar (.json)</strong>, <strong>Limpar tudo</strong> e <strong>Sair da conta</strong> — eram resíduo da era localStorage-first; o backup/restauro real é a seção <strong>Backup na cloud</strong> e o logout já existe no header. Sobrou o <strong>Migrar pra cloud</strong> + contador, <strong>em avaliação</strong> (só apanha imagens órfãs de antes do cloud-first; upload novo já vai pra cloud via <code>setUserImage</code>). Os handlers e o input de import foram removidos junto, e na aba Operador a barra esconde-se inteira. Segue ao v2.72.2 (limpeza do painel Operador + ícones que faltavam). <code>node --check</code> OK; abas de imagem mantêm contador + Migrar.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.72.2</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">fix · ux</span>
@@ -6846,12 +6855,11 @@
           <strong id="set-storage-count">0</strong>
           <span data-i18n="set.info.imgs"> imagens</span>
         </div>
+        <!-- v2.72.3: Exportar/Importar (.json), Limpar tudo e Sair da conta removidos. Eram legado
+             do localStorage-first; o backup/restauro real é a seção "Backup na cloud" e o logout
+             vive no header. EM AVALIAÇÃO: "Migrar pra cloud" — só apanha imagens órfãs de antes do
+             cloud-first (upload novo já vai pra cloud via setUserImage); rever na modularização. -->
         <button class="settings-btn" id="set-migrate-cloud-btn" data-i18n="set.btn.migrateCloud">{{i:cloud-upload}} Migrar pra cloud</button>
-        <button class="settings-btn" id="set-export-btn" data-i18n="set.btn.export">{{i:download}} Exportar backup (.json)</button>
-        <button class="settings-btn" id="set-import-btn" data-i18n="set.btn.import">{{i:upload}} Importar backup</button>
-        <button class="settings-btn danger" id="set-clear-btn" data-i18n="set.btn.clear">{{i:trash-2}} Limpar tudo</button>
-        <button class="settings-btn" id="set-logout-btn" data-i18n="set.btn.logout">{{i:log-out}} Sair da conta</button>
-        <input type="file" class="settings-file-input" id="set-import-file" accept="application/json">
       </div>
 
       <div class="settings-tabs" id="set-tabs">
@@ -7426,7 +7434,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.72.2</strong><span class="ver-tag">painel Operador mais limpo — barra de armazenamento de imagens só nas abas de imagem, card de avatar duplicado removido, e 6 ícones que faltavam (users/plus/key/tag/play/book-open) adicionados ao registo</span>
+        LEVEL · <strong>v2.72.3</strong><span class="ver-tag">Configurações mais enxutas — Exportar/Importar/Limpar/Sair removidos (legado do localStorage-first; backup real = Backup na cloud, logout no header). Sobra só Migrar pra cloud, em avaliação</span>
       </div>
       <script>
         (function(){
@@ -9388,8 +9396,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Painel do Operador mais limpo',
-    'briefing.changelog.summary':  'A aba <strong>Operador</strong> ficou mais enxuta: a barra de armazenamento de imagens (Migrar/Exportar/Importar/Limpar) agora aparece só nas abas de imagem e some no perfil. O card de avatar duplicado saiu — a foto troca-se clicando no avatar da barra lateral. Também corrigimos ícones que apareciam como texto nas seções de admin.',
+    'briefing.changelog.headline': 'Configurações mais enxutas',
+    'briefing.changelog.summary':  'Tiramos das Configurações os botões de backup local que já não fazem falta — <strong>Exportar/Importar/Limpar</strong> — e o <strong>Sair</strong> duplicado (o logout continua no topo). O backup de verdade é o <strong>Backup na cloud</strong>; sobrou só o <strong>Migrar pra cloud</strong>, em avaliação.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -11056,8 +11064,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Cleaner Operator panel',
-    'briefing.changelog.summary':  'The <strong>Operator</strong> tab is leaner: the image-storage bar (Migrate/Export/Import/Clear) now shows only on the image tabs and is hidden on your profile. The duplicate avatar card is gone — change your photo by clicking the sidebar avatar. We also fixed icons that were showing up as raw text in the admin sections.',
+    'briefing.changelog.headline': 'Leaner Settings',
+    'briefing.changelog.summary':  'We removed the legacy local-backup buttons from Settings — <strong>Export/Import/Clear</strong> — and the duplicate <strong>Sign out</strong> (logout stays at the top). Real backup is <strong>Cloud backup</strong>; only <strong>Migrate to cloud</strong> remains, under review.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -26719,17 +26727,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const operator = document.getElementById('operator-panel');
       if (!grid) return;
       const cat = SETTINGS_CATEGORIES.find(c => c.id === settingsActiveTab);
-      // v2.72.2: a barra de armazenamento de IMAGENS (contador + Migrar/Exportar/Importar/Limpar)
-      // pertence às abas de imagem. Na aba OPERADOR (perfil/conta) só confundia — esconde esses
-      // controlos ali e deixa só "Sair da conta". (Tudo é cloud-first; o local é só cache.)
+      // v2.72.3: a barra de armazenamento de imagens (contador + "Migrar pra cloud") só interessa
+      // nas abas de imagem. Na aba OPERADOR (perfil/conta) esconde-a inteira. (Cloud-first; o local
+      // é só cache. Exportar/Importar/Limpar/Sair foram removidos no v2.72.3.)
       (function () {
-        var hideImgTools = (settingsActiveTab === 'avatar');
-        ['set-migrate-cloud-btn', 'set-export-btn', 'set-import-btn', 'set-clear-btn'].forEach(function (id) {
-          var el = document.getElementById(id);
-          if (el) el.style.display = hideImgTools ? 'none' : '';
-        });
-        var sab = document.querySelector('.settings-actions-bar .sab-info');
-        if (sab) sab.style.display = hideImgTools ? 'none' : '';
+        var bar = document.querySelector('.settings-actions-bar');
+        if (bar) bar.style.display = (settingsActiveTab === 'avatar') ? 'none' : '';
       })();
       // v2.46.0: caixa de upload em massa — só em categorias normais (com source de itens)
       const bulkBox = document.getElementById('set-bulk-drop');
@@ -27872,20 +27875,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         return;
       }
       // ações globais
-      if (e.target.id === 'set-clear-btn') {
-        if (!(await LevelModal.confirm({ title: 'Limpar imagens', message: cbt('set.confirm.clear'), variant: 'danger', confirmText: 'Limpar tudo' }))) return;
-        clearUserImages();
-        if (typeof showToast === 'function') showToast(cbt('set.toast.cleared'), 'success');
-        refreshAfterImageChange();
-        return;
-      }
-      // v2.53.0: logout — termina a sessão e volta ao Pitch
-      if (e.target.closest && e.target.closest('#set-logout-btn')) {
-        if (!(await LevelModal.confirm({ title: cbt('set.confirm.logout.title'), message: cbt('set.confirm.logout.msg'), variant: 'danger', confirmText: cbt('set.confirm.logout.btn') }))) return;
-        try { if (window.LEVEL_AUTH && LEVEL_AUTH.logout) await LEVEL_AUTH.logout(); } catch (e2) {}
-        return;
-      }
-      // v75-94: Migrar todas as imagens do localStorage pra cloud
+      // v2.72.3: handlers de "Limpar tudo" e "Sair da conta" removidos com os botões
+      // (logout vive no header; backup real = seção "Backup na cloud").
+      // v75-94: Migrar todas as imagens do localStorage pra cloud (EM AVALIAÇÃO — ver barra)
       if (e.target.id === 'set-migrate-cloud-btn') {
         const btn = e.target;
         const map = loadUserImages();
@@ -27940,23 +27932,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         refreshAfterImageChange();
         return;
       }
-      if (e.target.id === 'set-export-btn') {
-        const map = loadUserImages();
-        const blob = new Blob([JSON.stringify(map, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        const stamp = new Date().toISOString().slice(0, 10);
-        a.href = url; a.download = 'level_hub_images_' + stamp + '.json';
-        a.click();
-        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-        if (typeof showToast === 'function') showToast(cbt('set.toast.exported'), 'success');
-        return;
-      }
-      if (e.target.id === 'set-import-btn') {
-        const input = document.getElementById('set-import-file');
-        if (input) { input.value = ''; input.click(); }
-        return;
-      }
+      // v2.72.3: handlers de Exportar/Importar (.json) removidos com os botões.
     });
 
     // upload file handler
@@ -27999,35 +27975,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         });
         return;
       }
-      // import backup
-      if (e.target && e.target.id === 'set-import-file') {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function () {
-          try {
-            const obj = JSON.parse(reader.result);
-            if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('bad shape');
-            const merged = Object.assign(loadUserImages(), obj);
-            // só aceita valores que parecem data URLs
-            const filtered = {};
-            let count = 0;
-            Object.keys(merged).forEach(function (k) {
-              const v = merged[k];
-              if (typeof v === 'string' && v.startsWith('data:image/')) {
-                filtered[k] = v; count++;
-              }
-            });
-            if (saveUserImages(filtered)) {
-              if (typeof showToast === 'function') showToast(cbt('set.toast.imported', count), 'success');
-              refreshAfterImageChange();
-            }
-          } catch (err) {
-            if (typeof showToast === 'function') showToast(cbt('set.toast.invalidBackup'), 'error');
-          }
-        };
-        reader.readAsText(file);
-      }
+      // v2.72.3: handler do import (.json) removido com o botão.
     });
 
     // v2.46.0 · drag-drop + clique + change da caixa de upload em massa
