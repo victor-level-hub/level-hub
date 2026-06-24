@@ -1,7 +1,9 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 17 Jun 2026 — v2.48.0 (Captura de Stats por foto; PRONTA p/ deploy, aguarda OK de push). v2.47.x já em produção.
+> Última atualização: 24 Jun 2026 — v2.64.0 (em produção). Sessão longa: avatar-IA estilos,
+> catálogo de armas, **sistema de moderação completo**, histórico de progressão, tracker Gemini,
+> imagens de equipamento (recorte de fundo + watermark).
 
 ---
 
@@ -9,128 +11,113 @@
 Continuar a construção do LEVEL (le-vel.games) — companion tático de CoD: Black Ops 7.
 
 LÊ PRIMEIRO (antes de editar):
-1. C:\level-hub\CLAUDE.md  (instruções de projeto)
-2. C:\level-hub\LEVEL_ESTADO.md  (memória detalhada — marcos, arquitetura, decisões)
-O repo REAL é C:\level-hub (o cwd da sessão pode estar vazio). Confirma a localização.
+1. C:\level-hub\CLAUDE.md            (instruções de projeto)
+2. C:\level-hub\LEVEL_ESTADO.md      (memória detalhada de marcos/arquitetura)
+3. A auto-memória (MEMORY.md) já carrega no contexto — confere os pontos abaixo.
+O repo REAL é C:\level-hub (o cwd da sessão costuma estar VAZIO). Confirma a localização.
+⚠️ Subagentes Explore: passa SEMPRE o caminho ABSOLUTO C:\level-hub\index.html (senão caem no cwd vazio).
 
 ESTADO ATUAL
-- Versão: v2.48.0 (footer "LEVEL · v2.48.0") — PRONTA, aguarda OK de push. v2.47.x já em produção.
-- App = single-file C:\level-hub\index.html (~44k linhas, 16 blocos <script>), HTML/CSS/JS
-  vanilla + Supabase + auto-deploy Netlify. Coach IA interno = Le Vél. APP TODO EM PT-BR
-  (a conversão PT-PT→PT-BR foi feita na v2.47.0 — se vires "teu/tua/telemóvel/ecrã/secção",
-  é regressão).
-- Já no padrão do design system: masthead, sidebar/Operator Profile, Auth Gate, scroll-reveal
-  em TODAS as telas (v2.44.0→.2). Interior Glass/Neon.
-- v2.47.0 (handoff Design System-v7): LOGO+FAVICON oficiais do Figma — logo facetado com chevron
-  embutido como <symbol id="level-logo"> (FONTE ÚNICA; o app NÃO lê assets/level-logo.svg em
-  runtime — editar só o .svg não muda nada), referenciado por <use> no auth/sidebar/hero;
-  favicon chevron (transparente + tiles escuros apple-touch/manifest). MINHAS ARMAS (Command
-  Center) = 4 seções empilhadas (Loadout/Análise/Avalie/Progressão), Progressão derivada de
-  WEAPON_UNLOCKS (buildUnlockPlanHtml). LOADOUT (#section-loadouts) redesenhado: Estilo cartas
-  grandes + segmented Mosaico/Vitrine (renderStyleStep); pickers custom (renderBuildPickers,
-  delegam em onPrimaryBuildSelected/onSecondaryBuildSelected); Wildcard retrato
-  (renderWildcardCards); 12 Field Upgrades (DATA.fieldup + renderFieldUpgrades); tooltips→modais
-  (loOpenModal). Selação reusa o contrato .option-card[data-field][data-value]. CSS .lo-* ≈ L4006.
+- Versão: v2.64.0 (footer "LEVEL · v2.64.0") — em produção.
+- App = single-file C:\level-hub\index.html (~50k linhas, 20 blocos <script>), HTML/CSS/JS
+  vanilla + Supabase. Coach IA interno = "Le Vél". App TODO em PT-BR (se vires teu/tua/
+  telemóvel/ecrã/secção = regressão).
+- DEPLOY: push na main de github.com/victor-level-hub/level-hub → auto-deploy CLOUDFLARE →
+  le-vel.games. (Netlify saiu — sem crédito.) Página de captura QR = capture/index.html no MESMO
+  repo, multi-modo ?token=&type=weapon|avatar.
+- Backend Supabase: projeto cqkhqtgmolmrfgzozocr (org bo7-tactical-hub). Consigo DEPLOYAR edge
+  functions e rodar SQL/migrations via MCP, mas NÃO consigo setar SECRETS (painel trancado em
+  conta diferente; Victor recupera depois). Permissão de deploy de edge já está no settings.local.json.
 
-REGRAS DE EDIÇÃO (CRÍTICAS — não desviar)
-- index.html é UM ficheiro enorme: edita por substituição de string com âncoras longas e
-  únicas. Para zonas com SVGs grandes, usa scripts Node com replace.
-- ⚠️ ARMADILHA já cometida 2x: helper de replace que escapa "$" (repl.replace(/\$/g,'$$$$'))
-  É INCOMPATÍVEL com backreferences $1 — parte o CSS/JS. Quando o replacement não precisa de
-  grupos, usa substituição LITERAL: s.split(find).join(repl). No fim, grep -nE '\$[0-9]' ao
-  index.html para apanhar $N vazados (ignora texto/preço e regexes legítimas).
-- VALIDAÇÃO obrigatória após cada alteração: (a) node --check em TODOS os 16 blocos <script>
-  (extrair via regex, gravar .js/.mjs, checar); (b) estrutura = 1 <main> + 14 <section>;
-  (c) render isolado e inspeção antes de dar por feito (o app tem login gate — serve o
-  index.html num servidor estático local + preview; o gate aparece deslogado; para ver a
-  Home, esconde o gate via eval. Usa preview_eval para medir estilos computados — mais fiável
-  que screenshots neste ficheiro de CSS grande).
-- NÃO partir o contrato LEVEL_AUTH (Supabase real): ids lag-*, showScreen, doSignup/doLogin/
-  doReset, onAuthed. Confirm-email está OFF (signup entra direto; verify é p/ reset).
-- Sem backdrop-filter no masthead/gate (desfoca texto em gradiente). Ícones {{i:nome}}
-  (Lucide inline, sem emoji). i18n PT-BR/EN via data-i18n + window.I18N + applyI18N; tokens
-  no :root (não hard-codear hex). Logo oficial = inline com id de máscara ÚNICO por instância.
+REGRAS DE EDIÇÃO (CRÍTICAS)
+- index.html é UM ficheiro enorme: edita por substituição de string com âncoras longas e únicas.
+  Para zonas com SVG/base64 gigantes, usa scripts Python/Node com split/join LITERAL.
+  ⚠️ ARMADILHA: helper de replace que escapa "$" quebra backreferences $1 → usa split/join literal.
+- VALIDAÇÃO após cada alteração: (a) node --check em TODOS os 20 blocos <script>; (b) tags
+  balanceadas (<script>/<title>/<style>); (c) preview estático local + preview_eval (o app tem
+  login gate; deslogado mostra o PITCH #level-pitch; mede estilos computados — screenshots às
+  vezes dão timeout neste ficheiro). ⚠️ Tag HTML literal em texto de changelog (.vh-desc / i18n)
+  QUEBRA o parser — escapa &lt;&gt; sempre.
+- Não partir o contrato LEVEL_AUTH (ids lag-*, showScreen, doSignup/doLogin/doReset, onAuthed).
+  Ícones {{i:nome}} (Lucide inline, sem emoji em UI nova). i18n PT-BR/EN via data-i18n + window.I18N.
+  Tokens no :root (não hard-codear hex). <select> no tema escuro precisa color-scheme:dark.
 
-RELEASE + DEPLOY
-- Checklist: SemVer bump (PATCH=fix/visual, MINOR=feature) + footer "LEVEL · vX.Y.Z" + ver-tag;
-  changelog "O QUE MUDOU" no Painel Hoje (chaves briefing.changelog.date/pill/headline/summary,
-  PT e EN); vh-entry no topo do Histórico de Versões; regenerar LEVEL_ESTADO.md.
-- Commit: título < 50 chars + corpo em bullets + "Co-Authored-By: Claude Opus 4.8
-  <noreply@anthropic.com>". Branch main do repo victor-level-hub/level-hub.
-- PUSH = DEPLOY a produção (Netlify → le-vel.games). NÃO fazer git push sem o OK explícito do
-  Victor. Depois do deploy, confirmar o footer no site publicado.
+VERSIONAR A CADA DEPLOY (4 lugares + validação)
+- .briefing-changelog-title (vX.Y.Z + data) · footer .ver-tag · nova .vh-entry no Histórico ·
+  i18n briefing.changelog.headline/summary (PT **e** EN). SemVer: PATCH=fix/visual, MINOR=feature.
+- Commit: título curto + corpo em bullets + "Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>".
+- Victor disse "PERMITO SEMPRE" → pode fazer git push (= deploy) sem pedir OK a cada passo.
+  Forcepoint BLOQUEIA le-vel.games nesta máquina → NÃO confiar em curl ao domínio; o Victor
+  confirma o deploy no site. (curl ao Supabase funciona.)
+
+GOTCHAS QUE JÁ MORDERAM (não repetir)
+- local_id do utilizador = localStorage['level.sync.local_id'] (NÃO 'level.localId' — esse bug
+  deixou o tracker Gemini e os snapshots quebrados).
+- Catálogo de ARMAS vive na tabela Supabase cat_default_weapons (via edge bootstrap-defaults),
+  não no index.html. Adicionar arma = INSERT no DB. Os ATTACHMENTS (WEAPON_UNLOCKS, ~1102) ainda
+  estão embutidos no código.
+- Personagens do "Gerar com IA" = array AVATAR_CHARACTERS no index.html (hoje 7: price, farah,
+  ghost, menendez, reaper, bope, wind_blade).
+- Imagens do utilizador: getUserImage(id)/setUserImage(id,dataUrl) em localStorage (id = id do
+  item, ex.: weapon id). As grelhas de imagem em Configurações são dinâmicas do catálogo.
+- Remoção de fundo = window.LevelBgRemoval (motor @imgly no navegador, transparência real, sem
+  custo de API). Watermark da logo = assets/equip-watermark.svg (tile, tiled via background).
+
+GRANDES SISTEMAS CONSTRUÍDOS NESTA SESSÃO (NÃO refazer — só estender)
+- AVATAR IA: seletor de 24 ESTILOS (modificadores de prompt no edge generate-avatar v7) + fundo
+  de combate sorteado + dropdown custom com miniaturas (assets/style-samples/*.jpg) + "Pose do
+  exemplo". Recraft NÃO integrado (Gemini simula; style_id guardado p/ futuro).
+- MODERAÇÃO DE CONTEÚDO (fases 1-3 feitas): 
+  · DB: hub_users +role/quote/quote_status/show_quote/red_flags/restricted_until/terms_agreed_at;
+    tabelas moderation_queue, user_red_flags (com contestação), role_invites, player_history. RLS edge-only.
+  · Edges: moderate-text (Gemini pré-analisa frase, multilíngue + evasão por troca de char),
+    moderation (status/ack/contest/list/decide/invite_*), player-history (log/list), get-gemini-usage v2.
+  · Front: FRASE de perfil (≤50, citação laranja no card do operador) com moderação→fila;
+    CONSENTIMENTO no cadastro (#lag-su-conduct) + rodapé + legal.html#conduct; painel Operador com
+    FILA de moderação (.opp-staff-only, aprovar/reprovar, 1º avaliador trava) + PAPÉIS (convite por
+    e-mail, .opp-admin-only) + red light "Análise" na home; MODAL de red flag (motivo, X/3, punição,
+    contestar) + bloqueio VIEW-ONLY (body.is-readonly) ao atingir 3/3.
+- HISTÓRICO DE PROGRESSÃO: movido pro Início + log automático de alterações (LevelHistory →
+  player-history): perfil (prestige/level/nome/estilo/plataforma) e builds.
+- TRACKER "Uso de IA · Gemini": consertado (mostra consumo GLOBAL do projeto p/ admin).
+- IMAGENS DE EQUIPAMENTO: upload em Configurações remove o fundo (LevelBgRemoval) só p/ armas/
+  melee/field/tactical/lethal; popup de hover recorta a arma por ALFA robusto (maximizada,
+  centralizada) sobre watermark discreto da logo; botão "Recortar fundo das imagens já salvas".
+
+PENDENTE (menu — pergunta ao Victor qual atacar; uma de cada vez)
+1. MODERAÇÃO — e-mail dos convites de papel (precisa secret/SMTP → bloqueado até o Victor
+   recuperar o painel Supabase); auto-promover o papel quando a pessoa convidada se cadastrar
+   com aquele e-mail (hoje o convite só fica registado em role_invites).
+2. MODERAÇÃO — estender a moderação aos OUTROS campos públicos: display_name, FOTO (visão/Gemini),
+   nome de arma, nome de loadout. (Hoje só a frase passa pela fila.)
+3. OPERADOR — decidir o destino das seções admin "Catálogo de acessórios" + "Fontes de dados":
+   manter, esconder, ou migrar os attachments (WEAPON_UNLOCKS) de vez pro DB (aí elas saem).
+4. RECRAFT — quando o painel Supabase voltar, setar RECRAFT_API_KEY e ligar o renderizador real
+   (hoje o Gemini simula os estilos). Victor tem a chave ($5 de crédito).
+5. CBRS-3 — falta subir a IMAGEM dela em Configurações ▸ Armas ▸ SMG (a arma já está no catálogo).
+6. AFINAR watermark/densidade se o Victor achar muito cheio; e ele deve clicar UMA vez no botão
+   "Recortar fundo das imagens já salvas".
 
 COMUNICAÇÃO (Victor tem TDAH + ansiedade)
-- pt-BR, recomendações decisivas (não listas), UMA coisa de cada vez, próximo passo concreto.
-- Termos técnicos de jogo → tradução em PT entre parênteses. Sem emojis em UI nova.
-
-PRÓXIMOS PASSOS (menu — pede ao Victor qual atacar; uma de cada vez)
-0. ⭐ CAPTURA DE STATS POR FOTO (v2.48.0) — FRONT-END FEITO, aguarda push + 3 follow-ups:
-   CONTEXTO: API da Activision descartada (morta p/ BO7) + gravação automática do PS5 inviável
-   (buffer selado, sem API). Caminho escolhido: captura por PRINT do Combat Record.
-   FEITO E VALIDADO: backend `analyze-stats` v1 deployada; front-end completo no index.html —
-   modo `stats` no pipeline de foto/QR (STATS_FN_URL; fork startCaptureSession/triggerAIAnalysis;
-   roteamento por vision_result.kind), card `openStatsApproval` (18 campos editáveis), grava em
-   `player.stats` via LevelDB.player.update, painel COMBAT RECORD na Progression (renderPlayerStats,
-   botão #btn-stats-capture). node 16/16 + preview OK (11 tiles).
-   FOLLOW-UPS: (a) TESTE END-TO-END AO VIVO — só dá com isto no ar; Victor tira print do Combat
-   Record → confirma a leitura da IA. (b) i18n EN das strings NOVAS (hoje PT no JS/HTML: "Capturar
-   Stats", "COMBAT RECORD", labels do card openStatsApproval/STAT_FIELDS, texto do painel) — mover
-   p/ I18N. (c) app mobile de captura (repo bo7-capture) ainda mostra dica de ARMA com type=stats;
-   faz upload na mesma, mas ajustar a dica p/ "fotografa o Combat Record".
-1. FOLLOW-UPS do Loadout redesign:
-   a. EN i18n das strings NOVAS do Loadout — hoje fixas em PT no JS: segmented "A · Mosaico/
-      B · Vitrine" e "Layout" (renderStyleStep); detalhe do field upgrade "Tipo"/"Recarga" e
-      "Escolha um equipamento…" (renderFieldUpgrades); eyebrows/corpos dos modais
-      (loStyleModalHtml, LO_HELP); placeholders dos pickers; "— Nenhuma —" do novo
-      #secondary-weapon-select e "Equipado" do renderMeleeCards. Mover para CBI18N/I18N + cbt().
-   b. ⏳ DEPENDE DO VICTOR: recargas dos 12 Field Upgrades em DATA.fieldup são plausíveis
-      (handoff) — confirmar no jogo. (Eu não tenho como verificar valores do jogo.)
-   c. ⏳ DEPENDE DO VICTOR: imagens reais (estilos/wildcards/field upgrades/melee) — subir em
-      Configurações ▸ Imagens (nome = id, ex. rusher.png/overkill.png/knife.png). Placeholder até lá.
-   d. ✅ FEITO (v2.47.1): SECUNDÁRIA NATURAL convertida p/ <select> agrupado por <optgroup>
-      (#secondary-weapon-select) e MELEE p/ arte grande em retrato (renderMeleeCards). 
-2. ⚠️ CORREÇÃO DO HANDOFF ANTERIOR: os "layouts estruturais pendentes" JÁ ESTÃO CONSTRUÍDOS
-   em produção — NÃO redesenhar às cegas. Controle (#section-controller) = config completa por
-   setting com INDICADO×MEU VALOR + stat "Não Conforme Indicação" (já é o card "difere do jogo");
-   Marketplace (#section-marketplace) = builds da comunidade + votação + pódio + leaderboard +
-   stats de autor; Evolução (#section-struggles) = dificuldades com notas 0–10 datadas + curva.
-   A única lacuna plausível: no Controle, um botão/strip que aplica um PRESET COMPLETO de config
-   de uma vez (hoje preenche-se setting a setting) — mas precisa dos VALORES DO PRESET (Victor).
-   Antes de mexer em qualquer uma, MOSTRAR ao Victor o que já existe e perguntar a lacuna concreta.
-3. Verificações: logout → testar o Auth Gate (4 telas + verify + erros); logado → confirmar
-   o semáforo de backup (verde/âmbar/vermelho) em uso real (precisa login Supabase real — a
-   preview estática deslogada não exercita). Confirmar tudo em PT-BR.
-4. Novos handoffs do Claude Design, se houver (pastas design_handoff_* em Downloads): segue
-   sempre PASSO 0 (analisa codebase) → PASSO 1 (lê README) → PASSO 2 (plano + perguntas, espera OK).
-CONCLUÍDO (não refazer): scroll-reveal em todas as telas (v2.44.0→.2) + count-up Home (v2.44.3);
-uploader em massa de imagens (v2.46.0); logo+favicon Figma, Command Center em seções, Loadout
-redesign, PT-BR app-wide (v2.47.0); Melee em arte grande + secundária natural em <select>
-agrupado, follow-up 1d (v2.47.1).
+- PT-BR, recomendações decisivas (não listas longas), UMA coisa de cada vez, próximo passo concreto.
+- Humor/personalidade do "Cráudio" são bem-vindos (tempero, não no meio de debug crítico).
+- Termos técnicos de jogo → tradução em PT entre parênteses.
 
 Antes de escrever código: confirma o estado, faz as perguntas que precisares e apresenta um
-plano curto. Espera o OK do Victor.
+plano curto. (O Victor é iterativo e dá feedback por screenshots — espera o gosto dele.)
 ```
 
 ---
 
-## Histórico recente (contexto rápido)
-- **v2.41.0** — masthead (CoD + tagline + backup semáforo + popover idioma) + Operator Profile
-- **v2.42.0** — Operator Profile v3 + logo oficial metálico + rail 226px
-- **v2.43.0** — Auth Gate no padrão + sistema de scroll-reveal
-- **v2.43.1** — marca LEVEL em destaque (logo no hero + sidebar maior)
-- **v2.43.2** — fix do dot do backup (invisível desde v2.41.0 por bug de `$1` em script)
-- **v2.43.3** — slogan PT "Pare de querer adivinhar. Comece a evoluir."
-- **v2.43.4** — Home compactada (readouts sem rolar) + subtítulo PT "Saiba…"
-- **v2.44.0** — scroll-reveal espalhado ao Painel Hoje + LevelReveal.rearm (cada secção re-anima ao abrir)
-- **v2.44.1** — scroll-reveal em Minhas Armas, Loadout, Controle e Evolução (cards/blocos em cascata)
-- **v2.44.2** — scroll-reveal nas 6 telas restantes (Marketplace, Meus Loadouts, Mapas, Perks, Aim Training, Progression) — fila concluída
-- **v2.44.3** — count-up ligado aos números reais da Home (LevelReveal.countTo) — sistema de movimento 100%
-- **v2.45.0** — Plano de Desbloqueio: aba "Progressão" no card da build (o que falta desbloquear por nível/prestígio, com ícone + stats fiéis)
-- **v2.45.1** — aba Progressão refinada: caixa fixa com scroll + filtro (Próximos/Bloqueados/Desbloqueados), arma toda com os da build marcados "NA BUILD"
-- **v2.45.2** — Nossa Análise: texto do Le Vél em caixa de ~4 linhas com scroll + sugestões em acordeão (abrir uma fecha a outra)
-- **v2.46.0** — upload em massa de imagens (arrasta várias; nome do ficheiro = id técnico → coloca no sítio)
-- **v2.46.1** — logo LEVEL atualizado para a versão facetada (sidebar, hero da Home, login)
-- **v2.46.2** — fix do logo: removida a cunha branca entre o 2º E e o 2º L
-- **v2.47.0** — handoff Design System-v7 (DEPLOYED): logo+favicon oficiais do Figma; Minhas Armas (Command Center) em 4 seções (Loadout/Análise/Avalie/Progressão); Loadout redesenhado (estilo em cartas+segmented, pickers custom, wildcard retrato, 12 field upgrades, tooltips→modais); app inteiro convertido de PT-PT para PT-BR (~400 substituições)
-- **v2.47.1** — follow-up 1d (PRONTA, aguarda OK de push): Melee em cartas de arte grande (retrato, padrão do wildcard; fix do contentor option-grid→lo-wc-host) + secundária natural em &lt;select&gt; agrupado por &lt;optgroup&gt;. Descoberta: Controle/Marketplace/Evolução já estão construídos (handoff anterior estava desatualizado)
+## Histórico recente (contexto rápido — v2.57.31 → v2.64.0, sessão de 24 Jun 2026)
+- **v2.58.x** — Avatar IA: seletor de Estilo (24, modificador de prompt Gemini) · fundo de combate variado · cor do dropdown · dropdown custom com miniaturas geradas (cara do fundador) · tamanhos da miniatura.
+- **v2.58.6** — arma nova CBRS-3 (SMG) adicionada ao catálogo (cat_default_weapons).
+- **v2.58.7 / v2.59.2 / v2.62.1** — limpezas: removida linha "Catálogo de attachments"; Helen Park, Golden Bandit e Pink Meka removidos do catálogo de personagens (sobram 7).
+- **v2.59.0** — Início redesenhado (marketing só no pitch) + foto da arma ativa à esquerda + mais stats + foto da arma no modal de build.
+- **v2.59.1 / .5** — emblema do operador desliza pro centro no hover; miniatura do estilo +%.
+- **v2.60.0** — MODERAÇÃO fase 1 (frase de perfil + moderação + consentimento) + remove bloco "Continuar/Dica" do Início.
+- **v2.61.0** — MODERAÇÃO fases 2-3 (fila no painel Operador + papéis + red flags com contestação + view-only).
+- **v2.61.1** — fix tracker "Uso de IA · Gemini" (global) + snapshots de progressão voltaram a salvar (chave local_id errada).
+- **v2.62.0** — Histórico de progressão movido pro Início + log automático de alterações; removidos botões redundantes (baixar/importar avatar, backup manual).
+- **v2.62.2** — revisão geral + limpeza de código órfão + persistência de show_quote.
+- **v2.63.x → v2.64.0** — imagens de equipamento: remoção de fundo no upload (IA no navegador) + watermark discreto da logo + popup de hover maximizado (recorte por alfa robusto) + watermark denso cobrindo o fundo + botão "recortar fundo das imagens já salvas". Hardening por workflow de revisão adversarial (guarda de tamanho, quota, crossOrigin, yield de thread).
