@@ -14350,7 +14350,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.59.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.59.2 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17615,6 +17615,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.59.2</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Avatar IA: Helen Park removida do catálogo.</strong> Pedido do Victor. A personagem <strong>Helen Park</strong> (<code>helen_park</code>) saiu do catálogo de personagens do "Gerar com IA" — o grid agora tem <strong>9 personagens</strong>. Some também da grade de Configurações ▸ Personagens (que é montada do mesmo catálogo). Obs.: a foto de referência dos personagens é <strong>3:4 vertical</strong> (retrato); o Hub redimensiona o maior lado pra 1280px no upload. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.59.1</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20350,7 +20359,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.59.1</strong><span class="ver-tag">operador: ao passar o mouse no avatar, o emblema do canto desliza pro centro e fica mais claro/destacado</span>
+        LEVEL · <strong>v2.59.2</strong><span class="ver-tag">avatar IA: Helen Park removida do catálogo de personagens (9 personagens agora)</span>
       </div>
       <script>
         (function(){
@@ -22309,8 +22318,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Emblema do operador no hover',
-    'briefing.changelog.summary':  'Ao passar o mouse no <strong>avatar do operador</strong>, o emblema do canto agora <strong>desliza pro centro</strong> e fica mais claro/destacado. (Continua valendo o Início redesenhado e a foto da arma no modal de build.)',
+    'briefing.changelog.headline': 'Helen Park saiu do catálogo',
+    'briefing.changelog.summary':  'A personagem <strong>Helen Park</strong> foi removida do catálogo do "Gerar com IA" — agora são <strong>9 personagens</strong>. (Foto de referência: <strong>3:4 vertical</strong>; o Hub redimensiona pra 1280px no upload.)',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23964,8 +23973,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Operator emblem on hover',
-    'briefing.changelog.summary':  'Hovering the <strong>operator avatar</strong> now <strong>slides the corner emblem to the center</strong> and makes it brighter/highlighted. (The redesigned Home and the weapon photo in the build modal still apply.)',
+    'briefing.changelog.headline': 'Helen Park removed from catalog',
+    'briefing.changelog.summary':  'The character <strong>Helen Park</strong> was removed from the "Generate with AI" catalog — now <strong>9 characters</strong>. (Reference photo: <strong>3:4 vertical</strong>; the Hub resizes to 1280px on upload.)',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -32729,14 +32738,7 @@ const ATTACHMENT_ICONS = {
         promptRef: 'tmpl_ghost_v1',
         thumb: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNTMzIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUzMyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzBhMGEwYSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMxYTFhMWEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMGEwYTBhIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJnbG93IiBjeD0iMC41IiBjeT0iMC40IiByPSIwLjYiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM5YjliOWIiIHN0b3Atb3BhY2l0eT0iMC4xOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM5YjliOWIiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8cGF0aCBkPSJNNDAgMEgwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiM5YjliOWIiIHN0cm9rZS1vcGFjaXR5PSIwLjA2IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDwvcGF0dGVybj4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI1MzMiIGZpbGw9InVybCgjYmcpIi8+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI1MzMiIGZpbGw9InVybCgjZ3JpZCkiLz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUzMyIgZmlsbD0idXJsKCNnbG93KSIvPgogIDwhLS0gY29ybmVyIGJyYWNrZXRzLCBpZGVudGlkYWRlIExFVkVMIC0tPgogIDxwYXRoIGQ9Ik0gMjQgMjQgTCAyNCA2MCBNIDI0IDI0IEwgNjAgMjQiIHN0cm9rZT0iIzliOWI5YiIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBzdHJva2Utb3BhY2l0eT0iMC41NSIvPgogIDxwYXRoIGQ9Ik0gMzc2IDI0IEwgMzc2IDYwIE0gMzc2IDI0IEwgMzQwIDI0IiBzdHJva2U9IiM5YjliOWIiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiLz4KICA8cGF0aCBkPSJNIDI0IDUwOSBMIDI0IDQ3MyBNIDI0IDUwOSBMIDYwIDUwOSIgc3Ryb2tlPSIjOWI5YjliIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1vcGFjaXR5PSIwLjU1Ii8+CiAgPHBhdGggZD0iTSAzNzYgNTA5IEwgMzc2IDQ3MyBNIDM3NiA1MDkgTCAzNDAgNTA5IiBzdHJva2U9IiM5YjliOWIiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiLz4KICA8IS0tIG1vbm9ncmFtIGNlbnRyYWwgLS0+CiAgPHRleHQgeD0iMjAwIiB5PSIyNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTQwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjOWI5YjliIiBvcGFjaXR5PSIwLjkyIj5TRzwvdGV4dD4KICA8IS0tIHBsYWNlaG9sZGVyIGxhYmVsIC0tPgogIDx0ZXh0IHg9IjIwMCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iJ0NvdXJpZXIgTmV3JywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEzIiBsZXR0ZXItc3BhY2luZz0iNCIgZmlsbD0iIzliOWI5YiIgb3BhY2l0eT0iMC42Ij5QUkVWSUVXIMK3IE5CPC90ZXh0PgogIDwhLS0gYm90dG9tIGFjY2VudCBiYXIgLS0+CiAgPHJlY3QgeD0iMTAwIiB5PSI0OTAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMiIgZmlsbD0iIzliOWI5YiIgb3BhY2l0eT0iMC40Ii8+Cjwvc3ZnPg=='
       }
-      ,{
-        id: 'helen_park',
-        name: 'Helen Park',
-        subtitle: 'MI6 · Spy',
-        available: true,
-        promptRef: 'tmpl_helen_park_v1',
-        thumb: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNTMzIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUzMyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzFhMjIzNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMyYTM0NTAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMWEyMjM1Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJnbG93IiBjeD0iMC41IiBjeT0iMC40IiByPSIwLjYiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM3YWE4ZDgiIHN0b3Atb3BhY2l0eT0iMC4xOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3YWE4ZDgiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8cGF0aCBkPSJNNDAgMEgwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiM3YWE4ZDgiIHN0cm9rZS1vcGFjaXR5PSIwLjA2IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDwvcGF0dGVybj4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI1MzMiIGZpbGw9InVybCgjYmcpIi8+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI1MzMiIGZpbGw9InVybCgjZ3JpZCkiLz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUzMyIgZmlsbD0idXJsKCNnbG93KSIvPgogIDwhLS0gY29ybmVyIGJyYWNrZXRzLCBpZGVudGlkYWRlIExFVkVMIC0tPgogIDxwYXRoIGQ9Ik0gMjQgMjQgTCAyNCA2MCBNIDI0IDI0IEwgNjAgMjQiIHN0cm9rZT0iIzdhYThkOCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBzdHJva2Utb3BhY2l0eT0iMC41NSIvPgogIDxwYXRoIGQ9Ik0gMzc2IDI0IEwgMzc2IDYwIE0gMzc2IDI0IEwgMzQwIDI0IiBzdHJva2U9IiM3YWE4ZDgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiLz4KICA8cGF0aCBkPSJNIDI0IDUwOSBMIDI0IDQ3MyBNIDI0IDUwOSBMIDYwIDUwOSIgc3Ryb2tlPSIjN2FhOGQ4IiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1vcGFjaXR5PSIwLjU1Ii8+CiAgPHBhdGggZD0iTSAzNzYgNTA5IEwgMzc2IDQ3MyBNIDM3NiA1MDkgTCAzNDAgNTA5IiBzdHJva2U9IiM3YWE4ZDgiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiLz4KICA8IS0tIG1vbm9ncmFtIGNlbnRyYWwgLS0+CiAgPHRleHQgeD0iMjAwIiB5PSIyNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTQwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjN2FhOGQ4IiBvcGFjaXR5PSIwLjkyIj5IUDwvdGV4dD4KICA8IS0tIHBsYWNlaG9sZGVyIGxhYmVsIC0tPgogIDx0ZXh0IHg9IjIwMCIgeT0iNDY1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iJ0NvdXJpZXIgTmV3JywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEzIiBsZXR0ZXItc3BhY2luZz0iNCIgZmlsbD0iIzdhYThkOCIgb3BhY2l0eT0iMC42Ij5QUkVWSUVXIMK3IE5CPC90ZXh0PgogIDwhLS0gYm90dG9tIGFjY2VudCBiYXIgLS0+CiAgPHJlY3QgeD0iMTAwIiB5PSI0OTAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMiIgZmlsbD0iIzdhYThkOCIgb3BhY2l0eT0iMC40Ii8+Cjwvc3ZnPg=='
-      }
+      
       ,{
         id: 'menendez',
         name: 'Raul Menendez',
