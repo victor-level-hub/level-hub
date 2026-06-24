@@ -8,3 +8,7 @@
   Cache-Control: public, max-age=0, must-revalidate
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+# v2.72.0: CSS extraído do index.html. Sem versão no nome → revalidar a cada carga
+# (mesma política do HTML), pra um deploy de CSS aplicar na hora, sem cache stale.
+/assets/css/level.css
+  Cache-Control: public, max-age=0, must-revalidate
