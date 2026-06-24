@@ -14267,7 +14267,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.58.6 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.58.7 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -14295,9 +14295,6 @@
         <div>
           <span data-i18n="mw.stats.total">Total builds:</span> <strong id="mw-total">0</strong>
           <span data-i18n="mw.stats.perBase">· Por arma base:</span> <strong id="mw-bases">0</strong>
-        </div>
-        <div class="active-info" id="mw-coverage">
-          <span data-i18n="mw.stats.catalog">Catálogo de attachments:</span> <strong id="mw-catalog-cov">—</strong>
         </div>
       </div>
 
@@ -17535,6 +17532,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.58.7</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Minhas Armas: removida a linha "Catálogo de attachments".</strong> Pedido do Victor. Tiramos da barra de stats de Minhas Armas o texto <em>"Catálogo de attachments: X de Y armas (codmunity.gg)"</em> (elemento <code>#mw-coverage</code> + o JS que o preenchia). A barra agora mostra só Total de builds e Por arma base. node 19/19, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.58.6</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20243,7 +20249,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.58.6</strong><span class="ver-tag">arsenal: nova SMG CBRS-3 adicionada ao catálogo (cat_default_weapons) — captura/Vision agora a reconhece em vez de se perder</span>
+        LEVEL · <strong>v2.58.7</strong><span class="ver-tag">arsenal: removida a linha "Catálogo de attachments: X de Y armas (codmunity.gg)" da barra de stats de Minhas Armas</span>
       </div>
       <script>
         (function(){
@@ -22190,8 +22196,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Nova arma: CBRS-3 (SMG)',
-    'briefing.changelog.summary':  'Adicionamos a <strong>CBRS-3</strong> (submachine gun nova da Season 04) ao catálogo de armas. Antes, ao adicionar/capturar uma arma que ainda não estava no catálogo, o reconhecimento por foto se perdia — agora a CBRS-3 está na lista e a captura a reconhece normal. Dá um <strong>Ctrl+Shift+R</strong> pra atualizar o catálogo no teu Hub.',
+    'briefing.changelog.headline': 'Minhas Armas: linha removida',
+    'briefing.changelog.summary':  'Removemos da barra de stats de <strong>Minhas Armas</strong> a linha <em>"Catálogo de attachments: X de Y armas (codmunity.gg)"</em>. A barra agora mostra só <strong>Total de builds</strong> e <strong>Por arma base</strong>.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23841,8 +23847,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'New weapon: CBRS-3 (SMG)',
-    'briefing.changelog.summary':  'We added the <strong>CBRS-3</strong> (the new Season 04 submachine gun) to the weapon catalog. Before, adding/capturing a weapon that wasn\'t in the catalog made the photo recognition get lost — now the CBRS-3 is on the list and capture recognizes it fine. Hit <strong>Ctrl+Shift+R</strong> to refresh the catalog in your Hub.',
+    'briefing.changelog.headline': 'My Weapons: line removed',
+    'briefing.changelog.summary':  'We removed the <em>"Attachment catalog: X of Y weapons (codmunity.gg)"</em> line from the <strong>My Weapons</strong> stats bar. The bar now shows only <strong>Total builds</strong> and <strong>Per base weapon</strong>.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -30904,15 +30910,10 @@ const ATTACHMENT_ICONS = {
       // Update stats
       const totalEl = document.getElementById('mw-total');
       const basesEl = document.getElementById('mw-bases');
-      const covEl = document.getElementById('mw-catalog-cov');
       if (totalEl) totalEl.textContent = builds.length;
       if (basesEl) {
         const uniqueBases = new Set(builds.map(b => b.weaponBaseId));
         basesEl.textContent = uniqueBases.size;
-      }
-      if (covEl) {
-        const populated = weapons.filter(w => typeof WEAPON_UNLOCKS !== 'undefined' && WEAPON_UNLOCKS[w.id]).length;
-        covEl.textContent = populated + ' de ' + weapons.length + ' armas (codmunity.gg)';
       }
     }
 
