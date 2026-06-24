@@ -10132,6 +10132,51 @@
    * OPERATOR PANEL (v75-51) — Configurações ▸ Operador
    * Card resumo do operador + botões de gestão do avatar
    * ═══════════════════════════════════════════════════════════════════ */
+  /* v2.61: Moderação — gating staff (admin/avaliador) + read-only + fila + convites */
+  body:not(.is-staff) .opp-staff-only { display: none !important; }
+  body.is-staff .opp-staff-only { display: block; }
+  body.is-staff .nav-item[data-section="settings"] { display: flex; }
+  .mod-count-badge { display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px; padding:0 5px; margin-left:8px; border-radius:9px; background:#e74c3c; color:#fff; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; }
+  .mod-count-badge[data-n="0"] { display:none; }
+  .mod-empty { color: var(--text-muted); font-size: 12px; padding: 10px 2px; }
+  .mod-item { background: var(--bg-elev,rgba(255,255,255,0.03)); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+  .mod-item-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
+  .mod-item-field { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-cyan); border:1px solid var(--border); border-radius:5px; padding:2px 7px; }
+  .mod-item-sev { font-family:'JetBrains Mono',monospace; font-size:10px; padding:2px 7px; border-radius:5px; }
+  .mod-item-sev.high { background:rgba(231,76,60,.15); color:#e74c3c; }
+  .mod-item-sev.medium { background:rgba(255,152,0,.15); color:var(--accent-orange); }
+  .mod-item-sev.low { background:rgba(255,200,0,.12); color:#d9b400; }
+  .mod-item-sev.none { background:rgba(74,222,128,.12); color:#4ade80; }
+  .mod-item-content { font-size:15px; color:var(--text-primary); margin:4px 0; word-break:break-word; }
+  .mod-item-reason { font-size:12px; color:var(--text-secondary); margin-bottom:10px; }
+  .mod-item-actions { display:flex; gap:8px; flex-wrap:wrap; }
+  .mod-btn { border:0; border-radius:7px; padding:7px 14px; font-weight:700; font-size:12px; cursor:pointer; font-family:inherit; }
+  .mod-btn.approve { background:#4ade80; color:#0a0e1a; }
+  .mod-btn.reject { background:#e74c3c; color:#fff; }
+  .mod-btn:disabled { opacity:.5; cursor:not-allowed; }
+  .mod-invite-form { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .mod-invite-form .form-input { flex:1; min-width:130px; }
+  .mod-inv-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:8px 0; border-bottom:1px solid var(--border-subtle,rgba(255,255,255,.06)); font-size:12px; }
+  .mod-inv-row .accent { color:var(--accent-orange); font-weight:700; }
+  /* Red light na home (staff) */
+  .home-mod-alert { display:inline-flex; align-items:center; gap:8px; margin:0 0 14px; padding:8px 14px; border-radius:8px;
+    background:rgba(231,76,60,.12); border:1px solid #e74c3c; color:#e74c3c; font-family:'JetBrains Mono',monospace;
+    font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none; cursor:pointer; }
+  .home-mod-alert::before { content:''; width:9px; height:9px; border-radius:50%; background:#e74c3c; box-shadow:0 0 8px #e74c3c; animation: modBlink 1.2s ease-in-out infinite; }
+  @keyframes modBlink { 0%,100%{opacity:1} 50%{opacity:.35} }
+  .home-mod-alert .hub-inline-icon { width:14px; height:14px; }
+  /* Banner read-only */
+  .ro-banner { display:none; position:sticky; top:0; z-index:120; background:#e74c3c; color:#fff; text-align:center;
+    font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 14px; line-height:1.4; }
+  body.is-readonly .ro-banner { display:block; }
+  /* Red flag modal body */
+  .rf-meta { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent-orange); margin:2px 0 12px; }
+  .rf-reason { background:rgba(231,76,60,.08); border:1px solid #e74c3c; border-radius:8px; padding:12px 14px; margin-bottom:12px; }
+  .rf-reason-content { font-size:14px; color:var(--text-primary); margin-bottom:6px; font-style:italic; }
+  .rf-reason-why { font-size:12px; color:var(--text-secondary); }
+  .rf-punish { font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:10px; }
+  .rf-contest { display:none; margin-top:6px; }
+  .rf-contest textarea { width:100%; min-height:64px; background:var(--bg-elev); color:var(--text-primary); border:1px solid var(--border); border-radius:8px; padding:8px; font-family:inherit; font-size:13px; }
   .operator-panel-wrap {
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -14124,6 +14169,10 @@
         <p data-i18n="home.intro">Companion tático para Black Ops 7 — builds, análise e treino num só lugar.</p>
       </div>
 
+      <!-- v2.61: read-only (3 red flags) + red light de moderação (staff) -->
+      <div class="ro-banner" id="ro-banner"></div>
+      <a class="home-mod-alert" id="home-mod-alert" style="display:none" role="button" tabindex="0">{{i:alert-triangle}} <span>Análise</span> <strong id="home-mod-alert-count"></strong> →</a>
+
       <div class="home-hero" data-reveal-stagger data-stagger="90">
         <div class="home-panel">
           <div class="home-panel-weapon">
@@ -14356,7 +14405,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.60.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.61.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17621,6 +17670,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.61.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Moderação (fases 2-3): painel de análise + papéis + red flags.</strong> Pedido do Victor. <strong>(1) Painel Operador</strong> ganhou a <strong>fila de análise</strong> (staff = admin/avaliador): cada frase pendente mostra o veredito do Gemini (severidade, motivo, normalização da evasão) com <strong>Aprovar</strong> / <strong>Reprovar</strong>; o 1º avaliador a decidir <strong>trava</strong> o item (Edge <code>moderation</code>, ações list/decide). Aprovar publica a frase; reprovar gera <strong>red flag</strong>. <strong>(2) Red light</strong> "🔴 Análise (N) →" na home (só staff, quando há pendências) que leva direto à fila. <strong>(3) Papéis</strong> (admin): convidar por e-mail como administrador/avaliador com validade de/até (registado em <code>role_invites</code>; e-mail ainda inativo). <strong>(4) Red flags</strong>: ao ser reprovado o usuário recebe um <strong>modal</strong> com motivo, contagem X/3, a punição (perfil só-leitura por 1 semana com datas) e um campo de <strong>contestação</strong>; ao atingir <strong>3/3</strong> o perfil entra em <strong>somente-leitura</strong> (banner + bloqueio de editar perfil/builds) até a data. Tudo via Edge service-role (RLS edge-only). node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.60.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20028,6 +20086,38 @@
             </div>
           </div>
 
+          <!-- ═══ Moderação · fila de análise (v2.61) — staff (admin/avaliador) ═══ -->
+          <div class="opp-staff-only" id="opp-moderation">
+            <div class="opp-section-title" style="margin-top:24px">{{i:shield}} Moderação · fila de análise <span class="mod-count-badge" id="mod-queue-count" data-n="0">0</span></div>
+            <div class="opp-action-desc" style="margin:0 0 12px 2px">Conteúdo público pendente de aval. <strong>Aprovar</strong> libera; <strong>Reprovar</strong> gera um red flag ao usuário (3 = perfil só-leitura por 1 semana). O 1º avaliador a decidir trava o item.</div>
+            <div class="opp-actions-list" style="margin-bottom:10px">
+              <div class="opp-action-item">
+                <div class="opp-action-icon">{{i:refresh-cw}}</div>
+                <div class="opp-action-body"><div class="opp-action-title">Recarregar fila</div><div class="opp-action-desc">Relê os itens pendentes da fila.</div></div>
+                <button class="opp-action-btn secondary" id="mod-queue-refresh">{{i:refresh-cw}} Recarregar</button>
+              </div>
+            </div>
+            <div id="mod-queue-list"><div class="mod-empty">A carregar…</div></div>
+          </div>
+
+          <!-- ═══ Papéis · convites (v2.61) — admin ═══ -->
+          <div class="opp-admin-only" id="opp-roles">
+            <div class="opp-section-title" style="margin-top:24px">{{i:users}} ADMIN · Papéis (admin / avaliador)</div>
+            <div class="opp-action-desc" style="margin:0 0 12px 2px">Convide alguém por e-mail para ser <strong>administrador</strong> ou <strong>avaliador</strong>, com validade. (O envio de e-mail ainda não está ativo — o convite fica registado no banco.)</div>
+            <div class="mod-invite-form">
+              <input type="email" id="mod-inv-email" class="form-input" placeholder="email@exemplo.com"/>
+              <select id="mod-inv-role" class="form-input" style="flex:0 0 auto;min-width:120px">
+                <option value="evaluator">Avaliador</option>
+                <option value="admin">Administrador</option>
+                <option value="user">Usuário</option>
+              </select>
+              <input type="date" id="mod-inv-from" class="form-input" style="flex:0 0 auto;min-width:130px" title="Válido de"/>
+              <input type="date" id="mod-inv-until" class="form-input" style="flex:0 0 auto;min-width:130px" title="Válido até"/>
+              <button class="opp-action-btn" id="mod-inv-create" style="flex:0 0 auto">{{i:plus}} Convidar</button>
+            </div>
+            <div id="mod-invite-list" style="margin-top:12px"><div class="mod-empty">—</div></div>
+          </div>
+
           <!-- ═══ Catálogo Sync (v75-55 · i18n v75-56 · admin v75-80) ══ -->
           <div class="opp-admin-only">
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.cat.section">
@@ -20374,7 +20464,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.60.0</strong><span class="ver-tag">moderação: frase pessoal no perfil (≤50, citação no sidebar) com aval do Gemini + fila humana · consentimento das regras de conduta no cadastro + rodapé · removido o "Continuar/Dica" do Início</span>
+        LEVEL · <strong>v2.61.0</strong><span class="ver-tag">moderação fase 2/3: painel Operador com fila de análise (aprovar/reprovar, 1º avaliador trava) + papéis (convite admin/avaliador) · red light na home · red flag com contestação + perfil só-leitura ao atingir 3</span>
       </div>
       <script>
         (function(){
@@ -20519,6 +20609,20 @@
         <div class="modal-actions">
           <button class="btn-action btn-reset" data-close-modal="modal-status" style="flex:0 0 auto; min-width:auto; padding:10px 18px">Cancelar</button>
           <button class="btn-action btn-save" id="btn-save-status" style="flex:0 0 auto; min-width:auto; padding:10px 18px">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- v2.61: Modal de aviso de red flag (conduta) -->
+    <div class="modal-overlay" id="modal-redflag">
+      <div class="modal-box">
+        <div class="modal-header">
+          <div class="modal-title" style="color:#e74c3c">{{i:alert-triangle}} Aviso de conduta</div>
+        </div>
+        <div class="modal-body" id="redflag-body"></div>
+        <div class="modal-actions">
+          <button class="btn-action btn-reset" id="redflag-contest-toggle" style="flex:0 0 auto; min-width:auto; padding:10px 18px">Contestar</button>
+          <button class="btn-action btn-save" id="redflag-ack" style="flex:0 0 auto; min-width:auto; padding:10px 18px">Entendi</button>
         </div>
       </div>
     </div>
@@ -22344,8 +22448,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Frase no perfil + moderação',
-    'briefing.changelog.summary':  'Agora dá pra pôr uma <strong>frase pessoal</strong> (≤50) no perfil — aparece como citação laranja no card do operador. Toda frase passa por <strong>moderação</strong> (Gemini + aval humano) e só fica pública após aprovada. O <strong>cadastro</strong> ganhou as <strong>Regras de Conduta</strong> com aceite obrigatório (e estão no rodapé Termos). Também limpamos o bloco "Continuar/Dica" do Início.',
+    'briefing.changelog.headline': 'Painel de moderação + red flags',
+    'briefing.changelog.summary':  'Para administradores/avaliadores: o painel Operador ganhou a <strong>fila de análise</strong> das frases (aprovar/reprovar, com o parecer do Gemini), um <strong>alerta</strong> "🔴 Análise" na home, e o convite de <strong>papéis</strong> (admin/avaliador). Para todos: ao ter conteúdo reprovado, você recebe um aviso de <strong>red flag</strong> (com motivo, contagem e opção de contestar); ao chegar a <strong>3</strong>, o perfil fica <strong>só-leitura por 1 semana</strong>.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24005,8 +24109,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Profile phrase + moderation',
-    'briefing.changelog.summary':  'You can now add a <strong>personal phrase</strong> (≤50) to your profile — it shows as an orange quote on the operator card. Every phrase goes through <strong>moderation</strong> (Gemini + human review) and only goes public once approved. <strong>Sign-up</strong> now includes the <strong>Conduct Rules</strong> with mandatory consent (also in the footer Terms). We also cleared the "Continue/Tip" block from the Home.',
+    'briefing.changelog.headline': 'Moderation panel + red flags',
+    'briefing.changelog.summary':  'For admins/evaluators: the Operator panel now has the phrase <strong>review queue</strong> (approve/reject, with Gemini''s verdict), a "🔴 Review" alert on the home, and <strong>role</strong> invites (admin/evaluator). For everyone: when content is rejected you get a <strong>red flag</strong> notice (reason, count, option to contest); reaching <strong>3</strong> makes your profile <strong>read-only for 1 week</strong>.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -49841,6 +49945,185 @@ ${cbt('share.t.footer')}`;
   function fmt(ms){ if(ms<=0) return "encerrado"; var d=Math.floor(ms/86400000),h=Math.floor((ms%86400000)/3600000); return d>=14?(d+"d"):(d>0?(d+"d "+h+"h"):(h+"h")); }
   function tick(){ document.querySelectorAll("[data-evt-countdown]").forEach(function(el){ var t=new Date(el.getAttribute("data-evt-countdown")).getTime(); if(isNaN(t)) return; var pre=el.getAttribute("data-evt-prefix")||"",suf=el.getAttribute("data-evt-suffix")||""; el.textContent=pre+fmt(t-Date.now())+suf; }); }
   tick(); if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",tick); setInterval(tick,60000);
+})();
+</script>
+<!-- LEVEL · Moderação (v2.61): status do user, fila de aval, red flags, papéis, read-only -->
+<script>
+(function LevelModeration(){
+  var SB = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  var AK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  var FN = SB + '/functions/v1/moderation';
+  var _state = { is_staff:false };
+  function lid(){ try { return localStorage.getItem('level.sync.local_id'); } catch(e){ return null; } }
+  function en(){ try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch(e){ return false; } }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function fmtDT(iso){ try { return new Date(iso).toLocaleString(en()?'en-GB':'pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch(e){ return iso; } }
+  async function call(payload){
+    var r = await fetch(FN, { method:'POST', headers:{ 'apikey':AK, 'Authorization':'Bearer '+AK, 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+    return r.json().catch(function(){ return { ok:false }; });
+  }
+
+  // ── Status do próprio usuário: papel, red flags, restrição, fila pendente ──
+  async function refresh(){
+    var id = lid(); if (!id) return;
+    var s = await call({ action:'status', local_id:id });
+    if (!s || !s.ok) return;
+    _state = s;
+    document.body.classList.toggle('is-staff', !!s.is_staff);
+    // read-only se restrição ativa
+    var ro = s.restricted_until && (new Date(s.restricted_until).getTime() > Date.now());
+    document.body.classList.toggle('is-readonly', !!ro);
+    var rb = document.getElementById('ro-banner');
+    if (rb) rb.textContent = ro ? (en()
+      ? ('Profile is read-only until ' + fmtDT(s.restricted_until) + ' (3 red flags). You can only view, not edit.')
+      : ('Perfil em modo somente-leitura até ' + fmtDT(s.restricted_until) + ' (3 red flags). Você só pode visualizar, não editar.')) : '';
+    // red light (staff + pendências)
+    var al = document.getElementById('home-mod-alert');
+    if (al) {
+      var n = s.is_staff ? (s.pending_count||0) : 0;
+      al.style.display = (s.is_staff && n>0) ? 'inline-flex' : 'none';
+      var c = document.getElementById('home-mod-alert-count'); if (c) c.textContent = '(' + n + ')';
+    }
+    // sincroniza quote_status local + sidebar
+    try {
+      if (window.LevelDB && window.LevelDB.player) {
+        var p = await window.LevelDB.player.get();
+        if (p && p.quoteStatus !== s.quote_status) {
+          await window.LevelDB.player.update({ quoteStatus: s.quote_status });
+          if (typeof window.renderPlayerMini === 'function') window.renderPlayerMini();
+        }
+      }
+    } catch(e){}
+    // modal de red flag se houver não-vistos
+    if (s.unacked_flags && s.unacked_flags.length) showRedFlag(s);
+    if (s.is_staff) renderQueue();
+  }
+
+  // ── Fila de moderação (staff) ──
+  async function renderQueue(){
+    var box = document.getElementById('mod-queue-list'); if (!box) return;
+    var r = await call({ action:'list', reviewer_local_id: lid() });
+    var items = (r && r.items) || [];
+    var badge = document.getElementById('mod-queue-count');
+    if (badge) { badge.textContent = items.length; badge.setAttribute('data-n', items.length); }
+    if (!items.length) { box.innerHTML = '<div class="mod-empty">' + (en()?'Nothing pending. ✓':'Nada pendente. ✓') + '</div>'; return; }
+    box.innerHTML = items.map(function(it){
+      var v = it.gemini_verdict || {}; var sev = (v.severity||'none');
+      var cats = (v.categories||[]).join(', ');
+      return '<div class="mod-item" data-qid="'+esc(it.id)+'">'
+        + '<div class="mod-item-head"><span class="mod-item-field">'+esc(it.field)+'</span>'
+        + '<span class="mod-item-sev '+esc(sev)+'">'+ (v.flagged?'⚑ ':'') + esc(sev)+'</span>'
+        + '<span style="font-size:10px;color:var(--text-muted);font-family:\'JetBrains Mono\',monospace">'+esc(it.user_local_id||'')+'</span></div>'
+        + '<div class="mod-item-content">“'+esc(it.content)+'”</div>'
+        + (v.reason?'<div class="mod-item-reason">'+esc(v.reason)+(cats?' · '+esc(cats):'')+'</div>':'')
+        + (v.normalized && v.normalized!==it.content ? '<div class="mod-item-reason">norm.: '+esc(v.normalized)+'</div>' : '')
+        + '<div class="mod-item-actions"><button class="mod-btn approve" data-act="approve">{{i:check}} '+(en()?'Approve':'Aprovar')+'</button>'
+        + '<button class="mod-btn reject" data-act="reject">{{i:x}} '+(en()?'Reject':'Reprovar')+'</button></div>'
+        + '</div>';
+    }).join('');
+    if (window.replaceIcons) window.replaceIcons(box);
+  }
+  async function decide(qid, decision, btn){
+    var note = '';
+    if (decision==='reject') { note = window.prompt(en()?'Reason (optional, shown to the user):':'Motivo (opcional, mostrado ao usuário):','') || ''; }
+    if (btn) { btn.disabled = true; }
+    var r = await call({ action:'decide', reviewer_local_id: lid(), queue_id: qid, decision: decision, note: note });
+    if (r && r.already_reviewed && typeof showToast==='function') showToast(en()?'Already reviewed by someone.':'Já avaliado por alguém.', 'info');
+    renderQueue(); refresh();
+  }
+
+  // ── Papéis / convites (admin) ──
+  async function renderInvites(){
+    var box = document.getElementById('mod-invite-list'); if (!box) return;
+    var r = await call({ action:'invite_list', reviewer_local_id: lid() });
+    var inv = (r && r.invites) || [];
+    if (!inv.length) { box.innerHTML = '<div class="mod-empty">—</div>'; return; }
+    box.innerHTML = inv.map(function(i){
+      return '<div class="mod-inv-row"><span class="accent">'+esc(i.role)+'</span> <span>'+esc(i.email)+'</span>'
+        + '<span style="color:var(--text-muted)">'+esc(i.status)+'</span>'
+        + (i.valid_until?'<span style="color:var(--text-muted);font-size:11px">até '+fmtDT(i.valid_until)+'</span>':'')
+        + (i.status==='pending'?'<button class="mod-btn reject" style="padding:4px 10px;margin-left:auto" data-revoke="'+esc(i.id)+'">'+(en()?'Revoke':'Revogar')+'</button>':'')
+        + '</div>';
+    }).join('');
+  }
+
+  // ── Modal de red flag ──
+  function showRedFlag(s){
+    var modal = document.getElementById('modal-redflag'); var body = document.getElementById('redflag-body');
+    if (!modal || !body) return;
+    var flags = s.unacked_flags || []; var last = flags[flags.length-1] || {};
+    var count = last.count_at_time || s.red_flags || 1; var limit = s.limit || 3;
+    var ro = s.restricted_until && (new Date(s.restricted_until).getTime() > Date.now());
+    var html = '<div class="rf-meta">'+(en()?'Red flag':'Red flag')+' '+count+'/'+limit+'</div>';
+    flags.forEach(function(f){
+      html += '<div class="rf-reason">'
+        + (f.content?'<div class="rf-reason-content">“'+esc(f.content)+'”</div>':'')
+        + '<div class="rf-reason-why">'+esc(f.reason||'')+'</div></div>';
+    });
+    if (ro) {
+      var start = new Date(new Date(s.restricted_until).getTime() - 7*86400000);
+      html += '<div class="rf-punish"><strong>'+(en()?'Penalty':'Punição')+':</strong> '
+        + (en()?'profile read-only for 1 week':'perfil somente-leitura por 1 semana')
+        + ' — '+(en()?'from':'de')+' '+fmtDT(start.toISOString())+' '+(en()?'to':'até')+' '+fmtDT(s.restricted_until)+'.</div>';
+    } else {
+      html += '<div class="rf-punish">'+(en()
+        ? ('Reaching '+limit+' red flags makes your profile read-only for 1 week.')
+        : ('Ao atingir '+limit+' red flags, o perfil fica somente-leitura por 1 semana.'))+'</div>';
+    }
+    html += '<div class="rf-contest" id="rf-contest"><div class="form-label">'+(en()?'Contest (optional)':'Contestar (opcional)')+'</div>'
+      + '<textarea id="rf-contest-text" maxlength="500" placeholder="'+(en()?'Explain why you disagree…':'Explique por que discorda…')+'"></textarea></div>';
+    body.innerHTML = html;
+    if (window.replaceIcons) window.replaceIcons(body);
+    modal._flagId = last.id || (flags[0] && flags[0].id);
+    modal.classList.add('visible');
+  }
+
+  // ── Wiring ──
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    // read-only: bloqueia editar perfil/builds
+    if (document.body.classList.contains('is-readonly')) {
+      var blocked = t.closest && t.closest('#btn-edit-status-sidebar,#btn-edit-status-briefing,#btn-save-status,#btn-save-build,#btn-confirm-add-weapon');
+      if (blocked) { e.preventDefault(); e.stopPropagation();
+        if (typeof showToast==='function') showToast(en()?'Read-only mode (red flags).':'Modo somente-leitura (red flags).','error'); return; }
+    }
+    var dec = t.closest && t.closest('.mod-item .mod-btn');
+    if (dec) { var card = dec.closest('.mod-item'); decide(card.getAttribute('data-qid'), dec.getAttribute('data-act'), dec); return; }
+    if (t.closest && t.closest('#mod-queue-refresh')) { renderQueue(); return; }
+    if (t.closest && t.closest('#home-mod-alert')) {
+      var nav = document.querySelector('.nav-item[data-section="settings"]'); if (nav) nav.click();
+      setTimeout(function(){ var el=document.getElementById('opp-moderation'); if(el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',block:'start'}); renderQueue(); }, 120); return;
+    }
+    if (t.closest && t.closest('#mod-inv-create')) {
+      var email=(document.getElementById('mod-inv-email')||{}).value||'';
+      var role=(document.getElementById('mod-inv-role')||{}).value||'evaluator';
+      var vf=(document.getElementById('mod-inv-from')||{}).value||null;
+      var vu=(document.getElementById('mod-inv-until')||{}).value||null;
+      call({ action:'invite_create', reviewer_local_id: lid(), email:email, invite_role:role, valid_from:vf, valid_until:vu }).then(function(r){
+        if (r&&r.ok){ if(typeof showToast==='function') showToast(en()?'Invite saved.':'Convite registado.','success'); var em=document.getElementById('mod-inv-email'); if(em) em.value=''; renderInvites(); }
+        else if(typeof showToast==='function') showToast((r&&r.error)||'erro','error');
+      }); return;
+    }
+    var rv = t.closest && t.closest('[data-revoke]');
+    if (rv) { call({ action:'invite_revoke', reviewer_local_id: lid(), invite_id: rv.getAttribute('data-revoke') }).then(renderInvites); return; }
+    if (t.closest && t.closest('#redflag-contest-toggle')) { var c=document.getElementById('rf-contest'); if(c) c.style.display='block'; return; }
+    if (t.closest && t.closest('#redflag-ack')) {
+      var modal=document.getElementById('modal-redflag');
+      var ct=document.getElementById('rf-contest-text');
+      if (ct && ct.value.trim() && modal && modal._flagId) { call({ action:'contest', local_id: lid(), flag_id: modal._flagId, contest_text: ct.value.trim() }); }
+      call({ action:'ack', local_id: lid() });
+      if (modal) modal.classList.remove('visible'); return;
+    }
+  });
+  // render convites ao abrir settings (admin)
+  document.addEventListener('click', function(e){
+    var nav = e.target.closest && e.target.closest('.nav-item[data-section="settings"]');
+    if (nav) setTimeout(function(){ if(document.body.classList.contains('is-staff')) renderQueue(); if(document.body.classList.contains('is-admin')) renderInvites(); }, 200);
+  });
+
+  window.LevelModeration = { refresh: refresh, renderQueue: renderQueue, renderInvites: renderInvites };
+  function boot(){ setTimeout(refresh, 1500); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 </body>
