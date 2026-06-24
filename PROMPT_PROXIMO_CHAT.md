@@ -1,9 +1,11 @@
 # 🎯 LEVEL Hub — Prompt para o próximo chat
 
 > Copia tudo dentro do bloco abaixo e cola na primeira mensagem do novo chat.
-> Última atualização: 24 Jun 2026 — v2.64.0 (em produção). Sessão longa: avatar-IA estilos,
-> catálogo de armas, **sistema de moderação completo**, histórico de progressão, tracker Gemini,
-> imagens de equipamento (recorte de fundo + watermark).
+> Última atualização: 24 Jun 2026 (tarde) — **v2.72.1** (em produção). Sessão enorme: moderação do
+> **NOME** do operador, **gráfico de progressão**, **Processador de Imagem** (tratar no cadastro +
+> salvar por tag no bucket), **display de equipamento sem corte** (melee/secundária/build), **fix de
+> persistência do perfil**, e **ARRANQUE da modularização** (CSS + ícones/motion extraídos) +
+> **ARCHITECTURE.md** + **BACKLOG.md**.
 
 ---
 
@@ -18,10 +20,14 @@ O repo REAL é C:\level-hub (o cwd da sessão costuma estar VAZIO). Confirma a l
 ⚠️ Subagentes Explore: passa SEMPRE o caminho ABSOLUTO C:\level-hub\index.html (senão caem no cwd vazio).
 
 ESTADO ATUAL
-- Versão: v2.64.0 (footer "LEVEL · v2.64.0") — em produção.
-- App = single-file C:\level-hub\index.html (~50k linhas, 20 blocos <script>), HTML/CSS/JS
-  vanilla + Supabase. Coach IA interno = "Le Vél". App TODO em PT-BR (se vires teu/tua/
-  telemóvel/ecrã/secção = regressão).
+- Versão: v2.72.1 (footer "LEVEL · v2.72.1") — em produção.
+- App = C:\level-hub\index.html (~37k linhas; a MODULARIZAÇÃO arrancou na v2.72.x): o CSS saiu
+  pra assets/css/level.css e os módulos ui/icon.js + ui/motion.js pra assets/js/ui/ (carregados
+  por <link>/<script src> síncronos; _headers no-cache pra css/js). O RESTO ainda é inline
+  (~18 blocos <script>). Próximos módulos vêm INCREMENTAL — ler **ARCHITECTURE.md** (arquitetura-alvo
+  + diagrama) e **BACKLOG.md** (prioridades/timing do refactor). ⚠️ O bloco do MODAL (window.LevelModal)
+  NÃO externaliza limpo (tem 2 IIFEs; ao extrair, LevelModal ficou undefined — revertido; pular esse).
+  HTML/CSS/JS vanilla + Supabase. Coach IA = "Le Vél". App TODO em PT-BR (teu/tua/telemóvel/ecrã/secção = regressão).
 - DEPLOY: push na main de github.com/victor-level-hub/level-hub → auto-deploy CLOUDFLARE →
   le-vel.games. (Netlify saiu — sem crédito.) Página de captura QR = capture/index.html no MESMO
   repo, multi-modo ?token=&type=weapon|avatar.
@@ -33,8 +39,9 @@ REGRAS DE EDIÇÃO (CRÍTICAS)
 - index.html é UM ficheiro enorme: edita por substituição de string com âncoras longas e únicas.
   Para zonas com SVG/base64 gigantes, usa scripts Python/Node com split/join LITERAL.
   ⚠️ ARMADILHA: helper de replace que escapa "$" quebra backreferences $1 → usa split/join literal.
-- VALIDAÇÃO após cada alteração: (a) node --check em TODOS os 20 blocos <script>; (b) tags
-  balanceadas (<script>/<title>/<style>); (c) preview estático local + preview_eval (o app tem
+- VALIDAÇÃO após cada alteração: (a) node --check nos blocos <script> inline (~18) E nos módulos
+  assets/js/*.js; (b) estrutura 1 <main> + 19 <section> (grep) + tags balanceadas; (c) preview estático
+  local + preview_eval (o app tem
   login gate; deslogado mostra o PITCH #level-pitch; mede estilos computados — screenshots às
   vezes dão timeout neste ficheiro). ⚠️ Tag HTML literal em texto de changelog (.vh-desc / i18n)
   QUEBRA o parser — escapa &lt;&gt; sempre.
@@ -88,8 +95,9 @@ PENDENTE (menu — pergunta ao Victor qual atacar; uma de cada vez)
 1. MODERAÇÃO — e-mail dos convites de papel (precisa secret/SMTP → bloqueado até o Victor
    recuperar o painel Supabase); auto-promover o papel quando a pessoa convidada se cadastrar
    com aquele e-mail (hoje o convite só fica registado em role_invites).
-2. MODERAÇÃO — estender a moderação aos OUTROS campos públicos: display_name, FOTO (visão/Gemini),
-   nome de arma, nome de loadout. (Hoje só a frase passa pela fila.)
+2. MODERAÇÃO — display_name ✅ FEITO (v2.65.0; nome auto-aprova se Gemini limpo, senão segura na fila;
+   ver memória [[name-moderation-syncpush]]). FALTA: FOTO (visão/Gemini — moderation_queue já tem coluna
+   image_path), nome de arma, nome de loadout (loadout só público no marketplace).
 3. OPERADOR — decidir o destino das seções admin "Catálogo de acessórios" + "Fontes de dados":
    manter, esconder, ou migrar os attachments (WEAPON_UNLOCKS) de vez pro DB (aí elas saem).
 4. RECRAFT — quando o painel Supabase voltar, setar RECRAFT_API_KEY e ligar o renderizador real
@@ -97,6 +105,12 @@ PENDENTE (menu — pergunta ao Victor qual atacar; uma de cada vez)
 5. CBRS-3 — falta subir a IMAGEM dela em Configurações ▸ Armas ▸ SMG (a arma já está no catálogo).
 6. AFINAR watermark/densidade se o Victor achar muito cheio; e ele deve clicar UMA vez no botão
    "Recortar fundo das imagens já salvas".
+7. MODULARIZAÇÃO (incremental, por gatilho — ver BACKLOG.md): arrancou (CSS + ui/icon + ui/motion).
+   Próximo: Core (state/bus/i18n) como módulos, OU extrair leaf de 1 IIFE limpo (verifica CADA passo —
+   o modal mostrou que nem todo bloco externaliza). Victor topa DESLIGAR o login-gate temporário p/ eu
+   verificar a parte logada (preferir bypass de dev só em localhost, NÃO expor produção).
+8. IMAGENS — Victor deve re-tratar as imagens já salvas (Processador por tag, com Centralizar/Expandir)
+   pra ficarem transparentes/limpas no fundo de combate. E subir a foto da CBRS-3 (= item 5).
 
 COMUNICAÇÃO (Victor tem TDAH + ansiedade)
 - PT-BR, recomendações decisivas (não listas longas), UMA coisa de cada vez, próximo passo concreto.
@@ -121,3 +135,13 @@ plano curto. (O Victor é iterativo e dá feedback por screenshots — espera o 
 - **v2.62.0** — Histórico de progressão movido pro Início + log automático de alterações; removidos botões redundantes (baixar/importar avatar, backup manual).
 - **v2.62.2** — revisão geral + limpeza de código órfão + persistência de show_quote.
 - **v2.63.x → v2.64.0** — imagens de equipamento: remoção de fundo no upload (IA no navegador) + watermark discreto da logo + popup de hover maximizado (recorte por alfa robusto) + watermark denso cobrindo o fundo + botão "recortar fundo das imagens já salvas". Hardening por workflow de revisão adversarial (guarda de tamanho, quota, crossOrigin, yield de thread).
+
+---
+
+## Histórico recente — SESSÃO 24 Jun (tarde): v2.65.0 → v2.72.1
+- **v2.65.0** — MODERAÇÃO do **NOME** do operador (display_name): Gemini pré-analisa; limpo auto-aprova, suspeito segura na fila; reprovar = red flag. Backend: coluna `name_status`; `moderate-text` v3, `moderation` v2, **`sync-push` v2.3 parou de escrever display_name** (era a porta de vazamento). Memória `name-moderation-syncpush`.
+- **v2.66.0 / .1** — **GRÁFICO DE PROGRESSÃO** (linhas; X=tempo, Y=prestígio/nível; viradas de prestígio com emblema redondo + hover; views dia/semana/mês/ano). Fix: edição do perfil agora vira ponto no gráfico (dedup por valor; o throttle de 60s do auto-snapshot comia as edições rápidas).
+- **v2.67.0 / v2.68.0 / .1** — **PROCESSADOR DE IMAGEM**: Centralizar + Expandir item (recorte por alfa) + preview sobre o fundo de combate + aviso ~80MB removido; **salvar a imagem tratada direto no item pela TAG do nome do arquivo** (`cloudUploadAsset` + `cat_default_images` global, propaga p/ todos); fix do ícone `scissors` (faltava no mapa LUCIDE).
+- **v2.69.0 / v2.70.0 / v2.71.0** — **DISPLAY DE EQUIPAMENTO sem corte**: melee (era `cover` em retrato → `contain` horizontal + fundo de combate; override scoped a `#opt-melee`, wildcards intactos); secundária virou **CARDS com imagem** (`renderSecondaryWeaponCards`, seleção via handler genérico `.option-card[data-field="secondaryWeaponId"]`) + **`color-scheme:dark` em TODOS os `<select>`**; build/info/saved cards **ADAPTATIVO** (detecta alfa → tratada fica limpa sem zoom + fundo de combate, opaca mantém `scale(1.18)`; `window.LevelImgTreat` + listener global de `load`).
+- **v2.71.1** — **FIX persistência do perfil**: `saveStatusFromModal` dispara `CloudSync.pushAll({force:true})` NA HORA (o auto-backup era a cada 5min e o auto-pull do boot trazia o valor antigo → nível revertia). Memória `sync-profile-immediate-push`.
+- **v2.72.0 / .1** — **MODULARIZAÇÃO arrancou**: CSS → `assets/css/level.css` (-13k linhas); ícones/motion → `assets/js/ui/{icon,motion}.js`. + **`ARCHITECTURE.md`** (arquitetura-alvo + diagrama) + **`BACKLOG.md`** (refactor priorizado, por gatilho). O bloco do modal NÃO externalizou limpo (revertido).
