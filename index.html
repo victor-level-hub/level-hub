@@ -11784,6 +11784,13 @@
     background-size: 46px auto;
     border-radius: 6px;
   }
+  /* v2.68: indicador de item-alvo (tag do nome do arquivo) + dica */
+  .imgproc-target { margin-top: 8px; padding: 7px 10px; border-radius: 6px; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+  .imgproc-target.ok { background: rgba(74,222,128,0.10); border: 1px solid rgba(74,222,128,0.35); color: var(--text-primary); }
+  .imgproc-target.warn { background: rgba(231,76,60,0.10); border: 1px solid rgba(231,76,60,0.35); color: var(--text-secondary); }
+  .imgproc-target-tag { color: var(--accent-orange); margin-left: 4px; }
+  .imgproc-taghint { margin-top: 6px; font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+  .imgproc-taghint code { background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 4px; color: var(--accent-orange); }
   .imgproc-preview-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -14498,7 +14505,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.67.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.68.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17763,6 +17770,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.68.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Processador: salvar a imagem tratada no item pela tag.</strong> Passo 2. O nome do arquivo vira a rota: ao carregar, o Processador deriva a <strong>tag (id)</strong> do nome (ex.: <code>knife.png</code> → <code>knife</code>) e resolve o item no catálogo (<code>SETTINGS_CATEGORIES</code>), mostrando o alvo (&ldquo;Vai para o item: Knife&rdquo;) ou avisando se a tag não existe. Após processar, o botão <strong>Salvar no item</strong> sobe a imagem tratada: bucket por-utilizador (com category/subcategory certas via <code>cloudUploadAsset</code>) <strong>+ default global</strong> (admin → <code>cat_default_images</code>/<code>GLOBAL_DEFAULT_IMG</code>, propaga pra todos) e atualiza o site na hora. Verificado em harness: resolução de tag (knife→melee, cbrs3→armamento/smg, tag inválida→null, categoria que estoura não quebra o loop). node 20/20. Próximo: Passo 3 — seletor de fundo + virar o display (tirar os hacks de scale; mostrar a tratada sobre o fundo por CSS) — aí o corte do melee some.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.67.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20071,6 +20087,8 @@
             <div class="imgproc-drop-hint" data-i18n="imgproc.drop.hint">PNG, JPEG ou WebP · máx 10MB</div>
           </div>
           <input type="file" id="imgproc-file" accept="image/png,image/jpeg,image/webp" style="display:none">
+          <div class="imgproc-target" id="imgproc-target" style="display:none"></div>
+          <div class="imgproc-taghint" data-i18n-html="imgproc.tagHint">Dica: nomeie o arquivo com a <strong>TAG (id)</strong> do item — ex.: <code>knife.png</code>. Aí o botão <strong>Salvar no item</strong> envia direto pro item certo no bucket e propaga pro site inteiro.</div>
         </div>
 
         <!-- STEP 2: Tamanho -->
@@ -20105,6 +20123,7 @@
           <div class="imgproc-step-title"><span class="num">3</span><span data-i18n="imgproc.step3.title">Processar</span></div>
           <div class="imgproc-actions">
             <button class="imgproc-btn" id="imgproc-process" disabled data-i18n="imgproc.btn.process">▶ Processar</button>
+            <button class="imgproc-btn" id="imgproc-save-item" disabled data-i18n="imgproc.btn.saveItem">⬆ Salvar no item</button>
             <button class="imgproc-btn secondary" id="imgproc-download" disabled data-i18n="imgproc.btn.download">⬇ Baixar PNG</button>
             <button class="imgproc-btn secondary" id="imgproc-reset" data-i18n="imgproc.btn.reset">↺ Resetar</button>
           </div>
@@ -20633,7 +20652,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.67.0</strong><span class="ver-tag">Processador de Imagem: Centralizar + Expandir item (recorta o equipamento pelo fundo e centra/maximiza no quadro); preview da processada sobre o fundo de combate; aviso dos ~80MB removido</span>
+        LEVEL · <strong>v2.68.0</strong><span class="ver-tag">Processador: salvar a imagem tratada direto no item pela tag do nome do arquivo (knife.png → item knife) — sobe pro bucket + default global e propaga pro site; mostra o item-alvo na hora</span>
       </div>
       <script>
         (function(){
@@ -22618,8 +22637,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Processador: centralizar + expandir item',
-    'briefing.changelog.summary':  'O <strong>Processador de Imagem</strong> (Configurações) ganhou <strong>Centralizar item</strong> e <strong>Expandir item</strong>: recorta o equipamento pelo fundo transparente e o centraliza/maximiza no quadro. O preview da imagem processada já aparece sobre o <strong>fundo de combate</strong> (o look final do site). Aviso dos ~80MB removido.',
+    'briefing.changelog.headline': 'Processador: salvar imagem no item pela tag',
+    'briefing.changelog.summary':  'No Processador de Imagem, dê ao arquivo o nome da <strong>tag (id)</strong> do item (ex.: <code>knife.png</code>): ao processar, o botão <strong>Salvar no item</strong> envia a imagem tratada direto pro item certo no bucket e propaga pro site inteiro. Mostra o item-alvo na hora (ou avisa se a tag não existe).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -23642,6 +23661,8 @@ window.I18N = {
     'imgproc.opt.removeBg': 'Remover fundo (IA)',
     'imgproc.opt.center': 'Centralizar item',
     'imgproc.opt.expand': 'Expandir item (maximizar)',
+    'imgproc.tagHint': 'Dica: nomeie o arquivo com a <strong>TAG (id)</strong> do item — ex.: <code>knife.png</code>. Aí o botão <strong>Salvar no item</strong> envia direto pro item certo no bucket e propaga pro site inteiro.',
+    'imgproc.btn.saveItem': '⬆ Salvar no item',
     'imgproc.btn.process': '▶ Processar',
     'imgproc.btn.download': '⬇ Baixar PNG',
     'imgproc.btn.reset': '↺ Resetar',
@@ -24284,8 +24305,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Processor: center + expand item',
-    'briefing.changelog.summary':  'The <strong>Image Processor</strong> (Settings) gained <strong>Center item</strong> and <strong>Expand item</strong>: it crops the gear by its transparent background and centers/maximizes it in the frame. The processed preview now shows on the <strong>combat backdrop</strong> (the final on-site look). The ~80MB notice was removed.',
+    'briefing.changelog.headline': 'Processor: save image to item by tag',
+    'briefing.changelog.summary':  'In the Image Processor, name the file after the item&rsquo;s <strong>tag (id)</strong> (e.g. <code>knife.png</code>): after processing, <strong>Save to item</strong> sends the treated image straight to the right item in the bucket and propagates site-wide. It shows the target item live (or warns if the tag is unknown).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -25308,6 +25329,8 @@ window.I18N = {
     'imgproc.opt.removeBg': 'Remove background (AI)',
     'imgproc.opt.center': 'Center item',
     'imgproc.opt.expand': 'Expand item (maximize)',
+    'imgproc.tagHint': 'Tip: name the file after the item <strong>TAG (id)</strong> — e.g. <code>knife.png</code>. Then <strong>Save to item</strong> sends it straight to the right item in the bucket and propagates site-wide.',
+    'imgproc.btn.saveItem': '⬆ Save to item',
     'imgproc.btn.process': '▶ Process',
     'imgproc.btn.download': '⬇ Download PNG',
     'imgproc.btn.reset': '↺ Reset',
@@ -40147,6 +40170,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       btnProcess.addEventListener('click', imgprocProcess);
       btnDownload.addEventListener('click', imgprocDownload);
       btnReset.addEventListener('click', imgprocReset);
+      var btnSaveItem = document.getElementById('imgproc-save-item');
+      if (btnSaveItem) btnSaveItem.addEventListener('click', imgprocSaveCurrentToItem);
     }
 
     function imgprocHandleFile(file) {
@@ -40162,6 +40187,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       imgprocState.originalFile = file;
       imgprocState.processedBlob = null;
       imgprocState.processedDataUrl = null;
+      // v2.68: deriva a TAG do nome do arquivo e resolve o item-alvo no catálogo
+      var _base = (file.name || '').replace(/\.[^.]+$/, '').trim();
+      imgprocState.tag = _base;
+      imgprocState.resolved = imgprocResolveItem(_base) || imgprocResolveItem(_base.toLowerCase());
+      if (imgprocState.resolved) imgprocState.tag = imgprocState.resolved.id; // usa o id canónico
+      imgprocUpdateTarget();
       var reader = new FileReader();
       reader.onload = function (e) {
         imgprocState.originalDataUrl = e.target.result;
@@ -40347,6 +40378,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           outInfo.textContent = outImg.naturalWidth + ' × ' + outImg.naturalHeight + ' · ' + (finalBlob.size / 1024).toFixed(1) + ' KB';
         };
         btnDownload.disabled = false;
+        imgprocUpdateTarget(); // v2.68: liga o "Salvar no item" se a tag foi resolvida
         imgprocSetProgress(100);
         imgprocSetStatus(cbt('imgproc.status.done') || '{{i:check}} Pronto! Clica em Baixar PNG.', 'success');
         setTimeout(function () { imgprocSetProgress(0, false); }, 800);
@@ -40472,14 +40504,95 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       imgprocState.originalDataUrl = null;
       imgprocState.processedBlob = null;
       imgprocState.processedDataUrl = null;
+      imgprocState.tag = null;
+      imgprocState.resolved = null;
       var fileInput = document.getElementById('imgproc-file');
       if (fileInput) fileInput.value = '';
       var prevStep = document.getElementById('imgproc-preview-step');
       if (prevStep) prevStep.style.display = 'none';
       document.getElementById('imgproc-process').disabled = true;
       document.getElementById('imgproc-download').disabled = true;
+      var _si = document.getElementById('imgproc-save-item'); if (_si) _si.disabled = true;
+      var _tg = document.getElementById('imgproc-target'); if (_tg) _tg.style.display = 'none';
       imgprocSetStatus('');
       imgprocSetProgress(0, false);
+    }
+
+    // ── v2.68: salvar a imagem TRATADA direto no item (roteado pela TAG do nome do arquivo) ──
+    // Resolve a tag no catálogo (SETTINGS_CATEGORIES) → {id, name, category, subcategory}.
+    function imgprocResolveItem(tag) {
+      try {
+        if (!tag || typeof SETTINGS_CATEGORIES === 'undefined') return null;
+        for (var i = 0; i < SETTINGS_CATEGORIES.length; i++) {
+          var cat = SETTINGS_CATEGORIES[i];
+          if (!cat || cat.customPanel || typeof cat.source !== 'function') continue;
+          var items;
+          try { items = cat.source() || []; } catch (e) { continue; }
+          for (var j = 0; j < items.length; j++) {
+            if (items[j] && String(items[j].id) === tag) {
+              var cs = (typeof _deriveCatSub === 'function') ? _deriveCatSub(cat.id, tag) : null;
+              return { id: tag, name: items[j].name || tag, tabId: cat.id, category: cs && cs.category, subcategory: cs && cs.subcategory };
+            }
+          }
+        }
+      } catch (e) {}
+      return null;
+    }
+    // Atualiza o indicador de alvo + habilita o botão "Salvar no item".
+    function imgprocUpdateTarget() {
+      var box = document.getElementById('imgproc-target');
+      var saveBtn = document.getElementById('imgproc-save-item');
+      var en = false; try { en = localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) {}
+      var r = imgprocState.resolved, tag = imgprocState.tag;
+      if (box) {
+        if (tag && r) {
+          box.style.display = ''; box.className = 'imgproc-target ok';
+          box.innerHTML = (en ? 'Goes to item: ' : 'Vai para o item: ') + '<strong>' + (r.name || r.id) + '</strong> <span class="imgproc-target-tag">' + r.id + '</span>';
+        } else if (tag) {
+          box.style.display = ''; box.className = 'imgproc-target warn';
+          box.innerHTML = (en ? 'Tag not in catalog: ' : 'Tag fora do catálogo: ') + '<strong>' + tag + '</strong> — ' + (en ? 'rename the file to the item id.' : 'renomeie o arquivo com o id do item.');
+        } else { box.style.display = 'none'; }
+      }
+      if (saveBtn) saveBtn.disabled = !(r && imgprocState.processedBlob);
+    }
+    function imgprocBlobToDataURL(blob) {
+      return new Promise(function (resolve, reject) {
+        var fr = new FileReader();
+        fr.onload = function () { resolve(fr.result); };
+        fr.onerror = function () { reject(new Error('blob→dataURL falhou')); };
+        fr.readAsDataURL(blob);
+      });
+    }
+    // Sobe a imagem tratada: bucket por-utilizador (cat/sub certas) + default GLOBAL (admin → todos).
+    async function imgprocSaveToItem(tag, dataUrl) {
+      var info = imgprocResolveItem(tag);
+      try {
+        if (info && info.category && typeof cloudUploadAsset === 'function' && typeof _getLocalIdSafe === 'function' && _getLocalIdSafe()) {
+          await cloudUploadAsset(tag, dataUrl, info.category, info.subcategory);
+        }
+      } catch (e) { console.warn('[imgproc] cloud upload falhou (segue p/ global):', e && e.message); }
+      try { if (typeof setUserImage === 'function') setUserImage(tag, dataUrl); } catch (e) {}
+      try { if (typeof refreshAfterImageChange === 'function') refreshAfterImageChange(); } catch (e) {}
+    }
+    async function imgprocSaveCurrentToItem() {
+      var saveBtn = document.getElementById('imgproc-save-item');
+      var r = imgprocState.resolved;
+      if (!r || !imgprocState.processedBlob) return;
+      var en = false; try { en = localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) {}
+      var orig = saveBtn ? saveBtn.innerHTML : '';
+      if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = en ? 'Saving…' : 'Salvando…'; }
+      try {
+        var dataUrl = await imgprocBlobToDataURL(imgprocState.processedBlob); // base64 (não objectURL)
+        await imgprocSaveToItem(r.id, dataUrl);
+        imgprocSetStatus((en ? 'Saved to item ' : 'Salvo no item ') + r.id + ' ✓', 'success');
+        if (window.LevelModal && typeof window.LevelModal.toast === 'function') {
+          window.LevelModal.toast({ message: (en ? 'Image saved to ' : 'Imagem salva em ') + (r.name || r.id), variant: 'success', duration: 3000 });
+        }
+      } catch (e) {
+        imgprocSetStatus((en ? 'Save failed: ' : 'Falha ao salvar: ') + (e && e.message || e), 'error');
+      } finally {
+        if (saveBtn) { saveBtn.disabled = false; saveBtn.innerHTML = orig || (en ? '⬆ Save to item' : '⬆ Salvar no item'); }
+      }
     }
 
     // ═══════════════════════════════════════════════════════════════════
