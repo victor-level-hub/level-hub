@@ -14440,7 +14440,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.62.1 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.62.2 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17705,6 +17705,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.62.2</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Revisão geral + limpeza.</strong> Pedido do Victor. Passei o pente fino no que mexemos nesta sessão: estrutura (20/20 scripts, 5/5 titles, 4/4 styles), parse de JS (20 blocos OK) e runtime no preview (<strong>zero erros</strong> de console; só warnings pré-existentes de "Multiple GoTrueClient"). Correções: <strong>(1)</strong> removido o <strong>código órfão</strong> dos botões que tinham saído das Configurações — handlers de Baixar/Importar avatar, do "Enviar manual" da cloud, a função <code>downloadCurrentAvatar</code> e o input <code>#opp-import-file</code>. <strong>(2)</strong> a Edge <code>moderate-text</code> (v2) agora <strong>persiste o flag "exibir frase"</strong> (<code>show_quote</code>) no <code>hub_users</code>, então a tua escolha de mostrar/ocultar a frase é respeitada na busca de squad. Nada quebrado encontrado fora isso. node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.62.1</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20456,8 +20465,6 @@
           </div>
 
         </div>
-
-        <input type="file" id="opp-import-file" accept="image/png,image/jpeg" style="display:none">
       </div>
 
       <input type="file" class="settings-file-input" id="set-upload-file" accept="image/png,image/jpeg,image/webp">
@@ -20475,7 +20482,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.62.1</strong><span class="ver-tag">avatar IA: removidos Golden Bandit e Pink Meka do catálogo de personagens (7 personagens agora)</span>
+        LEVEL · <strong>v2.62.2</strong><span class="ver-tag">revisão geral: limpeza de código órfão dos botões removidos (baixar/importar avatar, enviar manual) + persistência do flag "exibir frase" (show_quote) na moderação · zero erros de runtime</span>
       </div>
       <script>
         (function(){
@@ -22459,8 +22466,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Catálogo: 2 personagens removidos',
-    'briefing.changelog.summary':  'Removemos o <strong>Golden Bandit</strong> e o <strong>Pink Meka</strong> do catálogo do "Gerar com IA" — agora são <strong>7 personagens</strong>.',
+    'briefing.changelog.headline': 'Revisão geral + limpeza',
+    'briefing.changelog.summary':  'Revisão geral do que mexemos: estrutura e runtime sem erros. Limpamos código órfão dos botões removidos (baixar/importar avatar, backup manual) e garantimos que a tua escolha de <strong>exibir/ocultar a frase</strong> do perfil é respeitada.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24123,8 +24130,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Catalog: 2 characters removed',
-    'briefing.changelog.summary':  'We removed <strong>Golden Bandit</strong> and <strong>Pink Meka</strong> from the "Generate with AI" catalog — now <strong>7 characters</strong>.',
+    'briefing.changelog.headline': 'General review + cleanup',
+    'briefing.changelog.summary':  'General review of recent work: structure and runtime are clean. We removed orphaned code from the buttons we took out (avatar download/import, manual backup) and made sure your choice to <strong>show/hide the profile phrase</strong> is respected.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -33206,33 +33213,6 @@ const ATTACHMENT_ICONS = {
         return;
       }
 
-      // Operator panel — import file
-      if (e.target.id === 'opp-import-file') {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = async function (ev) {
-          try {
-            if (window.LevelDB && window.LevelDB.player) {
-              await window.LevelDB.player.update({ photo: ev.target.result });
-              if (typeof window.renderOperatorPanel === 'function') window.renderOperatorPanel();
-              if (window.LevelEtapa7 && typeof window.LevelEtapa7.renderSidebarAvatar === 'function') {
-                window.LevelEtapa7.renderSidebarAvatar();
-              }
-              if (window.LevelModal && window.LevelModal.alert) {
-                window.LevelModal.alert({ title: tHub('avatar.import.title'), message: tHub('avatar.import.msg'), variant: 'success' });
-              }
-            }
-          } catch (err) {
-            if (window.LevelModal && window.LevelModal.alert) {
-              window.LevelModal.alert({ title: 'Erro', message: err.message || String(err), variant: 'error' });
-            }
-          }
-        };
-        reader.readAsDataURL(file);
-        e.target.value = '';
-        return;
-      }
     });
 
     // ═════════════════════════════════════════════════════════════════
@@ -33642,39 +33622,6 @@ const ATTACHMENT_ICONS = {
     // ── UI wiring: handlers dos botões no operator-panel ───────────
     // (os botões são adicionados via str_replace no HTML do operator-panel)
     document.addEventListener('click', async function (e) {
-      if (e.target.closest('#opp-btn-cloud-push')) {
-        const btn = e.target.closest('#opp-btn-cloud-push');
-        const orig = btn.textContent;
-        btn.disabled = true;
-        btn.textContent = 'A enviar...';
-        try {
-          const result = await pushAll({ force: true });
-          const apl = result.applied || {};
-          const conflicts = (result.conflicts || []).length;
-          const summary = Object.keys(apl).map(function (k) { return apl[k] + ' ' + k.replace('hub_', ''); }).join(', ') || 'nenhuma mudança';
-          if (window.LevelModal && window.LevelModal.alert) {
-            window.LevelModal.alert({
-              title: 'Backup concluído',
-              message: 'Aplicado no cloud: ' + summary + (conflicts ? ('. Conflitos: ' + conflicts + ' (server tinha versão mais recente).') : '.'),
-              variant: conflicts ? 'warning' : 'success',
-            });
-          }
-          if (typeof renderCloudSyncStatus === 'function') renderCloudSyncStatus();
-        } catch (err) {
-          if (window.LevelModal && window.LevelModal.alert) {
-            window.LevelModal.alert({
-              title: 'Falha no backup',
-              message: err.message || String(err),
-              variant: 'error',
-            });
-          }
-        } finally {
-          btn.disabled = false;
-          btn.textContent = orig;
-        }
-        return;
-      }
-
       if (e.target.closest('#opp-btn-cloud-pull')) {
         const ok = window.LevelModal && window.LevelModal.confirm
           ? await window.LevelModal.confirm({
@@ -36161,43 +36108,7 @@ const ATTACHMENT_ICONS = {
         }
         return;
       }
-      if (e.target.closest('#opp-btn-download-avatar')) {
-        downloadCurrentAvatar();
-        return;
-      }
-      if (e.target.closest('#opp-btn-import-avatar')) {
-        document.getElementById('opp-import-file').click();
-        return;
-      }
     });
-
-    async function downloadCurrentAvatar() {
-      try {
-        if (!window.LevelDB || !window.LevelDB.player) return;
-        const player = await window.LevelDB.player.get();
-        if (!player || !player.photo) {
-          if (window.LevelModal && window.LevelModal.alert) {
-            window.LevelModal.alert({
-              title: 'Sem avatar',
-              message: 'Ainda não tens avatar definido. Carregue ou gera um primeiro.',
-              variant: 'warning'
-            });
-          }
-          return;
-        }
-        const name = (player.name || 'operator').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'operator';
-        const date = new Date().toISOString().slice(0, 10);
-        const filename = 'level-avatar-' + name + '-' + date + '.png';
-        const a = document.createElement('a');
-        a.href = player.photo;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } catch (e) {
-        console.error('[download-avatar]', e);
-      }
-    }
 
     // ── Reativo: re-renderiza se player muda ───────────────────────
     if (window.LevelDB && window.LevelDB.onChange) {
