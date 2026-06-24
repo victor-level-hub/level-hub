@@ -14440,7 +14440,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.62.2 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.63.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17705,6 +17705,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.63.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Imagens de equipamento: fundo removido no upload + bug "não aparecia" corrigido.</strong> Pedido do Victor. <strong>(1) Bug:</strong> ao subir a imagem de uma arma em Configurações, ela só aparecia no Início / nos cards de build após <strong>recarregar</strong> a página — o <code>refreshAfterImageChange</code> não atualizava esses displays. Agora dispara o re-render na hora (Início, cards de build, loadout cards). <strong>(2) Remoção de fundo automática:</strong> ao subir imagem de <strong>Arma, Melee, Field Upgrade, Tactical ou Lethal</strong> (tanto no botão <strong>Enviar</strong> quanto no <strong>Upload em massa</strong>), o fundo é removido automaticamente por IA, deixando o equipamento recortado (PNG transparente, exportado em webp que mantém a transparência). <strong>Nota técnica:</strong> usei o mesmo motor que o <em>Processador de Imagem</em> já tem (<code>@imgly/background-removal</code>, roda no navegador) em vez do Gemini — é grátis (importante no upload em massa) e gera transparência real, que modelos de imagem do Gemini não fazem bem. Se a IA falhar, sobe a imagem original (resiliente). 1ª vez baixa o modelo (~80&nbsp;MB). node 20/20, sem erros de console.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.62.2</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -20482,7 +20491,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.62.2</strong><span class="ver-tag">revisão geral: limpeza de código órfão dos botões removidos (baixar/importar avatar, enviar manual) + persistência do flag "exibir frase" (show_quote) na moderação · zero erros de runtime</span>
+        LEVEL · <strong>v2.63.0</strong><span class="ver-tag">imagens de equipamento: fundo removido automaticamente no upload (Armas/Melee/Field/Tactical/Lethal, individual e em massa) via IA no navegador + correção: a imagem agora aparece na hora no Início e nos cards (sem precisar recarregar)</span>
       </div>
       <script>
         (function(){
@@ -22466,8 +22475,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '23 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Revisão geral + limpeza',
-    'briefing.changelog.summary':  'Revisão geral do que mexemos: estrutura e runtime sem erros. Limpamos código órfão dos botões removidos (baixar/importar avatar, backup manual) e garantimos que a tua escolha de <strong>exibir/ocultar a frase</strong> do perfil é respeitada.',
+    'briefing.changelog.headline': 'Equipamento: fundo removido + fix',
+    'briefing.changelog.summary':  'Ao subir a imagem de <strong>Arma, Melee, Field Upgrade, Tactical ou Lethal</strong> (no Enviar ou no Upload em massa), o <strong>fundo é removido automaticamente</strong> por IA — o equipamento fica recortado. E corrigimos um bug: a imagem agora <strong>aparece na hora</strong> no Início e nos cards, sem precisar recarregar a página.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24130,8 +24139,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 23, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'General review + cleanup',
-    'briefing.changelog.summary':  'General review of recent work: structure and runtime are clean. We removed orphaned code from the buttons we took out (avatar download/import, manual backup) and made sure your choice to <strong>show/hide the profile phrase</strong> is respected.',
+    'briefing.changelog.headline': 'Equipment: background removed + fix',
+    'briefing.changelog.summary':  'When you upload an image for a <strong>Weapon, Melee, Field Upgrade, Tactical or Lethal</strong> (single or bulk upload), the <strong>background is removed automatically</strong> by AI — the equipment ends up cut out. We also fixed a bug: the image now <strong>shows up instantly</strong> on the Home and in the cards, no reload needed.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -39038,6 +39047,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // v76: re-render dos cards de mapa após upload/remoção de imagem
       try { if (typeof window.renderMapsSection === 'function') window.renderMapsSection(); } catch (e) {}
       if (typeof decoratePerkCards === 'function') decoratePerkCards();
+      // v2.63: atualiza os displays de ARMA na hora (Início, cards de build, loadout cards)
+      // — antes a imagem só aparecia após recarregar a página.
+      try { document.dispatchEvent(new CustomEvent('level:builds-change')); } catch (e) {}
+      try { if (window.BO7_ASSETS && typeof window.BO7_ASSETS.attachAllWeaponImages === 'function') window.BO7_ASSETS.attachAllWeaponImages(); } catch (e) {}
     }
 
     // v2.46.0 · upload em massa: nome do ficheiro (sem extensão) = id do item.
@@ -39050,6 +39063,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       items.forEach(function (it) { if (it && it.id != null) idMap[String(it.id).toLowerCase()] = it.id; });
       const files = Array.prototype.slice.call(fileList || []);
       if (!files.length) return;
+      // v2.63: equipamento → remove o fundo (IA local) de cada imagem antes de salvar
+      const _equip = isEquipmentCategory(settingsActiveTab) && typeof window.LevelBgRemoval === 'function';
+      if (_equip && typeof showToast === 'function') showToast(cbt('set.bg.removingBulk'), 'info');
       let placed = 0; const unmatched = [];
       const tasks = [];
       files.forEach(function (file) {
@@ -39058,8 +39074,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         const base = String(file.name).replace(/\.[^.]+$/, '').trim().toLowerCase();
         const realId = idMap[base];
         if (!realId) { unmatched.push(file.name); return; }
+        const prep = _equip ? window.LevelBgRemoval(file).catch(function () { return file; }) : Promise.resolve(file);
         tasks.push(
-          resizeImageToDataUrl(file, USER_IMG_MAX_SIZE)
+          prep
+            .then(function (src) { return resizeImageToDataUrl(src, USER_IMG_MAX_SIZE); })
             .then(function (dataUrl) { if (setUserImage(realId, dataUrl)) placed++; })
             .catch(function () { unmatched.push(file.name + ' (erro)'); })
         );
@@ -39819,6 +39837,20 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }
     }
 
+    // v2.63: helper reutilizável de remoção de fundo (mesmo motor @imgly do Image
+    // Processor — roda no navegador, transparência real, sem custo de Gemini).
+    // Recebe File/Blob, devolve um Blob PNG com fundo transparente.
+    window.LevelBgRemoval = async function (fileOrBlob, onProgress) {
+      var lib = await imgprocLoadLib();
+      var removeBackground = lib.removeBackground || lib.default;
+      return await removeBackground(fileOrBlob, onProgress ? { progress: onProgress } : undefined);
+    };
+
+    // v2.63: categorias de EQUIPAMENTO que devem ter o fundo removido no upload.
+    function isEquipmentCategory(tab) {
+      return /^weapons_/.test(tab || '') || ['melee', 'fieldup', 'tactical', 'lethal'].indexOf(tab) !== -1;
+    }
+
     async function imgprocProcess() {
       if (!imgprocState.originalFile) return;
       var btnProcess = document.getElementById('imgproc-process');
@@ -40572,7 +40604,20 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           if (typeof showToast === 'function') showToast(cbt('set.toast.invalidType'), 'error');
           return;
         }
-        resizeImageToDataUrl(file, USER_IMG_MAX_SIZE).then(function (dataUrl) {
+        // v2.63: equipamento (arma/melee/field/tactical/lethal) → remove o fundo (IA local)
+        var _equip = isEquipmentCategory(settingsActiveTab);
+        var _prep;
+        if (_equip && typeof window.LevelBgRemoval === 'function') {
+          if (typeof showToast === 'function') showToast(cbt('set.bg.removing'), 'info');
+          _prep = window.LevelBgRemoval(file).catch(function (err) {
+            console.warn('[bg-removal] falhou, usando original:', err);
+            if (typeof showToast === 'function') showToast(cbt('set.bg.failed'), 'warning');
+            return file; // resiliente: se a IA falhar, sobe a imagem original
+          });
+        } else {
+          _prep = Promise.resolve(file);
+        }
+        _prep.then(function (src) { return resizeImageToDataUrl(src, USER_IMG_MAX_SIZE); }).then(function (dataUrl) {
           if (setUserImage(itemId, dataUrl)) {
             if (typeof showToast === 'function') showToast(cbt('set.toast.saved'), 'success');
             refreshAfterImageChange();
@@ -40720,6 +40765,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.confirm.migrate.msg': 'Vou enviar {0} imagens locais pro Supabase. Continuar?',
         'set.confirm.migrate.btn': 'Migrar pra cloud',
         'set.toast.saved': '{{i:check}} Imagem salva', 'set.toast.removed': '{{i:check}} Imagem removida',
+        'set.bg.removing': '{{i:scissors}} Removendo o fundo… (1ª vez baixa o modelo, ~80MB)',
+        'set.bg.removingBulk': '{{i:scissors}} Removendo o fundo das imagens… (pode demorar)',
+        'set.bg.failed': '{{i:alert-triangle}} Falha ao remover o fundo — subi a imagem original',
         'rating.toast.saved': '{{i:check}} Avaliação salva',
         'set.toast.cleared': '{{i:check}} Todas as imagens apagadas',
         'set.toast.exported': '{{i:check}} Backup exportado',
@@ -40879,6 +40927,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.confirm.migrate.msg': 'I will upload {0} local images to Supabase. Continue?',
         'set.confirm.migrate.btn': 'Migrate to cloud',
         'set.toast.saved': '{{i:check}} Image saved', 'set.toast.removed': '{{i:check}} Image removed',
+        'set.bg.removing': '{{i:scissors}} Removing background… (first time downloads the model, ~80MB)',
+        'set.bg.removingBulk': '{{i:scissors}} Removing background from images… (may take a while)',
+        'set.bg.failed': '{{i:alert-triangle}} Background removal failed — uploaded the original image',
         'rating.toast.saved': '{{i:check}} Rating saved',
         'set.toast.cleared': '{{i:check}} All images deleted',
         'set.toast.exported': '{{i:check}} Backup exported',
