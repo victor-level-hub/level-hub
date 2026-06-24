@@ -7492,6 +7492,35 @@
   .home-history .hh-top { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
   .home-history .hh-desc { flex: 1; min-width: 200px; font-size: 12.5px; line-height: 1.5; color: var(--text-secondary); }
   .home-history .hh-top button { flex: 0 0 auto; }
+  /* v2.66: gráfico de progressão */
+  .opp-chart-bar { display: flex; gap: 4px; justify-content: flex-end; flex-wrap: wrap; margin-bottom: 8px; }
+  .opp-chart-view {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); background: transparent; border: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+    border-radius: 6px; padding: 3px 9px; cursor: pointer; transition: color .15s, border-color .15s, background .15s;
+  }
+  .opp-chart-view:hover { color: var(--text-secondary); border-color: var(--border, rgba(255,255,255,0.16)); }
+  .opp-chart-view.active { color: var(--action-ink, #1A1206); background: var(--accent-orange, #FF9800); border-color: var(--accent-orange, #FF9800); font-weight: 700; }
+  .opp-chart-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; }
+  .opp-chart-head .muted { color: var(--text-secondary); }
+  .opp-chart-head .gain { color: var(--accent-orange); font-weight: 700; }
+  .opp-chart-head .cur { color: var(--accent-orange); }
+  .opp-chart-canvas { position: relative; width: 100%; }
+  .opp-chart-axis-label { margin-top: 4px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); letter-spacing: 0.06em; }
+  .opp-chart-empty { text-align: center; color: var(--text-muted); font-size: 11px; padding: 24px 0; }
+  .opp-chart-single { text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-orange); padding: 22px 0; }
+  .opp-chart-single-sub { font-size: 10px; color: var(--text-muted); margin-top: 6px; }
+  .opp-prestige-mark { transition: transform .12s ease; transform-box: fill-box; transform-origin: center; }
+  .opp-prestige-mark:hover { transform: scale(1.12); }
+  .opp-chart-tip {
+    position: absolute; z-index: 5; pointer-events: none; min-width: 116px; max-width: 180px;
+    background: var(--bg-panel, #1f283f); border: 1px solid var(--accent-orange, #FF9800); border-radius: 10px;
+    padding: 9px 11px; box-shadow: 0 8px 24px rgba(0,0,0,0.45); text-align: center;
+  }
+  .opp-chart-tip img { width: 56px; height: 56px; object-fit: contain; display: block; margin: 0 auto 6px; }
+  .opp-chart-tip .tip-p { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 13px; color: var(--accent-orange); letter-spacing: 0.04em; }
+  .opp-chart-tip .tip-nm { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; color: var(--text-primary); margin-top: 1px; }
+  .opp-chart-tip .tip-when { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-muted); margin-top: 5px; }
   .home-history .hh-log-title {
     font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--text-muted); margin: 16px 0 8px;
@@ -14461,7 +14490,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.65.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.66.0 · <span data-i18n="briefing.changelog.date">24 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -17726,6 +17755,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.66.0</span>
+                <span class="vh-date">24 Jun 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Gráfico de progressão por linhas no Histórico.</strong> X = tempo, Y = Prestígio/Nível (score contínuo prestígio×250 + nível). Cada snapshot vira um <strong>ponto</strong> na linha; toggle de visão <strong>Dia / Semana / Mês / Ano / Tudo</strong> (filtra a janela de tempo, com rótulos de eixo que se adaptam — horas → dias → meses). A cada <strong>virada de prestígio</strong> entra um <strong>emblema redondo</strong> no ponto — no hover abre um cartão com o emblema grande, qual prestígio foi e o dia/hora em que passou pra ele. Substitui o sparkline simples; SVG vanilla (sem libs, escala uniforme p/ os emblemas ficarem redondos), reusa os snapshots do edge <code>record-player-snapshot</code> e os emblemas via <code>getUserImage</code> (fallback p/ anel "P{n}" se a imagem não existir). node 20/20; render verificado em harness isolado (8 pontos, 2 viradas, 5 views, hover com data/hora).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.65.0</span>
                 <span class="vh-date">24 Jun 2026</span>
                 <span class="vh-kind">feat</span>
@@ -20569,7 +20607,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.65.0</strong><span class="ver-tag">moderação do nome do operador: o nome público (Encontrar Squad) passa por moderação — limpo entra na hora, suspeito segura na fila e os outros veem o nome anterior até aprovar; reprovado gera red flag</span>
+        LEVEL · <strong>v2.66.0</strong><span class="ver-tag">gráfico de progressão por linhas no Histórico: X=tempo, Y=prestígio/nível, um ponto por snapshot, visão por dia/semana/mês/ano e emblema redondo a cada virada de prestígio (hover mostra emblema grande + qual prestígio + dia/hora)</span>
       </div>
       <script>
         (function(){
@@ -22554,8 +22592,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '24 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Moderação do nome do operador',
-    'briefing.changelog.summary':  'O nome público (mostrado no <strong>Encontrar Squad</strong>) agora passa por moderação. Nome limpo entra na hora; nome suspeito fica <strong>em análise</strong> e os outros veem o nome anterior até a aprovação. Nome reprovado gera advertência (red flag).',
+    'briefing.changelog.headline': 'Gráfico de progressão (linhas)',
+    'briefing.changelog.summary':  'O <strong>Histórico de progressão</strong> agora tem um gráfico de linhas: cada snapshot vira um ponto, com visão por <strong>dia, semana, mês ou ano</strong>. A cada virada de prestígio aparece um emblema redondo — passa o mouse pra ver o emblema grande, qual prestígio e quando você passou pra ele.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -24218,8 +24256,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 24, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Operator name moderation',
-    'briefing.changelog.summary':  'Your public name (shown in <strong>Find Squad</strong>) now goes through moderation. A clean name goes live instantly; a suspicious one is held <strong>for review</strong> and others keep seeing your previous name until it is approved. A rejected name raises a red flag.',
+    'briefing.changelog.headline': 'Progression line chart',
+    'briefing.changelog.summary':  'Your <strong>Progression History</strong> now has a line chart: every snapshot is a point, with <strong>day, week, month or year</strong> views. Each prestige turnover shows a round emblem — hover to see the big emblem, which prestige, and when you reached it.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -34555,57 +34593,223 @@ const ATTACHMENT_ICONS = {
       // Total weighted "rank score" = prestige*250 + level (continuous progression)
       function rankScore(p, l) { return (p|0) * 250 + (l|0); }
 
-      // ── Render SVG line chart ──────────────────────────────────────
+      // ── v2.66: Gráfico de progressão (linhas · X=tempo · Y=Prestígio/Nível) ──
+      var _lastSnaps = [];
+      var _viewMode  = 'all'; // 'day' | 'week' | 'month' | 'year' | 'all'
+
+      // Emblemas de prestígio (id no catálogo de imagens + nome p/ tooltip)
+      var PRESTIGE_META = {
+        1:  { id:'prs_p1_psyop_soldier',     pt:'Psyop Soldier',         en:'Psyop Soldier' },
+        2:  { id:'prs_p2_eod',               pt:'EOD',                   en:'EOD' },
+        3:  { id:'prs_p3_combat_medic',      pt:'Médico de Combate',     en:'Combat Medic' },
+        4:  { id:'prs_p4_infiltrator',       pt:'Infiltrador',           en:'Infiltrator' },
+        5:  { id:'prs_p5_zombie',            pt:'Zumbi',                 en:'Zombie' },
+        6:  { id:'prs_p6_jtac',              pt:'JTAC',                  en:'JTAC' },
+        7:  { id:'prs_p7_shadows',           pt:'Shadows',               en:'Shadows' },
+        8:  { id:'prs_p8_drone_operator',    pt:'Operador de Drone',     en:'Drone Operator' },
+        9:  { id:'prs_p9_cradle_specialist', pt:'Cradle Specialist',     en:'Cradle Specialist' },
+        10: { id:'prs_p10_death',            pt:'Death',                 en:'Death' },
+        11: { id:'prs_master_demon_of_war',  pt:'Mestre · Demon of War', en:'Master · Demon of War' }
+      };
+      function prestigeImg(num) {
+        try {
+          var meta = PRESTIGE_META[Number(num)];
+          if (!meta) return null;
+          return (typeof getUserImage === 'function') ? (getUserImage(meta.id) || null) : null;
+        } catch (e) { return null; }
+      }
+      function _viewWindowMs(mode) {
+        if (mode === 'day')   return 86400000;
+        if (mode === 'week')  return 7 * 86400000;
+        if (mode === 'month') return 30 * 86400000;
+        if (mode === 'year')  return 365 * 86400000;
+        return Infinity;
+      }
+      function _setChartView(mode) { _viewMode = mode; _drawChart(); }
+
       function renderChart(snapshots) {
-        const wrap = document.getElementById('opp-stats-chart-wrap');
+        _lastSnaps = (Array.isArray(snapshots) ? snapshots.slice() : []).sort(function (a, b) {
+          return new Date(a.recorded_at) - new Date(b.recorded_at);
+        });
+        _drawChart();
+      }
+
+      function _fmtTick(ms, span, locale) {
+        var d = new Date(ms);
+        if (span <= 129600000)   return d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }); // <= 1,5 dia
+        if (span <= 1382400000)  return d.toLocaleDateString(locale, { day: '2-digit', month: '2-digit' });   // <= 16 dias
+        if (span <= 34560000000) return d.toLocaleDateString(locale, { month: 'short' });                      // <= ~400 dias
+        return d.toLocaleDateString(locale, { month: '2-digit', year: '2-digit' });
+      }
+
+      function _drawChart() {
+        var wrap = document.getElementById('opp-stats-chart-wrap');
         if (!wrap) return;
+        wrap.style.display = 'block';
+        wrap.style.alignItems = 'stretch';
+        wrap.style.justifyContent = 'flex-start';
 
-        if (!snapshots || snapshots.length === 0) {
-          wrap.innerHTML = '<span data-i18n="opp.stats.chart.empty">' + mt('opp.stats.chart.empty', 'Nenhum snapshot ainda. Clica em "Snapshot" pra começar.') + '</span>';
+        var lang = localStorage.getItem('bo7hub_lang_v1') || 'pt';
+        var en = lang === 'en';
+        var locale = en ? 'en-US' : 'pt-BR';
+
+        var VIEWS = [
+          { k: 'day',   label: en ? 'Day'   : 'Dia' },
+          { k: 'week',  label: en ? 'Week'  : 'Semana' },
+          { k: 'month', label: en ? 'Month' : 'Mês' },
+          { k: 'year',  label: en ? 'Year'  : 'Ano' },
+          { k: 'all',   label: en ? 'All'   : 'Tudo' }
+        ];
+        var toolbar = '<div class="opp-chart-bar">' + VIEWS.map(function (v) {
+          return '<button type="button" class="opp-chart-view' + (v.k === _viewMode ? ' active' : '') + '" data-view="' + v.k + '">' + v.label + '</button>';
+        }).join('') + '</div>';
+
+        var all = _lastSnaps;
+        if (!all.length) {
+          wrap.innerHTML = toolbar + '<div class="opp-chart-empty">' + mt('opp.stats.chart.empty', 'Nenhum snapshot ainda. Clica em "Snapshot" pra começar.') + '</div>';
           return;
         }
-        if (snapshots.length === 1) {
-          const s = snapshots[0];
-          wrap.innerHTML = '<div style="text-align:center;font-family:\'JetBrains Mono\',monospace;font-size:13px;color:var(--accent-orange);padding:20px"><div>P' + s.prestige + ' · L' + s.level + '</div><div style="font-size:10px;color:var(--text-muted);margin-top:6px">' + mt('opp.stats.chart.needMore', 'Registra mais 1 snapshot pra ver evolução') + '</div></div>';
+
+        var now = Date.now();
+        var winMs = _viewWindowMs(_viewMode);
+        var snaps = (winMs === Infinity) ? all.slice() : all.filter(function (s) {
+          return (now - new Date(s.recorded_at).getTime()) <= winMs;
+        });
+        if (!snaps.length) snaps = all.slice(-1);
+
+        if (snaps.length === 1) {
+          var only = snaps[0];
+          wrap.innerHTML = toolbar +
+            '<div class="opp-chart-single"><div>P' + only.prestige + ' · L' + only.level + '</div>' +
+            '<div class="opp-chart-single-sub">' + mt('opp.stats.chart.needMore', 'Registra mais 1 snapshot pra ver evolução') + '</div></div>';
           return;
         }
 
-        const scores = snapshots.map(function (s) { return rankScore(s.prestige, s.level); });
-        const minS = Math.min.apply(null, scores);
-        const maxS = Math.max.apply(null, scores);
-        const range = Math.max(maxS - minS, 1);
+        // ── geometria (viewBox fixo; escala uniforme p/ manter os emblemas redondos) ──
+        var W = 600, H = 210, PL = 14, PR = 16, PADT = 22, PB = 26;
+        var plotW = W - PL - PR, plotH = H - PADT - PB;
 
-        const W = 100, H = 40;
-        const points = snapshots.map(function (s, i) {
-          const x = (i / (snapshots.length - 1)) * W;
-          const score = rankScore(s.prestige, s.level);
-          const y = H - ((score - minS) / range) * H;
-          return x.toFixed(2) + ',' + y.toFixed(2);
+        var times = snaps.map(function (s) { return new Date(s.recorded_at).getTime(); });
+        var tMin, tMax;
+        if (winMs === Infinity) { tMin = Math.min.apply(null, times); tMax = Math.max.apply(null, times); }
+        else { tMax = now; tMin = now - winMs; }
+        if (tMax - tMin < 1000) { tMin = tMax - 1000; }
+
+        var scores = snaps.map(function (s) { return rankScore(s.prestige, s.level); });
+        var sMin = Math.min.apply(null, scores), sMax = Math.max.apply(null, scores);
+        if (sMax - sMin < 1) { sMin -= 1; sMax += 1; }
+        var spad = (sMax - sMin) * 0.14; sMin -= spad; sMax += spad;
+
+        function X(ms) { return PL + ((ms - tMin) / (tMax - tMin)) * plotW; }
+        function Y(sc) { return PADT + (1 - (sc - sMin) / (sMax - sMin)) * plotH; }
+
+        var lineStr = snaps.map(function (s) {
+          return X(new Date(s.recorded_at).getTime()).toFixed(1) + ',' + Y(rankScore(s.prestige, s.level)).toFixed(1);
         }).join(' ');
+        var areaStr = PL + ',' + (PADT + plotH) + ' ' + lineStr + ' ' + (PL + plotW) + ',' + (PADT + plotH);
 
-        const first = snapshots[0];
-        const last  = snapshots[snapshots.length - 1];
-        const gainLvls = (last.prestige - first.prestige) * 250 + (last.level - first.level);
-        const days = Math.max(1, Math.round((new Date(last.recorded_at) - new Date(first.recorded_at)) / 86400000));
+        var grid = '';
+        for (var g = 0; g <= 3; g++) {
+          var gy = (PADT + (plotH / 3) * g).toFixed(1);
+          grid += '<line x1="' + PL + '" y1="' + gy + '" x2="' + (PL + plotW) + '" y2="' + gy + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
+        }
 
-        wrap.innerHTML =
-          '<div style="width:100%">' +
-            '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-family:\'JetBrains Mono\',monospace;font-size:10.5px">' +
-              '<span style="color:var(--text-secondary)">P' + first.prestige + '·L' + first.level + '</span>' +
-              '<span style="color:var(--accent-orange);font-weight:700">+' + gainLvls + ' ' + mt('opp.stats.chart.lvls', 'níveis') + ' / ' + days + ' ' + mt('opp.stats.chart.days', 'dias') + '</span>' +
-              '<span style="color:var(--accent-orange)">P' + last.prestige + '·L' + last.level + '</span>' +
-            '</div>' +
-            '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" style="width:100%;height:90px;display:block">' +
-              '<defs>' +
-                '<linearGradient id="opp-stats-grad" x1="0" y1="0" x2="0" y2="1">' +
-                  '<stop offset="0%" stop-color="#FF9800" stop-opacity="0.4"/>' +
-                  '<stop offset="100%" stop-color="#FF9800" stop-opacity="0"/>' +
-                '</linearGradient>' +
-              '</defs>' +
-              '<polyline points="0,' + H + ' ' + points + ' ' + W + ',' + H + '" fill="url(#opp-stats-grad)" stroke="none"/>' +
-              '<polyline points="' + points + '" fill="none" stroke="#FF9800" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>' +
-            '</svg>' +
-          '</div>';
+        var span = tMax - tMin, nTicks = 4, xticks = '';
+        for (var i = 0; i <= nTicks; i++) {
+          var tm = tMin + (span / nTicks) * i, tx = X(tm);
+          var anchor = i === 0 ? 'start' : (i === nTicks ? 'end' : 'middle');
+          xticks += '<text x="' + tx.toFixed(1) + '" y="' + (H - 8) + '" text-anchor="' + anchor + '" font-size="9" fill="var(--text-muted)" font-family="\'JetBrains Mono\',monospace">' + _fmtTick(tm, span, locale) + '</text>';
+        }
+
+        var dots = snaps.map(function (s) {
+          var x = X(new Date(s.recorded_at).getTime()), y = Y(rankScore(s.prestige, s.level));
+          var d = new Date(s.recorded_at);
+          var lbl = d.toLocaleDateString(locale, { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) + ' · P' + s.prestige + '·L' + s.level;
+          return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="2.6" fill="#FF9800" stroke="var(--bg-darkest)" stroke-width="1"><title>' + lbl + '</title></circle>';
+        }).join('');
+
+        // marcadores de VIRADA DE PRESTÍGIO (detecta na série completa, plota se dentro da janela)
+        var R = 12, clips = '', marks = '';
+        for (var j = 1; j < all.length; j++) {
+          if ((all[j].prestige | 0) > (all[j - 1].prestige | 0)) {
+            var tj = new Date(all[j].recorded_at).getTime();
+            if (tj < tMin || tj > tMax) continue;
+            var mx = X(tj), my = Y(rankScore(all[j].prestige, all[j].level)), pnum = all[j].prestige | 0;
+            var img = prestigeImg(pnum), cid = 'ppc' + j;
+            if (img) {
+              clips += '<clipPath id="' + cid + '"><circle cx="' + mx.toFixed(1) + '" cy="' + my.toFixed(1) + '" r="' + R + '"/></clipPath>';
+              marks += '<g class="opp-prestige-mark" data-p="' + pnum + '" data-t="' + all[j].recorded_at + '" style="cursor:pointer">' +
+                '<circle cx="' + mx.toFixed(1) + '" cy="' + my.toFixed(1) + '" r="' + (R + 2) + '" fill="var(--bg-darkest)"/>' +
+                '<image href="' + img + '" x="' + (mx - R).toFixed(1) + '" y="' + (my - R).toFixed(1) + '" width="' + (2 * R) + '" height="' + (2 * R) + '" clip-path="url(#' + cid + ')" preserveAspectRatio="xMidYMid slice"/>' +
+                '<circle cx="' + mx.toFixed(1) + '" cy="' + my.toFixed(1) + '" r="' + R + '" fill="none" stroke="#FF9800" stroke-width="1.6"/>' +
+                '</g>';
+            } else {
+              marks += '<g class="opp-prestige-mark" data-p="' + pnum + '" data-t="' + all[j].recorded_at + '" style="cursor:pointer">' +
+                '<circle cx="' + mx.toFixed(1) + '" cy="' + my.toFixed(1) + '" r="' + R + '" fill="#FF9800" stroke="var(--bg-darkest)" stroke-width="1.6"/>' +
+                '<text x="' + mx.toFixed(1) + '" y="' + (my + 3.5).toFixed(1) + '" text-anchor="middle" font-size="10" font-weight="700" fill="var(--action-ink,#1A1206)" font-family="\'Chakra Petch\',sans-serif">P' + pnum + '</text>' +
+                '</g>';
+            }
+          }
+        }
+
+        var first = snaps[0], last = snaps[snaps.length - 1];
+        var gain = (last.prestige - first.prestige) * 250 + (last.level - first.level);
+        var days = Math.max(1, Math.round((new Date(last.recorded_at) - new Date(first.recorded_at)) / 86400000));
+        var header = '<div class="opp-chart-head">' +
+          '<span class="muted">P' + first.prestige + '·L' + first.level + '</span>' +
+          '<span class="gain">+' + gain + ' ' + mt('opp.stats.chart.lvls', 'níveis') + ' / ' + days + ' ' + mt('opp.stats.chart.days', 'dias') + '</span>' +
+          '<span class="cur">P' + last.prestige + '·L' + last.level + '</span>' +
+        '</div>';
+
+        var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto;display:block;overflow:visible">' +
+          '<defs><linearGradient id="opp-stats-grad" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0%" stop-color="#FF9800" stop-opacity="0.35"/>' +
+            '<stop offset="100%" stop-color="#FF9800" stop-opacity="0"/>' +
+          '</linearGradient>' + clips + '</defs>' +
+          grid + xticks +
+          '<polygon points="' + areaStr + '" fill="url(#opp-stats-grad)" stroke="none"/>' +
+          '<polyline points="' + lineStr + '" fill="none" stroke="#FF9800" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+          dots + marks +
+        '</svg>';
+
+        wrap.innerHTML = toolbar + header +
+          '<div class="opp-chart-canvas">' + svg + '<div class="opp-chart-tip" style="display:none"></div></div>' +
+          '<div class="opp-chart-axis-label">' + (en ? 'Y: Prestige/Level · X: time' : 'Y: Prestígio/Nível · X: tempo') + '</div>';
+
+        _wireChartHover(wrap, en, locale);
+      }
+
+      function _wireChartHover(wrap, en, locale) {
+        var tip = wrap.querySelector('.opp-chart-tip');
+        var canvas = wrap.querySelector('.opp-chart-canvas');
+        if (!tip || !canvas) return;
+        var marks = wrap.querySelectorAll('.opp-prestige-mark');
+        Array.prototype.forEach.call(marks, function (m) {
+          m.addEventListener('mouseenter', function () {
+            var p = m.getAttribute('data-p'), t = m.getAttribute('data-t');
+            var meta = PRESTIGE_META[Number(p)] || {};
+            var nm = en ? (meta.en || ('Prestige ' + p)) : (meta.pt || ('Prestígio ' + p));
+            var d = new Date(t);
+            var ds = d.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+            var ts = d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+            var img = prestigeImg(Number(p));
+            tip.innerHTML = (img ? '<img src="' + img + '" alt=""/>' : '') +
+              '<div class="tip-p">' + (en ? 'Prestige ' : 'Prestígio ') + p + '</div>' +
+              '<div class="tip-nm">' + nm + '</div>' +
+              '<div class="tip-when">' + ds + ' · ' + ts + '</div>';
+            tip.style.display = 'block';
+          });
+          m.addEventListener('mousemove', function (ev) {
+            var rect = canvas.getBoundingClientRect();
+            var lx = ev.clientX - rect.left, ly = ev.clientY - rect.top;
+            var tw = tip.offsetWidth || 132, th = tip.offsetHeight || 96;
+            var left = lx + 14; if (left + tw > rect.width) left = lx - tw - 14; if (left < 0) left = 4;
+            var top = ly - th - 10; if (top < 0) top = ly + 16;
+            tip.style.left = left + 'px';
+            tip.style.top = top + 'px';
+          });
+          m.addEventListener('mouseleave', function () { tip.style.display = 'none'; });
+        });
       }
 
       // ── Render lista textual dos últimos N snapshots (timeline) ──
@@ -34856,6 +35060,9 @@ const ATTACHMENT_ICONS = {
       // ── Event wiring ───────────────────────────────────────────────
       document.addEventListener('click', function (e) {
         if (e.target.closest('#opp-btn-stats-snap')) submitSnapshot();
+        // v2.66: toggle de visualização do gráfico (dia/semana/mês/ano/tudo)
+        var vBtn = e.target.closest('.opp-chart-view');
+        if (vBtn) { _setChartView(vBtn.getAttribute('data-view')); return; }
         // v75-83: delete por linha
         const delBtn = e.target.closest('.opp-snap-del');
         if (delBtn) {
