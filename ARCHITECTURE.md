@@ -133,7 +133,8 @@ Uma direção, sempre. No reload, `auth → sync.pullAll()` traz a nuvem (já at
 ## 7. Transversais
 - **i18n:** dicionário central (PT-BR/EN) + `data-i18n`/`data-i18n-html` + helper `tHub()`. Toda string user-facing tem par PT/EN.
 - **Design tokens:** `:root` com a paleta Glass/Neon (laranja `#FF9800` + navy). Ícones Lucide inline via `{{i:nome}}`.
-- **Sync offline-first:** `buildSnapshot` (local) → `pushAll` (LWW; `force` só perfil/settings) ; `pullAll` no boot. Imagens *cloud-first* (URL assinada → cache local podada quando a nuvem confirma).
+- **Sync (cache local + nuvem autoritativa):** `buildSnapshot` (local) → `pushAll` (LWW; `force` só perfil/settings) ; `pullAll` no boot. Imagens *cloud-first* (URL assinada → cache local podada quando a nuvem confirma).
+- **Realtime (v2.74.0, `services/realtime.js`):** "nunca ver dado velho" sem perder a velocidade do cache. Como as `hub_*` são edge-only RLS (Realtime respeita RLS), usa-se **notificação**: trigger Postgres bompa a tabela leve `sync_state` (anon-readable, só `user_id`+timestamp) em qualquer mudança nas `hub_*`; o módulo assina `sync_state` (filtrado ao user) → ao bump dispara `CloudSync.pullAll()` + re-render. Re-pull no foco/visibilidade da aba como fallback. Agnóstico ao layout.
 - **IA:** Gemini (`gemini-2.5-flash`) na edge para texto/visão; `@imgly` no navegador para remoção de fundo (sem custo de API, sem sair do device). *Cost guard* via `get-gemini-usage`.
 - **Moderação:** Gemini pré-analisa → **limpo auto-aprova / suspeito segura na fila** → painel do Operador (aprovar/reprovar) → **red flags (3 strikes → somente-leitura)**. Multi-campo (nome feito; foto/loadout a seguir).
 
