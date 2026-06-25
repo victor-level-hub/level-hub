@@ -483,6 +483,23 @@
     margin-top: 2px;
   }
   .nav-item.active .nav-desc { color: var(--accent-orange-dim); }
+  /* v2.76.0: menu fino — a descrição some por padrão e reaparece no hover (item cresce);
+     o item ativo mantém a descrição visível pra mostrar onde estás. */
+  .nav-desc {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    overflow: hidden;
+    transition: max-height var(--dur-fast) var(--ease-out),
+                opacity var(--dur-fast) var(--ease-out),
+                margin-top var(--dur-fast) var(--ease-out);
+  }
+  .nav-item:hover .nav-desc,
+  .nav-item.active .nav-desc {
+    max-height: 2.6em;
+    opacity: 1;
+    margin-top: 2px;
+  }
   .nav-divider {
     height: 1px;
     background: var(--border);
@@ -6561,6 +6578,18 @@
   .mymaps-title svg { width: 18px; height: 18px; color: var(--accent-orange, #FF9800); }
   .mymaps-sub { margin: 4px 0 0; color: var(--text-secondary, #AEC7E0); font-size: 13px; }
   .mymaps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .mymaps-filter { margin-bottom: 14px; }
+  .mymaps-search-input {
+    width: 100%; max-width: 360px; box-sizing: border-box;
+    padding: 9px 14px; border-radius: 10px;
+    background: var(--bg-darkest, #141a2b);
+    border: 1px solid rgba(125,168,199,0.2);
+    color: var(--text-primary, #DCE5F2);
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    outline: none; transition: border-color 0.15s ease;
+  }
+  .mymaps-search-input:focus { border-color: var(--accent-orange, #FF9800); }
+  .mymaps-search-input::placeholder { color: var(--text-muted, #8497B8); }
   .maps-recs-title {
     display: flex; align-items: center; gap: 8px; margin: 4px 0 14px;
     font-family: 'Black Ops One', system-ui, sans-serif;

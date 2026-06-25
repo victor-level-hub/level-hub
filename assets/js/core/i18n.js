@@ -413,10 +413,10 @@ window.I18N = {
     'hdr.sync.tip.syncing':    'A guardar as suas alterações na nuvem agora. Backup é automático — não precisas fazer nada.',
     'nav.myloadouts.desc':    'Salvos · avaliações · compartilhar',
     'nav.maps.label':         'Mapas',
-    'nav.maps.desc':          'Arma certa por mapa MP',
+    'nav.maps.desc':          'Intel e suporte tático de cada mapa',
     'sec.maps.crumb':         'M / Mapas Multiplayer',
     'sec.maps.h2':            'MAPAS DO MULTIPLAYER',
-    'sec.maps.intro':         'Qual arma do seu catálogo performa melhor em cada mapa do BO7. Recomendações ajustadas pro seu playstyle rusher agressivo (CQB — combate close-quarters).',
+    'sec.maps.intro':         'Todo o apoio tático de cada mapa do BO7. Toca num mapa para abrir os detalhes.',
     'maps.rec.primary':       'PRIMARY',
     'maps.rec.secondary':     'BACKUP',
     'maps.mine.h':            'MEUS MAPAS',
@@ -424,6 +424,8 @@ window.I18N = {
     'maps.mine.empty':        'Nenhum mapa em destaque ainda.',
     'maps.recs.h':            'RECOMENDAÇÃO DE ARMA POR MAPA',
     'maps.detail.soon':       'Página de detalhes do mapa em breve.',
+    'maps.search.ph':         'Filtrar por nome do mapa…',
+    'maps.search.empty':      'Nenhum mapa com esse nome.',
     'nav.perks.label':        'Vantagens & Séries',
     'nav.perks.desc':         'Setup completo',
     'nav.struggles.label':    'Evolução',
@@ -464,8 +466,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Meus Mapas: a tua galeria de mapas em destaque',
-    'briefing.changelog.summary':  'A seção <strong>Mapas</strong> agora abre com a galeria <strong>Meus Mapas</strong>: os mapas em destaque, 3 por linha, cada um com a sua foto — e cada card leva à página de detalhes do mapa (a chegar). O operador escolhe quais entram (em Configurações ▸ Mapas) e todos veem. Bónus: o catálogo de fotos de mapa fechou em 51/51.',
+    'briefing.changelog.headline': 'Mapas mais focados + menu enxuto',
+    'briefing.changelog.summary':  'A seção <strong>Mapas</strong> agora abre direto na galeria com <strong>filtro por nome</strong> — a recomendação de arma vai passar a viver dentro da página de cada mapa. O <strong>menu lateral</strong> ficou mais fino (a descrição aparece ao passares o cursor) e numa ordem nova. Em breve: cada mapa abre a sua própria página de detalhe.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -1853,7 +1855,7 @@ window.I18N = {
     'nav.myloadouts.label':   'My Loadouts',
     'nav.myloadouts.desc':    'Saved · ratings · share',
     'nav.maps.label':         'Maps',
-    'nav.maps.desc':          'Right weapon per MP map',
+    'nav.maps.desc':          'Intel and tactical support per map',
     'nav.marketplace.label':  'Marketplace',
     'nav.marketplace.desc':   'Community builds',
     // — Encontrar Squad (i18n EN) —
@@ -2097,7 +2099,7 @@ window.I18N = {
     'hdr.sync.tip.syncing':    'Saving your changes to the cloud now. Backup is automatic — nothing for you to do.',
     'sec.maps.crumb':         'M / Multiplayer Maps',
     'sec.maps.h2':            'MULTIPLAYER MAPS',
-    'sec.maps.intro':         'Which weapon from your catalog performs best on each BO7 map. Recommendations tuned to your aggressive rusher playstyle (CQB — close-quarters combat).',
+    'sec.maps.intro':         'Full tactical support for every BO7 map. Tap a map to open its details.',
     'maps.rec.primary':       'PRIMARY',
     'maps.rec.secondary':     'BACKUP',
     'maps.mine.h':            'MY MAPS',
@@ -2105,6 +2107,8 @@ window.I18N = {
     'maps.mine.empty':        'No featured maps yet.',
     'maps.recs.h':            'BEST WEAPON PER MAP',
     'maps.detail.soon':       'Map detail page coming soon.',
+    'maps.search.ph':         'Filter by map name…',
+    'maps.search.empty':      'No map with that name.',
     'nav.perks.label':        'Perks & Streaks',
     'nav.perks.desc':         'Complete setup',
     'nav.struggles.label':    'Evolution',
@@ -2144,8 +2148,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'My Maps: your featured-maps gallery',
-    'briefing.changelog.summary':  'The <strong>Maps</strong> section now opens with the <strong>My Maps</strong> gallery: the featured maps, 3 per row, each with its photo — and every card opens the map detail page (coming soon). The operator picks which maps make the cut (in Settings &rsaquo; Maps) and everyone sees them. Bonus: the map photo catalog is now complete at 51/51.',
+    'briefing.changelog.headline': 'Sharper Maps + a leaner menu',
+    'briefing.changelog.summary':  'The <strong>Maps</strong> section now opens straight into the gallery with a <strong>name filter</strong> — weapon recommendations are moving inside each map page. The <strong>sidebar</strong> got thinner (the description shows on hover) and a new order. Coming soon: every map opens its own detail page.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

@@ -893,6 +893,27 @@
         </span>
       </button>
     </nav>
+    <script>
+    // v2.76.0: ordem do menu lateral — data-driven (base para a futura aba "Menu" do admin,
+    // que vai reordenar/ocultar via window.applyMenuConfig). Corre durante o parse (sem flash).
+    (function () {
+      var DEFAULT_ORDER = ['home','briefing','maps','myweapons','constructor','myloadouts','squad','marketplace','struggles','controller','aimtraining','perks','progression','settings'];
+      function applyMenuConfig(order, hidden) {
+        try {
+          var nav = document.querySelector('nav'); if (!nav) return;
+          order = (order && order.length) ? order : DEFAULT_ORDER;
+          hidden = hidden || [];
+          var items = {};
+          nav.querySelectorAll('.nav-item[data-section]').forEach(function (b) { items[b.dataset.section] = b; });
+          order.forEach(function (sec) { if (items[sec]) { nav.appendChild(items[sec]); items[sec].style.display = (hidden.indexOf(sec) !== -1) ? 'none' : ''; delete items[sec]; } });
+          Object.keys(items).forEach(function (sec) { nav.appendChild(items[sec]); items[sec].style.display = (hidden.indexOf(sec) !== -1) ? 'none' : ''; });
+        } catch (e) {}
+      }
+      window.applyMenuConfig = applyMenuConfig;
+      window.MENU_DEFAULT_ORDER = DEFAULT_ORDER;
+      applyMenuConfig(DEFAULT_ORDER, []);
+    })();
+    </script>
   </aside>
 
   <!-- ============ MAIN CONTENT ============ -->
@@ -1221,7 +1242,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.75.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.76.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4478,6 +4499,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.76.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">feature · fix</span>
+              </div>
+              <p class="vh-desc"><strong>Mapas e menu lateral: limpeza grande.</strong> A se&ccedil;&atilde;o <strong>Mapas</strong> abre direto na galeria <strong>Meus Mapas</strong> com <strong>filtro por nome</strong>; a grade de recomenda&ccedil;&atilde;o de arma saiu daqui &mdash; vai viver dentro da p&aacute;gina de detalhe de cada mapa (em constru&ccedil;&atilde;o no Claude Design). O <strong>menu lateral</strong> ficou <strong>fino</strong> (s&oacute; o t&iacute;tulo; a descri&ccedil;&atilde;o aparece ao passar o cursor) e numa <strong>ordem nova</strong> (In&iacute;cio, Painel Hoje, Mapas, Minhas Armas, Loadout, Meus Loadouts, Encontrar Squad, Marketplace, Evolu&ccedil;&atilde;o &mdash; Configura&ccedil;&otilde;es por &uacute;ltimo). A reordena&ccedil;&atilde;o &eacute; <strong>data-driven</strong> (<code>window.applyMenuConfig</code>), base para a futura <strong>aba &ldquo;Menu&rdquo; do admin</strong> (arrastar para ordenar + ocultar itens). <strong>Fix:</strong> o bot&atilde;o <em>Adicionar</em> mostrava a chave i18n crua (<code>set.btn.mapAdd</code>) &mdash; faltava no dicion&aacute;rio <code>CBI18N</code> que o <code>cbt()</code> usa.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.75.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -6230,7 +6260,7 @@
       <div class="section-header">
         <div class="breadcrumb" data-i18n="sec.maps.crumb">M / Mapas Multiplayer</div>
         <h2 data-i18n="sec.maps.h2">MAPAS DO MULTIPLAYER</h2>
-        <p data-i18n="sec.maps.intro">Qual arma do seu catálogo performa melhor em cada mapa do BO7. Recomendações ajustadas pro seu playstyle rusher agressivo (CQB — combate close-quarters).</p>
+        <p data-i18n="sec.maps.intro">Todo o apoio tático de cada mapa do BO7. Toca num mapa para abrir os detalhes.</p>
       </div>
 
       <!-- MEUS MAPAS — galeria curada (destaque global). v2.75.0 · link p/ a página de detalhe (Claude Design) -->
@@ -6239,21 +6269,13 @@
           <h3 class="mymaps-title">{{i:map}} <span data-i18n="maps.mine.h">MEUS MAPAS</span></h3>
           <p class="mymaps-sub" data-i18n="maps.mine.sub">Os mapas em destaque. Toque num para ver os detalhes.</p>
         </div>
+        <div class="mymaps-filter">
+          <input type="search" id="mymaps-search" class="mymaps-search-input" data-i18n-attr="placeholder:maps.search.ph" placeholder="Filtrar por nome do mapa…" autocomplete="off" spellcheck="false">
+        </div>
         <div class="mymaps-grid" id="mymaps-grid"><!-- cards via JS (renderMyMaps) --></div>
       </div>
-
-      <h3 class="maps-recs-title" data-reveal="fade-up"><span data-i18n="maps.recs.h">RECOMENDAÇÃO DE ARMA POR MAPA</span></h3>
-
-      <div class="maps-toolbar" id="maps-filters" data-reveal="fade-up">
-        <button class="maps-filter-chip active" data-map-filter="all">TODOS</button>
-        <button class="maps-filter-chip" data-map-filter="small">SMALL · CQB</button>
-        <button class="maps-filter-chip" data-map-filter="medium">MEDIUM · HYBRID</button>
-        <button class="maps-filter-chip" data-map-filter="large">LARGE · 20v20</button><span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o tamanho do mapa" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:map}}<span data-i18n="maps.size.help.title">TAMANHO DO MAPA</span></span><span class="help-pop-body" data-i18n-html="maps.size.help">O tamanho muda a arma ideal. <strong>SMALL &middot; CQB</strong> (curta dist&acirc;ncia): SMG e shotgun dominam, &lt;15m. <strong>MEDIUM &middot; HYBRID</strong>: AR (fuzil) equilibra. <strong>LARGE &middot; 20v20</strong>: range e &oacute;ptica pesam &mdash; SMG sofre no dropoff (queda de dano) ap&oacute;s ~20m.</span></span></span>
-      </div>
-
-      <div class="maps-grid" id="maps-grid" data-reveal-stagger data-stagger="60">
-        <!-- Cards renderizados via JS -->
-      </div>
+      <!-- v2.76.0: a grade "Recomendação de arma por mapa" saiu daqui — vai pra dentro da página
+           de detalhe do mapa (Claude Design). setupMapsSection() fica (no-op sem #maps-grid). -->
     </section>
 
     <!-- =================================================================== -->
@@ -7500,7 +7522,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.75.0</strong><span class="ver-tag">Meus Mapas — galeria curada de mapas em destaque na seção Mapas: botão Adicionar/Adicionado em Configurações ▸ Mapas (admin), 3 por linha com hover e link p/ a página de detalhe do mapa (Claude Design, em breve). Curadoria global: store cat_featured_maps (leitura anon, escrita admin via edge admin-featured-maps). Catálogo de fotos de mapa fechado em 51/51.</span>
+        LEVEL · <strong>v2.76.0</strong><span class="ver-tag">Mapas + menu: a seção Mapas abre na galeria Meus Mapas com filtro por nome (a recomendação de arma vai pra dentro da página de detalhe do mapa). Menu lateral fino (só o título; descrição no hover) e reordenado — data-driven via applyMenuConfig (base p/ a aba Menu do admin). Fix: botão Adicionar mostrava a chave i18n crua (faltava no CBI18N).</span>
       </div>
       <script>
         (function(){
@@ -14912,8 +14934,15 @@ const ATTACHMENT_ICONS = {
             escapeHtml(tt('maps.mine.empty', 'Nenhum mapa em destaque ainda.')) + '</div>';
           return;
         }
+        var si = document.getElementById('mymaps-search');
+        var q = si ? String(si.value || '').trim().toLowerCase() : '';
         var items = ids.map(function (id) { return { id: id, name: mapName(id) }; })
+          .filter(function (m) { return !q || String(m.name).toLowerCase().indexOf(q) !== -1; })
           .sort(function (a, b) { return String(a.name).localeCompare(String(b.name), 'pt', { sensitivity: 'base' }); });
+        if (!items.length) {
+          grid.innerHTML = '<div class="mymaps-empty">' + escapeHtml(tt('maps.search.empty', 'Nenhum mapa com esse nome.')) + '</div>';
+          return;
+        }
         grid.innerHTML = items.map(function (m) {
           var img = (typeof getUserImage === 'function') ? getUserImage(m.id) : null;
           var imgHtml = img
@@ -14934,6 +14963,8 @@ const ATTACHMENT_ICONS = {
         if (typeof showToast === 'function') showToast(tt('maps.detail.soon', 'Página de detalhes do mapa em breve.'), 'info');
       });
       window.addEventListener('level:featured-maps-change', renderMyMaps);
+      var _si = document.getElementById('mymaps-search');
+      if (_si) _si.addEventListener('input', renderMyMaps);
       var nav = document.querySelector('[data-section="maps"]');
       if (nav) nav.addEventListener('click', function () { setTimeout(renderMyMaps, 50); });
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderMyMaps);
@@ -24642,6 +24673,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'tooltip.best': '\u2713 Funciona bem com', 'tooltip.avoid': '\u2717 Evita',
         'tooltip.tip': '\ud83d\udca1 Dica', 'tooltip.moreInfo': 'Mais info', 'combo.choose': 'Selecione…',
         'set.btn.upload': 'Enviar', 'set.btn.replace': 'Trocar', 'set.btn.remove': 'Remover',
+        'set.btn.mapAdd': 'Adicionar', 'set.btn.mapAdded': 'Adicionado',
+        'set.toast.mapAdded': 'Mapa adicionado aos destaques.', 'set.toast.mapRemoved': 'Mapa removido dos destaques.',
         'set.bulk.title': 'Upload em massa', 'set.bulk.hint': 'Arrasta várias imagens aqui (ou clica para escolher). O nome do ficheiro tem de ser o id — ex. wpn_rev46.png', 'set.bulk.placed': 'colocada(s)', 'set.bulk.unmatched': 'não reconhecida(s)', 'set.bulk.none': 'Nenhuma imagem reconhecida — confere se o nome do ficheiro é o id (ex. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Estilos',
@@ -24804,6 +24837,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'tooltip.best': '\u2713 Works well with', 'tooltip.avoid': '\u2717 Avoids',
         'tooltip.tip': '\ud83d\udca1 Tip', 'tooltip.moreInfo': 'More info', 'combo.choose': 'Select…',
         'set.btn.upload': 'Upload', 'set.btn.replace': 'Replace', 'set.btn.remove': 'Remove',
+        'set.btn.mapAdd': 'Add', 'set.btn.mapAdded': 'Added',
+        'set.toast.mapAdded': 'Map added to featured.', 'set.toast.mapRemoved': 'Map removed from featured.',
         'set.bulk.title': 'Bulk upload', 'set.bulk.hint': 'Drag several images here (or click to pick). The filename must be the id — e.g. wpn_rev46.png', 'set.bulk.placed': 'placed', 'set.bulk.unmatched': 'not recognized', 'set.bulk.none': 'No image recognized — check the filename matches the id (e.g. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Styles',
