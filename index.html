@@ -985,29 +985,13 @@
       <div class="ro-banner" id="ro-banner"></div>
       <a class="home-mod-alert" id="home-mod-alert" style="display:none" role="button" tabindex="0">{{i:alert-triangle}} <span>Análise</span> <strong id="home-mod-alert-count"></strong> →</a>
 
+      <!-- v2.73.1: "ARMA ATIVA" + readouts de stats removidos (info estava furada; Victor vai
+           desenhar um painel estatístico próprio depois). CTAs mantidos como barra de ação. -->
       <div class="home-hero" data-reveal-stagger data-stagger="90">
-        <div class="home-panel">
-          <div class="home-panel-weapon">
-            <div class="home-weapon-frame" id="home-active-weapon-frame">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
-            </div>
-            <div class="home-weapon-tag" data-i18n="home.activeWeapon">ARMA ATIVA</div>
-            <div class="home-weapon-name" id="home-active-weapon-name">—</div>
-            <div class="home-weapon-pl" id="home-active-weapon-pl"></div>
-          </div>
-          <div class="home-panel-main">
-            <div class="home-hero-ctas">
-              <button class="lvl-empty-cta primary" type="button" data-home-smart data-i18n="home.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
-              <button class="lvl-empty-cta" type="button" data-home-goto="myweapons" data-i18n="home.ctaArsenal">{{i:crosshair}} Ver o Arsenal</button>
-            </div>
-            <div class="home-readouts">
-              <div class="home-readout"><strong id="home-ro-arsenal">—</strong><span data-i18n="home.ro.arsenal">ARMAS NO ARSENAL</span></div>
-              <div class="home-readout"><strong id="home-ro-builds">—</strong><span data-i18n="home.ro.builds">BUILDS SALVAS</span></div>
-              <div class="home-readout"><strong id="home-ro-maxed">—</strong><span data-i18n="home.ro.maxed">ARMAS MAXADAS</span></div>
-              <div class="home-readout"><strong id="home-ro-prestige">—</strong><span data-i18n="home.ro.prestige">PRESTÍGIOS</span></div>
-              <div class="home-readout"><strong id="home-ro-progress">—</strong><span data-i18n="home.ro.progress">PROGRESSO MÉDIO</span></div>
-              <div class="home-readout"><strong data-i18n="home.ro.styleVal">Rusher</strong><span data-i18n="home.ro.style">ESTILO DE JOGO</span></div>
-            </div>
+        <div class="home-panel home-panel-actions">
+          <div class="home-hero-ctas">
+            <button class="lvl-empty-cta primary" type="button" data-home-smart data-i18n="home.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
+            <button class="lvl-empty-cta" type="button" data-home-goto="myweapons" data-i18n="home.ctaArsenal">{{i:crosshair}} Ver o Arsenal</button>
           </div>
         </div>
       </div>
@@ -1019,12 +1003,20 @@
           <div class="hh-desc" data-i18n-html="home.hist.desc">Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
           <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
         </div>
-        <div id="opp-stats-chart-wrap" style="background:var(--bg-darkest);border-radius:8px;padding:12px;min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px">
-          <span data-i18n="opp.stats.chart.empty">Nenhum snapshot ainda. Clica em "Snapshot" pra começar.</span>
-        </div>
-        <div id="opp-stats-list" style="margin-top:10px;font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--text-secondary);max-height:120px;overflow-y:auto"></div>
-        <div class="hh-log-title" data-i18n="home.hist.changes">Alterações recentes</div>
-        <div id="hist-log-list" class="hh-log"><div class="mod-empty">—</div></div>
+        <!-- v2.73.1: gráfico removido (painel estatístico próprio virá depois). Os dois logs
+             ficam em accordions fechados por padrão (▼ abre/fecha). -->
+        <details class="hh-collapse">
+          <summary class="hh-collapse-head"><span data-i18n="home.hist.levelChanges">ALTERAÇÕES DE NÍVEL</span></summary>
+          <div class="hh-collapse-body">
+            <div id="opp-stats-list" style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--text-secondary);max-height:180px;overflow-y:auto"></div>
+          </div>
+        </details>
+        <details class="hh-collapse">
+          <summary class="hh-collapse-head"><span data-i18n="home.hist.changes">ALTERAÇÕES GERAIS</span></summary>
+          <div class="hh-collapse-body">
+            <div id="hist-log-list" class="hh-log"><div class="mod-empty">—</div></div>
+          </div>
+        </details>
       </div>
 
       <div class="home-explore-title" data-i18n="home.explore" data-reveal="fade-up">EXPLORAR</div>
@@ -1232,12 +1224,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.73.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.73.1 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Marketplace social: curtir + builds mais ricas</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O Marketplace ficou social: o voto ▲/▼ virou <strong>curtir</strong> (coração + contagem), e cada build publicada agora mostra <strong>avaliação do autor</strong> (1-10, obrigatória ao publicar), <strong>estilo</strong>, <strong>prestígio e nível da arma</strong> e <strong>data/hora</strong>. Ao importar uma build, fica uma nota fixa de onde ela veio. <em>Comentários chegam já a seguir.</em></div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Home mais limpa</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos da Home o card de stats que mostrava info errada (tipo a "arma ativa" trocada) e o gráfico de progressão — um painel estatístico decente virá depois. E os dois logs (<strong>alterações de nível</strong> e <strong>gerais</strong>) agora ficam <strong>recolhidos</strong> por padrão, com uma seta ▼ pra abrir.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4489,6 +4481,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.73.1</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">fix · ux</span>
+              </div>
+              <p class="vh-desc"><strong>Home mais limpa: stats furadas + gráfico fora, histórico recolhível.</strong> Pedido do Victor. Removido o card de readouts da Home (ARMA ATIVA — que mostrava a arma errada — + arsenal/builds/maxadas/prestígios/progresso/estilo, tudo com dados furados) e o <strong>gráfico de progressão</strong>; um painel estatístico próprio virá depois. Os CTAs (Montagem Inteligente / Ver Arsenal) ficaram. Os dois logs do "Histórico de progressão" viraram <strong>accordions fechados por padrão</strong> (<code>&lt;details&gt;</code> nativo, seta ▼): <strong>ALTERAÇÕES DE NÍVEL</strong> (snapshots) e <strong>ALTERAÇÕES GERAIS</strong> (mudanças de perfil). O JS de render da Home é guardado + try/catch, então remover o HTML não quebra nada. <code>node --check</code> OK.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.73.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7437,7 +7438,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.73.0</strong><span class="ver-tag">Marketplace social — voto ▲/▼ virou curtir (coração + contagem); build publicada mostra avaliação do autor (1-10, obrigatória), estilo, prestígio/nível da arma e data/hora; importar deixa nota fixa da origem. Backend: tabelas mkt_likes/mkt_comments + edge functions. Comentários a seguir.</span>
+        LEVEL · <strong>v2.73.1</strong><span class="ver-tag">Home mais limpa — card de stats furadas ("arma ativa" errada) e gráfico de progressão removidos (painel estatístico próprio virá depois); logs de histórico (nível/gerais) viraram accordions fechados por padrão (▼ abre/fecha).</span>
       </div>
       <script>
         (function(){

@@ -7512,6 +7512,21 @@
   .home-history .hh-top { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
   .home-history .hh-desc { flex: 1; min-width: 200px; font-size: 12.5px; line-height: 1.5; color: var(--text-secondary); }
   .home-history .hh-top button { flex: 0 0 auto; }
+  /* v2.73.1: accordions de histórico (fechados por padrão, ▼ abre/fecha) */
+  .hh-collapse { border: 1px solid var(--border); border-radius: 8px; margin-top: 12px; overflow: hidden; }
+  .hh-collapse-head {
+    cursor: pointer; padding: 11px 14px; list-style: none;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-secondary); background: var(--bg-darkest);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .hh-collapse-head::-webkit-details-marker { display: none; }
+  .hh-collapse-head::after { content: '▼'; font-size: 10px; color: var(--text-muted); transition: transform .2s ease; }
+  .hh-collapse[open] .hh-collapse-head::after { transform: rotate(180deg); }
+  .hh-collapse-head:hover { color: var(--accent-orange); }
+  .hh-collapse-body { padding: 10px 14px; }
+  .home-panel-actions { display: flex; }
+  .home-panel-actions .home-hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
   /* v2.66: gráfico de progressão */
   .opp-chart-bar { display: flex; gap: 4px; justify-content: flex-end; flex-wrap: wrap; margin-bottom: 8px; }
   .opp-chart-view {
