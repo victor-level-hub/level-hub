@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Home mais limpa',
-    'briefing.changelog.summary':  'Tiramos da Home o card de stats que mostrava info errada (tipo a "arma ativa" trocada) e o gráfico de progressão — um painel estatístico decente virá depois. E os dois logs (<strong>alterações de nível</strong> e <strong>gerais</strong>) agora ficam <strong>recolhidos</strong> por padrão, com uma seta ▼ pra abrir.',
+    'briefing.changelog.headline': 'Home: gráfico de volta + ajustes',
+    'briefing.changelog.summary':  'Mais ajustes na Home: tirámos a barra de botões do topo (a navegação já está nos cards <strong>Explorar</strong>), <strong>trouxemos de volta o gráfico</strong> de evolução de prestígio/nível (visível, acima dos logs recolhidos), e o botão <strong>Snapshot</strong> ganhou um ⓘ explicando o que faz e como funciona.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -1378,6 +1378,8 @@ window.I18N = {
     'opp.stats.snap.btn2':     'Snapshot',
     'home.hist.changes':       'ALTERAÇÕES GERAIS',
     'home.hist.levelChanges':  'ALTERAÇÕES DE NÍVEL',
+    'home.snap.help.title':    'SNAPSHOT',
+    'home.snap.help':          'Grava o teu prestígio + nível ATUAL como um ponto no tempo. Cada snapshot vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL. Tira um sempre que subires de nível ou prestígio — o Hub também grava sozinho quando deteta mudanças.',
     'home.hist.desc':          'Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">A carregar histórico...</span>',
     'opp.stats.snap.title':    'Registrar snapshot atual',
     'opp.stats.snap.desc':     'Salva o seu prestige + level atual no servidor. Cria um "ponto no tempo" pra ver sua evolução depois. Recomendado: 1× por dia ou após levelar. <span id="opp-stats-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">A carregar histórico...</span>',
@@ -2128,8 +2130,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Cleaner Home',
-    'briefing.changelog.summary':  'We removed the Home stats card that showed wrong info (like the wrong "active weapon") and the progression chart — a proper stats panel will come later. And the two logs (<strong>level changes</strong> and <strong>general changes</strong>) are now <strong>collapsed</strong> by default, with a ▼ arrow to open.',
+    'briefing.changelog.headline': 'Home: chart back + tweaks',
+    'briefing.changelog.summary':  'More Home tweaks: we removed the top button bar (navigation already lives in the <strong>Explore</strong> cards), <strong>brought the chart back</strong> (prestige/level evolution, visible above the collapsed logs), and the <strong>Snapshot</strong> button got an ⓘ explaining what it does and how it works.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
@@ -3047,6 +3049,8 @@ window.I18N = {
     'opp.stats.snap.btn2':     'Snapshot',
     'home.hist.changes':       'GENERAL CHANGES',
     'home.hist.levelChanges':  'LEVEL CHANGES',
+    'home.snap.help.title':    'SNAPSHOT',
+    'home.snap.help':          'Records your CURRENT prestige + level as a point in time. Each snapshot becomes a dot on the evolution chart above and a row in LEVEL CHANGES. Take one whenever you level up or prestige — the Hub also saves automatically when it detects changes.',
     'home.hist.desc':          'Record your current prestige + level to track your evolution. The Hub also logs your changes automatically below. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">Loading history...</span>',
     'opp.stats.snap.title':    'Record current snapshot',
     'opp.stats.snap.desc':     'Saves your current prestige + level on the server. Creates a "moment in time" so you can track your evolution. Recommended: once a day or after leveling. <span id="opp-stats-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:\'JetBrains Mono\', monospace;font-size:10.5px">Loading history...</span>',

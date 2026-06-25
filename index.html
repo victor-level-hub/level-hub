@@ -985,26 +985,23 @@
       <div class="ro-banner" id="ro-banner"></div>
       <a class="home-mod-alert" id="home-mod-alert" style="display:none" role="button" tabindex="0">{{i:alert-triangle}} <span>Análise</span> <strong id="home-mod-alert-count"></strong> →</a>
 
-      <!-- v2.73.1: "ARMA ATIVA" + readouts de stats removidos (info estava furada; Victor vai
-           desenhar um painel estatístico próprio depois). CTAs mantidos como barra de ação. -->
-      <div class="home-hero" data-reveal-stagger data-stagger="90">
-        <div class="home-panel home-panel-actions">
-          <div class="home-hero-ctas">
-            <button class="lvl-empty-cta primary" type="button" data-home-smart data-i18n="home.ctaSmart">{{i:gear-star}} Montagem Inteligente</button>
-            <button class="lvl-empty-cta" type="button" data-home-goto="myweapons" data-i18n="home.ctaArsenal">{{i:crosshair}} Ver o Arsenal</button>
-          </div>
-        </div>
-      </div>
+      <!-- v2.73.2: barra de CTAs (Montagem Inteligente / Ver Arsenal) removida do topo da Home
+           a pedido do Victor — a navegação já existe nos cards EXPLORAR logo abaixo. -->
 
       <!-- v2.62: Histórico de progressão (movido das Configurações) -->
       <div class="home-explore-title" data-i18n="opp.stats.section" data-reveal="fade-up">{{i:chart-line}} Histórico de progressão</div>
       <div class="home-history" data-reveal="fade-up">
         <div class="hh-top">
           <div class="hh-desc" data-i18n-html="home.hist.desc">Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
-          <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
+          <span style="display:inline-flex;align-items:center;gap:8px;flex:0 0 auto">
+            <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
+            <span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o Snapshot" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:camera}}<span data-i18n="home.snap.help.title">SNAPSHOT</span></span><span class="help-pop-body" data-i18n="home.snap.help">Grava o teu prestígio + nível ATUAL como um ponto no tempo. Cada snapshot vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL. Tira um sempre que subires de nível ou prestígio — o Hub também grava sozinho quando deteta mudanças.</span></span></span>
+          </span>
         </div>
-        <!-- v2.73.1: gráfico removido (painel estatístico próprio virá depois). Os dois logs
-             ficam em accordions fechados por padrão (▼ abre/fecha). -->
+        <!-- v2.73.2: gráfico de evolução (prestígio/nível) restaurado — visível, acima dos logs fechados. -->
+        <div id="opp-stats-chart-wrap" style="background:var(--bg-darkest);border-radius:8px;padding:12px;min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px;margin-bottom:8px">
+          <span data-i18n="opp.stats.chart.empty">Nenhum snapshot ainda. Clica em "Snapshot" pra começar.</span>
+        </div>
         <details class="hh-collapse">
           <summary class="hh-collapse-head"><span data-i18n="home.hist.levelChanges">ALTERAÇÕES DE NÍVEL</span></summary>
           <div class="hh-collapse-body">
@@ -1224,12 +1221,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.73.1 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.73.2 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Home mais limpa</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos da Home o card de stats que mostrava info errada (tipo a "arma ativa" trocada) e o gráfico de progressão — um painel estatístico decente virá depois. E os dois logs (<strong>alterações de nível</strong> e <strong>gerais</strong>) agora ficam <strong>recolhidos</strong> por padrão, com uma seta ▼ pra abrir.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Home: gráfico de volta + ajustes</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Mais ajustes na Home: tirámos a barra de botões do topo (a navegação já está nos cards <strong>Explorar</strong>), <strong>trouxemos de volta o gráfico</strong> de evolução de prestígio/nível (visível, acima dos logs recolhidos), e o botão <strong>Snapshot</strong> ganhou um ⓘ explicando o que faz e como funciona.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4481,6 +4478,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.73.2</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">fix · ux</span>
+              </div>
+              <p class="vh-desc"><strong>Home: barra de CTAs fora, gráfico de evolução de volta, tooltip no Snapshot.</strong> Pedido do Victor (3 ajustes). (1) A barra com <em>Montagem Inteligente / Ver Arsenal</em> saiu do topo da Home — a navegação já vive nos cards <strong>Explorar</strong>. (2) O <strong>gráfico</strong> de evolução de prestígio/nível (<code>_drawChart</code> → <code>#opp-stats-chart-wrap</code>) foi <strong>restaurado</strong>, visível acima dos logs recolhidos (que continuam em accordions fechados). (3) O botão <strong>Snapshot</strong> ganhou um <strong>ⓘ</strong> (help-pop) explicando o que grava, pra que serve e que o Hub também grava sozinho. <code>node --check</code> OK.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.73.1</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">fix · ux</span>
@@ -7438,7 +7444,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.73.1</strong><span class="ver-tag">Home mais limpa — card de stats furadas ("arma ativa" errada) e gráfico de progressão removidos (painel estatístico próprio virá depois); logs de histórico (nível/gerais) viraram accordions fechados por padrão (▼ abre/fecha).</span>
+        LEVEL · <strong>v2.73.2</strong><span class="ver-tag">Home — barra de CTAs do topo removida (navegação está nos cards Explorar); gráfico de evolução prestígio/nível de volta, visível acima dos logs recolhidos; tooltip ⓘ no botão Snapshot explicando a função.</span>
       </div>
       <script>
         (function(){
