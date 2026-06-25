@@ -1221,12 +1221,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.73.5 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.74.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Tooltip do Snapshot não sai mais do ecrã</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Mini-correção: o <strong>ⓘ</strong> do botão Snapshot abria pra direita e saía do ecrã (o botão fica perto da borda). Agora abre <strong>pra dentro</strong>, dentro da tela.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Realtime: nunca mais dado desatualizado</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Os teus dados agora atualizam <strong>ao vivo</strong>. Mudaste algo noutro dispositivo? Aparece aqui sozinho, sem recarregar — e sem perder a velocidade do cache local. Por baixo: um sinal leve na nuvem avisa os teus dispositivos, que puxam o fresco na hora (e re-sincroniza ao voltares à aba).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4478,6 +4478,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.74.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">feature · infra</span>
+              </div>
+              <p class="vh-desc"><strong>Realtime: os teus dados atualizam ao vivo, sem nunca veres dado velho.</strong> Combinado com o Victor. Em vez de arrancar o cache local (reescrita enorme + UX mais lenta), mantém-se o cache rápido + uma <strong>revalidação ao vivo</strong>. Como o Realtime do Supabase respeita RLS e as <code>hub_*</code> são edge-only, NÃO se assina os dados direto — usa-se <strong>notificação</strong>: um trigger no Postgres bompa a tabela leve <code>sync_state</code> (só <code>user_id</code> + timestamp, anon-readable, zero dado sensível) em qualquer mudança nas <code>hub_*</code> do user. O módulo <code>assets/js/services/realtime.js</code> assina <code>sync_state</code> (filtrado ao meu user) e, ao bump, dispara o <code>CloudSync.pullAll()</code> existente (busca segura via edge function) + re-renderiza. Rede de segurança: re-pull no <strong>foco/visibilidade</strong> da aba. É <strong>agnóstico ao layout</strong> (só chama pullAll + eventos de render), então redesigns futuros não o quebram. Verificado: módulo carrega (200), re-tenta em silêncio deslogado, 0 erros. <em>Sync cross-device testa-se logado em 2 dispositivos.</em></p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.73.5</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -7471,7 +7480,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.73.5</strong><span class="ver-tag">Fix — o tooltip ⓘ do botão Snapshot abria pra direita e saía do ecrã (botão perto da borda); trocado help-pop-left → help-pop-right, abre pra dentro.</span>
+        LEVEL · <strong>v2.74.0</strong><span class="ver-tag">Realtime — dados do utilizador atualizam ao vivo: trigger bompa sync_state (notificação leve, anon-readable) → assets/js/services/realtime.js dispara CloudSync.pullAll() + re-render; + re-pull no foco da aba. As hub_* (edge-only RLS) nunca são expostas. Cache local mantém a velocidade.</span>
       </div>
       <script>
         (function(){
@@ -27819,6 +27828,8 @@ ${cbt('share.t.footer')}`;
 <!-- ═════════ LEVEL ICONS (Lucide inline + placeholders) ═════════ -->
 <script src="/assets/js/ui/icon.js"></script>
 <script src="/assets/js/ui/motion.js"></script>
+<!-- v2.74.0: Realtime (assina sync_state → pullAll + re-render). Depois do CloudSync inline. -->
+<script src="/assets/js/services/realtime.js"></script>
 
 <!-- ═════════ LEVEL · MOBILE CAPTURE + AI INTEGRATION (Sessão 4) ═════════ -->
 <script type="module">

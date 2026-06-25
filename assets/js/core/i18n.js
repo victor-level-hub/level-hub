@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Tooltip do Snapshot não sai mais do ecrã',
-    'briefing.changelog.summary':  'Mini-correção: o <strong>ⓘ</strong> do botão Snapshot abria pra direita e saía do ecrã (o botão fica perto da borda). Agora abre <strong>pra dentro</strong>, dentro da tela.',
+    'briefing.changelog.headline': 'Realtime: nunca mais dado desatualizado',
+    'briefing.changelog.summary':  'Os teus dados agora atualizam <strong>ao vivo</strong>. Mudaste algo noutro dispositivo? Aparece aqui sozinho, sem recarregar — e sem perder a velocidade do cache local. Por baixo: um sinal leve na nuvem avisa os teus dispositivos, que puxam o fresco na hora (e re-sincroniza ao voltares à aba).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2130,8 +2130,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Snapshot tooltip no longer goes off-screen',
-    'briefing.changelog.summary':  'Tiny fix: the Snapshot button\'s <strong>ⓘ</strong> opened to the right and went off-screen (the button sits near the edge). It now opens <strong>inward</strong>, within the screen.',
+    'briefing.changelog.headline': 'Realtime: no more stale data',
+    'briefing.changelog.summary':  'Your data now updates <strong>live</strong>. Changed something on another device? It shows up here on its own, no reload — without losing the local cache\'s speed. Under the hood: a lightweight cloud signal notifies your devices, which pull the fresh data instantly (and re-syncs when you return to the tab).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
