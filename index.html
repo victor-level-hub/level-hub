@@ -1232,12 +1232,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.72.4 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.72.5 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">i18n agora é um módulo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Mais um passo da modularização (sem mudança visual): o sistema de <strong>idiomas</strong> (dicionário PT/EN + troca de idioma) saiu do <code>index.html</code> para <code>assets/js/core/i18n.js</code> — o primeiro módulo <strong>Core</strong>. O index encolheu ~282 KB. Ver <code>ARCHITECTURE.md</code>.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Construtor mais limpo</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos do topo do Construtor a barra <strong>Catálogo de Attachments</strong> — o medidor de cobertura (X/Y armas) e o botão "Atualizar", que não atualizava nada, só abria instruções. Era informação de bastidor que não ajudava a montar loadout. O painel de attachments <strong>por arma</strong> (no Passo 3) — esse sim útil — continua.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4191,17 +4191,9 @@
         <h2 data-i18n="sec.constructor.h2">CONSTRUTOR DE LOADOUT</h2>
         <p data-i18n-html="sec.constructor.intro">Monte um loadout do zero, escolhendo estilo, modo, classe de arma, attachments, secundária, perks, equipamento e granadas. Aperta <strong>Analisar</strong> e o Hub te dá um score 0-10 com pontos fortes, fracos e sugestões pra otimizar. Aperta <strong>Salvar</strong> e o build vai pro arsenal pessoal em "Meus Loadouts".</p>
       </div>
-      <!-- Catalog status (moved from Arsenal · attachments DB info) -->
-      <div class="catalog-status" data-reveal="fade-up">
-        <div class="catalog-status-info">
-          <span class="cs-label" data-i18n="con.catalog.label">Catálogo de Attachments (biblioteca)</span>
-          <span data-i18n="con.catalog.coverage">Armas com catálogo:</span> <strong id="catalog-coverage">0/0</strong>
-          <span class="cs-bar"><span class="cs-bar-fill" id="catalog-coverage-bar" style="width:0%"></span></span>
-          <span data-i18n="con.catalog.updated">· Atualizado:</span> <strong id="catalog-last-update">—</strong>
-          <span data-i18n="con.catalog.source">· Fonte:</span> <strong>codmunity.gg</strong>
-        </div>
-        <button class="btn-update-catalog" id="btn-update-catalog" data-i18n="con.catalog.btnUpdate">↻ Atualizar</button>
-      </div>
+      <!-- v2.72.5: barra "Catálogo de Attachments" (cobertura X/Y + contador + botão "Atualizar"
+           que só abria instruções de scraping manual) removida — era dev/meta na cara do utilizador,
+           gémea da que saiu de Minhas Armas. O painel por-arma do Passo 3 (útil) fica. -->
 
       <div class="constructor-wrapper" data-reveal-stagger data-stagger="50">
 
@@ -4494,6 +4486,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.72.5</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">refac · ux</span>
+              </div>
+              <p class="vh-desc"><strong>Construtor: removida a barra "Catálogo de Attachments".</strong> Saiu do topo do Construtor o medidor de cobertura (<code>X/Y armas</code> + barra + data + fonte codmunity.gg) e o botão <strong>Atualizar</strong> — que não atualizava nada, só abria um modal com instruções de scraping manual ("pede pro Claude"). Era dev/meta na cara do utilizador, gémea da linha já removida de <em>Minhas Armas</em>. Removidos a barra, o modal <code>modal-update-catalog</code> e o JS órfão (<code>renderCatalogStatus</code>/<code>renderCatalogDetailStatus</code> + handler + chamadas). <strong>Mantido</strong> o painel de attachments <strong>por arma</strong> do Passo 3 (útil), e neutralizado o texto "pedir ao Claude" do fallback. <code>node --check</code> OK; 1 main/19 sections.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7443,7 +7444,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.72.4</strong><span class="ver-tag">arquitetura: i18n vira o 1º módulo Core — dicionário PT/EN + troca de idioma saíram do index.html pra assets/js/core/i18n.js (-282 KB, sem mudança visual). Ver ARCHITECTURE.md</span>
+        LEVEL · <strong>v2.72.5</strong><span class="ver-tag">Construtor mais limpo — barra "Catálogo de Attachments" (cobertura X/Y + botão Atualizar que só abria instruções) removida do topo; gémea da que saiu de Minhas Armas. Painel por-arma do Passo 3 mantido.</span>
       </div>
       <script>
         (function(){
@@ -8014,41 +8015,7 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="modal-update-catalog">
-      <div class="modal-box" style="max-width:560px">
-        <div class="modal-header">
-          <div class="modal-title">↻ Atualizar Catálogo de Weapon Unlocks</div>
-          <button class="modal-close" data-close-modal="modal-update-catalog">×</button>
-        </div>
-        <div class="modal-body">
-          <div style="background: rgba(255,152,0,0.06); border-left: 3px solid var(--accent-orange); padding: 14px 16px; margin-bottom: 16px; border-radius: 3px">
-            <div style="font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--accent-orange); letter-spacing: 1.5px; margin-bottom: 8px">COMO FUNCIONA</div>
-            <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6">
-              O Hub é um arquivo HTML local — por <strong>segurança do browser (CORS)</strong> ele não pode buscar dados online sozinho. Pra atualizar o catálogo de unlocks com dados frescos, eu (Claude) faço a busca durante a conversa.
-            </div>
-          </div>
-
-          <div style="font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--accent-cyan); letter-spacing: 1.5px; margin-bottom: 8px">COMO ATUALIZAR AGORA</div>
-          <div style="font-size: 13px; color: var(--text-primary); line-height: 1.6; margin-bottom: 14px">
-            Na próxima conversa, pede pro Claude:
-            <div style="background: var(--bg-darkest); border: 1px dashed var(--border); padding: 10px 12px; margin-top: 8px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent-orange)">
-              "Atualiza o catálogo de Weapon Unlocks com os dados mais recentes"
-            </div>
-            <div style="margin-top: 10px; font-size: 12px; color: var(--text-muted)">
-              O Claude vai buscar nas fontes (codmunity.gg, callofduty.com, fandom wiki) e injetar os dados atualizados no Hub.
-            </div>
-          </div>
-
-          <div style="font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--accent-cyan); letter-spacing: 1.5px; margin-bottom: 8px">STATUS ATUAL</div>
-          <div id="catalog-detail-status" style="font-family:'JetBrains Mono',monospace; font-size: 12px; color: var(--text-secondary); line-height: 1.8">
-            —
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-action btn-save" data-close-modal="modal-update-catalog" style="flex:0 0 auto; min-width:auto; padding:10px 22px">Entendi</button>
-        </div>
-      </div>
-    </div>
+    <!-- v2.72.5: modal "Atualizar Catálogo de Weapon Unlocks" removido junto com a barra do Construtor. -->
 
     <div class="modal-overlay" id="modal-remote-play">
       <div class="modal-box" style="max-width:560px">
@@ -11887,51 +11854,8 @@ window.BO7_ASSETS = (function() {
       };
     };
 
-    // Render catalog status bar
-    async function renderCatalogStatus() {
-      const st = await LevelDB.unlocks.catalogStatus();
-      const cov = document.getElementById('catalog-coverage');
-      const bar = document.getElementById('catalog-coverage-bar');
-      const upd = document.getElementById('catalog-last-update');
-      if (cov) cov.textContent = st.populated + '/' + st.total;
-      if (bar) bar.style.width = st.percent + '%';
-      if (upd) {
-        if (st.lastUpdate) {
-          const d = new Date(st.lastUpdate);
-          upd.textContent = d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' }) + ' ' + d.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-        } else {
-          upd.textContent = 'nunca';
-        }
-      }
-    }
-
-    // Detailed status in modal
-    async function renderCatalogDetailStatus() {
-      const st = await LevelDB.unlocks.catalogStatus();
-      const weapons = await LevelDB.weapons.list();
-      const detail = document.getElementById('catalog-detail-status');
-      if (!detail) return;
-      const meta = (typeof WEAPON_UNLOCKS_META !== 'undefined') ? WEAPON_UNLOCKS_META : null;
-      const updateStr = meta && meta.lastFullUpdate
-        ? new Date(meta.lastFullUpdate).toLocaleString('pt-BR')
-        : 'nunca atualizado';
-
-      const populatedWeapons = weapons.filter(w => typeof WEAPON_UNLOCKS !== 'undefined' && WEAPON_UNLOCKS[w.id]);
-      const missingWeapons = weapons.filter(w => typeof WEAPON_UNLOCKS === 'undefined' || !WEAPON_UNLOCKS[w.id]);
-
-      detail.innerHTML =
-        'Última atualização: <strong style="color:var(--accent-orange)">' + updateStr + '</strong><br>' +
-        'Cobertura: <strong>' + st.populated + ' de ' + st.total + ' armas (' + st.percent + '%)</strong><br>' +
-        'Fontes verificadas: codmunity.gg, callofduty.com<br><br>' +
-        '<span style="color:var(--accent-cyan)">Armas com catálogo:</span><br>' +
-        (populatedWeapons.length > 0
-          ? populatedWeapons.map(w => '  {{i:check}} ' + w.name).join('<br>')
-          : '  (nenhuma)') +
-        '<br><br>' +
-        '<span style="color:var(--text-muted)">Sem catálogo (' + missingWeapons.length + '):</span><br>' +
-        '  ' + missingWeapons.slice(0, 10).map(w => w.name).join(', ') +
-        (missingWeapons.length > 10 ? ', ...' : '');
-    }
+    // v2.72.5: renderCatalogStatus + renderCatalogDetailStatus removidos com a barra do Construtor.
+    // (LevelDB.unlocks.catalogStatus fica como método inerte; o painel por-arma do Passo 3 segue ativo.)
 
     // Render weapon unlocks panel in constructor (Step 3)
     async function renderWeaponUnlocksPanel() {
@@ -11948,7 +11872,7 @@ window.BO7_ASSETS = (function() {
 
       const info = LevelDB.unlocks.attachmentsForWeapon(weaponId, w.level);
       if (!info) {
-        container.innerHTML = '<div class="wpn-unlocks-panel" style="border-left-color:var(--text-muted)"><div class="wpn-unlocks-title" style="color:var(--text-muted)">Catálogo de attachments não disponível para <strong>' + escapeHtmlSafe(w.name) + '</strong> · pedir ao Claude pra adicionar</div></div>';
+        container.innerHTML = '<div class="wpn-unlocks-panel" style="border-left-color:var(--text-muted)"><div class="wpn-unlocks-title" style="color:var(--text-muted)">Catálogo de attachments ainda não disponível para <strong>' + escapeHtmlSafe(w.name) + '</strong></div></div>';
         return;
       }
 
@@ -11983,13 +11907,7 @@ window.BO7_ASSETS = (function() {
       return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    // Wire up events
-    document.addEventListener('click', (e) => {
-      if (e.target.id === 'btn-update-catalog') {
-        renderCatalogDetailStatus();
-        document.getElementById('modal-update-catalog').classList.add('visible');
-      }
-    });
+    // v2.72.5: handler do botão "Atualizar" do catálogo removido com a barra.
 
     document.addEventListener('change', (e) => {
       if (e.target.id === 'primary-weapon-select') {
@@ -12000,7 +11918,6 @@ window.BO7_ASSETS = (function() {
 
     // Boot
     async function bootEtapa4B() {
-      await renderCatalogStatus();
       await renderWeaponUnlocksPanel();
     }
     if (document.readyState === 'loading') {
@@ -12012,12 +11929,11 @@ window.BO7_ASSETS = (function() {
     // React to data changes
     LevelDB.onChange(async (evt) => {
       if (evt.table === 'weapons' || evt.table === 'player') {
-        await renderCatalogStatus();
         await renderWeaponUnlocksPanel();
       }
     });
 
-    window.LevelEtapa4B = { renderCatalogStatus, renderWeaponUnlocksPanel };
+    window.LevelEtapa4B = { renderWeaponUnlocksPanel };
   })();
 
   // ═══════════════════════════════════════════════════════════════════

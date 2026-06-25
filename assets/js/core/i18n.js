@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'i18n agora é um módulo',
-    'briefing.changelog.summary':  'Mais um passo da modularização (sem mudança visual): o sistema de <strong>idiomas</strong> (dicionário PT/EN + troca de idioma) saiu do <code>index.html</code> para <code>assets/js/core/i18n.js</code> — o primeiro módulo <strong>Core</strong>. O index encolheu ~282 KB. Ver <code>ARCHITECTURE.md</code>.',
+    'briefing.changelog.headline': 'Construtor mais limpo',
+    'briefing.changelog.summary':  'Tiramos do topo do Construtor a barra <strong>Catálogo de Attachments</strong> — o medidor de cobertura (X/Y armas) e o botão "Atualizar", que não atualizava nada, só abria instruções. Era informação de bastidor que não ajudava a montar loadout. O painel de attachments <strong>por arma</strong> (no Passo 3) — esse sim útil — continua.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2127,8 +2127,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'i18n is now a module',
-    'briefing.changelog.summary':  'Modularization continues (no visual change): the <strong>language</strong> system (PT/EN dictionary + switching) moved out of <code>index.html</code> into <code>assets/js/core/i18n.js</code> — the first <strong>Core</strong> module. index.html shrank by ~282 KB. See <code>ARCHITECTURE.md</code>.',
+    'briefing.changelog.headline': 'Cleaner Builder',
+    'briefing.changelog.summary':  'We removed the <strong>Attachments catalog</strong> bar from the top of the Builder — the X/Y coverage meter and the "Update" button, which didn\'t update anything, just opened instructions. It was backstage info that didn\'t help you build a loadout. The <strong>per-weapon</strong> attachments panel (Step 3) — the useful one — stays.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
