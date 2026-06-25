@@ -6550,6 +6550,75 @@
     border-top: 1px solid rgba(125,168,199,0.1);
   }
 
+  /* ── MEUS MAPAS · galeria curada (v2.75.0) ──────────────────────── */
+  .mymaps-block { margin-bottom: 26px; }
+  .mymaps-head { margin-bottom: 14px; }
+  .mymaps-title {
+    display: flex; align-items: center; gap: 8px; margin: 0;
+    font-family: 'Black Ops One', system-ui, sans-serif;
+    font-size: 18px; letter-spacing: 0.5px; color: var(--text-primary, #DCE5F2);
+  }
+  .mymaps-title svg { width: 18px; height: 18px; color: var(--accent-orange, #FF9800); }
+  .mymaps-sub { margin: 4px 0 0; color: var(--text-secondary, #AEC7E0); font-size: 13px; }
+  .mymaps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .maps-recs-title {
+    display: flex; align-items: center; gap: 8px; margin: 4px 0 14px;
+    font-family: 'Black Ops One', system-ui, sans-serif;
+    font-size: 15px; letter-spacing: 0.5px; color: var(--text-secondary, #AEC7E0);
+  }
+  .mymap-card {
+    position: relative; display: block; overflow: hidden;
+    border-radius: 14px; border: 1px solid rgba(125,168,199,0.18);
+    background: var(--bg-panel, #1f283f); text-decoration: none;
+    aspect-ratio: 16 / 10;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .mymap-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-orange, #FF9800);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  }
+  .mymap-card-img {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 0.4s ease;
+  }
+  .mymap-card:hover .mymap-card-img { transform: scale(1.06); }
+  .mymap-card-img.placeholder {
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--bg-row,#25304f), var(--bg-dark,#1a2238));
+  }
+  .mymap-card-ph {
+    font-family: 'Black Ops One', system-ui, sans-serif;
+    font-size: 40px; color: var(--text-muted, #8497B8); opacity: 0.45;
+  }
+  .mymap-card-name {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+    padding: 22px 12px 11px;
+    font-family: 'Chakra Petch', system-ui, sans-serif; font-weight: 600;
+    font-size: 15px; color: #fff;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0));
+  }
+  .mymaps-empty {
+    grid-column: 1 / -1; padding: 26px; text-align: center;
+    color: var(--text-muted, #8497B8); font-style: italic; font-size: 13px;
+    border: 1px dashed rgba(125,168,199,0.2); border-radius: 12px;
+  }
+  @media (max-width: 720px) { .mymaps-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .mymaps-grid { grid-template-columns: 1fr; } }
+
+  /* Botão "Adicionar / Adicionado" (destaque global) na aba Mapas das Configurações */
+  .img-card-btn.is-mymap {
+    background: transparent; border: 1px solid var(--accent-orange, #FF9800);
+    color: var(--accent-orange, #FF9800);
+  }
+  .img-card-btn.is-mymap:hover { background: rgba(255,152,0,0.12); }
+  .img-card-btn.is-mymap.added {
+    background: var(--green, #4ADE80); border-color: var(--green, #4ADE80);
+    color: #06240f;
+  }
+  .img-card-btn.is-mymap.added::before { content: '\2713  '; }
+
   /* ── MAPS section ──────────────────────────────────────────────── */
   .maps-toolbar {
     display: flex;

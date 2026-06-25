@@ -1221,7 +1221,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.74.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.75.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4478,6 +4478,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.75.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Meus Mapas: galeria curada de mapas em destaque.</strong> Em <strong>Configura&ccedil;&otilde;es &rsaquo; Mapas</strong> (admin), cada mapa ganhou um bot&atilde;o <strong>Adicionar</strong> que vira <strong>Adicionado</strong> (verde). Os mapas adicionados aparecem na se&ccedil;&atilde;o <strong>Mapas</strong> numa galeria &mdash; ordem alfab&eacute;tica, 3 por linha, com hover &mdash; e cada card &eacute; um link para a p&aacute;gina de detalhes do mapa (em constru&ccedil;&atilde;o no Claude Design). Curadoria <strong>global</strong>: o operador adiciona, todos os utilizadores veem. Store novo <code>cat_featured_maps</code> (leitura anon, escrita s&oacute; admin via edge <code>admin-featured-maps</code> + secret); estado em <code>FEATURED_MAPS</code>, re-puxado no foco da aba. Tamb&eacute;m fecha o cat&aacute;logo de fotos de mapa em <strong>51/51</strong>.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.74.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">feature · infra</span>
@@ -6224,6 +6233,17 @@
         <p data-i18n="sec.maps.intro">Qual arma do seu catálogo performa melhor em cada mapa do BO7. Recomendações ajustadas pro seu playstyle rusher agressivo (CQB — combate close-quarters).</p>
       </div>
 
+      <!-- MEUS MAPAS — galeria curada (destaque global). v2.75.0 · link p/ a página de detalhe (Claude Design) -->
+      <div class="mymaps-block" data-reveal="fade-up">
+        <div class="mymaps-head">
+          <h3 class="mymaps-title">{{i:map}} <span data-i18n="maps.mine.h">MEUS MAPAS</span></h3>
+          <p class="mymaps-sub" data-i18n="maps.mine.sub">Os mapas em destaque. Toque num para ver os detalhes.</p>
+        </div>
+        <div class="mymaps-grid" id="mymaps-grid"><!-- cards via JS (renderMyMaps) --></div>
+      </div>
+
+      <h3 class="maps-recs-title" data-reveal="fade-up"><span data-i18n="maps.recs.h">RECOMENDAÇÃO DE ARMA POR MAPA</span></h3>
+
       <div class="maps-toolbar" id="maps-filters" data-reveal="fade-up">
         <button class="maps-filter-chip active" data-map-filter="all">TODOS</button>
         <button class="maps-filter-chip" data-map-filter="small">SMALL · CQB</button>
@@ -7480,7 +7500,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.74.0</strong><span class="ver-tag">Realtime — dados do utilizador atualizam ao vivo: trigger bompa sync_state (notificação leve, anon-readable) → assets/js/services/realtime.js dispara CloudSync.pullAll() + re-render; + re-pull no foco da aba. As hub_* (edge-only RLS) nunca são expostas. Cache local mantém a velocidade.</span>
+        LEVEL · <strong>v2.75.0</strong><span class="ver-tag">Meus Mapas — galeria curada de mapas em destaque na seção Mapas: botão Adicionar/Adicionado em Configurações ▸ Mapas (admin), 3 por linha com hover e link p/ a página de detalhe do mapa (Claude Design, em breve). Curadoria global: store cat_featured_maps (leitura anon, escrita admin via edge admin-featured-maps). Catálogo de fotos de mapa fechado em 51/51.</span>
       </div>
       <script>
         (function(){
@@ -14859,6 +14879,66 @@ const ATTACHMENT_ICONS = {
 
       // Expor pra debug/testing
       try { window.renderMapsSection = renderMapsSection; } catch (e) {}
+    })();
+
+    // ── MEUS MAPAS · galeria curada (v2.75.0) ───────────────────────────
+    // Renderiza window.FEATURED_MAPS em #mymaps-grid: foto (getUserImage) + nome,
+    // ordem alfabética, 3 por linha (CSS), hover. Cada card linka pros detalhes
+    // do mapa (página a desenhar no Claude Design — placeholder por agora).
+    (function setupMyMapsGallery() {
+      'use strict';
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      function tt(key, fb) {
+        try {
+          var lang = (localStorage.getItem('bo7hub_lang_v1') === 'en') ? 'en' : 'pt';
+          return (window.I18N && window.I18N[lang] && window.I18N[lang][key]) || fb;
+        } catch (e) { return fb; }
+      }
+      function mapName(id) {
+        var src = [].concat(window.DEFAULT_MAPS_BO7 || [], window.MAPS_CATALOG || []);
+        for (var i = 0; i < src.length; i++) { if (src[i] && src[i].id === id) return src[i].name; }
+        return String(id).replace(/^map_/, '').replace(/_/g, ' ');
+      }
+      function renderMyMaps() {
+        var grid = document.getElementById('mymaps-grid');
+        if (!grid) return;
+        var ids = (window.FEATURED_MAPS || []).slice();
+        if (!ids.length) {
+          grid.innerHTML = '<div class="mymaps-empty" data-i18n="maps.mine.empty">' +
+            escapeHtml(tt('maps.mine.empty', 'Nenhum mapa em destaque ainda.')) + '</div>';
+          return;
+        }
+        var items = ids.map(function (id) { return { id: id, name: mapName(id) }; })
+          .sort(function (a, b) { return String(a.name).localeCompare(String(b.name), 'pt', { sensitivity: 'base' }); });
+        grid.innerHTML = items.map(function (m) {
+          var img = (typeof getUserImage === 'function') ? getUserImage(m.id) : null;
+          var imgHtml = img
+            ? '<span class="mymap-card-img" style="background-image:url(\'' + String(img).replace(/'/g, "%27") + '\')"></span>'
+            : '<span class="mymap-card-img placeholder"><span class="mymap-card-ph">' + escapeHtml(String(m.name || '?').charAt(0).toUpperCase()) + '</span></span>';
+          return '<a class="mymap-card" href="#" data-map-detail="' + escapeHtml(m.id) + '" aria-label="' + escapeHtml(m.name) + '">' +
+                   imgHtml +
+                   '<span class="mymap-card-name">' + escapeHtml(m.name) + '</span>' +
+                 '</a>';
+        }).join('');
+      }
+      // Clique no card → detalhes do mapa (placeholder até o README do Claude Design).
+      document.addEventListener('click', function (e) {
+        var card = e.target.closest && e.target.closest('.mymap-card[data-map-detail]');
+        if (!card) return;
+        e.preventDefault();
+        // TODO(Claude Design README): navegar pra página de detalhe — card.dataset.mapDetail
+        if (typeof showToast === 'function') showToast(tt('maps.detail.soon', 'Página de detalhes do mapa em breve.'), 'info');
+      });
+      window.addEventListener('level:featured-maps-change', renderMyMaps);
+      var nav = document.querySelector('[data-section="maps"]');
+      if (nav) nav.addEventListener('click', function () { setTimeout(renderMyMaps, 50); });
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderMyMaps);
+      else renderMyMaps();
+      try { window.renderMyMaps = renderMyMaps; } catch (e) {}
     })();
 
     // ── Open modal ──────────────────────────────────────────────────────
@@ -22316,6 +22396,67 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       } catch (e) { console.warn('[default-images] load falhou:', e && e.message); }
     }
     setTimeout(loadGlobalDefaultImages, 700);
+
+    // ═══════════════════════════════════════════════════════════════════
+    // MEUS MAPAS — curadoria GLOBAL de mapas em destaque (v2.75.0)
+    // Leitura pública (anon select em cat_featured_maps). Escrita só admin
+    // (edge admin-featured-maps + x-level-admin-secret, mesmo secret do admin-cat-*).
+    // Estado em window.FEATURED_MAPS = [map_id]. Evento: 'level:featured-maps-change'.
+    // ═══════════════════════════════════════════════════════════════════
+    window.FEATURED_MAPS = window.FEATURED_MAPS || [];
+    (function levelFeaturedMaps() {
+      'use strict';
+      var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+      var ENDPOINT = 'https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/admin-featured-maps';
+      var SECRET_LS_KEY = 'level.admin.secret';
+      function getSecret() { try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; } }
+      function emitChange() { try { window.dispatchEvent(new CustomEvent('level:featured-maps-change')); } catch (e) {} }
+      function has(id) { return (window.FEATURED_MAPS || []).indexOf(id) !== -1; }
+      // Leitura pública (anon) — mesmo client do loadGlobalDefaultImages.
+      async function refresh() {
+        try {
+          if (!window.LEVEL_AUTH || !window.LEVEL_AUTH.getClient) return;
+          var c = await window.LEVEL_AUTH.getClient();
+          var resp = await c.from('cat_featured_maps').select('map_id,sort_order').order('sort_order', { nullsFirst: false });
+          if (resp && Array.isArray(resp.data)) {
+            window.FEATURED_MAPS = resp.data.map(function (r) { return r && r.map_id; }).filter(Boolean);
+            emitChange();
+          }
+        } catch (e) { console.warn('[featured-maps] load falhou:', e && e.message); }
+      }
+      async function _write(action, mapId) {
+        var secret = getSecret();
+        if (!secret) throw new Error('Secret de admin não configurado (painel Operador).');
+        var r = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + ANON_KEY, 'apikey': ANON_KEY, 'Content-Type': 'application/json', 'x-level-admin-secret': secret },
+          body: JSON.stringify({ action: action, map_id: mapId })
+        });
+        var data = await r.json().catch(function () { return {}; });
+        if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+        return data;
+      }
+      async function add(id) {
+        if (has(id)) return;
+        window.FEATURED_MAPS = (window.FEATURED_MAPS || []).concat([id]); emitChange(); // otimista
+        try { await _write('add', id); }
+        catch (e) { window.FEATURED_MAPS = (window.FEATURED_MAPS || []).filter(function (x) { return x !== id; }); emitChange(); throw e; }
+      }
+      async function remove(id) {
+        if (!has(id)) return;
+        window.FEATURED_MAPS = (window.FEATURED_MAPS || []).filter(function (x) { return x !== id; }); emitChange(); // otimista
+        try { await _write('remove', id); }
+        catch (e) { window.FEATURED_MAPS = (window.FEATURED_MAPS || []).concat([id]); emitChange(); throw e; }
+      }
+      function toggle(id) { return has(id) ? remove(id) : add(id); }
+      window.LevelFeaturedMaps = { refresh: refresh, has: has, add: add, remove: remove, toggle: toggle, list: function () { return (window.FEATURED_MAPS || []).slice(); } };
+      setTimeout(refresh, 850);
+      try {
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+        window.addEventListener('focus', function () { refresh(); });
+      } catch (e) {}
+    })();
+
     const TAB_TO_CATSUB = {
       style:           ['construtor', 'estilos'],
       wildcards:       ['construtor', 'wildcards'],
@@ -23197,6 +23338,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (!cat) { grid.innerHTML = ''; return; }
       const items = cat.source() || [];
       const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
+      const isMapCat = cat && cat.group === 'maps';  // v2.75.0: aba de Mapas ganha botão "Adicionar" (destaque global)
       grid.innerHTML = items.map(function (item) {
         const img = getUserImage(item.id);
         const thumb = img
@@ -23210,6 +23352,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         const descBlock = item.desc
           ? '<div class="img-card-desc">' + esc(item.desc) + '</div>'
           : '';
+        const inFeatured = isMapCat && (window.FEATURED_MAPS || []).indexOf(item.id) !== -1;
+        const mapBtn = isMapCat
+          ? '<button class="img-card-btn is-mymap' + (inFeatured ? ' added' : '') + '" data-act="mymap" data-id="' + esc(item.id) + '">' + (inFeatured ? cbt('set.btn.mapAdded') : cbt('set.btn.mapAdd')) + '</button>'
+          : '';
         return ''
           + '<div class="img-card" data-item-id="' + esc(item.id) + '">'
           +   thumb
@@ -23218,6 +23364,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           +     '<div class="img-card-id">' + esc(item.id) + '</div>'
           +     descBlock
           +     '<div class="img-card-buttons">'
+          +       mapBtn
           +       '<button class="img-card-btn" data-act="upload" data-id="' + esc(item.id) + '">' + uploadLabel + '</button>'
           +       '<button class="img-card-btn danger" data-act="remove" data-id="' + esc(item.id) + '" data-name="' + esc(item.name) + '"' + (img ? '' : ' disabled') + '>' + cbt('set.btn.remove') + '</button>'
           +     '</div>'
@@ -24288,6 +24435,22 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         removeUserImage(id);
         if (typeof showToast === 'function') showToast(cbt('set.toast.removed'), 'success');
         refreshAfterImageChange();
+        return;
+      }
+      // v2.75.0: adicionar/remover dos MEUS MAPAS (destaque global — só admin com secret)
+      const mmBtn = e.target.closest('.img-card-btn[data-act="mymap"]');
+      if (mmBtn) {
+        const id = mmBtn.dataset.id;
+        if (!window.LevelFeaturedMaps) return;
+        const wasIn = window.LevelFeaturedMaps.has(id);
+        mmBtn.disabled = true;
+        try {
+          await window.LevelFeaturedMaps.toggle(id);
+          if (typeof showToast === 'function') showToast(cbt(wasIn ? 'set.toast.mapRemoved' : 'set.toast.mapAdded'), 'success');
+        } catch (err) {
+          if (typeof showToast === 'function') showToast((err && err.message) || 'Falhou.', 'error');
+        }
+        renderSettings();
         return;
       }
       // ações globais
