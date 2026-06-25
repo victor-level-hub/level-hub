@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Home: gráfico de volta + ajustes',
-    'briefing.changelog.summary':  'Mais ajustes na Home: tirámos a barra de botões do topo (a navegação já está nos cards <strong>Explorar</strong>), <strong>trouxemos de volta o gráfico</strong> de evolução de prestígio/nível (visível, acima dos logs recolhidos), e o botão <strong>Snapshot</strong> ganhou um ⓘ explicando o que faz e como funciona.',
+    'briefing.changelog.headline': 'Abas do card não estouram mais na grade',
+    'briefing.changelog.summary':  'Pequeno fix visual: na vista <strong>Grade</strong> de Minhas Armas, as 4 abas do card (Loadout / Nossa Análise / Avalie / Progressão) não cabiam numa linha e a <strong>Progressão</strong> estourava pra fora do card. Agora quebram linha certinho dentro dele.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2130,8 +2130,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Home: chart back + tweaks',
-    'briefing.changelog.summary':  'More Home tweaks: we removed the top button bar (navigation already lives in the <strong>Explore</strong> cards), <strong>brought the chart back</strong> (prestige/level evolution, visible above the collapsed logs), and the <strong>Snapshot</strong> button got an ⓘ explaining what it does and how it works.',
+    'briefing.changelog.headline': 'Card tabs no longer overflow in grid',
+    'briefing.changelog.summary':  'Small visual fix: in the <strong>Grid</strong> view of My Weapons, the card\'s 4 tabs (Loadout / Our Analysis / Rate / Progression) didn\'t fit on one line and <strong>Progression</strong> spilled outside the card. They now wrap cleanly inside it.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

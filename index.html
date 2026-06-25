@@ -1221,12 +1221,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.73.2 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.73.3 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Home: gráfico de volta + ajustes</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Mais ajustes na Home: tirámos a barra de botões do topo (a navegação já está nos cards <strong>Explorar</strong>), <strong>trouxemos de volta o gráfico</strong> de evolução de prestígio/nível (visível, acima dos logs recolhidos), e o botão <strong>Snapshot</strong> ganhou um ⓘ explicando o que faz e como funciona.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Abas do card não estouram mais na grade</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Pequeno fix visual: na vista <strong>Grade</strong> de Minhas Armas, as 4 abas do card (Loadout / Nossa Análise / Avalie / Progressão) não cabiam numa linha e a <strong>Progressão</strong> estourava pra fora do card. Agora quebram linha certinho dentro dele.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4478,6 +4478,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.73.3</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Abas do card de arma não estouram mais na vista Grade.</strong> Pedido do Victor. Na <strong>Grade</strong> (card ~290px), as 4 abas <em>Loadout / Nossa Análise / Avalie / Progressão</em> (<code>.bc-tabs</code>) eram <code>display:flex</code> sem <code>flex-wrap</code> → não cabiam numa linha e a <strong>Progressão</strong> vazava pra fora do card. Adicionado <code>flex-wrap: wrap</code> em <code>.build-card .bc-tabs</code> — agora quebram linha dentro do card. (No Command Center as abas nem renderizam, então só afetava a Grade.)</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.73.2</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">fix · ux</span>
@@ -7444,7 +7453,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.73.2</strong><span class="ver-tag">Home — barra de CTAs do topo removida (navegação está nos cards Explorar); gráfico de evolução prestígio/nível de volta, visível acima dos logs recolhidos; tooltip ⓘ no botão Snapshot explicando a função.</span>
+        LEVEL · <strong>v2.73.3</strong><span class="ver-tag">Fix visual — na vista Grade de Minhas Armas, as 4 abas do card (Loadout/Nossa Análise/Avalie/Progressão) quebram linha dentro do card em vez de a Progressão estourar pra fora (flex-wrap em .bc-tabs).</span>
       </div>
       <script>
         (function(){

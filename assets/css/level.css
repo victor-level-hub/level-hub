@@ -7840,6 +7840,7 @@
   /* ─── Tab navigation ─── */
   .build-card .bc-tabs {
     display: flex;
+    flex-wrap: wrap; /* v2.73.3: na grade (card estreito) as 4 abas quebram linha em vez de estourar */
     gap: 4px;
     margin: 14px 0 0;
     border-bottom: 1px solid var(--border-subtle);
