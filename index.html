@@ -1232,12 +1232,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.72.5 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.72.6 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Construtor mais limpo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos do topo do Construtor a barra <strong>Catálogo de Attachments</strong> — o medidor de cobertura (X/Y armas) e o botão "Atualizar", que não atualizava nada, só abria instruções. Era informação de bastidor que não ajudava a montar loadout. O painel de attachments <strong>por arma</strong> (no Passo 3) — esse sim útil — continua.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Menos ruído nas Configurações</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos duas coisas que não ajudavam: o atalho <strong>"Refazer tour"</strong> nas Configurações (o "?" no topo já faz isso) e o <strong>seed de builds-exemplo</strong> para novos utilizadores — uma build depende do teu nível e estilo, então dar uma genérica a quem acabou de chegar não fazia sentido. Novos perfis começam limpos.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4489,6 +4489,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.72.6</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">refac · ux</span>
+              </div>
+              <p class="vh-desc"><strong>Removidos: atalho "Refazer tour" + seed de builds-exemplo.</strong> (1) A secção <em>Onboarding · Refazer tour</em> das Configurações saiu — era redundante com o "?" do header, que já chama <code>LevelTour.start()</code>; o tour em si fica. (2) O <strong>seed de builds-exemplo</strong> a novos utilizadores (<code>_seedBuildsIfNeeded</code>) foi eliminado — uma build depende de nível/estilo, então semear uma genérica a quem acabou de chegar não fazia sentido; novos perfis começam limpos. A secção admin <em>Builds curadas (cat_default_builds)</em> também saiu; o CRUD <code>adminCrudBuilds</code> é fully-guarded e fica inerte (varrer depois). <code>node --check</code> OK; 1 main/19 sections.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.72.5</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">refac · ux</span>
@@ -7250,28 +7259,10 @@
           </div>
           </div><!-- /opp-admin-only CRUD Armas -->
 
-          <!-- ═══ ADMIN · CRUD Builds Curadas (v75-85) ═══════════════ -->
-          <div class="opp-admin-only">
-          <div class="opp-section-title" style="margin-top:24px">
-            {{i:zap}} ADMIN · Builds curadas (cat_default_builds)
-          </div>
-          <div class="opp-actions-list">
-            <div class="opp-action-item" style="flex-direction:column;align-items:stretch">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-                <div class="opp-action-icon">{{i:database}}</div>
-                <div class="opp-action-body" style="flex:1">
-                  <div class="opp-action-title">Catálogo de builds no DB</div>
-                  <div class="opp-action-desc">Tabela <code>cat_default_builds</code>. Builds curadas (codenomes tipo CICADA, ESCA DOOM, ANTARES) que aparecem como seed em novos usuários. <span id="opp-builds-status" style="display:block;margin-top:6px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">Configure o secret de admin pra carregar.</span></div>
-                </div>
-                <button class="opp-action-btn" id="opp-btn-build-new">+ Nova build</button>
-                <button class="opp-action-btn secondary" id="opp-btn-builds-refresh">{{i:refresh-cw}}</button>
-              </div>
-              <div id="opp-builds-list" style="background:var(--bg-darkest);border-radius:6px;padding:8px;max-height:380px;overflow-y:auto;font-family:'JetBrains Mono', monospace;font-size:11px">
-                <div style="padding:18px;text-align:center;color:var(--text-muted)">Configure o secret de admin acima pra carregar a lista.</div>
-              </div>
-            </div>
-          </div>
-          </div><!-- /opp-admin-only CRUD Builds -->
+          <!-- v2.72.6: secção "ADMIN · Builds curadas" + o seed de builds para novos utilizadores
+               REMOVIDOS. Não fazia sentido semear builds (que dependem de nível/estilo) a quem
+               acabou de chegar. O CRUD admin (adminCrudBuilds) é fully-guarded → fica inerte sem o
+               HTML; varrer ele + o modal-admin-build + a tabela cat_default_builds depois. -->
 
           <!-- ═══ ADMIN · CRUD Struggles (v2.8.0) ════════════════════ -->
           <div class="opp-admin-only">
@@ -7352,20 +7343,8 @@
           </div>
           </div><!-- /opp-admin-only CRUD Glossary -->
 
-          <!-- ═══ Onboarding (v75-87) ═══════════════════════════════ -->
-          <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.tour.section">
-            {{i:help-circle}} Onboarding
-          </div>
-          <div class="opp-actions-list">
-            <div class="opp-action-item">
-              <div class="opp-action-icon">{{i:play}}</div>
-              <div class="opp-action-body">
-                <div class="opp-action-title" data-i18n="opp.tour.title">Refazer tour do Hub</div>
-                <div class="opp-action-desc" data-i18n="opp.tour.desc">Repassa as 4 seções principais (Minhas Armas, Construtor, Marketplace, Configurações) em 30 segundos.</div>
-              </div>
-              <button class="opp-action-btn" id="opp-btn-tour-replay" data-i18n="opp.tour.btn">Iniciar tour</button>
-            </div>
-          </div>
+          <!-- v2.72.6: secção "Onboarding · Refazer tour" removida — redundante com o "?" do header,
+               que já chama o mesmo LevelTour.start(). O tour em si fica. -->
 
           <!-- ═══ PWA Install (v75-58) ════════════════════════════════ -->
           <div class="opp-section-title" style="margin-top:24px" data-i18n="opp.pwa.section">
@@ -7444,7 +7423,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.72.5</strong><span class="ver-tag">Construtor mais limpo — barra "Catálogo de Attachments" (cobertura X/Y + botão Atualizar que só abria instruções) removida do topo; gémea da que saiu de Minhas Armas. Painel por-arma do Passo 3 mantido.</span>
+        LEVEL · <strong>v2.72.6</strong><span class="ver-tag">Configurações + onboarding mais enxutos — atalho "Refazer tour" removido (redundante com o "?" do header) e o seed de builds-exemplo a novos utilizadores eliminado (build depende de nível/estilo). CRUD admin de builds fica inerte.</span>
       </div>
       <script>
         (function(){
@@ -12057,77 +12036,10 @@ window.BO7_ASSETS = (function() {
     } catch (e) {}
     try { window.MAPS_CATALOG = MAPS_CATALOG; } catch (e) {}
 
-    // Seed específico de builds, controlado por flag separada do seed principal.
-    // v75-75: fonte de verdade é o servidor (cat_default_builds). Hub faz fetch
-    // antes de seedear. Cache local em localStorage['level.cache.defaultBuilds'].
-    // Tombstones (level.builds.tombstones) impedem re-ressurreição de builds deletadas.
-    (async function _seedBuildsIfNeeded() {
-      const BUILDS_SEED_FLAG = 'level.seeded.builds.v1';
-      try {
-        // Cleanup: remover qualquer seed antigo errado em level.loadouts
-        const wrongLoadouts = JSON.parse(localStorage.getItem('level.loadouts') || '[]');
-        const cleaned = wrongLoadouts.filter(l => l && l.id !== 'ld_seed_esca_doom');
-        if (cleaned.length !== wrongLoadouts.length) {
-          localStorage.setItem('level.loadouts', JSON.stringify(cleaned));
-          console.log('[LEVEL] Cleanup: removido seed errado de level.loadouts');
-        }
-        // Limpa flags obsoletas de tentativas anteriores
-        ['level.seeded.loadouts.v1', 'level.seeded.loadouts.v2', 'level.seeded.loadouts.v3'].forEach(k => {
-          try { localStorage.removeItem(k); } catch (e) {}
-        });
-      } catch (e) {
-        console.warn('[LEVEL] Cleanup falhou:', e);
-      }
-
-      // v75-75: tenta carregar defaults do servidor (cat_default_builds)
-      // Atualiza window.DEFAULT_BUILDS via fetchDefaultWeaponsFromServer (que retorna builds também)
-      try {
-        if (typeof fetchDefaultWeaponsFromServer === 'function' &&
-            (!Array.isArray(DEFAULT_BUILDS) || DEFAULT_BUILDS.length === 0)) {
-          const result = await fetchDefaultWeaponsFromServer();
-          if (result && Array.isArray(result.builds)) {
-            // Atualiza in-place
-            DEFAULT_BUILDS.length = 0;
-            result.builds.forEach(b => DEFAULT_BUILDS.push(b));
-            try { window.DEFAULT_BUILDS = DEFAULT_BUILDS; } catch (e) {}
-          }
-        }
-      } catch (e) {
-        console.warn('[LEVEL] Build defaults do servidor falharam:', e);
-      }
-
-      try {
-        const flagSet = localStorage.getItem(BUILDS_SEED_FLAG) === 'true';
-        const current = JSON.parse(localStorage.getItem('level.builds') || '[]');
-        const existingIds = new Set(current.map(b => b.id));
-
-        // Tombstones: IDs que o usuário deletou — NUNCA ressuscitar (mesmo se faltarem)
-        let tombstones = [];
-        try { tombstones = JSON.parse(localStorage.getItem('level.builds.tombstones') || '[]'); } catch (e) {}
-        const tombSet = new Set(tombstones);
-
-        const toAdd = DEFAULT_BUILDS.filter(b => !existingIds.has(b.id) && !tombSet.has(b.id));
-
-        // Re-seedeia se: nunca seedou, OU se há builds default ausentes que NÃO foram deletadas pelo usuário.
-        const isEmpty = current.length === 0;
-        if (flagSet && !isEmpty && toAdd.length === 0) return;
-        // Mesmo com isEmpty, se TODOS os defaults estão em tombstones, não faz nada
-        if (flagSet && toAdd.length === 0) {
-          // marca a flag pra evitar re-cheque desnecessário
-          localStorage.setItem(BUILDS_SEED_FLAG, 'true');
-          return;
-        }
-
-        if (toAdd.length) {
-          const merged = current.concat(toAdd.map(b => JSON.parse(JSON.stringify(b))));
-          localStorage.setItem('level.builds', JSON.stringify(merged));
-          console.log('[LEVEL] Seeded ' + toAdd.length + ' default build(s): ' + toAdd.map(b => b.name).join(', '));
-        }
-        localStorage.setItem(BUILDS_SEED_FLAG, 'true');
-      } catch (e) {
-        console.error('[LEVEL] Build seed falhou:', e);
-      }
-    })();
+    // v2.72.6: _seedBuildsIfNeeded REMOVIDO — não semeamos mais builds-exemplo a novos utilizadores.
+    // Uma build depende de nível/estilo; dar build genérica a quem acabou de chegar não fazia sentido.
+    // DEFAULT_BUILDS fica como var inerte (consumidores são defensivos); a tabela cat_default_builds e
+    // o CRUD admin (adminCrudBuilds) podem ser varridos depois.
 
     // Slot icons (compact SVG silhouettes per slot type — visual placeholders
     // until per-attachment imagery is sourced)
@@ -33013,11 +32925,7 @@ ${cbt('share.t.footer')}`;
       else if (a === 'skip') skipTour();
       return;
     }
-    // Botão "Refazer tour" em Config
-    if (e.target.closest('#opp-btn-tour-replay')) {
-      try { localStorage.removeItem(COMPLETED_KEY); } catch (err) { /* ignore */ }
-      startTour();
-    }
+    // v2.72.6: handler "Refazer tour" removido com a secção Onboarding (o "?" do header já inicia o tour).
   });
 
   // Expõe API global pra debug

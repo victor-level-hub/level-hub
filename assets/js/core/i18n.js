@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Construtor mais limpo',
-    'briefing.changelog.summary':  'Tiramos do topo do Construtor a barra <strong>Catálogo de Attachments</strong> — o medidor de cobertura (X/Y armas) e o botão "Atualizar", que não atualizava nada, só abria instruções. Era informação de bastidor que não ajudava a montar loadout. O painel de attachments <strong>por arma</strong> (no Passo 3) — esse sim útil — continua.',
+    'briefing.changelog.headline': 'Menos ruído nas Configurações',
+    'briefing.changelog.summary':  'Tiramos duas coisas que não ajudavam: o atalho <strong>"Refazer tour"</strong> nas Configurações (o "?" no topo já faz isso) e o <strong>seed de builds-exemplo</strong> para novos utilizadores — uma build depende do teu nível e estilo, então dar uma genérica a quem acabou de chegar não fazia sentido. Novos perfis começam limpos.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2127,8 +2127,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Cleaner Builder',
-    'briefing.changelog.summary':  'We removed the <strong>Attachments catalog</strong> bar from the top of the Builder — the X/Y coverage meter and the "Update" button, which didn\'t update anything, just opened instructions. It was backstage info that didn\'t help you build a loadout. The <strong>per-weapon</strong> attachments panel (Step 3) — the useful one — stays.',
+    'briefing.changelog.headline': 'Less noise in Settings',
+    'briefing.changelog.summary':  'We removed two things that didn\'t help: the <strong>"Replay tour"</strong> shortcut in Settings (the "?" at the top already does that) and the <strong>example-build seeding</strong> for new users — a build depends on your level and playstyle, so handing a generic one to a newcomer made no sense. New profiles start clean.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
