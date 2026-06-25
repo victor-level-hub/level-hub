@@ -150,7 +150,7 @@ Isto é o ângulo: **anti-complexidade**. Onde o resto traz React + Next + bundl
 Partir o monólito **não** é uma reescrita de uma vez (risco alto em produção + sessões paralelas + verificação difícil pelo *login-gate*). É por **gatilho**:
 1. **Doc + mapa** (este ficheiro). ✅
 2. **Extrair o CSS** (26% / ~13k linhas) → `assets/css/*.css` linkados. Mecânico; cuidar dos `url()` dos assets; verificar render.
-3. **Core primeiro:** `state` / `bus` / `i18n` / `router` como módulos — a fundação.
+3. **Core primeiro:** `state` / `bus` / `i18n` / `router` como módulos — a fundação. **`i18n` ✅ (v2.72.4 → `assets/js/core/i18n.js`, −282 KB).** Próximos: `state` / `bus` / `router`.
 4. **Feature nova nasce módulo** (ESM, sem build). O monólito **para de crescer**.
 5. **Extrair por zona:** cada feature que eu mexer a fundo, extraio antes de mexer.
 6. **Lint/format** (ESLint/Prettier) quando já houver módulos.
@@ -168,11 +168,11 @@ Cada passo é **verificável** (harness isolado ou tu no site logado) antes do p
 | `window.CloudSync` (pushAll/pullAll/buildSnapshot) | `services/sync.js` |
 | `getUserImage`/`setUserImage`/`cloudUploadAsset` | `services/assets.js` |
 | `LEVEL_AUTH` (login/signup/onAuthed) | `services/auth.js` |
-| `window.I18N` + `tHub()` | `core/i18n.js` |
+| `window.I18N` + `tHub()` | `core/i18n.js` ✅ (v2.72.4) |
 | mapa `LUCIDE` + `lvlIcon` | `ui/icon.js` |
 | `LevelModal` / `showToast` | `ui/modal.js` / `ui/toast.js` |
 
 > *O contrato `LEVEL_AUTH` (ids `lag-*`, `showScreen`, `onAuthed`), os tokens no `:root`, os ícones `{{i:}}` e o i18n `data-i18n` são preservados em qualquer extração — são a "API" interna que não se parte.*
 
 ---
-*Arquitetura por Cráudio · 24 Jun 2026. Acompanha `BACKLOG.md` (prioridades/timing) e `LEVEL_ESTADO.md` (marcos).*
+*Arquitetura por Cráudio · 25 Jun 2026. Acompanha `BACKLOG.md` (prioridades/timing) e `LEVEL_ESTADO.md` (marcos).*
