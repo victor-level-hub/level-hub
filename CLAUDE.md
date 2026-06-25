@@ -4,9 +4,11 @@
 > Memória estendida detalhada vive em `LEVEL_ESTADO.md` (ler no início de cada sessão).
 
 ## O QUE É
-Companion tático pessoal para Call of Duty: Black Ops 7. Single-file `index.html`
-(~3,2 MB, ~43k linhas, 16 blocos `<script>`). HTML/CSS/JS puro + Supabase backend +
-auto-deploy Netlify. Coach IA interno = **Le Vél**. Site: le-vel.games.
+Companion tático pessoal para Call of Duty: Black Ops 7. App `index.html` (~33k linhas,
+~17 blocos `<script>` inline) + módulos extraídos em `assets/` (CSS em `assets/css/level.css`;
+JS em `assets/js/{core,ui,services}/*.js`). HTML/CSS/JS vanilla (zero framework, zero build) +
+Supabase backend + **auto-deploy Cloudflare Pages** (Netlify saiu). Coach IA interno = **Le Vél**.
+Site: le-vel.games. **Versão atual: v2.74.0.**
 
 ## REGRAS DE COMUNICAÇÃO (sempre ativas)
 - Respostas em **pt-BR**. Termos técnicos de jogo (hipfire, ADS, TTK, slide-cancel...)
@@ -22,11 +24,10 @@ auto-deploy Netlify. Coach IA interno = **Le Vél**. Site: le-vel.games.
 - O Hub é UM ficheiro: `index.html`. Editar sempre por substituição de string com
   **âncoras longas e únicas** (o ficheiro é enorme; strings curtas dão falso-match).
 - **Validação obrigatória após CADA alteração:**
-  1. `node --check` em **todos** os 16 blocos `<script>` (extrair via regex
-     `<script[^>]*>(.*?)</script>`, gravar cada um em ficheiro `.js` e checar — NÃO
-     usar /dev/stdin, dá falso-positivo).
-  2. Estrutura HTML: deve manter **1 `<main>` + 14 `<section>`** (era 13 até v2.34.1; v2.35.0 somou a secção Home `#section-home`) (validar com html5lib
-     ou parser equivalente). Inserções de bloco podem orfanar `</div>` e expulsar sections.
+  1. `node --check` em **todos** os ~17 blocos `<script>` inline (extrair via regex,
+     gravar cada um em `.js` e checar) **E** nos módulos `assets/js/**/*.js`.
+  2. Estrutura HTML: deve manter **1 `<main>` + 19 `<section>`** (validar com grep/parser).
+     Inserções de bloco podem orfanar `</div>` e expulsar sections.
   3. Mudanças visuais: **renderizar e inspecionar** antes de dar por feito (o Hub tem
      login gate → extrair o componente + CSS + ícones para página de teste isolada).
 - Versionamento SemVer: PATCH=bugfix/visual, MINOR=feature, MAJOR=quebra.
@@ -91,8 +92,39 @@ auto-deploy Netlify. Coach IA interno = **Le Vél**. Site: le-vel.games.
 - RLS sem policy bloqueia tudo em silêncio (status 200, data null) → criar policy na mesma migration.
 
 ## DEPLOY
-- Commit no repo `victor-level-hub/level-hub` branch main → auto-deploy Netlify → le-vel.games
+- Commit no repo `victor-level-hub/level-hub` branch main → auto-deploy **Cloudflare Pages** → le-vel.games
+- Victor disse "PERMITO SEMPRE" → pode `git push` (= deploy) sem pedir OK a cada passo.
+- Forcepoint BLOQUEIA le-vel.games nesta máquina → NÃO confiar em curl ao domínio; o Victor confirma
+  o deploy no site. (curl/MCP ao Supabase funciona.)
+- `_headers` força no-cache no HTML e em `/assets/css/*` + `/assets/js/*` (sem stale após deploy).
 - Confirmar footer mostra a versão certa no site publicado após deploy.
+
+## PARA O REDESIGN (Clóvis / Claude Design) — CONTRATOS A PRESERVAR
+O Victor passa telas por uma ferramenta de redesign que reescreve o **layout** (HTML/CSS) e gera um
+README. O redesign pode mudar livremente a **aparência**, mas NÃO pode quebrar estes contratos (senão
+o app deixa de funcionar — o JS liga-se a eles):
+1. **Estrutura:** manter **1 `<main>` + 19 `<section>`** com os MESMOS ids de secção (`#section-home`,
+   `#section-myweapons`, `#section-constructor`, `#section-marketplace`, `#section-settings`, …) — o
+   router (`showScreen`) liga-se a eles. Não orfanar `</div>`.
+2. **Login gate / auth:** preservar os ids `lag-*` (campos de login/cadastro), `showScreen`, `onAuthed`,
+   e o `#level-pitch` (tela deslogada). É o contrato `LEVEL_AUTH`.
+3. **i18n:** TODO texto visível precisa de `data-i18n` / `data-i18n-html` / `data-i18n-attr="attr:chave"`
+   + a chave PT **e** EN em `window.I18N` (vive em `assets/js/core/i18n.js`). Nunca texto cravado no HTML.
+4. **Ícones:** usar placeholders `{{i:nome}}` (Lucide inline; registo em `assets/js/ui/icon.js`). Ícone
+   não-registado vira TEXTO CRU — conferir o registo. SEM emoji em UI nova.
+5. **Tokens:** usar SEMPRE as CSS vars do `:root` (paleta Glass/Neon — ver PALETA/TIPOGRAFIA acima).
+   Zero hex cravado. `<select>` no tema escuro precisa `color-scheme:dark`.
+6. **Hooks de render / data-binding:** o JS popula ids/containers específicos e re-renderiza por eventos.
+   Se o redesign mudar a estrutura de uma tela, PRECISA manter (ou avisar p/ eu religar): os containers
+   que o JS popula (ex.: `#mkt-grid`, `.build-card`/`renderBuildCard`, `#sidebar-avatar`,
+   `#opp-stats-chart-wrap`, os accordions do histórico) e os eventos de re-render (`level:builds-change`,
+   `level-loadouts-changed`, `player:changed`, `LevelDB.onChange`). O **Realtime** (v2.74.0) depende SÓ
+   destes eventos — preserva-os e ele continua a funcionar.
+7. **Mecânica intocável:** as 9 slots do loadout, as abas do build-card, o glossário e a análise
+   server-side (`analyze-build`). Mudar isto precisa de aprovação ANTES.
+> **Resumo pro designer:** muda o visual à vontade; **preserva** ids de secção/auth, `data-i18n`,
+> `{{i:}}`, tokens `:root`, e os containers/eventos que o JS usa. Quando o README voltar, eu confiro
+> e religo o que precisar.
 
 ## NÃO FAZER
 - Não sugerir Google Drive nem Project Files (Victor parou 31/Mai/2026).
