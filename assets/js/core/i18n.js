@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Teste de fundo claro na REV-46',
-    'briefing.changelog.summary':  'Experiência só na <strong>REV-46</strong> (pra validarmos o estilo): tirámos o fundo com as logos, pusemos um <strong>fundo claro com degradê</strong> e ampliámos a arma — tanto no card pequeno como no zoom do hover. Se ficar bom, estendo às outras armas.',
+    'briefing.changelog.headline': 'Tooltip do Snapshot não sai mais do ecrã',
+    'briefing.changelog.summary':  'Mini-correção: o <strong>ⓘ</strong> do botão Snapshot abria pra direita e saía do ecrã (o botão fica perto da borda). Agora abre <strong>pra dentro</strong>, dentro da tela.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2130,8 +2130,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Light background test on the REV-46',
-    'briefing.changelog.summary':  'An experiment on the <strong>REV-46</strong> only (to validate the look): we removed the logo watermark, added a <strong>light gradient background</strong> and enlarged the weapon — both on the small card and the hover zoom. If it looks good, I\'ll roll it out to the other weapons.',
+    'briefing.changelog.headline': 'Snapshot tooltip no longer goes off-screen',
+    'briefing.changelog.summary':  'Tiny fix: the Snapshot button\'s <strong>ⓘ</strong> opened to the right and went off-screen (the button sits near the edge). It now opens <strong>inward</strong>, within the screen.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
