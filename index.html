@@ -900,7 +900,9 @@
       var DEFAULT_ORDER = ['home','briefing','maps','myweapons','constructor','myloadouts','squad','marketplace','struggles','controller','aimtraining','perks','progression','settings'];
       function applyMenuConfig(order, hidden) {
         try {
-          var nav = document.querySelector('nav'); if (!nav) return;
+          // há 3 <nav> (landing, mobile-tabbar, sidebar) — alveja a sidebar pelo seu conteúdo
+          var anchor = document.querySelector('.nav-item[data-section]');
+          var nav = anchor ? anchor.closest('nav') : null; if (!nav) return;
           order = (order && order.length) ? order : DEFAULT_ORDER;
           hidden = hidden || [];
           var items = {};
@@ -1242,7 +1244,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.77.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.78.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4499,6 +4501,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.78.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">feature · fix</span>
+              </div>
+              <p class="vh-desc"><strong>Menu do teu jeito — aba &ldquo;Menu Lateral&rdquo; no admin.</strong> Nas Configura&ccedil;&otilde;es (admin) h&aacute; uma aba nova onde <strong>arrastas para ordenar</strong> os itens do menu lateral, <strong>ocultas</strong> os que n&atilde;o usas, e cada item tem um <strong>descritivo m&eacute;dio</strong> da sua fun&ccedil;&atilde;o. As mudan&ccedil;as aplicam-se <strong>ao vivo</strong> no menu; &ldquo;Salvar para todos&rdquo; publica a config para todos os utilizadores. Config <strong>global</strong> (admin escreve, todos leem): tabela <code>cat_menu_config</code> + edge <code>admin-menu-config</code>, aplicada por <code>window.applyMenuConfig(order, hidden)</code>. <strong>Configura&ccedil;&otilde;es</strong> fica sempre por &uacute;ltimo (n&atilde;o se oculta, &eacute; o teu acesso admin). <strong>Fix importante:</strong> existem 3 <code>&lt;nav&gt;</code> na p&aacute;gina e o <code>querySelector('nav')</code> apanhava o da landing (vazio) &mdash; por isso a reordena&ccedil;&atilde;o do v2.76.0 nunca aplicava; agora alveja a sidebar pelo seu conte&uacute;do (<code>.nav-item</code>).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.77.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7162,6 +7173,8 @@
       </div>
 
       <!-- OPERATOR PANEL (v75-51) — Configurações ▸ Operador ▸ Avatar -->
+      <div class="imgproc-panel" id="menu-lateral-panel" style="display:none"><!-- v2.78.0: render por window.renderMenuLateralPanel() --></div>
+
       <div class="imgproc-panel" id="operator-panel" style="display:none">
         <p class="imgproc-intro">
           <strong>Operador.</strong> Gere o avatar do seu operador — carrega uma foto direta, gera um avatar personalizado via IA usando um template do catálogo, ou reimporta um PNG previamente baixado. <span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o avatar do operador" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:user}}<span data-i18n="set.avatar.help.title">AVATAR DO OPERADOR</span></span><span class="help-pop-body" data-i18n-html="set.avatar.help">Tr&ecirc;s jeitos de definir seu avatar: <strong>carregar</strong> uma foto, <strong>gerar via IA</strong> (tiras uma selfie pelo QR no telem&oacute;vel e a IA cria um avatar t&aacute;tico), ou <strong>reimportar</strong> um PNG j&aacute; baixado.</span></span></span>
@@ -7531,7 +7544,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.77.0</strong><span class="ver-tag">Mapas interativos — clicar num mapa em destaque abre a sua página interativa: 10 camadas táticas que ligas/desligas, dica + arma certa por ponto, rotas por time, prebrief e dicas (PT/EN). Gridlock é o piloto; ilha React isolada em /maps-interactive servida num overlay (não mexe no Hub vanilla). Próximos mapas no mesmo molde (poi-data.js).</span>
+        LEVEL · <strong>v2.78.0</strong><span class="ver-tag">Aba "Menu Lateral" no admin (Configurações): arrasta para ordenar os itens do menu, oculta os que não usas, com um descritivo de cada um. Config GLOBAL (admin escreve, todos veem) via cat_menu_config + edge admin-menu-config; aplica ao vivo por window.applyMenuConfig. Fix: o querySelector('nav') apanhava o nav da landing (vazio) — a reordenação do v2.76.0 não aplicava; agora alveja a sidebar pelos .nav-item.</span>
       </div>
       <script>
         (function(){
@@ -22517,6 +22530,159 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       } catch (e) {}
     })();
 
+    // ═══════════════════════════════════════════════════════════════════
+    // MENU LATERAL — config GLOBAL (ordem + ocultos) + painel admin (v2.78.0)
+    // Leitura pública (anon select cat_menu_config) → window.applyMenuConfig.
+    // Escrita só admin (edge admin-menu-config + x-level-admin-secret).
+    // Painel: window.renderMenuLateralPanel (aba "Menu Lateral" das Configurações).
+    // ═══════════════════════════════════════════════════════════════════
+    (function levelMenuConfig() {
+      'use strict';
+      var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+      var ENDPOINT = 'https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/admin-menu-config';
+      var SECRET_LS_KEY = 'level.admin.secret';
+      function getSecret() { try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; } }
+      function getLang() { try { return localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'; } catch (e) { return 'pt'; } }
+      function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+      function T(key, fb) { try { return (typeof window.cbt === 'function') ? window.cbt(key) : fb; } catch (e) { return fb; } }
+
+      // Descrições médias por item do menu (PT/EN) — conteúdo do admin tool.
+      var META = {
+        home:        { pt: 'Tela inicial do Hub: atalhos rápidos, dica tática do dia e uma visão geral do teu progresso e arma ativa.', en: 'Hub home: quick shortcuts, the tactical tip of the day and an overview of your progress and active weapon.' },
+        briefing:    { pt: 'Painel do dia: o teu status atual, o que mudou na última versão, eventos e dicas ao vivo.', en: "Today's panel: your current status, what changed in the latest version, events and live tips." },
+        maps:        { pt: 'Suporte tático por mapa. Galeria dos mapas em destaque com filtro por nome; cada mapa abre a página interativa (camadas, pontos críticos e a arma certa por zona).', en: 'Per-map tactical support. Featured-maps gallery with a name filter; each map opens its interactive page (layers, key points and the right weapon per zone).' },
+        myweapons:   { pt: 'O teu arsenal cadastrado: nível, prestige e arma ativa de cada arma que tens no jogo.', en: 'Your registered arsenal: level, prestige and active weapon for each gun you own.' },
+        constructor: { pt: 'Construtor de loadout do zero com análise da IA (Le Vél): monta a build acessório a acessório e recebe a leitura tática.', en: 'Build a loadout from scratch with AI analysis (Le Vél): assemble it attachment by attachment and get the tactical read.' },
+        myloadouts:  { pt: 'Os teus loadouts salvos: avaliações, comparação entre builds e partilha no Marketplace.', en: 'Your saved loadouts: ratings, build comparisons and sharing to the Marketplace.' },
+        squad:       { pt: 'Encontra jogadores compatíveis e no teu nível para formar squad e jogar em grupo.', en: 'Find compatible players at your level to form a squad and play together.' },
+        marketplace: { pt: 'Builds da comunidade: curte, comenta, importa para o teu arsenal e partilha as tuas.', en: 'Community builds: like, comment, import into your arsenal and share your own.' },
+        struggles:   { pt: 'A tua evolução: regista as dificuldades que sentes e acompanha o progresso ao longo do tempo.', en: 'Your evolution: log the struggles you face and track progress over time.' },
+        controller:  { pt: 'Configurações recomendadas de controlo e do PS5 (vídeo, rede, input lag) para ganhar gunfights.', en: 'Recommended controller and PS5 settings (video, network, input lag) to win gunfights.' },
+        aimtraining: { pt: 'Treino de mira: rotinas e integração com o Aimlabs para afinar a pontaria.', en: 'Aim training: routines and Aimlabs integration to sharpen your aim.' },
+        perks:       { pt: 'Setup completo de perks (vantagens), wildcards (curingas), equipamento e scorestreaks (séries de pontuação).', en: 'Full setup of perks, wildcards, equipment and scorestreaks.' },
+        progression: { pt: 'Roadmap de progressão e desbloqueios: o que subir e em que ordem.', en: 'Progression roadmap and unlocks: what to level and in what order.' },
+        settings:    { pt: 'Painel do operador (admin): catálogos, imagens, avatar e esta configuração do menu.', en: 'Operator (admin) panel: catalogs, images, avatar and this menu configuration.' },
+      };
+
+      // ---- leitura pública (anon) + aplicação ----
+      async function refresh() {
+        try {
+          if (!window.LEVEL_AUTH || !window.LEVEL_AUTH.getClient) return;
+          var c = await window.LEVEL_AUTH.getClient();
+          var resp = await c.from('cat_menu_config').select('order_json,hidden_json').eq('id', 'default').maybeSingle();
+          var d = resp && resp.data;
+          if (d && Array.isArray(d.order_json) && d.order_json.length && typeof window.applyMenuConfig === 'function') {
+            window.applyMenuConfig(d.order_json, Array.isArray(d.hidden_json) ? d.hidden_json : []);
+          }
+        } catch (e) { console.warn('[menu-config] load falhou:', e && e.message); }
+      }
+      async function save(order, hidden) {
+        var secret = getSecret();
+        if (!secret) throw new Error('Secret de admin não configurado (painel Operador).');
+        var r = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + ANON_KEY, 'apikey': ANON_KEY, 'Content-Type': 'application/json', 'x-level-admin-secret': secret },
+          body: JSON.stringify({ action: 'set', order: order, hidden: hidden })
+        });
+        var data = await r.json().catch(function () { return {}; });
+        if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+        return data;
+      }
+      window.LevelMenuConfig = { refresh: refresh, save: save };
+      setTimeout(refresh, 900);
+
+      // ---- painel admin ("Menu Lateral") ----
+      function navButtons() {
+        var anchor = document.querySelector('.nav-item[data-section]');
+        var nav = anchor ? anchor.closest('nav') : null;
+        return nav ? [].slice.call(nav.querySelectorAll('.nav-item[data-section]')) : [];
+      }
+      function labelOf(btn) { var l = btn.querySelector('.nav-label'); return l ? l.textContent.trim() : btn.dataset.section; }
+      function readPanel(panel) {
+        var order = [], hidden = [];
+        [].slice.call(panel.querySelectorAll('.menulat-row')).forEach(function (r) {
+          var s = r.getAttribute('data-section'); order.push(s); if (r.classList.contains('is-hidden')) hidden.push(s);
+        });
+        return { order: order, hidden: hidden };
+      }
+      function applyLive(panel) {
+        var cfg = readPanel(panel);
+        if (typeof window.applyMenuConfig === 'function') window.applyMenuConfig(cfg.order, cfg.hidden);
+      }
+      var GRIP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
+
+      window.renderMenuLateralPanel = function renderMenuLateralPanel() {
+        var panel = document.getElementById('menu-lateral-panel');
+        if (!panel) return;
+        var lang = getLang();
+        // exclui "settings": é o teu acesso admin, fica sempre por último e visível.
+        var btns = navButtons().filter(function (b) { return b.dataset.section !== 'settings'; });
+        if (!btns.length) { panel.innerHTML = '<div style="padding:20px;color:var(--text-muted)">Menu não encontrado.</div>'; return; }
+        var rowsHtml = btns.map(function (b) {
+          var sec = b.dataset.section, meta = META[sec] || {}, desc = meta[lang] || meta.pt || '';
+          var hidden = (b.style.display === 'none');
+          return ''
+            + '<div class="menulat-row' + (hidden ? ' is-hidden' : '') + '" draggable="true" data-section="' + esc(sec) + '">'
+            +   '<span class="menulat-handle" title="' + esc(T('menucfg.dragHint', 'Arrastar')) + '">' + GRIP + '</span>'
+            +   '<div class="menulat-info"><div class="menulat-label">' + esc(labelOf(b)) + '</div>'
+            +     '<div class="menulat-desc">' + esc(desc) + '</div></div>'
+            +   '<button type="button" class="menulat-eye" aria-pressed="' + (!hidden) + '">' + esc(hidden ? T('menucfg.hidden', 'Oculto') : T('menucfg.visible', 'Visível')) + '</button>'
+            + '</div>';
+        }).join('');
+        panel.innerHTML = ''
+          + '<div class="menulat-head"><h3>' + esc(T('menucfg.title', 'MENU LATERAL')) + '</h3>'
+          +   '<p>' + esc(T('menucfg.intro', 'Arrasta para ordenar e usa o botão para ocultar. As mudanças aplicam-se já no menu; "Salvar para todos" publica para todos os utilizadores. Configurações fica sempre por último.')) + '</p></div>'
+          + '<div class="menulat-list" id="menulat-list">' + rowsHtml + '</div>'
+          + '<div class="menulat-foot">'
+          +   '<button type="button" class="menulat-reset">' + esc(T('menucfg.reset', 'Repor padrão')) + '</button>'
+          +   '<button type="button" class="menulat-save">' + esc(T('menucfg.save', 'Salvar para todos')) + '</button>'
+          +   '<span class="menulat-status" id="menulat-status"></span>'
+          + '</div>';
+        wire(panel);
+      };
+
+      function afterEl(list, y) {
+        var closest = { offset: -Infinity, el: null };
+        [].slice.call(list.querySelectorAll('.menulat-row:not(.dragging)')).forEach(function (child) {
+          var box = child.getBoundingClientRect(), offset = y - box.top - box.height / 2;
+          if (offset < 0 && offset > closest.offset) closest = { offset: offset, el: child };
+        });
+        return closest.el;
+      }
+      function wire(panel) {
+        var list = panel.querySelector('#menulat-list'); if (!list) return;
+        var dragEl = null;
+        list.addEventListener('dragstart', function (e) { var r = e.target.closest('.menulat-row'); if (!r) return; dragEl = r; r.classList.add('dragging'); try { e.dataTransfer.effectAllowed = 'move'; } catch (x) {} });
+        list.addEventListener('dragend', function () { if (dragEl) { dragEl.classList.remove('dragging'); dragEl = null; applyLive(panel); } });
+        list.addEventListener('dragover', function (e) { e.preventDefault(); if (!dragEl) return; var after = afterEl(list, e.clientY); if (after == null) list.appendChild(dragEl); else list.insertBefore(dragEl, after); });
+        list.addEventListener('click', function (e) {
+          var eye = e.target.closest('.menulat-eye'); if (!eye) return;
+          var row = eye.closest('.menulat-row'); if (!row) return;
+          row.classList.toggle('is-hidden');
+          var hidden = row.classList.contains('is-hidden');
+          eye.setAttribute('aria-pressed', String(!hidden));
+          eye.textContent = hidden ? T('menucfg.hidden', 'Oculto') : T('menucfg.visible', 'Visível');
+          applyLive(panel);
+        });
+        var resetBtn = panel.querySelector('.menulat-reset');
+        if (resetBtn) resetBtn.addEventListener('click', function () {
+          if (typeof window.applyMenuConfig === 'function') window.applyMenuConfig(window.MENU_DEFAULT_ORDER || null, []);
+          window.renderMenuLateralPanel();
+        });
+        var saveBtn = panel.querySelector('.menulat-save');
+        if (saveBtn) saveBtn.addEventListener('click', function () {
+          var btn = this, cfg = readPanel(panel), status = panel.querySelector('#menulat-status');
+          btn.disabled = true; if (status) { status.textContent = '…'; status.style.color = 'var(--text-muted)'; }
+          save(cfg.order, cfg.hidden).then(function () {
+            if (status) { status.textContent = T('menucfg.saved', 'Menu salvo para todos.'); status.style.color = 'var(--green, #4ADE80)'; }
+            if (typeof showToast === 'function') showToast(T('menucfg.saved', 'Menu salvo para todos.'), 'success');
+          }).catch(function (err) {
+            if (status) { status.textContent = T('menucfg.saveErr', 'Não consegui salvar: ') + ((err && err.message) || ''); status.style.color = 'var(--red, #E74C3C)'; }
+          }).then(function () { btn.disabled = false; });
+        });
+      }
+    })();
+
     const TAB_TO_CATSUB = {
       style:           ['construtor', 'estilos'],
       wildcards:       ['construtor', 'wildcards'],
@@ -23276,6 +23442,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       { id: 'avatar', group: 'operator', i18n: 'set.tab.avatar',
         customPanel: true,
         source: function () { return []; } },
+      // ── MENU LATERAL (v2.78.0) ── ordenar/ocultar os itens do menu (global) ──
+      { id: 'menu_lateral', group: 'operator', i18n: 'set.tab.menu_lateral',
+        customPanel: true,
+        source: function () { return []; } },
       // ── PERSONAGENS (v2.57.23) ── retratos de referência do "Gerar com IA" ──
       // Itens = AVATAR_CHARACTERS; id prefixado 'avatar_char_' p/ não colidir.
       // Admin sobe → cat_default_images (global, todos veem) + cloud/local; a
@@ -23342,6 +23512,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const imgproc = document.getElementById('imgproc-panel');
       const apikeys = document.getElementById('apikeys-panel');
       const operator = document.getElementById('operator-panel');
+      const menulat = document.getElementById('menu-lateral-panel');
       if (!grid) return;
       const cat = SETTINGS_CATEGORIES.find(c => c.id === settingsActiveTab);
       // v2.72.3: a barra de armazenamento de imagens (contador + "Migrar pra cloud") só interessa
@@ -23378,6 +23549,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         if (imgproc) imgproc.style.display = 'none';
         if (apikeys) apikeys.style.display = 'none';
         if (operator) operator.style.display = 'none';
+        if (menulat) menulat.style.display = 'none';
         if (cat.id === 'image_processor' && imgproc) {
           imgproc.style.display = '';
           if (typeof initImageProcessor === 'function') initImageProcessor();
@@ -23387,6 +23559,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         } else if (cat.id === 'avatar' && operator) {
           operator.style.display = '';
           if (typeof window.renderOperatorPanel === 'function') window.renderOperatorPanel();
+        } else if (cat.id === 'menu_lateral' && menulat) {
+          menulat.style.display = '';
+          if (typeof window.renderMenuLateralPanel === 'function') window.renderMenuLateralPanel();
         }
         return;
       }
@@ -23395,6 +23570,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (imgproc) imgproc.style.display = 'none';
       if (apikeys) apikeys.style.display = 'none';
       if (operator) operator.style.display = 'none';
+      if (menulat) menulat.style.display = 'none';
       if (!cat) { grid.innerHTML = ''; return; }
       const items = cat.source() || [];
       const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
@@ -24704,6 +24880,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.btn.upload': 'Enviar', 'set.btn.replace': 'Trocar', 'set.btn.remove': 'Remover',
         'set.btn.mapAdd': 'Adicionar', 'set.btn.mapAdded': 'Adicionado',
         'set.toast.mapAdded': 'Mapa adicionado aos destaques.', 'set.toast.mapRemoved': 'Mapa removido dos destaques.',
+        'set.tab.menu_lateral': 'Menu Lateral',
+        'menucfg.title': 'MENU LATERAL',
+        'menucfg.intro': 'Arrasta para ordenar e usa o botão para ocultar. As mudanças aplicam-se já no menu; "Salvar para todos" publica para todos os utilizadores. Configurações fica sempre por último.',
+        'menucfg.visible': 'Visível', 'menucfg.hidden': 'Oculto',
+        'menucfg.save': 'Salvar para todos', 'menucfg.reset': 'Repor padrão',
+        'menucfg.saved': 'Menu salvo para todos.', 'menucfg.saveErr': 'Não consegui salvar: ',
+        'menucfg.dragHint': 'Arrastar',
         'set.bulk.title': 'Upload em massa', 'set.bulk.hint': 'Arrasta várias imagens aqui (ou clica para escolher). O nome do ficheiro tem de ser o id — ex. wpn_rev46.png', 'set.bulk.placed': 'colocada(s)', 'set.bulk.unmatched': 'não reconhecida(s)', 'set.bulk.none': 'Nenhuma imagem reconhecida — confere se o nome do ficheiro é o id (ex. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Estilos',
@@ -24868,6 +25051,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.btn.upload': 'Upload', 'set.btn.replace': 'Replace', 'set.btn.remove': 'Remove',
         'set.btn.mapAdd': 'Add', 'set.btn.mapAdded': 'Added',
         'set.toast.mapAdded': 'Map added to featured.', 'set.toast.mapRemoved': 'Map removed from featured.',
+        'set.tab.menu_lateral': 'Sidebar Menu',
+        'menucfg.title': 'SIDEBAR MENU',
+        'menucfg.intro': 'Drag to reorder and use the button to hide. Changes apply to the menu right away; "Save for everyone" publishes to all users. Settings always stays last.',
+        'menucfg.visible': 'Visible', 'menucfg.hidden': 'Hidden',
+        'menucfg.save': 'Save for everyone', 'menucfg.reset': 'Reset to default',
+        'menucfg.saved': 'Menu saved for everyone.', 'menucfg.saveErr': 'Could not save: ',
+        'menucfg.dragHint': 'Drag',
         'set.bulk.title': 'Bulk upload', 'set.bulk.hint': 'Drag several images here (or click to pick). The filename must be the id — e.g. wpn_rev46.png', 'set.bulk.placed': 'placed', 'set.bulk.unmatched': 'not recognized', 'set.bulk.none': 'No image recognized — check the filename matches the id (e.g. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Styles',

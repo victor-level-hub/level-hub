@@ -467,8 +467,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mapas interativos: o primeiro mapa (Gridlock)',
-    'briefing.changelog.summary':  'Clica num mapa em destaque e abre a <strong>página interativa</strong> dele: mapa tático com camadas que ligas/desligas (objetivos, spawns, rotas, snipers…), cada ponto com a dica e a arma certa, rotas por time, prebrief e dicas avançadas — em PT/EN. O <strong>Gridlock</strong> é o piloto; os próximos mapas entram no mesmo molde.',
+    'briefing.changelog.headline': 'Menu do teu jeito: ordena e oculta',
+    'briefing.changelog.summary':  'Nova aba <strong>Menu Lateral</strong> nas Configurações (admin): <strong>arrasta para ordenar</strong> os itens do menu, <strong>oculta</strong> os que não usas e vê um descritivo de cada um. As mudanças aplicam-se já no menu e o &ldquo;Salvar para todos&rdquo; publica para todos os utilizadores. (De caminho corrigiu-se um bug: a reordenação do menu não estava sequer a aplicar.)',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2150,8 +2150,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Interactive maps: the first one (Gridlock)',
-    'briefing.changelog.summary':  'Tap a featured map and its <strong>interactive page</strong> opens: a tactical map with layers you toggle (objectives, spawns, routes, snipers…), each point with its tip and the right weapon, team routes, prebrief and advanced tips — in PT/EN. <strong>Gridlock</strong> is the pilot; the next maps follow the same mold.',
+    'briefing.changelog.headline': 'Your menu, your way: reorder and hide',
+    'briefing.changelog.summary':  'New <strong>Sidebar Menu</strong> tab in Settings (admin): <strong>drag to reorder</strong> the menu items, <strong>hide</strong> the ones you don&rsquo;t use and read a short description of each. Changes apply to the menu right away and &ldquo;Save for everyone&rdquo; publishes them to all users. (Along the way we fixed a bug: the menu reorder wasn&rsquo;t applying at all.)',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

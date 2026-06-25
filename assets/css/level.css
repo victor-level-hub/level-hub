@@ -6658,6 +6658,45 @@
   }
   .mapdetail-frame { flex: 1; width: 100%; border: 0; background: #111626; }
 
+  /* Aba "Menu Lateral" do admin (v2.78.0) — arrastar/ordenar + ocultar */
+  #menu-lateral-panel { padding: 4px 2px 8px; }
+  .menulat-head h3 { margin: 0 0 4px; font-family: 'Black Ops One', system-ui, sans-serif; font-size: 16px; letter-spacing: 0.5px; color: var(--text-primary, #DCE5F2); }
+  .menulat-head p { margin: 0 0 14px; font-size: 12.5px; line-height: 1.5; color: var(--text-secondary, #AEC7E0); max-width: 680px; }
+  .menulat-list { display: flex; flex-direction: column; gap: 8px; }
+  .menulat-row {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(125,168,199,0.16);
+    background: var(--bg-panel, #1f283f);
+  }
+  .menulat-row.dragging { opacity: 0.5; }
+  .menulat-row.is-hidden { opacity: 0.6; }
+  .menulat-row.is-hidden .menulat-label { text-decoration: line-through; }
+  .menulat-handle { cursor: grab; color: var(--text-muted, #8497B8); display: inline-flex; }
+  .menulat-handle:active { cursor: grabbing; }
+  .menulat-info { min-width: 0; }
+  .menulat-label { font-family: 'Chakra Petch', system-ui, sans-serif; font-weight: 600; font-size: 13.5px; letter-spacing: 0.5px; color: var(--text-heading, #EAF0F7); text-transform: uppercase; }
+  .menulat-desc { font-size: 11.5px; line-height: 1.45; color: var(--text-muted, #8497B8); margin-top: 2px; }
+  .menulat-eye {
+    cursor: pointer; flex: none; min-width: 74px; border: 1px solid rgba(125,168,199,0.25);
+    background: transparent; color: var(--text-secondary, #AEC7E0); border-radius: 7px; padding: 5px 11px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .menulat-row:not(.is-hidden) .menulat-eye { border-color: rgba(74,222,128,0.4); color: var(--green, #4ADE80); }
+  .menulat-foot { display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .menulat-save {
+    cursor: pointer; border: 1px solid var(--accent-orange, #FF9800); background: var(--accent-orange, #FF9800);
+    color: #1A1206; border-radius: 8px; padding: 8px 16px; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .menulat-save:hover { background: var(--accent-orange-hover, #FFB23E); }
+  .menulat-save:disabled { opacity: 0.6; cursor: default; }
+  .menulat-reset {
+    cursor: pointer; border: 1px solid rgba(125,168,199,0.25); background: transparent;
+    color: var(--text-secondary, #AEC7E0); border-radius: 8px; padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; text-transform: uppercase;
+  }
+  .menulat-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
   /* Botão "Adicionar / Adicionado" (destaque global) na aba Mapas das Configurações */
   .img-card-btn.is-mymap {
     background: transparent; border: 1px solid var(--accent-orange, #FF9800);
