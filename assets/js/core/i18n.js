@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mapa interativo: layout afinado',
-    'briefing.changelog.summary':  'Afinei a página do mapa: a 100% de zoom o painel de detalhe deixou de cair para baixo (fica ao lado do mapa, mesmo em ecrãs com escala alta). A <strong>logo real</strong> do LEVEL no topo, o cabeçalho ficou num só, e o botão <strong>Voltar aos mapas</strong> agora é grande, destacado e à direita.',
+    'briefing.changelog.headline': 'Mapa interativo com o cabeçalho do Hub',
+    'briefing.changelog.summary':  'O header da página do mapa agora segue o <strong>padrão do Hub</strong>: a <strong>logo real</strong> do LEVEL, o <strong>seletor de idioma idêntico</strong> (botão de globo que abre o idioma do site + termos técnicos, com bandeiras) e o botão <strong>Voltar aos mapas</strong> destacado. Mais coerente com o resto da app.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2152,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Interactive map: tighter layout',
-    'briefing.changelog.summary':  'Polished the map page: at 100% zoom the detail panel no longer drops below the map (it stays beside it, even on high-scaling screens). The <strong>real LEVEL logo</strong> up top, a single consolidated header, and the <strong>Back to maps</strong> button is now big, highlighted and on the right.',
+    'briefing.changelog.headline': 'Interactive map now uses the Hub header',
+    'briefing.changelog.summary':  'The map page header now follows the <strong>Hub pattern</strong>: the <strong>real LEVEL logo</strong>, the <strong>same language selector</strong> (a globe button opening site language + tech terms, with flags) and the highlighted <strong>Back to maps</strong> button. More consistent with the rest of the app.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

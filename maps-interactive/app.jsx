@@ -32,6 +32,9 @@ const UI = {
   dirB:       { pt: 'Tático', en: 'Tactical' },
   langUI:     { pt: 'Interface', en: 'Interface' },
   langTech:   { pt: 'Termos técnicos', en: 'Tech terms' },
+  langSite:   { pt: 'Idioma do site', en: 'Site language' },
+  langSiteHint: { pt: 'Interface, menus e textos gerais.', en: 'Interface, menus and general text.' },
+  langTermsHint: { pt: 'Nomes de armas, acessórios e perks do jogo.', en: 'In-game weapon, attachment and perk names.' },
   point:      { pt: 'Ponto crítico', en: 'Critical point' },
   maximize:   { pt: 'Maximizar', en: 'Maximize' },
   exit:       { pt: 'Sair', en: 'Exit' },
@@ -99,6 +102,56 @@ function Seg({ value, onChange, options, accent = 'var(--level-orange)' }) {
 /* fecha o overlay no Hub (pai) — só quando embebido em iframe */
 function postCloseMap() { try { if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'level:map-close' }, '*'); } catch (e) {} }
 
+/* ---------- switch de idioma no padrão do Hub (.lvl-lang): globo → popover c/ 2 idiomas + bandeiras ---------- */
+function LangDropdown({ uiLang, setUiLang, techLang, setTechLang, u }) {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef(null);
+  React.useEffect(function () {
+    if (!open) return undefined;
+    function onDoc(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+    function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); setOpen(false); } }
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey, true);
+    return function () { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey, true); };
+  }, [open]);
+  const Globe = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20" /></svg>);
+  const FlagPT = (<svg viewBox="0 0 28 20" preserveAspectRatio="xMidYMid slice"><rect width="28" height="20" fill="#009C3B" /><path d="M14 2.8 L25.2 10 L14 17.2 L2.8 10 Z" fill="#FFDF00" /><circle cx="14" cy="10" r="4.2" fill="#002776" /></svg>);
+  const FlagEN = (<svg viewBox="0 0 60 40" preserveAspectRatio="xMidYMid slice"><rect width="60" height="40" fill="#012169" /><path d="M0 0 L60 40 M60 0 L0 40" stroke="#FFFFFF" strokeWidth="8" /><path d="M0 0 L60 40 M60 0 L0 40" stroke="#C8102E" strokeWidth="3" /><path d="M30 0 V40 M0 20 H60" stroke="#FFFFFF" strokeWidth="10" /><path d="M30 0 V40 M0 20 H60" stroke="#C8102E" strokeWidth="6" /></svg>);
+  const Check = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15 }}><path d="M20 6 L9 17 L4 12" /></svg>);
+  function row(label, hint, value, onChange) {
+    return (
+      <div className="lvl-lang__row" key={label}>
+        <div className="lvl-lang__lab">{Globe}<span>{label}</span></div>
+        <div className="lvl-lang__hint">{hint}</div>
+        <div className="lvl-lang__opts lang-toggle">
+          {[['pt', 'Português', FlagPT], ['en', 'English', FlagEN]].map(function (o) {
+            return (
+              <button key={o[0]} type="button" className={'lang-opt' + (value === o[0] ? ' active' : '')} onClick={function () { onChange(o[0]); }}>
+                <span className="lang-flag">{o[2]}</span>
+                <span className="lvl-lang__nm">{o[1]}</span>
+                <span className="lvl-lang__ck">{Check}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="lvl-lang" ref={ref}>
+      <button type="button" className={'lvl-lang__btn' + (open ? ' open' : '')} onClick={function () { setOpen(!open); }} aria-haspopup="true" aria-expanded={open} title={u('langUI')}>
+        {Globe}
+        <span className="lvl-lang__code">{(uiLang || 'pt').toUpperCase()}</span>
+        <svg className="lvl-lang__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+      </button>
+      <div className="lvl-lang__pop" hidden={!open}>
+        {row(u('langSite'), u('langSiteHint'), uiLang, setUiLang)}
+        {row(u('langTech'), u('langTermsHint'), techLang, setTechLang)}
+      </div>
+    </div>
+  );
+}
+
 /* ============================ APP ============================ */
 function MapasInterativo({ full = false }) {
   const [uiLang, setUiLang] = React.useState('pt');
@@ -142,24 +195,14 @@ function MapasInterativo({ full = false }) {
       {/* ===== HEADER ===== */}
       <div style={{ position: 'sticky', top: 0, zIndex: 60, background: 'rgba(10,13,22,0.6)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', borderBottom: '1px solid rgba(174,199,224,0.10)' }}>
         <div style={{ maxWidth: 1680, margin: '0 auto', minHeight: 64, padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <img src="level-logo.svg" alt="" style={{ height: 26, display: 'block' }} />
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 19, letterSpacing: '0.16em', color: 'var(--level-orange)' }}>LEVEL</span>
-          </div>
+          <img src="level-logo.svg" alt="LEVEL" style={{ height: 28, display: 'block', flex: 'none' }} />
           <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18, letterSpacing: '0.06em', color: 'var(--text-heading)' }}>{u('pageTitle')}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.08em', color: 'var(--level-blue)' }}>{MAP.name} · {tt(MAP.mode)}</span>
           </div>
           <div style={{ flex: 1 }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-faint)' }}>{u('langUI')}</span>
-              <Seg value={uiLang} onChange={setUiLang} accent="var(--level-blue)" options={[{ value: 'pt', label: 'PT' }, { value: 'en', label: 'EN' }]} />
-            </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-faint)' }}>{u('langTech')}</span>
-              <Seg value={techLang} onChange={setTechLang} accent="var(--level-blue)" options={[{ value: 'pt', label: 'PT' }, { value: 'en', label: 'EN' }]} />
-            </label>
+            <LangDropdown uiLang={uiLang} setUiLang={setUiLang} techLang={techLang} setTechLang={setTechLang} u={u} />
             <label style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-faint)' }}>{u('direction')}</span>
               <Seg value={dir} onChange={setDir} options={[{ value: 'A', label: u('dirA') }, { value: 'B', label: u('dirB') }]} />
@@ -595,8 +638,7 @@ function FullView({ neon, dir, setDir, uiLang, setUiLang, techLang, setTechLang,
     <div style={{ height: '100vh', minHeight: '100vh', width: '100%', background: '#0B0F1A', display: 'flex', flexDirection: 'column' }}>
       {/* barra superior compacta */}
       <div style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '8px 14px', minHeight: 54, background: 'rgba(10,13,22,0.9)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(174,199,224,0.1)', flexWrap: 'wrap' }}>
-        <img src="level-logo.svg" alt="" style={{ height: 22, display: 'block' }} />
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, letterSpacing: '0.16em', color: 'var(--level-orange)' }}>LEVEL</span>
+        <img src="level-logo.svg" alt="LEVEL" style={{ height: 24, display: 'block', flex: 'none' }} />
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, letterSpacing: '0.04em', color: 'var(--text-heading)' }}>{MAP.name}</span>
         {/* chips de camadas */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap', flex: 1, justifyContent: 'center' }}>
@@ -616,8 +658,7 @@ function FullView({ neon, dir, setDir, uiLang, setUiLang, techLang, setTechLang,
           </span>
         </div>
         <Seg value={dir} onChange={setDir} options={[{ value: 'A', label: u('dirA') }, { value: 'B', label: u('dirB') }]} />
-        <Seg value={uiLang} onChange={setUiLang} accent="var(--level-blue)" options={[{ value: 'pt', label: 'PT' }, { value: 'en', label: 'EN' }]} />
-        <Seg value={techLang} onChange={setTechLang} accent="var(--level-blue)" options={[{ value: 'pt', label: 'PT·T' }, { value: 'en', label: 'EN·T' }]} />
+        <LangDropdown uiLang={uiLang} setUiLang={setUiLang} techLang={techLang} setTechLang={setTechLang} u={u} />
         <span style={{ width: 1, height: 26, background: 'rgba(174,199,224,0.18)', margin: '0 2px', flex: 'none' }} />
         <button onClick={postCloseMap} title={u('backToMaps')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', border: 'none', background: 'var(--level-orange)', color: '#1A1206', borderRadius: 8, padding: '7px 12px', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', flex: 'none' }}>‹ {u('backToMaps')}</button>
         <button onClick={() => onExit && onExit()} title={u('exit')} style={{ cursor: 'pointer', width: 34, height: 34, borderRadius: 8, border: '1px solid rgba(231,76,60,0.4)', background: 'rgba(231,76,60,0.12)', color: 'var(--red)', fontSize: 16, lineHeight: 1, flex: 'none' }}>×</button>

@@ -1244,7 +1244,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.80.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.81.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4501,6 +4501,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.81.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">polish</span>
+              </div>
+              <p class="vh-desc"><strong>Header do mapa interativo no padr&atilde;o do Hub</strong> (print4/5 do Victor: &ldquo;deve ter o padr&atilde;o de header do hub&rdquo;). <strong>(1)</strong> Logo <strong>wordmark real</strong> do LEVEL (<code>level-logo.svg</code> 703&times;180, o mesmo s&iacute;mbolo do Hub) em vez do mark pequeno, nos dois cabe&ccedil;alhos. <strong>(2)</strong> Seletor de idioma <strong>id&ecirc;ntico ao do Hub</strong>: portei o componente <code>.lvl-lang</code> (CSS + markup) para a ilha &mdash; bot&atilde;o globo + c&oacute;digo + chevron que abre um popover com duas linhas (<em>Idioma do site</em> e <em>Termos t&eacute;cnicos</em>), cada uma com as bandeiras PT/EN e check de ativo; substituiu os dois toggles soltos do prot&oacute;tipo. Fecha por clique-fora / Esc. <strong>(3)</strong> Bot&atilde;o <strong>Voltar aos mapas</strong> destacado mantido. Verificado no preview (1280&times;800): logo 703&times;180 carrega, dropdown abre/fecha com bandeiras e estado ativo, 3-col sem scroll horizontal, 0 erros; <code>app.jsx</code> re-transpilado (esbuild). <em>Pendente: foto configur&aacute;vel por ponto (as 41 fotos).</em></p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.80.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">polish</span>
@@ -7562,7 +7571,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.80.0</strong><span class="ver-tag">Mapa interativo afinado (feedback do Victor): a 100% de zoom em ecrãs com DPI alto (viewport ~1280) o detalhe deixou de cair pra baixo — colunas 250/520/330 + breakpoint 1180 + box-sizing. Logo REAL do LEVEL no topo. Cabeçalho consolidado: removida a barra do Hub (duplicava o nome); a ilha tem o seu "Voltar aos mapas" destacado (laranja, à direita, isolado) que fecha via postMessage('level:map-close'); Esc também (tira o POI primeiro). Fallback da ilha ganhou Voltar.</span>
+        LEVEL · <strong>v2.81.0</strong><span class="ver-tag">Header do mapa no padrão do Hub (print4/5): logo wordmark REAL (level-logo.svg 703×180, em vez do mark), seletor de idioma idêntico ao Hub (.lvl-lang portado — globo → popover com "Idioma do site" + "Termos técnicos", bandeiras PT/EN) substituiu os toggles, e o "Voltar aos mapas" destacado. Verificado no preview: dropdown abre/fecha c/ bandeiras, 3-col a 1280 sem scroll, 0 erros. Pendente: foto configurável por ponto.</span>
       </div>
       <script>
         (function(){
