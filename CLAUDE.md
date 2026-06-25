@@ -9,7 +9,7 @@ Companion tático pessoal para Call of Duty: Black Ops 7. App `index.html` (~33k
 ~17 blocos `<script>` inline) + módulos extraídos em `assets/` (CSS em `assets/css/level.css`;
 JS em `assets/js/{core,ui,services}/*.js`). HTML/CSS/JS vanilla (zero framework, zero build) +
 Supabase backend + **auto-deploy Cloudflare Pages** (Netlify saiu). Coach IA interno = **Le Vél**.
-Site: le-vel.games. **Versão atual: v2.74.0.**
+Site: le-vel.games. **Versão atual: v2.75.0.**
 
 ## REGRAS DE COMUNICAÇÃO (sempre ativas)
 - Respostas em **pt-BR**. Termos técnicos de jogo (hipfire, ADS, TTK, slide-cancel...)
@@ -118,9 +118,14 @@ o app deixa de funcionar — o JS liga-se a eles):
 6. **Hooks de render / data-binding:** o JS popula ids/containers específicos e re-renderiza por eventos.
    Se o redesign mudar a estrutura de uma tela, PRECISA manter (ou avisar p/ eu religar): os containers
    que o JS popula (ex.: `#mkt-grid`, `.build-card`/`renderBuildCard`, `#sidebar-avatar`,
-   `#opp-stats-chart-wrap`, os accordions do histórico) e os eventos de re-render (`level:builds-change`,
-   `level-loadouts-changed`, `player:changed`, `LevelDB.onChange`). O **Realtime** (v2.74.0) depende SÓ
-   destes eventos — preserva-os e ele continua a funcionar.
+   `#opp-stats-chart-wrap`, os accordions do histórico, e — v2.75.0 — `#mymaps-grid`/`renderMyMaps`
+   na seção Mapas) e os eventos de re-render (`level:builds-change`, `level-loadouts-changed`,
+   `player:changed`, `LevelDB.onChange`, `level:featured-maps-change`). O **Realtime** (v2.74.0) e os
+   **Meus Mapas** (v2.75.0) dependem SÓ destes eventos — preserva-os e continuam a funcionar.
+   > **Mapas (v2.75.0):** a seção `#section-maps` tem a galeria **Meus Mapas** (`#mymaps-grid`, cards
+   > `.mymap-card` com `data-map-detail="<id>"`) por cima da grade de recomendação por mapa. Cada card
+   > É O HOOK para a futura **página de detalhe do mapa** (o teu README): hoje dá um toast placeholder;
+   > liga o `data-map-detail` à navegação real quando a página existir. Não remover o `data-map-detail`.
 7. **Mecânica intocável:** as 9 slots do loadout, as abas do build-card, o glossário e a análise
    server-side (`analyze-build`). Mudar isto precisa de aprovação ANTES.
 > **Resumo pro designer:** muda o visual à vontade; **preserva** ids de secção/auth, `data-i18n`,
