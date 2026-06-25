@@ -35,6 +35,7 @@ const UI = {
   point:      { pt: 'Ponto crítico', en: 'Critical point' },
   maximize:   { pt: 'Maximizar', en: 'Maximize' },
   exit:       { pt: 'Sair', en: 'Exit' },
+  backToMaps: { pt: 'Voltar aos mapas', en: 'Back to maps' },
   tabPrebrief:{ pt: 'Prebrief', en: 'Prebrief' },
   tabItems:   { pt: 'Itens', en: 'Items' },
   tabDicas:   { pt: 'Dicas', en: 'Tips' },
@@ -95,6 +96,9 @@ function Seg({ value, onChange, options, accent = 'var(--level-orange)' }) {
   );
 }
 
+/* fecha o overlay no Hub (pai) — só quando embebido em iframe */
+function postCloseMap() { try { if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'level:map-close' }, '*'); } catch (e) {} }
+
 /* ============================ APP ============================ */
 function MapasInterativo({ full = false }) {
   const [uiLang, setUiLang] = React.useState('pt');
@@ -105,6 +109,12 @@ function MapasInterativo({ full = false }) {
   const [hover, setHover] = React.useState(null);
   const [infoTab, setInfoTab] = React.useState('prebrief');
   const [isFull, setIsFull] = React.useState(full);
+  // ESC: tira a seleção do POI; se nada selecionado, volta aos mapas (fecha o overlay no Hub)
+  React.useEffect(function () {
+    function onKey(e) { if (e.key !== 'Escape') return; if (sel) setSel(null); else postCloseMap(); }
+    window.addEventListener('keydown', onKey);
+    return function () { window.removeEventListener('keydown', onKey); };
+  }, [sel]);
 
   const t  = (o) => (o ? o[uiLang] : '');
   const tt = (o) => (o ? o[techLang] : '');
@@ -131,8 +141,11 @@ function MapasInterativo({ full = false }) {
     <div className="level-field" style={{ minHeight: '100vh', backgroundImage: 'radial-gradient(55% 60% at 50% 0%, rgba(255,152,0,0.10), transparent 60%), radial-gradient(50% 60% at 0% 100%, rgba(88,196,220,0.06), transparent 55%), linear-gradient(160deg, #161d33, #111626)', display: 'flex', flexDirection: 'column' }}>
       {/* ===== HEADER ===== */}
       <div style={{ position: 'sticky', top: 0, zIndex: 60, background: 'rgba(10,13,22,0.6)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', borderBottom: '1px solid rgba(174,199,224,0.10)' }}>
-        <div style={{ maxWidth: 1680, margin: '0 auto', minHeight: 64, padding: '10px 28px', display: 'flex', alignItems: 'center', gap: 22, flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 19, letterSpacing: '0.16em', color: 'var(--level-orange)' }}>LEVEL</span>
+        <div style={{ maxWidth: 1680, margin: '0 auto', minHeight: 64, padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            <img src="level-logo.svg" alt="" style={{ height: 26, display: 'block' }} />
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 19, letterSpacing: '0.16em', color: 'var(--level-orange)' }}>LEVEL</span>
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18, letterSpacing: '0.06em', color: 'var(--text-heading)' }}>{u('pageTitle')}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.08em', color: 'var(--level-blue)' }}>{MAP.name} · {tt(MAP.mode)}</span>
@@ -155,11 +168,13 @@ function MapasInterativo({ full = false }) {
               <Icon name="expand" size={14} color="var(--level-orange)" sw={2.2} />{u('maximize')}
             </button>
           </div>
+          <span style={{ width: 1, height: 26, background: 'rgba(174,199,224,0.18)', margin: '0 2px', flex: 'none' }} />
+          <button onClick={postCloseMap} title={u('backToMaps')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', border: 'none', background: 'var(--level-orange)', color: '#1A1206', borderRadius: 8, padding: '8px 14px', fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', boxShadow: '0 0 12px rgba(255,152,0,0.35)', flex: 'none' }}>‹ {u('backToMaps')}</button>
         </div>
       </div>
 
       {/* ===== BODY ===== */}
-      <div className="mi-body" style={{ flex: 1, maxWidth: 1680, width: '100%', margin: '0 auto', padding: '20px 28px 40px' }}>
+      <div className="mi-body" style={{ flex: 1, maxWidth: 1680, width: '100%', margin: '0 auto', padding: '18px 18px 32px' }}>
 
         {/* ---- LAYERS PANEL (esq) ---- */}
         <div className="mi-layers" style={glass({ padding: 16, alignSelf: 'start', position: 'sticky', top: 84 })}>
@@ -580,6 +595,7 @@ function FullView({ neon, dir, setDir, uiLang, setUiLang, techLang, setTechLang,
     <div style={{ height: '100vh', minHeight: '100vh', width: '100%', background: '#0B0F1A', display: 'flex', flexDirection: 'column' }}>
       {/* barra superior compacta */}
       <div style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '8px 14px', minHeight: 54, background: 'rgba(10,13,22,0.9)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(174,199,224,0.1)', flexWrap: 'wrap' }}>
+        <img src="level-logo.svg" alt="" style={{ height: 22, display: 'block' }} />
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, letterSpacing: '0.16em', color: 'var(--level-orange)' }}>LEVEL</span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, letterSpacing: '0.04em', color: 'var(--text-heading)' }}>{MAP.name}</span>
         {/* chips de camadas */}
@@ -602,7 +618,9 @@ function FullView({ neon, dir, setDir, uiLang, setUiLang, techLang, setTechLang,
         <Seg value={dir} onChange={setDir} options={[{ value: 'A', label: u('dirA') }, { value: 'B', label: u('dirB') }]} />
         <Seg value={uiLang} onChange={setUiLang} accent="var(--level-blue)" options={[{ value: 'pt', label: 'PT' }, { value: 'en', label: 'EN' }]} />
         <Seg value={techLang} onChange={setTechLang} accent="var(--level-blue)" options={[{ value: 'pt', label: 'PT·T' }, { value: 'en', label: 'EN·T' }]} />
-        <button onClick={() => onExit && onExit()} title={u('exit')} style={{ cursor: 'pointer', width: 34, height: 34, borderRadius: 8, border: '1px solid rgba(231,76,60,0.4)', background: 'rgba(231,76,60,0.12)', color: 'var(--red)', fontSize: 16, lineHeight: 1 }}>×</button>
+        <span style={{ width: 1, height: 26, background: 'rgba(174,199,224,0.18)', margin: '0 2px', flex: 'none' }} />
+        <button onClick={postCloseMap} title={u('backToMaps')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', border: 'none', background: 'var(--level-orange)', color: '#1A1206', borderRadius: 8, padding: '7px 12px', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', flex: 'none' }}>‹ {u('backToMaps')}</button>
+        <button onClick={() => onExit && onExit()} title={u('exit')} style={{ cursor: 'pointer', width: 34, height: 34, borderRadius: 8, border: '1px solid rgba(231,76,60,0.4)', background: 'rgba(231,76,60,0.12)', color: 'var(--red)', fontSize: 16, lineHeight: 1, flex: 'none' }}>×</button>
       </div>
 
       {/* mapa + coluna direita (detalhe + legenda) */}

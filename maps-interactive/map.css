@@ -41,17 +41,20 @@ body { background: #111626; color: var(--text-body); font-family: var(--font-bod
 ::-webkit-scrollbar-thumb { background: rgba(174,199,224,0.18); border-radius: 6px; }
 
 /* layout responsivo: 3 colunas no wide, detalhe sob o mapa no médio, empilhado no estreito */
-.mi-body { display: grid; gap: 18px; grid-template-columns: 300px minmax(0,560px) 372px;
-           grid-template-areas: "layers map detail"; justify-content: center; }
+/* v2.80.0: colunas mais apertadas + breakpoint mais baixo. Em ecrãs com DPI scaling
+   (ex.: Windows 150% → viewport ~1280px CSS a 100% de zoom) o detalhe deixava de caber
+   ao lado e caía para baixo. Mapas verticais (Gridlock) usam um centro estreito. */
+.mi-body { display: grid; gap: 16px; grid-template-columns: 250px minmax(0,520px) 330px;
+           grid-template-areas: "layers map detail"; justify-content: center; box-sizing: border-box; }
 .mi-layers { grid-area: layers; }
 .mi-map    { grid-area: map; }
 .mi-detail { grid-area: detail; }
-@media (max-width: 1300px) {
-  .mi-body { grid-template-columns: 280px minmax(0,520px); grid-template-areas: "layers map" "detail detail"; }
+@media (max-width: 1180px) {
+  .mi-body { grid-template-columns: 248px minmax(0,520px); grid-template-areas: "layers map" "detail detail"; }
   .mi-layers { position: static !important; }
   .mi-detail { max-width: 820px; margin: 0 auto; }
 }
-@media (max-width: 820px) {
+@media (max-width: 760px) {
   .mi-body { grid-template-columns: 1fr; grid-template-areas: "layers" "map" "detail"; }
   .mi-layers { position: static !important; }
   .mi-detail { max-width: none; }

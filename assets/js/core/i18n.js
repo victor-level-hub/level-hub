@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mapas: o clique agora abre mesmo',
-    'briefing.changelog.summary':  'Corrigi o clique no mapa que não abria nada. A página interativa deixou de depender de servidores externos (carrega mesmo atrás de firewall) e o ecrã do mapa passou a abrir mesmo com cache antigo do site. E se a tua rede bloquear algum recurso, agora avisa em vez de ficar em branco. <em>Dica: se ainda não abrir, faz Ctrl+Shift+R.</em>',
+    'briefing.changelog.headline': 'Mapa interativo: layout afinado',
+    'briefing.changelog.summary':  'Afinei a página do mapa: a 100% de zoom o painel de detalhe deixou de cair para baixo (fica ao lado do mapa, mesmo em ecrãs com escala alta). A <strong>logo real</strong> do LEVEL no topo, o cabeçalho ficou num só, e o botão <strong>Voltar aos mapas</strong> agora é grande, destacado e à direita.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2152,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Maps: the click actually opens now',
-    'briefing.changelog.summary':  'Fixed the map click that did nothing. The interactive page no longer depends on external servers (it loads even behind a firewall) and the map screen now opens even with a stale site cache. And if your network blocks a resource, it now tells you instead of going blank. <em>Tip: if it still doesn&rsquo;t open, hit Ctrl+Shift+R.</em>',
+    'briefing.changelog.headline': 'Interactive map: tighter layout',
+    'briefing.changelog.summary':  'Polished the map page: at 100% zoom the detail panel no longer drops below the map (it stays beside it, even on high-scaling screens). The <strong>real LEVEL logo</strong> up top, a single consolidated header, and the <strong>Back to maps</strong> button is now big, highlighted and on the right.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

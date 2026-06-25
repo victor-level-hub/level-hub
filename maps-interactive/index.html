@@ -37,6 +37,7 @@
           '<h2 style="color:#FF9800;font-size:18px;margin:0 0 8px">Não foi possível carregar o mapa interativo</h2>' +
           '<p style="font-size:13px;line-height:1.5">Tenta recarregar a página. Se persistir, a tua rede pode estar a bloquear algum recurso.</p>' +
           '<pre style="color:#8497B8;font-size:11px;white-space:pre-wrap">' + ((e && e.message) || e) + '</pre>' +
+          '<button type="button" onclick="try{window.parent.postMessage({type:\'level:map-close\'},\'*\')}catch(_){}" style="margin-top:16px;cursor:pointer;border:none;background:#FF9800;color:#1A1206;border-radius:8px;padding:9px 16px;font-family:system-ui,sans-serif;font-weight:700">‹ Voltar aos mapas</button>' +
         '</div>';
     }
   })();
