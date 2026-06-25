@@ -1244,7 +1244,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.78.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.79.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4501,6 +4501,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.79.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">fix · robustez</span>
+              </div>
+              <p class="vh-desc"><strong>Clicar no mapa agora abre mesmo &mdash; &agrave; prova de firewall.</strong> O detalhe do mapa n&atilde;o abria para o Victor (rede com Forcepoint). Auditoria multi-agente das causas &rarr; correu tudo: <strong>(1)</strong> a ilha React deixou de depender da <strong>unpkg</strong> &mdash; React/ReactDOM <strong>vendorizados</strong> em <code>/maps-interactive/vendor/</code> e o <code>app.jsx</code> <strong>pr&eacute;-transpilado</strong> (esbuild &rarr; <code>app.js</code>, sem Babel em runtime); zero CDN externo, carrega atr&aacute;s de firewall. <strong>(2)</strong> o <strong>overlay</strong> ganhou estilos cr&iacute;ticos <strong>inline</strong> (position/inset/z-index/flex + altura do iframe) &mdash; abre mesmo que o <code>level.css</code> esteja em cache antigo (era a causa mais prov&aacute;vel do &ldquo;nada acontece&rdquo;: overlay invis&iacute;vel). <strong>(3)</strong> <strong>watchdog</strong> de 9s + <code>postMessage('level:map-mounted')</code> + fallback vis&iacute;vel na ilha &mdash; nunca fica falha silenciosa. <strong>(4)</strong> <code>_headers</code> passa a cobrir <code>/maps-interactive/*</code> (no-cache). Se persistir, &eacute; cache do browser &mdash; <strong>Ctrl+Shift+R</strong>.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.78.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">feature · fix</span>
@@ -7544,7 +7553,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.78.0</strong><span class="ver-tag">Aba "Menu Lateral" no admin (Configurações): arrasta para ordenar os itens do menu, oculta os que não usas, com um descritivo de cada um. Config GLOBAL (admin escreve, todos veem) via cat_menu_config + edge admin-menu-config; aplica ao vivo por window.applyMenuConfig. Fix: o querySelector('nav') apanhava o nav da landing (vazio) — a reordenação do v2.76.0 não aplicava; agora alveja a sidebar pelos .nav-item.</span>
+        LEVEL · <strong>v2.79.0</strong><span class="ver-tag">Fix: clicar no mapa não abria nada. (1) A ilha React deixou de depender da unpkg — React vendorizado em /maps-interactive/vendor + app.jsx pré-transpilado (esbuild → app.js), zero CDN externo em runtime (carrega atrás de firewall). (2) Overlay com estilos CRÍTICOS inline (position/z-index/flex + altura do iframe) — abre mesmo com level.css stale. (3) Watchdog + postMessage('level:map-mounted') + fallback visível — nunca falha em silêncio. (4) _headers cobre /maps-interactive/*. Auditoria multi-agente das causas.</span>
       </div>
       <script>
         (function(){
@@ -14982,15 +14991,30 @@ const ATTACHMENT_ICONS = {
       function openMapDetail(mapId, url) {
         var ex = document.querySelector('.mapdetail-overlay'); if (ex) ex.remove();
         var ov = document.createElement('div'); ov.className = 'mapdetail-overlay';
+        // v2.79.0: estilos CRÍTICOS inline → o overlay funciona mesmo se o level.css estiver
+        // stale/bloqueado (a classe só trata do cosmético). Inclui flex + altura do iframe.
+        ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#0b0f1a;display:flex;flex-direction:column';
         var bar = document.createElement('div'); bar.className = 'mapdetail-bar';
-        var back = document.createElement('button'); back.className = 'mapdetail-back';
+        bar.style.cssText = 'flex:none;height:46px;display:flex;align-items:center;gap:14px;padding:0 14px;background:rgba(10,13,22,0.96);border-bottom:1px solid rgba(174,199,224,0.12)';
+        var back = document.createElement('button'); back.className = 'mapdetail-back'; back.type = 'button';
         back.innerHTML = '‹ <span>' + escapeHtml(tt('maps.detail.back', 'Voltar aos mapas')) + '</span>';
+        back.style.cssText = 'cursor:pointer;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,152,0,0.4);background:transparent;color:#FF9800;border-radius:8px;padding:6px 12px;font-family:JetBrains Mono,monospace;font-size:12px';
         var title = document.createElement('span'); title.className = 'mapdetail-title'; title.textContent = mapName(mapId);
+        title.style.cssText = 'font-family:Black Ops One,system-ui,sans-serif;color:#DCE5F2;font-size:15px;letter-spacing:.5px';
         bar.appendChild(back); bar.appendChild(title);
         var frame = document.createElement('iframe'); frame.className = 'mapdetail-frame'; frame.src = url; frame.title = mapName(mapId); frame.setAttribute('loading', 'eager');
+        frame.style.cssText = 'flex:1;min-height:0;width:100%;border:0;background:#111626';
         ov.appendChild(bar); ov.appendChild(frame); document.body.appendChild(ov);
         var prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
-        function close() { ov.remove(); document.body.style.overflow = prev; document.removeEventListener('keydown', onKey); }
+        // watchdog: a ilha faz postMessage('level:map-mounted') ao montar; se não vier em 9s,
+        // avisa (rede/firewall a bloquear recursos) — nunca fica falha silenciosa.
+        var mounted = false;
+        function onMsg(e) { if (e && e.data && e.data.type === 'level:map-mounted') mounted = true; }
+        window.addEventListener('message', onMsg);
+        var watchdog = setTimeout(function () {
+          if (!mounted && typeof showToast === 'function') showToast(tt('maps.detail.loadFail', 'Não consegui carregar o mapa — verifica a ligação/firewall.'), 'error');
+        }, 9000);
+        function close() { clearTimeout(watchdog); window.removeEventListener('message', onMsg); ov.remove(); document.body.style.overflow = prev; document.removeEventListener('keydown', onKey); }
         back.addEventListener('click', close);
         function onKey(e) { if (e.key === 'Escape') close(); }
         document.addEventListener('keydown', onKey);

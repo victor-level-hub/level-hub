@@ -427,6 +427,7 @@ window.I18N = {
     'maps.search.ph':         'Filtrar por nome do mapa…',
     'maps.search.empty':      'Nenhum mapa com esse nome.',
     'maps.detail.back':       'Voltar aos mapas',
+    'maps.detail.loadFail':   'Não consegui carregar o mapa — verifica a ligação/firewall.',
     'nav.perks.label':        'Vantagens & Séries',
     'nav.perks.desc':         'Setup completo',
     'nav.struggles.label':    'Evolução',
@@ -467,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Menu do teu jeito: ordena e oculta',
-    'briefing.changelog.summary':  'Nova aba <strong>Menu Lateral</strong> nas Configurações (admin): <strong>arrasta para ordenar</strong> os itens do menu, <strong>oculta</strong> os que não usas e vê um descritivo de cada um. As mudanças aplicam-se já no menu e o &ldquo;Salvar para todos&rdquo; publica para todos os utilizadores. (De caminho corrigiu-se um bug: a reordenação do menu não estava sequer a aplicar.)',
+    'briefing.changelog.headline': 'Mapas: o clique agora abre mesmo',
+    'briefing.changelog.summary':  'Corrigi o clique no mapa que não abria nada. A página interativa deixou de depender de servidores externos (carrega mesmo atrás de firewall) e o ecrã do mapa passou a abrir mesmo com cache antigo do site. E se a tua rede bloquear algum recurso, agora avisa em vez de ficar em branco. <em>Dica: se ainda não abrir, faz Ctrl+Shift+R.</em>',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2111,6 +2112,7 @@ window.I18N = {
     'maps.search.ph':         'Filter by map name…',
     'maps.search.empty':      'No map with that name.',
     'maps.detail.back':       'Back to maps',
+    'maps.detail.loadFail':   'Could not load the map — check your connection/firewall.',
     'nav.perks.label':        'Perks & Streaks',
     'nav.perks.desc':         'Complete setup',
     'nav.struggles.label':    'Evolution',
@@ -2150,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Your menu, your way: reorder and hide',
-    'briefing.changelog.summary':  'New <strong>Sidebar Menu</strong> tab in Settings (admin): <strong>drag to reorder</strong> the menu items, <strong>hide</strong> the ones you don&rsquo;t use and read a short description of each. Changes apply to the menu right away and &ldquo;Save for everyone&rdquo; publishes them to all users. (Along the way we fixed a bug: the menu reorder wasn&rsquo;t applying at all.)',
+    'briefing.changelog.headline': 'Maps: the click actually opens now',
+    'briefing.changelog.summary':  'Fixed the map click that did nothing. The interactive page no longer depends on external servers (it loads even behind a firewall) and the map screen now opens even with a stale site cache. And if your network blocks a resource, it now tells you instead of going blank. <em>Tip: if it still doesn&rsquo;t open, hit Ctrl+Shift+R.</em>',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

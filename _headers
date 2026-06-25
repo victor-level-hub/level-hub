@@ -16,3 +16,7 @@
 # nome → revalidar a cada carga (mesma política do HTML), pra não servir JS stale.
 /assets/js/*
   Cache-Control: public, max-age=0, must-revalidate
+# v2.79.0: ilha de mapas interativos (HTML shell + app.js + vendor/react + módulos +
+# map.css). Sem versão no nome → revalidar a cada carga, pra não servir a ilha stale.
+/maps-interactive/*
+  Cache-Control: public, max-age=0, must-revalidate
