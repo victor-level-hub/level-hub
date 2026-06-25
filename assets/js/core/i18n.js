@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Menos ruído nas Configurações',
-    'briefing.changelog.summary':  'Tiramos duas coisas que não ajudavam: o atalho <strong>"Refazer tour"</strong> nas Configurações (o "?" no topo já faz isso) e o <strong>seed de builds-exemplo</strong> para novos utilizadores — uma build depende do teu nível e estilo, então dar uma genérica a quem acabou de chegar não fazia sentido. Novos perfis começam limpos.',
+    'briefing.changelog.headline': 'Marketplace social: curtir + builds mais ricas',
+    'briefing.changelog.summary':  'O Marketplace ficou social: o voto ▲/▼ virou <strong>curtir</strong> (coração + contagem), e cada build publicada agora mostra <strong>avaliação do autor</strong> (1-10, obrigatória ao publicar), <strong>estilo</strong>, <strong>prestígio e nível da arma</strong> e <strong>data/hora</strong>. Ao importar uma build, fica uma nota fixa de onde ela veio. <em>Comentários chegam já a seguir.</em>',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2127,8 +2127,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Less noise in Settings',
-    'briefing.changelog.summary':  'We removed two things that didn\'t help: the <strong>"Replay tour"</strong> shortcut in Settings (the "?" at the top already does that) and the <strong>example-build seeding</strong> for new users — a build depends on your level and playstyle, so handing a generic one to a newcomer made no sense. New profiles start clean.',
+    'briefing.changelog.headline': 'Social Marketplace: likes + richer builds',
+    'briefing.changelog.summary':  'The Marketplace got social: the ▲/▼ vote became a <strong>like</strong> (heart + count), and every published build now shows the <strong>author\'s rating</strong> (1-10, required to publish), <strong>playstyle</strong>, <strong>weapon prestige & level</strong> and <strong>date/time</strong>. Importing a build leaves a pinned note of where it came from. <em>Comments coming next.</em>',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

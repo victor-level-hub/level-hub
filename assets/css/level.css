@@ -12360,6 +12360,47 @@
     border-top: 1px solid var(--border);
     background: var(--bg-darkest);
   }
+  /* v2.73.0 · curtir + comentar + metadados + avaliação ──────────────── */
+  .mkt-like-btn, .mkt-comment-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--bg-row); border: 1px solid var(--border);
+    color: var(--text-secondary); height: 30px; padding: 0 10px;
+    border-radius: 15px; cursor: pointer; font-size: 12px;
+    font-family: 'JetBrains Mono', monospace; transition: all .15s;
+  }
+  .mkt-like-btn .lvl-icon, .mkt-comment-btn .lvl-icon { width: 15px; height: 15px; }
+  .mkt-like-btn:hover, .mkt-comment-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+  .mkt-like-btn.liked { color: #ff4d6d; border-color: #ff4d6d; }
+  .mkt-like-btn.liked .lvl-icon svg { fill: #ff4d6d; }
+  .mkt-like-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .mkt-like-count, .mkt-comment-count { font-weight: 700; }
+  .mkt-card-saves {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;
+  }
+  .mkt-card-saves .lvl-icon { width: 13px; height: 13px; }
+  .mkt-card-import-btn { margin-left: auto; }
+  .mkt-card-pl {
+    margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--accent-cyan); letter-spacing: .5px;
+  }
+  .mkt-card-rating {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    margin-top: 8px; font-size: 11px;
+  }
+  .mkt-card-rating-lbl { color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; font-size: 9.5px; }
+  .mkt-card-rating-val { display: inline-flex; align-items: center; gap: 4px; color: var(--accent-orange); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .mkt-card-rating-val .lvl-icon { width: 13px; height: 13px; }
+  .mkt-card-rating-val .lvl-icon svg { fill: var(--accent-orange); }
+  .mkt-card-style { margin-top: 6px; font-size: 11.5px; color: var(--text-secondary); }
+  .mkt-card-style strong { color: var(--text-primary); }
+  /* widget de avaliação (10 estrelas) no modal de publicar */
+  .pub-rating { display: flex; gap: 2px; margin: 6px 0 2px; flex-wrap: wrap; }
+  .pub-star { cursor: pointer; color: var(--text-muted); line-height: 1; transition: color .1s; }
+  .pub-star .lvl-icon { width: 22px; height: 22px; }
+  .pub-star:hover, .pub-star.on { color: var(--accent-orange); }
+  .pub-star.on .lvl-icon svg { fill: var(--accent-orange); }
+  .pub-rating-hint { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
   .mkt-vote-group {
     display: flex;
     align-items: center;

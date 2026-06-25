@@ -1232,12 +1232,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.72.6 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.73.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Menos ruído nas Configurações</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Tiramos duas coisas que não ajudavam: o atalho <strong>"Refazer tour"</strong> nas Configurações (o "?" no topo já faz isso) e o <strong>seed de builds-exemplo</strong> para novos utilizadores — uma build depende do teu nível e estilo, então dar uma genérica a quem acabou de chegar não fazia sentido. Novos perfis começam limpos.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Marketplace social: curtir + builds mais ricas</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O Marketplace ficou social: o voto ▲/▼ virou <strong>curtir</strong> (coração + contagem), e cada build publicada agora mostra <strong>avaliação do autor</strong> (1-10, obrigatória ao publicar), <strong>estilo</strong>, <strong>prestígio e nível da arma</strong> e <strong>data/hora</strong>. Ao importar uma build, fica uma nota fixa de onde ela veio. <em>Comentários chegam já a seguir.</em></div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4489,6 +4489,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.73.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Marketplace social (fase 1+2): curtir + metadados ricos na build.</strong> A pedido do Victor. <strong>Voto ▲/▼ → curtir</strong>: removido o dislike (mata engajamento), o upvote virou <strong>curtir</strong> com coração (ícone Lucide pequeno) e contagem; os upvotes existentes foram migrados pra curtidas. Cada build publicada agora carrega <strong>avaliação do autor</strong> (1-10 estrelas, <strong>obrigatória</strong> antes de publicar — habilita ranking "mais bem avaliadas" depois), <strong>estilo</strong>, <strong>prestígio + nível da arma</strong> e <strong>data/hora completa</strong>. Importar uma build deixa uma <strong>nota fixa</strong> ("Importada de @X em DD/MM/AA HH:MM") e conta os saves (<code>uses_count</code>). Podium/stats/leaderboard agora rankeiam por curtidas. <strong>Backend</strong>: tabelas <code>mkt_likes</code>, <code>mkt_comments</code>, <code>mkt_comment_likes</code> + colunas novas em <code>mkt_builds</code>; edge functions <code>mkt-like</code>, <code>mkt-comment</code> (com moderação Gemini), <code>mkt-comment-like</code>, <code>mkt-save</code> + <code>mkt-publish-build</code> v6. <strong>Comentários (UI) a seguir</strong> — backend pronto. <code>node --check</code> OK.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.72.6</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">refac · ux</span>
@@ -6105,7 +6114,12 @@
             <div id="pub-loadout-weapon" style="color:var(--text-primary);font-size:11.5px;margin-top:2px"></div>
           </div>
 
-          <div class="form-label" data-i18n-html="mkt.pub.desc.label">Descrição <span style="color:var(--text-secondary);font-weight:400">(opcional, max 500)</span></div>
+          <!-- v2.73.0: avaliação do autor (1-10, OBRIGATÓRIA antes de publicar) -->
+          <div class="form-label" data-i18n-html="mkt.pub.rating.label">Avaliação do autor <span style="color:#ff5252">*</span> <span style="color:var(--text-secondary);font-weight:400">(1 a 10 · obrigatória)</span></div>
+          <div class="pub-rating" id="pub-rating" data-value="0"></div>
+          <div class="pub-rating-hint" id="pub-rating-hint" data-i18n="mkt.pub.rating.hint">Toca nas estrelas pra avaliar a tua própria build.</div>
+
+          <div class="form-label" style="margin-top:12px" data-i18n-html="mkt.pub.desc.label">Descrição <span style="color:var(--text-secondary);font-weight:400">(opcional, max 500)</span></div>
           <textarea id="pub-description" class="form-input" rows="3" maxlength="500" placeholder="ex: melhor pra mapas pequenos, mobilidade alta, recoil controlado" data-i18n-attr="placeholder:mkt.pub.desc.ph"></textarea>
           <div class="pub-char-counter"><span id="pub-desc-count">0</span>/500</div>
 
@@ -7423,7 +7437,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.72.6</strong><span class="ver-tag">Configurações + onboarding mais enxutos — atalho "Refazer tour" removido (redundante com o "?" do header) e o seed de builds-exemplo a novos utilizadores eliminado (build depende de nível/estilo). CRUD admin de builds fica inerte.</span>
+        LEVEL · <strong>v2.73.0</strong><span class="ver-tag">Marketplace social — voto ▲/▼ virou curtir (coração + contagem); build publicada mostra avaliação do autor (1-10, obrigatória), estilo, prestígio/nível da arma e data/hora; importar deixa nota fixa da origem. Backend: tabelas mkt_likes/mkt_comments + edge functions. Comentários a seguir.</span>
       </div>
       <script>
         (function(){
@@ -18503,6 +18517,29 @@ const ATTACHMENT_ICONS = {
           return Math.floor(diff/86400000) + 'd';
         } catch (e) { return ''; }
       }
+      // v2.73.0: prestígio da arma (código) → rótulo curto
+      function prestigeLabel(code) {
+        if (code == null || code === '' || code === 'none') return '';
+        var map = { master: 'MESTRE', p1: 'P1', p2: 'P2', p3: 'P3' };
+        return map[String(code)] || String(code).toUpperCase();
+      }
+      // v2.73.0: data + hora completas ("25/06/26 14:30")
+      function formatDateTime(iso) {
+        if (!iso) return '';
+        try {
+          var d = new Date(iso);
+          var p = function (n) { return (n < 10 ? '0' : '') + n; };
+          return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + String(d.getFullYear()).slice(2) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+        } catch (e) { return ''; }
+      }
+      // v2.73.0: cache local de curtidas (build_id → true). Substitui o cache de votos.
+      var LS_LIKES = 'level.mkt.likes';
+      function getLocalLikes() { try { return JSON.parse(localStorage.getItem(LS_LIKES) || '{}'); } catch (e) { return {}; } }
+      function setLocalLike(buildId, liked) {
+        var v = getLocalLikes();
+        if (liked) v[buildId] = true; else delete v[buildId];
+        try { localStorage.setItem(LS_LIKES, JSON.stringify(v)); } catch (e) {}
+      }
       function extractCodename(loadoutName) {
         // "CICADA 3301-45 / Rusher Hardpoint" → "CICADA 3301-45"
         if (!loadoutName) return 'BUILD';
@@ -18526,12 +18563,12 @@ const ATTACHMENT_ICONS = {
       async function fetchBuilds() {
         // Direto via REST (RLS permite read all em mkt_builds)
         const params = new URLSearchParams({
-          select: 'id,owner_user_id,author_name,weapon_catalog_id,codename,build_code,attachments,description,tags,game_mode,upvotes,downvotes,published_at',
+          select: 'id,owner_user_id,author_name,weapon_catalog_id,codename,build_code,attachments,description,tags,game_mode,upvotes,downvotes,likes_count,uses_count,author_rating,weapon_prestige,weapon_level,author_style,published_at',
           is_hidden: 'eq.false',
         });
-        // Sort
+        // Sort (v2.73.0: por curtidas; "top" = mais curtidas)
         if (STATE.filters.sort === 'top') {
-          params.set('order', 'upvotes.desc,published_at.desc');
+          params.set('order', 'likes_count.desc,published_at.desc');
         } else {
           params.set('order', 'published_at.desc');
         }
@@ -18617,12 +18654,12 @@ const ATTACHMENT_ICONS = {
 
         const totalBuilds = mine.length;
         const totalVotes = mine.reduce(function (acc, b) {
-          return acc + (b.upvotes || 0) - (b.downvotes || 0);
+          return acc + (b.likes_count || 0);
         }, 0);
         // Melhor build do autor por score líquido
         const topBuild = mine.slice().sort(function (a, b) {
-          const sa = (a.upvotes || 0) - (a.downvotes || 0);
-          const sb = (b.upvotes || 0) - (b.downvotes || 0);
+          const sa = (a.likes_count || 0);
+          const sb = (b.likes_count || 0);
           return sb - sa;
         })[0];
         const topName = topBuild ? topBuild.codename : '—';
@@ -18632,7 +18669,7 @@ const ATTACHMENT_ICONS = {
         (builds || []).forEach(function (b) {
           const owner = b.owner_user_id;
           if (!owner) return;
-          const score = (b.upvotes || 0) - (b.downvotes || 0);
+          const score = (b.likes_count || 0);
           byAuthorId[owner] = (byAuthorId[owner] || 0) + score;
         });
         const authorsRanked = Object.keys(byAuthorId)
@@ -18696,7 +18733,7 @@ const ATTACHMENT_ICONS = {
           if (!w) return;
           if (!byWeapon[w]) byWeapon[w] = { id: w, count: 0, score: 0 };
           byWeapon[w].count += 1;
-          byWeapon[w].score += (b.upvotes || 0) - (b.downvotes || 0);
+          byWeapon[w].score += (b.likes_count || 0);
         });
         const entries = Object.values(byWeapon).sort(function (a, b) {
           // Primário: contagem. Secundário: score.
@@ -18739,14 +18776,14 @@ const ATTACHMENT_ICONS = {
         if (!bar) return;
         const totalBuilds = builds.length;
         const totalVotes = builds.reduce(function (acc, b) {
-          return acc + (b.upvotes || 0) - (b.downvotes || 0);
+          return acc + (b.likes_count || 0);
         }, 0);
         // Autor com maior soma de votos líquidos
         const byAuthor = {};
         builds.forEach(function (b) {
           const a = (b.author_name || '').trim();
           if (!a) return;
-          const score = (b.upvotes || 0) - (b.downvotes || 0);
+          const score = (b.likes_count || 0);
           byAuthor[a] = (byAuthor[a] || 0) + score;
         });
         let topAuthor = null;
@@ -18786,12 +18823,12 @@ const ATTACHMENT_ICONS = {
         }
         // Top 3 por score líquido (já vem ordenado pelo fetch se sort=top, mas re-ordena por garantia)
         const top3 = builds.slice().sort(function (a, b) {
-          const sa = (a.upvotes || 0) - (a.downvotes || 0);
-          const sb = (b.upvotes || 0) - (b.downvotes || 0);
+          const sa = (a.likes_count || 0);
+          const sb = (b.likes_count || 0);
           return sb - sa;
         }).slice(0, 3);
         // Só mostra pódio se o #1 tem pelo menos 1 voto líquido positivo
-        const topScore = (top3[0].upvotes || 0) - (top3[0].downvotes || 0);
+        const topScore = (top3[0].likes_count || 0);
         if (topScore < 1) {
           podium.style.display = 'none';
           podium.innerHTML = '';
@@ -18800,7 +18837,7 @@ const ATTACHMENT_ICONS = {
 
         podium.innerHTML = top3.map(function (b, i) {
           const rank = i + 1;
-          const score = (b.upvotes || 0) - (b.downvotes || 0);
+          const score = (b.likes_count || 0);
           const medal = mt('mkt.podium.medal.' + rank, '#' + rank);
           const author = b.author_name ? escHtml(b.author_name) : 'Anon';
           const weapon = escHtml(b.weapon_catalog_id || '?');
@@ -18847,7 +18884,7 @@ const ATTACHMENT_ICONS = {
       function renderGrid() {
         const gridEl = document.getElementById('mkt-grid');
         if (!gridEl) return;
-        const votes = getLocalVotes();
+        const likes = getLocalLikes();
         // v75-70: filtro por texto (codename + descrição + author + tags) client-side
         const q = (STATE.filters.search || '').trim().toLowerCase();
         // v75-91: filtro por scope (mine vs all)
@@ -18895,11 +18932,9 @@ const ATTACHMENT_ICONS = {
           return;
         }
 
-        gridEl.innerHTML = filtered.map(function (b) {
-          const score = (b.upvotes || 0) - (b.downvotes || 0);
-          const myVote = votes[b.id] || 0;
-          const upClass   = myVote ===  1 ? 'voted-up'   : '';
-          const downClass = myVote === -1 ? 'voted-down' : '';
+        var html = filtered.map(function (b) {
+          const likeCount = b.likes_count || 0;
+          const liked = !!likes[b.id];
           const attachList = Array.isArray(b.attachments)
             ? b.attachments.filter(function (a) { return a; }).map(function (a) {
                 if (typeof a === 'string') return escHtml(a);
@@ -18912,22 +18947,34 @@ const ATTACHMENT_ICONS = {
             : '';
           const isMine = (STATE.mineUserId && b.owner_user_id === STATE.mineUserId);
           const mineBadge = isMine ? '<span class="mkt-mine-badge">' + mt('mkt.badge.mine', 'MINHA') + '</span>' : '';
-          const voteDisabled = isMine ? 'disabled' : '';
+          const likeDisabled = isMine ? 'disabled' : '';
+          const likedClass = liked ? ' liked' : '';
+          const pl = prestigeLabel(b.weapon_prestige);
+          const lvl = (b.weapon_level != null && b.weapon_level !== '') ? ('Nv ' + b.weapon_level) : '';
+          const plStr = [pl, lvl].filter(Boolean).join(' · ');
+          const ratingHtml = (b.author_rating != null)
+            ? '<div class="mkt-card-rating"><span class="mkt-card-rating-lbl">' + mt('mkt.card.authorRating', 'Avaliação do autor') + '</span><span class="mkt-card-rating-val">{{i:star:13}} ' + b.author_rating + '/10</span></div>'
+            : '';
+          const styleHtml = b.author_style ? '<div class="mkt-card-style">' + mt('mkt.card.style', 'Estilo') + ': <strong>' + escHtml(b.author_style) + '</strong></div>' : '';
+          const saves = b.uses_count || 0;
           return '' +
             '<div class="mkt-card" data-build-id="' + escHtml(b.id) + '">' +
               '<div class="mkt-card-header">' +
                 '<div class="mkt-card-codename">' + escHtml(b.codename || 'BUILD') + mineBadge + '</div>' +
                 '<div class="mkt-card-author">por <strong>' + escHtml(b.author_name || 'Anon') + '</strong>' +
                   (b.published_at
-                    ? ' · <span class="mkt-card-time" title="' + escHtml(b.published_at) + '">' + formatRelativeTime(b.published_at) + '</span>'
+                    ? ' · <span class="mkt-card-time" title="' + escHtml(formatRelativeTime(b.published_at)) + '">' + escHtml(formatDateTime(b.published_at)) + '</span>'
                     : '') +
                 '</div>' +
               '</div>' +
               '<div class="mkt-card-body">' +
                 '<div class="mkt-card-weapon">' +
                   '<strong>' + escHtml(b.weapon_catalog_id || '?') + '</strong>' +
+                  (plStr ? '<span class="mkt-card-pl">' + escHtml(plStr) + '</span>' : '') +
                   (b.game_mode ? '<span class="mkt-card-mode">' + escHtml(b.game_mode) + '</span>' : '') +
                 '</div>' +
+                ratingHtml +
+                styleHtml +
                 (b.description
                   ? '<div class="mkt-card-desc">' + escHtml(b.description) + '</div>'
                   : '<div class="mkt-card-desc" style="font-style:italic;opacity:0.6">Sem descrição.</div>') +
@@ -18937,45 +18984,37 @@ const ATTACHMENT_ICONS = {
                 (tagsHtml ? '<div class="mkt-card-tags">' + tagsHtml + '</div>' : '') +
               '</div>' +
               '<div class="mkt-card-footer">' +
-                '<div class="mkt-vote-group">' +
-                  '<button class="mkt-vote-btn ' + upClass   + '" data-vote="1"  ' + voteDisabled + ' title="' + mt('mkt.tooltip.upvote','Boa build') + '">▲</button>' +
-                  '<span class="mkt-vote-score">' + score + '</span>' +
-                  '<button class="mkt-vote-btn ' + downClass + '" data-vote="-1" ' + voteDisabled + ' title="' + mt('mkt.tooltip.downvote','Não rola') + '">▼</button>' +
-                '</div>' +
-                '<button class="mkt-card-import-btn" data-action="import">' + mt('mkt.btn.import','Importar') + '</button>' +
+                '<button class="mkt-like-btn' + likedClass + '" data-action="like" ' + likeDisabled + ' title="' + mt('mkt.tooltip.like', 'Curtir') + '">{{i:heart:15}}<span class="mkt-like-count">' + likeCount + '</span></button>' +
+                '<button class="mkt-comment-btn" data-action="comments" title="' + mt('mkt.tooltip.comments', 'Comentários') + '">{{i:message-circle:14}}<span class="mkt-comment-count" data-build-id="' + escHtml(b.id) + '">·</span></button>' +
+                (saves ? '<span class="mkt-card-saves" title="' + mt('mkt.tooltip.saves', 'Importações') + '">{{i:download:13}} ' + saves + '</span>' : '') +
+                '<button class="mkt-card-import-btn" data-action="import">' + mt('mkt.btn.import', 'Importar') + '</button>' +
               '</div>' +
             '</div>';
         }).join('');
+        gridEl.innerHTML = window.renderIconsText ? window.renderIconsText(html) : html;
       }
 
-      // ── Vote ───────────────────────────────────────────────────────
-      async function castVote(buildId, vote) {
+      // ── Curtir (v2.73.0 · substitui o voto ▲/▼) ────────────────────
+      async function toggleLike(buildId) {
         const localId = getLocalId();
         if (!localId) {
-          if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.alert.syncRequired.title','Sync necessário'), message: mt('mkt.alert.syncRequired.vote','Precisas fazer pelo menos um Backup na cloud antes de votar (cria a sua identidade no servidor). Vai em Configurações ▸ Operador ▸ Backup na cloud.'), variant: 'warning' });
+          if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.alert.syncRequired.title','Sync necessário'), message: mt('mkt.alert.syncRequired.like','Precisas fazer pelo menos um Backup na cloud antes de curtir (cria a sua identidade no servidor). Vai em Configurações ▸ Operador ▸ Backup na cloud.'), variant: 'warning' });
           return;
         }
-        const currentVotes = getLocalVotes();
-        const currentVote = currentVotes[buildId] || 0;
-        const newVote = (currentVote === vote) ? 0 : vote; // toggle
         try {
-          const r = await fetch(SUPABASE_URL + '/functions/v1/mkt-vote', {
+          const r = await fetch(SUPABASE_URL + '/functions/v1/mkt-like', {
             method: 'POST',
             headers: Object.assign({}, AUTH_HEADERS, { 'Content-Type': 'application/json' }),
-            body: JSON.stringify({ local_id: localId, mkt_build_id: buildId, vote: newVote }),
+            body: JSON.stringify({ local_id: localId, mkt_build_id: buildId }),
           });
           const data = await r.json().catch(function () { return {}; });
-          if (!r.ok) throw new Error(data.error || ('vote ' + r.status));
-          setLocalVote(buildId, newVote);
-          // Atualiza score local sem refetch
+          if (!r.ok) throw new Error(data.error || ('like ' + r.status));
+          setLocalLike(buildId, !!data.liked);
           const build = STATE.builds.find(function (b) { return b.id === buildId; });
-          if (build && data.build_score) {
-            build.upvotes   = data.build_score.upvotes;
-            build.downvotes = data.build_score.downvotes;
-          }
+          if (build && typeof data.likes_count === 'number') build.likes_count = data.likes_count;
           renderGrid();
         } catch (err) {
-          if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.alert.voteFail','Falha no voto'), message: err.message || String(err), variant: 'error' });
+          if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.alert.likeFail','Falha ao curtir'), message: err.message || String(err), variant: 'error' });
         }
       }
 
@@ -19005,12 +19044,44 @@ const ATTACHMENT_ICONS = {
         document.getElementById('pub-tag-input').value = '';
         document.getElementById('pub-tags-list').innerHTML = '';
 
-        // Guarda dados pro confirm
-        document.getElementById('modal-publish').dataset.loadoutId = loadoutId;
-        document.getElementById('modal-publish').dataset.codename = codename;
-        document.getElementById('modal-publish').dataset.weaponCat = weaponCatId;
+        // v2.73.0: captura prestígio/nível da arma (de level.weapons) + estilo do build
+        var wPrestige = '', wLevel = '';
+        try {
+          var wlist = JSON.parse(localStorage.getItem('level.weapons') || '[]');
+          var norm = String(c.primaryName || '').toLowerCase().trim();
+          var wrec = wlist.find(function (w) { return String(w.name || '').toLowerCase().trim() === norm; });
+          if (wrec) {
+            if (wrec.prestige != null && wrec.prestige !== 'none' && wrec.prestige !== '') wPrestige = String(wrec.prestige);
+            if (wrec.level != null && wrec.level !== '') wLevel = String(wrec.level);
+          }
+        } catch (e) {}
 
-        document.getElementById('modal-publish').classList.add('visible');
+        // Guarda dados pro confirm
+        const modalEl = document.getElementById('modal-publish');
+        modalEl.dataset.loadoutId = loadoutId;
+        modalEl.dataset.codename = codename;
+        modalEl.dataset.weaponCat = weaponCatId;
+        modalEl.dataset.weaponPrestige = wPrestige;
+        modalEl.dataset.weaponLevel = wLevel;
+        modalEl.dataset.authorStyle = (c.style || '');
+
+        renderPubStars(0); // v2.73.0: reset da avaliação (obrigatória)
+        modalEl.classList.add('visible');
+      }
+
+      // v2.73.0: widget de 10 estrelas (avaliação do autor)
+      function renderPubStars(val) {
+        const wrap = document.getElementById('pub-rating');
+        if (!wrap) return;
+        val = Math.max(0, Math.min(10, parseInt(val, 10) || 0));
+        wrap.dataset.value = String(val);
+        var stars = '';
+        for (var i = 1; i <= 10; i++) {
+          stars += '<span class="pub-star' + (i <= val ? ' on' : '') + '" data-v="' + i + '">{{i:star:18}}</span>';
+        }
+        wrap.innerHTML = window.renderIconsText ? window.renderIconsText(stars) : stars;
+        var hint = document.getElementById('pub-rating-hint');
+        if (hint) hint.textContent = val > 0 ? (val + '/10') : mt('mkt.pub.rating.hint', 'Toca nas estrelas pra avaliar a tua própria build.');
       }
 
       function getCurrentTags() {
@@ -19048,6 +19119,12 @@ const ATTACHMENT_ICONS = {
           return;
         }
 
+        const ratingEl = document.getElementById('pub-rating');
+        const rating = parseInt(ratingEl ? ratingEl.dataset.value : '0', 10) || 0;
+        if (rating < 1) {
+          if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.pub.rating.required.title','Avalia primeiro'), message: mt('mkt.pub.rating.required.msg','Antes de publicar, dá uma nota de 1 a 10 à tua build (Avaliação do autor).'), variant: 'warning' });
+          return;
+        }
         const description = document.getElementById('pub-description').value.trim();
         const gameMode = document.getElementById('pub-game-mode').value || null;
         const tags = getCurrentTags();
@@ -19072,7 +19149,7 @@ const ATTACHMENT_ICONS = {
           const r = await fetch(SUPABASE_URL + '/functions/v1/mkt-publish-build', {
             method: 'POST',
             headers: Object.assign({}, AUTH_HEADERS, { 'Content-Type': 'application/json' }),
-            body: JSON.stringify({ local_id: localId, build: buildPayload, description: description, tags: tags }),
+            body: JSON.stringify({ local_id: localId, build: buildPayload, description: description, tags: tags, author_rating: rating, weapon_prestige: (modal.dataset.weaponPrestige || null), weapon_level: (modal.dataset.weaponLevel || null), author_style: (modal.dataset.authorStyle || null) }),
           });
           const data = await r.json().catch(function () { return {}; });
           if (!r.ok) throw new Error(data.error || ('publish ' + r.status));
@@ -19101,8 +19178,10 @@ const ATTACHMENT_ICONS = {
         const newLoadout = {
           id: 'ld_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
           name: (b.codename || 'BUILD') + ' / from @' + (b.author_name || 'Anon'),
-          notes: (b.description || '').slice(0, 240),
+          notes: ('📌 ' + mt('mkt.import.note', 'Importada de @{author} em {when}').replace('{author}', (b.author_name || 'Anon')).replace('{when}', formatDateTime(new Date().toISOString())) + (b.description ? ('\n\n' + String(b.description).slice(0, 240)) : '')),
           createdAt: new Date().toISOString(),
+          importedFromAuthor: (b.author_name || 'Anon'),
+          importedAt: new Date().toISOString(),
           config: {
             style: null,
             weaponclass: null,
@@ -19131,6 +19210,17 @@ const ATTACHMENT_ICONS = {
           if (window.LevelModal) window.LevelModal.alert({ title: mt('mkt.alert.saveFail.title','Falha'), message: mt('mkt.alert.saveFail.msg','Erro ao salvar no localStorage: ') + e.message, variant: 'error' });
           return;
         }
+        // v2.73.0: conta o save no servidor (uses_count) + bump local otimista
+        try {
+          const localId2 = getLocalId();
+          fetch(SUPABASE_URL + '/functions/v1/mkt-save', {
+            method: 'POST',
+            headers: Object.assign({}, AUTH_HEADERS, { 'Content-Type': 'application/json' }),
+            body: JSON.stringify({ local_id: localId2 || null, mkt_build_id: b.id }),
+          }).then(function (r) { return r.json(); }).then(function (d) {
+            if (d && typeof d.uses_count === 'number') { b.uses_count = d.uses_count; if (typeof renderGrid === 'function') renderGrid(); }
+          }).catch(function () {});
+        } catch (e) {}
         // v75-68: notifica módulos pra re-renderizar (Meus Loadouts tab, etc)
         try {
           window.dispatchEvent(new CustomEvent('level-loadouts-changed', {
@@ -19155,12 +19245,20 @@ const ATTACHMENT_ICONS = {
       document.addEventListener('click', function (e) {
         // Refresh
         if (e.target.closest('#mkt-refresh-btn')) { loadAndRender(); return; }
+        // v2.73.0: clique nas estrelas da avaliação (modal publicar)
+        var pubStar = e.target.closest('.pub-star');
+        if (pubStar) { renderPubStars(pubStar.dataset.v); return; }
         // Voto / import
         const card = e.target.closest('.mkt-card');
         if (card) {
-          const voteBtn = e.target.closest('.mkt-vote-btn');
-          if (voteBtn && !voteBtn.disabled) {
-            castVote(card.dataset.buildId, parseInt(voteBtn.dataset.vote, 10));
+          const likeBtn = e.target.closest('.mkt-like-btn');
+          if (likeBtn && !likeBtn.disabled) {
+            toggleLike(card.dataset.buildId);
+            return;
+          }
+          if (e.target.closest('[data-action="comments"]')) {
+            if (typeof openBuildDetail === 'function') openBuildDetail(card.dataset.buildId);
+            else if (window.LevelModal && window.LevelModal.toast) window.LevelModal.toast({ message: mt('mkt.comments.soon', 'Comentários chegando em breve!'), variant: 'info', duration: 2500 });
             return;
           }
           if (e.target.closest('[data-action="import"]')) {
