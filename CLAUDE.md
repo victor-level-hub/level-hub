@@ -1,7 +1,8 @@
 # CLAUDE.md — LEVEL · BO7 Tactical Hub
 
 > Instruções de projeto para o Claude Code. Lido automaticamente ao abrir o repo.
-> Memória estendida detalhada vive em `LEVEL_ESTADO.md` (ler no início de cada sessão).
+> Estado/handoff atual: `PROMPT_PROXIMO_CHAT.md` + `ARCHITECTURE.md` + `BACKLOG.md` + a auto-memória.
+> (`LEVEL_ESTADO.txt` / `HISTORICO_DEPLOYS.txt` são histórico congelado em v2.48.0 — não confiar neles.)
 
 ## O QUE É
 Companion tático pessoal para Call of Duty: Black Ops 7. App `index.html` (~33k linhas,
