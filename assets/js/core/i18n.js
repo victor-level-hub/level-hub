@@ -459,8 +459,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Abas do card não estouram mais na grade',
-    'briefing.changelog.summary':  'Pequeno fix visual: na vista <strong>Grade</strong> de Minhas Armas, as 4 abas do card (Loadout / Nossa Análise / Avalie / Progressão) não cabiam numa linha e a <strong>Progressão</strong> estourava pra fora do card. Agora quebram linha certinho dentro dele.',
+    'briefing.changelog.headline': 'Teste de fundo claro na REV-46',
+    'briefing.changelog.summary':  'Experiência só na <strong>REV-46</strong> (pra validarmos o estilo): tirámos o fundo com as logos, pusemos um <strong>fundo claro com degradê</strong> e ampliámos a arma — tanto no card pequeno como no zoom do hover. Se ficar bom, estendo às outras armas.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2130,8 +2130,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Card tabs no longer overflow in grid',
-    'briefing.changelog.summary':  'Small visual fix: in the <strong>Grid</strong> view of My Weapons, the card\'s 4 tabs (Loadout / Our Analysis / Rate / Progression) didn\'t fit on one line and <strong>Progression</strong> spilled outside the card. They now wrap cleanly inside it.',
+    'briefing.changelog.headline': 'Light background test on the REV-46',
+    'briefing.changelog.summary':  'An experiment on the <strong>REV-46</strong> only (to validate the look): we removed the logo watermark, added a <strong>light gradient background</strong> and enlarged the weapon — both on the small card and the hover zoom. If it looks good, I\'ll roll it out to the other weapons.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

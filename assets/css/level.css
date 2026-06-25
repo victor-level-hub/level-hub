@@ -3970,6 +3970,19 @@
   .bc-wpn-img.img-treated,
   .bip-img img.img-treated,
   .saved-card-thumb img.img-treated { transform: none !important; }
+
+  /* v2.73.4: TESTE de estilo SÓ na REV-46 (.bc-wpn-lighttest) — fundo claro degradê (sem watermark) + arma maior */
+  .build-card .bc-weapon-image.bc-wpn-lighttest {
+    background-color: transparent !important;
+    background-image: radial-gradient(circle at 50% 38%, #f4f8fc 0%, #d4dfea 50%, #a9b9c9 100%) !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+  }
+  .build-card .bc-weapon-image.bc-wpn-lighttest img.bc-wpn-img,
+  .build-card:hover .bc-weapon-image.bc-wpn-lighttest img.bc-wpn-img {
+    transform: scale(1.5) !important;
+    transform-origin: center center;
+  }
   .build-card .bc-weapon-image.has-treated,
   .bip-img.has-treated,
   .saved-card-thumb.has-treated {
@@ -3996,6 +4009,11 @@
     border-radius: 8px;
     padding: 6px;
     box-shadow: 0 12px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,152,0,0.25);
+  }
+  /* v2.73.4: TESTE — fundo claro no zoom SÓ da REV-46 */
+  #cfg-img-preview.cfg-light-test {
+    background-color: transparent;
+    background-image: radial-gradient(circle at 50% 42%, #f4f8fc 0%, #d4dfea 52%, #a9b9c9 100%);
   }
   /* v2.63: popup landscape e ampliado (a arma é horizontal). O JS recorta a arma
      bem justa e centraliza no retângulo. Canvas TRANSPARENTE → o watermark aparece. */

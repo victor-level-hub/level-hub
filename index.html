@@ -1221,12 +1221,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.73.3 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.73.4 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Abas do card não estouram mais na grade</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Pequeno fix visual: na vista <strong>Grade</strong> de Minhas Armas, as 4 abas do card (Loadout / Nossa Análise / Avalie / Progressão) não cabiam numa linha e a <strong>Progressão</strong> estourava pra fora do card. Agora quebram linha certinho dentro dele.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Teste de fundo claro na REV-46</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Experiência só na <strong>REV-46</strong> (pra validarmos o estilo): tirámos o fundo com as logos, pusemos um <strong>fundo claro com degradê</strong> e ampliámos a arma — tanto no card pequeno como no zoom do hover. Se ficar bom, estendo às outras armas.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4478,6 +4478,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.73.4</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">teste · ux</span>
+              </div>
+              <p class="vh-desc"><strong>Teste de fundo claro nas imagens — SÓ na REV-46.</strong> Pedido do Victor, pra validar o estilo antes de estender. Na REV-46 (detetada por nome): o weapon-image ganha a classe <code>.bc-wpn-lighttest</code> → fundo das logos (watermark) trocado por um <strong>degradê claro</strong> e a arma <strong>ampliada</strong> (scale 1.5). No <strong>zoom do hover</strong> (<code>#cfg-img-preview</code>), o <code>onEnter</code> deteta a REV-46 pelo <code>img.alt</code> e aplica <code>.cfg-light-test</code> (mesmo fundo claro). 100% CSS + uma classe condicional — reversível e sem tocar nas outras armas. Se aprovado, generaliza-se.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.73.3</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -7453,7 +7462,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.73.3</strong><span class="ver-tag">Fix visual — na vista Grade de Minhas Armas, as 4 abas do card (Loadout/Nossa Análise/Avalie/Progressão) quebram linha dentro do card em vez de a Progressão estourar pra fora (flex-wrap em .bc-tabs).</span>
+        LEVEL · <strong>v2.73.4</strong><span class="ver-tag">Teste visual SÓ na REV-46 — fundo das imagens trocado por degradê claro (sem watermark) + arma ampliada, no card e no zoom do hover (.bc-wpn-lighttest + .cfg-light-test, por nome da arma). Reversível; se aprovar, estende-se às outras.</span>
       </div>
       <script>
         (function(){
@@ -14422,6 +14431,9 @@ const ATTACHMENT_ICONS = {
           'onerror="this.outerHTML=this.dataset.fb" data-fb="' + fallbackSvg.replace(/"/g, '&quot;') + '">'
         : fallbackSvg;
 
+      // v2.73.4: TESTE de estilo SÓ na REV-46 — fundo claro com degradê (sem watermark) + arma maior.
+      const lightTestCls = /rev[\s\-_]?46/i.test(String(baseName || '')) ? ' bc-wpn-lighttest' : '';
+
       const analysisText = generateBuildAnalysis(build, base);
       const ratingsHtml = renderRatingsBlock(build);
 
@@ -14470,7 +14482,7 @@ const ATTACHMENT_ICONS = {
 
       const ccBody = isCC
         ? '<section class="bc-cc-section">' + ccSectionHead('1', 'Loadout', 'acessórios montados') +
-            '<div class="bc-weapon-image bc-cc-render">' + wpnImageHtml + '</div>' +
+            '<div class="bc-weapon-image bc-cc-render' + lightTestCls + '">' + wpnImageHtml + '</div>' +
             attColsHtml +
           '</section>' +
           '<section class="bc-cc-section">' + ccSectionHead('2', 'Análise do Le Vél', 'gerada por IA', '{{i:bot}}') +
@@ -14496,7 +14508,7 @@ const ATTACHMENT_ICONS = {
 
       const panelsHtml = isCC ? ''
         : '<div class="bc-tab-panel' + panelActive('loadout') + '" data-bc-panel="loadout" role="tabpanel">' +
-            '<div class="bc-weapon-image">' + wpnImageHtml + '</div>' +
+            '<div class="bc-weapon-image' + lightTestCls + '">' + wpnImageHtml + '</div>' +
             '<div class="bc-attachs">' + attRows.join('') + '</div>' +
           '</div>' +
           '<div class="bc-tab-panel' + panelActive('analysis') + '" data-bc-panel="analysis" role="tabpanel">' +
@@ -27324,6 +27336,8 @@ ${cbt('share.t.footer')}`;
     if (box.width < MIN_BOX_PX || box.height < MIN_BOX_PX) return;
     var srcOriginal = img.src;
     ensureModal();
+    // v2.73.4: TESTE de fundo claro no zoom SÓ da REV-46 (img.alt = nome da arma)
+    if (modal) modal.classList.toggle('cfg-light-test', /rev[\s\-_]?46/i.test(img.alt || ''));
     var label = findLabel(img);
     modalLabel.textContent = label;
     modalLabel.style.display = label ? 'block' : 'none';
