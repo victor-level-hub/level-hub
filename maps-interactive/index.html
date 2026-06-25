@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LEVEL · Mapa — Gridlock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Black+Ops+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="map.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="ds-bundle.js"></script>
+<script src="gridlock-map.js"></script>
+<script src="poi-data.js"></script>
+<script src="image-slot.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react" src="app.jsx"></script>
+<script type="text/babel" data-presets="react">
+  const App = window.MapasInterativo;
+  const full = new URLSearchParams(location.search).get('full') === '1';
+  ReactDOM.createRoot(document.getElementById('root')).render(<App full={full} />);
+</script>
+</body>
+</html>

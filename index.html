@@ -1242,7 +1242,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.76.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.77.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4499,6 +4499,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.77.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Mapas interativos — o primeiro mapa (Gridlock).</strong> Clicar num mapa em destaque (Meus Mapas) abre a sua <strong>p&aacute;gina interativa</strong>: mapa t&aacute;tico vertical com <strong>10 camadas</strong> que se ligam/desligam (objetivos, spawns, linhas de tiro, posi&ccedil;&otilde;es de poder, rotas por time, hotspots, cobertura, letais, entradas rua/janela, dicas), cada ponto com dica t&aacute;tica + arma certa, prebrief e dicas avan&ccedil;adas, em PT/EN. T&eacute;cnica: o prot&oacute;tipo React do Victor entra como <strong>ilha isolada</strong> em <code>/maps-interactive/</code> (sandbox pr&oacute;prio, n&atilde;o toca no Hub vanilla) servida num <strong>overlay/iframe</strong>; recriadas as 2 deps que faltavam (shim <code>ds-bundle.js</code> com Button/ClassBadge + <code>map.css</code> com os tokens da paleta). <strong>Gridlock &eacute; o piloto</strong> &mdash; os pr&oacute;ximos mapas entram no mesmo molde (um ficheiro no formato <code>poi-data.js</code>). Pendente: as 41 fotos dos locais e o sync de idioma/arsenal do Hub.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.76.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">feature · fix</span>
@@ -7522,7 +7531,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.76.0</strong><span class="ver-tag">Mapas + menu: a seção Mapas abre na galeria Meus Mapas com filtro por nome (a recomendação de arma vai pra dentro da página de detalhe do mapa). Menu lateral fino (só o título; descrição no hover) e reordenado — data-driven via applyMenuConfig (base p/ a aba Menu do admin). Fix: botão Adicionar mostrava a chave i18n crua (faltava no CBI18N).</span>
+        LEVEL · <strong>v2.77.0</strong><span class="ver-tag">Mapas interativos — clicar num mapa em destaque abre a sua página interativa: 10 camadas táticas que ligas/desligas, dica + arma certa por ponto, rotas por time, prebrief e dicas (PT/EN). Gridlock é o piloto; ilha React isolada em /maps-interactive servida num overlay (não mexe no Hub vanilla). Próximos mapas no mesmo molde (poi-data.js).</span>
       </div>
       <script>
         (function(){
@@ -14954,13 +14963,33 @@ const ATTACHMENT_ICONS = {
                  '</a>';
         }).join('');
       }
-      // Clique no card → detalhes do mapa (placeholder até o README do Claude Design).
+      // Mapas com página de detalhe pronta (ilha React isolada em /maps-interactive). v2.77.0
+      // Cada mapa novo = uma entrada aqui (+ os seus dados no molde de poi-data.js).
+      var DETAIL_MAPS = { map_gridlock: '/maps-interactive/index.html' };
+      function openMapDetail(mapId, url) {
+        var ex = document.querySelector('.mapdetail-overlay'); if (ex) ex.remove();
+        var ov = document.createElement('div'); ov.className = 'mapdetail-overlay';
+        var bar = document.createElement('div'); bar.className = 'mapdetail-bar';
+        var back = document.createElement('button'); back.className = 'mapdetail-back';
+        back.innerHTML = '‹ <span>' + escapeHtml(tt('maps.detail.back', 'Voltar aos mapas')) + '</span>';
+        var title = document.createElement('span'); title.className = 'mapdetail-title'; title.textContent = mapName(mapId);
+        bar.appendChild(back); bar.appendChild(title);
+        var frame = document.createElement('iframe'); frame.className = 'mapdetail-frame'; frame.src = url; frame.title = mapName(mapId); frame.setAttribute('loading', 'eager');
+        ov.appendChild(bar); ov.appendChild(frame); document.body.appendChild(ov);
+        var prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+        function close() { ov.remove(); document.body.style.overflow = prev; document.removeEventListener('keydown', onKey); }
+        back.addEventListener('click', close);
+        function onKey(e) { if (e.key === 'Escape') close(); }
+        document.addEventListener('keydown', onKey);
+      }
+      // Clique no card → abre a página de detalhe (ou toast se ainda não houver).
       document.addEventListener('click', function (e) {
         var card = e.target.closest && e.target.closest('.mymap-card[data-map-detail]');
         if (!card) return;
         e.preventDefault();
-        // TODO(Claude Design README): navegar pra página de detalhe — card.dataset.mapDetail
-        if (typeof showToast === 'function') showToast(tt('maps.detail.soon', 'Página de detalhes do mapa em breve.'), 'info');
+        var id = card.dataset.mapDetail;
+        if (DETAIL_MAPS[id]) openMapDetail(id, DETAIL_MAPS[id]);
+        else if (typeof showToast === 'function') showToast(tt('maps.detail.soon', 'Página de detalhes do mapa em breve.'), 'info');
       });
       window.addEventListener('level:featured-maps-change', renderMyMaps);
       var _si = document.getElementById('mymaps-search');

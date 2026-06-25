@@ -6636,6 +6636,28 @@
   @media (max-width: 720px) { .mymaps-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 460px) { .mymaps-grid { grid-template-columns: 1fr; } }
 
+  /* Overlay da página de detalhe do mapa (ilha React em /maps-interactive) — v2.77.0 */
+  .mapdetail-overlay {
+    position: fixed; inset: 0; z-index: 9999; background: #0b0f1a;
+    display: flex; flex-direction: column;
+  }
+  .mapdetail-bar {
+    flex: none; height: 46px; display: flex; align-items: center; gap: 14px; padding: 0 14px;
+    background: rgba(10,13,22,0.96); border-bottom: 1px solid rgba(174,199,224,0.12);
+  }
+  .mapdetail-back {
+    display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+    background: transparent; border: 1px solid rgba(255,152,0,0.4); color: var(--accent-orange, #FF9800);
+    border-radius: 8px; padding: 6px 12px; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.04em;
+  }
+  .mapdetail-back:hover { background: rgba(255,152,0,0.12); }
+  .mapdetail-title {
+    font-family: 'Black Ops One', system-ui, sans-serif; color: var(--text-primary, #DCE5F2);
+    font-size: 15px; letter-spacing: 0.5px;
+  }
+  .mapdetail-frame { flex: 1; width: 100%; border: 0; background: #111626; }
+
   /* Botão "Adicionar / Adicionado" (destaque global) na aba Mapas das Configurações */
   .img-card-btn.is-mymap {
     background: transparent; border: 1px solid var(--accent-orange, #FF9800);

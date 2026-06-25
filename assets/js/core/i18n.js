@@ -426,6 +426,7 @@ window.I18N = {
     'maps.detail.soon':       'Página de detalhes do mapa em breve.',
     'maps.search.ph':         'Filtrar por nome do mapa…',
     'maps.search.empty':      'Nenhum mapa com esse nome.',
+    'maps.detail.back':       'Voltar aos mapas',
     'nav.perks.label':        'Vantagens & Séries',
     'nav.perks.desc':         'Setup completo',
     'nav.struggles.label':    'Evolução',
@@ -466,8 +467,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mapas mais focados + menu enxuto',
-    'briefing.changelog.summary':  'A seção <strong>Mapas</strong> agora abre direto na galeria com <strong>filtro por nome</strong> — a recomendação de arma vai passar a viver dentro da página de cada mapa. O <strong>menu lateral</strong> ficou mais fino (a descrição aparece ao passares o cursor) e numa ordem nova. Em breve: cada mapa abre a sua própria página de detalhe.',
+    'briefing.changelog.headline': 'Mapas interativos: o primeiro mapa (Gridlock)',
+    'briefing.changelog.summary':  'Clica num mapa em destaque e abre a <strong>página interativa</strong> dele: mapa tático com camadas que ligas/desligas (objetivos, spawns, rotas, snipers…), cada ponto com a dica e a arma certa, rotas por time, prebrief e dicas avançadas — em PT/EN. O <strong>Gridlock</strong> é o piloto; os próximos mapas entram no mesmo molde.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2109,6 +2110,7 @@ window.I18N = {
     'maps.detail.soon':       'Map detail page coming soon.',
     'maps.search.ph':         'Filter by map name…',
     'maps.search.empty':      'No map with that name.',
+    'maps.detail.back':       'Back to maps',
     'nav.perks.label':        'Perks & Streaks',
     'nav.perks.desc':         'Complete setup',
     'nav.struggles.label':    'Evolution',
@@ -2148,8 +2150,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Sharper Maps + a leaner menu',
-    'briefing.changelog.summary':  'The <strong>Maps</strong> section now opens straight into the gallery with a <strong>name filter</strong> — weapon recommendations are moving inside each map page. The <strong>sidebar</strong> got thinner (the description shows on hover) and a new order. Coming soon: every map opens its own detail page.',
+    'briefing.changelog.headline': 'Interactive maps: the first one (Gridlock)',
+    'briefing.changelog.summary':  'Tap a featured map and its <strong>interactive page</strong> opens: a tactical map with layers you toggle (objectives, spawns, routes, snipers…), each point with its tip and the right weapon, team routes, prebrief and advanced tips — in PT/EN. <strong>Gridlock</strong> is the pilot; the next maps follow the same mold.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
