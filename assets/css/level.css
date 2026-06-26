@@ -6697,17 +6697,21 @@
   }
   .menulat-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
 
-  /* Editar Status do Operador — Prestige MASTER (11) + Level > 55 (v2.82.0) */
-  .status-master-badge {
-    display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 5px;
-    background: var(--accent-orange, #FF9800); color: #1A1206; vertical-align: middle;
-    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+  /* Editar Status do Operador — Prestige MASTER (11) + Level > 55 (v2.82.0 · v2.84.0) */
+  .status-prestige-wrap { position: relative; }
+  .status-master-tag {
+    position: absolute; right: 9px; top: 50%; transform: translateY(-50%); pointer-events: none;
+    padding: 2px 8px; border-radius: 5px; background: var(--accent-orange, #FF9800); color: #1A1206;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    box-shadow: 0 0 10px rgba(255,152,0,0.35);
   }
   #status-prestige.is-master {
     border-color: var(--accent-orange, #FF9800); color: var(--accent-orange, #FF9800); font-weight: 700;
+    padding-right: 72px;  /* espaço para a tag MASTER dentro do campo */
     box-shadow: 0 0 0 1px var(--accent-orange, #FF9800), 0 0 10px rgba(255,152,0,0.3);
   }
-  #status-level.is-over55 { color: var(--accent-orange, #FF9800); font-weight: 700; }
+  /* Level no Master (>55): laranja mais BRILHANTE que o do Prestige + glow */
+  #status-level.is-over55 { color: #FFC152; font-weight: 700; text-shadow: 0 0 10px rgba(255,180,70,0.5); }
 
   /* Botão "Adicionar / Adicionado" (destaque global) na aba Mapas das Configurações */
   .img-card-btn.is-mymap {

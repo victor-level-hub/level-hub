@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Prestige Master: Level até 1000 liberado',
-    'briefing.changelog.summary':  'Corrigi o bloqueio que dava <strong>“Level deve estar entre 1 e 55”</strong> no Prestige Master: agora o limite do Level entende o teu prestige — <strong>55</strong> do Prestige 0 ao 10 e <strong>1000</strong> no Prestige 11 (Master), onde o número fica laranja. Já podes salvar o teu Level 56+.',
+    'briefing.changelog.headline': 'Prestige Master mais bonito no status',
+    'briefing.changelog.summary':  'No Editar Status: a tag <strong>MASTER</strong> agora aparece <strong>dentro do campo</strong> de prestige (cabe certinho) e o número do <strong>Level</strong> no Master ficou laranja <strong>mais brilhante</strong> que o do prestige, pra diferenciar. O Level vai até <strong>1000</strong> no Master.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2152,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Prestige Master: Level up to 1000 unlocked',
-    'briefing.changelog.summary':  'Fixed the block that threw <strong>“Level must be between 1 and 55”</strong> at Prestige Master: the Level cap now knows your prestige — <strong>55</strong> for Prestige 0 to 10 and <strong>1000</strong> at Prestige 11 (Master), where the number turns orange. You can now save your Level 56+.',
+    'briefing.changelog.headline': 'A nicer Prestige Master in status',
+    'briefing.changelog.summary':  'In Edit Status: the <strong>MASTER</strong> tag now sits <strong>inside</strong> the prestige field (fits neatly) and the <strong>Level</strong> number at Master turns a <strong>brighter</strong> orange than the prestige one, to tell them apart. Level goes up to <strong>1000</strong> at Master.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
