@@ -10452,8 +10452,16 @@
   .mod-btn.approve { background:#4ade80; color:#0a0e1a; }
   .mod-btn.reject { background:#e74c3c; color:#fff; }
   .mod-btn:disabled { opacity:.5; cursor:not-allowed; }
-  .mod-invite-form { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-  .mod-invite-form .form-input { flex:1; min-width:130px; }
+  /* v2.87.0: form de convite de papéis — grid com rótulos (antes era flex-wrap sem labels) */
+  .mod-invite-form { display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:end; max-width:520px; }
+  .mod-invite-form .mif-field { display:flex; flex-direction:column; gap:5px; min-width:0; }
+  .mod-invite-form .mif-field > .form-label { margin:0; }
+  .mod-invite-form .mif-field .form-input { width:100%; flex:none; min-width:0; box-sizing:border-box; }
+  .mod-invite-form .mif-full { grid-column:1 / -1; }
+  .mod-invite-form input[type="date"] { color-scheme: dark; }
+  .mod-invite-form .mif-opt { color: var(--text-muted, #8497B8); font-size: 9.5px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .mod-invite-form .mif-submit { grid-column:1 / -1; justify-self:start; margin-top:2px; }
+  @media (max-width: 460px) { .mod-invite-form { grid-template-columns:1fr; } }
   .mod-inv-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:8px 0; border-bottom:1px solid var(--border-subtle,rgba(255,255,255,.06)); font-size:12px; }
   .mod-inv-row .accent { color:var(--accent-orange); font-weight:700; }
   /* Red light na home (staff) */

@@ -9,7 +9,7 @@ Companion tático pessoal para Call of Duty: Black Ops 7. App `index.html` (~33k
 ~17 blocos `<script>` inline) + módulos extraídos em `assets/` (CSS em `assets/css/level.css`;
 JS em `assets/js/{core,ui,services}/*.js`). HTML/CSS/JS vanilla (zero framework, zero build) +
 Supabase backend + **auto-deploy Cloudflare Pages** (Netlify saiu). Coach IA interno = **Le Vél**.
-Site: le-vel.games. **Versão atual: v2.86.0.**
+Site: le-vel.games. **Versão atual: v2.87.0.**
 
 ## REGRAS DE COMUNICAÇÃO (sempre ativas)
 - Respostas em **pt-BR**. Termos técnicos de jogo (hipfire, ADS, TTK, slide-cancel...)

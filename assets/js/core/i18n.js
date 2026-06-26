@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '26 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Gráfico: imagem só no ponto, tooltip só texto',
-    'briefing.changelog.summary':  'No gráfico de evolução, o emblema de prestige agora aparece <strong>só no ponto</strong> do gráfico; o <strong>tooltip</strong> ficou só com o texto (prestígio + nome + data). E o ponto passou a mostrar o emblema de verdade (antes aparecia “P11” porque a imagem carregava depois do gráfico).',
+    'briefing.changelog.headline': 'Form de convite de papéis mais bonito',
+    'briefing.changelog.summary':  'O form de convidar admin/avaliador (no painel do operador) estava sem rótulos e apertado — agora cada campo tem o seu nome (E-mail, Papel, <strong>Válido de</strong> e <strong>Válido até</strong>) num layout limpo, e o seletor de data ficou escuro.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2152,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 26, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Graph: emblem only on the point, text-only tooltip',
-    'briefing.changelog.summary':  'In the evolution graph, the prestige emblem now shows <strong>only on the graph point</strong>; the <strong>tooltip</strong> is now text only (prestige + name + date). And the point now shows the real emblem (it used to read “P11” because the image loaded after the graph).',
+    'briefing.changelog.headline': 'A nicer role-invite form',
+    'briefing.changelog.summary':  'The admin/evaluator invite form (in the operator panel) had no labels and was cramped — now every field is labeled (Email, Role, <strong>Valid from</strong> and <strong>Valid until</strong>) in a clean layout, and the date picker turned dark.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
