@@ -246,8 +246,8 @@ window.I18N = {
     'avatar.remove.msg':          'Remover a foto do operador?',
     'avatar.import.title':        'Avatar importado',
     'avatar.import.msg':          'Avatar atualizado com sucesso.',
-    'profile.prestige.range':     'Prestige deve estar entre 0 e 20.',
-    'profile.level.range':        'Level deve estar entre 1 e 55.',
+    'profile.prestige.range':     'Prestige deve estar entre 0 e 11.',
+    'profile.level.range':        'Level deve estar entre 1 e 55 (até 1000 no Prestige Master).',
     'rate.before.title':          'Avalia a arma antes?',
     'rate.before.msg':            'O Le Vél usa a sua avaliação da arma (aba AVALIE) pra entender o que não está funcionando pra você. Uma avaliação fresca deixa a re-análise muito mais certeira.',
     'rate.before.confirm':        'Avaliar agora',
@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Prestige Master + travas no status',
-    'briefing.changelog.summary':  'No <strong>Editar Status do Operador</strong>: o Prestige agora trava em <strong>11</strong> e o Level em <strong>55</strong> (Prestige 1 ao 10). No <strong>Prestige 11 — o MASTER</strong> — o Level vai até <strong>1000</strong> e fica <strong>laranja</strong> quando passa de 55, com destaque no campo. Travado para não passar dos limites.',
+    'briefing.changelog.headline': 'Prestige Master: Level até 1000 liberado',
+    'briefing.changelog.summary':  'Corrigi o bloqueio que dava <strong>“Level deve estar entre 1 e 55”</strong> no Prestige Master: agora o limite do Level entende o teu prestige — <strong>55</strong> do Prestige 0 ao 10 e <strong>1000</strong> no Prestige 11 (Master), onde o número fica laranja. Já podes salvar o teu Level 56+.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -1934,8 +1934,8 @@ window.I18N = {
     'avatar.remove.msg':          'Remove the operator photo?',
     'avatar.import.title':        'Avatar imported',
     'avatar.import.msg':          'Avatar updated successfully.',
-    'profile.prestige.range':     'Prestige must be between 0 and 20.',
-    'profile.level.range':        'Level must be between 1 and 55.',
+    'profile.prestige.range':     'Prestige must be between 0 and 11.',
+    'profile.level.range':        'Level must be between 1 and 55 (up to 1000 at Prestige Master).',
     'rate.before.title':          'Rate the weapon first?',
     'rate.before.msg':            'Le Vél uses your weapon rating (RATE tab) to understand what is not working for you. A fresh rating makes the re-analysis much more accurate.',
     'rate.before.confirm':        'Rate now',
@@ -2152,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Prestige Master + status caps',
-    'briefing.changelog.summary':  'In <strong>Edit Operator Status</strong>: Prestige now caps at <strong>11</strong> and Level at <strong>55</strong> (Prestige 1 to 10). At <strong>Prestige 11 — MASTER</strong> — Level goes up to <strong>1000</strong> and turns <strong>orange</strong> past 55, with the field highlighted. Locked so you can&rsquo;t exceed the limits.',
+    'briefing.changelog.headline': 'Prestige Master: Level up to 1000 unlocked',
+    'briefing.changelog.summary':  'Fixed the block that threw <strong>“Level must be between 1 and 55”</strong> at Prestige Master: the Level cap now knows your prestige — <strong>55</strong> for Prestige 0 to 10 and <strong>1000</strong> at Prestige 11 (Master), where the number turns orange. You can now save your Level 56+.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

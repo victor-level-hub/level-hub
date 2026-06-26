@@ -1244,7 +1244,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.82.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.83.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4501,6 +4501,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.83.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Fix do Prestige Master no Editar Status.</strong> A v2.82.0 travava o input e o clamp do save, mas ficou uma <strong>valida&ccedil;&atilde;o redundante</strong> em <code>saveStatusFromModal</code> que rejeitava <code>level &gt; 55</code> <strong>sem olhar o prestige</strong> &mdash; logo, no Prestige Master (level acima de 55) aparecia o modal &ldquo;VALOR INV&Aacute;LIDO &middot; Level deve estar entre 1 e 55&rdquo;. Agora o limite &eacute; <strong>ciente do prestige</strong>: <code>55</code> no Prestige 0&ndash;10, <code>1000</code> no Prestige 11 (Master). Tamb&eacute;m corrigi as mensagens i18n (<code>profile.prestige.range</code> dizia &ldquo;0 e 20&rdquo; &rarr; &ldquo;0 e 11&rdquo;; <code>profile.level.range</code> agora explica o limite de 1000 no Master), PT e EN. Verificado no preview: p11/l56 e p11/l1000 &rarr; OK; p5/l60 e p11/l1001 &rarr; inv&aacute;lido.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.82.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7580,7 +7589,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.82.0</strong><span class="ver-tag">Editar Status do Operador: Prestige trava em 11 e Level em 55 (Prestige 0-10). No Prestige 11 = MASTER, o Level vai até 1000 e fica laranja, com badge MASTER + campo do prestige destacado. Cap no input (oninput) e no save. Verificado no preview: prestige 15→11, level 5000→1000, badge/laranja só no Master.</span>
+        LEVEL · <strong>v2.83.0</strong><span class="ver-tag">Fix do Prestige Master: a validação do save bloqueava Level > 55 mesmo no Master (dava "VALOR INVÁLIDO · Level deve estar entre 1 e 55"). Agora o limite é ciente do prestige — 55 (Prestige 0-10) ou 1000 (Prestige 11/Master). Mensagens corrigidas (prestige era "0 e 20" → "0 e 11"; level explica o 1000 no Master).</span>
       </div>
       <script>
         (function(){
@@ -11794,8 +11803,9 @@ window.BO7_ASSETS = (function() {
       if (statusWeaponEl) patch.activeWeaponId = statusWeaponEl.value || null;
 
       // Validation
-      if (patch.prestige < 0 || patch.prestige > 20) { LevelModal.alert({ title: tHub('common.invalidValue'), message: tHub('profile.prestige.range'), variant: 'warning' }); return; }
-      if (patch.level < 1 || patch.level > 55) { LevelModal.alert({ title: tHub('common.invalidValue'), message: tHub('profile.level.range'), variant: 'warning' }); return; }
+      if (patch.prestige < 0 || patch.prestige > 11) { LevelModal.alert({ title: tHub('common.invalidValue'), message: tHub('profile.prestige.range'), variant: 'warning' }); return; }
+      var _lvlMax = patch.prestige === 11 ? 1000 : 55;  // v2.83.0: Prestige Master (11) vai até 1000
+      if (patch.level < 1 || patch.level > _lvlMax) { LevelModal.alert({ title: tHub('common.invalidValue'), message: tHub('profile.level.range'), variant: 'warning' }); return; }
 
       // Update activeWeapon flags on weapons table — só se patch tem activeWeaponId
       if ('activeWeaponId' in patch) {
