@@ -1244,7 +1244,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.85.0 · <span data-i18n="briefing.changelog.date">26 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.86.0 · <span data-i18n="briefing.changelog.date">26 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4501,6 +4501,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.86.0</span>
+                <span class="vh-date">26 Jun 2026</span>
+                <span class="vh-kind">polish</span>
+              </div>
+              <p class="vh-desc"><strong>Gráfico de evolução: imagem só no ponto, tooltip só texto</strong> (Victor mudou de ideia em rela&ccedil;&atilde;o ao v2.85.0). O emblema de prestige passa a aparecer <strong>s&oacute; no ponto</strong> de virada do gr&aacute;fico (fora); o <strong>tooltip</strong> ficou s&oacute; com o texto (<em>Prest&iacute;gio N</em> + nome do tier + data) &mdash; removida a <code>&lt;img&gt;</code> do <code>tip.innerHTML</code> e a regra CSS <code>.opp-chart-tip img</code> (agora morta). <strong>B&oacute;nus:</strong> o ponto mostrava o fallback de texto &ldquo;P11&rdquo; porque o gr&aacute;fico renderiza no boot <strong>antes</strong> das imagens de prestige carregarem; agora exponho <code>StatsTracker.rerender()</code> (re-desenho leve com os snapshots em cache, sem re-fetch) e chamo-o no <code>refreshAfterImageChange</code> &mdash; quando as imagens chegam (<code>loadGlobalDefaultImages</code>), o ponto re-renderiza e mostra o emblema. Verificado no preview: tooltip sem <code>&lt;img&gt;</code>, <code>StatsTracker.rerender</code> existe e n&atilde;o lan&ccedil;a; <code>node --check</code> 19/0.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.85.0</span>
                 <span class="vh-date">26 Jun 2026</span>
                 <span class="vh-kind">polish</span>
@@ -7607,7 +7616,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.85.0</strong><span class="ver-tag">Gráfico de evolução: o emblema de prestige no tooltip (que era quadrado, object-fit:contain) ficou igual ao ponto do gráfico/sidebar — círculo + anel laranja + fundo escuro (object-fit:cover). Pedido do Victor "deixe igual ao de fora". Verificado no preview: border-radius 50%, anel #FF9800 2px, cover.</span>
+        LEVEL · <strong>v2.86.0</strong><span class="ver-tag">Gráfico de evolução (Victor mudou de ideia): a imagem do emblema fica só no PONTO (fora); o tooltip ficou só texto (Prestígio N + nome + data). Removida a img do tooltip + CSS morto. Bónus: o ponto agora re-renderiza quando as imagens de prestige carregam (StatsTracker.rerender no refreshAfterImageChange) — antes mostrava "P11" porque a imagem chegava depois do 1º render.</span>
       </div>
       <script>
         (function(){
@@ -18203,8 +18212,8 @@ const ATTACHMENT_ICONS = {
             var d = new Date(t);
             var ds = d.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
             var ts = d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
-            var img = prestigeImg(Number(p));
-            tip.innerHTML = (img ? '<img src="' + img + '" alt=""/>' : '') +
+            // v2.86.0: tooltip = só texto (a imagem fica só no ponto do gráfico — pedido do Victor)
+            tip.innerHTML =
               '<div class="tip-p">' + (en ? 'Prestige ' : 'Prestígio ') + p + '</div>' +
               '<div class="tip-nm">' + nm + '</div>' +
               '<div class="tip-when">' + ds + ' · ' + ts + '</div>';
@@ -18494,7 +18503,9 @@ const ATTACHMENT_ICONS = {
         setTimeout(loadSnapshots, 200);
       }
 
-      window.StatsTracker = { loadSnapshots: loadSnapshots, submitSnapshot: submitSnapshot };
+      // v2.86.0: rerender leve (sem re-fetch) — usado quando as imagens de prestige carregam,
+      // pra o ponto de virada do gráfico passar do "P11" texto para o emblema (imagem fora).
+      window.StatsTracker = { loadSnapshots: loadSnapshots, submitSnapshot: submitSnapshot, rerender: function () { try { if (_lastSnaps && _lastSnaps.length) renderChart(_lastSnaps); } catch (e) {} } };
     })();
 
     // ═══════════════════════════════════════════════════════════════════
@@ -23088,6 +23099,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       } catch (e) {}
       // v76: re-render dos cards de mapa após upload/remoção de imagem
       try { if (typeof window.renderMapsSection === 'function') window.renderMapsSection(); } catch (e) {}
+      // v2.86.0: re-desenha o gráfico de evolução quando as imagens de prestige carregam,
+      // pra o ponto de virada mostrar o emblema (em vez do fallback "P11").
+      try { if (window.StatsTracker && window.StatsTracker.rerender) window.StatsTracker.rerender(); } catch (e) {}
       if (typeof decoratePerkCards === 'function') decoratePerkCards();
       // v2.63: atualiza os displays de ARMA na hora (Início, cards de build, loadout cards)
       // — antes a imagem só aparecia após recarregar a página.

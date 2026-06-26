@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '26 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Emblema de prestige no gráfico ficou redondo',
-    'briefing.changelog.summary':  'No gráfico de evolução, o emblema de prestige que aparece no <strong>tooltip</strong> (ao passar o rato num ponto) estava <strong>quadrado</strong> — agora ficou <strong>redondo com anel laranja</strong>, igual ao ponto do gráfico e ao da sidebar.',
+    'briefing.changelog.headline': 'Gráfico: imagem só no ponto, tooltip só texto',
+    'briefing.changelog.summary':  'No gráfico de evolução, o emblema de prestige agora aparece <strong>só no ponto</strong> do gráfico; o <strong>tooltip</strong> ficou só com o texto (prestígio + nome + data). E o ponto passou a mostrar o emblema de verdade (antes aparecia “P11” porque a imagem carregava depois do gráfico).',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2152,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 26, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Round prestige emblem in the graph',
-    'briefing.changelog.summary':  'In the evolution graph, the prestige emblem shown in the <strong>tooltip</strong> (on hover over a point) was <strong>square</strong> — it&rsquo;s now <strong>round with an orange ring</strong>, matching the graph point and the sidebar.',
+    'briefing.changelog.headline': 'Graph: emblem only on the point, text-only tooltip',
+    'briefing.changelog.summary':  'In the evolution graph, the prestige emblem now shows <strong>only on the graph point</strong>; the <strong>tooltip</strong> is now text only (prestige + name + date). And the point now shows the real emblem (it used to read “P11” because the image loaded after the graph).',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
