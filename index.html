@@ -1244,7 +1244,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.84.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.85.0 · <span data-i18n="briefing.changelog.date">26 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4501,6 +4501,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.85.0</span>
+                <span class="vh-date">26 Jun 2026</span>
+                <span class="vh-kind">polish</span>
+              </div>
+              <p class="vh-desc"><strong>Emblema de prestige no tooltip do gráfico ficou redondo</strong> (pedido do Victor: &ldquo;deixe igual ao de fora&rdquo;). No gr&aacute;fico de evolu&ccedil;&atilde;o, o ponto de virada de prest&iacute;gio j&aacute; era um c&iacute;rculo com anel laranja e fundo escuro (SVG <code>&lt;image&gt;</code> + clip circular), mas o <strong>tooltip</strong> ao passar o rato mostrava o mesmo emblema <strong>quadrado</strong> (<code>.opp-chart-tip img</code> com <code>object-fit:contain</code>). Igualei-o ao ponto: <code>border-radius:50%</code> + <code>object-fit:cover</code> + anel <code>2px #FF9800</code> + fundo escuro (box-shadow). Verificado no preview (estilos computados): raio 50%, anel <code>rgb(255,152,0)</code>, cover, 56&times;56.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.84.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">polish</span>
@@ -7598,7 +7607,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.84.0</strong><span class="ver-tag">Polish do Prestige Master no Editar Status: a tag "MASTER" passou para DENTRO do campo de prestige (cabe certinho, 57px no campo de 135px, sem sobrepor o número). O Level (Master, >55) ficou laranja mais BRILHANTE (#FFC152 + glow) que o do prestige (#FF9800), pra diferenciar. Max do Level = 1000 no Master (confirmado). Verificado no preview: tag dentro do campo, cores certas, geometria sem overlap.</span>
+        LEVEL · <strong>v2.85.0</strong><span class="ver-tag">Gráfico de evolução: o emblema de prestige no tooltip (que era quadrado, object-fit:contain) ficou igual ao ponto do gráfico/sidebar — círculo + anel laranja + fundo escuro (object-fit:cover). Pedido do Victor "deixe igual ao de fora". Verificado no preview: border-radius 50%, anel #FF9800 2px, cover.</span>
       </div>
       <script>
         (function(){

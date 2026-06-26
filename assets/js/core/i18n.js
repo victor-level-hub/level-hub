@@ -466,10 +466,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '25 Jun 2026',
+    'briefing.changelog.date':  '26 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Prestige Master mais bonito no status',
-    'briefing.changelog.summary':  'No Editar Status: a tag <strong>MASTER</strong> agora aparece <strong>dentro do campo</strong> de prestige (cabe certinho) e o número do <strong>Level</strong> no Master ficou laranja <strong>mais brilhante</strong> que o do prestige, pra diferenciar. O Level vai até <strong>1000</strong> no Master.',
+    'briefing.changelog.headline': 'Emblema de prestige no gráfico ficou redondo',
+    'briefing.changelog.summary':  'No gráfico de evolução, o emblema de prestige que aparece no <strong>tooltip</strong> (ao passar o rato num ponto) estava <strong>quadrado</strong> — agora ficou <strong>redondo com anel laranja</strong>, igual ao ponto do gráfico e ao da sidebar.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2150,10 +2150,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 25, 2026',
+    'briefing.changelog.date':  'Jun 26, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'A nicer Prestige Master in status',
-    'briefing.changelog.summary':  'In Edit Status: the <strong>MASTER</strong> tag now sits <strong>inside</strong> the prestige field (fits neatly) and the <strong>Level</strong> number at Master turns a <strong>brighter</strong> orange than the prestige one, to tell them apart. Level goes up to <strong>1000</strong> at Master.',
+    'briefing.changelog.headline': 'Round prestige emblem in the graph',
+    'briefing.changelog.summary':  'In the evolution graph, the prestige emblem shown in the <strong>tooltip</strong> (on hover over a point) was <strong>square</strong> — it&rsquo;s now <strong>round with an orange ring</strong>, matching the graph point and the sidebar.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

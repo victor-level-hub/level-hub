@@ -7745,7 +7745,8 @@
     background: var(--bg-panel, #1f283f); border: 1px solid var(--accent-orange, #FF9800); border-radius: 10px;
     padding: 9px 11px; box-shadow: 0 8px 24px rgba(0,0,0,0.45); text-align: center;
   }
-  .opp-chart-tip img { width: 56px; height: 56px; object-fit: contain; display: block; margin: 0 auto 6px; }
+  /* v2.85.0: emblema do tooltip igual ao ponto do gráfico/sidebar — círculo + anel laranja + fundo escuro */
+  .opp-chart-tip img { width: 56px; height: 56px; object-fit: cover; display: block; margin: 0 auto 8px; border-radius: 50%; border: 2px solid #FF9800; background: var(--bg-darkest, #141a2b); box-shadow: 0 0 0 2px var(--bg-darkest, #141a2b); }
   .opp-chart-tip .tip-p { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 13px; color: var(--accent-orange); letter-spacing: 0.04em; }
   .opp-chart-tip .tip-nm { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; color: var(--text-primary); margin-top: 1px; }
   .opp-chart-tip .tip-when { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-muted); margin-top: 5px; }
