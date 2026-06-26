@@ -6697,6 +6697,18 @@
   }
   .menulat-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
 
+  /* Editar Status do Operador — Prestige MASTER (11) + Level > 55 (v2.82.0) */
+  .status-master-badge {
+    display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 5px;
+    background: var(--accent-orange, #FF9800); color: #1A1206; vertical-align: middle;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+  }
+  #status-prestige.is-master {
+    border-color: var(--accent-orange, #FF9800); color: var(--accent-orange, #FF9800); font-weight: 700;
+    box-shadow: 0 0 0 1px var(--accent-orange, #FF9800), 0 0 10px rgba(255,152,0,0.3);
+  }
+  #status-level.is-over55 { color: var(--accent-orange, #FF9800); font-weight: 700; }
+
   /* Botão "Adicionar / Adicionado" (destaque global) na aba Mapas das Configurações */
   .img-card-btn.is-mymap {
     background: transparent; border: 1px solid var(--accent-orange, #FF9800);

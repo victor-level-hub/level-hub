@@ -1244,7 +1244,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.81.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.82.0 · <span data-i18n="briefing.changelog.date">25 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4501,6 +4501,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.82.0</span>
+                <span class="vh-date">25 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Prestige Master + travas no Editar Status do Operador.</strong> O <strong>Prestige</strong> passou a travar em <strong>11</strong> (era 20) e o <strong>Level</strong> em <strong>55</strong> para Prestige 0&ndash;10. No <strong>Prestige 11 &mdash; o MASTER</strong> &mdash; o Level vai at&eacute; <strong>1000</strong> e fica <strong>laranja</strong> quando passa de 55, com um badge <code>MASTER</code> ao lado do r&oacute;tulo e o campo do prestige destacado a laranja. A trava acontece no <strong>input</strong> (<code>oninput</code> &rarr; <code>syncStatusPL</code>: ajusta o <code>max</code> do level, o range &ldquo;(1-1000)&rdquo; e os destaques) <strong>e no save</strong> (clamp de prestige 0&ndash;11 e level 1&ndash;max). Verificado no preview: prestige 15&rarr;11, level 60&rarr;55 (n&atilde;o-master), level 5000&rarr;1000 (master), badge/laranja s&oacute; no Master.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.81.0</span>
                 <span class="vh-date">25 Jun 2026</span>
                 <span class="vh-kind">polish</span>
@@ -7571,7 +7580,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.81.0</strong><span class="ver-tag">Header do mapa no padrão do Hub (print4/5): logo wordmark REAL (level-logo.svg 703×180, em vez do mark), seletor de idioma idêntico ao Hub (.lvl-lang portado — globo → popover com "Idioma do site" + "Termos técnicos", bandeiras PT/EN) substituiu os toggles, e o "Voltar aos mapas" destacado. Verificado no preview: dropdown abre/fecha c/ bandeiras, 3-col a 1280 sem scroll, 0 erros. Pendente: foto configurável por ponto.</span>
+        LEVEL · <strong>v2.82.0</strong><span class="ver-tag">Editar Status do Operador: Prestige trava em 11 e Level em 55 (Prestige 0-10). No Prestige 11 = MASTER, o Level vai até 1000 e fica laranja, com badge MASTER + campo do prestige destacado. Cap no input (oninput) e no save. Verificado no preview: prestige 15→11, level 5000→1000, badge/laranja só no Master.</span>
       </div>
       <script>
         (function(){
@@ -7637,12 +7646,12 @@
 
           <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: end">
             <div>
-              <div class="form-label">Prestige</div>
-              <input type="number" id="status-prestige" class="form-input" min="0" max="20" placeholder="4"/>
+              <div class="form-label">Prestige <span id="status-prestige-master" class="status-master-badge" style="display:none">MASTER</span></div>
+              <input type="number" id="status-prestige" class="form-input" min="0" max="11" placeholder="4" oninput="window.syncStatusPL&&window.syncStatusPL()"/>
             </div>
             <div>
-              <div class="form-label">Level atual <span style="color:var(--text-muted);font-size:10px">(1-55)</span></div>
-              <input type="number" id="status-level" class="form-input" min="1" max="55" placeholder="35"/>
+              <div class="form-label">Level atual <span id="status-level-range" style="color:var(--text-muted);font-size:10px">(1-55)</span></div>
+              <input type="number" id="status-level" class="form-input" min="1" max="55" placeholder="35" oninput="window.syncStatusPL&&window.syncStatusPL()"/>
             </div>
             <div>
               <div class="form-label">Plataforma</div>
@@ -11685,6 +11694,29 @@ window.BO7_ASSETS = (function() {
         }).join('');
     }
 
+    // v2.82.0: prestige máx 11 (= MASTER); level até 55 (prestige 0-10) ou 1000 (MASTER).
+    // Destaque: badge MASTER + prestige laranja em 11; level laranja quando passa de 55.
+    window.syncStatusPL = function syncStatusPL() {
+      var pi = document.getElementById('status-prestige');
+      var li = document.getElementById('status-level');
+      if (!pi || !li) return;
+      var pv = parseInt(pi.value, 10); if (isNaN(pv)) pv = -1;
+      if (pv > 11) { pv = 11; pi.value = 11; }
+      else if (pv < 0 && pi.value !== '') { pv = 0; pi.value = 0; }
+      var isMaster = pv === 11;
+      var lvlMax = isMaster ? 1000 : 55;
+      li.setAttribute('max', String(lvlMax));
+      var lv = parseInt(li.value, 10);
+      if (!isNaN(lv)) { if (lv > lvlMax) li.value = lvlMax; else if (lv < 1) li.value = 1; }
+      var badge = document.getElementById('status-prestige-master');
+      if (badge) badge.style.display = isMaster ? '' : 'none';
+      var range = document.getElementById('status-level-range');
+      if (range) range.textContent = isMaster ? '(1-1000)' : '(1-55)';
+      pi.classList.toggle('is-master', isMaster);
+      var lvNow = parseInt(li.value, 10) || 0;
+      li.classList.toggle('is-over55', lvNow > 55);
+    };
+
     // ── Open status modal pre-filled with current data ─────────────────
     async function openStatusModal() {
       const p = await LevelDB.player.get();
@@ -11737,6 +11769,7 @@ window.BO7_ASSETS = (function() {
         else { st.textContent = ''; }
       })();
       await populateWeaponSelect();
+      try { window.syncStatusPL(); } catch (e) {}
       document.getElementById('modal-status').classList.add('visible');
     }
 
@@ -11748,8 +11781,8 @@ window.BO7_ASSETS = (function() {
 
       const patch = {
         name: document.getElementById('status-name').value.trim().toUpperCase() || 'VICTOR',
-        prestige: parseInt(document.getElementById('status-prestige').value, 10) || 0,
-        level: parseInt(document.getElementById('status-level').value, 10) || 1,
+        prestige: Math.max(0, Math.min(11, parseInt(document.getElementById('status-prestige').value, 10) || 0)),
+        level: (function () { var pv = Math.max(0, Math.min(11, parseInt(document.getElementById('status-prestige').value, 10) || 0)); var mx = pv === 11 ? 1000 : 55; return Math.max(1, Math.min(mx, parseInt(document.getElementById('status-level').value, 10) || 1)); })(),
         playstyle: document.getElementById('status-playstyle').value,
         platform: document.getElementById('status-platform').value,
         perms: document.getElementById('status-perms').value

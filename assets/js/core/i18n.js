@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '25 Jun 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Mapa interativo com o cabeçalho do Hub',
-    'briefing.changelog.summary':  'O header da página do mapa agora segue o <strong>padrão do Hub</strong>: a <strong>logo real</strong> do LEVEL, o <strong>seletor de idioma idêntico</strong> (botão de globo que abre o idioma do site + termos técnicos, com bandeiras) e o botão <strong>Voltar aos mapas</strong> destacado. Mais coerente com o resto da app.',
+    'briefing.changelog.headline': 'Prestige Master + travas no status',
+    'briefing.changelog.summary':  'No <strong>Editar Status do Operador</strong>: o Prestige agora trava em <strong>11</strong> e o Level em <strong>55</strong> (Prestige 1 ao 10). No <strong>Prestige 11 — o MASTER</strong> — o Level vai até <strong>1000</strong> e fica <strong>laranja</strong> quando passa de 55, com destaque no campo. Travado para não passar dos limites.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2152,8 +2152,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Jun 25, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Interactive map now uses the Hub header',
-    'briefing.changelog.summary':  'The map page header now follows the <strong>Hub pattern</strong>: the <strong>real LEVEL logo</strong>, the <strong>same language selector</strong> (a globe button opening site language + tech terms, with flags) and the highlighted <strong>Back to maps</strong> button. More consistent with the rest of the app.',
+    'briefing.changelog.headline': 'Prestige Master + status caps',
+    'briefing.changelog.summary':  'In <strong>Edit Operator Status</strong>: Prestige now caps at <strong>11</strong> and Level at <strong>55</strong> (Prestige 1 to 10). At <strong>Prestige 11 — MASTER</strong> — Level goes up to <strong>1000</strong> and turns <strong>orange</strong> past 55, with the field highlighted. Locked so you can&rsquo;t exceed the limits.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
