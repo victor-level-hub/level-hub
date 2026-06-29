@@ -20,3 +20,7 @@
 # map.css). Sem versão no nome → revalidar a cada carga, pra não servir a ilha stale.
 /maps-interactive/*
   Cache-Control: public, max-age=0, must-revalidate
+# v2.88.0: imagens dos cards de evento (nome fixo, trocam por temporada) → revalidar
+# a cada carga, pra um swap de imagem de evento aplicar sem cache stale.
+/assets/events/*
+  Cache-Control: public, max-age=0, must-revalidate

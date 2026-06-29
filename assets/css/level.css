@@ -956,6 +956,27 @@
     --event-accent: var(--accent-orange);
     --event-gradient: linear-gradient(135deg, var(--accent-orange) 0%, transparent 70%);
   }
+  /* v2.88.0 — eventos de meio de temporada S04 Reloaded */
+  .event-card.evt-nickcage {
+    --event-accent: #FF7A2F;
+    --event-gradient: radial-gradient(circle at 70% 25%, #FF7A2F 0%, transparent 65%);
+  }
+  .event-card.evt-summer {
+    --event-accent: #FFC857;
+    --event-gradient: radial-gradient(circle at 70% 25%, #FFC857 0%, transparent 65%);
+  }
+  .event-card.evt-kowakujo {
+    --event-accent: #D9534F;
+    --event-gradient: radial-gradient(circle at 70% 25%, #D9534F 0%, transparent 65%);
+  }
+  .event-card.evt-weekly {
+    --event-accent: #58C4DC;
+    --event-gradient: radial-gradient(circle at 70% 25%, #58C4DC 0%, transparent 65%);
+  }
+  .event-card.evt-kingkiller {
+    --event-accent: #A06CD5;
+    --event-gradient: radial-gradient(circle at 70% 25%, #A06CD5 0%, transparent 65%);
+  }
   .event-card:hover { border-color: var(--event-accent); }
   /* v2.25.1: ícones removidos, badge vira overlay no canto superior direito da arte */
   .event-card-badge {
