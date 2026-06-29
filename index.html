@@ -898,7 +898,22 @@
     // que vai reordenar/ocultar via window.applyMenuConfig). Corre durante o parse (sem flash).
     (function () {
       var DEFAULT_ORDER = ['home','briefing','maps','myweapons','constructor','myloadouts','squad','marketplace','struggles','controller','aimtraining','perks','progression','settings'];
-      function applyMenuConfig(order, hidden) {
+      function buildGiSvg(obj) {
+        if (!obj || !obj.b) return '';
+        var w = obj.w || 512, h = obj.h || 512;
+        return '<svg class="gi-fill" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' + obj.b + '</svg>';
+      }
+      // v2.89.0: troca (ou repõe) o ícone de um item do menu. Guarda o original 1x p/ poder repor.
+      function applyMenuIcon(sec, obj) {
+        try {
+          var btn = document.querySelector('.nav-item[data-section="' + sec + '"]'); if (!btn) return;
+          var span = btn.querySelector('.nav-icon'); if (!span) return;
+          if (span.getAttribute('data-orig-icon') == null) span.setAttribute('data-orig-icon', span.innerHTML);
+          if (obj && obj.b) span.innerHTML = buildGiSvg(obj);
+          else span.innerHTML = span.getAttribute('data-orig-icon') || span.innerHTML;
+        } catch (e) {}
+      }
+      function applyMenuConfig(order, hidden, icons) {
         try {
           // há 3 <nav> (landing, mobile-tabbar, sidebar) — alveja a sidebar pelo seu conteúdo
           var anchor = document.querySelector('.nav-item[data-section]');
@@ -909,9 +924,12 @@
           nav.querySelectorAll('.nav-item[data-section]').forEach(function (b) { items[b.dataset.section] = b; });
           order.forEach(function (sec) { if (items[sec]) { nav.appendChild(items[sec]); items[sec].style.display = (hidden.indexOf(sec) !== -1) ? 'none' : ''; delete items[sec]; } });
           Object.keys(items).forEach(function (sec) { nav.appendChild(items[sec]); items[sec].style.display = (hidden.indexOf(sec) !== -1) ? 'none' : ''; });
+          if (icons && typeof icons === 'object') Object.keys(icons).forEach(function (sec) { applyMenuIcon(sec, icons[sec]); });
         } catch (e) {}
       }
       window.applyMenuConfig = applyMenuConfig;
+      window.applyMenuIcon = applyMenuIcon;
+      window.buildGiSvg = buildGiSvg;
       window.MENU_DEFAULT_ORDER = DEFAULT_ORDER;
       applyMenuConfig(DEFAULT_ORDER, []);
     })();
@@ -1300,12 +1318,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.88.0 · <span data-i18n="briefing.changelog.date">29 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.89.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Eventos de meio de temporada no Painel do Dia</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O Painel do Dia agora mostra os eventos ativos da <strong>Temporada 4 Recarregada</strong> — Passe Nick Cage, Summer of Action, o novo mapa Zombies Kowakuj&#333;, os Desafios Semanais e a Operação Mata-Rei — cada um com imagem, recompensa e contagem. Tudo verificado nas fontes oficiais.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Escolhe o ícone de cada item do menu</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Na aba <strong>Menu Lateral</strong> das Configurações, cada item do menu agora tem um <strong>seletor de ícone</strong>: abre, busca (com atalho “Táticos”) e escolhe entre <strong>4000+</strong> ícones do pack game-icons (mira, armas, granadas, patentes…). A escolha é global e aplica-se a todos. Os ícones atuais ficam como padrão até trocares.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4557,6 +4575,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.89.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Seletor de &iacute;cone do menu.</strong> A aba <em>Menu Lateral</em> (Configura&ccedil;&otilde;es) ganhou um <strong>seletor de &iacute;cone por item</strong>: cada linha tem um bot&atilde;o que abre uma grade com busca e atalho &ldquo;T&aacute;ticos&rdquo;, ligada ao pack <strong>game-icons</strong> (4000+ &iacute;cones &mdash; mira, armas, granadas, patentes&hellip;). A escolha &eacute; global (salva em <code>cat_menu_config.icons_json</code> via edge <code>admin-menu-config</code> v2) e aplica-se a todos os utilizadores. O pack (6&nbsp;MB) s&oacute; carrega no navegador do admin ao abrir o seletor, e o &iacute;cone escolhido fica guardado como <strong>SVG</strong> &mdash; o utilizador final n&atilde;o baixa nada. Os &iacute;cones atuais permanecem como padr&atilde;o at&eacute; trocares; &ldquo;Repor padr&atilde;o&rdquo; restaura os originais.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.88.0</span>
                 <span class="vh-date">29 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7702,7 +7729,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.88.0</strong><span class="ver-tag">Eventos de meio de temporada (Temporada 4 Recarregada) no Painel do Dia: 5 cards — Passe Nick Cage, Summer of Action, novo mapa Zombies Kowakujō, Desafios Semanais (acessório XR-3 Ion Vulcan Minigun) e Operação Mata-Rei — com imagem oficial otimizada (WebP), recompensa e contagem regressiva, em PT/EN. Conteúdo verificado por pesquisa multi-fonte (blog oficial CoD + GameRant/Dexerto/Detonated); corrigidos nomes: "Summer of Action" (não "Temporada de Ação"), a Minigun é acessório que converte a sniper XR-3 Ion, e "King Killer" (não "Killing King"). Substituiu o card Illicit Cargo (evento encerrado a 25/jun).</span>
+        LEVEL · <strong>v2.89.0</strong><span class="ver-tag">Seletor de ícone do menu: na aba Menu Lateral das Configurações, cada item ganhou um seletor ligado ao pack game-icons (4000+ ícones, com busca e atalho Táticos). A escolha é global e fica guardada como SVG (em cat_menu_config.icons_json via edge admin-menu-config v2); o pack (6 MB) só carrega no navegador do admin ao abrir o seletor, o utilizador final não baixa nada. Os ícones atuais permanecem como padrão até trocares.</span>
       </div>
       <script>
         (function(){
@@ -22739,6 +22766,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
       var ENDPOINT = 'https://cqkhqtgmolmrfgzozocr.supabase.co/functions/v1/admin-menu-config';
       var SECRET_LS_KEY = 'level.admin.secret';
+      var currentIcons = {}; // v2.89.0: mapa de ícones aplicado (seção -> {n,b,w,h})
       function getSecret() { try { return localStorage.getItem(SECRET_LS_KEY) || ''; } catch (e) { return ''; } }
       function getLang() { try { return localStorage.getItem('bo7hub_lang_v1') === 'en' ? 'en' : 'pt'; } catch (e) { return 'pt'; } }
       function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
@@ -22767,20 +22795,26 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         try {
           if (!window.LEVEL_AUTH || !window.LEVEL_AUTH.getClient) return;
           var c = await window.LEVEL_AUTH.getClient();
-          var resp = await c.from('cat_menu_config').select('order_json,hidden_json').eq('id', 'default').maybeSingle();
+          var resp = await c.from('cat_menu_config').select('order_json,hidden_json,icons_json').eq('id', 'default').maybeSingle();
           var d = resp && resp.data;
-          if (d && Array.isArray(d.order_json) && d.order_json.length && typeof window.applyMenuConfig === 'function') {
-            window.applyMenuConfig(d.order_json, Array.isArray(d.hidden_json) ? d.hidden_json : []);
+          if (d) {
+            var ic = (d.icons_json && typeof d.icons_json === 'object' && !Array.isArray(d.icons_json)) ? d.icons_json : {};
+            currentIcons = ic;
+            if (Array.isArray(d.order_json) && d.order_json.length && typeof window.applyMenuConfig === 'function') {
+              window.applyMenuConfig(d.order_json, Array.isArray(d.hidden_json) ? d.hidden_json : [], ic);
+            } else if (typeof window.applyMenuIcon === 'function') {
+              Object.keys(ic).forEach(function (s) { window.applyMenuIcon(s, ic[s]); });
+            }
           }
         } catch (e) { console.warn('[menu-config] load falhou:', e && e.message); }
       }
-      async function save(order, hidden) {
+      async function save(order, hidden, icons) {
         var secret = getSecret();
         if (!secret) throw new Error('Secret de admin não configurado (painel Operador).');
         var r = await fetch(ENDPOINT, {
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + ANON_KEY, 'apikey': ANON_KEY, 'Content-Type': 'application/json', 'x-level-admin-secret': secret },
-          body: JSON.stringify({ action: 'set', order: order, hidden: hidden })
+          body: JSON.stringify({ action: 'set', order: order, hidden: hidden, icons: icons || {} })
         });
         var data = await r.json().catch(function () { return {}; });
         if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
@@ -22801,13 +22835,77 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         [].slice.call(panel.querySelectorAll('.menulat-row')).forEach(function (r) {
           var s = r.getAttribute('data-section'); order.push(s); if (r.classList.contains('is-hidden')) hidden.push(s);
         });
-        return { order: order, hidden: hidden };
+        return { order: order, hidden: hidden, icons: panel.__editIcons || {} };
       }
       function applyLive(panel) {
         var cfg = readPanel(panel);
         if (typeof window.applyMenuConfig === 'function') window.applyMenuConfig(cfg.order, cfg.hidden);
       }
       var GRIP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
+
+      // ── v2.89.0 · seletor de ícone (game-icons, lazy) ──
+      function strokePrevHtml(sec) {
+        var b = document.querySelector('.nav-item[data-section="' + sec + '"]'); if (!b) return '';
+        var span = b.querySelector('.nav-icon'); if (!span) return '';
+        var html = span.getAttribute('data-orig-icon') || span.innerHTML;
+        return html.replace('<svg', '<svg class="gi-stroke"');
+      }
+      var _packPromise = null;
+      function loadPack() {
+        if (!_packPromise) {
+          _packPromise = fetch('assets/gameicons.json', { cache: 'force-cache' })
+            .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+        }
+        return _packPromise;
+      }
+      function giInfo(name, pack) {
+        var v = pack.icons[name]; if (v == null) return null;
+        if (typeof v === 'string') return { b: v, w: pack.v || 512, h: pack.v || 512 };
+        return { b: v.b, w: v.w || 512, h: v.h || 512 };
+      }
+      function openIconPicker(section, current, onPick) {
+        var ov = document.createElement('div'); ov.className = 'gi-pick-ov';
+        ov.innerHTML = ''
+          + '<div class="gi-pick" role="dialog" aria-modal="true">'
+          +   '<div class="gi-pick-hd"><h4>' + esc(T('menucfg.pickTitle', 'Escolher ícone')) + '</h4><button type="button" class="gi-pick-x" aria-label="Fechar">&times;</button></div>'
+          +   '<div class="gi-pick-tools"><input type="text" class="gi-pick-q" placeholder="' + esc(T('menucfg.pickSearch', 'Buscar (ex.: rifle, knife, skull)')) + '"><button type="button" class="gi-pick-chip on" data-mode="tac">' + esc(T('menucfg.pickTac', 'Táticos')) + '</button><button type="button" class="gi-pick-chip" data-mode="all">' + esc(T('menucfg.pickAll', 'Todos')) + '</button></div>'
+          +   '<div class="gi-pick-grid" id="gi-pick-grid"><div style="grid-column:1/-1;color:var(--text-muted);padding:20px">…</div></div>'
+          +   '<div class="gi-pick-ft"><span class="gi-pick-count"></span><button type="button" class="gi-pick-def">' + esc(T('menucfg.pickDefault', 'Usar ícone padrão')) + '</button></div>'
+          + '</div>';
+        document.body.appendChild(ov);
+        var grid = ov.querySelector('#gi-pick-grid'), q = ov.querySelector('.gi-pick-q'), countEl = ov.querySelector('.gi-pick-count');
+        var mode = 'tac', pack = null, names = [], CAP = 400;
+        function close() { try { document.body.removeChild(ov); } catch (e) {} }
+        ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+        ov.querySelector('.gi-pick-x').addEventListener('click', close);
+        ov.querySelector('.gi-pick-def').addEventListener('click', function () { onPick(null); close(); });
+        ov.querySelectorAll('.gi-pick-chip').forEach(function (ch) {
+          ch.addEventListener('click', function () { mode = ch.getAttribute('data-mode'); ov.querySelectorAll('.gi-pick-chip').forEach(function (c) { c.classList.toggle('on', c === ch); }); render(); });
+        });
+        function render() {
+          if (!pack) return;
+          var term = (q.value || '').trim().toLowerCase();
+          var base = term ? names : (mode === 'tac' ? (pack.tactical || []) : names);
+          var list = [];
+          for (var i = 0; i < base.length && list.length < CAP; i++) { if (!term || base[i].indexOf(term) !== -1) list.push(base[i]); }
+          var frag = document.createDocumentFragment();
+          list.forEach(function (nm) {
+            var info = giInfo(nm, pack); if (!info) return;
+            var cell = document.createElement('button');
+            cell.type = 'button'; cell.className = 'gi-pick-cell' + ((current && current.n === nm) ? ' sel' : ''); cell.title = nm;
+            cell.innerHTML = '<svg viewBox="0 0 ' + info.w + ' ' + info.h + '" aria-hidden="true">' + info.b + '</svg>';
+            cell.addEventListener('click', function () { onPick({ n: nm, b: info.b, w: info.w, h: info.h }); close(); });
+            frag.appendChild(cell);
+          });
+          grid.innerHTML = '';
+          if (!list.length) grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text-muted);padding:20px">' + esc(T('menucfg.pickNone', 'Nada encontrado.')) + '</div>';
+          else grid.appendChild(frag);
+          countEl.textContent = list.length + (list.length >= CAP ? '+' : '') + ' ' + T('menucfg.pickIcons', 'ícones');
+        }
+        var deb; q.addEventListener('input', function () { clearTimeout(deb); deb = setTimeout(render, 140); });
+        loadPack().then(function (p) { pack = p; names = Object.keys(p.icons).sort(); render(); })
+          .catch(function (err) { grid.innerHTML = '<div style="grid-column:1/-1;color:var(--red,#E74C3C);padding:20px">' + esc(T('menucfg.pickErr', 'Falhou ao carregar o pack: ') + ((err && err.message) || '')) + '</div>'; });
+      }
 
       window.renderMenuLateralPanel = function renderMenuLateralPanel() {
         var panel = document.getElementById('menu-lateral-panel');
@@ -22816,14 +22914,20 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         // exclui "settings": é o teu acesso admin, fica sempre por último e visível.
         var btns = navButtons().filter(function (b) { return b.dataset.section !== 'settings'; });
         if (!btns.length) { panel.innerHTML = '<div style="padding:20px;color:var(--text-muted)">Menu não encontrado.</div>'; return; }
+        var editIcons = Object.assign({}, currentIcons); // v2.89.0: cópia de edição
+        panel.__editIcons = editIcons;
         var rowsHtml = btns.map(function (b) {
           var sec = b.dataset.section, meta = META[sec] || {}, desc = meta[lang] || meta.pt || '';
           var hidden = (b.style.display === 'none');
+          var span = b.querySelector('.nav-icon');
+          var origHtml = span ? (span.getAttribute('data-orig-icon') || span.innerHTML) : '';
+          var prev = (editIcons[sec] && editIcons[sec].b) ? window.buildGiSvg(editIcons[sec]) : origHtml.replace('<svg', '<svg class="gi-stroke"');
           return ''
             + '<div class="menulat-row' + (hidden ? ' is-hidden' : '') + '" draggable="true" data-section="' + esc(sec) + '">'
             +   '<span class="menulat-handle" title="' + esc(T('menucfg.dragHint', 'Arrastar')) + '">' + GRIP + '</span>'
             +   '<div class="menulat-info"><div class="menulat-label">' + esc(labelOf(b)) + '</div>'
             +     '<div class="menulat-desc">' + esc(desc) + '</div></div>'
+            +   '<button type="button" class="menulat-icon" title="' + esc(T('menucfg.iconHint', 'Trocar ícone')) + '">' + prev + '</button>'
             +   '<button type="button" class="menulat-eye" aria-pressed="' + (!hidden) + '">' + esc(hidden ? T('menucfg.hidden', 'Oculto') : T('menucfg.visible', 'Visível')) + '</button>'
             + '</div>';
         }).join('');
@@ -22862,16 +22966,30 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           eye.textContent = hidden ? T('menucfg.hidden', 'Oculto') : T('menucfg.visible', 'Visível');
           applyLive(panel);
         });
+        list.addEventListener('click', function (e) {
+          var ib = e.target.closest('.menulat-icon'); if (!ib) return;
+          var row = ib.closest('.menulat-row'); if (!row) return;
+          var sec = row.getAttribute('data-section');
+          openIconPicker(sec, (panel.__editIcons && panel.__editIcons[sec]) || null, function (obj) {
+            if (!panel.__editIcons) panel.__editIcons = {};
+            if (obj) panel.__editIcons[sec] = obj; else delete panel.__editIcons[sec];
+            if (typeof window.applyMenuIcon === 'function') window.applyMenuIcon(sec, obj);
+            ib.innerHTML = obj ? window.buildGiSvg(obj) : strokePrevHtml(sec);
+          });
+        });
         var resetBtn = panel.querySelector('.menulat-reset');
         if (resetBtn) resetBtn.addEventListener('click', function () {
           if (typeof window.applyMenuConfig === 'function') window.applyMenuConfig(window.MENU_DEFAULT_ORDER || null, []);
+          if (typeof window.applyMenuIcon === 'function') navButtons().forEach(function (b) { window.applyMenuIcon(b.dataset.section, null); });
+          if (panel.__editIcons) Object.keys(panel.__editIcons).forEach(function (k) { delete panel.__editIcons[k]; });
           window.renderMenuLateralPanel();
         });
         var saveBtn = panel.querySelector('.menulat-save');
         if (saveBtn) saveBtn.addEventListener('click', function () {
           var btn = this, cfg = readPanel(panel), status = panel.querySelector('#menulat-status');
           btn.disabled = true; if (status) { status.textContent = '…'; status.style.color = 'var(--text-muted)'; }
-          save(cfg.order, cfg.hidden).then(function () {
+          save(cfg.order, cfg.hidden, cfg.icons).then(function () {
+            currentIcons = cfg.icons || {};
             if (status) { status.textContent = T('menucfg.saved', 'Menu salvo para todos.'); status.style.color = 'var(--green, #4ADE80)'; }
             if (typeof showToast === 'function') showToast(T('menucfg.saved', 'Menu salvo para todos.'), 'success');
           }).catch(function (err) {
@@ -25088,6 +25206,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'menucfg.save': 'Salvar para todos', 'menucfg.reset': 'Repor padrão',
         'menucfg.saved': 'Menu salvo para todos.', 'menucfg.saveErr': 'Não consegui salvar: ',
         'menucfg.dragHint': 'Arrastar',
+        'menucfg.iconHint': 'Trocar ícone', 'menucfg.pickTitle': 'Escolher ícone',
+        'menucfg.pickSearch': 'Buscar (ex.: rifle, knife, skull)', 'menucfg.pickTac': 'Táticos', 'menucfg.pickAll': 'Todos',
+        'menucfg.pickDefault': 'Usar ícone padrão', 'menucfg.pickNone': 'Nada encontrado.', 'menucfg.pickIcons': 'ícones', 'menucfg.pickErr': 'Falhou ao carregar o pack: ',
         'set.bulk.title': 'Upload em massa', 'set.bulk.hint': 'Arrasta várias imagens aqui (ou clica para escolher). O nome do ficheiro tem de ser o id — ex. wpn_rev46.png', 'set.bulk.placed': 'colocada(s)', 'set.bulk.unmatched': 'não reconhecida(s)', 'set.bulk.none': 'Nenhuma imagem reconhecida — confere se o nome do ficheiro é o id (ex. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Estilos',
@@ -25259,6 +25380,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'menucfg.save': 'Save for everyone', 'menucfg.reset': 'Reset to default',
         'menucfg.saved': 'Menu saved for everyone.', 'menucfg.saveErr': 'Could not save: ',
         'menucfg.dragHint': 'Drag',
+        'menucfg.iconHint': 'Change icon', 'menucfg.pickTitle': 'Choose icon',
+        'menucfg.pickSearch': 'Search (e.g. rifle, knife, skull)', 'menucfg.pickTac': 'Tactical', 'menucfg.pickAll': 'All',
+        'menucfg.pickDefault': 'Use default icon', 'menucfg.pickNone': 'Nothing found.', 'menucfg.pickIcons': 'icons', 'menucfg.pickErr': 'Failed to load the pack: ',
         'set.bulk.title': 'Bulk upload', 'set.bulk.hint': 'Drag several images here (or click to pick). The filename must be the id — e.g. wpn_rev46.png', 'set.bulk.placed': 'placed', 'set.bulk.unmatched': 'not recognized', 'set.bulk.none': 'No image recognized — check the filename matches the id (e.g. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Styles',
