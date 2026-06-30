@@ -100,6 +100,14 @@
     });
     void root.offsetWidth; // commit do estado escondido antes de re-observar
     els.forEach(function (el) { io.observe(el); });
+    // v2.90.1: revela JÁ o que está acima da dobra. O IntersectionObserver não
+    // dispara de forma fiável para conteúdo já visível quando a seção abre
+    // (display:none→block) → a tela ficava em branco até o utilizador rolar.
+    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    els.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < vh * 0.9) { io.unobserve(el); revealEl(el); }
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
