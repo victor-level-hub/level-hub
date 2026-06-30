@@ -1318,12 +1318,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.90.1 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.91.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fix: telas já não abrem em branco</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Algumas telas (com destaque pro <strong>Loadout</strong>) abriam com a área em branco até rolares um pouco — o efeito de “revelar ao rolar” não disparava para o conteúdo já visível no topo. Agora o conteúdo acima da dobra aparece <strong>logo ao abrir a aba</strong>. (Mantém-se o seletor de ícone por categorias do v2.90.0.)</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Prestige 11 vira MASTER, com nível em destaque</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No card do operador, ao atingires o <strong>Prestige 11</strong> o número passa a mostrar <strong>MASTER</strong>. E o <strong>nível acima de 55</strong> (a faixa que só o Master alcança) ganha um laranja mais forte com um leve <strong>glow</strong> à volta.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4575,6 +4575,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.91.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Prestige MASTER + n&iacute;vel extra em destaque.</strong> No card do operador (sidebar), ao atingir o <strong>Prestige 11</strong> o n&uacute;mero passa a mostrar a palavra <strong>MASTER</strong> (classe <code>is-master</code>, fonte ajustada para caber). E o <strong>n&iacute;vel acima de 55</strong> &mdash; a faixa que s&oacute; o Master alcan&ccedil;a (vai at&eacute; 1000) &mdash; fica num laranja mais forte (<code>--accent-master</code>) com um leve <em>glow</em> &agrave; volta (classe <code>is-overmax</code>). Aplicado no render do prestige/n&iacute;vel da sidebar.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.90.1</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -7747,7 +7756,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.90.1</strong><span class="ver-tag">Fix: telas que usam "revelar ao rolar" (com destaque pro Loadout) abriam em branco até rolar — o IntersectionObserver não disparava para o conteúdo já visível no topo ao abrir a aba. O rearm agora revela imediatamente o que está acima da dobra (assets/js/ui/motion.js). Mantém o seletor de ícone por categorias do v2.90.0.</span>
+        LEVEL · <strong>v2.91.0</strong><span class="ver-tag">No card do operador, Prestige 11 passa a mostrar "MASTER" (em vez do número) e o nível acima de 55 — a faixa que só o Master alcança — fica num laranja mais forte (--accent-master) com um leve glow. Classes is-master / is-overmax aplicadas no render do prestige/nível da sidebar.</span>
       </div>
       <script>
         (function(){
@@ -11778,10 +11787,20 @@ window.BO7_ASSETS = (function() {
       }
 
       const sidebarTier = document.getElementById('prestige-tier-sidebar');
-      if (sidebarTier) sidebarTier.textContent = (p.prestige != null ? p.prestige : '—');
+      if (sidebarTier) {
+        // v2.91.0: prestige 11 = MASTER (mostra a palavra, não o número)
+        const _prv = (p.prestige == null ? null : Number(p.prestige));
+        const _isMaster = _prv != null && _prv >= 11;
+        sidebarTier.textContent = (_prv == null ? '—' : (_isMaster ? 'MASTER' : _prv));
+        sidebarTier.classList.toggle('is-master', _isMaster);
+      }
 
       const sidebarLevel = document.getElementById('prestige-level-sidebar');
-      if (sidebarLevel) sidebarLevel.textContent = p.level != null ? p.level : '—';
+      if (sidebarLevel) {
+        sidebarLevel.textContent = p.level != null ? p.level : '—';
+        // v2.91.0: nível acima de 55 (só o Master alcança) fica laranja forte + glow
+        sidebarLevel.classList.toggle('is-overmax', Number(p.level) > 55);
+      }
 
       // v75-34: atualiza fallback da badge sobreposta no avatar (quando não há imagem)
       const pbFallback = document.getElementById('oc-pb-fallback');

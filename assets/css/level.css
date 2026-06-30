@@ -9919,6 +9919,9 @@
   .operator-card .oc-pips { display: flex; gap: 3px; }
   .operator-card .oc-pips i { flex: 1; height: 10px; border-radius: 2px; background: var(--surface-sunken, #0F1422); border: 1px solid var(--border-subtle); }
   .operator-card .oc-pips i.on { background: linear-gradient(180deg, var(--level-orange-bright, #FFB23E), var(--level-orange, #FF9800)); border-color: transparent; box-shadow: 0 0 6px rgba(255,152,0,0.5); }
+  /* v2.91.0 · Prestige MASTER (11) e nível acima do máx (só Master alcança) com realce */
+  .operator-card .oc-profbox-prest b.is-master { font-size: 13px; letter-spacing: 0.03em; color: var(--accent-master, #ff8a1f); text-shadow: 0 0 9px rgba(255,138,31,0.55); }
+  .operator-card .oc-lvlw-stat b.is-overmax { color: var(--accent-master, #ff8a1f); text-shadow: 0 0 7px rgba(255,138,31,0.6), 0 0 15px rgba(255,138,31,0.32); }
   @media (prefers-reduced-motion: reduce) { .operator-card .operator-avatar, .operator-card .oc-prestige-badge { transition: none; } }
   @media (max-width: 900px) {
     .operator-card .oc-name { font-size: 18px; }
