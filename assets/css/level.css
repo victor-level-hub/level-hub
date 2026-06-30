@@ -13641,7 +13641,12 @@
   .gi-pick-tools input { flex: 1; height: 36px; border-radius: 9px; border: 1px solid var(--bg-row, #25304f); background: var(--surface-input, #131A2C); color: var(--text-primary, #DCE5F2); padding: 0 12px; font-size: 13px; }
   .gi-pick-chip { height: 36px; padding: 0 13px; border-radius: 9px; border: 1px solid var(--bg-row, #25304f); background: transparent; color: var(--text-secondary, #AEC7E0); font-size: 12px; cursor: pointer; white-space: nowrap; }
   .gi-pick-chip.on { border-color: var(--accent-orange, #FF9800); color: var(--accent-orange, #FF9800); background: rgba(255,152,0,.08); }
-  .gi-pick-grid { overflow-y: auto; padding: 12px 16px 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 8px; }
+  .gi-pick-body { overflow-y: auto; padding: 6px 16px 16px; }
+  .gi-pick-sec { font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary, #AEC7E0); margin: 16px 2px 9px; display: flex; align-items: center; gap: 8px; }
+  .gi-pick-sec .sug { font-size: 9.5px; color: var(--accent-orange, #FF9800); border: 1px solid var(--accent-orange, #FF9800); border-radius: 6px; padding: 1px 6px; letter-spacing: .04em; }
+  .gi-pick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 8px; }
+  .gi-pick-more { width: 100%; margin-top: 4px; height: 38px; border-radius: 9px; border: 1px dashed var(--bg-row, #25304f); background: transparent; color: var(--text-secondary, #AEC7E0); font-size: 12.5px; cursor: pointer; }
+  .gi-pick-more:hover { border-color: var(--accent-orange, #FF9800); color: var(--accent-orange, #FF9800); }
   .gi-pick-cell { aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--bg-row, #25304f); background: #0D121E; color: var(--accent-orange, #FF9800); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 9px; }
   .gi-pick-cell:hover { border-color: var(--accent-orange, #FF9800); background: rgba(255,152,0,.1); }
   .gi-pick-cell.sel { border-color: var(--accent-orange, #FF9800); box-shadow: 0 0 0 1px var(--accent-orange, #FF9800) inset; }

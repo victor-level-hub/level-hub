@@ -1318,12 +1318,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.89.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.90.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Escolhe o ícone de cada item do menu</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Na aba <strong>Menu Lateral</strong> das Configurações, cada item do menu agora tem um <strong>seletor de ícone</strong>: abre, busca (com atalho “Táticos”) e escolhe entre <strong>4000+</strong> ícones do pack game-icons (mira, armas, granadas, patentes…). A escolha é global e aplica-se a todos. Os ícones atuais ficam como padrão até trocares.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor de ícone organizado por categorias</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O seletor de ícone do menu (Configurações → Menu Lateral) agora mostra os ícones <strong>agrupados por categoria</strong> — Armas, Mira, Mapas, Patentes, Combate… — com a categoria do item em destaque (<strong>“sugerido”</strong>) e uma secção <strong>Outros</strong> no fim. Bem mais fácil de achar o que encaixa em cada menu.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4575,6 +4575,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.90.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Seletor de &iacute;cone por categorias.</strong> O seletor do menu (Configura&ccedil;&otilde;es &rarr; Menu Lateral) deixou de ser uma lista &uacute;nica e passou a mostrar os &iacute;cones <strong>agrupados em sec&ccedil;&otilde;es</strong>: <em>Mira &amp; Alvo, Armas, Muni&ccedil;&atilde;o &amp; Explosivos, Combate &amp; T&aacute;tico, Mapas &amp; Navega&ccedil;&atilde;o, Patentes &amp; Conquistas, Progresso &amp; Stats, Social &amp; Mercado, Sistema &amp; Controle, In&iacute;cio &amp; Painel</em> &mdash; e uma sec&ccedil;&atilde;o <strong>Outros</strong> (3865) no fim, sob &ldquo;Ver todos&rdquo;. A categoria que combina com o item aberto vem <strong>primeiro, marcada &ldquo;sugerido&rdquo;</strong>. A busca continua a varrer os 4000+. Cura embutida no <code>gameicons.json</code> (campo <code>categories</code>). Resolve a dificuldade de encontrar o &iacute;cone certo por menu.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.89.0</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7729,7 +7738,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.89.0</strong><span class="ver-tag">Seletor de ícone do menu: na aba Menu Lateral das Configurações, cada item ganhou um seletor ligado ao pack game-icons (4000+ ícones, com busca e atalho Táticos). A escolha é global e fica guardada como SVG (em cat_menu_config.icons_json via edge admin-menu-config v2); o pack (6 MB) só carrega no navegador do admin ao abrir o seletor, o utilizador final não baixa nada. Os ícones atuais permanecem como padrão até trocares.</span>
+        LEVEL · <strong>v2.90.0</strong><span class="ver-tag">Seletor de ícone do menu agora organizado por categorias (Armas, Mira, Mapas, Patentes, Combate, Social, Sistema…) com a categoria do item em destaque ("sugerido") e uma secção Outros no fim — em vez da lista única. Cura feita a partir do pack game-icons; busca continua a varrer os 4000+. Base do v2.89.0 (seletor por item, salvo como SVG global em cat_menu_config.icons_json).</span>
       </div>
       <script>
         (function(){
@@ -22863,48 +22872,71 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         if (typeof v === 'string') return { b: v, w: pack.v || 512, h: pack.v || 512 };
         return { b: v.b, w: v.w || 512, h: v.h || 512 };
       }
+      var PICK_SUG = { myweapons: 'weapons', aimtraining: 'aim', briefing: 'home', home: 'home', maps: 'maps', constructor: 'system', myloadouts: 'combat', squad: 'social', marketplace: 'social', struggles: 'progress', controller: 'system', perks: 'ranks', progression: 'progress', settings: 'system' };
       function openIconPicker(section, current, onPick) {
         var ov = document.createElement('div'); ov.className = 'gi-pick-ov';
         ov.innerHTML = ''
           + '<div class="gi-pick" role="dialog" aria-modal="true">'
           +   '<div class="gi-pick-hd"><h4>' + esc(T('menucfg.pickTitle', 'Escolher ícone')) + '</h4><button type="button" class="gi-pick-x" aria-label="Fechar">&times;</button></div>'
-          +   '<div class="gi-pick-tools"><input type="text" class="gi-pick-q" placeholder="' + esc(T('menucfg.pickSearch', 'Buscar (ex.: rifle, knife, skull)')) + '"><button type="button" class="gi-pick-chip on" data-mode="tac">' + esc(T('menucfg.pickTac', 'Táticos')) + '</button><button type="button" class="gi-pick-chip" data-mode="all">' + esc(T('menucfg.pickAll', 'Todos')) + '</button></div>'
-          +   '<div class="gi-pick-grid" id="gi-pick-grid"><div style="grid-column:1/-1;color:var(--text-muted);padding:20px">…</div></div>'
+          +   '<div class="gi-pick-tools"><input type="text" class="gi-pick-q" placeholder="' + esc(T('menucfg.pickSearch', 'Buscar (ex.: rifle, knife, skull)')) + '"></div>'
+          +   '<div class="gi-pick-body" id="gi-pick-body"><div style="color:var(--text-muted);padding:20px">…</div></div>'
           +   '<div class="gi-pick-ft"><span class="gi-pick-count"></span><button type="button" class="gi-pick-def">' + esc(T('menucfg.pickDefault', 'Usar ícone padrão')) + '</button></div>'
           + '</div>';
         document.body.appendChild(ov);
-        var grid = ov.querySelector('#gi-pick-grid'), q = ov.querySelector('.gi-pick-q'), countEl = ov.querySelector('.gi-pick-count');
-        var mode = 'tac', pack = null, names = [], CAP = 400;
+        var body = ov.querySelector('#gi-pick-body'), q = ov.querySelector('.gi-pick-q'), countEl = ov.querySelector('.gi-pick-count');
+        var pack = null, names = [], catSet = null, CAP = 400, lang = getLang();
         function close() { try { document.body.removeChild(ov); } catch (e) {} }
         ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
         ov.querySelector('.gi-pick-x').addEventListener('click', close);
         ov.querySelector('.gi-pick-def').addEventListener('click', function () { onPick(null); close(); });
-        ov.querySelectorAll('.gi-pick-chip').forEach(function (ch) {
-          ch.addEventListener('click', function () { mode = ch.getAttribute('data-mode'); ov.querySelectorAll('.gi-pick-chip').forEach(function (c) { c.classList.toggle('on', c === ch); }); render(); });
-        });
-        function render() {
-          if (!pack) return;
-          var term = (q.value || '').trim().toLowerCase();
-          var base = term ? names : (mode === 'tac' ? (pack.tactical || []) : names);
-          var list = [];
-          for (var i = 0; i < base.length && list.length < CAP; i++) { if (!term || base[i].indexOf(term) !== -1) list.push(base[i]); }
-          var frag = document.createDocumentFragment();
-          list.forEach(function (nm) {
-            var info = giInfo(nm, pack); if (!info) return;
-            var cell = document.createElement('button');
-            cell.type = 'button'; cell.className = 'gi-pick-cell' + ((current && current.n === nm) ? ' sel' : ''); cell.title = nm;
-            cell.innerHTML = '<svg viewBox="0 0 ' + info.w + ' ' + info.h + '" aria-hidden="true">' + info.b + '</svg>';
-            cell.addEventListener('click', function () { onPick({ n: nm, b: info.b, w: info.w, h: info.h }); close(); });
-            frag.appendChild(cell);
+        function cell(nm) {
+          var info = giInfo(nm, pack); if (!info) return null;
+          var b = document.createElement('button');
+          b.type = 'button'; b.className = 'gi-pick-cell' + ((current && current.n === nm) ? ' sel' : ''); b.title = nm;
+          b.innerHTML = '<svg viewBox="0 0 ' + info.w + ' ' + info.h + '" aria-hidden="true">' + info.b + '</svg>';
+          b.addEventListener('click', function () { onPick({ n: nm, b: info.b, w: info.w, h: info.h }); close(); });
+          return b;
+        }
+        function gridOf(list) {
+          var g = document.createElement('div'); g.className = 'gi-pick-grid';
+          list.forEach(function (nm) { var c = cell(nm); if (c) g.appendChild(c); });
+          return g;
+        }
+        function heading(text, suggested) {
+          var h = document.createElement('div'); h.className = 'gi-pick-sec';
+          h.appendChild(document.createTextNode(text));
+          if (suggested) { var s = document.createElement('span'); s.className = 'sug'; s.textContent = T('menucfg.pickSuggested', 'sugerido'); h.appendChild(s); }
+          return h;
+        }
+        function renderSections() {
+          body.innerHTML = '';
+          var sugKey = PICK_SUG[section] || null;
+          var cats = (pack.categories || []).slice();
+          cats.sort(function (a, b) { return (b.k === sugKey ? 1 : 0) - (a.k === sugKey ? 1 : 0); });
+          cats.forEach(function (cat) {
+            if (!cat.i || !cat.i.length) return;
+            body.appendChild(heading(lang === 'en' ? cat.e : cat.l, cat.k === sugKey));
+            body.appendChild(gridOf(cat.i));
           });
-          grid.innerHTML = '';
-          if (!list.length) grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text-muted);padding:20px">' + esc(T('menucfg.pickNone', 'Nada encontrado.')) + '</div>';
-          else grid.appendChild(frag);
+          var others = names.filter(function (n) { return !catSet.has(n); });
+          body.appendChild(heading(T('menucfg.pickOthers', 'Outros'), false));
+          var more = document.createElement('button'); more.type = 'button'; more.className = 'gi-pick-more';
+          more.textContent = T('menucfg.pickSeeAll', 'Ver todos') + ' (' + others.length + ')';
+          more.addEventListener('click', function () { more.remove(); body.appendChild(gridOf(others.slice(0, CAP))); });
+          body.appendChild(more);
+          countEl.textContent = (pack.categories || []).length + ' ' + T('menucfg.pickCats', 'categorias');
+        }
+        function renderSearch(term) {
+          body.innerHTML = '';
+          var list = []; for (var i = 0; i < names.length && list.length < CAP; i++) { if (names[i].indexOf(term) !== -1) list.push(names[i]); }
+          if (!list.length) { body.innerHTML = '<div style="color:var(--text-muted);padding:20px">' + esc(T('menucfg.pickNone', 'Nada encontrado.')) + '</div>'; countEl.textContent = '0'; return; }
+          body.appendChild(gridOf(list));
           countEl.textContent = list.length + (list.length >= CAP ? '+' : '') + ' ' + T('menucfg.pickIcons', 'ícones');
         }
+        function render() { var term = (q.value || '').trim().toLowerCase(); if (term) renderSearch(term); else renderSections(); }
         var deb; q.addEventListener('input', function () { clearTimeout(deb); deb = setTimeout(render, 140); });
-        loadPack().then(function (p) { pack = p; names = Object.keys(p.icons).sort(); render(); })
-          .catch(function (err) { grid.innerHTML = '<div style="grid-column:1/-1;color:var(--red,#E74C3C);padding:20px">' + esc(T('menucfg.pickErr', 'Falhou ao carregar o pack: ') + ((err && err.message) || '')) + '</div>'; });
+        loadPack().then(function (p) { pack = p; names = Object.keys(p.icons).sort(); catSet = new Set(); (p.categories || []).forEach(function (c) { (c.i || []).forEach(function (n) { catSet.add(n); }); }); render(); })
+          .catch(function (err) { body.innerHTML = '<div style="color:var(--red,#E74C3C);padding:20px">' + esc(T('menucfg.pickErr', 'Falhou ao carregar o pack: ') + ((err && err.message) || '')) + '</div>'; });
       }
 
       window.renderMenuLateralPanel = function renderMenuLateralPanel() {
@@ -25209,6 +25241,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'menucfg.iconHint': 'Trocar ícone', 'menucfg.pickTitle': 'Escolher ícone',
         'menucfg.pickSearch': 'Buscar (ex.: rifle, knife, skull)', 'menucfg.pickTac': 'Táticos', 'menucfg.pickAll': 'Todos',
         'menucfg.pickDefault': 'Usar ícone padrão', 'menucfg.pickNone': 'Nada encontrado.', 'menucfg.pickIcons': 'ícones', 'menucfg.pickErr': 'Falhou ao carregar o pack: ',
+        'menucfg.pickSuggested': 'sugerido', 'menucfg.pickOthers': 'Outros', 'menucfg.pickSeeAll': 'Ver todos', 'menucfg.pickCats': 'categorias',
         'set.bulk.title': 'Upload em massa', 'set.bulk.hint': 'Arrasta várias imagens aqui (ou clica para escolher). O nome do ficheiro tem de ser o id — ex. wpn_rev46.png', 'set.bulk.placed': 'colocada(s)', 'set.bulk.unmatched': 'não reconhecida(s)', 'set.bulk.none': 'Nenhuma imagem reconhecida — confere se o nome do ficheiro é o id (ex. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Estilos',
@@ -25383,6 +25416,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'menucfg.iconHint': 'Change icon', 'menucfg.pickTitle': 'Choose icon',
         'menucfg.pickSearch': 'Search (e.g. rifle, knife, skull)', 'menucfg.pickTac': 'Tactical', 'menucfg.pickAll': 'All',
         'menucfg.pickDefault': 'Use default icon', 'menucfg.pickNone': 'Nothing found.', 'menucfg.pickIcons': 'icons', 'menucfg.pickErr': 'Failed to load the pack: ',
+        'menucfg.pickSuggested': 'suggested', 'menucfg.pickOthers': 'Others', 'menucfg.pickSeeAll': 'See all', 'menucfg.pickCats': 'categories',
         'set.bulk.title': 'Bulk upload', 'set.bulk.hint': 'Drag several images here (or click to pick). The filename must be the id — e.g. wpn_rev46.png', 'set.bulk.placed': 'placed', 'set.bulk.unmatched': 'not recognized', 'set.bulk.none': 'No image recognized — check the filename matches the id (e.g. wpn_rev46.png).',
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Styles',
