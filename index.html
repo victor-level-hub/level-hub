@@ -1318,12 +1318,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.91.1 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.91.2 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor de ícone: categorias = os teus menus, busca PT/EN</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O seletor de ícone agora agrupa por <strong>cada menu</strong> (Início, Mapas, Minhas Armas, Loadout, Aim Training…) — 13 categorias + <strong>Outros</strong> — com o menu que estás a editar em destaque. E a <strong>busca funciona em PT e EN</strong> (ex.: “faca” acha knife, “fuzil” acha rifle). Corrigido também o cache que fazia aparecer “0 categorias”.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Prestige Master: faixa (100/200…) no card</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No card do operador em <strong>Master</strong>, o número grande passa a mostrar a <strong>faixa Prestige Master</strong> baseada no teu nível (55-99 → 100, 100-199 → 200, … 900-1000 → 1000), e o teu <strong>nível real</strong> aparece no campo NÍVEL. Os dois campos nunca mostram o mesmo valor.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4575,6 +4575,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.91.2</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Card Prestige Master mostra a faixa.</strong> Ao atingir o Prestige Master, o n&uacute;mero grande do card do operador deixa de ser o n&iacute;vel e passa a ser a <strong>faixa Master</strong> derivada do n&iacute;vel: 55-99&rarr;100, 100-199&rarr;200, 200-299&rarr;300 &hellip; 800-899&rarr;900, 900-1000&rarr;1000 (<code>Math.floor(lvl/100)+1</code>, com piso 100 e teto 1000). O <strong>n&iacute;vel real</strong> passa a aparecer no caption como &ldquo;N&Iacute;VEL n&rdquo; e o campo &ldquo;M&Aacute;X&rdquo; some &mdash; os dois campos nunca mostram o mesmo valor. A barra de pips passa a medir o progresso <em>dentro</em> da faixa atual (0&ndash;100). Complementa o v2.91.0 (r&oacute;tulo MASTER + glow <code>--accent-master</code>).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.91.1</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7765,7 +7774,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.91.1</strong><span class="ver-tag">Seletor de ícone: as categorias agora são os próprios menus (13 + Outros), rótulos vindos do menu (PT/EN em sincronia), com o menu editado em destaque ("sugerido"). Busca bilíngue via mapa PT→EN (faca→knife, fuzil→rifle…). Fix do cache: o pack (gameicons.json) era servido stale por force-cache → mostrava "0 categorias"; agora fetch ?v= + must-revalidate no _headers. Curadoria por menu no campo categories do pack.</span>
+        LEVEL · <strong>v2.91.2</strong><span class="ver-tag">Card do operador em Prestige Master: o número grande passa a ser a FAIXA Master derivada do nível (55-99→100, 100-199→200 … 900-1000→1000) via Math.floor(lvl/100)+1; o nível real vai no caption "NÍVEL n" e o "MÁX" some. Os dois campos nunca coincidem. Pips passam a medir progresso dentro da faixa (0–100). Base do v2.91.0 (MASTER + glow --accent-master).</span>
       </div>
       <script>
         (function(){
@@ -11795,20 +11804,32 @@ window.BO7_ASSETS = (function() {
         if (_bfBadge) _bfBadge.classList.toggle('is-empty', !src);
       }
 
+      // v2.91.2: Prestige Master (11) — o número grande vira a FAIXA Master.
+      const _prv = (p.prestige == null ? null : Number(p.prestige));
+      const _isMaster = _prv != null && _prv >= 11;
+      const _lvl = Number(p.level);
+      // faixa: 55-99→100, 100-199→200, … 800-899→900, 900-1000→1000
+      const _band = (!(_lvl > 0)) ? 100 : (_lvl >= 1000 ? 1000 : (_lvl < 100 ? 100 : (Math.floor(_lvl / 100) + 1) * 100));
+
       const sidebarTier = document.getElementById('prestige-tier-sidebar');
       if (sidebarTier) {
-        // v2.91.0: prestige 11 = MASTER (mostra a palavra, não o número)
-        const _prv = (p.prestige == null ? null : Number(p.prestige));
-        const _isMaster = _prv != null && _prv >= 11;
+        // prestige 11 = MASTER (mostra a palavra, não o número)
         sidebarTier.textContent = (_prv == null ? '—' : (_isMaster ? 'MASTER' : _prv));
         sidebarTier.classList.toggle('is-master', _isMaster);
       }
 
       const sidebarLevel = document.getElementById('prestige-level-sidebar');
       if (sidebarLevel) {
-        sidebarLevel.textContent = p.level != null ? p.level : '—';
-        // v2.91.0: nível acima de 55 (só o Master alcança) fica laranja forte + glow
-        sidebarLevel.classList.toggle('is-overmax', Number(p.level) > 55);
+        // Master: número grande = FAIXA (não o nível). O nível real vai no caption "NÍVEL <n>".
+        sidebarLevel.textContent = (p.level == null ? '—' : (_isMaster ? _band : p.level));
+        sidebarLevel.classList.toggle('is-overmax', _isMaster);
+        const _cap = sidebarLevel.nextElementSibling; // <span> NÍVEL / LEVEL (i18n)
+        if (_cap) {
+          if (_cap.dataset.orig == null) _cap.dataset.orig = _cap.textContent;
+          _cap.textContent = _isMaster ? (_cap.dataset.orig + ' ' + (p.level != null ? p.level : '—')) : _cap.dataset.orig;
+        }
+        const _maxWrap = document.querySelector('.oc-profbox-lvl .oc-lvlw-max');
+        if (_maxWrap) _maxWrap.style.display = _isMaster ? 'none' : '';
       }
 
       // v75-34: atualiza fallback da badge sobreposta no avatar (quando não há imagem)
@@ -11823,7 +11844,9 @@ window.BO7_ASSETS = (function() {
         const maxEl = document.getElementById('oc-lvl-max');
         if (maxEl) maxEl.textContent = max;
         const total = 22;
-        const on = Number.isFinite(lvl) ? Math.max(0, Math.min(total, Math.round(total * lvl / max))) : 0;
+        // v2.91.2: Master → progresso DENTRO da faixa atual (0–100); senão nível/máx
+        const _ratio = _isMaster ? ((lvl - (_band - 100)) / 100) : (lvl / max);
+        const on = Number.isFinite(lvl) ? Math.max(0, Math.min(total, Math.round(total * _ratio))) : 0;
         let html = '';
         for (let i = 0; i < total; i++) html += '<i' + (i < on ? ' class="on"' : '') + '></i>';
         pips.innerHTML = html;
