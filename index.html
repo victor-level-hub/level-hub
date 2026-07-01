@@ -1318,12 +1318,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.91.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.91.1 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Prestige 11 vira MASTER, com nível em destaque</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No card do operador, ao atingires o <strong>Prestige 11</strong> o número passa a mostrar <strong>MASTER</strong>. E o <strong>nível acima de 55</strong> (a faixa que só o Master alcança) ganha um laranja mais forte com um leve <strong>glow</strong> à volta.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor de ícone: categorias = os teus menus, busca PT/EN</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O seletor de ícone agora agrupa por <strong>cada menu</strong> (Início, Mapas, Minhas Armas, Loadout, Aim Training…) — 13 categorias + <strong>Outros</strong> — com o menu que estás a editar em destaque. E a <strong>busca funciona em PT e EN</strong> (ex.: “faca” acha knife, “fuzil” acha rifle). Corrigido também o cache que fazia aparecer “0 categorias”.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4575,6 +4575,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.91.1</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Seletor de &iacute;cone: categorias = os menus, busca PT/EN.</strong> As sec&ccedil;&otilde;es do seletor passaram a ser <strong>os pr&oacute;prios itens do menu lateral</strong> (In&iacute;cio, Painel Hoje, Mapas, Minhas Armas, Loadout, Meus Loadouts, Encontrar Squad, Marketplace, Evolu&ccedil;&atilde;o, Controle, Aim Training, Vantagens &amp; S&eacute;ries, Progress&atilde;o) &mdash; 13 + <strong>Outros</strong> &mdash; cada uma com os &iacute;cones curados que encaixam nela; o menu que est&aacute;s a editar aparece primeiro, marcado &ldquo;sugerido&rdquo;. Os r&oacute;tulos v&ecirc;m do pr&oacute;prio menu (PT/EN sempre em sincronia). A <strong>busca ficou bil&iacute;ngue</strong> (mapa PT&rarr;EN: &ldquo;faca&rdquo;&rarr;knife, &ldquo;fuzil&rdquo;&rarr;rifle, &ldquo;caveira&rdquo;&rarr;skull&hellip;, ignorando acentos). E corrigido o cache: o <code>gameicons.json</code> era servido <em>stale</em> por <code>force-cache</code> (aparecia &ldquo;0 categorias&rdquo;) &mdash; agora o fetch usa <code>?v=</code> e o <code>_headers</code> revalida o pack.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.91.0</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7756,7 +7765,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.91.0</strong><span class="ver-tag">No card do operador, Prestige 11 passa a mostrar "MASTER" (em vez do número) e o nível acima de 55 — a faixa que só o Master alcança — fica num laranja mais forte (--accent-master) com um leve glow. Classes is-master / is-overmax aplicadas no render do prestige/nível da sidebar.</span>
+        LEVEL · <strong>v2.91.1</strong><span class="ver-tag">Seletor de ícone: as categorias agora são os próprios menus (13 + Outros), rótulos vindos do menu (PT/EN em sincronia), com o menu editado em destaque ("sugerido"). Busca bilíngue via mapa PT→EN (faca→knife, fuzil→rifle…). Fix do cache: o pack (gameicons.json) era servido stale por force-cache → mostrava "0 categorias"; agora fetch ?v= + must-revalidate no _headers. Curadoria por menu no campo categories do pack.</span>
       </div>
       <script>
         (function(){
@@ -22890,11 +22899,32 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       var _packPromise = null;
       function loadPack() {
         if (!_packPromise) {
-          _packPromise = fetch('assets/gameicons.json', { cache: 'force-cache' })
+          // v2.91.1: ?v= versiona o pack (bump quando muda categorias) e evita o
+          // force-cache antigo servir uma versão sem `categories`.
+          _packPromise = fetch('assets/gameicons.json?v=3', { cache: 'default' })
             .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
         }
         return _packPromise;
       }
+      // Busca bilíngue: mapa PT→EN dos termos táticos mais comuns (chaves sem acento).
+      function _giNorm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+      var PICK_PT = {
+        faca: 'knife', punhal: 'dagger', espada: 'sword', machado: 'axe', martelo: 'hammer',
+        fuzil: 'rifle', espingarda: 'shotgun', metralhadora: 'machine-gun', pistola: 'pistol', revolver: 'revolver',
+        arma: 'gun', armas: 'gun', municao: 'ammo', bala: 'bullet', balas: 'bullet', carregador: 'magazine',
+        granada: 'grenade', bomba: 'bomb', mina: 'mine', foguete: 'rocket', foguetao: 'rocket', missil: 'missile', explosao: 'explosion', dinamite: 'dynamite',
+        mira: 'crosshair', alvo: 'target', escopo: 'scope', luneta: 'scope',
+        mapa: 'map', bussola: 'compass', globo: 'globe', radar: 'radar', bandeira: 'flag',
+        escudo: 'shield', capacete: 'helmet', soldado: 'soldier', mascara: 'mask', colete: 'kevlar',
+        caveira: 'skull', cranio: 'skull', osso: 'bone', sangue: 'blood',
+        tanque: 'tank', aviao: 'airplane', jato: 'jet', helicoptero: 'helicopter', drone: 'drone', submarino: 'submarine', navio: 'ship',
+        estrela: 'star', trofeu: 'trophy', medalha: 'medal', coroa: 'crown', patente: 'rank', fita: 'ribbon',
+        engrenagem: 'cog', engrenagens: 'gears', controle: 'gamepad', controlo: 'gamepad', chaveinglesa: 'wrench', ferramenta: 'wrench',
+        casa: 'house', coracao: 'heart', vida: 'heart', fogo: 'fire', chama: 'fire', raio: 'lightning', olho: 'eye', punho: 'fist', bota: 'boot',
+        loja: 'shop', moeda: 'coins', dinheiro: 'cash', equipe: 'team', grupo: 'group', pessoa: 'person', pessoas: 'persons', chat: 'chat', conversa: 'conversation',
+        livro: 'book', cadeado: 'lock', chave: 'key', relogio: 'clock', camera: 'camera', tesouro: 'treasure', bau: 'chest', mapa2: 'map',
+        veneno: 'poison', morte: 'death', anjo: 'angel', demonio: 'demon', dragao: 'dragon', escada: 'ladder', grafico: 'chart', nivel: 'level'
+      };
       function giInfo(name, pack) {
         var v = pack.icons[name]; if (v == null) return null;
         if (typeof v === 'string') return { b: v, w: pack.v || 512, h: pack.v || 512 };
@@ -22936,14 +22966,18 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           if (suggested) { var s = document.createElement('span'); s.className = 'sug'; s.textContent = T('menucfg.pickSuggested', 'sugerido'); h.appendChild(s); }
           return h;
         }
+        function catLabel(k) {
+          // v2.91.1: rótulo da categoria = nome do próprio menu (sempre em sincronia, PT/EN)
+          var nb = document.querySelector('.nav-item[data-section="' + k + '"] .nav-label');
+          return nb ? nb.textContent.trim() : k;
+        }
         function renderSections() {
           body.innerHTML = '';
-          var sugKey = PICK_SUG[section] || null;
           var cats = (pack.categories || []).slice();
-          cats.sort(function (a, b) { return (b.k === sugKey ? 1 : 0) - (a.k === sugKey ? 1 : 0); });
+          cats.sort(function (a, b) { return (b.k === section ? 1 : 0) - (a.k === section ? 1 : 0); });
           cats.forEach(function (cat) {
             if (!cat.i || !cat.i.length) return;
-            body.appendChild(heading(lang === 'en' ? cat.e : cat.l, cat.k === sugKey));
+            body.appendChild(heading(catLabel(cat.k), cat.k === section));
             body.appendChild(gridOf(cat.i));
           });
           var others = names.filter(function (n) { return !catSet.has(n); });
@@ -22952,11 +22986,16 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           more.textContent = T('menucfg.pickSeeAll', 'Ver todos') + ' (' + others.length + ')';
           more.addEventListener('click', function () { more.remove(); body.appendChild(gridOf(others.slice(0, CAP))); });
           body.appendChild(more);
-          countEl.textContent = (pack.categories || []).length + ' ' + T('menucfg.pickCats', 'categorias');
+          countEl.textContent = ((pack.categories || []).length + 1) + ' ' + T('menucfg.pickCats', 'categorias');
         }
         function renderSearch(term) {
           body.innerHTML = '';
-          var list = []; for (var i = 0; i < names.length && list.length < CAP; i++) { if (names[i].indexOf(term) !== -1) list.push(names[i]); }
+          // v2.91.1: busca bilíngue — normaliza (sem acento) e expande PT→EN
+          var t = _giNorm(term);
+          var cands = [t];
+          Object.keys(PICK_PT).forEach(function (k) { if (k.indexOf(t) === 0 || t.indexOf(k) === 0) { var v = PICK_PT[k]; if (cands.indexOf(v) < 0) cands.push(v); } });
+          var list = [];
+          for (var i = 0; i < names.length && list.length < CAP; i++) { var nm = names[i]; for (var j = 0; j < cands.length; j++) { if (nm.indexOf(cands[j]) !== -1) { list.push(nm); break; } } }
           if (!list.length) { body.innerHTML = '<div style="color:var(--text-muted);padding:20px">' + esc(T('menucfg.pickNone', 'Nada encontrado.')) + '</div>'; countEl.textContent = '0'; return; }
           body.appendChild(gridOf(list));
           countEl.textContent = list.length + (list.length >= CAP ? '+' : '') + ' ' + T('menucfg.pickIcons', 'ícones');
@@ -25267,7 +25306,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'menucfg.saved': 'Menu salvo para todos.', 'menucfg.saveErr': 'Não consegui salvar: ',
         'menucfg.dragHint': 'Arrastar',
         'menucfg.iconHint': 'Trocar ícone', 'menucfg.pickTitle': 'Escolher ícone',
-        'menucfg.pickSearch': 'Buscar (ex.: rifle, knife, skull)', 'menucfg.pickTac': 'Táticos', 'menucfg.pickAll': 'Todos',
+        'menucfg.pickSearch': 'Buscar em PT ou EN (ex.: faca, rifle, caveira)', 'menucfg.pickTac': 'Táticos', 'menucfg.pickAll': 'Todos',
         'menucfg.pickDefault': 'Usar ícone padrão', 'menucfg.pickNone': 'Nada encontrado.', 'menucfg.pickIcons': 'ícones', 'menucfg.pickErr': 'Falhou ao carregar o pack: ',
         'menucfg.pickSuggested': 'sugerido', 'menucfg.pickOthers': 'Outros', 'menucfg.pickSeeAll': 'Ver todos', 'menucfg.pickCats': 'categorias',
         'set.bulk.title': 'Upload em massa', 'set.bulk.hint': 'Arrasta várias imagens aqui (ou clica para escolher). O nome do ficheiro tem de ser o id — ex. wpn_rev46.png', 'set.bulk.placed': 'colocada(s)', 'set.bulk.unmatched': 'não reconhecida(s)', 'set.bulk.none': 'Nenhuma imagem reconhecida — confere se o nome do ficheiro é o id (ex. wpn_rev46.png).',

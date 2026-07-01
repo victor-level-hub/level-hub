@@ -24,3 +24,7 @@
 # a cada carga, pra um swap de imagem de evento aplicar sem cache stale.
 /assets/events/*
   Cache-Control: public, max-age=0, must-revalidate
+# v2.91.1: pack de ícones do seletor de menu (game-icons). O fetch usa ?v= para
+# versionar; revalidar sempre pra um bump de categorias aplicar sem cache stale.
+/assets/gameicons.json
+  Cache-Control: public, max-age=0, must-revalidate
