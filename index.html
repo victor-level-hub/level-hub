@@ -1318,12 +1318,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.91.2 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.91.3 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Prestige Master: faixa (100/200…) no card</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No card do operador em <strong>Master</strong>, o número grande passa a mostrar a <strong>faixa Prestige Master</strong> baseada no teu nível (55-99 → 100, 100-199 → 200, … 900-1000 → 1000), e o teu <strong>nível real</strong> aparece no campo NÍVEL. Os dois campos nunca mostram o mesmo valor.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fix: menu “Importar Build” já não fica atrás do card</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Em <strong>Minhas Armas</strong>, ao abrir o dropdown <strong>Importar Build</strong>, o menu aparecia por trás do card da arma (os cards têm efeito de vidro / <em>backdrop-filter</em>, que cria uma camada própria). Elevei a barra de ações acima da grelha — o menu agora fica por cima, como deve.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4575,6 +4575,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.91.3</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Menu &ldquo;Importar Build&rdquo; deixou de ficar atr&aacute;s do card.</strong> Em <em>Minhas Armas</em>, ao abrir o dropdown <em>Importar Build</em>, o menu (Print / Celular / Texto / Remote Play) aparecia <strong>por tr&aacute;s</strong> do card da arma. Causa: os <code>.build-card</code> usam <code>backdrop-filter</code>, que cria um contexto de empilhamento pr&oacute;prio; a grelha (irm&atilde; posterior no DOM) pintava por cima do menu, que estava preso no contexto da toolbar com <code>z-index:60</code>. Corre&ccedil;&atilde;o: a <code>.arsenal-toolbar</code> ganhou <code>position:relative</code> + <code>z-index:30</code>, elevando a toolbar (e o dropdown) acima da grelha de cards.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.91.2</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7774,7 +7783,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.91.2</strong><span class="ver-tag">Card do operador em Prestige Master: o número grande passa a ser a FAIXA Master derivada do nível (55-99→100, 100-199→200 … 900-1000→1000) via Math.floor(lvl/100)+1; o nível real vai no caption "NÍVEL n" e o "MÁX" some. Os dois campos nunca coincidem. Pips passam a medir progresso dentro da faixa (0–100). Base do v2.91.0 (MASTER + glow --accent-master).</span>
+        LEVEL · <strong>v2.91.3</strong><span class="ver-tag">Fix de empilhamento em Minhas Armas: o menu do dropdown "Importar Build" ficava ATRÁS dos cards de build (os .build-card têm backdrop-filter → criam contextos de empilhamento; a grelha, irmã posterior no DOM, pintava por cima do menu z-index:60 preso na toolbar). Correção: .arsenal-toolbar ganhou position:relative + z-index:30, elevando a toolbar (e o menu) acima da grelha.</span>
       </div>
       <script>
         (function(){

@@ -5477,6 +5477,11 @@
 
   /* ── Top toolbar: filters + actions ── */
   .arsenal-toolbar {
+    /* v2.91.3: eleva a toolbar (e o dropdown "Importar Build") acima da grelha
+       de cards. Os .build-card têm backdrop-filter → criam contextos de
+       empilhamento; sem isto o menu do dropdown ficava ATRÁS dos cards. */
+    position: relative;
+    z-index: 30;
     display: flex;
     justify-content: space-between;
     align-items: center;
