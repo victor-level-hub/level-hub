@@ -9933,7 +9933,7 @@
   .operator-card .oc-lvlring-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-weight: 700; font-size: 14px; color: var(--accent-orange, #FF9800); }
   .operator-card .oc-lvlring-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
   .operator-card .oc-lvlring-title { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-500, #5F6E8C); }
-  .operator-card .oc-lvlring-val { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-weight: 700; font-size: 17px; color: var(--ink-100, #F2F6FC); }
+  .operator-card .oc-lvlring-val { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-weight: 700; font-size: 16px; color: var(--text-muted, #8497B8); }
 
   /* v2.91.0 · Prestige MASTER (11) e nível acima do máx (só Master alcança) com realce */
   .operator-card .oc-profbox-prest b.is-master { font-size: 13px; letter-spacing: 0.03em; color: var(--accent-master, #ff8a1f); text-shadow: 0 0 9px rgba(255,138,31,0.55); }
