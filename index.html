@@ -774,14 +774,20 @@
         </div>
         <div class="oc-profbox-div"></div>
         <div class="oc-profbox-lvl">
-          <div class="oc-lvlw-top">
-            <div class="oc-lvlw-stat">
-              <b id="prestige-level-sidebar">—</b>
-              <span data-i18n="player.levelMeter.level">NÍVEL</span>
+          <!-- v2.92.0: anel de nível circular (nível → faixa/máx), anima ao carregar -->
+          <div class="oc-lvlring-wrap">
+            <div class="oc-lvlring">
+              <svg viewBox="0 0 72 72" aria-hidden="true">
+                <circle class="oc-lvlring-bg" cx="36" cy="36" r="30"></circle>
+                <circle class="oc-lvlring-fg" id="oc-lvlring-fg" cx="36" cy="36" r="30"></circle>
+              </svg>
+              <div class="oc-lvlring-pct" id="oc-lvl-pct">—</div>
             </div>
-            <div class="oc-lvlw-max"><span data-i18n="player.levelMeter.max">MÁX</span> <b id="oc-lvl-max">55</b></div>
+            <div class="oc-lvlring-info">
+              <span class="oc-lvlring-title" data-i18n="player.levelMeter.level">NÍVEL</span>
+              <span class="oc-lvlring-val" id="oc-lvl-val">— / —</span>
+            </div>
           </div>
-          <div class="oc-pips" id="oc-pips" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -1318,12 +1324,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.91.3 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.92.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fix: menu “Importar Build” já não fica atrás do card</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Em <strong>Minhas Armas</strong>, ao abrir o dropdown <strong>Importar Build</strong>, o menu aparecia por trás do card da arma (os cards têm efeito de vidro / <em>backdrop-filter</em>, que cria uma camada própria). Elevei a barra de ações acima da grelha — o menu agora fica por cima, como deve.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Nível vira um anel de progresso circular</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A barra de nível do card do operador virou um <strong>anel circular</strong> laranja que <strong>anima ao carregar</strong> até onde estás — com a percentagem no centro e <strong>nível / máx</strong> ao lado (ex.: 68 / 100 = 68%). Em <strong>Master</strong>, o máx é a tua faixa (100, 200, …, 1000); fora do Master, é 55.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4575,6 +4581,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.92.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>N&iacute;vel vira anel de progresso circular.</strong> No card do operador, a barra de n&iacute;vel (pips lineares) foi substitu&iacute;da por um <strong>anel circular SVG</strong> laranja que <strong>anima ao carregar</strong> (via <code>stroke-dashoffset</code>) at&eacute; ao valor atual. <em>current</em> = n&iacute;vel; <em>goal</em> = a faixa Master (100/200&hellip;1000) quando &eacute;s Master, ou 55 fora do Master. O centro mostra a percentagem e ao lado fica o t&iacute;tulo <em>N&iacute;vel/Level</em> (i18n, sem subt&iacute;tulo) + <em>&ldquo;n&iacute;vel / m&aacute;x&rdquo;</em> (ex.: 68 / 100 = 68%). Componente compacto para caber ao lado do PREST.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.91.3</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -7783,7 +7798,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.91.3</strong><span class="ver-tag">Fix de empilhamento em Minhas Armas: o menu do dropdown "Importar Build" ficava ATRÁS dos cards de build (os .build-card têm backdrop-filter → criam contextos de empilhamento; a grelha, irmã posterior no DOM, pintava por cima do menu z-index:60 preso na toolbar). Correção: .arsenal-toolbar ganhou position:relative + z-index:30, elevando a toolbar (e o menu) acima da grelha.</span>
+        LEVEL · <strong>v2.92.0</strong><span class="ver-tag">Card do operador: a barra de nível (pips lineares) virou um anel de progresso circular SVG animado (stroke-dashoffset, anima ao carregar), laranja com glow. current=nível, goal=faixa Master (100/200…1000) ou 55 fora do Master; centro mostra a % e ao lado NÍVEL + "nível / máx" (ex.: 68/100=68%). Título i18n (Nível/Level), sem subtítulo, compacto pra caber ao lado do PREST.</span>
       </div>
       <script>
         (function(){
@@ -11827,39 +11842,35 @@ window.BO7_ASSETS = (function() {
         sidebarTier.classList.toggle('is-master', _isMaster);
       }
 
-      const sidebarLevel = document.getElementById('prestige-level-sidebar');
-      if (sidebarLevel) {
-        // Master: número grande = FAIXA (não o nível). O nível real vai no caption "NÍVEL <n>".
-        sidebarLevel.textContent = (p.level == null ? '—' : (_isMaster ? _band : p.level));
-        sidebarLevel.classList.toggle('is-overmax', _isMaster);
-        const _cap = sidebarLevel.nextElementSibling; // <span> NÍVEL / LEVEL (i18n)
-        if (_cap) {
-          if (_cap.dataset.orig == null) _cap.dataset.orig = _cap.textContent;
-          _cap.textContent = _isMaster ? (_cap.dataset.orig + ' ' + (p.level != null ? p.level : '—')) : _cap.dataset.orig;
+      // v2.92.0: anel de nível — current = nível; goal = faixa (Master) ou máx (55).
+      // Ex.: 68/100 = 68%. Anima do vazio até o valor ao (re)renderizar.
+      (function () {
+        const goal = _isMaster ? _band : (Number(p.levelMax) > 0 ? Number(p.levelMax) : 55);
+        const cur = Number(p.level);
+        const pct = (goal > 0 && Number.isFinite(cur)) ? Math.max(0, Math.min(100, Math.round(cur / goal * 100))) : 0;
+        const pctEl = document.getElementById('oc-lvl-pct');
+        const valEl = document.getElementById('oc-lvl-val');
+        const fg = document.getElementById('oc-lvlring-fg');
+        if (pctEl) pctEl.textContent = (p.level == null ? '—' : pct + '%');
+        if (valEl) valEl.textContent = (p.level == null ? '— / —' : (cur + ' / ' + goal));
+        if (fg) {
+          const C = 188.5, off = C * (1 - pct / 100);
+          if (fg.dataset.pct !== String(pct)) {
+            fg.dataset.pct = String(pct);
+            fg.style.strokeDashoffset = String(C);   // reset p/ vazio
+            void fg.getBoundingClientRect();          // commit antes de animar
+            fg.style.strokeDashoffset = String(off);  // anima até o valor
+          } else {
+            fg.style.strokeDashoffset = String(off);
+          }
         }
-        const _maxWrap = document.querySelector('.oc-profbox-lvl .oc-lvlw-max');
-        if (_maxWrap) _maxWrap.style.display = _isMaster ? 'none' : '';
-      }
+      })();
 
       // v75-34: atualiza fallback da badge sobreposta no avatar (quando não há imagem)
       const pbFallback = document.getElementById('oc-pb-fallback');
       if (pbFallback) pbFallback.textContent = '';  // v2.57.28: sem texto "P10"
 
-      // v2.42.0: barra de pips segmentada (1→55) na caixa 25/75
-      const pips = document.getElementById('oc-pips');
-      if (pips) {
-        const lvl = Number(p.level);
-        const max = Number(p.levelMax) > 0 ? Number(p.levelMax) : 55;
-        const maxEl = document.getElementById('oc-lvl-max');
-        if (maxEl) maxEl.textContent = max;
-        const total = 22;
-        // v2.91.2: Master → progresso DENTRO da faixa atual (0–100); senão nível/máx
-        const _ratio = _isMaster ? ((lvl - (_band - 100)) / 100) : (lvl / max);
-        const on = Number.isFinite(lvl) ? Math.max(0, Math.min(total, Math.round(total * _ratio))) : 0;
-        let html = '';
-        for (let i = 0; i < total; i++) html += '<i' + (i < on ? ' class="on"' : '') + '></i>';
-        pips.innerHTML = html;
-      }
+      // v2.92.0: pips lineares removidos — substituídos pelo anel de nível (acima).
     }
 
     // ── Extended data-bind renderer (for briefing card + others) ───────
