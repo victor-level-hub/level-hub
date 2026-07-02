@@ -1322,12 +1322,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.92.2 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.92.3 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Anel de nível: NÍVEL e “n / máx” voltaram (vertical)</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A legenda <strong>NÍVEL</strong> e o <strong>“68 / 100”</strong> não apareciam: a caixa da sidebar é estreita e o texto ao lado do anel era cortado. Passei o anel para <strong>vertical</strong> — NÍVEL em cima, o anel (com a % no centro) no meio, e <strong>nível / máx</strong> em cinza embaixo. Agora mostra tudo. (Em Master o máx é a tua faixa: 100, 200, …, 1000.)</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Anel de nível: nível atual em laranja + mais respiro</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No anel de nível, o <strong>nível atual</strong> passou a laranja destacado e o <strong>“/ máx”</strong> ficou mais discreto (ex.: <strong>68</strong> / 100), com mais respiro à volta. O cálculo da % respeita cada caso: fora do Master vai até <strong>55</strong> (regra de três — ex.: nível 23 = 42%), e em Master até à tua faixa (100, 200, …, 1000).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4579,6 +4579,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.92.3</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Anel de n&iacute;vel: n&iacute;vel atual em laranja + mais respiro.</strong> No &ldquo;68 / 100&rdquo;, o <strong>n&iacute;vel atual</strong> (68) ficou laranja destacado (span <code>.oc-lvl-cur</code>) e o &ldquo;/ m&aacute;x&rdquo; mais discreto (menor, <code>--ink-500</code>); mais espa&ccedil;o &agrave; volta (gap e padding maiores). Confirmado o c&aacute;lculo da percentagem: fora do Master o m&aacute;ximo &eacute; <strong>55</strong> (regra de tr&ecirc;s &mdash; ex.: n&iacute;vel 23 &rarr; 23/55 &asymp; 42%; n&iacute;vel 11 &rarr; 20%); em Master, o m&aacute;ximo &eacute; a faixa (100/200&hellip;1000).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.92.2</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">fix</span>
@@ -7814,7 +7823,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.92.2</strong><span class="ver-tag">Fix do anel de nível: NÍVEL e "n / máx" não apareciam — a caixa da sidebar é estreita (~73px úteis) e o layout lado-a-lado cortava o texto (overflow hidden). Reestruturado para VERTICAL: NÍVEL (topo) / anel 46px com % no centro / "nível / máx" cinza (baixo). Confirmado que cabe até ~160px de card. Anel encolhido (58→46).</span>
+        LEVEL · <strong>v2.92.3</strong><span class="ver-tag">Anel de nível — polish: nível atual (o "68" de "68 / 100") em laranja destacado via span .oc-lvl-cur; o "/ máx" mais discreto (menor, --ink-500); mais respiro (gap 3→7, padding). Cálculo da % confirmado: fora do Master goal=55 (regra de três, ex.: 23/55=42%), Master goal=faixa.</span>
       </div>
       <script>
         (function(){
@@ -11868,7 +11877,11 @@ window.BO7_ASSETS = (function() {
         const valEl = document.getElementById('oc-lvl-val');
         const fg = document.getElementById('oc-lvlring-fg');
         if (pctEl) pctEl.textContent = (p.level == null ? '—' : pct + '%');
-        if (valEl) valEl.textContent = (p.level == null ? '— / —' : (cur + ' / ' + goal));
+        if (valEl) {
+          // v2.92.3: nível atual em laranja destacado; "/ máx" fica discreto
+          if (p.level == null) valEl.textContent = '— / —';
+          else valEl.innerHTML = '<span class="oc-lvl-cur">' + cur + '</span> / ' + goal;
+        }
         if (fg) {
           const C = 188.5, off = C * (1 - pct / 100);
           if (fg.dataset.pct !== String(pct)) {
