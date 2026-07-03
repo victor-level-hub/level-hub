@@ -1367,12 +1367,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.96.3 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.97.0 · <span data-i18n="briefing.changelog.date">3 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch: montagem da logo voltou ao normal</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A experiência de <em>montar a logo com o scroll</em> (v2.96.0) foi <strong>revertida</strong> — a página de apresentação volta a montar a logo automaticamente ao abrir, como antes. Os ajustes recentes do rodapé e a galeria de avatares continuam.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Modais informativos com leve efeito 3D</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Os modais <strong>puramente informativos</strong> (só leitura, sem campos nem botões além de fechar) ganharam um <em>leve tilt 3D + brilho que segue o cursor</em> — adaptação vanilla do componente <em>tilt-card</em>. Como no site inteiro só o <strong>Histórico de Versões</strong> não tem nenhum controlo interno, é onde o efeito aparece por agora; os demais modais têm inputs/botões e ficam de fora de propósito (o tilt atrapalharia o clique). Respeita <em>reduced-motion</em> e só liga em ponteiro com hover (desktop).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4614,13 +4614,22 @@
     <!-- MODAL: HISTÓRICO DE VERSÕES                                         -->
     <!-- =================================================================== -->
     <div class="modal-overlay" id="modal-version-history">
-      <div class="modal-box" style="max-width: 640px">
+      <div class="modal-box modal-tilt" style="max-width: 640px">
         <div class="modal-header">
           <div class="modal-title" data-i18n="vh.title">Histórico de Versões</div>
           <button class="modal-close" data-close-modal="modal-version-history">×</button>
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.97.0</span>
+                <span class="vh-date">3 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Modais informativos com leve efeito 3D (tilt card).</strong> Os modais <strong>puramente informativos</strong> &mdash; s&oacute; leitura, sem campos, sele&ccedil;&otilde;es nem bot&otilde;es al&eacute;m de fechar &mdash; passaram a reagir ao cursor com um <em>tilt 3D suave e um brilho radial</em> que segue o rato (adapta&ccedil;&atilde;o vanilla do componente <em>be-ui-tilt-card</em> da 21st.dev). A rota&ccedil;&atilde;o e a posi&ccedil;&atilde;o do brilho v&atilde;o em <em>custom properties</em> setadas no <code>pointermove</code>; o brilho &eacute; <em>pinado</em> &agrave; faixa vis&iacute;vel do modal enquanto ele rola. Varremos os <strong>30 modais</strong> do site e, pelo crit&eacute;rio estrito (zero intera&ccedil;&atilde;o interna), o <strong>&uacute;nico 100% informativo</strong> &eacute; este <em>Hist&oacute;rico de Vers&otilde;es</em> &mdash; por isso o efeito s&oacute; aparece aqui; os outros t&ecirc;m <em>input/bot&atilde;o/avalia&ccedil;&atilde;o</em> e ficam de fora de prop&oacute;sito (o tilt atrapalharia o clique). Respeita <code>prefers-reduced-motion</code> e s&oacute; liga em ponteiro com <em>hover</em> (desktop); no telem&oacute;vel/toque fica est&aacute;tico. Adicionar outro modal ao efeito no futuro = s&oacute; p&ocirc;r a classe <code>modal-tilt</code> no <code>.modal-box</code>.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7929,7 +7938,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.96.3</strong><span class="ver-tag">Rollback do pitch scroll-scrub (v2.96.0): flag LP_SCRUB=false → volta 100% à montagem clássica por tempo (playLogo). O código do scrub (initScrubLogo, buildLogoAnims, CSS .lp-scrub) fica dormente, pronto pra re-testar mudando 1 linha. Victor não curtiu o efeito.</span>
+              LEVEL · <strong>v2.97.0</strong><span class="ver-tag">Tilt card 3D nos modais puramente informativos (adaptação vanilla do be-ui-tilt-card/21st.dev). Marcador .modal-box.modal-tilt + brilho radial que segue o cursor via custom properties; brilho pinado à faixa visível do box que rola. Só liga em hover+pointer fino, sem reduced-motion. Único modal 100% informativo do site = Histórico de Versões (os outros têm input/botão/rating e ficam fora). Adicionar outro = só pôr .modal-tilt no .modal-box.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -29270,6 +29279,81 @@ ${cbt('share.t.footer')}`;
     overlays.forEach(function (el) {
       observer.observe(el, { attributes: true, attributeFilter: ['class'] });
     });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// TILT CARD nos modais informativos (v2.97.0)
+// ───────────────────────────────────────────────────────────────────
+// Adaptação vanilla do be-ui-tilt-card (21st.dev): o .modal-box.modal-tilt
+// ganha um leve tilt 3D + brilho radial que segue o cursor. A rotação e a
+// posição do brilho vão em custom properties (o CSS faz o resto). Só liga
+// em ponteiro fino com hover e sem prefers-reduced-motion. Marcamos apenas
+// modais PURAMENTE informativos (sem input/botão/rating) — noutros o tilt
+// atrapalharia o clique. Adicionar um modal ao efeito = só pôr .modal-tilt
+// no .modal-box (o init recolhe todos). Defensivo: nunca trava o modal.
+// ═══════════════════════════════════════════════════════════════════
+(function () {
+  'use strict';
+  var MAX = 7; // graus de rotação (o React usa 12; modal é grande → mais suave)
+  function eligible() {
+    try {
+      if (!window.matchMedia) return false;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+      return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    } catch (e) { return false; }
+  }
+  function attach(box) {
+    if (box.__tiltBound) return;
+    box.__tiltBound = true;
+    var glare = document.createElement('div');
+    glare.className = 'modal-tilt-glare';
+    glare.setAttribute('aria-hidden', 'true');
+    box.appendChild(glare);
+    var rect = null;
+    function pinGlare() {
+      // o box rola por dentro → prende o brilho à faixa visível
+      glare.style.top = box.scrollTop + 'px';
+      glare.style.height = box.clientHeight + 'px';
+    }
+    function onEnter() { rect = box.getBoundingClientRect(); pinGlare(); }
+    function onMove(e) {
+      if (!rect) rect = box.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width;
+      var py = (e.clientY - rect.top) / rect.height;
+      px = px < 0 ? 0 : px > 1 ? 1 : px;
+      py = py < 0 ? 0 : py > 1 ? 1 : py;
+      box.style.setProperty('--tilt-ry', ((px - 0.5) * MAX).toFixed(2) + 'deg');
+      box.style.setProperty('--tilt-rx', ((0.5 - py) * MAX).toFixed(2) + 'deg');
+      box.style.setProperty('--glare-x', (px * 100).toFixed(1) + '%');
+      box.style.setProperty('--glare-y', (py * 100).toFixed(1) + '%');
+      pinGlare();
+      if (!box.classList.contains('is-tilting')) box.classList.add('is-tilting');
+    }
+    function onLeave() {
+      rect = null;
+      box.classList.remove('is-tilting');
+      box.style.setProperty('--tilt-rx', '0deg');
+      box.style.setProperty('--tilt-ry', '0deg');
+    }
+    box.addEventListener('pointerenter', onEnter);
+    box.addEventListener('pointermove', onMove);
+    box.addEventListener('pointerleave', onLeave);
+    box.addEventListener('scroll', function () {
+      if (box.classList.contains('is-tilting')) pinGlare();
+    }, { passive: true });
+  }
+  function init() {
+    if (!eligible()) return;
+    try {
+      var boxes = document.querySelectorAll('.modal-box.modal-tilt');
+      for (var i = 0; i < boxes.length; i++) attach(boxes[i]);
+    } catch (e) { /* silent — nunca trava modal */ }
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
