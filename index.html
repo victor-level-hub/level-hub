@@ -425,16 +425,16 @@
   }
 
   // ── logo animado (monta 1× por carga; salvaguarda contra relógio congelado) ──
+  // v2.96.0 · SCROLL-SCRUB do hero: a montagem da logo passa a ser dirigida pelo
+  // scroll (desce=monta, sobe=desmonta) e TRAVA ao completar (reverso só recarregando).
+  // ⏪ ROLLBACK FÁCIL: muda LP_SCRUB pra false → volta 100% ao comportamento antigo
+  // (montagem única por tempo, hero de altura normal). Nada mais precisa mudar.
+  var LP_SCRUB = true;
   var _reduced = false;
   try { _reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
-  function playLogo() {
-    var svg = document.getElementById('lp-logo-assemble');
-    if (!svg) return;
-    if (!svg.firstChild) svg.innerHTML = window.LEVEL_LOGO_INNER || '';
-    if (window.__pitchLogoPlayed) return;
-    window.__pitchLogoPlayed = true;
-    if (_reduced || typeof svg.querySelectorAll('path')[0] === 'undefined' || !svg.querySelectorAll('path')[0].animate) return;
+  function buildLogoAnims(svg, paused) {
+    if (_reduced || typeof svg.querySelectorAll('path')[0] === 'undefined' || !svg.querySelectorAll('path')[0].animate) return null;
 
     var shapes = Array.prototype.slice.call(svg.querySelectorAll('path, rect'));
     var cx = 351.5, cy = 90, dur = 600;
@@ -468,7 +468,52 @@
     };
     letters.forEach(function (m, i) { all.push(launch(m, Math.round(i * letterStep))); });
     facets.forEach(function (m, j) { all.push(launch(m, Math.round(lettersEnd + gap + j * facetStep))); });
-    setTimeout(function () { all.forEach(function (a) { try { a.cancel(); } catch (e) {} }); }, maxDelay + 500);
+    if (paused) all.forEach(function (a) { try { a.pause(); } catch (e) {} });
+    return { anims: all, total: maxDelay };
+  }
+
+  function playLogo() {
+    var svg = document.getElementById('lp-logo-assemble');
+    if (!svg) return;
+    if (!svg.firstChild) svg.innerHTML = window.LEVEL_LOGO_INNER || '';
+    if (window.__pitchLogoPlayed) return;
+    window.__pitchLogoPlayed = true;
+    var built = buildLogoAnims(svg, false);
+    if (!built) return;
+    setTimeout(function () { built.anims.forEach(function (a) { try { a.cancel(); } catch (e) {} }); }, built.total + 500);
+  }
+
+  // v2.96.0 · montagem dirigida pelo scroll do #level-pitch (trava ao completar)
+  function initScrubLogo() {
+    var root = document.getElementById('level-pitch');
+    var svg = document.getElementById('lp-logo-assemble');
+    if (!root || !svg) return;
+    if (!svg.firstChild) svg.innerHTML = window.LEVEL_LOGO_INNER || '';
+    if (window.__pitchLogoPlayed) { root.classList.add('lp-scrub'); return; } // já travou nesta carga
+    if (_reduced) { playLogo(); return; } // reduced-motion: logo montada, sem scrub
+    var built = buildLogoAnims(svg, true);
+    if (!built) { window.__pitchLogoPlayed = true; return; }
+    root.classList.add('lp-scrub');
+    var hero = root.querySelector('.lp-hero');
+    var done = false;
+    function onScroll() {
+      if (done || !hero) return;
+      var hr = hero.getBoundingClientRect();
+      var rr = root.getBoundingClientRect();
+      var scrolled = Math.max(0, rr.top - hr.top);
+      var maxScroll = hero.offsetHeight - root.clientHeight;
+      var p = maxScroll > 40 ? Math.min(1, scrolled / maxScroll) : 1;
+      var t = p * built.total;
+      built.anims.forEach(function (a) { try { a.currentTime = t; } catch (e) {} });
+      if (p >= 1) {
+        // TRAVA: completou a montagem — daqui em diante não desmonta mais.
+        done = true; window.__pitchLogoPlayed = true;
+        built.anims.forEach(function (a) { try { a.cancel(); } catch (e) {} }); // estado natural = logo montada
+        root.removeEventListener('scroll', onScroll);
+      }
+    }
+    root.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
   // ── scroll-reveal (transform-only) ──
@@ -491,7 +536,7 @@
     render(curLang());
     root.classList.add('show'); root.setAttribute('aria-hidden', 'false');
     try { document.documentElement.style.overflow = 'hidden'; } catch (e) {}
-    requestAnimationFrame(function () { playLogo(); bindReveal(); });
+    requestAnimationFrame(function () { (LP_SCRUB ? initScrubLogo : playLogo)(); bindReveal(); });
   }
   function hide() {
     var root = document.getElementById('level-pitch'); if (!root) return;
@@ -1322,12 +1367,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.95.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.96.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Rodapé novo: cartão com fitas adesivas</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O rodapé do hub foi redesenhado como um <strong>cartão “taped”</strong> — com fitas adesivas translúcidas nos cantos — trazendo a marca + tagline, a <strong>versão</strong>, atalhos rápidos do <strong>Hub</strong> (Painel Hoje, Mapas, Minhas Armas, Marketplace) e <strong>Recursos</strong> (Histórico de Versões, Privacidade/Termos, Copyright). Os avisos legais continuam na linha de baixo.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch: a logo monta com o teu scroll</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Na página de apresentação, a montagem da logo agora é <strong>dirigida pelo scroll</strong>: desce e as peças voam pro lugar; sobe antes de terminar e ela <strong>desmonta</strong>. Ao completar a montagem, <strong>trava</strong> — o reverso só recarregando a página. Textos e secções seguintes continuam a aparecer como antes ao rolar.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4576,6 +4621,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.96.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Pitch: logo montada pelo scroll (scroll-scrub).</strong> Na p&aacute;gina de apresenta&ccedil;&atilde;o, a montagem da logo deixou de ser por tempo e passou a ser <strong>dirigida pelo scroll</strong>: as mesmas anima&ccedil;&otilde;es (Web Animations API) s&atilde;o criadas <em>pausadas</em> e o <code>currentTime</code> avan&ccedil;a com o progresso do scroll no hero (agora 240vh, com o conte&uacute;do <em>sticky</em>) &mdash; descer monta, subir desmonta. Ao <strong>completar, trava</strong>: as anima&ccedil;&otilde;es s&atilde;o canceladas (estado natural = logo montada) e o reverso s&oacute; volta recarregando. Textos/CTAs e sec&ccedil;&otilde;es seguintes continuam com o reveal de sempre (aparecem 1&times; ao rolar). <em>Reduced-motion</em>: logo montada, sem scrub. <strong>Rollback f&aacute;cil</strong>: <code>LP_SCRUB=false</code> no JS reverte 100% (CSS escopado em <code>.lp-scrub</code>). Inspirado no padr&atilde;o do componente <em>video-scroll-hero</em> (sticky + progresso de scroll), reimplementado em vanilla.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7848,7 +7902,7 @@
             <div class="lvl-fname">LEVEL</div>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.95.0</strong><span class="ver-tag">Rodapé redesenhado no estilo "taped card": cartão escuro com fitas adesivas translúcidas nos cantos, coluna da marca (wordmark + tagline + pill de versão), coluna Hub (atalhos data-home-goto pro Painel Hoje/Mapas/Minhas Armas/Marketplace) e coluna Recursos (Histórico de Versões via data-open-modal, legal.html com o id open-cookie-policy preservado, política de copyright). Avisos legais/fan-made mantidos na linha de baixo; .footer-version + strong + .ver-tag preservados (o detector de versão lê). Adaptação vanilla do componente footer-taped-design (21st.dev).</span>
+              LEVEL · <strong>v2.96.0</strong><span class="ver-tag">Pitch com hero scroll-scrub: a montagem da logo (Web Animations API) passa a ser dirigida pelo scroll do #level-pitch — animações pausadas com currentTime = progresso × timeline (desce=monta, sobe=desmonta). Ao completar, TRAVA (cancel → estado natural montado; reverso só recarregando). Hero 240vh com .lp-hero-in sticky (overflow→clip-path pra não quebrar o sticky). ROLLBACK: flag LP_SCRUB=false no JS volta 100% ao comportamento antigo; CSS escopado em .lp-scrub. Reduced-motion mantém logo montada sem scrub.</span>
             </div>
           </div>
           <div class="lvl-fcol">

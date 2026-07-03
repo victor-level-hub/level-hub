@@ -13645,6 +13645,13 @@
               #build-base-picker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
               #build-base-picker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
 
+  /* ═══ v2.96.0 · Pitch: hero scroll-scrub (montagem da logo dirigida pelo scroll) ═══
+     Escopado em #level-pitch.lp-scrub — a classe só entra com a flag LP_SCRUB (JS).
+     ROLLBACK: LP_SCRUB=false no JS e este bloco vira letra morta. */
+  #level-pitch.lp-scrub .lp-hero { overflow: visible; clip-path: inset(0); min-height: 240vh; padding-bottom: 0; }
+  #level-pitch.lp-scrub .lp-hero-in { position: sticky; top: 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  #level-pitch.lp-scrub .lp-hero-glow { top: 0; }
+
   /* ═══ v2.95.0 · Rodapé "taped card" ═══ */
   .lvl-fcard { position: relative; max-width: 1040px; margin: 26px auto 0; padding: 30px 30px 26px; background: var(--bg-panel, #1f283f); border: 1px solid var(--bg-row, #25304f); border-radius: 24px; text-align: left; }
   .lvl-ftape { position: absolute; width: 80px; height: 36px; pointer-events: none; }
