@@ -1367,12 +1367,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.96.1 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.96.2 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Rodapé: logo real e mais limpo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No rodapé novo, o wordmark em texto deu lugar à <strong>logo do LEVEL</strong> (pequena), e o texto da última atualização saiu — a versão continua visível e o detalhe completo fica no <strong>Histórico de Versões</strong>. (Mantém o pitch scroll-scrub do v2.96.0.)</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fix: painéis que mostravam código em vez de UI</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A galeria <strong>Avatares Salvos</strong> abria mostrando o código HTML como texto — e o mesmo bug latente afetava o <strong>pódio e o grid do Marketplace</strong>, os <strong>comentários</strong> e as <strong>estrelas do publicar</strong>. Causa: a função de ícones usada era a de <em>texto puro</em> (que escapa HTML). Trocada pela variante de markup nos 6 sítios.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4621,6 +4621,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.96.2</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Pain&eacute;is que mostravam c&oacute;digo em vez de UI.</strong> A galeria <em>Avatares Salvos</em> abria com o markup HTML vis&iacute;vel como texto. Causa-raiz: <code>renderIconsText</code> <strong>escapa HTML</strong> (&eacute; para texto puro com tokens <code>{{i:}}</code>); para markup existe o <code>renderIconsHtml</code>. O mesmo bug latente estava no <strong>p&oacute;dio do Marketplace</strong>, no <strong>grid</strong> (render + estado vazio de busca), no <strong>painel de coment&aacute;rios</strong> e nas <strong>estrelas da avalia&ccedil;&atilde;o do publicar</strong> &mdash; todos trocados para a variante Html (6 call sites). Toast e LevelModal (texto puro) continuam com o Text, que l&aacute; est&aacute; correto. Verificado no preview: a galeria renderiza como DOM (cabe&ccedil;alho + &iacute;cone + bot&otilde;es), sem vazamento de markup.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7911,7 +7920,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.96.1</strong><span class="ver-tag">Rodapé: wordmark em texto → logo real do LEVEL (svg use #level-logo, 132px) e o ver-tag deixou de ser exibido no rodapé (display:none no .lvl-fcard; continua no DOM porque o detector de versão lê o textContent). Detalhe completo das versões = modal Histórico.</span>
+              LEVEL · <strong>v2.96.2</strong><span class="ver-tag">Fix: renderIconsText escapa HTML (é pra texto puro) — a galeria Avatares Salvos abria como código cru, e o mesmo bug latente estava no pódio do Marketplace, no grid (render + estado vazio), nos comentários e nas estrelas do publicar. Trocado por renderIconsHtml (não escapa; tokens {{i:}} viram SVG) nos 6 call sites de markup; toast/modal (texto puro) mantêm o Text. Verificado no preview: painel renderiza como DOM, sem vazamento de markup.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -16902,7 +16911,8 @@ const ATTACHMENT_ICONS = {
       async function openSavedGallery() {
         var ov = document.createElement('div');
         ov.className = 'avsv-ov';
-        ov.innerHTML = window.renderIconsText ? window.renderIconsText('' +
+        // v2.96.2: renderIconsHtml (NÃO Text — o Text escapa HTML, é pra texto puro)
+        ov.innerHTML = window.renderIconsHtml ? window.renderIconsHtml('' +
           '<div class="avsv-panel" role="dialog" aria-modal="true">' +
             '<div class="avsv-hd"><h4>{{i:folder}} ' + at('avatar.cloud.galleryTitle') + ' <span class="avsv-count" id="avsv-count">—/' + AV_MAX + '</span></h4>' +
               '<button type="button" class="avsv-x" aria-label="Fechar">&times;</button></div>' +
@@ -19735,8 +19745,8 @@ const ATTACHMENT_ICONS = {
               '</div>' +
             '</div>';
         }).join('');
-        if (window.renderIconsText) {
-          podium.innerHTML = window.renderIconsText(podium.innerHTML);
+        if (window.renderIconsHtml) {
+          podium.innerHTML = window.renderIconsHtml(podium.innerHTML); // v2.96.2: Html, não Text (Text escapa markup)
         }
         podium.style.display = 'grid';
       }
@@ -19804,8 +19814,8 @@ const ATTACHMENT_ICONS = {
             mt('mkt.state.searchEmpty', 'Nenhuma build casa com "{q}"').replace('{q}', escHtml(q)) +
             '</div></div>';
           // Renderiza icons
-          if (window.renderIconsText) {
-            gridEl.innerHTML = window.renderIconsText(gridEl.innerHTML);
+          if (window.renderIconsHtml) {
+            gridEl.innerHTML = window.renderIconsHtml(gridEl.innerHTML); // v2.96.2: Html, não Text
           }
           return;
         }
@@ -19869,7 +19879,9 @@ const ATTACHMENT_ICONS = {
               '</div>' +
             '</div>';
         }).join('');
-        gridEl.innerHTML = window.renderIconsText ? window.renderIconsText(html) : html;
+        // v2.96.2: renderIconsHtml — o Text escapa HTML (é pra texto puro); com o
+        // Text o grid renderizava o markup como texto cru
+        gridEl.innerHTML = window.renderIconsHtml ? window.renderIconsHtml(html) : html;
         // v2.93.0: contadores de comentários (cache + fetch em background)
         applyCommentCounts();
         refreshCommentCounts();
@@ -19954,7 +19966,8 @@ const ATTACHMENT_ICONS = {
         });
       }
 
-      function cmIcons(html) { return window.renderIconsText ? window.renderIconsText(html) : html; }
+      // v2.96.2: renderIconsHtml (o Text escapa HTML — é pra texto puro, não markup)
+      function cmIcons(html) { return window.renderIconsHtml ? window.renderIconsHtml(html) : html; }
 
       async function fetchComments(buildId) {
         var r = await fetch(SUPABASE_URL + '/rest/v1/mkt_comments?select=id,parent_id,author_user_id,author_name,body,likes_count,created_at&build_id=eq.' + encodeURIComponent(buildId) + '&order=created_at.asc&limit=500', { headers: AUTH_HEADERS });
@@ -20138,7 +20151,7 @@ const ATTACHMENT_ICONS = {
         for (var i = 1; i <= 10; i++) {
           stars += '<span class="pub-star' + (i <= val ? ' on' : '') + '" data-v="' + i + '">{{i:star:18}}</span>';
         }
-        wrap.innerHTML = window.renderIconsText ? window.renderIconsText(stars) : stars;
+        wrap.innerHTML = window.renderIconsHtml ? window.renderIconsHtml(stars) : stars; // v2.96.2: Html, não Text
         var hint = document.getElementById('pub-rating-hint');
         if (hint) hint.textContent = val > 0 ? (val + '/10') : mt('mkt.pub.rating.hint', 'Toca nas estrelas pra avaliar a tua própria build.');
       }
