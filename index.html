@@ -615,6 +615,66 @@
     if (!_persisted) show();
   } catch (e) {}
 })();
+
+// ═══════════════════════════════════════════════════════════════════
+// INFINITE GRID no hero do pitch (v2.98.0)
+// ───────────────────────────────────────────────────────────────────
+// Adaptação vanilla do the-infinite-grid (21st.dev): a grelha do hero
+// (.lp-hud, que já existia estática) passa a rolar em diagonal infinita
+// (animação CSS pura — sem rAF) e ganha uma camada "revelada" pelo
+// cursor: a mesma grelha em laranja, mascarada por um círculo de 300px
+// que segue o rato (custom props --lp-mx/--lp-my). Camadas extra de
+// brilho (laranja topo-direita + azul baixo-esquerda) dão profundidade.
+// Gate: hover + pointer fino; reduced-motion desliga tudo via CSS.
+// ⏪ ROLLBACK FÁCIL: LP_GRID = false → hero volta 100% ao estático.
+// ═══════════════════════════════════════════════════════════════════
+(function lpInfiniteGrid() {
+  'use strict';
+  var LP_GRID = true;
+  function init() {
+    if (!LP_GRID) return;
+    try {
+      var hero = document.querySelector('#level-pitch .lp-hero');
+      if (!hero || hero.__gridBound) return;
+      hero.__gridBound = true;
+      // camadas injetadas (só existem com a flag ligada → rollback limpo)
+      var hud = hero.querySelector('.lp-hud');
+      var reveal = document.createElement('div');
+      reveal.className = 'lp-hud-reveal';
+      reveal.setAttribute('aria-hidden', 'true');
+      var glows = document.createElement('div');
+      glows.className = 'lp-grid-glows';
+      glows.setAttribute('aria-hidden', 'true');
+      glows.innerHTML = '<i class="lp-gg-orange"></i><i class="lp-gg-blue"></i>';
+      if (hud && hud.nextSibling) {
+        hero.insertBefore(reveal, hud.nextSibling);
+        hero.insertBefore(glows, hud);
+      } else {
+        hero.insertBefore(glows, hero.firstChild);
+        hero.insertBefore(reveal, hero.firstChild);
+      }
+      hero.classList.add('lp-grid');
+      var fine = false;
+      try { fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
+      if (!fine) return; // grelha rola na mesma; reveal só faz sentido com rato
+      hero.addEventListener('pointermove', function (e) {
+        // rect por evento (o pitch rola por dentro; cache ficaria stale)
+        var r = hero.getBoundingClientRect();
+        hero.style.setProperty('--lp-mx', (e.clientX - r.left) + 'px');
+        hero.style.setProperty('--lp-my', (e.clientY - r.top) + 'px');
+        if (!hero.classList.contains('lp-grid-active')) hero.classList.add('lp-grid-active');
+      });
+      hero.addEventListener('pointerleave', function () {
+        hero.classList.remove('lp-grid-active');
+      });
+    } catch (e) { /* silent — nunca trava o pitch */ }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 </script>
 <!-- ============ FIM LEVEL · PITCH ============ -->
 
@@ -1367,12 +1427,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.97.0 · <span data-i18n="briefing.changelog.date">3 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.98.0 · <span data-i18n="briefing.changelog.date">3 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Modais informativos com leve efeito 3D</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Os modais <strong>puramente informativos</strong> (só leitura, sem campos nem botões além de fechar) ganharam um <em>leve tilt 3D + brilho que segue o cursor</em> — adaptação vanilla do componente <em>tilt-card</em>. Como no site inteiro só o <strong>Histórico de Versões</strong> não tem nenhum controlo interno, é onde o efeito aparece por agora; os demais modais têm inputs/botões e ficam de fora de propósito (o tilt atrapalharia o clique). Respeita <em>reduced-motion</em> e só liga em ponteiro com hover (desktop).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch: grelha infinita que reage ao cursor</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A grelha tática do hero da <strong>página de apresentação</strong> agora <em>rola em diagonal, infinitamente</em> — e uma segunda camada, em laranja, é <strong>revelada por um foco que segue o cursor</strong> (adaptação vanilla do componente <em>infinite-grid</em>). Brilhos de profundidade (laranja e azul) completam o clima de HUD. Puro CSS na animação (zero JavaScript por frame), respeita <em>reduced-motion</em> e a revelação só liga com rato (desktop). Rollback fácil: 1 flag. Na v2.97.0, os modais só-leitura (Histórico de Versões) ganharam tilt 3D + brilho no cursor.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4621,6 +4681,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.98.0</span>
+                <span class="vh-date">3 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Pitch: grelha infinita que reage ao cursor (infinite grid).</strong> No hero da p&aacute;gina de apresenta&ccedil;&atilde;o, a grelha t&aacute;tica de fundo (que j&aacute; existia, est&aacute;tica) passou a <em>rolar em diagonal infinitamente</em> &mdash; anima&ccedil;&atilde;o 100% CSS (<code>@keyframes</code> em <code>background-position</code>, per&iacute;odo = 1 c&eacute;lula &rarr; loop perfeito, zero JavaScript por frame). Por cima, uma <strong>segunda grelha em laranja</strong> &eacute; revelada por um <em>foco circular de 300px que segue o cursor</em> (m&aacute;scara radial em custom properties <code>--lp-mx/--lp-my</code>), como uma lanterna t&aacute;tica sobre o HUD &mdash; adapta&ccedil;&atilde;o vanilla do componente <em>the-infinite-grid</em> (21st.dev, era React/framer-motion). Dois brilhos de profundidade (laranja topo-direita, azul baixo-esquerda) completam a cena. As camadas novas s&atilde;o <strong>injetadas por JS</strong> apenas com a flag <code>LP_GRID=true</code> &mdash; <em>rollback = 1 linha</em>, o hero volta 100% ao est&aacute;tico. A revela&ccedil;&atilde;o s&oacute; liga em ponteiro com <em>hover</em> (desktop); <code>prefers-reduced-motion</code> desliga anima&ccedil;&atilde;o e reveal.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7938,7 +8007,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.97.0</strong><span class="ver-tag">Tilt card 3D nos modais puramente informativos (adaptação vanilla do be-ui-tilt-card/21st.dev). Marcador .modal-box.modal-tilt + brilho radial que segue o cursor via custom properties; brilho pinado à faixa visível do box que rola. Só liga em hover+pointer fino, sem reduced-motion. Único modal 100% informativo do site = Histórico de Versões (os outros têm input/botão/rating e ficam fora). Adicionar outro = só pôr .modal-tilt no .modal-box.</span>
+              LEVEL · <strong>v2.98.0</strong><span class="ver-tag">Infinite grid no hero do pitch (adaptação vanilla do the-infinite-grid/21st.dev): .lp-hud rola em diagonal via @keyframes lp-grid-pan (CSS puro, sem rAF) + camada .lp-hud-reveal laranja mascarada por círculo 300px que segue o cursor (--lp-mx/--lp-my) + brilhos .lp-grid-glows. Camadas injetadas por JS só com LP_GRID=true → rollback = 1 flag. Reveal só em hover+pointer fino; reduced-motion desliga tudo.</span>
             </div>
           </div>
           <div class="lvl-fcol">
