@@ -13645,6 +13645,38 @@
               #build-base-picker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
               #build-base-picker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
 
+  /* ═══ v2.94.0 · Avatares salvos na nuvem (galeria pasta interativa) ═══ */
+  .avatar-cloud-btn { flex: 0 0 auto; min-width: auto; padding: 10px 14px; display: inline-flex; align-items: center; gap: 7px; }
+  .avatar-slots-badge { font-family: var(--font-mono, monospace); font-size: 10.5px; padding: 2px 7px; border-radius: 999px; background: rgba(255,152,0,.12); color: var(--accent-orange, #FF9800); border: 1px solid rgba(255,152,0,.35); }
+  .avsv-ov { position: fixed; inset: 0; z-index: 4200; background: rgba(8,11,18,.78); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .avsv-panel { width: min(720px, 96vw); max-height: 92vh; display: flex; flex-direction: column; background: var(--bg-panel, #1f283f); border: 1px solid var(--bg-row, #25304f); border-radius: 16px; overflow: hidden; }
+  .avsv-hd { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--bg-row, #25304f); }
+  .avsv-hd h4 { margin: 0; font-size: 14px; letter-spacing: .06em; color: var(--text-primary, #DCE5F2); display: flex; align-items: center; gap: 8px; flex: 1; }
+  .avsv-count { font-family: var(--font-mono, monospace); font-size: 11px; color: var(--accent-orange, #FF9800); }
+  .avsv-x { background: transparent; border: 0; color: var(--text-muted, #8497B8); font-size: 22px; line-height: 1; cursor: pointer; padding: 2px 6px; }
+  .avsv-stage { position: relative; height: 380px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; background: radial-gradient(ellipse at 50% 100%, rgba(255,152,0,.05), transparent 65%); }
+  .avsv-loading { align-self: center; margin: auto; color: var(--text-muted, #8497B8); font-size: 13px; padding: 24px; text-align: center; max-width: 380px; }
+  .avsv-photos { position: absolute; bottom: 66px; left: 50%; width: 0; display: flex; justify-content: center; }
+  .avsv-photo { position: absolute; bottom: 0; width: 108px; height: 136px; margin-left: -54px; border-radius: 12px; overflow: hidden; border: 2px solid rgba(255,255,255,.18); box-shadow: 0 16px 34px rgba(0,0,0,.5); cursor: pointer; transition: transform .5s cubic-bezier(.22,1,.36,1), border-color .2s, box-shadow .2s; background: #0D121E; }
+  .avsv-photo img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .avsv-photo .avsv-slotnum { position: absolute; top: 5px; left: 5px; font-family: var(--font-mono, monospace); font-size: 9.5px; padding: 1px 6px; border-radius: 999px; background: rgba(8,11,18,.72); color: var(--text-secondary, #AEC7E0); }
+  .avsv-stage.is-open .avsv-photo:hover { transform: translate(var(--tx,0), -166px) scale(1.1) !important; }
+  .avsv-photo.sel { border-color: var(--accent-orange, #FF9800); box-shadow: 0 0 0 2px var(--accent-orange, #FF9800), 0 16px 34px rgba(0,0,0,.5); }
+  .avsv-folder { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); width: 320px; height: 150px; cursor: pointer; z-index: 200; perspective: 600px; transition: opacity .4s; }
+  .avsv-stage.is-open .avsv-folder { opacity: 0; pointer-events: none; }
+  .avsv-folder-back { position: absolute; inset: 0 10px 8px 10px; background: linear-gradient(180deg, #232c44, #141a2b); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; }
+  .avsv-folder-back::before { content: ""; position: absolute; top: -9px; left: 0; width: 110px; height: 12px; background: #232c44; border: 1px solid rgba(255,255,255,.1); border-bottom: 0; border-radius: 10px 10px 0 0; }
+  .avsv-folder-flap { position: absolute; inset: auto 0 0 0; height: 118px; background: linear-gradient(180deg, #2b3552, #10151f); border: 1px solid rgba(255,255,255,.16); border-radius: 14px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 16px; transform-origin: bottom; transition: transform .35s ease; box-shadow: inset 0 2px 8px rgba(255,255,255,.08), 0 -14px 30px rgba(0,0,0,.55); }
+  .avsv-folder:hover .avsv-folder-flap { transform: rotateX(-24deg); }
+  .avsv-folder-name { font-family: var(--font-mono, monospace); font-size: 12px; color: rgba(255,255,255,.85); background: rgba(8,11,18,.85); border: 1px solid rgba(0,0,0,.7); padding: 6px 14px; border-radius: 9px; }
+  .avsv-hint { text-align: center; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-500, #5F6E8C); padding: 8px 14px 10px; }
+  .avsv-ft { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-top: 1px solid var(--bg-row, #25304f); }
+  .avsv-choose { height: 38px; padding: 0 18px; border-radius: 10px; border: 0; background: var(--accent-orange, #FF9800); color: var(--action-ink, #1A1206); font-weight: 700; font-size: 12.5px; cursor: pointer; }
+  .avsv-choose:disabled { opacity: .45; cursor: default; }
+  .avsv-close { height: 38px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--bg-row, #25304f); background: transparent; color: var(--text-secondary, #AEC7E0); font-size: 12.5px; cursor: pointer; }
+  .avsv-del { height: 38px; padding: 0 14px; border-radius: 10px; border: 1px solid rgba(231,76,60,.4); background: transparent; color: #E74C3C; font-size: 12.5px; cursor: pointer; }
+  .avsv-del:disabled { opacity: .4; cursor: default; }
+
   /* ═══ v2.93.0 · Comentários do Marketplace ═══ */
   .mkt-cm-ov { position: fixed; inset: 0; z-index: 4000; background: rgba(8,11,18,.72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 20px; }
   .mkt-cm-panel { width: min(620px, 96vw); max-height: 86vh; display: flex; flex-direction: column; background: var(--bg-panel, #1f283f); border: 1px solid var(--bg-row, #25304f); border-radius: 16px; overflow: hidden; }

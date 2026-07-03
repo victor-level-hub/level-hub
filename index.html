@@ -1322,12 +1322,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.93.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.94.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Comentários no Marketplace</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O Marketplace ganhou <strong>comentários</strong>: clica no balão de qualquer build e abre o painel — lê, <strong>comenta</strong> (até 500 caracteres), <strong>responde</strong> e <strong>curte comentários</strong>. Tudo passa pela <strong>moderação automática</strong> antes de publicar, e o contador de comentários aparece em cada card. Fecha a fase social: curtir builds + avaliação do autor + comentários.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Avatares salvos na nuvem (10 slots)</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No modal do avatar: <strong>Salvar Avatar</strong> guarda o avatar atual na nuvem (até <strong>10 slots</strong>, contador no botão) — disponível em <strong>qualquer dispositivo</strong>. E <strong>Avatares Salvos</strong> abre uma <strong>pasta interativa</strong>: passa o rato e as fotos espreitam, clica e elas abrem em leque — seleciona uma e <strong>Escolher Avatar</strong> aplica na hora (dá pra apagar e libertar slots também).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4576,6 +4576,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.94.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Avatares salvos na nuvem (10 slots).</strong> O modal do avatar ganhou dois bot&otilde;es: <strong>Salvar Avatar</strong> (com badge <em>n/10</em>) guarda o avatar do preview atual &mdash; da tab Upload, Gerar com IA ou Importar &mdash; no <strong>bucket por utilizador</strong> (edge <code>user-asset</code>, categoria operador/avatar, slots <code>avatar_slot_1..10</code>), dispon&iacute;vel em qualquer dispositivo. E <strong>Avatares Salvos</strong> abre uma <strong>galeria de pasta interativa</strong>: em repouso as fotos ficam empilhadas dentro da pasta; ao passar o rato elas espreitam; ao clicar, a pasta abre e as fotos espalham-se em leque &mdash; clica numa para selecionar (aro laranja) e <strong>Escolher Avatar</strong> aplica na hora (converte a signed URL em dataURL persistente). <strong>Apagar</strong> liberta o slot. Com 10/10 cheios, salvar avisa para libertar espa&ccedil;o. i18n PT/EN.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7832,7 +7841,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.93.0</strong><span class="ver-tag">Comentários do Marketplace (fase 3 do social): painel por build (botão de balão no card) com lista, composer (500 chars), respostas aninhadas rasas e curtida por comentário. Backend já estava pronto (mkt-comment com moderação Gemini embutida + mkt-comment-like + leitura anon RLS approved) — esta versão liga a UI: openBuildDetail no IIFE do marketplace, contadores por card (batch fetch em mkt_comments), i18n PT/EN via merge no window.I18N, CSS .mkt-cm-*. Bloqueio da moderação mostra o motivo ao autor.</span>
+        LEVEL · <strong>v2.94.0</strong><span class="ver-tag">Avatares salvos na nuvem: botões "Salvar Avatar" (com badge n/10) e "Avatares Salvos" no modal do avatar. Slots = user-asset operador/avatar item_id avatar_slot_1..10 (bucket por utilizador via window.levelUserAssets, JWT). Galeria = pasta interativa em vanilla (closed→peek no hover→leque no clique; foto selecionada ganha aro laranja; Escolher converte signed_url→dataURL e aplica em player.photo; Apagar liberta slot). Salva o preview da tab ativa (upload/IA/import). i18n PT/EN via merge no I18N.</span>
       </div>
       <script>
         (function(){
@@ -8635,6 +8644,10 @@
 
         </div>
         <div class="modal-actions">
+          <!-- v2.94.0: galeria de avatares na nuvem (10 slots no bucket, cross-device) -->
+          <button class="btn-action btn-reset avatar-cloud-btn" id="avatar-cloud-gallery" type="button">{{i:folder}} <span data-i18n="avatar.cloud.gallery">Avatares Salvos</span></button>
+          <button class="btn-action btn-reset avatar-cloud-btn" id="avatar-cloud-save" type="button">{{i:cloud-upload}} <span data-i18n="avatar.cloud.save">Salvar Avatar</span> <span class="avatar-slots-badge" id="avatar-slots-badge">—/10</span></button>
+          <span style="flex:1"></span>
           <button class="btn-action btn-reset" data-close-modal="modal-avatar" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Cancelar</button>
           <button class="btn-action btn-save" id="avatar-save-btn" style="flex:0 0 auto;min-width:auto;padding:10px 18px">Salvar</button>
         </div>
@@ -16666,6 +16679,217 @@ const ATTACHMENT_ICONS = {
         LevelModal.alert({ title: tHub('avatar.save.errTitle'), message: e.message || String(e), variant: 'error' });
       }
     }
+
+    // ── v2.94.0 · Avatares salvos na nuvem (10 slots no bucket, cross-device) ──
+    // Reusa o edge user-asset (categoria operador/avatar) via window.levelUserAssets.
+    // Slots = item_id 'avatar_slot_1'..'avatar_slot_10'. Galeria = pasta interativa.
+    (function avatarCloudSlots() {
+      var AV_MAX = 10, AV_PREFIX = 'avatar_slot_';
+      (function ext() {
+        if (!window.I18N || !window.I18N.pt) { setTimeout(ext, 400); return; }
+        Object.assign(window.I18N.pt, {
+          'avatar.cloud.save': 'Salvar Avatar', 'avatar.cloud.gallery': 'Avatares Salvos',
+          'avatar.cloud.savedTitle': 'Avatar salvo', 'avatar.cloud.savedMsg': 'Avatar salvo na nuvem ({n}/{max}). Disponível em qualquer dispositivo.',
+          'avatar.cloud.fullTitle': 'Slots cheios', 'avatar.cloud.fullMsg': 'Já tens {max}/{max} avatares salvos. Abre "Avatares Salvos" e apaga um para libertar espaço.',
+          'avatar.cloud.noPhoto': 'Não há avatar no preview para salvar.', 'avatar.cloud.errSave': 'Falha ao salvar: ',
+          'avatar.cloud.galleryTitle': 'AVATARES SALVOS', 'avatar.cloud.folderName': 'Avatares.salvos',
+          'avatar.cloud.hint': 'Clica na pasta para abrir · clica num avatar para selecionar',
+          'avatar.cloud.choose': 'Escolher Avatar', 'avatar.cloud.delete': 'Apagar', 'avatar.cloud.closeBtn': 'Fechar',
+          'avatar.cloud.empty': 'Nenhum avatar salvo ainda. Salva o primeiro com "Salvar Avatar".',
+          'avatar.cloud.applied': 'Avatar aplicado!', 'avatar.cloud.delConfirmTitle': 'Apagar avatar',
+          'avatar.cloud.delConfirmMsg': 'Apagar este avatar salvo? Isto liberta 1 slot.', 'avatar.cloud.errLoad': 'Falha ao carregar a galeria: ',
+        });
+        if (window.I18N.en) Object.assign(window.I18N.en, {
+          'avatar.cloud.save': 'Save Avatar', 'avatar.cloud.gallery': 'Saved Avatars',
+          'avatar.cloud.savedTitle': 'Avatar saved', 'avatar.cloud.savedMsg': 'Avatar saved to the cloud ({n}/{max}). Available on any device.',
+          'avatar.cloud.fullTitle': 'Slots full', 'avatar.cloud.fullMsg': 'You already have {max}/{max} saved avatars. Open "Saved Avatars" and delete one to free a slot.',
+          'avatar.cloud.noPhoto': 'There is no avatar in the preview to save.', 'avatar.cloud.errSave': 'Failed to save: ',
+          'avatar.cloud.galleryTitle': 'SAVED AVATARS', 'avatar.cloud.folderName': 'Saved.avatars',
+          'avatar.cloud.hint': 'Click the folder to open · click an avatar to select it',
+          'avatar.cloud.choose': 'Choose Avatar', 'avatar.cloud.delete': 'Delete', 'avatar.cloud.closeBtn': 'Close',
+          'avatar.cloud.empty': 'No saved avatars yet. Save your first with "Save Avatar".',
+          'avatar.cloud.applied': 'Avatar applied!', 'avatar.cloud.delConfirmTitle': 'Delete avatar',
+          'avatar.cloud.delConfirmMsg': 'Delete this saved avatar? This frees 1 slot.', 'avatar.cloud.errLoad': 'Failed to load the gallery: ',
+        });
+      })();
+      function at(k, fb) {
+        try {
+          var lang = localStorage.getItem('bo7hub_lang_v1') || 'pt';
+          var d = (window.I18N && window.I18N[lang]) || (window.I18N && window.I18N.pt) || {};
+          return d[k] !== undefined ? d[k] : (fb != null ? fb : k);
+        } catch (e) { return fb || k; }
+      }
+      function fmt(s, map) { return String(s).replace(/\{(\w+)\}/g, function (_, k) { return map[k] != null ? map[k] : '{' + k + '}'; }); }
+
+      async function avList() {
+        if (!window.levelUserAssets || !window.levelUserAssets.refresh) return [];
+        var items = await window.levelUserAssets.refresh();
+        if (!Array.isArray(items)) return [];
+        return items
+          .filter(function (it) { return String(it.item_id || '').indexOf(AV_PREFIX) === 0; })
+          .map(function (it) { return { item_id: it.item_id, slot: parseInt(String(it.item_id).slice(AV_PREFIX.length), 10) || 0, url: it.signed_url }; })
+          .filter(function (it) { return it.slot >= 1 && it.slot <= AV_MAX; })
+          .sort(function (a, b) { return a.slot - b.slot; });
+      }
+      async function updateSlotBadge(itemsOpt) {
+        var el = document.getElementById('avatar-slots-badge');
+        if (!el) return;
+        try { var items = itemsOpt || await avList(); el.textContent = items.length + '/' + AV_MAX; }
+        catch (e) { el.textContent = '—/' + AV_MAX; }
+      }
+      function currentModalDataUrl() {
+        var st = window.avatarIAState || {};
+        if (st.activeTab === 'generate' && st.generatedDataUrl) return st.generatedDataUrl;
+        if (st.activeTab === 'import' && st.importDataUrl) return st.importDataUrl;
+        return modalState.dataUrl || null;
+      }
+      async function avSaveCurrent(btn) {
+        var dataUrl = currentModalDataUrl();
+        if (!dataUrl) { LevelModal.alert({ title: at('avatar.cloud.save'), message: at('avatar.cloud.noPhoto'), variant: 'warning' }); return; }
+        btn.disabled = true;
+        try {
+          var items = await avList();
+          if (items.length >= AV_MAX) {
+            LevelModal.alert({ title: at('avatar.cloud.fullTitle'), message: fmt(at('avatar.cloud.fullMsg'), { max: AV_MAX }), variant: 'warning' });
+            return;
+          }
+          var used = {}; items.forEach(function (it) { used[it.slot] = true; });
+          var slot = 1; while (used[slot] && slot <= AV_MAX) slot++;
+          await window.levelUserAssets.upload(AV_PREFIX + slot, dataUrl, 'operador', 'avatar');
+          await updateSlotBadge();
+          LevelModal.alert({ title: at('avatar.cloud.savedTitle'), message: fmt(at('avatar.cloud.savedMsg'), { n: items.length + 1, max: AV_MAX }), variant: 'success' });
+        } catch (err) {
+          LevelModal.alert({ title: at('avatar.cloud.save'), message: at('avatar.cloud.errSave') + (err.message || String(err)), variant: 'error' });
+        } finally { btn.disabled = false; }
+      }
+      async function urlToDataUrl(url) {
+        var r = await fetch(url);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        var blob = await r.blob();
+        return new Promise(function (res, rej) {
+          var fr = new FileReader();
+          fr.onload = function () { res(fr.result); };
+          fr.onerror = function () { rej(new Error('read fail')); };
+          fr.readAsDataURL(blob);
+        });
+      }
+
+      // ── Galeria "pasta interativa" (vanilla: estados closed → peek → open) ──
+      function layout(photos, state) {
+        var n = photos.length;
+        photos.forEach(function (el, i) {
+          var off = i - (n - 1) / 2;
+          var t;
+          if (state === 'open') {
+            var spacing = Math.min(120, 480 / Math.max(1, n - 1) || 120);
+            var tx = off * spacing;
+            t = 'translate(' + tx + 'px, -150px) rotate(0deg) scale(1)';
+            el.style.setProperty('--tx', tx + 'px'); // hover lift mantém o X (CSS)
+            el.style.zIndex = 50 + i;
+          } else if (state === 'peek') {
+            t = 'translate(' + (off * 20) + 'px, ' + (off * -8 - 34) + 'px) rotate(' + (off * 6) + 'deg) scale(' + (1 - Math.abs(off) * 0.03) + ')';
+            el.style.zIndex = 10 + i;
+          } else {
+            t = 'translate(' + (off * 3) + 'px, ' + (off * -5) + 'px) rotate(' + (off * 3) + 'deg) scale(' + (1 - Math.abs(off) * 0.03) + ')';
+            el.style.zIndex = 10 + i;
+          }
+          el.style.transform = t;
+        });
+      }
+      async function openSavedGallery() {
+        var ov = document.createElement('div');
+        ov.className = 'avsv-ov';
+        ov.innerHTML = window.renderIconsText ? window.renderIconsText('' +
+          '<div class="avsv-panel" role="dialog" aria-modal="true">' +
+            '<div class="avsv-hd"><h4>{{i:folder}} ' + at('avatar.cloud.galleryTitle') + ' <span class="avsv-count" id="avsv-count">—/' + AV_MAX + '</span></h4>' +
+              '<button type="button" class="avsv-x" aria-label="Fechar">&times;</button></div>' +
+            '<div class="avsv-stage" id="avsv-stage"><div class="avsv-loading">…</div></div>' +
+            '<div class="avsv-hint" id="avsv-hint">' + at('avatar.cloud.hint') + '</div>' +
+            '<div class="avsv-ft">' +
+              '<button type="button" class="avsv-del" id="avsv-del" disabled>' + at('avatar.cloud.delete') + '</button>' +
+              '<span style="flex:1"></span>' +
+              '<button type="button" class="avsv-close" id="avsv-close">' + at('avatar.cloud.closeBtn') + '</button>' +
+              '<button type="button" class="avsv-choose" id="avsv-choose" disabled>' + at('avatar.cloud.choose') + '</button>' +
+            '</div>' +
+          '</div>') : '';
+        document.body.appendChild(ov);
+        var stage = ov.querySelector('#avsv-stage');
+        var chooseBtn = ov.querySelector('#avsv-choose');
+        var delBtn = ov.querySelector('#avsv-del');
+        var selected = null; // { item_id, url }
+        function close() { try { document.body.removeChild(ov); } catch (e) {} }
+        ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+        ov.querySelector('.avsv-x').addEventListener('click', close);
+        ov.querySelector('#avsv-close').addEventListener('click', close);
+        async function render() {
+          selected = null; chooseBtn.disabled = true; delBtn.disabled = true;
+          var items;
+          try { items = await avList(); }
+          catch (err) { stage.innerHTML = '<div class="avsv-loading" style="color:var(--red,#E74C3C)">' + at('avatar.cloud.errLoad') + (err.message || '') + '</div>'; return; }
+          var cEl = ov.querySelector('#avsv-count'); if (cEl) cEl.textContent = items.length + '/' + AV_MAX;
+          updateSlotBadge(items);
+          if (!items.length) { stage.innerHTML = '<div class="avsv-loading">' + at('avatar.cloud.empty') + '</div>'; return; }
+          stage.innerHTML = '<div class="avsv-photos" id="avsv-photos"></div>' +
+            '<div class="avsv-folder" id="avsv-folder"><div class="avsv-folder-back"></div><div class="avsv-folder-flap"><span class="avsv-folder-name">' + at('avatar.cloud.folderName') + '</span></div></div>';
+          var photosWrap = stage.querySelector('#avsv-photos');
+          var folder = stage.querySelector('#avsv-folder');
+          var els = items.map(function (it) {
+            var d = document.createElement('div');
+            d.className = 'avsv-photo';
+            d.setAttribute('data-item', it.item_id);
+            d.innerHTML = '<img src="' + it.url + '" alt="avatar"><span class="avsv-slotnum">' + it.slot + '</span>';
+            photosWrap.appendChild(d);
+            return d;
+          });
+          var state = 'closed';
+          layout(els, state);
+          folder.addEventListener('mouseenter', function () { if (state === 'closed') { state = 'peek'; layout(els, state); } });
+          folder.addEventListener('mouseleave', function () { if (state === 'peek') { state = 'closed'; layout(els, state); } });
+          folder.addEventListener('click', function () { state = 'open'; stage.classList.add('is-open'); layout(els, state); });
+          els.forEach(function (el) {
+            el.addEventListener('click', function () {
+              if (state !== 'open') { state = 'open'; stage.classList.add('is-open'); layout(els, state); return; }
+              els.forEach(function (x) { x.classList.toggle('sel', x === el); });
+              var it = items.find(function (x) { return x.item_id === el.getAttribute('data-item'); });
+              selected = it || null;
+              chooseBtn.disabled = !selected; delBtn.disabled = !selected;
+            });
+          });
+        }
+        chooseBtn.addEventListener('click', async function () {
+          if (!selected) return;
+          chooseBtn.disabled = true;
+          try {
+            var dataUrl = await urlToDataUrl(selected.url);
+            await LevelDB.player.update({ photo: dataUrl });
+            modalState.dataUrl = dataUrl; modalState.dirty = false;
+            if (typeof renderModalPreview === 'function') renderModalPreview();
+            await renderSidebarAvatar();
+            if (typeof window.renderOperatorPanel === 'function') window.renderOperatorPanel();
+            close();
+            LevelModal.alert({ title: at('avatar.cloud.gallery'), message: at('avatar.cloud.applied'), variant: 'success' });
+          } catch (err) {
+            LevelModal.alert({ title: at('avatar.cloud.gallery'), message: err.message || String(err), variant: 'error' });
+            chooseBtn.disabled = false;
+          }
+        });
+        delBtn.addEventListener('click', async function () {
+          if (!selected) return;
+          var ok = await LevelModal.confirm({ title: at('avatar.cloud.delConfirmTitle'), message: at('avatar.cloud.delConfirmMsg'), variant: 'danger', confirmText: at('avatar.cloud.delete') });
+          if (!ok) return;
+          delBtn.disabled = true;
+          try { await window.levelUserAssets.del(selected.item_id); await render(); }
+          catch (err) { LevelModal.alert({ title: at('avatar.cloud.delete'), message: err.message || String(err), variant: 'error' }); delBtn.disabled = false; }
+        });
+        render();
+      }
+
+      document.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('#avatar-cloud-save')) { avSaveCurrent(e.target.closest('#avatar-cloud-save')); return; }
+        if (e.target.closest && e.target.closest('#avatar-cloud-gallery')) { openSavedGallery(); return; }
+        if (e.target.closest && e.target.closest('#sidebar-avatar')) { setTimeout(function () { updateSlotBadge(); }, 400); }
+      });
+    })();
 
     // ── Event wiring ────────────────────────────────────────────────────
     document.addEventListener('click', async (e) => {
