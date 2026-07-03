@@ -1322,12 +1322,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.94.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.95.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Avatares salvos na nuvem (10 slots)</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No modal do avatar: <strong>Salvar Avatar</strong> guarda o avatar atual na nuvem (até <strong>10 slots</strong>, contador no botão) — disponível em <strong>qualquer dispositivo</strong>. E <strong>Avatares Salvos</strong> abre uma <strong>pasta interativa</strong>: passa o rato e as fotos espreitam, clica e elas abrem em leque — seleciona uma e <strong>Escolher Avatar</strong> aplica na hora (dá pra apagar e libertar slots também).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Rodapé novo: cartão com fitas adesivas</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O rodapé do hub foi redesenhado como um <strong>cartão “taped”</strong> — com fitas adesivas translúcidas nos cantos — trazendo a marca + tagline, a <strong>versão</strong>, atalhos rápidos do <strong>Hub</strong> (Painel Hoje, Mapas, Minhas Armas, Marketplace) e <strong>Recursos</strong> (Histórico de Versões, Privacidade/Termos, Copyright). Os avisos legais continuam na linha de baixo.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4576,6 +4576,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.95.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Rodap&eacute; &ldquo;taped card&rdquo;.</strong> O rodap&eacute; foi redesenhado como um <strong>cart&atilde;o escuro com fitas adesivas translúcidas</strong> nos cantos (adapta&ccedil;&atilde;o vanilla do componente <em>footer-taped-design</em>): coluna da marca (wordmark LEVEL + tagline + pill de vers&atilde;o), coluna <strong>Hub</strong> com atalhos reais de navega&ccedil;&atilde;o (Painel Hoje, Mapas, Minhas Armas, Marketplace via <code>data-home-goto</code>) e coluna <strong>Recursos</strong> (Hist&oacute;rico de Vers&otilde;es, Privacidade &middot; Termos &middot; Cookies, Pol&iacute;tica de Copyright). Avisos legais (marcas Activision + fan-made) mantidos na linha de baixo. O contrato do detector de vers&atilde;o (<code>.footer-version</code> + <code>strong</code> + <code>.ver-tag</code>) e o id <code>open-cookie-policy</code> foram preservados; o ver-tag agora trunca com reticências. i18n PT/EN.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7830,23 +7839,54 @@
     </section>
 
     <footer>
-      <div style="margin-bottom:8px">
-        © <span id="footer-year"></span> · <span data-i18n="footer.allRights">Todos os direitos reservados</span>
+      <!-- v2.95.0: rodapé "taped card" (cartão com fitas adesivas), adaptado ao tema -->
+      <div class="lvl-fcard">
+        <span class="lvl-ftape tl" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="95" height="80" viewBox="0 0 95 80" fill="none"><path d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z" fill="rgba(220,229,242,0.13)"/></svg></span>
+        <span class="lvl-ftape tr" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="95" height="80" viewBox="0 0 95 80" fill="none"><path d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z" fill="rgba(220,229,242,0.13)"/></svg></span>
+        <div class="lvl-fcols">
+          <div class="lvl-fbrand">
+            <div class="lvl-fname">LEVEL</div>
+            <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
+            <div class="footer-version">
+              LEVEL · <strong>v2.95.0</strong><span class="ver-tag">Rodapé redesenhado no estilo "taped card": cartão escuro com fitas adesivas translúcidas nos cantos, coluna da marca (wordmark + tagline + pill de versão), coluna Hub (atalhos data-home-goto pro Painel Hoje/Mapas/Minhas Armas/Marketplace) e coluna Recursos (Histórico de Versões via data-open-modal, legal.html com o id open-cookie-policy preservado, política de copyright). Avisos legais/fan-made mantidos na linha de baixo; .footer-version + strong + .ver-tag preservados (o detector de versão lê). Adaptação vanilla do componente footer-taped-design (21st.dev).</span>
+            </div>
+          </div>
+          <div class="lvl-fcol">
+            <h4 data-i18n="footer.colHub">Hub</h4>
+            <button type="button" data-home-goto="briefing" data-i18n="nav.briefing.label">Painel Hoje</button>
+            <button type="button" data-home-goto="maps" data-i18n="nav.maps.label">Mapas</button>
+            <button type="button" data-home-goto="myweapons" data-i18n="nav.myweapons.label">Minhas Armas</button>
+            <button type="button" data-home-goto="marketplace" data-i18n="nav.marketplace.label">Marketplace</button>
+          </div>
+          <div class="lvl-fcol">
+            <h4 data-i18n="footer.colResources">Recursos</h4>
+            <button type="button" data-open-modal="modal-version-history" data-i18n="briefing.changelog.historyLink">Histórico de Versões</button>
+            <a id="open-cookie-policy" href="legal.html" target="_blank" rel="noopener" data-i18n-attr="aria-label:footer.legalAria"><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span></a>
+            <a href="https://www.activision.com/legal/copyright-policy" target="_blank" rel="noopener noreferrer" data-i18n="footer.copyrightLink">Política de Copyright →</a>
+          </div>
+        </div>
       </div>
-      <div style="font-size:10px;line-height:1.7;letter-spacing:0.5px;max-width:680px;margin:0 auto">
-        <span data-i18n="footer.ipNotice">Call of Duty®, Black Ops® e ativos relacionados são marcas registradas de Activision Publishing, Inc.</span><br>
-        <span data-i18n="footer.fanMade">Projeto fan-made · uso pessoal não-comercial</span> · <a href="https://www.activision.com/legal/copyright-policy" target="_blank" rel="noopener noreferrer" style="color:var(--accent-orange);text-decoration:none;border-bottom:1px dotted var(--accent-orange)" data-i18n="footer.copyrightLink">Política de Copyright →</a>
-      </div>
-      <a class="privacy-pill" id="open-cookie-policy" href="legal.html" target="_blank" rel="noopener" data-i18n-attr="aria-label:footer.legalAria">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
-      </a>
-      <div class="footer-version">
-        LEVEL · <strong>v2.94.0</strong><span class="ver-tag">Avatares salvos na nuvem: botões "Salvar Avatar" (com badge n/10) e "Avatares Salvos" no modal do avatar. Slots = user-asset operador/avatar item_id avatar_slot_1..10 (bucket por utilizador via window.levelUserAssets, JWT). Galeria = pasta interativa em vanilla (closed→peek no hover→leque no clique; foto selecionada ganha aro laranja; Escolher converte signed_url→dataURL e aplica em player.photo; Apagar liberta slot). Salva o preview da tab ativa (upload/IA/import). i18n PT/EN via merge no I18N.</span>
+      <div class="lvl-fbottom">
+        <div>© <span id="footer-year"></span> LEVEL · <span data-i18n="footer.allRights">Todos os direitos reservados</span></div>
+        <div class="lvl-fdisclaimer"><span data-i18n="footer.ipNotice">Call of Duty®, Black Ops® e ativos relacionados são marcas registradas de Activision Publishing, Inc.</span> · <span data-i18n="footer.fanMade">Projeto fan-made · uso pessoal não-comercial</span></div>
       </div>
       <script>
         (function(){
           var y = document.getElementById('footer-year');
           if (y) y.textContent = new Date().getFullYear();
+
+          // v2.95.0: chaves novas do rodapé taped (merge no I18N, com retry até o dict existir)
+          (function mergeFooterI18n(){
+            if (!window.I18N || !window.I18N.pt) { setTimeout(mergeFooterI18n, 400); return; }
+            if (window.I18N.pt['footer.colHub'] === undefined) Object.assign(window.I18N.pt, {
+              'footer.tagline': 'Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.',
+              'footer.colHub': 'Hub', 'footer.colResources': 'Recursos',
+            });
+            if (window.I18N.en && window.I18N.en['footer.colHub'] === undefined) Object.assign(window.I18N.en, {
+              'footer.tagline': 'Tactical companion for Call of Duty: Black Ops 7 — loadouts, maps, aim training and community.',
+              'footer.colHub': 'Hub', 'footer.colResources': 'Resources',
+            });
+          })();
 
           // v75-74: Version detector — toast quando versão nova é detectada
           // Lê <strong> dentro de .footer-version

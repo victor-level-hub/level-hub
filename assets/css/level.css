@@ -13645,6 +13645,26 @@
               #build-base-picker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
               #build-base-picker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
 
+  /* ═══ v2.95.0 · Rodapé "taped card" ═══ */
+  .lvl-fcard { position: relative; max-width: 1040px; margin: 26px auto 0; padding: 30px 30px 26px; background: var(--bg-panel, #1f283f); border: 1px solid var(--bg-row, #25304f); border-radius: 24px; text-align: left; }
+  .lvl-ftape { position: absolute; width: 80px; height: 36px; pointer-events: none; }
+  .lvl-ftape svg { width: 95px; height: 80px; transform: scale(.75); transform-origin: top left; }
+  .lvl-ftape.tl { top: -16px; left: -18px; }
+  .lvl-ftape.tr { top: -14px; right: -18px; transform: rotate(90deg); }
+  .lvl-fcols { display: flex; flex-wrap: wrap; gap: 28px 56px; justify-content: space-between; }
+  .lvl-fbrand { flex: 1 1 300px; min-width: 260px; display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }
+  .lvl-fname { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-weight: 700; font-size: 21px; letter-spacing: .22em; color: var(--accent-orange, #FF9800); }
+  .lvl-ftagline { margin: 0; font-family: 'Inter', sans-serif; font-size: 12.5px; line-height: 1.6; letter-spacing: .02em; color: var(--text-secondary, #AEC7E0); max-width: 340px; text-transform: none; }
+  .lvl-fcard .footer-version { margin-top: 4px; padding-top: 0; border-top: 0; font-size: 10.5px; letter-spacing: 1px; }
+  .lvl-fcard .footer-version .ver-tag { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+  .lvl-fcol { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; min-width: 150px; }
+  .lvl-fcol h4 { margin: 0 0 3px; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-500, #5F6E8C); }
+  .lvl-fcol button, .lvl-fcol a { background: transparent; border: 0; padding: 0; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: .03em; color: var(--text-secondary, #AEC7E0); text-decoration: none; text-transform: none; transition: color .15s; text-align: left; }
+  .lvl-fcol button:hover, .lvl-fcol a:hover { color: var(--accent-orange, #FF9800); }
+  .lvl-fbottom { max-width: 1040px; margin: 14px auto 0; padding: 0 10px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: baseline; justify-content: space-between; font-size: 10px; letter-spacing: .5px; color: var(--text-muted, #8497B8); text-align: left; }
+  .lvl-fdisclaimer { line-height: 1.7; opacity: .8; }
+  @media (max-width: 700px) { .lvl-fcard { padding: 24px 20px; } .lvl-ftape.tr { display: none; } .lvl-fbottom { flex-direction: column; } }
+
   /* ═══ v2.94.0 · Avatares salvos na nuvem (galeria pasta interativa) ═══ */
   .avatar-cloud-btn { flex: 0 0 auto; min-width: auto; padding: 10px 14px; display: inline-flex; align-items: center; gap: 7px; }
   .avatar-slots-badge { font-family: var(--font-mono, monospace); font-size: 10.5px; padding: 2px 7px; border-radius: 999px; background: rgba(255,152,0,.12); color: var(--accent-orange, #FF9800); border: 1px solid rgba(255,152,0,.35); }
