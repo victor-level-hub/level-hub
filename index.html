@@ -429,7 +429,7 @@
   // scroll (desce=monta, sobe=desmonta) e TRAVA ao completar (reverso só recarregando).
   // ⏪ ROLLBACK FÁCIL: muda LP_SCRUB pra false → volta 100% ao comportamento antigo
   // (montagem única por tempo, hero de altura normal). Nada mais precisa mudar.
-  var LP_SCRUB = true;
+  var LP_SCRUB = false; // v2.96.3: Victor não curtiu o scrub — revertido ao comportamento clássico (montagem por tempo). O código do scrub fica dormente caso queira re-testar.
   var _reduced = false;
   try { _reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
@@ -1367,12 +1367,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.96.2 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.96.3 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fix: painéis que mostravam código em vez de UI</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A galeria <strong>Avatares Salvos</strong> abria mostrando o código HTML como texto — e o mesmo bug latente afetava o <strong>pódio e o grid do Marketplace</strong>, os <strong>comentários</strong> e as <strong>estrelas do publicar</strong>. Causa: a função de ícones usada era a de <em>texto puro</em> (que escapa HTML). Trocada pela variante de markup nos 6 sítios.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch: montagem da logo voltou ao normal</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A experiência de <em>montar a logo com o scroll</em> (v2.96.0) foi <strong>revertida</strong> — a página de apresentação volta a montar a logo automaticamente ao abrir, como antes. Os ajustes recentes do rodapé e a galeria de avatares continuam.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4621,6 +4621,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.96.3</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">revert</span>
+              </div>
+              <p class="vh-desc"><strong>Pitch: montagem da logo voltou ao normal.</strong> O efeito de <em>montar/desmontar a logo dirigido pelo scroll</em> (v2.96.0) foi revertido &mdash; o Victor n&atilde;o gostou de como ficou. Como a mudan&ccedil;a foi feita com <em>rollback f&aacute;cil</em> em mente, bastou a flag <code>LP_SCRUB = false</code>: a p&aacute;gina de apresenta&ccedil;&atilde;o volta &agrave; montagem cl&aacute;ssica da logo (autom&aacute;tica ao abrir, por tempo). O c&oacute;digo do <em>scroll-scrub</em> (<code>initScrubLogo</code> / <code>buildLogoAnims</code> / CSS <code>.lp-scrub</code>) fica dormente, pronto para re-testar mudando uma linha. Rodap&eacute; e galeria de avatares recentes mant&ecirc;m-se.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -7920,7 +7929,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.96.2</strong><span class="ver-tag">Fix: renderIconsText escapa HTML (é pra texto puro) — a galeria Avatares Salvos abria como código cru, e o mesmo bug latente estava no pódio do Marketplace, no grid (render + estado vazio), nos comentários e nas estrelas do publicar. Trocado por renderIconsHtml (não escapa; tokens {{i:}} viram SVG) nos 6 call sites de markup; toast/modal (texto puro) mantêm o Text. Verificado no preview: painel renderiza como DOM, sem vazamento de markup.</span>
+              LEVEL · <strong>v2.96.3</strong><span class="ver-tag">Rollback do pitch scroll-scrub (v2.96.0): flag LP_SCRUB=false → volta 100% à montagem clássica por tempo (playLogo). O código do scrub (initScrubLogo, buildLogoAnims, CSS .lp-scrub) fica dormente, pronto pra re-testar mudando 1 linha. Victor não curtiu o efeito.</span>
             </div>
           </div>
           <div class="lvl-fcol">
