@@ -1427,12 +1427,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.98.0 · <span data-i18n="briefing.changelog.date">3 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.98.1 · <span data-i18n="briefing.changelog.date">3 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
           <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch: grelha infinita que reage ao cursor</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A grelha tática do hero da <strong>página de apresentação</strong> agora <em>rola em diagonal, infinitamente</em> — e uma segunda camada, em laranja, é <strong>revelada por um foco que segue o cursor</strong> (adaptação vanilla do componente <em>infinite-grid</em>). Brilhos de profundidade (laranja e azul) completam o clima de HUD. Puro CSS na animação (zero JavaScript por frame), respeita <em>reduced-motion</em> e a revelação só liga com rato (desktop). Rollback fácil: 1 flag. Na v2.97.0, os modais só-leitura (Histórico de Versões) ganharam tilt 3D + brilho no cursor.</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A grelha tática do hero da <strong>página de apresentação</strong> agora <em>rola em diagonal, infinitamente</em> — e uma segunda camada, em laranja, é <strong>revelada por um foco que segue o cursor</strong> (adaptação vanilla do componente <em>infinite-grid</em>). Na v2.98.1 a intensidade foi <strong>recalibrada</strong>: a primeira versão ficou sutil demais (invisível em monitor real) — linhas mais fortes, grelha cobrindo o hero inteiro e foco do cursor bem mais evidente. Puro CSS na animação, respeita <em>reduced-motion</em>; revelação só com rato (desktop). Rollback fácil: 1 flag.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4681,6 +4681,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.98.1</span>
+                <span class="vh-date">3 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Pitch: grelha infinita recalibrada (estava invis&iacute;vel).</strong> A v2.98.0 saiu sutil demais: a grelha base usava as linhas fracas que j&aacute; existiam (alfa efetivo ~1%) e a m&aacute;scara antiga ainda a escondia abaixo do topo do hero &mdash; em monitor real, <em>n&atilde;o se via nada</em>. No modo <code>lp-grid</code> a base agora tem linhas mais fortes (0.11) com opacidade .55 e m&aacute;scara cobrindo o hero inteiro (fade apenas nas bordas); o <strong>foco do cursor</strong> passou a revelar a grelha laranja com alfa 0.5 e opacidade total; os brilhos de profundidade subiram para 0.15&ndash;0.16. O movimento diagonal cont&iacute;nuo e a lanterna t&aacute;tica agora s&atilde;o percept&iacute;veis de imediato.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8007,7 +8016,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.98.0</strong><span class="ver-tag">Infinite grid no hero do pitch (adaptação vanilla do the-infinite-grid/21st.dev): .lp-hud rola em diagonal via @keyframes lp-grid-pan (CSS puro, sem rAF) + camada .lp-hud-reveal laranja mascarada por círculo 300px que segue o cursor (--lp-mx/--lp-my) + brilhos .lp-grid-glows. Camadas injetadas por JS só com LP_GRID=true → rollback = 1 flag. Reveal só em hover+pointer fino; reduced-motion desliga tudo.</span>
+              LEVEL · <strong>v2.98.1</strong><span class="ver-tag">Recalibragem do infinite grid do pitch: a v2.98.0 ficou invisível em monitor real (base .lp-hud com alfa efetivo ~1% e máscara antiga escondendo a grelha abaixo do topo). Modo .lp-grid agora sobrepõe: linhas base 0.11/opacity .55, máscara cobrindo o hero inteiro (fade só nas bordas), reveal laranja 0.5 com opacity 1 ativa, glows 0.15-0.16. Rollback continua LP_GRID=false.</span>
             </div>
           </div>
           <div class="lvl-fcol">

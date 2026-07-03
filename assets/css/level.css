@@ -13320,28 +13320,38 @@
      a .lp-hud-reveal é a mesma grelha em laranja, mascarada por um círculo
      de 300px que segue o cursor (--lp-mx/--lp-my setados por JS). Tudo
      escopado em .lp-hero.lp-grid (classe posta pelo JS; flag LP_GRID). */
-  #level-pitch .lp-hero.lp-grid .lp-hud { animation: lp-grid-pan 1.6s linear infinite; }
+  #level-pitch .lp-hero.lp-grid .lp-hud {
+    /* v2.98.1: no modo grid a base tem de SE VER mexer — linhas mais fortes,
+       opacidade maior e máscara cobrindo o hero inteiro (fade só nas bordas). */
+    opacity: .55;
+    background-image:
+      linear-gradient(rgba(174,199,224,0.11) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(174,199,224,0.11) 1px, transparent 1px);
+    -webkit-mask-image: radial-gradient(110% 95% at 50% 42%, #000 0%, transparent 96%);
+    mask-image: radial-gradient(110% 95% at 50% 42%, #000 0%, transparent 96%);
+    animation: lp-grid-pan 1.6s linear infinite;
+  }
   #level-pitch .lp-hud-reveal {
     position: absolute; inset: 0; pointer-events: none; z-index: 0;
     background-image:
-      linear-gradient(rgba(255,178,92,0.20) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,178,92,0.20) 1px, transparent 1px);
+      linear-gradient(rgba(255,178,92,0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,178,92,0.5) 1px, transparent 1px);
     background-size: 46px 46px;
     opacity: 0; transition: opacity 320ms ease;
     -webkit-mask-image: radial-gradient(300px circle at var(--lp-mx, 50%) var(--lp-my, 40%), #000, transparent);
     mask-image: radial-gradient(300px circle at var(--lp-mx, 50%) var(--lp-my, 40%), #000, transparent);
     animation: lp-grid-pan 1.6s linear infinite;
   }
-  #level-pitch .lp-hero.lp-grid-active .lp-hud-reveal { opacity: .8; }
+  #level-pitch .lp-hero.lp-grid-active .lp-hud-reveal { opacity: 1; }
   #level-pitch .lp-grid-glows { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
   #level-pitch .lp-grid-glows i { position: absolute; display: block; border-radius: 50%; }
   #level-pitch .lp-grid-glows .lp-gg-orange {
     right: -14%; top: -22%; width: 44%; height: 58%;
-    background: radial-gradient(50% 50% at 50% 50%, rgba(255,152,0,0.10), transparent 70%);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(255,152,0,0.16), transparent 70%);
   }
   #level-pitch .lp-grid-glows .lp-gg-blue {
     left: -12%; bottom: -24%; width: 46%; height: 60%;
-    background: radial-gradient(50% 50% at 50% 50%, rgba(90,140,220,0.10), transparent 70%);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(90,140,220,0.15), transparent 70%);
   }
   @keyframes lp-grid-pan { from { background-position: 0 0; } to { background-position: 46px 46px; } }
   @media (prefers-reduced-motion: reduce) {
