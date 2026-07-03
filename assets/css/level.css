@@ -13645,6 +13645,38 @@
               #build-base-picker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
               #build-base-picker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
 
+  /* ═══ v2.93.0 · Comentários do Marketplace ═══ */
+  .mkt-cm-ov { position: fixed; inset: 0; z-index: 4000; background: rgba(8,11,18,.72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .mkt-cm-panel { width: min(620px, 96vw); max-height: 86vh; display: flex; flex-direction: column; background: var(--bg-panel, #1f283f); border: 1px solid var(--bg-row, #25304f); border-radius: 16px; overflow: hidden; }
+  .mkt-cm-hd { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--bg-row, #25304f); }
+  .mkt-cm-hd-info { flex: 1; min-width: 0; }
+  .mkt-cm-hd-info h4 { margin: 0; font-size: 15px; color: var(--text-primary, #DCE5F2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mkt-cm-hd-info span { font-size: 11.5px; color: var(--text-muted, #8497B8); font-family: var(--font-mono, monospace); }
+  .mkt-cm-x { background: transparent; border: 0; color: var(--text-muted, #8497B8); font-size: 22px; line-height: 1; cursor: pointer; padding: 2px 6px; }
+  .mkt-cm-list { overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; min-height: 120px; }
+  .mkt-cm-empty { color: var(--text-muted, #8497B8); font-size: 13px; padding: 22px 4px; text-align: center; }
+  .mkt-cm-item { background: rgba(174,199,224,0.04); border: 1px solid var(--bg-row, #25304f); border-radius: 11px; padding: 10px 12px; }
+  .mkt-cm-item.is-reply { margin-left: 26px; background: rgba(174,199,224,0.02); }
+  .mkt-cm-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .mkt-cm-head strong { font-size: 13px; color: var(--accent-cyan, #7DA8C7); }
+  .mkt-cm-time { font-size: 10.5px; color: var(--ink-500, #5F6E8C); font-family: var(--font-mono, monospace); }
+  .mkt-cm-body { font-size: 13.5px; color: var(--text-primary, #DCE5F2); line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+  .mkt-cm-actions { display: flex; align-items: center; gap: 12px; margin-top: 7px; }
+  .mkt-cm-like { display: inline-flex; align-items: center; gap: 5px; background: transparent; border: 1px solid var(--bg-row, #25304f); border-radius: 999px; padding: 3px 10px; color: var(--text-muted, #8497B8); font-size: 11.5px; cursor: pointer; transition: all .15s; }
+  .mkt-cm-like:hover { border-color: var(--accent-orange, #FF9800); color: var(--accent-orange, #FF9800); }
+  .mkt-cm-like.liked { border-color: var(--accent-orange, #FF9800); color: var(--accent-orange, #FF9800); background: rgba(255,152,0,.08); }
+  .mkt-cm-replybtn { background: transparent; border: 0; color: var(--text-muted, #8497B8); font-size: 11.5px; cursor: pointer; padding: 3px 4px; }
+  .mkt-cm-replybtn:hover { color: var(--accent-orange, #FF9800); }
+  .mkt-cm-composer { border-top: 1px solid var(--bg-row, #25304f); padding: 10px 16px 12px; }
+  .mkt-cm-replying { font-size: 11.5px; color: var(--text-muted, #8497B8); margin-bottom: 7px; }
+  .mkt-cm-replying .mkt-cm-cancelreply { background: transparent; border: 0; color: var(--accent-orange, #FF9800); cursor: pointer; font-size: 11.5px; padding: 0; }
+  .mkt-cm-inputrow { display: flex; gap: 8px; align-items: flex-end; }
+  .mkt-cm-inputrow textarea { flex: 1; resize: none; border-radius: 10px; border: 1px solid var(--bg-row, #25304f); background: var(--surface-input, #131A2C); color: var(--text-primary, #DCE5F2); padding: 9px 12px; font-size: 13px; font-family: inherit; line-height: 1.45; }
+  .mkt-cm-inputrow textarea:focus { outline: none; border-color: var(--accent-orange, #FF9800); }
+  .mkt-cm-send { height: 38px; padding: 0 16px; border-radius: 10px; border: 0; background: var(--accent-orange, #FF9800); color: var(--action-ink, #1A1206); font-weight: 700; font-size: 12.5px; cursor: pointer; }
+  .mkt-cm-send:disabled { opacity: .5; cursor: default; }
+  .mkt-cm-count { text-align: right; font-size: 10.5px; color: var(--ink-500, #5F6E8C); font-family: var(--font-mono, monospace); margin-top: 4px; }
+
   /* ═══ v2.89.0 · Seletor de ícone do menu (aba Menu Lateral) ═══ */
   .nav-icon svg.gi-fill, .nav-icon svg.gi-fill * { fill: currentColor; stroke: none; }
   .nav-item--featured.active .nav-icon svg.gi-fill, .nav-item--featured.active .nav-icon svg.gi-fill * { fill: #0e1014; stroke: none; }

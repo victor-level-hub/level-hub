@@ -1322,12 +1322,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v2.92.3 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v2.93.0 · <span data-i18n="briefing.changelog.date">30 Jun 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Anel de nível: nível atual em laranja + mais respiro</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No anel de nível, o <strong>nível atual</strong> passou a laranja destacado e o <strong>“/ máx”</strong> ficou mais discreto (ex.: <strong>68</strong> / 100), com mais respiro à volta. O cálculo da % respeita cada caso: fora do Master vai até <strong>55</strong> (regra de três — ex.: nível 23 = 42%), e em Master até à tua faixa (100, 200, …, 1000).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Comentários no Marketplace</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O Marketplace ganhou <strong>comentários</strong>: clica no balão de qualquer build e abre o painel — lê, <strong>comenta</strong> (até 500 caracteres), <strong>responde</strong> e <strong>curte comentários</strong>. Tudo passa pela <strong>moderação automática</strong> antes de publicar, e o contador de comentários aparece em cada card. Fecha a fase social: curtir builds + avaliação do autor + comentários.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4579,6 +4579,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.93.0</span>
+                <span class="vh-date">30 Jun 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Coment&aacute;rios no Marketplace.</strong> Fase 3 do social: o bot&atilde;o de bal&atilde;o em cada card abre o <strong>painel de coment&aacute;rios</strong> da build &mdash; lista (recentes primeiro, respostas aninhadas), <strong>composer</strong> com limite de 500 caracteres, <strong>responder</strong> (1 n&iacute;vel) e <strong>curtir coment&aacute;rio</strong>. Todo coment&aacute;rio passa pela <strong>modera&ccedil;&atilde;o autom&aacute;tica</strong> (Gemini) antes de publicar &mdash; se for bloqueado, o autor v&ecirc; o motivo. O contador de coment&aacute;rios agora aparece em cada card (busca em lote). Backend j&aacute; existia (edge <code>mkt-comment</code> + <code>mkt-comment-like</code>, leitura an&oacute;nima s&oacute; de aprovados); esta vers&atilde;o liga a UI. i18n PT/EN.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.92.3</span>
                 <span class="vh-date">30 Jun 2026</span>
                 <span class="vh-kind">visual</span>
@@ -7823,7 +7832,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="footer.legalLink">Privacidade · Termos · Cookies</span>
       </a>
       <div class="footer-version">
-        LEVEL · <strong>v2.92.3</strong><span class="ver-tag">Anel de nível — polish: nível atual (o "68" de "68 / 100") em laranja destacado via span .oc-lvl-cur; o "/ máx" mais discreto (menor, --ink-500); mais respiro (gap 3→7, padding). Cálculo da % confirmado: fora do Master goal=55 (regra de três, ex.: 23/55=42%), Master goal=faixa.</span>
+        LEVEL · <strong>v2.93.0</strong><span class="ver-tag">Comentários do Marketplace (fase 3 do social): painel por build (botão de balão no card) com lista, composer (500 chars), respostas aninhadas rasas e curtida por comentário. Backend já estava pronto (mkt-comment com moderação Gemini embutida + mkt-comment-like + leitura anon RLS approved) — esta versão liga a UI: openBuildDetail no IIFE do marketplace, contadores por card (batch fetch em mkt_comments), i18n PT/EN via merge no window.I18N, CSS .mkt-cm-*. Bloqueio da moderação mostra o motivo ao autor.</span>
       </div>
       <script>
         (function(){
@@ -19534,6 +19543,9 @@ const ATTACHMENT_ICONS = {
             '</div>';
         }).join('');
         gridEl.innerHTML = window.renderIconsText ? window.renderIconsText(html) : html;
+        // v2.93.0: contadores de comentários (cache + fetch em background)
+        applyCommentCounts();
+        refreshCommentCounts();
       }
 
       // ── Curtir (v2.73.0 · substitui o voto ▲/▼) ────────────────────
@@ -19558,6 +19570,184 @@ const ATTACHMENT_ICONS = {
         } catch (err) {
           if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.alert.likeFail','Falha ao curtir'), message: err.message || String(err), variant: 'error' });
         }
+      }
+
+      // ── Comentários (v2.93.0 · fase 3 do social) ───────────────────
+      // Backend pronto: mkt-comment (post + moderação Gemini), mkt-comment-like
+      // (toggle), leitura anon direta em mkt_comments (RLS: approved + !deleted).
+      (function extendI18nComments() {
+        function ext() {
+          if (!window.I18N || !window.I18N.pt) { setTimeout(ext, 400); return; }
+          Object.assign(window.I18N.pt, {
+            'mkt.cm.title': 'Comentários', 'mkt.cm.empty': 'Ainda sem comentários. Sê o primeiro!',
+            'mkt.cm.placeholder': 'Escreve um comentário… (máx. 500)', 'mkt.cm.send': 'Comentar',
+            'mkt.cm.reply': 'Responder', 'mkt.cm.replying': 'A responder a', 'mkt.cm.cancel': 'cancelar',
+            'mkt.cm.blocked.title': 'Comentário bloqueado', 'mkt.cm.loadErr': 'Falha ao carregar comentários: ',
+            'mkt.cm.sendErr': 'Falha ao comentar: ', 'mkt.cm.syncRequired': 'Precisas fazer pelo menos um Backup na cloud antes de comentar (cria a sua identidade no servidor). Vai em Configurações ▸ Operador ▸ Backup na cloud.',
+          });
+          if (window.I18N.en) Object.assign(window.I18N.en, {
+            'mkt.cm.title': 'Comments', 'mkt.cm.empty': 'No comments yet. Be the first!',
+            'mkt.cm.placeholder': 'Write a comment… (max 500)', 'mkt.cm.send': 'Comment',
+            'mkt.cm.reply': 'Reply', 'mkt.cm.replying': 'Replying to', 'mkt.cm.cancel': 'cancel',
+            'mkt.cm.blocked.title': 'Comment blocked', 'mkt.cm.loadErr': 'Failed to load comments: ',
+            'mkt.cm.sendErr': 'Failed to comment: ', 'mkt.cm.syncRequired': 'You need at least one cloud Backup before commenting (it creates your server identity). Go to Settings ▸ Operator ▸ Cloud backup.',
+          });
+        }
+        ext();
+      })();
+
+      var LS_CMLIKES = 'level.mkt.cmlikes';
+      function getCmLikes() { try { return JSON.parse(localStorage.getItem(LS_CMLIKES) || '{}'); } catch (e) { return {}; } }
+      function setCmLike(id, liked) {
+        var v = getCmLikes(); if (liked) v[id] = true; else delete v[id];
+        try { localStorage.setItem(LS_CMLIKES, JSON.stringify(v)); } catch (e) {}
+      }
+
+      // Contadores nos cards (badge do botão de comentários)
+      STATE.commentCounts = {};
+      var _ccInFlight = false;
+      async function refreshCommentCounts() {
+        if (_ccInFlight || !STATE.builds.length) return;
+        _ccInFlight = true;
+        try {
+          var ids = STATE.builds.map(function (b) { return b.id; });
+          var r = await fetch(SUPABASE_URL + '/rest/v1/mkt_comments?select=build_id&build_id=in.(' + ids.map(encodeURIComponent).join(',') + ')&limit=5000', { headers: AUTH_HEADERS });
+          if (!r.ok) return;
+          var rows = await r.json();
+          var counts = {};
+          rows.forEach(function (row) { counts[row.build_id] = (counts[row.build_id] || 0) + 1; });
+          STATE.commentCounts = counts;
+          applyCommentCounts();
+        } catch (e) {} finally { _ccInFlight = false; }
+      }
+      function applyCommentCounts() {
+        document.querySelectorAll('.mkt-comment-count[data-build-id]').forEach(function (el) {
+          var n = STATE.commentCounts[el.getAttribute('data-build-id')] || 0;
+          el.textContent = String(n);
+        });
+      }
+
+      function cmIcons(html) { return window.renderIconsText ? window.renderIconsText(html) : html; }
+
+      async function fetchComments(buildId) {
+        var r = await fetch(SUPABASE_URL + '/rest/v1/mkt_comments?select=id,parent_id,author_user_id,author_name,body,likes_count,created_at&build_id=eq.' + encodeURIComponent(buildId) + '&order=created_at.asc&limit=500', { headers: AUTH_HEADERS });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      }
+
+      function cmRender(listEl, comments) {
+        var liked = getCmLikes();
+        var roots = comments.filter(function (c) { return !c.parent_id; });
+        var byParent = {};
+        comments.forEach(function (c) { if (c.parent_id) (byParent[c.parent_id] = byParent[c.parent_id] || []).push(c); });
+        roots.sort(function (a, b) { return new Date(b.created_at) - new Date(a.created_at); }); // raiz: recentes primeiro
+        function one(c, isReply) {
+          return '' +
+            '<div class="mkt-cm-item' + (isReply ? ' is-reply' : '') + '" data-cm-id="' + escHtml(c.id) + '">' +
+              '<div class="mkt-cm-head"><strong>' + escHtml(c.author_name || 'Anon') + '</strong>' +
+                '<span class="mkt-cm-time" title="' + escHtml(formatDateTime(c.created_at)) + '">' + escHtml(formatRelativeTime(c.created_at)) + '</span></div>' +
+              '<div class="mkt-cm-body">' + escHtml(c.body) + '</div>' +
+              '<div class="mkt-cm-actions">' +
+                '<button type="button" class="mkt-cm-like' + (liked[c.id] ? ' liked' : '') + '" data-cm-like="' + escHtml(c.id) + '">{{i:heart:12}}<span>' + (c.likes_count || 0) + '</span></button>' +
+                (isReply ? '' : '<button type="button" class="mkt-cm-replybtn" data-cm-reply="' + escHtml(c.id) + '" data-cm-author="' + escHtml(c.author_name || 'Anon') + '">' + mt('mkt.cm.reply', 'Responder') + '</button>') +
+              '</div>' +
+            '</div>';
+        }
+        var html = roots.map(function (c) {
+          var kids = (byParent[c.id] || []).map(function (k) { return one(k, true); }).join('');
+          return one(c, false) + kids;
+        }).join('');
+        listEl.innerHTML = comments.length ? cmIcons(html) : '<div class="mkt-cm-empty">' + escHtml(mt('mkt.cm.empty', 'Ainda sem comentários. Sê o primeiro!')) + '</div>';
+      }
+
+      function openBuildDetail(buildId) {
+        var b = STATE.builds.find(function (x) { return x.id === buildId; });
+        if (!b) return;
+        var ov = document.createElement('div');
+        ov.className = 'mkt-cm-ov';
+        ov.innerHTML = cmIcons('' +
+          '<div class="mkt-cm-panel" role="dialog" aria-modal="true">' +
+            '<div class="mkt-cm-hd">' +
+              '<div class="mkt-cm-hd-info"><h4>' + escHtml(b.codename || 'BUILD') + '</h4>' +
+                '<span>' + escHtml(b.weapon_catalog_id || '?') + ' · ' + escHtml(mt('mkt.cm.title', 'Comentários')) + '</span></div>' +
+              '<button type="button" class="mkt-cm-x" aria-label="Fechar">&times;</button>' +
+            '</div>' +
+            '<div class="mkt-cm-list" id="mkt-cm-list"><div class="mkt-cm-empty">…</div></div>' +
+            '<div class="mkt-cm-composer">' +
+              '<div class="mkt-cm-replying" id="mkt-cm-replying" style="display:none"></div>' +
+              '<div class="mkt-cm-inputrow">' +
+                '<textarea id="mkt-cm-input" maxlength="500" rows="2" placeholder="' + escHtml(mt('mkt.cm.placeholder', 'Escreve um comentário… (máx. 500)')) + '"></textarea>' +
+                '<button type="button" class="mkt-cm-send" id="mkt-cm-send">' + escHtml(mt('mkt.cm.send', 'Comentar')) + '</button>' +
+              '</div>' +
+              '<div class="mkt-cm-count"><span id="mkt-cm-chars">0</span>/500</div>' +
+            '</div>' +
+          '</div>');
+        document.body.appendChild(ov);
+        var listEl = ov.querySelector('#mkt-cm-list');
+        var input = ov.querySelector('#mkt-cm-input');
+        var chars = ov.querySelector('#mkt-cm-chars');
+        var replyBox = ov.querySelector('#mkt-cm-replying');
+        var replyTo = null; // { id, author }
+        function close() { try { document.body.removeChild(ov); } catch (e) {} }
+        ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+        ov.querySelector('.mkt-cm-x').addEventListener('click', close);
+        input.addEventListener('input', function () { chars.textContent = String(input.value.length); });
+        function setReply(id, author) {
+          replyTo = id ? { id: id, author: author } : null;
+          if (replyTo) {
+            replyBox.style.display = '';
+            replyBox.innerHTML = escHtml(mt('mkt.cm.replying', 'A responder a')) + ' <strong>' + escHtml(author) + '</strong> · <button type="button" class="mkt-cm-cancelreply">' + escHtml(mt('mkt.cm.cancel', 'cancelar')) + '</button>';
+            replyBox.querySelector('.mkt-cm-cancelreply').addEventListener('click', function () { setReply(null); });
+            input.focus();
+          } else { replyBox.style.display = 'none'; replyBox.innerHTML = ''; }
+        }
+        async function load() {
+          try { cmRender(listEl, await fetchComments(buildId)); }
+          catch (err) { listEl.innerHTML = '<div class="mkt-cm-empty" style="color:var(--red,#E74C3C)">' + escHtml(mt('mkt.cm.loadErr', 'Falha ao carregar comentários: ') + err.message) + '</div>'; }
+        }
+        ov.addEventListener('click', async function (e) {
+          var rb = e.target.closest('[data-cm-reply]');
+          if (rb) { setReply(rb.getAttribute('data-cm-reply'), rb.getAttribute('data-cm-author')); return; }
+          var lb = e.target.closest('[data-cm-like]');
+          if (lb) {
+            var cid = lb.getAttribute('data-cm-like');
+            var localId = getLocalId();
+            if (!localId) { if (window.LevelModal) window.LevelModal.alert({ title: mt('mkt.alert.syncRequired.title', 'Sync necessário'), message: mt('mkt.cm.syncRequired', ''), variant: 'warning' }); return; }
+            lb.disabled = true;
+            try {
+              var r = await fetch(SUPABASE_URL + '/functions/v1/mkt-comment-like', { method: 'POST', headers: Object.assign({}, AUTH_HEADERS, { 'Content-Type': 'application/json' }), body: JSON.stringify({ local_id: localId, comment_id: cid }) });
+              var data = await r.json().catch(function () { return {}; });
+              if (r.ok && data.ok) {
+                setCmLike(cid, !!data.liked);
+                lb.classList.toggle('liked', !!data.liked);
+                var sp = lb.querySelector('span'); if (sp) sp.textContent = String(data.likes_count || 0);
+              }
+            } catch (err) {} finally { lb.disabled = false; }
+            return;
+          }
+        });
+        ov.querySelector('#mkt-cm-send').addEventListener('click', async function () {
+          var text = input.value.trim();
+          if (!text) return;
+          var localId = getLocalId();
+          if (!localId) { if (window.LevelModal) window.LevelModal.alert({ title: mt('mkt.alert.syncRequired.title', 'Sync necessário'), message: mt('mkt.cm.syncRequired', ''), variant: 'warning' }); return; }
+          var btn = this; btn.disabled = true;
+          try {
+            var r = await fetch(SUPABASE_URL + '/functions/v1/mkt-comment', { method: 'POST', headers: Object.assign({}, AUTH_HEADERS, { 'Content-Type': 'application/json' }), body: JSON.stringify({ local_id: localId, mkt_build_id: buildId, body: text, parent_id: replyTo ? replyTo.id : null }) });
+            var data = await r.json().catch(function () { return {}; });
+            if (data && data.blocked) {
+              if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.cm.blocked.title', 'Comentário bloqueado'), message: data.reason || '', variant: 'warning' });
+            } else if (r.ok && data.ok) {
+              input.value = ''; chars.textContent = '0'; setReply(null);
+              STATE.commentCounts[buildId] = (STATE.commentCounts[buildId] || 0) + 1;
+              applyCommentCounts();
+              await load();
+            } else { throw new Error(data.error || ('HTTP ' + r.status)); }
+          } catch (err) {
+            if (window.LevelModal) await window.LevelModal.alert({ title: mt('mkt.cm.sendErr', 'Falha ao comentar: '), message: err.message || String(err), variant: 'error' });
+          } finally { btn.disabled = false; }
+        });
+        load();
       }
 
       // ── Publish ────────────────────────────────────────────────────
