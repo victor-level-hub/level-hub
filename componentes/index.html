@@ -132,6 +132,38 @@
   .lg-btn::after { content: ""; position: absolute; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.35), transparent 70%); top: -18px; left: 10px; animation: liq 3.4s ease-in-out infinite alternate; }
   @keyframes liq { to { left: 70%; top: 8px; } }
 
+  /* navegação */
+  .nvm-bar { display: flex; gap: 10px; align-items: center; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid #2b3a5f; background: #141B2D; overflow: hidden; animation: nvmc 4.4s ease-in-out infinite; }
+  .nvm-bar i { flex: none; width: 26px; height: 7px; border-radius: 4px; background: #2b3a5f; }
+  .nvm-bar i.on { background: var(--orange); }
+  @keyframes nvmc { 0%, 38% { width: 176px; } 55%, 78% { width: 38px; padding: 0 5px; } 95%, 100% { width: 176px; } }
+  .xtab { display: flex; gap: 7px; align-items: center; }
+  .xtab > i { width: 32px; height: 32px; border-radius: 10px; border: 1px solid #2b3a5f; background: #161D2F; }
+  .xtab-on { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 10px; border-radius: 10px; border: 1px solid rgba(255,152,0,.5); background: rgba(255,152,0,.10); overflow: hidden; animation: xtw 3.2s ease-in-out infinite; }
+  .xtab-on i { flex: none; width: 13px; height: 13px; border-radius: 4px; background: var(--orange); }
+  .xtab-on b { flex: none; width: 34px; height: 6px; border-radius: 3px; background: rgba(255,178,62,.7); }
+  @keyframes xtw { 0%, 12% { max-width: 32px; } 35%, 75% { max-width: 90px; } 95%, 100% { max-width: 32px; } }
+  .tl-nav { position: relative; display: flex; gap: 16px; padding: 12px 18px; border-radius: 999px; border: 1px solid #2b3a5f; background: #141B2D; }
+  .tl-nav i { width: 26px; height: 6px; border-radius: 3px; background: #2b3a5f; }
+  .tl-glow { position: absolute; top: -2px; left: 14px; width: 30px; height: 3px; border-radius: 2px; background: var(--orange); box-shadow: 0 0 14px 3px rgba(255,152,0,.55); animation: tlg 3s ease-in-out infinite alternate; }
+  @keyframes tlg { to { left: calc(100% - 46px); } }
+  .flnav { display: flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 999px; border: 1px solid #2b3a5f; background: #141B2D; animation: fln 4.2s ease-in-out infinite; }
+  .flnav i { width: 26px; height: 6px; border-radius: 3px; background: #2b3a5f; }
+  .flnav-cta { width: 40px; height: 18px; border-radius: 999px; border: 1px solid rgba(255,152,0,.55); background: rgba(255,152,0,.12); }
+  @keyframes fln { 0%, 32% { transform: translateY(0); opacity: 1; } 48%, 66% { transform: translateY(-52px); opacity: 0; } 84%, 100% { transform: translateY(0); opacity: 1; } }
+  .anv { position: relative; display: flex; gap: 15px; padding-top: 10px; }
+  .anv > i { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #2b3a5f; background: #161D2F; }
+  .anv-m { position: absolute; top: -6px; left: 7px; width: 14px; height: 14px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px rgba(255,152,0,.6); animation: anm 3.6s ease-in-out infinite; }
+  @keyframes anm {
+    0%, 18% { left: 7px; transform: translateY(0); }
+    26% { transform: translateY(-12px); }
+    34%, 48% { left: 50px; transform: translateY(0); }
+    56% { transform: translateY(-12px); }
+    64%, 78% { left: 93px; transform: translateY(0); }
+    86% { transform: translateY(-12px); }
+    94%, 100% { left: 136px; transform: translateY(0); }
+  }
+
   /* infinite grid */
   .ig { position: absolute; inset: 0; background-image: linear-gradient(rgba(174,199,224,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(174,199,224,.15) 1px, transparent 1px); background-size: 26px 26px; animation: igp 1.4s linear infinite; }
   @keyframes igp { to { background-position: 26px 26px; } }
@@ -358,6 +390,7 @@
     { id: 'precos', name: 'Preços', color: '#FFB23E' },
     { id: 'texto', name: 'Texto', color: '#C77DFF' },
     { id: 'botoes', name: 'Botões', color: '#FF9800' },
+    { id: 'nav', name: 'Navegação', color: '#8FD3FE' },
     { id: 'fundos', name: 'Fundos', color: '#58C4DC' },
     { id: 'heros', name: 'Heros', color: '#F2784B' },
     { id: 'video', name: 'Vídeo', color: '#ff4d6d' },
@@ -378,6 +411,12 @@
 
     { t: 'botoes', n: 'Origin Button', a: '@edwinvakayil', u: 'https://21st.dev/@edwinvakayil/components/origin-button', i: 'npx @21st-dev/cli add edwinvakayil/origin-button', d: 'Círculo nasce no ponto do cursor e cobre o botão; recolhe ao sair. Código completo no componentes.md.', b: 'no LEVEL Hub v2.101', pv: '<button class="ob-demo" type="button"><span>HOVER ME</span></button>' },
     { t: 'botoes', n: 'Liquid Glass Button', a: '@aliimam', u: 'https://21st.dev/@aliimam/components/liquid-glass-button', i: 'npx @21st-dev/cli add aliimam/liquid-glass-button', d: 'Botão "liquid glass" com refração e brilho de vidro líquido.', pv: '<button class="lg-btn" type="button">Liquid Glass</button>' },
+
+    { t: 'nav', n: 'Navigation Menu (colapsável)', a: '@reapollo', u: 'https://21st.dev/@reapollo/components/navigation-menu', i: 'npx @21st-dev/cli add larsen66/navigation-menu', d: 'Navbar animado que colapsa num círculo flutuante ao rolar e expande ao clicar. ★ Candidato a novo menu do LEVEL Hub.', pv: '<div class="nvm-bar"><i class="on"></i><i></i><i></i><i></i></div>' },
+    { t: 'nav', n: 'Expandable Tabs', a: '@victorwelander', u: 'https://21st.dev/@victorwelander/components/expandable-tabs', i: 'npx @21st-dev/cli add victorwelander/expandable-tabs', d: 'Tabs só-ícone; o item ativo expande e mostra o rótulo. Máxima compactação para muitos itens.', pv: '<div class="xtab"><i></i><span class="xtab-on"><i></i><b></b></span><i></i><i></i></div>' },
+    { t: 'nav', n: 'Tubelight Navbar', a: '@ayushmxxn', u: 'https://21st.dev/@ayushmxxn/components/tubelight-navbar', i: 'npx @21st-dev/cli add ayushmxxn/tubelight-navbar', d: 'Pílula flutuante com indicador de luz "tubelight" que desliza para o item ativo.', pv: '<div class="tl-nav"><span class="tl-glow"></span><i></i><i></i><i></i><i></i></div>' },
+    { t: 'nav', n: 'Floating Navbar', a: '@aceternity', u: 'https://21st.dev/@aceternity/components/floating-navbar', i: 'npx @21st-dev/cli add aceternity/floating-navbar', d: 'Barra flutuante que se esconde ao rolar para baixo e reaparece ao subir — máximo espaço de ecrã.', pv: '<div class="flnav"><i></i><i></i><i></i><span class="flnav-cta"></span></div>' },
+    { t: 'nav', n: 'Anime Navbar', a: '@jatin-yadav05', u: 'https://21st.dev/@jatin-yadav05/components/anime-navbar', i: 'npx @21st-dev/cli add jatin-yadav05/anime-navbar', d: 'Barra de ícones com mascote animada que salta para o item selecionado.', pv: '<div class="anv"><span class="anv-m"></span><i></i><i></i><i></i><i></i></div>' },
 
     { t: 'fundos', n: 'The Infinite Grid', a: '@shadway', u: 'https://21st.dev/@shadway/components/the-infinite-grid', i: 'npx @21st-dev/cli add shadway/the-infinite-grid', d: 'Grelha infinita que rola em diagonal e revela-se sob o cursor.', b: 'no LEVEL Hub v2.98 + v2.100', pv: '<div class="ig"></div><div class="ig-dot"></div>' },
     { t: 'fundos', n: 'Retro Grid', a: '@magicui', u: 'https://21st.dev/@magicui/components/retro-grid', i: 'npx @21st-dev/cli add magicui/retro-grid', d: 'Grelha retro em perspetiva, deslizando para o horizonte.', pv: '<div class="rg-wrap"><div class="rg"></div><div class="rg-fade"></div></div>' },
