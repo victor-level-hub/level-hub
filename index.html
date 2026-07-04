@@ -4786,6 +4786,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.0.1</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Menu: altura uniforme no hover.</strong> A descri&ccedil;&atilde;o que aparece ao passar o cursor num item do menu tinha altura vari&aacute;vel (1 a 3 linhas conforme o texto &mdash; ex.: <em>Mapas</em>), fazendo os itens aumentarem e diminu&iacute;rem de tamanho de forma irregular. Agora o bloco revelado tem <strong>altura fixa de 2 linhas para todos os itens</strong>: descri&ccedil;&otilde;es curtas ocupam o mesmo espa&ccedil;o e as longas s&atilde;o cortadas na 2&ordf; linha (<code>line-clamp</code>). Todos os itens crescem exatamente por igual no hover &mdash; e o item ativo, que mant&eacute;m a descri&ccedil;&atilde;o vis&iacute;vel, tamb&eacute;m fica com a mesma altura em qualquer sec&ccedil;&atilde;o.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.0.0</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8199,7 +8208,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.0.0</strong><span class="ver-tag">SIDEBAR RAIL: o menu lateral colapsa num rail de ícones (68px) e expande no hover/foco por cima do conteúdo — o hub inteiro ganha ~160px de largura útil. Adaptação vanilla do Sidebar da Aceternity (21st.dev); card do operador vira avatar compacto no rail e volta completo na expansão; ícones configuráveis do admin e applyMenuConfig intactos; mobile mantém o off-canvas. Rollback: SB_RAIL=false.</span>
+              LEVEL · <strong>v3.0.1</strong><span class="ver-tag">Menu: a descrição revelada no hover agora ocupa um bloco fixo de 2 linhas em TODOS os itens (min-height + line-clamp) — as curtas preenchem o mesmo espaço, as longas cortam na 2ª linha; os itens crescem por igual e o menu para de aumentar/diminuir conforme o texto.</span>
             </div>
           </div>
           <div class="lvl-fcol">
