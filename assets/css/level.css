@@ -13920,6 +13920,34 @@
   .gi-pick-cell svg, .gi-pick-cell svg * { width: 100%; height: 100%; fill: currentColor; stroke: none; }
   .gi-pick-ft { padding: 10px 16px; border-top: 1px solid var(--bg-row, #25304f); display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted, #8497B8); }
   .gi-pick-ft .gi-pick-def { margin-left: auto; background: transparent; border: 1px solid var(--bg-row, #25304f); color: var(--text-secondary, #AEC7E0); height: 32px; padding: 0 12px; border-radius: 8px; cursor: pointer; }
+  /* ═══ v2.104.0 · Sino de notificações no header (staff) ═══
+     Adaptação vanilla do notifications-menu (21st.dev/@ahmedmayara).
+     Alimentado pela fila de moderação — pedidos de avaliação da curadoria Gemini. */
+  .mh-notif { position: relative; }
+  body:not(.is-staff) .mh-notif { display: none !important; }
+  .mh-notif__btn { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--border-default, rgba(174,199,224,0.16)); background: transparent; color: var(--text-muted, #8497B8); cursor: pointer; transition: color .15s, border-color .15s, background .15s; }
+  .mh-notif__btn:hover, .mh-notif__btn:focus-visible, .mh-notif__btn[aria-expanded="true"] { color: var(--accent-orange, #FF9800); border-color: rgba(255,152,0,0.45); background: rgba(255,152,0,0.07); outline: none; }
+  .mh-notif__btn .lvl-icon, .mh-notif__btn svg { width: 17px; height: 17px; }
+  .mh-notif__badge { position: absolute; top: -5px; right: -5px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--accent-orange, #FF9800); color: var(--action-ink, #1A1206); font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 9.5px; font-weight: 700; line-height: 16px; text-align: center; box-shadow: 0 0 0 2px var(--bg-darkest, #0A0E1A); }
+  .mh-notif__pop { position: absolute; right: 0; top: calc(100% + 8px); width: 340px; max-width: calc(100vw - 24px); z-index: 4600; background: rgba(20,26,43,0.97); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); border-radius: 12px; box-shadow: 0 18px 44px rgba(0,0,0,0.55); overflow: hidden; }
+  .mh-notif__head { display: flex; align-items: baseline; gap: 8px; padding: 12px 14px 10px; border-bottom: 1px solid rgba(174,199,224,0.10); font-family: var(--font-mono, monospace); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-muted, #8497B8); }
+  .mh-notif__count { color: var(--accent-orange, #FF9800); }
+  .mh-notif__list { max-height: 340px; overflow-y: auto; }
+  .mh-notif__empty { padding: 18px 14px; font-size: 12.5px; color: var(--text-muted, #8497B8); }
+  .mh-notif__item { display: flex; gap: 10px; width: 100%; text-align: left; padding: 11px 14px; background: transparent; border: 0; border-bottom: 1px solid rgba(174,199,224,0.07); cursor: pointer; font-family: inherit; }
+  .mh-notif__item:hover, .mh-notif__item:focus-visible { background: rgba(255,152,0,0.06); outline: none; }
+  .mh-notif__ic { flex: none; width: 28px; height: 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,152,0,0.12); color: var(--accent-orange, #FF9800); }
+  .mh-notif__ic .lvl-icon, .mh-notif__ic svg { width: 14px; height: 14px; }
+  .mh-notif__tx { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .mh-notif__ti { font-size: 12.5px; font-weight: 600; color: var(--text-body, #DCE5F2); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .mh-notif__sev { font-family: var(--font-mono, monospace); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 1px 7px; border-radius: 999px; border: 1px solid rgba(174,199,224,0.25); color: var(--text-muted, #8497B8); }
+  .mh-notif__sev.high, .mh-notif__sev.severe { border-color: rgba(231,76,60,0.5); color: #E74C3C; }
+  .mh-notif__sev.medium { border-color: rgba(255,152,0,0.5); color: var(--accent-orange, #FF9800); }
+  .mh-notif__ds { font-size: 12px; color: var(--text-secondary, #AEC7E0); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mh-notif__rs { font-size: 11px; color: var(--text-muted, #8497B8); }
+  .mh-notif__tm { font-family: var(--font-mono, monospace); font-size: 10px; color: var(--text-faint, #5F6E8C); }
+  .mh-notif__all { display: block; width: 100%; padding: 10px 14px; background: transparent; border: 0; border-top: 1px solid rgba(174,199,224,0.10); color: var(--accent-orange, #FF9800); font-family: var(--font-mono, monospace); font-size: 11px; letter-spacing: .06em; cursor: pointer; text-align: center; }
+
   /* ═══ v2.103.0 · Aba Componentes (Configurações ▸ Ferramentas) ═══
      A página /componentes (link oculto) entra num iframe — fonte única. */
   .componentes-panel { display: flex; flex-direction: column; gap: 12px; }

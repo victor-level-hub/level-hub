@@ -1152,6 +1152,21 @@
 
         <!-- Backup status indicator removido (v2.57.13): backup é automático e silencioso. -->
 
+        <!-- v2.104.0: sino de notificações (staff) — pedidos de avaliação da curadoria
+             Gemini (fila de moderação). Adaptação vanilla do notifications-menu
+             (21st.dev/@ahmedmayara). Alimentado pelo IIFE LevelModeration. -->
+        <div class="mh-notif" id="mh-notif" hidden>
+          <button type="button" class="mh-notif__btn" id="mh-notif-btn" data-no-obfill aria-haspopup="true" aria-expanded="false" aria-label="Notificações" data-i18n-attr="aria-label:hdr.notif.label">
+            {{i:bell}}
+            <span class="mh-notif__badge" id="mh-notif-badge" hidden>0</span>
+          </button>
+          <div class="mh-notif__pop" id="mh-notif-pop" role="menu" aria-label="Notificações" hidden>
+            <div class="mh-notif__head"><span data-i18n="hdr.notif.title">Notificações</span><span class="mh-notif__count" id="mh-notif-count"></span></div>
+            <div class="mh-notif__list" id="mh-notif-list"></div>
+            <button type="button" class="mh-notif__all" id="mh-notif-all" data-i18n="hdr.notif.openQueue">Abrir fila de análise →</button>
+          </div>
+        </div>
+
         <!-- Idioma · um botão discreto → popover com dois ajustes independentes -->
         <div class="lvl-lang" id="lvl-lang">
           <button type="button" class="lvl-lang__btn" id="lvl-lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma" data-i18n-attr="aria-label:hdr.lang.label">
@@ -4763,6 +4778,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.104.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Sino de notifica&ccedil;&otilde;es no header (staff).</strong> Os <em>pedidos de avalia&ccedil;&atilde;o da curadoria Gemini</em> (fila de modera&ccedil;&atilde;o: frases e nomes de operador retidos para aval humano) agora chegam num <strong>menu de notifica&ccedil;&otilde;es</strong> no topo do hub &mdash; adapta&ccedil;&atilde;o vanilla do <em>notifications-menu</em> (21st.dev/@ahmedmayara), tamb&eacute;m adicionado ao cat&aacute;logo <code>/componentes</code>. O sino s&oacute; aparece para staff (admin/avaliador), com <strong>badge</strong> de pendentes; o dropdown lista cada pedido com campo (frase/nome), trecho do conte&uacute;do, <strong>severidade</strong> e motivo do Gemini e data &mdash; clicar leva direto &agrave; fila de an&aacute;lise. As pend&ecirc;ncias atualizam num <em>poll</em> leve de 5 minutos, sem recarregar a p&aacute;gina. &Iacute;cone <code>bell</code> adicionado ao registry Lucide; i18n PT/EN.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.103.1</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">fix</span>
@@ -8158,7 +8182,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.103.1</strong><span class="ver-tag">Aba Componentes agora renderiza direto na página (sem caixa com scroll próprio): o iframe ficou invisível — sem borda/fundo, altura sincronizada com o conteúdo (ResizeObserver same-origin) — e a página do catálogo ganhou modo embed (esconde header/how-to próprios, nav estática, âncoras rolam o scroll do hub). Visual de secção nativa, fonte única mantida.</span>
+              LEVEL · <strong>v2.104.0</strong><span class="ver-tag">Sino de notificações no header (staff): os pedidos de avaliação da curadoria Gemini (fila de moderação) chegam num menu de notificações — badge com contagem, dropdown com severidade/motivo/data e atalho pra fila; poll leve de 5 min. Adaptação vanilla do notifications-menu (21st.dev/@ahmedmayara), também adicionado ao catálogo /componentes. Ícone bell no registry.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -35443,6 +35467,16 @@ ${cbt('share.t.footer')}`;
       al.style.display = (s.is_staff && n>0) ? 'inline-flex' : 'none';
       var c = document.getElementById('home-mod-alert-count'); if (c) c.textContent = '(' + n + ')';
     }
+    // v2.104.0: sino de notificações no header (staff) — pedidos de avaliação da curadoria
+    var nw = document.getElementById('mh-notif');
+    if (nw) {
+      nw.hidden = !s.is_staff;
+      var nb = document.getElementById('mh-notif-badge');
+      var n2 = s.is_staff ? (s.pending_count||0) : 0;
+      if (nb) { nb.textContent = n2 > 99 ? '99+' : String(n2); nb.hidden = !(n2 > 0); }
+    }
+    // poll leve p/ staff (5 min): pendências novas acendem o sino sem recarregar
+    if (s.is_staff && !window.__modPoll) window.__modPoll = setInterval(refresh, 300000);
     // sincroniza quote_status + name_status local + sidebar
     try {
       if (window.LevelDB && window.LevelDB.player) {
@@ -35493,6 +35527,49 @@ ${cbt('share.t.footer')}`;
     var r = await call({ action:'decide', reviewer_local_id: lid(), queue_id: qid, decision: decision, note: note });
     if (r && r.already_reviewed && typeof showToast==='function') showToast(en()?'Already reviewed by someone.':'Já avaliado por alguém.', 'info');
     renderQueue(); refresh();
+  }
+
+  // ── v2.104.0: sino de notificações no header (adaptação vanilla do
+  // notifications-menu, 21st.dev/@ahmedmayara) — cada pedido de avaliação
+  // da curadoria Gemini vira uma notificação; clicar leva à fila. ──
+  function notifPop(){ return document.getElementById('mh-notif-pop'); }
+  async function openNotif(){
+    var pop = notifPop(); var btn = document.getElementById('mh-notif-btn');
+    if (!pop) return;
+    pop.hidden = false;
+    if (btn) btn.setAttribute('aria-expanded','true');
+    var list = document.getElementById('mh-notif-list');
+    if (list) list.innerHTML = '<div class="mh-notif__empty">'+(en()?'Loading…':'A carregar…')+'</div>';
+    var r = await call({ action:'list', reviewer_local_id: lid() });
+    var items = (r && r.items) || [];
+    var cnt = document.getElementById('mh-notif-count');
+    if (cnt) cnt.textContent = items.length ? String(items.length) : '';
+    if (!list) return;
+    if (!items.length) { list.innerHTML = '<div class="mh-notif__empty">'+(en()?'No pending reviews. ✓':'Nenhum pedido pendente. ✓')+'</div>'; return; }
+    list.innerHTML = items.map(function(it){
+      var v = it.gemini_verdict || {}; var sev = v.severity || 'none';
+      var fieldLbl = (function(f){ var m = en() ? { quote:'phrase', name:'operator name' } : { quote:'frase', name:'nome do operador' }; return m[f] || f; })(it.field);
+      return '<button type="button" class="mh-notif__item" data-no-obfill data-qid="'+esc(it.id)+'">'
+        + '<span class="mh-notif__ic">{{i:shield}}</span>'
+        + '<span class="mh-notif__tx">'
+        +   '<span class="mh-notif__ti">'+(en()?'Review request':'Pedido de avaliação')+' · '+esc(fieldLbl)
+        +     '<span class="mh-notif__sev '+esc(sev)+'">'+(v.flagged?'⚑ ':'')+esc(sev)+'</span></span>'
+        +   '<span class="mh-notif__ds">“'+esc(String(it.content||'').slice(0,80))+'”</span>'
+        +   (v.reason ? '<span class="mh-notif__rs">'+esc(v.reason)+'</span>' : '')
+        +   (it.created_at ? '<span class="mh-notif__tm">'+esc(fmtDT(it.created_at))+'</span>' : '')
+        + '</span></button>';
+    }).join('');
+    if (window.replaceIcons) window.replaceIcons(list);
+  }
+  function closeNotif(){
+    var pop = notifPop(); var btn = document.getElementById('mh-notif-btn');
+    if (pop) pop.hidden = true;
+    if (btn) btn.setAttribute('aria-expanded','false');
+  }
+  function gotoQueue(){
+    closeNotif();
+    var nav = document.querySelector('.nav-item[data-section="settings"]'); if (nav) nav.click();
+    setTimeout(function(){ var el=document.getElementById('opp-moderation'); if(el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',block:'start'}); renderQueue(); }, 120);
   }
 
   // ── Papéis / convites (admin) ──
@@ -35550,6 +35627,10 @@ ${cbt('share.t.footer')}`;
       if (blocked) { e.preventDefault(); e.stopPropagation();
         if (typeof showToast==='function') showToast(en()?'Read-only mode (red flags).':'Modo somente-leitura (red flags).','error'); return; }
     }
+    // sino de notificações: toggle no botão, navegar num item/rodapé, fechar fora
+    if (t.closest && t.closest('#mh-notif-btn')) { var _p = notifPop(); if (_p && _p.hidden) openNotif(); else closeNotif(); return; }
+    if (t.closest && (t.closest('.mh-notif__item') || t.closest('#mh-notif-all'))) { gotoQueue(); return; }
+    if (!(t.closest && t.closest('#mh-notif'))) closeNotif();
     var dec = t.closest && t.closest('.mod-item .mod-btn');
     if (dec) { var card = dec.closest('.mod-item'); decide(card.getAttribute('data-qid'), dec.getAttribute('data-act'), dec); return; }
     if (t.closest && t.closest('#mod-queue-refresh')) { renderQueue(); return; }
