@@ -13455,17 +13455,13 @@
   #level-pitch .lp-final p { margin: 0 auto 28px; max-width: 520px; font-size: 16px; color: var(--text-secondary,#AEC7E0); }
   #level-pitch .lp-final-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-  /* footer */
-  #level-pitch .lp-footer { border-top: 1px solid rgba(174,199,224,0.10); background: rgba(15,20,34,0.6); margin-top: 24px; }
-  #level-pitch .lp-footer-in { max-width: 1200px; margin: 0 auto; padding: 52px 32px 30px; }
-  #level-pitch .lp-footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 32px; }
-  #level-pitch .lp-footer-tagline { margin: 16px 0 0; max-width: 280px; font-size: 13.5px; line-height: 1.6; color: var(--text-muted,#8497B8); }
-  #level-pitch .lp-fcol-t { font-family: var(--font-mono, monospace); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint,#5F6E8C); margin-bottom: 14px; }
-  #level-pitch .lp-fcol a { display: block; margin-bottom: 9px; font-size: 13.5px; color: var(--text-secondary,#AEC7E0); text-decoration: none; cursor: pointer; }
-  #level-pitch .lp-fcol a:hover { color: var(--level-orange-bright,#FFB23E); }
-  #level-pitch .lp-footer-bottom { margin-top: 42px; padding-top: 22px; border-top: 1px solid rgba(174,199,224,0.08); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-  #level-pitch .lp-footer-rights { font-size: 11.5px; line-height: 1.6; color: var(--text-faint,#5F6E8C); max-width: 720px; }
-  #level-pitch .lp-footer-copy { font-family: var(--font-mono, monospace); font-size: 11px; color: var(--text-faint,#5F6E8C); }
+  /* footer — v2.99.0: mesmo rodapé "taped card" do hub interno (v2.95.0).
+     A estrutura (.lvl-fcard/.lvl-fcols/.lvl-fbottom…) é global, definida no bloco
+     do rodapé do hub mais abaixo; aqui fica só o invólucro do pitch + linha de versão. */
+  #level-pitch .lp-footer { border-top: 1px solid rgba(174,199,224,0.10); background: rgba(15,20,34,0.6); margin-top: 24px; padding: 4px 20px 28px; }
+  #level-pitch .lp-fver { display: none; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10.5px; letter-spacing: 1px; color: var(--text-muted, #8497B8); }
+  #level-pitch .lp-fver.has { display: block; }
+  #level-pitch .lp-fver strong { color: var(--accent-orange, #FF9800); font-weight: 700; }
 
   /* scroll-reveal — TRANSFORM ONLY (opacity sempre 1) */
   #level-pitch .lp-reveal { transform: translateY(26px); transition: transform .6s var(--ease-out); will-change: transform; }
@@ -13525,7 +13521,6 @@
     #level-pitch .lp-plan.pop { transform: none; }
     #level-pitch .lp-final { padding: 40px 22px; }
     #level-pitch .lp-final .lp-h2 { font-size: 30px; }
-    #level-pitch .lp-footer-top { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 480px) {
     #level-pitch .lp-assemble { height: 56px; }
@@ -13533,7 +13528,6 @@
     #level-pitch .lp-h1 { font-size: 34px; }
     #level-pitch .lp-hero { padding: 30px 16px 40px; }
     #level-pitch .lp-h2 { font-size: 28px; }
-    #level-pitch .lp-footer-top { grid-template-columns: 1fr; gap: 22px; }
   }
   @media (prefers-reduced-motion: reduce) {
     #level-pitch .lp-reveal { transform: none !important; transition: none !important; }
@@ -13572,6 +13566,47 @@
     background-size: 46px 46px;
     -webkit-mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 72%);
     mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 72%);
+  }
+
+  /* ── Infinite Grid no gate (v2.100.0) — mesmo efeito do hero do pitch (v2.98),
+     mas nas cores que o gate já usa: linhas azul-acinzentadas do fundo atual,
+     brilho laranja no topo e ciano em baixo-direita (os mesmos tons do gradiente
+     de fundo existente). Escopado em .lag-grid (classe posta pelo JS; flag
+     LAG_GRID). ⏪ ROLLBACK: LAG_GRID=false → volta 100% ao ::before estático. */
+  #level-auth-gate.lag-grid::before {
+    background-image:
+      linear-gradient(rgba(174,199,224,0.085) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(174,199,224,0.085) 1px, transparent 1px);
+    -webkit-mask-image: radial-gradient(115% 100% at 50% 40%, #000 0%, transparent 96%);
+    mask-image: radial-gradient(115% 100% at 50% 40%, #000 0%, transparent 96%);
+    animation: lp-grid-pan 1.6s linear infinite;
+  }
+  #level-auth-gate .lag-hud-reveal {
+    position: fixed; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(174,199,224,0.38) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(174,199,224,0.38) 1px, transparent 1px);
+    background-size: 46px 46px;
+    opacity: 0; transition: opacity 320ms ease;
+    -webkit-mask-image: radial-gradient(300px circle at var(--lag-mx, 50%) var(--lag-my, 35%), #000, transparent);
+    mask-image: radial-gradient(300px circle at var(--lag-mx, 50%) var(--lag-my, 35%), #000, transparent);
+    animation: lp-grid-pan 1.6s linear infinite;
+  }
+  #level-auth-gate.lag-grid-active .lag-hud-reveal { opacity: 1; }
+  #level-auth-gate .lag-grid-glows { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  #level-auth-gate .lag-grid-glows i { position: absolute; display: block; border-radius: 50%; }
+  #level-auth-gate .lag-grid-glows .lag-gg-orange {
+    left: 18%; top: -26%; width: 64%; height: 52%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(255,152,0,0.13), transparent 70%);
+  }
+  #level-auth-gate .lag-grid-glows .lag-gg-cyan {
+    right: -14%; bottom: -26%; width: 52%; height: 58%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(88,196,220,0.10), transparent 70%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #level-auth-gate.lag-grid::before,
+    #level-auth-gate .lag-hud-reveal { animation: none; }
+    #level-auth-gate .lag-hud-reveal { display: none; }
   }
 
   /* cartão */
@@ -13663,13 +13698,16 @@
     position: relative; width: 100%; height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 9px;
     font-family: var(--font-display, 'Chakra Petch', sans-serif); font-weight: 600; font-size: 14px; letter-spacing: .06em; text-transform: uppercase;
     border-radius: 10px; border: 1px solid transparent; cursor: pointer;
-    transition: background var(--dur-fast,120ms) var(--ease-out), transform var(--dur-fast,120ms) var(--ease-out), box-shadow var(--dur-fast,120ms) var(--ease-out);
+    transition: background var(--dur-base,180ms) var(--ease-out), border-color var(--dur-base,180ms) var(--ease-out), transform var(--dur-base,180ms) var(--ease-out), box-shadow var(--dur-base,180ms) var(--ease-out);
   }
-  #level-auth-gate .lag-btn.primary { background: var(--level-orange, #FF9800); color: var(--action-ink, #1A1206); box-shadow: 0 0 0 1px rgba(255,152,0,0.25), 0 8px 22px rgba(255,152,0,0.22); }
-  #level-auth-gate .lag-btn.primary:hover { background: var(--level-orange-bright, #FFB23E); }
+  /* v2.100.0: efeitos dos botões do pitch (.lp-btn) nas cores que o gate já usa —
+     primário ganha gradiente + glow + lift no hover; ghost fica translúcido com
+     blur e fio que acende no hover, mantendo o slate do gate. */
+  #level-auth-gate .lag-btn.primary { background: linear-gradient(180deg, var(--level-orange-bright,#FFB23E), var(--level-orange,#FF9800)); color: var(--action-ink, #1A1206); box-shadow: 0 0 28px rgba(255,152,0,0.38), 0 8px 22px rgba(255,152,0,0.22); }
+  #level-auth-gate .lag-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 0 34px rgba(255,152,0,0.46), 0 10px 26px rgba(255,152,0,0.26); }
   #level-auth-gate .lag-btn.primary:active { transform: translateY(1px); }
-  #level-auth-gate .lag-btn.ghost { background: var(--surface-raised, #25304F); color: var(--text-body, #DCE5F2); border-color: var(--border-strong); }
-  #level-auth-gate .lag-btn.ghost:hover { background: var(--surface-hover, #2E3A5C); }
+  #level-auth-gate .lag-btn.ghost { background: rgba(37,48,79,0.55); color: var(--text-body, #DCE5F2); border-color: var(--border-strong); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  #level-auth-gate .lag-btn.ghost:hover { border-color: rgba(174,199,224,0.42); background: rgba(46,58,92,0.75); }
   #level-auth-gate .lag-btn.ghost:active { transform: translateY(1px); }
   #level-auth-gate .lag-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45)); }
   #level-auth-gate .lag-btn[disabled] { opacity: .6; cursor: not-allowed; box-shadow: none; transform: none; }
@@ -13859,3 +13897,48 @@
   .gi-pick-cell svg, .gi-pick-cell svg * { width: 100%; height: 100%; fill: currentColor; stroke: none; }
   .gi-pick-ft { padding: 10px 16px; border-top: 1px solid var(--bg-row, #25304f); display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted, #8497B8); }
   .gi-pick-ft .gi-pick-def { margin-left: auto; background: transparent; border: 1px solid var(--bg-row, #25304f); color: var(--text-secondary, #AEC7E0); height: 32px; padding: 0 12px; border-radius: 8px; cursor: pointer; }
+  /* ═══ v2.101.0 · ORIGIN FILL nos botões e filtros (adaptação vanilla do
+     origin-button, 21st.dev/@edwinvakayil) ═══════════════════════════════
+     Um círculo nasce no ponto exato do cursor e cobre o botão (mesma curva
+     do original: cubic-bezier(.16,1,.3,1) · 0.5s); ao sair, recolhe para a
+     origem. O JS (index.html, IIFE originFill) delega pointerover/down no
+     documento e decora as famílias listadas em SELECTORS de forma lazy —
+     funciona também em botões renderizados dinamicamente. Cores por família
+     via --ob-fill/--ob-ink (padrão: laranja LEVEL + tinta escura).
+     ⏪ ROLLBACK: OB_FILL=false no JS → nada é decorado, CSS vira letra morta. */
+  .ob-host { overflow: hidden; isolation: isolate; }
+  .ob-fill {
+    position: absolute; z-index: -1; pointer-events: none; border-radius: 50%;
+    left: 0; top: 0; width: 0; height: 0;
+    background: var(--ob-fill, var(--accent-orange, #FF9800));
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform .5s cubic-bezier(.16, 1, .3, 1);
+  }
+  .ob-host.ob-on > .ob-fill { transform: translate(-50%, -50%) scale(1); }
+  /* v2.101.1: a tinta vira ink em TODOS os descendentes (título/desc/ícones de
+     cards inteiros que são <button> ficariam ilegíveis sobre o fill senão) */
+  .ob-host.ob-on, .ob-host.ob-on *:not(.ob-fill) { color: var(--ob-ink, var(--action-ink, #1A1206)) !important; }
+  .ob-host:not(:disabled):active { transform: scale(.985); }
+  /* famílias que já são laranja (primários/ativos): círculo entra mais claro */
+  .lp-btn.primary, .lag-btn.primary, .we-btn.primary, .tour-btn,
+  .filter-chip.active, .subtab.active, .arsenal-filter.active,
+  .maps-filter-chip.active, .amt-btn.active, .mkt-scope-btn.active,
+  .lvl-empty-cta.primary, .opp-chart-view.active,
+  .lp-langbtn.active { --ob-fill: var(--level-orange-bright, #FFB23E); }
+  /* v2.101.1: home-cards (EXPLORAR) enchem com o accent de cada card */
+  .home-card.hc-orange { --ob-fill: #FF9800; }
+  .home-card.hc-cyan   { --ob-fill: #58C4DC; }
+  .home-card.hc-green  { --ob-fill: #4ADE80; }
+  .home-card.hc-violet { --ob-fill: #C77DFF; }
+  .home-card.hc-blue   { --ob-fill: #AEC7E0; }
+  .home-card.hc-amber  { --ob-fill: #FFC857; }
+  .home-card.hc-coral  { --ob-fill: #F2784B; }
+  .home-card.hc-gold   { --ob-fill: #fbbf24; }
+  /* variantes de perigo: círculo vermelho, tinta clara */
+  .settings-btn.danger, .we-btn.danger, .mod-btn.reject { --ob-fill: var(--red, #E74C3C); --ob-ink: #fff; }
+  /* aprovação/curtir mantêm as cores próprias */
+  .mod-btn.approve { --ob-fill: #6ee7a0; }
+  .mkt-like-btn { --ob-fill: #ff4d6d; --ob-ink: #fff; }
+  @media (prefers-reduced-motion: reduce) {
+    .ob-fill { transition: none; display: none; }
+  }

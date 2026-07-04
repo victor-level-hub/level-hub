@@ -281,6 +281,18 @@
 
   function curLang() { try { return (localStorage.getItem('bo7hub_lang_v1') === 'en') ? 'en' : 'pt'; } catch (e) { return 'pt'; } }
 
+  // v2.99.0: versão exibida no rodapé do pitch — lida do rodapé interno do hub (fonte
+  // única, sem duplicar o número). O footer do hub vive mais abaixo no DOM e ainda não
+  // existe no primeiro parse (o pitch mostra-se já no parse) → render() faz retry.
+  var _hubVer = '';
+  function hubVer() {
+    if (!_hubVer) {
+      var s = document.querySelector('footer .footer-version strong');
+      if (s && s.textContent) _hubVer = s.textContent.trim();
+    }
+    return _hubVer;
+  }
+
   function row(f, lang, i) {
     var c = f[lang]; var flip = (i % 2 === 1);
     return '<div class="lp-row lp-reveal pitch-fcard ' + (flip ? 'flip' : '') + '" style="--fc-accent:' + f.acc + '">' +
@@ -378,18 +390,25 @@
         '<button type="button" class="lp-btn ghost big" data-pitch-act="login">' + t.ctaLogin + '</button>' +
       '</div></div></div>';
 
-    // FOOTER
+    // FOOTER — v2.99.0: mesmo rodapé "taped card" do hub interno (v2.95.0), adaptado
+    // ao pitch: links viram ações do pitch e a versão é copiada do rodapé do hub (hubVer).
     var L = t.fLinks;
+    var tape = '<svg xmlns="http://www.w3.org/2000/svg" width="95" height="80" viewBox="0 0 95 80" fill="none"><path d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z" fill="rgba(220,229,242,0.13)"/></svg>';
     function fcol(title, items) {
-      var h = '<div class="lp-fcol"><div class="lp-fcol-t">' + title + '</div>';
+      var h = '<div class="lvl-fcol"><h4>' + title + '</h4>';
       items.forEach(function (it) { h += '<a' + (it.act ? ' data-pitch-act="' + it.act + '"' : '') + (it.href ? ' href="' + it.href + '" target="_blank" rel="noopener"' : '') + '>' + it.label + '</a>'; });
       return h + '</div>';
     }
-    html += '<div class="lp-footer" role="contentinfo"><div class="lp-footer-in">';
-    html += '<div class="lp-footer-top">';
-    html += '<div><svg class="lp-logo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>' +
-      '<p class="lp-footer-tagline">' + t.footerTagline + '</p>' +
-      '<div style="margin-top:18px"><span class="lp-langtoggle" role="group" aria-label="' + (lang === 'en' ? 'Language' : 'Idioma') + '">' +
+    html += '<div class="lp-footer" role="contentinfo">';
+    html += '<div class="lvl-fcard">';
+    html += '<span class="lvl-ftape tl" aria-hidden="true">' + tape + '</span>';
+    html += '<span class="lvl-ftape tr" aria-hidden="true">' + tape + '</span>';
+    html += '<div class="lvl-fcols">';
+    html += '<div class="lvl-fbrand">' +
+      '<svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>' +
+      '<p class="lvl-ftagline">' + t.footerTagline + '</p>' +
+      '<div class="lp-fver' + (hubVer() ? ' has' : '') + '">LEVEL · <strong>' + hubVer() + '</strong></div>' +
+      '<div style="margin-top:6px"><span class="lp-langtoggle" role="group" aria-label="' + (lang === 'en' ? 'Language' : 'Idioma') + '">' +
         '<span class="lp-globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>' +
         '<button type="button" class="lp-langbtn" data-pitch-act="lang-pt">PT</button>' +
         '<button type="button" class="lp-langbtn" data-pitch-act="lang-en">EN</button>' +
@@ -397,9 +416,9 @@
     html += fcol(t.product, [{ label: L.features, act: 'scroll:lp-anchor-features' }, { label: L.pricing, act: 'scroll:lp-anchor-pricing' }, { label: L.squad, act: 'scroll:lp-anchor-squad' }, { label: L.login, act: 'login' }]);
     html += fcol(t.resources, [{ label: L.guide, act: 'signup' }, { label: L.help, act: 'signup' }, { label: L.contact, href: 'mailto:contato@le-vel.games' }]);
     html += fcol(t.legal, [{ label: L.privacy, href: 'legal.html' }, { label: L.terms, href: 'legal.html' }, { label: L.conduct, href: 'legal.html#conduct' }]);
-    html += '</div>';
-    html += '<div class="lp-footer-bottom"><span class="lp-footer-rights">' + t.rights + '</span><span class="lp-footer-copy">' + t.copyright + '</span></div>';
     html += '</div></div>';
+    html += '<div class="lvl-fbottom"><div>' + t.copyright + '</div><div class="lvl-fdisclaimer">' + t.rights + '</div></div>';
+    html += '</div>';
 
     return html;
   }
@@ -420,6 +439,14 @@
     });
     var rest = document.getElementById('lp-rest');
     if (rest) rest.innerHTML = renderRest(t, lang);
+    // v2.99.0: preenche a versão do rodapé assim que o footer do hub entrar no DOM
+    if (rest && !hubVer()) (function fillVer() {
+      if (!hubVer()) { setTimeout(fillVer, 500); return; }
+      var el = rest.querySelector('.lp-fver');
+      if (!el) return;
+      el.querySelector('strong').textContent = hubVer();
+      el.classList.add('has');
+    })();
     syncToggle(lang);
     bindReveal();
   }
@@ -668,6 +695,58 @@
         hero.classList.remove('lp-grid-active');
       });
     } catch (e) { /* silent — nunca trava o pitch */ }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// INFINITE GRID no auth gate (v2.100.0)
+// ───────────────────────────────────────────────────────────────────
+// Mesmo efeito do hero do pitch (v2.98.0), mas nas cores que o gate
+// já usa: a grelha HUD do ::before passa a rolar em diagonal; uma
+// camada azul-acinzentada (a cor das linhas do fundo atual) é revelada
+// pelo cursor; brilhos laranja (topo) e ciano (baixo-direita) reforçam
+// os tons do gradiente de fundo que já existia.
+// Gate: hover + pointer fino; reduced-motion desliga tudo via CSS.
+// ⏪ ROLLBACK FÁCIL: LAG_GRID = false → gate volta 100% ao estático.
+// ═══════════════════════════════════════════════════════════════════
+(function lagInfiniteGrid() {
+  'use strict';
+  var LAG_GRID = true;
+  function init() {
+    if (!LAG_GRID) return;
+    try {
+      var gate = document.getElementById('level-auth-gate');
+      if (!gate || gate.__gridBound) return;
+      gate.__gridBound = true;
+      // camadas injetadas (só existem com a flag ligada → rollback limpo)
+      var reveal = document.createElement('div');
+      reveal.className = 'lag-hud-reveal';
+      reveal.setAttribute('aria-hidden', 'true');
+      var glows = document.createElement('div');
+      glows.className = 'lag-grid-glows';
+      glows.setAttribute('aria-hidden', 'true');
+      glows.innerHTML = '<i class="lag-gg-orange"></i><i class="lag-gg-cyan"></i>';
+      gate.insertBefore(reveal, gate.firstChild);
+      gate.insertBefore(glows, gate.firstChild);
+      gate.classList.add('lag-grid');
+      var fine = false;
+      try { fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
+      if (!fine) return; // grelha rola na mesma; reveal só faz sentido com rato
+      gate.addEventListener('pointermove', function (e) {
+        // o gate e as camadas são fixed inset:0 → clientX/Y serve direto
+        gate.style.setProperty('--lag-mx', e.clientX + 'px');
+        gate.style.setProperty('--lag-my', e.clientY + 'px');
+        if (!gate.classList.contains('lag-grid-active')) gate.classList.add('lag-grid-active');
+      });
+      gate.addEventListener('pointerleave', function () {
+        gate.classList.remove('lag-grid-active');
+      });
+    } catch (e) { /* silent — nunca trava o login */ }
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -4684,6 +4763,33 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.101.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Origin fill em TODOS os bot&otilde;es + tilt card nos modais.</strong> Todo bot&atilde;o e seletor de filtro do site ganhou o efeito <em>origin fill</em> (adapta&ccedil;&atilde;o vanilla do <em>origin-button</em>, 21st.dev): um c&iacute;rculo nasce <em>no ponto exato do cursor</em> (hover, clique ou foco por teclado) e cobre o bot&atilde;o com a curva original (0.5s), recolhendo para a origem ao sair. O matcher &eacute; <strong>estrutural</strong> &mdash; qualquer <code>button</code> + <code>role="button"</code>, com decora&ccedil;&atilde;o lazy via delega&ccedil;&atilde;o &mdash; ent&atilde;o cobre do pitch ao marketplace, incluindo bot&otilde;es criados dinamicamente e os que vierem no futuro. Cores por fam&iacute;lia: laranja LEVEL como padr&atilde;o, claro nos prim&aacute;rios/ativos, vermelho nos de perigo, verde/rosa em aprovar/curtir; <strong>os cards do EXPLORAR enchem com o accent do pr&oacute;prio card</strong> (laranja, ciano, verde, violeta&hellip;) e a tinta vira <em>ink</em> em todos os descendentes para manter tudo leg&iacute;vel. E o <strong>tilt card 3D</strong> (v2.97.0) foi estendido a <strong>12 modais</strong> &mdash; Ver Loadout, Compartilhar, Aviso de conduta, Captura via Celular, Armas Detectadas, O Que Mudou, Hist&oacute;rico de Builds, Remote Play, Permanent Unlock, Cookies, Hist&oacute;rico de Vers&otilde;es e os di&aacute;logos do LevelModal &mdash; ficando de fora apenas os muito grandes e os de cadastro de informa&ccedil;&otilde;es, como pedido. Rollbacks: <code>OB_FILL=false</code> (1 linha), remover <code>.modal-tilt</code> por modal, <code>data-no-obfill</code> por bot&atilde;o.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.100.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Login: grelha infinita e bot&otilde;es com os efeitos do pitch.</strong> O fundo da tela de acesso (auth gate) ganhou o mesmo efeito do hero da p&aacute;gina de apresenta&ccedil;&atilde;o (v2.98): a grelha HUD que j&aacute; existia passou a <em>rolar em diagonal infinitamente</em> (anima&ccedil;&atilde;o 100% CSS) e um <em>foco circular que segue o cursor</em> revela uma camada mais vis&iacute;vel da grelha &mdash; tudo <strong>nas cores que o fundo j&aacute; usava</strong>: linhas azul-acinzentadas, brilho laranja no topo e ciano em baixo &agrave; direita (os mesmos tons do gradiente existente). Os bot&otilde;es herdaram os efeitos do pitch nas cores atuais do gate: o prim&aacute;rio ganhou gradiente laranja, <em>glow</em> e eleva&ccedil;&atilde;o no hover; o secund&aacute;rio ficou translúcido com <em>blur</em> e fio que acende. Camadas injetadas por JS s&oacute; com a flag <code>LAG_GRID=true</code> &mdash; <em>rollback = 1 linha</em>; <code>prefers-reduced-motion</code> desliga anima&ccedil;&atilde;o e reveal.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v2.99.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Pitch: rodap&eacute; unificado com o do hub.</strong> A p&aacute;gina de apresenta&ccedil;&atilde;o (pr&eacute;-login) trocou o rodap&eacute; simples pelo mesmo <em>cart&atilde;o &ldquo;taped&rdquo;</em> (fitas adesivas, v2.95.0) usado dentro do hub: logo, tagline, n&uacute;mero de vers&atilde;o e colunas <em>Produto / Recursos / Legal</em> &mdash; com os links adaptados &agrave;s a&ccedil;&otilde;es do pitch (scroll das sec&ccedil;&otilde;es, login/registo, p&aacute;gina legal) e o seletor de idioma PT/EN preservado. A vers&atilde;o exibida &eacute; lida do rodap&eacute; interno do hub (fonte &uacute;nica, sem duplicar o n&uacute;mero), e o CSS do rodap&eacute; antigo do pitch foi removido.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.98.1</span>
                 <span class="vh-date">3 Jul 2026</span>
                 <span class="vh-kind">fix</span>
@@ -6624,7 +6730,7 @@
     <!-- MODAL: VIEW / RATE LOADOUT                                          -->
     <!-- =================================================================== -->
     <div class="modal-overlay" id="modal-view">
-      <div class="modal-box" style="max-width: 600px">
+      <div class="modal-box modal-tilt" style="max-width: 600px">
         <div class="modal-header">
           <div class="modal-title" id="view-title">Loadout</div>
           <button class="modal-close" data-close-modal="modal-view">×</button>
@@ -6640,7 +6746,7 @@
     <!-- MODAL: SHARE                                                        -->
     <!-- =================================================================== -->
     <div class="modal-overlay" id="modal-share">
-      <div class="modal-box">
+      <div class="modal-box modal-tilt">
         <div class="modal-header">
           <div class="modal-title" data-i18n="mod.share.title">{{i:upload}} Compartilhar Loadout</div>
           <button class="modal-close" data-close-modal="modal-share">×</button>
@@ -8016,7 +8122,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.98.1</strong><span class="ver-tag">Recalibragem do infinite grid do pitch: a v2.98.0 ficou invisível em monitor real (base .lp-hud com alfa efetivo ~1% e máscara antiga escondendo a grelha abaixo do topo). Modo .lp-grid agora sobrepõe: linhas base 0.11/opacity .55, máscara cobrindo o hero inteiro (fade só nas bordas), reveal laranja 0.5 com opacity 1 ativa, glows 0.15-0.16. Rollback continua LP_GRID=false.</span>
+              LEVEL · <strong>v2.101.0</strong><span class="ver-tag">Origin fill em TODOS os botões do site (matcher estrutural: qualquer button + role=button; adaptação vanilla do origin-button, 21st.dev) — círculo nasce no cursor, cores por família, home-cards enchem com o próprio accent, tinta vira ink em todos os descendentes. Tilt card 3D estendido a 12 modais (todos menos os muito grandes e os de cadastro). Rollbacks: OB_FILL=false / tirar .modal-tilt / data-no-obfill pontual.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -8204,7 +8310,7 @@
 
     <!-- v2.61: Modal de aviso de red flag (conduta) -->
     <div class="modal-overlay" id="modal-redflag">
-      <div class="modal-box">
+      <div class="modal-box modal-tilt">
         <div class="modal-header">
           <div class="modal-title" style="color:#e74c3c">{{i:alert-triangle}} Aviso de conduta</div>
         </div>
@@ -8312,7 +8418,7 @@
          MOBILE CAPTURE — captura via celular (QR + Supabase)
          ===================================================================== -->
     <div class="modal-overlay" id="modal-mobile-capture">
-      <div class="modal-box" style="max-width: 520px">
+      <div class="modal-box modal-tilt" style="max-width: 520px">
         <div class="modal-header">
           <div class="modal-title">{{i:smartphone}} Capturar via Celular</div>
           <button class="modal-close" data-close-modal="modal-mobile-capture">×</button>
@@ -8450,7 +8556,7 @@
          MOBILE CAPTURE — modal de aprovação (após IA analisar)
          ===================================================================== -->
     <div class="modal-overlay" id="modal-capture-approval">
-      <div class="modal-box" style="max-width: 720px">
+      <div class="modal-box modal-tilt" style="max-width: 720px">
         <div class="modal-header">
           <div class="modal-title" data-i18n="ca.title">{{i:target}} Armas Detectadas</div>
           <button class="modal-close" data-close-modal="modal-capture-approval">×</button>
@@ -8479,7 +8585,7 @@
 
     <!-- v2.22: CAPTURAR VIA TEXTO -->
     <div class="modal-overlay" id="modal-whats-new">
-      <div class="modal-box wn-box">
+      <div class="modal-box modal-tilt wn-box">
         <div class="modal-header">
           <div class="modal-title" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
           <button class="modal-close" data-close-modal="modal-whats-new">×</button>
@@ -8589,7 +8695,7 @@
     </div>
 
     <div class="modal-overlay" id="modal-gen-history">
-      <div class="modal-box" style="max-width: 720px">
+      <div class="modal-box modal-tilt" style="max-width: 720px">
         <div class="modal-header">
           <div class="modal-title" data-i18n="gh.title">{{i:history}} Histórico de Builds</div>
           <button class="modal-close" data-close-modal="modal-gen-history">×</button>
@@ -8626,7 +8732,7 @@
     <!-- v2.72.5: modal "Atualizar Catálogo de Weapon Unlocks" removido junto com a barra do Construtor. -->
 
     <div class="modal-overlay" id="modal-remote-play">
-      <div class="modal-box" style="max-width:560px">
+      <div class="modal-box modal-tilt" style="max-width:560px">
         <div class="modal-header">
           <div class="modal-title">{{i:monitor}} <span data-i18n="rp.title">Adicionar via PS Remote Play</span></div>
           <button class="modal-close" data-close-modal="modal-remote-play">×</button>
@@ -8864,7 +8970,7 @@
 
     <!-- ETAPA 9: Permanent Unlock picker modal -->
     <div class="modal-overlay" id="modal-pu">
-      <div class="modal-box" style="max-width:620px">
+      <div class="modal-box modal-tilt" style="max-width:620px">
         <div class="modal-header">
           <div class="modal-title">{{i:unlock}} Selecionar Permanent Unlock</div>
           <button class="modal-close" data-close-modal="modal-pu">×</button>
@@ -28476,7 +28582,7 @@ ${cbt('share.t.footer')}`;
 </div>
 
 <div class="modal-overlay" id="modal-cookie-policy">
-  <div class="modal-box" style="max-width:640px">
+  <div class="modal-box modal-tilt" style="max-width:640px">
     <div class="modal-header">
       <div class="modal-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="hub-inline-icon"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9.5" r="0.9" fill="currentColor"/><circle cx="13" cy="13" r="0.9" fill="currentColor"/><circle cx="8" cy="14.5" r="0.9" fill="currentColor"/><circle cx="15.5" cy="9" r="0.9" fill="currentColor"/><circle cx="16" cy="15.5" r="0.9" fill="currentColor"/></svg><span data-i18n="cookie.modal.title">Política de Privacidade & Cookies</span></div>
       <button class="modal-close" data-close-modal="modal-cookie-policy" data-i18n-attr="aria-label:cookie.modal.close">×</button>
@@ -29116,7 +29222,7 @@ ${cbt('share.t.footer')}`;
 
 <!-- ═════════ LEVEL MODAL (alert/confirm) ═════════ -->
 <div class="modal-overlay" id="level-modal" role="dialog" aria-modal="true" aria-labelledby="level-modal-title">
-  <div class="modal-box level-modal-box" data-variant="default">
+  <div class="modal-box modal-tilt level-modal-box" data-variant="default">
     <div class="modal-header">
       <div class="modal-title" id="level-modal-title"></div>
       <button class="modal-close" id="level-modal-x" aria-label="Fechar">&times;</button>
@@ -29438,6 +29544,98 @@ ${cbt('share.t.footer')}`;
   } else {
     init();
   }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// ORIGIN FILL nos botões e filtros (v2.101.0)
+// ───────────────────────────────────────────────────────────────────
+// Adaptação vanilla do origin-button (21st.dev/@edwinvakayil): um círculo
+// nasce no ponto do cursor (hover/press/foco por teclado) e cobre o botão;
+// ao sair, recolhe para a origem. Delegação no documento + decoração lazy
+// (classe .ob-host + <i class="ob-fill"> injetados no 1º hover) → cobre
+// também botões criados dinamicamente (marketplace, modais, etc.).
+// Cores por família via --ob-fill/--ob-ink no CSS (level.css).
+// ⏪ ROLLBACK FÁCIL: OB_FILL = false → nada é decorado.
+// ═══════════════════════════════════════════════════════════════════
+(function originFill() {
+  'use strict';
+  var OB_FILL = true;
+  var reduced = false;
+  try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (!OB_FILL || reduced) return;
+
+  // Matcher ESTRUTURAL: qualquer <button> do site (+ role="button" e chips que
+  // nalguns render paths não são <button>) — nada de lista fechada de famílias,
+  // senão botões novos ficam de fora. Escape hatch pontual: data-no-obfill.
+  var SELECTORS = 'button, [role="button"], .filter-chip, .gh-chip, .maps-filter-chip, .arsenal-filter, .lp-langbtn';
+  var DENY = '[data-no-obfill]';
+
+  function host(t) {
+    if (!t || !t.closest) return null;
+    var el = null;
+    try { el = t.closest(SELECTORS); } catch (e) {}
+    if (el) { try { if (el.matches(DENY)) return null; } catch (e2) {} }
+    return el;
+  }
+  function ensure(el) {
+    if (el.__obFill) return el.__obFill;
+    // só vira relative se for static — não estraga botões absolutos (ex.: lag-back)
+    try { if (getComputedStyle(el).position === 'static') el.style.position = 'relative'; } catch (e) {}
+    el.classList.add('ob-host');
+    var f = document.createElement('i');
+    f.className = 'ob-fill';
+    f.setAttribute('aria-hidden', 'true');
+    el.appendChild(f);
+    el.__obFill = f;
+    return f;
+  }
+  // diâmetro que cobre o botão inteiro a partir da origem (igual ao original)
+  function coverDiameter(w, h, x, y) {
+    return Math.ceil(2 * Math.max(
+      Math.hypot(x, y), Math.hypot(w - x, y),
+      Math.hypot(x, h - y), Math.hypot(w - x, h - y)
+    ));
+  }
+  function fillOn(el, cx, cy) {
+    if (el.disabled || el.getAttribute('aria-disabled') === 'true') return;
+    var f = ensure(el);
+    var r = el.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    var x = (cx == null) ? r.width / 2 : (cx - r.left);
+    var y = (cy == null) ? r.height / 2 : (cy - r.top);
+    var d = coverDiameter(r.width, r.height, x, y);
+    f.style.left = x + 'px'; f.style.top = y + 'px';
+    f.style.width = d + 'px'; f.style.height = d + 'px';
+    if (!el.classList.contains('ob-on')) {
+      void f.offsetWidth; // reflow: o círculo nasce do zero na origem nova
+      el.classList.add('ob-on');
+    }
+  }
+  function fillOff(el) { el.classList.remove('ob-on'); }
+
+  document.addEventListener('pointerover', function (e) {
+    var el = host(e.target); if (!el) return;
+    if (e.relatedTarget && el.contains(e.relatedTarget)) return; // já estava dentro
+    fillOn(el, e.clientX, e.clientY);
+  }, true);
+  document.addEventListener('pointerout', function (e) {
+    var el = host(e.target); if (!el) return;
+    if (e.relatedTarget && el.contains(e.relatedTarget)) return; // ainda dentro
+    fillOff(el);
+  }, true);
+  document.addEventListener('pointerdown', function (e) {
+    var el = host(e.target); if (!el) return;
+    fillOn(el, e.clientX, e.clientY);
+  }, true);
+  // teclado: foco visível preenche a partir do centro (como no original)
+  document.addEventListener('focusin', function (e) {
+    var el = host(e.target); if (!el) return;
+    try { if (el.matches(':focus-visible')) fillOn(el, null, null); } catch (err) {}
+  });
+  document.addEventListener('focusout', function (e) {
+    var el = host(e.target); if (!el) return;
+    fillOff(el);
+  });
 })();
 </script>
 
