@@ -13920,6 +13920,13 @@
   .gi-pick-cell svg, .gi-pick-cell svg * { width: 100%; height: 100%; fill: currentColor; stroke: none; }
   .gi-pick-ft { padding: 10px 16px; border-top: 1px solid var(--bg-row, #25304f); display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted, #8497B8); }
   .gi-pick-ft .gi-pick-def { margin-left: auto; background: transparent; border: 1px solid var(--bg-row, #25304f); color: var(--text-secondary, #AEC7E0); height: 32px; padding: 0 12px; border-radius: 8px; cursor: pointer; }
+  /* ═══ v2.103.0 · Aba Componentes (Configurações ▸ Ferramentas) ═══
+     A página /componentes (link oculto) entra num iframe — fonte única. */
+  .componentes-panel { display: flex; flex-direction: column; gap: 12px; }
+  .componentes-intro { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text-secondary, #AEC7E0); }
+  .componentes-intro a { color: var(--accent-orange, #FF9800); }
+  #componentes-frame { width: 100%; height: calc(100vh - 280px); min-height: 540px; border: 1px solid var(--bg-row, #25304F); border-radius: 12px; background: #0A0F1A; }
+
   /* ═══ v2.101.0 · ORIGIN FILL nos botões e filtros (adaptação vanilla do
      origin-button, 21st.dev/@edwinvakayil) ═══════════════════════════════
      Um círculo nasce no ponto exato do cursor e cobre o botão (mesma curva

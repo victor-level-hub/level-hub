@@ -4763,6 +4763,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.103.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Aba Componentes nas Configura&ccedil;&otilde;es.</strong> O cat&aacute;logo dos componentes UI favoritos do Victor (28 bookmarks do 21st.dev + os j&aacute; portados), que vivia s&oacute; no link oculto <code>/componentes</code>, agora tamb&eacute;m abre <strong>dentro do hub</strong>: Configura&ccedil;&otilde;es &rsaquo; Ferramentas &rsaquo; <em>Componentes</em>. A p&aacute;gina entra num <strong>iframe</strong> (mesmo padr&atilde;o de ilha dos mapas interativos &mdash; fonte &uacute;nica, zero conflito de CSS com o hub), com carregamento <em>lazy</em> na primeira abertura da aba. Cada card traz preview animado, autor, link, comando de instala&ccedil;&atilde;o e o prompt pronto para pedir a aplica&ccedil;&atilde;o ao Cr&aacute;udio, separados por tipo (Pre&ccedil;os, Texto, Bot&otilde;es, Fundos, Heros, V&iacute;deo, Progresso, Cards, Footers, Diversos).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.102.0</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7592,6 +7601,15 @@
         <!-- preenchido por JS -->
       </div>
 
+      <!-- COMPONENTES (v2.103.0) — catálogo dos componentes UI favoritos do Victor.
+           A página /componentes (link oculto do site) entra num iframe: fonte única
+           (mesmo padrão de ilha dos mapas interativos), zero conflito de CSS.
+           O src só é posto quando a aba abre (lazy). -->
+      <div class="componentes-panel" id="componentes-panel" style="display:none">
+        <p class="componentes-intro" data-i18n-html="set.comp.intro"><strong>Catálogo de componentes UI.</strong> Os favoritos do 21st.dev com preview animado, comando de instalação e o prompt pronto pra pedir ao Cráudio — separados por tipo. Também abre direto em <a href="/componentes/" target="_blank" rel="noopener">le-vel.games/componentes</a> (link oculto).</p>
+        <iframe id="componentes-frame" title="Catálogo de componentes" loading="lazy"></iframe>
+      </div>
+
       <!-- IMAGE PROCESSOR PANEL (v75.06) — visível só quando tab ativa = image_processor -->
       <div class="imgproc-panel" id="imgproc-panel" style="display:none">
         <p class="imgproc-intro" data-i18n-html="imgproc.intro">
@@ -8131,7 +8149,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.102.0</strong><span class="ver-tag">Tilt card 3D estendido aos CARDS informativos do site inteiro (eventos do Painel Hoje, marketplace, loadouts salvos, mapas, arsenal, aim training…) — binding lazy por delegação, transform inline, escape data-no-tilt. Bónus: entidades HTML cruas do dicionário i18n (Kowakujō, Executioner's, travessões) convertidas para caracteres literais — 112 correções.</span>
+              LEVEL · <strong>v2.103.0</strong><span class="ver-tag">Nova aba Componentes em Configurações ▸ Ferramentas: o catálogo dos componentes UI favoritos (le-vel.games/componentes, link oculto) agora abre dentro do hub num iframe — previews animados, instalação e prompt pronto pra pedir ao Cráudio, separados por tipo. Iframe carrega lazy (só na 1ª abertura da aba); i18n PT/EN nos dois dicionários.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -24669,6 +24687,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       { id: 'api_keys', group: 'tools', i18n: 'set.tab.api_keys',
         customPanel: true,
         source: function () { return []; } },
+      // ── COMPONENTES (v2.103.0) ── catálogo dos componentes UI favoritos:
+      // a página /componentes (link oculto do site) entra num iframe (mesma
+      // ilha publicada — fonte única, zero conflito de CSS com o hub) ──
+      { id: 'componentes', group: 'tools', i18n: 'set.tab.componentes',
+        customPanel: true,
+        source: function () { return []; } },
       // ── OPERADOR (v75-51) ── Avatar IA + gestão do operador ──
       { id: 'avatar', group: 'operator', i18n: 'set.tab.avatar',
         customPanel: true,
@@ -24744,6 +24768,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const apikeys = document.getElementById('apikeys-panel');
       const operator = document.getElementById('operator-panel');
       const menulat = document.getElementById('menu-lateral-panel');
+      const compPanel = document.getElementById('componentes-panel');
       if (!grid) return;
       const cat = SETTINGS_CATEGORIES.find(c => c.id === settingsActiveTab);
       // v2.72.3: a barra de armazenamento de imagens (contador + "Migrar pra cloud") só interessa
@@ -24751,7 +24776,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // é só cache. Exportar/Importar/Limpar/Sair foram removidos no v2.72.3.)
       (function () {
         var bar = document.querySelector('.settings-actions-bar');
-        if (bar) bar.style.display = (settingsActiveTab === 'avatar') ? 'none' : '';
+        if (bar) bar.style.display = (settingsActiveTab === 'avatar' || settingsActiveTab === 'componentes') ? 'none' : '';
       })();
       // v2.46.0: caixa de upload em massa — só em categorias normais (com source de itens)
       const bulkBox = document.getElementById('set-bulk-drop');
@@ -24781,6 +24806,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         if (apikeys) apikeys.style.display = 'none';
         if (operator) operator.style.display = 'none';
         if (menulat) menulat.style.display = 'none';
+        if (compPanel) compPanel.style.display = 'none';
         if (cat.id === 'image_processor' && imgproc) {
           imgproc.style.display = '';
           if (typeof initImageProcessor === 'function') initImageProcessor();
@@ -24793,6 +24819,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         } else if (cat.id === 'menu_lateral' && menulat) {
           menulat.style.display = '';
           if (typeof window.renderMenuLateralPanel === 'function') window.renderMenuLateralPanel();
+        } else if (cat.id === 'componentes' && compPanel) {
+          compPanel.style.display = '';
+          // lazy: só carrega o iframe na 1ª abertura da aba
+          var compFrame = document.getElementById('componentes-frame');
+          if (compFrame && !compFrame.getAttribute('src')) compFrame.setAttribute('src', '/componentes/');
         }
         return;
       }
@@ -24802,6 +24833,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (apikeys) apikeys.style.display = 'none';
       if (operator) operator.style.display = 'none';
       if (menulat) menulat.style.display = 'none';
+      if (compPanel) compPanel.style.display = 'none';
       if (!cat) { grid.innerHTML = ''; return; }
       const items = cat.source() || [];
       const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
@@ -26131,6 +26163,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.maps_all': 'Mapas · Todos',
         'set.tab.image_processor': 'Processador de Imagem',
         'set.tab.api_keys': 'API Keys',
+        'set.tab.componentes': 'Componentes',
         'set.tab.streaks': 'Scorestreaks',
         'set.tab.specialties': 'Especialidades',
         'set.tab.extra_equipment': 'Equipamento extra',
@@ -26306,6 +26339,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.maps_all': 'Maps · All',
         'set.tab.image_processor': 'Image Processor',
         'set.tab.api_keys': 'API Keys',
+        'set.tab.componentes': 'Components',
         'set.tab.streaks': 'Scorestreaks',
         'set.tab.specialties': 'Specialties',
         'set.tab.extra_equipment': 'Extra equipment',
