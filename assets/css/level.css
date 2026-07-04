@@ -13925,7 +13925,9 @@
   .componentes-panel { display: flex; flex-direction: column; gap: 12px; }
   .componentes-intro { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text-secondary, #AEC7E0); }
   .componentes-intro a { color: var(--accent-orange, #FF9800); }
-  #componentes-frame { width: 100%; height: calc(100vh - 280px); min-height: 540px; border: 1px solid var(--bg-row, #25304F); border-radius: 12px; background: #0A0F1A; }
+  /* v2.103.1: iframe "invisível" — sem caixa/borda/scroll interno; a altura é
+     sincronizada por JS com o conteúdo (a página rola inteira, direto no site). */
+  #componentes-frame { width: 100%; min-height: 420px; display: block; border: 0; border-radius: 0; background: transparent; overflow: hidden; }
 
   /* ═══ v2.101.0 · ORIGIN FILL nos botões e filtros (adaptação vanilla do
      origin-button, 21st.dev/@edwinvakayil) ═══════════════════════════════

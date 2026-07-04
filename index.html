@@ -4763,6 +4763,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.103.1</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Aba Componentes: direto na p&aacute;gina, sem &ldquo;caixa&rdquo;.</strong> O cat&aacute;logo abria numa moldura com scroll pr&oacute;prio, que parecia um modal embutido. Agora o iframe &eacute; <em>invis&iacute;vel</em>: sem borda nem fundo, com a <strong>altura sincronizada com o conte&uacute;do</strong> (same-origin + ResizeObserver) &mdash; o cat&aacute;logo rola junto com a p&aacute;gina, como uma sec&ccedil;&atilde;o nativa das Configura&ccedil;&otilde;es. A p&aacute;gina <code>/componentes</code> ganhou <strong>modo embed</strong>: dentro do hub esconde o pr&oacute;prio cabe&ccedil;alho/how-to (o hub j&aacute; d&aacute; o contexto), a barra de tipos deixa de ser sticky e os chips rolam o scroll do hub via <code>scrollIntoView</code>. No link oculto direto, a p&aacute;gina continua completa. Fonte &uacute;nica preservada.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.103.0</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8149,7 +8158,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.103.0</strong><span class="ver-tag">Nova aba Componentes em Configurações ▸ Ferramentas: o catálogo dos componentes UI favoritos (le-vel.games/componentes, link oculto) agora abre dentro do hub num iframe — previews animados, instalação e prompt pronto pra pedir ao Cráudio, separados por tipo. Iframe carrega lazy (só na 1ª abertura da aba); i18n PT/EN nos dois dicionários.</span>
+              LEVEL · <strong>v2.103.1</strong><span class="ver-tag">Aba Componentes agora renderiza direto na página (sem caixa com scroll próprio): o iframe ficou invisível — sem borda/fundo, altura sincronizada com o conteúdo (ResizeObserver same-origin) — e a página do catálogo ganhou modo embed (esconde header/how-to próprios, nav estática, âncoras rolam o scroll do hub). Visual de secção nativa, fonte única mantida.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -24821,9 +24830,23 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           if (typeof window.renderMenuLateralPanel === 'function') window.renderMenuLateralPanel();
         } else if (cat.id === 'componentes' && compPanel) {
           compPanel.style.display = '';
-          // lazy: só carrega o iframe na 1ª abertura da aba
+          // lazy: só carrega o iframe na 1ª abertura da aba.
+          // v2.103.1: iframe "invisível" — altura sincronizada com o conteúdo
+          // (same-origin) pra página rolar inteira, direto no site, sem caixa.
           var compFrame = document.getElementById('componentes-frame');
-          if (compFrame && !compFrame.getAttribute('src')) compFrame.setAttribute('src', '/componentes/');
+          if (compFrame && !compFrame.getAttribute('src')) {
+            // a página (?embed=1) reporta a própria altura via postMessage —
+            // ResizeObserver corre DENTRO do iframe (observar de fora não
+            // dispara no Chrome) e cobre também o reabrir da aba.
+            window.addEventListener('message', function (ev) {
+              var m = ev && ev.data;
+              if (!m || m.type !== 'componentes-height') return;
+              if (ev.origin !== window.location.origin) return;
+              var h = parseInt(m.h, 10);
+              if (h > 200) compFrame.style.height = h + 'px';
+            });
+            compFrame.setAttribute('src', '/componentes/?embed=1');
+          }
         }
         return;
       }

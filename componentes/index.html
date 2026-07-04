@@ -290,6 +290,13 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
+
+  /* modo EMBED (dentro do LEVEL Hub via iframe): o catálogo vira parte da página —
+     sem header/how-to próprios (o hub já dá o contexto), nav estática (o iframe
+     expande à altura total, sticky não faz sentido) e sem padding de página. */
+  .embedded .eyebrow, .embedded h1, .embedded .sub, .embedded .howto, .embedded footer.page { display: none; }
+  .embedded .wrap { padding: 0 2px 20px; max-width: none; }
+  .embedded .typenav { position: static; background: transparent; backdrop-filter: none; margin: 0 0 6px; padding: 0 0 12px; border-bottom: 0; }
 </style>
 
 <div class="wrap">
@@ -316,6 +323,25 @@
 <script>
 (function () {
   'use strict';
+  // modo embed (?embed=1 — usado pelo iframe do LEVEL Hub; por query param de
+  // propósito, para o artifact do claude.ai continuar a mostrar a página completa):
+  // sem header próprio, nav estática, e o iframe fica "invisível" — a página
+  // reporta a própria altura ao pai via postMessage (ResizeObserver no realm
+  // do iframe; observar de fora não dispara no Chrome).
+  var EMBED = /[?&]embed=1/.test(window.location.search);
+  if (EMBED) {
+    document.documentElement.classList.add('embedded');
+    var _reportH = function () {
+      try {
+        var h = Math.max(document.documentElement.scrollHeight, document.body ? document.body.scrollHeight : 0);
+        if (h > 0) window.parent.postMessage({ type: 'componentes-height', h: h }, '*');
+      } catch (e) {}
+    };
+    try { new ResizeObserver(_reportH).observe(document.documentElement); } catch (e) {}
+    window.addEventListener('load', _reportH);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(_reportH).catch(function () {});
+  }
+
   var TYPES = [
     { id: 'precos', name: 'Preços', color: '#FFB23E' },
     { id: 'texto', name: 'Texto', color: '#C77DFF' },
@@ -407,6 +433,13 @@
   });
 
   document.addEventListener('click', function (e) {
+    var nava = e.target.closest('.typenav a');
+    if (nava && EMBED) {
+      e.preventDefault();
+      var tgt = document.querySelector(nava.getAttribute('href'));
+      if (tgt) { try { tgt.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (err) { tgt.scrollIntoView(); } }
+      return;
+    }
     var btn = e.target.closest('.copy');
     if (!btn) return;
     var txt = btn.getAttribute('data-copy');
