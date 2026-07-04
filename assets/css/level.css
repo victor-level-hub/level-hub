@@ -4790,6 +4790,29 @@
     .modal-tilt-glare { display: none; }
   }
 
+  /* ── v2.102.0: tilt genérico nos CARDS informativos (mesmo be-ui-tilt-card).
+     O transform vai INLINE via JS (vence hovers/reveals que mexem em transform);
+     aqui ficam transição, glare e o gate de reduced-motion. Marcador .lvl-tilt
+     posto pelo JS (delegação lazy sobre CARD_SEL). Escape: data-no-tilt. */
+  .lvl-tilt { will-change: transform; transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color .18s ease, background-color .18s ease, box-shadow .25s ease; }
+  .lvl-tilt.is-tilting { transition: transform 90ms linear, border-color .18s ease, background-color .18s ease, box-shadow .25s ease; }
+  .lvl-tilt-glare {
+    position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+    opacity: 0; transition: opacity 240ms ease; z-index: 3;
+    background: radial-gradient(
+      circle at var(--glare-x, 50%) var(--glare-y, 50%),
+      rgba(255, 178, 92, 0.20),
+      rgba(255, 255, 255, 0.05) 26%,
+      transparent 52%
+    );
+    mix-blend-mode: screen;
+  }
+  .lvl-tilt.is-tilting > .lvl-tilt-glare { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .lvl-tilt { transform: none !important; transition: none; }
+    .lvl-tilt-glare { display: none; }
+  }
+
   .form-input {
     /* v2.36.0: poço afundado (espec Input/Select/TextArea) + ring de foco laranja */
     color-scheme: dark; /* v2.70: lista do <select> nativo (e spinners) escura, não branca */

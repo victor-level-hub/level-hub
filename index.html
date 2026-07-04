@@ -4763,6 +4763,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v2.102.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Tilt card nos cards informativos do site inteiro.</strong> O efeito <em>tilt 3D + brilho que segue o cursor</em> (be-ui-tilt-card, at&eacute; aqui s&oacute; nos modais) foi estendido aos <strong>cart&otilde;es informativos de todo o site</strong>: eventos da temporada no Painel Hoje, cards do passe/login di&aacute;rio/Zombies, dicas do briefing, marketplace (incl. p&oacute;dio), loadouts salvos, galeria de mapas, arsenal, aim training, diagn&oacute;sticos, dificuldades e o card do operador. O binding &eacute; <em>lazy</em> por delega&ccedil;&atilde;o (cards criados dinamicamente entram sozinhos) e o transform vai inline para conviver com os hovers existentes; <code>prefers-reduced-motion</code> e ponteiro grosso desligam tudo. Escape pontual: <code>data-no-tilt</code>. <strong>B&oacute;nus:</strong> o dicion&aacute;rio i18n tinha entidades HTML cruas a aparecer no ecr&atilde; (ex.: <em>Kowakuj&#333;</em> e os travess&otilde;es dos cards de eventos) &mdash; 112 ocorr&ecirc;ncias convertidas para caracteres literais nos dois idiomas.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.101.0</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8122,7 +8131,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.101.0</strong><span class="ver-tag">Origin fill em TODOS os botões do site (matcher estrutural: qualquer button + role=button; adaptação vanilla do origin-button, 21st.dev) — círculo nasce no cursor, cores por família, home-cards enchem com o próprio accent, tinta vira ink em todos os descendentes. Tilt card 3D estendido a 12 modais (todos menos os muito grandes e os de cadastro). Rollbacks: OB_FILL=false / tirar .modal-tilt / data-no-obfill pontual.</span>
+              LEVEL · <strong>v2.102.0</strong><span class="ver-tag">Tilt card 3D estendido aos CARDS informativos do site inteiro (eventos do Painel Hoje, marketplace, loadouts salvos, mapas, arsenal, aim training…) — binding lazy por delegação, transform inline, escape data-no-tilt. Bónus: entidades HTML cruas do dicionário i18n (Kowakujō, Executioner's, travessões) convertidas para caracteres literais — 112 correções.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -29532,11 +29541,62 @@ ${cbt('share.t.footer')}`;
       if (box.classList.contains('is-tilting')) pinGlare();
     }, { passive: true });
   }
+
+  // ── v2.102.0: tilt genérico nos CARDS informativos do site inteiro ──
+  // (pedido do Victor: o be-ui-tilt-card não era só pros .modal-box — é pra
+  // todo cartão informativo, ex.: EVENTOS do Painel Hoje). Binding LAZY por
+  // delegação (como o originFill) → cobre cards renderizados dinamicamente.
+  // O transform vai INLINE (não via custom prop na classe) pra vencer hovers
+  // e reveals que também mexem em transform. Escape hatch: data-no-tilt.
+  var CARD_MAX = 10; // graus (original usa 12; cards médios → 10)
+  var CARD_SEL = [
+    '.event-card', '.bp-card', '.dxp-card', '.blackcell-card', '.streak-card',
+    '.briefing-event', '.briefing-tip', '.mkt-card', '.mkt-podium-card',
+    '.saved-card', '.mymap-card', '.weapon-card', '.aimt-card',
+    '.diagnosis-card', '.struggle-card', '.operator-card'
+  ].join(',');
+  function attachCard(el) {
+    if (el.__tiltBound) return;
+    el.__tiltBound = true;
+    try { if (getComputedStyle(el).position === 'static') el.style.position = 'relative'; } catch (e) {}
+    el.classList.add('lvl-tilt');
+    var glare = document.createElement('div');
+    glare.className = 'lvl-tilt-glare';
+    glare.setAttribute('aria-hidden', 'true');
+    el.appendChild(glare);
+    var rect = null;
+    el.addEventListener('pointerenter', function () { rect = el.getBoundingClientRect(); });
+    el.addEventListener('pointermove', function (e) {
+      if (!rect) rect = el.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      var px = (e.clientX - rect.left) / rect.width;
+      var py = (e.clientY - rect.top) / rect.height;
+      px = px < 0 ? 0 : px > 1 ? 1 : px;
+      py = py < 0 ? 0 : py > 1 ? 1 : py;
+      el.style.transform = 'perspective(1000px) rotateX(' + ((0.5 - py) * CARD_MAX).toFixed(2) + 'deg) rotateY(' + ((px - 0.5) * CARD_MAX).toFixed(2) + 'deg)';
+      el.style.setProperty('--glare-x', (px * 100).toFixed(1) + '%');
+      el.style.setProperty('--glare-y', (py * 100).toFixed(1) + '%');
+      if (!el.classList.contains('is-tilting')) el.classList.add('is-tilting');
+    });
+    el.addEventListener('pointerleave', function () {
+      rect = null;
+      el.classList.remove('is-tilting');
+      el.style.transform = '';
+    });
+  }
+
   function init() {
     if (!eligible()) return;
     try {
       var boxes = document.querySelectorAll('.modal-box.modal-tilt');
       for (var i = 0; i < boxes.length; i++) attach(boxes[i]);
+      // cards: decoração lazy no 1º hover (o pointermove seguinte já anima)
+      document.addEventListener('pointerover', function (e) {
+        var el = e.target && e.target.closest ? e.target.closest(CARD_SEL) : null;
+        if (!el || el.__tiltBound) return;
+        try { if (el.matches('[data-no-tilt]')) return; } catch (e2) {}
+        attachCard(el);
+      }, true);
     } catch (e) { /* silent — nunca trava modal */ }
   }
   if (document.readyState === 'loading') {
