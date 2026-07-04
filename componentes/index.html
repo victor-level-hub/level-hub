@@ -164,6 +164,27 @@
     94%, 100% { left: 136px; transform: translateY(0); }
   }
 
+  /* sidebars */
+  .sbp { display: flex; gap: 10px; align-items: stretch; height: 104px; }
+  .sbp-bar { display: flex; flex-direction: column; gap: 8px; padding: 9px 8px; border-radius: 10px; border: 1px solid #2b3a5f; background: #141B2D; width: 64px; overflow: hidden; }
+  .sbp-bar.exp { animation: sbe 4s ease-in-out infinite; }
+  @keyframes sbe { 0%, 30% { width: 26px; } 50%, 82% { width: 74px; } 96%, 100% { width: 26px; } }
+  .sbp-bar.tog { animation: sbe 4.6s ease-in-out infinite reverse; }
+  .sbp-bar .row { flex: none; height: 8px; border-radius: 4px; background: #2b3a5f; }
+  .sbp-bar .row.on { background: var(--orange); }
+  .sbp-bar .row.glow { background: var(--orange); box-shadow: 0 0 10px rgba(255,152,0,.6); }
+  .sbp-bar .row.sm { height: 6px; opacity: .7; }
+  .sbp-bar .sub { display: flex; flex-direction: column; gap: 5px; padding-left: 10px; }
+  .sbp-bar .av { margin-top: auto; width: 14px; height: 14px; flex: none; border-radius: 50%; background: linear-gradient(160deg, var(--orange), #C77DFF); }
+  .sbp-page { flex: 1; min-width: 92px; border-radius: 10px; border: 1px dashed #223052; display: flex; flex-direction: column; gap: 7px; padding: 10px; }
+  .sbp-page i { height: 7px; border-radius: 4px; background: #1d2946; }
+  .sbp-page i:first-child { width: 60%; }
+  /* navbar horizontal com conta */
+  .hnav { display: flex; gap: 11px; align-items: center; padding: 10px 14px; border-radius: 12px; border: 1px solid #2b3a5f; background: #141B2D; }
+  .hnav i { width: 24px; height: 6px; border-radius: 3px; background: #2b3a5f; }
+  .hnav i.lg { width: 30px; height: 10px; background: var(--orange); border-radius: 4px; }
+  .hnav-av { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(160deg, #58C4DC, #C77DFF); margin-left: 6px; animation: pulse 2.6s ease-in-out infinite alternate; }
+
   /* infinite grid */
   .ig { position: absolute; inset: 0; background-image: linear-gradient(rgba(174,199,224,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(174,199,224,.15) 1px, transparent 1px); background-size: 26px 26px; animation: igp 1.4s linear infinite; }
   @keyframes igp { to { background-position: 26px 26px; } }
@@ -417,6 +438,12 @@
     { t: 'nav', n: 'Tubelight Navbar', a: '@ayushmxxn', u: 'https://21st.dev/@ayushmxxn/components/tubelight-navbar', i: 'npx @21st-dev/cli add ayushmxxn/tubelight-navbar', d: 'Pílula flutuante com indicador de luz "tubelight" que desliza para o item ativo.', pv: '<div class="tl-nav"><span class="tl-glow"></span><i></i><i></i><i></i><i></i></div>' },
     { t: 'nav', n: 'Floating Navbar', a: '@aceternity', u: 'https://21st.dev/@aceternity/components/floating-navbar', i: 'npx @21st-dev/cli add aceternity/floating-navbar', d: 'Barra flutuante que se esconde ao rolar para baixo e reaparece ao subir — máximo espaço de ecrã.', pv: '<div class="flnav"><i></i><i></i><i></i><span class="flnav-cta"></span></div>' },
     { t: 'nav', n: 'Anime Navbar', a: '@jatin-yadav05', u: 'https://21st.dev/@jatin-yadav05/components/anime-navbar', i: 'npx @21st-dev/cli add jatin-yadav05/anime-navbar', d: 'Barra de ícones com mascote animada que salta para o item selecionado.', pv: '<div class="anv"><span class="anv-m"></span><i></i><i></i><i></i><i></i></div>' },
+    { t: 'nav', n: 'Sidebar (Aceternity)', a: '@aceternity', u: 'https://21st.dev/@aceternity/components/sidebar', i: 'npx @21st-dev/cli add aceternity/sidebar', d: 'Sidebar que colapsa em só-ícones e expande no hover, com slot de perfil/avatar. ★ Melhor candidata pro hub: preserva o card do operador e liberta o ecrã.', pv: '<div class="sbp"><div class="sbp-bar exp"><i class="row on"></i><i class="row"></i><i class="row"></i><i class="row"></i><i class="av"></i></div><div class="sbp-page"><i></i><i></i><i></i></div></div>' },
+    { t: 'nav', n: 'Dashboard c/ Collapsible Sidebar', a: '@uniquesonu', u: 'https://21st.dev/@uniquesonu/components/dashboard-with-collapsible-sidebar', i: 'npx @21st-dev/cli add uniquesonu/dashboard-with-collapsible-sidebar', d: 'Layout de dashboard completo com sidebar colapsável por botão.', pv: '<div class="sbp"><div class="sbp-bar tog"><i class="row on"></i><i class="row"></i><i class="row"></i></div><div class="sbp-page"><i></i><i></i><i></i></div></div>' },
+    { t: 'nav', n: 'Sidebar Component', a: '@jshguo', u: 'https://21st.dev/@jshguo/components/sidebar-component', i: 'npx @21st-dev/cli add jshguo/sidebar-component', d: 'Sidebar limpa com estados ativos e organização por grupos.', pv: '<div class="sbp"><div class="sbp-bar" style="width:64px"><i class="row"></i><i class="row on"></i><i class="row"></i><i class="row"></i></div><div class="sbp-page"><i></i><i></i><i></i></div></div>' },
+    { t: 'nav', n: 'Modern Sidebar', a: '@uniquesonu', u: 'https://21st.dev/@uniquesonu/components/modern-side-bar', i: 'npx @21st-dev/cli add uniquesonu/modern-side-bar', d: 'Sidebar escura moderna com item ativo em destaque.', pv: '<div class="sbp"><div class="sbp-bar" style="width:64px"><i class="row glow"></i><i class="row"></i><i class="row"></i><i class="row"></i></div><div class="sbp-page"><i></i><i></i><i></i></div></div>' },
+    { t: 'nav', n: 'Sidebar with Submenu', a: '@float_ui', u: 'https://21st.dev/@float_ui/components/sidebar-with-submenu', i: 'npx @21st-dev/cli add float_ui/sidebar-with-submenu', d: 'Sidebar com submenus expansíveis; variante colapsada mostra tooltips nos ícones.', pv: '<div class="sbp"><div class="sbp-bar" style="width:64px"><i class="row on"></i><span class="sub"><i class="row sm"></i><i class="row sm"></i></span><i class="row"></i></div><div class="sbp-page"><i></i><i></i><i></i></div></div>' },
+    { t: 'nav', n: 'Navbar 1 (horizontal c/ conta)', a: '@shadcnblockscom', u: 'https://21st.dev/@shadcnblockscom/components/shadcnblocks-com-navbar1', i: 'npx @21st-dev/cli add shadcnblockscom/shadcnblocks-com-navbar1', d: 'Navbar horizontal completo com área de conta à direita — o card do operador viraria dropdown do avatar.', pv: '<div class="hnav"><i class="lg"></i><i></i><i></i><i></i><span class="hnav-av"></span></div>' },
 
     { t: 'fundos', n: 'The Infinite Grid', a: '@shadway', u: 'https://21st.dev/@shadway/components/the-infinite-grid', i: 'npx @21st-dev/cli add shadway/the-infinite-grid', d: 'Grelha infinita que rola em diagonal e revela-se sob o cursor.', b: 'no LEVEL Hub v2.98 + v2.100', pv: '<div class="ig"></div><div class="ig-dot"></div>' },
     { t: 'fundos', n: 'Retro Grid', a: '@magicui', u: 'https://21st.dev/@magicui/components/retro-grid', i: 'npx @21st-dev/cli add magicui/retro-grid', d: 'Grelha retro em perspetiva, deslizando para o horizonte.', pv: '<div class="rg-wrap"><div class="rg"></div><div class="rg-fade"></div></div>' },
