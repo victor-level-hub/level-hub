@@ -1120,6 +1120,14 @@
       window.buildGiSvg = buildGiSvg;
       window.MENU_DEFAULT_ORDER = DEFAULT_ORDER;
       applyMenuConfig(DEFAULT_ORDER, []);
+
+      // ── v3.0.0: SIDEBAR RAIL (adaptação vanilla do Sidebar da Aceternity) ──
+      // Colapsa num rail de ícones e expande no hover/foco — tudo em CSS, o DOM
+      // do menu fica intacto (applyMenuConfig e ícones configuráveis do admin
+      // continuam a funcionar como sempre). Classe posta no parse (sem flash).
+      // ⏪ ROLLBACK FÁCIL: SB_RAIL = false → sidebar clássica, nada mais muda.
+      var SB_RAIL = true;
+      if (SB_RAIL) document.documentElement.classList.add('sb-rail');
     })();
     </script>
   </aside>
@@ -4778,6 +4786,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.0.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>SIDEBAR RAIL — o hub inteiro ganha ecr&atilde;.</strong> O menu lateral agora colapsa num <em>rail de &iacute;cones</em> de 68px e <strong>expande ao passar o cursor</strong> (ou foco por teclado), voltando ao menu completo com r&oacute;tulos e o card do operador &mdash; adapta&ccedil;&atilde;o vanilla do <em>Sidebar da Aceternity</em> (21st.dev), escolhida pelo Victor entre as candidatas do cat&aacute;logo. A expans&atilde;o pinta <strong>por cima do conte&uacute;do</strong> (width e margin animam em sincronia), ent&atilde;o a p&aacute;gina n&atilde;o reflui no hover; no uso normal, todo o conte&uacute;do ganha ~160px de largura. No rail, o <strong>card do operador</strong> vira um avatar compacto e a marca LEVEL encolhe; na expans&atilde;o volta tudo (foto, anel de n&iacute;vel, prestige, frase). Os <strong>&iacute;cones configur&aacute;veis do admin</strong> e a ordena&ccedil;&atilde;o data-driven (<code>applyMenuConfig</code>) ficam intactos &mdash; o DOM do menu n&atilde;o mudou. S&oacute; em desktop com rato (hover + pointer fine); mobile mant&eacute;m o menu off-canvas com hamb&uacute;rguer; <code>prefers-reduced-motion</code> desliga as transi&ccedil;&otilde;es. Vers&atilde;o <strong>3.0.0</strong> por decis&atilde;o do Victor: primeira mudan&ccedil;a estrutural de layout do hub. ⏪ Rollback: <code>SB_RAIL=false</code> (1 linha).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v2.104.0</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8182,7 +8199,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v2.104.0</strong><span class="ver-tag">Sino de notificações no header (staff): os pedidos de avaliação da curadoria Gemini (fila de moderação) chegam num menu de notificações — badge com contagem, dropdown com severidade/motivo/data e atalho pra fila; poll leve de 5 min. Adaptação vanilla do notifications-menu (21st.dev/@ahmedmayara), também adicionado ao catálogo /componentes. Ícone bell no registry.</span>
+              LEVEL · <strong>v3.0.0</strong><span class="ver-tag">SIDEBAR RAIL: o menu lateral colapsa num rail de ícones (68px) e expande no hover/foco por cima do conteúdo — o hub inteiro ganha ~160px de largura útil. Adaptação vanilla do Sidebar da Aceternity (21st.dev); card do operador vira avatar compacto no rail e volta completo na expansão; ícones configuráveis do admin e applyMenuConfig intactos; mobile mantém o off-canvas. Rollback: SB_RAIL=false.</span>
             </div>
           </div>
           <div class="lvl-fcol">

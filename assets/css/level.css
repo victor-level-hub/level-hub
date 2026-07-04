@@ -14002,3 +14002,52 @@
   @media (prefers-reduced-motion: reduce) {
     .ob-fill { transition: none; display: none; }
   }
+
+  /* ═══ v3.0.0 · SIDEBAR RAIL (adaptação vanilla do Sidebar da Aceternity,
+     21st.dev/@aceternity) ═══════════════════════════════════════════════
+     O menu lateral colapsa num rail de ícones (68px) e EXPANDE NO HOVER (ou
+     foco por teclado) POR CIMA do conteúdo — width e margin-right animam em
+     sincronia (soma constante = 68px), então o main não reflui no hover.
+     O DOM é o mesmo de sempre: applyMenuConfig (ordem/ocultos) e o seletor
+     de ícones do admin continuam intactos; o card do operador vive no estado
+     expandido (no rail fica só o avatar compacto). Só desktop com rato
+     (hover + pointer fine); o mobile mantém o off-canvas com hambúrguer.
+     ⏪ ROLLBACK: SB_RAIL=false no script do menu (index.html). */
+  @media (min-width: 901px) and (hover: hover) and (pointer: fine) {
+    .sb-rail { --sidebar-width: 68px; }
+    .sb-rail .sidebar {
+      width: 68px;
+      overflow-x: hidden;
+      transition: width .26s cubic-bezier(.16, 1, .3, 1), margin-right .26s cubic-bezier(.16, 1, .3, 1), box-shadow .26s ease;
+    }
+    .sb-rail .sidebar:hover, .sb-rail .sidebar:focus-within {
+      width: 226px;
+      margin-right: -158px; /* pinta por cima do main; layout continua 68px */
+      box-shadow: 26px 0 60px rgba(0, 0, 0, 0.55);
+    }
+    /* logo compacta no rail */
+    .sb-rail .sidebar .cod-bo7-logo { transition: height .26s ease; }
+    .sb-rail .sidebar:not(:hover):not(:focus-within) .cod-bo7-logo { height: 24px; filter: none; }
+    .sb-rail .sidebar:not(:hover):not(:focus-within) .cod-bo7-title-rule { opacity: 0; }
+    /* card do operador: no rail sobra só o avatar (compacto); expande no hover */
+    .sb-rail .sidebar .operator-avatar { transition: width .26s cubic-bezier(.16, 1, .3, 1), height .26s cubic-bezier(.16, 1, .3, 1), margin .26s ease, border-radius .26s ease; }
+    .sb-rail .sidebar:not(:hover):not(:focus-within) .operator-avatar { width: 40px; height: 40px; margin: 8px auto 4px; border-radius: 9px; }
+    .sb-rail .sidebar .oc-name, .sb-rail .sidebar .oc-quote, .sb-rail .sidebar .oc-pstyle, .sb-rail .sidebar .oc-profbox {
+      overflow: hidden; max-height: 220px;
+      transition: max-height .26s cubic-bezier(.16, 1, .3, 1), opacity .18s ease .05s, margin .26s ease;
+    }
+    .sb-rail .sidebar:not(:hover):not(:focus-within) :is(.oc-name, .oc-quote, .oc-pstyle, .oc-profbox) {
+      max-height: 0; opacity: 0; margin-top: 0; margin-bottom: 0; pointer-events: none;
+    }
+    .sb-rail .sidebar .oc-edit-btn, .sb-rail .sidebar .oc-prestige-badge, .sb-rail .sidebar .oa-edit-hint { transition: opacity .18s ease .05s; }
+    .sb-rail .sidebar:not(:hover):not(:focus-within) :is(.oc-edit-btn, .oc-prestige-badge, .oa-edit-hint) { opacity: 0; pointer-events: none; }
+    /* itens do menu: só o ícone no rail; rótulo/desc voltam no hover */
+    .sb-rail .sidebar .nav-item { position: relative; }
+    .sb-rail .sidebar .nav-label, .sb-rail .sidebar .nav-desc { white-space: nowrap; }
+    .sb-rail .sidebar .nav-text { transition: opacity .18s ease .06s; }
+    .sb-rail .sidebar:not(:hover):not(:focus-within) .nav-text { opacity: 0; width: 0; overflow: hidden; }
+    .sb-rail .sidebar:not(:hover):not(:focus-within) .nav-badge { position: absolute; top: 5px; left: 32px; transform: scale(.85); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sb-rail .sidebar, .sb-rail .sidebar * { transition: none !important; }
+  }
