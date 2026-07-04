@@ -4786,6 +4786,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.0.2</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Menu: descri&ccedil;&atilde;o cortada na horizontal.</strong> Depois da altura uniforme (v3.0.1), textos como &ldquo;Monte do zero &middot; an&aacute;lise IA&rdquo; apareciam cortados (&ldquo;an&aacute;lise I&hellip;&rdquo;): o <code>white-space: nowrap</code> do modo rail (v3.0.0), pensado para o t&iacute;tulo n&atilde;o reformatar durante a anima&ccedil;&atilde;o de expans&atilde;o, aplicava-se tamb&eacute;m &agrave; descri&ccedil;&atilde;o &mdash; impedindo a quebra para a 2&ordf; linha do bloco fixo. O nowrap agora &eacute; s&oacute; do t&iacute;tulo; a descri&ccedil;&atilde;o quebra normalmente dentro das 2 linhas.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.0.1</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">fix</span>
@@ -8208,7 +8217,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.0.1</strong><span class="ver-tag">Menu: a descrição revelada no hover agora ocupa um bloco fixo de 2 linhas em TODOS os itens (min-height + line-clamp) — as curtas preenchem o mesmo espaço, as longas cortam na 2ª linha; os itens crescem por igual e o menu para de aumentar/diminuir conforme o texto.</span>
+              LEVEL · <strong>v3.0.2</strong><span class="ver-tag">Fix do menu: a descrição voltava a ser cortada na horizontal ("análise I…") — o white-space:nowrap do modo rail (v3.0.0) aplicava-se também à descrição e impedia a quebra para a 2ª linha do bloco fixo. Agora o nowrap fica só no título; a descrição quebra normal dentro das 2 linhas.</span>
             </div>
           </div>
           <div class="lvl-fcol">

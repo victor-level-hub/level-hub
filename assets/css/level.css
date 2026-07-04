@@ -14054,7 +14054,9 @@
     .sb-rail .sidebar:not(:hover):not(:focus-within) :is(.oc-edit-btn, .oc-prestige-badge, .oa-edit-hint) { opacity: 0; pointer-events: none; }
     /* itens do menu: só o ícone no rail; rótulo/desc voltam no hover */
     .sb-rail .sidebar .nav-item { position: relative; }
-    .sb-rail .sidebar .nav-label, .sb-rail .sidebar .nav-desc { white-space: nowrap; }
+    /* v3.0.2: nowrap SÓ no título — a descrição precisa quebrar nas 2 linhas
+       do bloco fixo (com nowrap ela era cortada na horizontal). */
+    .sb-rail .sidebar .nav-label { white-space: nowrap; }
     .sb-rail .sidebar .nav-text { transition: opacity .18s ease .06s; }
     .sb-rail .sidebar:not(:hover):not(:focus-within) .nav-text { opacity: 0; width: 0; overflow: hidden; }
     .sb-rail .sidebar:not(:hover):not(:focus-within) .nav-badge { position: absolute; top: 5px; left: 32px; transform: scale(.85); }
