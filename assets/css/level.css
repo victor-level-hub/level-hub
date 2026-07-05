@@ -14109,3 +14109,24 @@
   .pc-carta { font-size: 11.5px; color: var(--accent-orange, #FF9800); }
   .pc-quem, .pc-exp { min-width: 220px; }
   .pc-empty { text-align: center; padding: 26px !important; color: var(--text-muted, #8497B8); }
+
+  /* ═══ v3.3.0 · Ícones animados nos cards EXPLORAR (padrão dos Animated
+     Icons do 21st.dev/@YadHakim, adaptação vanilla própria) ═══
+     No hover do card: o ícone dá um "pop" com mola (scale + wiggle) e o
+     "Abrir →" ganha um nudge contínuo. Combina com o origin fill (v2.101). */
+  .home-card .home-card-icon svg { transition: transform .2s ease; will-change: transform; }
+  .home-card:hover .home-card-icon svg {
+    animation: hc-icon-pop .55s cubic-bezier(.34, 1.56, .64, 1) forwards;
+  }
+  @keyframes hc-icon-pop {
+    0%   { transform: scale(1) rotate(0deg); }
+    30%  { transform: scale(1.22) rotate(-8deg); }
+    60%  { transform: scale(1.12) rotate(6deg); }
+    100% { transform: scale(1.15) rotate(0deg); }
+  }
+  .home-card .home-card-go { display: inline-block; }
+  .home-card:hover .home-card-go { animation: hc-go-nudge 1s ease-in-out infinite; }
+  @keyframes hc-go-nudge { 50% { transform: translateX(6px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .home-card:hover .home-card-icon svg, .home-card:hover .home-card-go { animation: none; }
+  }

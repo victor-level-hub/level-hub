@@ -132,6 +132,24 @@
   .lg-btn::after { content: ""; position: absolute; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.35), transparent 70%); top: -18px; left: 10px; animation: liq 3.4s ease-in-out infinite alternate; }
   @keyframes liq { to { left: 70%; top: 8px; } }
 
+  /* ícones */
+  .ico-row { display: flex; gap: 18px; align-items: center; }
+  .ico { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid #2b3a5f; background: #161D2F; color: var(--orange-2); }
+  .ico svg { width: 22px; height: 22px; }
+  .ico-pop svg { animation: icop 2.6s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+  .ico-pop.d2 svg { animation-delay: .4s; color: #58C4DC; }
+  .ico-pop.d3 svg { animation-delay: .8s; color: #4ADE80; }
+  .ico-pop.d2, .ico-pop.d3 { color: inherit; }
+  @keyframes icop { 0%, 55%, 100% { transform: scale(1) rotate(0); } 65% { transform: scale(1.25) rotate(-9deg); } 78% { transform: scale(1.12) rotate(7deg); } 88% { transform: scale(1.15) rotate(0); } }
+  .ico-swing svg { transform-origin: top center; animation: icsw 2.2s ease-in-out infinite; }
+  @keyframes icsw { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(12deg); } 60% { transform: rotate(-10deg); } }
+  .ico-spinslow svg { animation: spin 6s linear infinite; }
+  .ico-arrow svg { animation: icar 1.4s ease-in-out infinite; }
+  @keyframes icar { 50% { transform: translateX(7px); } }
+  .soc { width: 30px; height: 30px; border-radius: 50%; animation: icop 3s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+  .soc.s1 { background: #58C4DC; } .soc.s2 { background: var(--orange); animation-delay: .3s; }
+  .soc.s3 { background: #C77DFF; animation-delay: .6s; } .soc.s4 { background: #4ADE80; animation-delay: .9s; }
+
   /* navegação */
   .nvm-bar { display: flex; gap: 10px; align-items: center; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid #2b3a5f; background: #141B2D; overflow: hidden; animation: nvmc 4.4s ease-in-out infinite; }
   .nvm-bar i { flex: none; width: 26px; height: 7px; border-radius: 4px; background: #2b3a5f; }
@@ -424,6 +442,7 @@
     { id: 'texto', name: 'Texto', color: '#C77DFF' },
     { id: 'botoes', name: 'Botões', color: '#FF9800' },
     { id: 'nav', name: 'Navegação', color: '#8FD3FE' },
+    { id: 'icones', name: 'Ícones', color: '#F2C14E' },
     { id: 'fundos', name: 'Fundos', color: '#58C4DC' },
     { id: 'heros', name: 'Heros', color: '#F2784B' },
     { id: 'video', name: 'Vídeo', color: '#ff4d6d' },
@@ -456,6 +475,12 @@
     { t: 'nav', n: 'Modern Sidebar', a: '@uniquesonu', u: 'https://21st.dev/@uniquesonu/components/modern-side-bar', i: 'npx @21st-dev/cli add uniquesonu/modern-side-bar', d: 'Sidebar escura moderna com item ativo em destaque.', pv: '<div class="sbp"><div class="sbp-bar" style="width:64px"><i class="row glow"></i><i class="row"></i><i class="row"></i><i class="row"></i></div><div class="sbp-page"><i></i><i></i><i></i></div></div>' },
     { t: 'nav', n: 'Sidebar with Submenu', a: '@float_ui', u: 'https://21st.dev/@float_ui/components/sidebar-with-submenu', i: 'npx @21st-dev/cli add float_ui/sidebar-with-submenu', d: 'Sidebar com submenus expansíveis; variante colapsada mostra tooltips nos ícones.', pv: '<div class="sbp"><div class="sbp-bar" style="width:64px"><i class="row on"></i><span class="sub"><i class="row sm"></i><i class="row sm"></i></span><i class="row"></i></div><div class="sbp-page"><i></i><i></i><i></i></div></div>' },
     { t: 'nav', n: 'Navbar 1 (horizontal c/ conta)', a: '@shadcnblockscom', u: 'https://21st.dev/@shadcnblockscom/components/shadcnblocks-com-navbar1', i: 'npx @21st-dev/cli add shadcnblockscom/shadcnblocks-com-navbar1', d: 'Navbar horizontal completo com área de conta à direita — o card do operador viraria dropdown do avatar.', pv: '<div class="hnav"><i class="lg"></i><i></i><i></i><i></i><span class="hnav-av"></span></div>' },
+
+    { t: 'icones', n: 'Animated State Icons', a: '@YadHakim', u: 'https://21st.dev/@YadHakim/components/animated-state-icons', i: 'npx @21st-dev/cli add YadHakim/animated-state-icons', d: 'Ícones de estados/ações que animam no hover — o top da categoria. Padrão portado nos cards EXPLORAR do hub.', b: 'no LEVEL Hub v3.3.0', pv: '<div class="ico-row"><span class="ico ico-pop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="ico ico-pop d2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span class="ico ico-pop d3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg></span></div>' },
+    { t: 'icones', n: 'Animated Everyday Icons', a: '@YadHakim', u: 'https://21st.dev/@YadHakim/components/animated-everyday-icons', i: 'npx @21st-dev/cli add YadHakim/animated-everyday-icons', d: 'Objetos do dia-a-dia com micro-animações no hover.', pv: '<div class="ico-row"><span class="ico ico-swing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span></div>' },
+    { t: 'icones', n: 'Animated Weather Icons', a: '@YadHakim', u: 'https://21st.dev/@YadHakim/components/animated-weather-icons', i: 'npx @21st-dev/cli add YadHakim/animated-weather-icons', d: 'Clima animado (mesma família: há também Cosmic, Micro Loaders e Emoji).', pv: '<div class="ico-row"><span class="ico ico-spinslow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span></div>' },
+    { t: 'icones', n: 'Interactive Animated Arrow', a: '@ringlabs', u: 'https://21st.dev/@ringlabs/components/interactive-animated-arrow-icon', i: 'npx @21st-dev/cli add ringlabs/interactive-animated-arrow-icon', d: 'Seta animada interativa — boa pra CTAs tipo "Abrir →".', pv: '<div class="ico-row"><span class="ico ico-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></div>' },
+    { t: 'icones', n: 'Social Icons', a: '@jatin-yadav05', u: 'https://21st.dev/@jatin-yadav05/components/social-icons', i: 'npx @21st-dev/cli add jatin-yadav05/social-icons', d: 'Pack de ícones de redes sociais — útil pra footer/pitch.', pv: '<div class="ico-row"><i class="soc s1"></i><i class="soc s2"></i><i class="soc s3"></i><i class="soc s4"></i></div>' },
 
     { t: 'fundos', n: 'The Infinite Grid', a: '@shadway', u: 'https://21st.dev/@shadway/components/the-infinite-grid', i: 'npx @21st-dev/cli add shadway/the-infinite-grid', d: 'Grelha infinita que rola em diagonal e revela-se sob o cursor.', b: 'no LEVEL Hub v2.98 + v2.100', pv: '<div class="ig"></div><div class="ig-dot"></div>' },
     { t: 'fundos', n: 'Retro Grid', a: '@magicui', u: 'https://21st.dev/@magicui/components/retro-grid', i: 'npx @21st-dev/cli add magicui/retro-grid', d: 'Grelha retro em perspetiva, deslizando para o horizonte.', pv: '<div class="rg-wrap"><div class="rg"></div><div class="rg-fade"></div></div>' },
