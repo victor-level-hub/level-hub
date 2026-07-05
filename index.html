@@ -915,8 +915,13 @@
     <!-- COD BO7 typographic mark (placeholder; swap with own brand later) -->
     <div class="cod-bo7-mark" role="button" tabindex="0" style="cursor:pointer" data-i18n-attr="aria-label:nav.home.tooltip" aria-label="Início" onclick="var h=document.querySelector('.nav-item[data-section=home]'); if(h) h.click();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); var h=document.querySelector('.nav-item[data-section=home]'); if(h) h.click();}">
       <svg class="cod-bo7-logo" viewBox="0 0 703 180" role="img" aria-hidden="true" focusable="false"><title data-i18n="nav.home.tooltip">Início</title><use href="#level-logo"></use></svg>
+      <!-- v3.2.0: hambúrguer no rail colapsado (a logo completa volta na expansão) -->
+      <span class="sb-burger" aria-hidden="true"><i></i><i></i><i></i></span>
       <span class="cod-bo7-title-rule" aria-hidden="true"></span>
     </div>
+
+    <!-- v3.2.0: logo LEVEL na VERTICAL — ocupa o lugar do card do operador no rail -->
+    <div class="sb-vlogo" aria-hidden="true"><svg viewBox="0 0 703 180" focusable="false"><use href="#level-logo"></use></svg></div>
 
     <!-- v75-34: CARD UNIFICADO DO OPERADOR (estilo perfil gaming) -->
     <div class="operator-card">
@@ -1081,6 +1086,13 @@
         </span>
       </button>
     </nav>
+
+    <!-- v3.2.0: travar o menu fechado — switch "liquid" (21st.dev/@deepaksslibra,
+         adaptação vanilla). Só aparece no modo rail com o menu expandido. -->
+    <div class="sb-lockrow" id="sb-lockrow">
+      <span class="sb-lockrow-lab" data-i18n="nav.railLock">Travar fechado</span>
+      <button type="button" class="lq-switch" id="sb-lock-switch" role="switch" aria-checked="false" data-no-obfill aria-label="Travar o menu fechado" data-i18n-attr="aria-label:nav.railLock.aria"><i class="lq-thumb"></i></button>
+    </div>
     <script>
     // v2.76.0: ordem do menu lateral — data-driven (base para a futura aba "Menu" do admin,
     // que vai reordenar/ocultar via window.applyMenuConfig). Corre durante o parse (sem flash).
@@ -1121,13 +1133,47 @@
       window.MENU_DEFAULT_ORDER = DEFAULT_ORDER;
       applyMenuConfig(DEFAULT_ORDER, []);
 
-      // ── v3.0.0: SIDEBAR RAIL (adaptação vanilla do Sidebar da Aceternity) ──
-      // Colapsa num rail de ícones e expande no hover/foco — tudo em CSS, o DOM
-      // do menu fica intacto (applyMenuConfig e ícones configuráveis do admin
-      // continuam a funcionar como sempre). Classe posta no parse (sem flash).
+      // ── v3.0.0 → v3.2.0: SIDEBAR RAIL (adaptação vanilla do Sidebar da
+      // Aceternity). Colapsa num rail e expande no hover/foco. v3.2.0: a
+      // expansão vira classe .sb-exp (posta aqui) — permite TRAVAR o menu
+      // fechado (switch liquid no rodapé; localStorage level.ui.sbLock).
+      // Travado: hover não expande; clicar no hambúrguer "espreita" o menu.
+      // DOM do menu intacto (applyMenuConfig e ícones do admin preservados).
       // ⏪ ROLLBACK FÁCIL: SB_RAIL = false → sidebar clássica, nada mais muda.
       var SB_RAIL = true;
-      if (SB_RAIL) document.documentElement.classList.add('sb-rail');
+      if (SB_RAIL) {
+        document.documentElement.classList.add('sb-rail');
+        (function railExpand() {
+          var sb = document.getElementById('sidebar');
+          if (!sb) return;
+          var LKEY = 'level.ui.sbLock';
+          function locked() { try { return localStorage.getItem(LKEY) === '1'; } catch (e) { return false; } }
+          function setExp(on) { sb.classList.toggle('sb-exp', !!on); }
+          function syncSwitch() {
+            var sw = document.getElementById('sb-lock-switch');
+            if (sw) sw.setAttribute('aria-checked', locked() ? 'true' : 'false');
+          }
+          sb.addEventListener('pointerenter', function () { if (!locked()) setExp(true); });
+          sb.addEventListener('pointerleave', function () { setExp(false); });
+          sb.addEventListener('focusin', function () { if (!locked()) setExp(true); });
+          sb.addEventListener('focusout', function (e) { if (!sb.contains(e.relatedTarget)) setExp(false); });
+          sb.addEventListener('click', function (e) {
+            var t = e.target;
+            if (t.closest && t.closest('#sb-lock-switch')) {
+              try { localStorage.setItem(LKEY, locked() ? '0' : '1'); } catch (err) {}
+              syncSwitch();
+              e.stopPropagation();
+              return;
+            }
+            // travado + colapsado: clique no hambúrguer espreita (não navega)
+            if (locked() && !sb.classList.contains('sb-exp') && t.closest && t.closest('.cod-bo7-mark')) {
+              e.preventDefault(); e.stopPropagation();
+              setExp(true);
+            }
+          }, true);
+          syncSwitch();
+        })();
+      }
     })();
     </script>
   </aside>
@@ -4786,6 +4832,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.2.0</span>
+                <span class="vh-date">5 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Rail refinado: logo vertical, hamb&uacute;rguer e travar fechado.</strong> Tr&ecirc;s pedidos do Victor sobre o rail da v3.0.0: <strong>(1)</strong> a &ldquo;forma preta&rdquo; (o avatar encolhido a 40px) saiu &mdash; no lugar, a <strong>logo LEVEL na vertical</strong>, dimensionada para os 68px do rail sem mexer na largura; o card completo do operador continua a voltar na expans&atilde;o. <strong>(2)</strong> A logo min&uacute;scula do topo virou um <strong>hamb&uacute;rguer</strong> (3 tra&ccedil;os) &mdash; a affordance cl&aacute;ssica de &ldquo;isto abre um menu&rdquo;. <strong>(3)</strong> Novo switch <strong>&ldquo;Travar fechado&rdquo;</strong> no rodap&eacute; do menu expandido &mdash; adapta&ccedil;&atilde;o vanilla do <em>Liquid Toggle</em> (21st.dev/@deepaksslibra, adicionado ao cat&aacute;logo /componentes): ligado, o menu fica sempre encolhido (hover n&atilde;o expande) e o hamb&uacute;rguer passa a <em>espreitar</em> o menu ao clicar; a prefer&ecirc;ncia persiste (localStorage). Por baixo, a expans&atilde;o do rail passou de <code>:hover</code> puro para a classe <code>.sb-exp</code> controlada por JS &mdash; o que tornou o travar poss&iacute;vel e o comportamento test&aacute;vel.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.1.1</span>
                 <span class="vh-date">5 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8397,7 +8452,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.1.1</strong><span class="ver-tag">Tabela PROS / CONS completa: os 51 prints do PS5 (pasta pros-cons) foram lidos e transcritos — de 11 para 56 atributos (43 PROS + 13 CONS, deduplicados), incluindo miras (magnificações consolidadas, térmica, glint), munição, underbarrels, furtividade e todos os CONS em vermelho com o motivo de evitar e a carta que atenua. Nomes truncados nos prints completados.</span>
+              LEVEL · <strong>v3.2.0</strong><span class="ver-tag">Rail refinado (pedidos do Victor): logo LEVEL na VERTICAL no lugar da forma preta do avatar encolhido, hambúrguer no topo em vez da logo minúscula (affordance de ação), e switch "liquid" (21st.dev/@deepaksslibra, também no catálogo) no rodapé do menu pra TRAVAR o menu sempre fechado — travado, o hover não expande e o hambúrguer espreita o menu ao clicar; preferência guardada em localStorage.</span>
             </div>
           </div>
           <div class="lvl-fcol">

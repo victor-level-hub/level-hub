@@ -330,6 +330,18 @@
   @keyframes ckd { 10%, 78% { background: #4ADE80; border-color: #4ADE80; } 90%, 100% { background: transparent; border-color: #3a4a75; } }
   @keyframes ckt { 10%, 78% { opacity: 1; } 90%, 100% { opacity: 0; } }
 
+  /* liquid toggle */
+  .lqp-track { position: relative; display: block; width: 64px; height: 34px; border-radius: 999px; border: 1px solid #2b3a5f; background: #10182A; animation: lqt 3.4s ease-in-out infinite; }
+  .lqp-thumb { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 999px; background: #8497B8; animation: lqm 3.4s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+  @keyframes lqm {
+    0%, 26% { left: 3px; width: 26px; background: #8497B8; }
+    34% { width: 38px; }
+    46%, 78% { left: 33px; width: 26px; background: var(--orange); }
+    86% { left: 21px; width: 38px; }
+    100% { left: 3px; width: 26px; background: #8497B8; }
+  }
+  @keyframes lqt { 46%, 78% { background: rgba(255,152,0,.18); border-color: rgba(255,152,0,.55); } }
+
   /* notifications menu */
   .nm { display: flex; flex-direction: column; align-items: center; gap: 9px; }
   .nm-bell { position: relative; width: 36px; height: 36px; border-radius: 10px; border: 1px solid #3a4a75; background: #161D2F; display: flex; align-items: center; justify-content: center; color: var(--text); }
@@ -470,6 +482,7 @@
     { t: 'footers', n: 'Footer 2', a: '@shadcnblockscom', u: 'https://21st.dev/@shadcnblockscom/components/shadcnblocks-com-footer2', i: 'npx @21st-dev/cli add shadcnblockscom/shadcnblocks-com-footer2', d: 'Footer completo multi-coluna, limpo e organizado.', pv: '<div class="f2"><div class="cols"><div class="col"><div class="ln" style="width:80%"></div><div class="ln" style="width:60%"></div><div class="ln" style="width:70%"></div></div><div class="col"><div class="ln" style="width:70%"></div><div class="ln" style="width:75%"></div><div class="ln" style="width:55%"></div></div><div class="col"><div class="ln" style="width:65%"></div><div class="ln" style="width:60%"></div><div class="ln" style="width:70%"></div></div></div><div class="bar"></div><div class="ln" style="width:40%;height:4px"></div></div>' },
     { t: 'footers', n: 'Footer Column (Glowing)', a: '@mvp_Subha', u: 'https://21st.dev/@mvp_Subha/components/footer-column/glowing-footer', i: 'npx @21st-dev/cli add mvp_Subha/footer-column', d: 'Footer em colunas com linha de glow no topo.', pv: '<div class="f2"><div class="gf-line"></div><div class="cols"><div class="col"><div class="ln" style="width:75%"></div><div class="ln" style="width:60%"></div></div><div class="col"><div class="ln" style="width:65%"></div><div class="ln" style="width:70%"></div></div><div class="col"><div class="ln" style="width:70%"></div><div class="ln" style="width:55%"></div></div></div></div>' },
 
+    { t: 'diversos', n: 'Liquid Toggle', a: '@deepaksslibra', u: 'https://21st.dev/@deepaksslibra/components/liquid-toggle', i: 'npx @21st-dev/cli add deepaksslibra/liquid-toggle', d: 'Switch com animação "líquida": o polegar estica ao pressionar e desliza com mola.', b: 'no LEVEL Hub v3.2.0', pv: '<div class="lqp"><span class="lqp-track"><i class="lqp-thumb"></i></span></div>' },
     { t: 'diversos', n: 'Notifications Menu', a: '@ahmedmayara', u: 'https://21st.dev/@ahmedmayara/components/notifications-menu', i: 'npx @21st-dev/cli add ahmedmayara/notifications-menu', d: 'Sino com badge e menu de notificações. No LEVEL Hub recebe os pedidos de avaliação da curadoria Gemini.', b: 'no LEVEL Hub v2.104', pv: '<div class="nm"><div class="nm-bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><i class="nm-dot">3</i></div><div class="nm-pop"><span class="nm-row"><i></i><b style="width:70%"></b></span><span class="nm-row"><i></i><b style="width:55%"></b></span><span class="nm-row"><i></i><b style="width:64%"></b></span></div></div>' },
     { t: 'diversos', n: 'Onboarding Checklist', a: '@ravikatiyar', u: 'https://21st.dev/@ravikatiyar/components/onboarding-checklist', i: 'npx @21st-dev/cli add ravikatiyar/onboarding-checklist', d: 'Checklist de onboarding com progresso e passos a completar.', pv: '<div class="ck-list"><div class="ck-row"><i class="ck c1"></i><div class="ln" style="width:100px"></div></div><div class="ck-row"><i class="ck c2"></i><div class="ln" style="width:82px"></div></div><div class="ck-row"><i class="ck c3"></i><div class="ln" style="width:112px"></div></div></div>' },
     { t: 'diversos', n: 'Sonic Waveform', a: '@dhiluxui', u: 'https://21st.dev/@dhiluxui/components/sonic-waveform', i: 'npx @21st-dev/cli add dhiluxui/sonic-waveform', d: 'Onda sonora animada, estilo equalizador.', pv: '<div class="wv"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>' }

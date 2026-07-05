@@ -1712,6 +1712,8 @@ window.I18N = {
     'set.tab.proscons': 'PROS / CONS',
     'set.pc.intro': '<strong>PROS / CONS dos attachments.</strong> Cada atributo que aparece nos cards de acessório do BO7: tradução, onde costuma aparecer, tipo, pra quem serve (ou quem deve evitar), carta perk relacionada e o que faz de verdade. Busca ao vivo + filtro por coluna.',
     'set.pc.search': 'Pesquisar em tudo… (vai filtrando enquanto digitas)',
+    'nav.railLock': 'Travar fechado',
+    'nav.railLock.aria': 'Travar o menu fechado',
     // ── API Keys (v75.10) ──
     'apikeys.intro': '<strong>API Keys.</strong> Cola a sua chave do Google AI Studio (Gemini Flash) pra habilitar análise de prints via IA. Mais preciso que o Tesseract padrão, especialmente em telas Gunsmith.',
     'apikeys.warn': '{{i:alert-triangle}} <strong>Modo single-user.</strong> A chave fica salva apenas no seu navegador (localStorage) e é enviada direto pro Google. <strong>Não compartilhe este HTML</strong> — quem tiver acesso pode extrair a chave. Em produção (LEVEL Plus público), a chave fica no backend.',
@@ -3433,6 +3435,8 @@ window.I18N = {
     'set.tab.proscons': 'PROS / CONS',
     'set.pc.intro': '<strong>Attachment PROS / CONS.</strong> Every attribute shown on BO7 attachment cards: translation, where it usually appears, type, who it is for (or who should avoid it), related perk card and what it actually does. Live search + per-column filters.',
     'set.pc.search': 'Search everything… (filters as you type)',
+    'nav.railLock': 'Keep collapsed',
+    'nav.railLock.aria': 'Keep the menu collapsed',
     // ── API Keys (v75.10) ──
     'apikeys.intro': '<strong>API Keys.</strong> Paste your Google AI Studio (Gemini Flash) key to enable AI-powered screenshot analysis. More accurate than the default Tesseract, especially on Gunsmith screens.',
     'apikeys.warn': '{{i:alert-triangle}} <strong>Single-user mode.</strong> The key is stored only in your browser (localStorage) and sent directly to Google. <strong>Do not share this HTML</strong> — anyone with access can extract the key. In production (public LEVEL Plus), the key lives on the backend.',
