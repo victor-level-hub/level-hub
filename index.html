@@ -913,7 +913,7 @@
   <aside class="sidebar" id="sidebar">
 
     <!-- COD BO7 typographic mark (placeholder; swap with own brand later) -->
-    <div class="cod-bo7-mark" role="button" tabindex="0" style="cursor:pointer" data-i18n-attr="aria-label:nav.home.tooltip" aria-label="Início" onclick="var h=document.querySelector('.nav-item[data-section=home]'); if(h) h.click();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); var h=document.querySelector('.nav-item[data-section=home]'); if(h) h.click();}">
+    <div class="cod-bo7-mark" role="button" tabindex="0" data-no-obfill style="cursor:pointer" data-i18n-attr="aria-label:nav.home.tooltip" aria-label="Início" onclick="var h=document.querySelector('.nav-item[data-section=home]'); if(h) h.click();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); var h=document.querySelector('.nav-item[data-section=home]'); if(h) h.click();}">
       <svg class="cod-bo7-logo" viewBox="0 0 703 180" role="img" aria-hidden="true" focusable="false"><title data-i18n="nav.home.tooltip">Início</title><use href="#level-logo"></use></svg>
       <!-- v3.2.0: hambúrguer no rail colapsado (a logo completa volta na expansão) -->
       <span class="sb-burger" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -1316,49 +1316,49 @@
 
       <div class="home-explore-title" data-i18n="home.explore" data-reveal="fade-up">EXPLORAR</div>
       <div class="home-explore" data-reveal-stagger data-stagger="70">
-        <button class="home-card hc-orange" type="button" data-home-goto="constructor">
+        <button data-no-obfill class="home-card hc-orange" type="button" data-home-goto="constructor">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3 a4 4 0 0 0 -5.4 5.4 L3 18 a2 2 0 0 0 2.8 2.8 L12.3 14.7 a4 4 0 0 0 5.4 -5.4 L15 12 12 9 Z"/></svg></span>
           <span class="home-card-title" data-i18n="nav.constructor.label">Loadout</span>
           <span class="home-card-desc" data-i18n="home.card.constructor">Monta do zero, slot a slot, com análise do Le Vél.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
-        <button class="home-card hc-cyan" type="button" data-home-goto="myweapons">
+        <button data-no-obfill class="home-card hc-cyan" type="button" data-home-goto="myweapons">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 14 H6 L7 12 H10 V10 H17 V12 H20.5 V14.5 H17.5 V16 H10.5 L10 14 H7.5"/><path d="M10.5 14 V16.5 H12"/><path d="M14 10 V8 H16 V10"/></svg></span>
           <span class="home-card-title" data-i18n="nav.myweapons.label">Minhas Armas</span>
           <span class="home-card-desc" data-i18n="home.card.myweapons">O seu arsenal — grade ou Command Center.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
-        <button class="home-card hc-green" type="button" data-home-goto="struggles">
+        <button data-no-obfill class="home-card hc-green" type="button" data-home-goto="struggles">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg></span>
           <span class="home-card-title" data-i18n="nav.struggles.label">Evolução</span>
           <span class="home-card-desc" data-i18n="home.card.struggles">Registre dificuldades reais e acompanha o progresso.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
-        <button class="home-card hc-violet" type="button" data-home-goto="aimtraining">
+        <button data-no-obfill class="home-card hc-violet" type="button" data-home-goto="aimtraining">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></span>
           <span class="home-card-title" data-i18n="nav.aimtraining.label">Aim Training</span>
           <span class="home-card-desc" data-i18n="home.card.aimtraining">Rotinas de mira ligadas às suas dificuldades.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
-        <button class="home-card hc-blue" type="button" data-home-goto="controller">
+        <button data-no-obfill class="home-card hc-blue" type="button" data-home-goto="controller">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 C3 9 5 8 7 8 H17 C19 8 21 9 21 11 V14 C21 16 19 17 17 17 H7 C5 17 3 16 3 14 Z"/><line x1="6" y1="11" x2="6" y2="14"/><line x1="4.5" y1="12.5" x2="7.5" y2="12.5"/><circle cx="18" cy="11.5" r="0.7" fill="currentColor"/><circle cx="19.5" cy="13" r="0.7" fill="currentColor"/><circle cx="18" cy="14.5" r="0.7" fill="currentColor"/><circle cx="16.5" cy="13" r="0.7" fill="currentColor"/></svg></span>
           <span class="home-card-title" data-i18n="nav.controller.label">Controle</span>
           <span class="home-card-desc" data-i18n="home.card.controller">Sensibilidade, áudio e vídeo afinados pro seu estilo.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
-        <button class="home-card hc-amber" type="button" data-home-goto="maps">
+        <button data-no-obfill class="home-card hc-amber" type="button" data-home-goto="maps">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6 L9 4 L15 6 L21 4 V18 L15 20 L9 18 L3 20 Z"/><path d="M9 4 V18"/><path d="M15 6 V20"/></svg></span>
           <span class="home-card-title" data-i18n="nav.maps.label">Mapas</span>
           <span class="home-card-desc" data-i18n="home.card.maps">A arma certa por mapa e modo de jogo.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
-        <button class="home-card hc-coral" type="button" data-home-goto="marketplace">
+        <button data-no-obfill class="home-card hc-coral" type="button" data-home-goto="marketplace">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 L4.5 4 H19.5 L21 9"/><path d="M3 9 V19 a1 1 0 0 0 1 1 H20 a1 1 0 0 0 1 -1 V9"/><path d="M9 9 V5"/><path d="M15 9 V5"/><path d="M9 13 H15"/></svg></span>
           <span class="home-card-title" data-i18n="nav.marketplace.label">Marketplace</span>
           <span class="home-card-desc" data-i18n="home.card.marketplace">Builds da comunidade pra importar e votar.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
-        <button class="home-card hc-gold" type="button" data-home-goto="perks">
+        <button data-no-obfill class="home-card hc-gold" type="button" data-home-goto="perks">
           <span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 L3.5 13.5 H11 L10 22 L20.5 10 H13 Z"/></svg></span>
           <span class="home-card-title" data-i18n="nav.perks.label">Perks & Streaks</span>
           <span class="home-card-desc" data-i18n="home.card.perks">Vantagens e séries pro setup completo.</span>
@@ -4829,6 +4829,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.4.0</span>
+                <span class="vh-date">5 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Pacote de refinamentos (5 pedidos do Victor).</strong> <strong>(1)</strong> O emblema de prestige <em>parou de crescer</em> ao passar o cursor no avatar (efeito da v2.59.1 removido; fica est&aacute;tico). <strong>(2)</strong> Todos os interruptores liga/desliga viraram <strong>switches liquid</strong> (mesmo efeito do &ldquo;Travar fechado&rdquo;): master-toggle, &ldquo;n&atilde;o mostrar de novo&rdquo;, autosync e os consentimentos/visibilidades do Encontrar Squad &mdash; checkmarks de tarefa e o aceite das Regras de Conduta continuam como checkbox (s&atilde;o checks, n&atilde;o switches). <strong>(3)</strong> Os cards do EXPLORAR <em>trocaram o origin fill</em> (que pintava o card inteiro com a cor) <em>pelo tilt 3D</em> + brilho &mdash; o pop do &iacute;cone e o nudge do &ldquo;Abrir &rarr;&rdquo; ficam. <strong>(4)</strong> A logo LEVEL do menu deixou de ganhar o fill laranja no hover (ficava estranho). <strong>(5)</strong> O <strong>destaque do grupo em evid&ecirc;ncia</strong> (Minhas Armas &middot; Loadout &middot; Meus Loadouts) saiu por padr&atilde;o e virou <strong>op&ccedil;&atilde;o na aba Menu Lateral</strong>: um switch liquid &ldquo;Destaque do grupo em evid&ecirc;ncia&rdquo; que aplica ao vivo e entra no &ldquo;Salvar para todos&rdquo; (config global via <code>cat_menu_config</code>, flag <code>__featured</code> no icons_json &mdash; sem mudan&ccedil;a de schema).</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8497,7 +8506,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.3.0</strong><span class="ver-tag">Ícones animados nos cards EXPLORAR: no hover, o ícone dá um pop com mola (scale + wiggle) e o "Abrir →" ganha um nudge contínuo — padrão dos Animated Icons do 21st.dev (@YadHakim), adaptação vanilla própria. Secção Ícones nova no catálogo /componentes (State, Everyday, Weather, seta animada e Social Icons).</span>
+              LEVEL · <strong>v3.4.0</strong><span class="ver-tag">Pacote de refinamentos do Victor: emblema de prestige parou de crescer no hover; switches liquid em todos os toggles on/off (master, não-mostrar, autosync, Squad); cards EXPLORAR trocaram o origin fill pelo tilt 3D; logo do menu sem o fill; destaque dos 3 itens em evidência virou OPT-IN com switch na aba Menu Lateral (config global, aplica pra todos).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -24025,6 +24034,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           if (d) {
             var ic = (d.icons_json && typeof d.icons_json === 'object' && !Array.isArray(d.icons_json)) ? d.icons_json : {};
             currentIcons = ic;
+            // v3.4.0: destaque do grupo em evidência é OPT-IN — flag reservada
+            // __featured dentro do icons_json (zero mudança de schema; o loop
+            // de ícones ignora chaves sem .nav-item correspondente).
+            document.documentElement.classList.toggle('menu-feat', !!(ic.__featured && ic.__featured.on));
             if (Array.isArray(d.order_json) && d.order_json.length && typeof window.applyMenuConfig === 'function') {
               window.applyMenuConfig(d.order_json, Array.isArray(d.hidden_json) ? d.hidden_json : [], ic);
             } else if (typeof window.applyMenuIcon === 'function') {
@@ -24213,6 +24226,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           + '<div class="menulat-head"><h3>' + esc(T('menucfg.title', 'MENU LATERAL')) + '</h3>'
           +   '<p>' + esc(T('menucfg.intro', 'Arrasta para ordenar e usa o botão para ocultar. As mudanças aplicam-se já no menu; "Salvar para todos" publica para todos os utilizadores. Configurações fica sempre por último.')) + '</p></div>'
           + '<div class="menulat-list" id="menulat-list">' + rowsHtml + '</div>'
+          // v3.4.0: opção do destaque em evidência (Minhas Armas · Loadout · Meus Loadouts)
+          + '<div class="menulat-featrow"><div class="menulat-info"><div class="menulat-label">' + esc(T('menucfg.feat', 'Destaque do grupo em evidência')) + '</div>'
+          +   '<div class="menulat-desc">' + esc(T('menucfg.featDesc', 'Realça Minhas Armas, Loadout e Meus Loadouts com cor própria no menu. Desligado, ficam como os outros itens.')) + '</div></div>'
+          +   '<button type="button" class="lq-switch" id="menulat-feat" role="switch" data-no-obfill aria-checked="' + ((editIcons.__featured && editIcons.__featured.on) ? 'true' : 'false') + '" aria-label="' + esc(T('menucfg.feat', 'Destaque do grupo em evidência')) + '"><i class="lq-thumb"></i></button></div>'
           + '<div class="menulat-foot">'
           +   '<button type="button" class="menulat-reset">' + esc(T('menucfg.reset', 'Repor padrão')) + '</button>'
           +   '<button type="button" class="menulat-save">' + esc(T('menucfg.save', 'Salvar para todos')) + '</button>'
@@ -24254,6 +24271,15 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             if (typeof window.applyMenuIcon === 'function') window.applyMenuIcon(sec, obj);
             ib.innerHTML = obj ? window.buildGiSvg(obj) : strokePrevHtml(sec);
           });
+        });
+        // v3.4.0: switch do destaque em evidência — aplica ao vivo e entra no save
+        var featSw = panel.querySelector('#menulat-feat');
+        if (featSw) featSw.addEventListener('click', function () {
+          var on = featSw.getAttribute('aria-checked') !== 'true';
+          featSw.setAttribute('aria-checked', on ? 'true' : 'false');
+          if (!panel.__editIcons) panel.__editIcons = {};
+          if (on) panel.__editIcons.__featured = { on: true }; else delete panel.__editIcons.__featured;
+          document.documentElement.classList.toggle('menu-feat', on);
         });
         var resetBtn = panel.querySelector('.menulat-reset');
         if (resetBtn) resetBtn.addEventListener('click', function () {
@@ -26521,6 +26547,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'menucfg.intro': 'Arrasta para ordenar e usa o botão para ocultar. As mudanças aplicam-se já no menu; "Salvar para todos" publica para todos os utilizadores. Configurações fica sempre por último.',
         'menucfg.visible': 'Visível', 'menucfg.hidden': 'Oculto',
         'menucfg.save': 'Salvar para todos', 'menucfg.reset': 'Repor padrão',
+        'menucfg.feat': 'Destaque do grupo em evidência', 'menucfg.featDesc': 'Realça Minhas Armas, Loadout e Meus Loadouts com cor própria no menu. Desligado, ficam como os outros itens.',
         'menucfg.saved': 'Menu salvo para todos.', 'menucfg.saveErr': 'Não consegui salvar: ',
         'menucfg.dragHint': 'Arrastar',
         'menucfg.iconHint': 'Trocar ícone', 'menucfg.pickTitle': 'Escolher ícone',
@@ -26698,6 +26725,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'menucfg.intro': 'Drag to reorder and use the button to hide. Changes apply to the menu right away; "Save for everyone" publishes to all users. Settings always stays last.',
         'menucfg.visible': 'Visible', 'menucfg.hidden': 'Hidden',
         'menucfg.save': 'Save for everyone', 'menucfg.reset': 'Reset to default',
+        'menucfg.feat': 'Featured group highlight', 'menucfg.featDesc': 'Highlights My Weapons, Loadout and My Loadouts with their own color in the menu. Off, they look like the other items.',
         'menucfg.saved': 'Menu saved for everyone.', 'menucfg.saveErr': 'Could not save: ',
         'menucfg.dragHint': 'Drag',
         'menucfg.iconHint': 'Change icon', 'menucfg.pickTitle': 'Choose icon',
@@ -29962,7 +29990,8 @@ ${cbt('share.t.footer')}`;
     '.event-card', '.bp-card', '.dxp-card', '.blackcell-card', '.streak-card',
     '.briefing-event', '.briefing-tip', '.mkt-card', '.mkt-podium-card',
     '.saved-card', '.mymap-card', '.weapon-card', '.aimt-card',
-    '.diagnosis-card', '.struggle-card', '.operator-card'
+    '.diagnosis-card', '.struggle-card', '.operator-card',
+    '.home-card' /* v3.4.0: EXPLORAR trocou o origin fill pelo tilt */
   ].join(',');
   function attachCard(el) {
     if (el.__tiltBound) return;

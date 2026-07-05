@@ -374,23 +374,28 @@
   }
   /* ─── Featured nav items (Minhas Armas, Loadout, Meus Loadouts) ─── */
   /* Cor invertida: normalmente cyan; quando active vira laranja sólido (não gradient) */
-  .nav-item--featured {
+  /* v3.4.0: o destaque do grupo em evidência (Minhas Armas · Loadout · Meus
+     Loadouts) virou OPT-IN — só aplica com .menu-feat no <html>, controlado
+     pela opção "Destaque do grupo em evidência" na aba Menu Lateral (config
+     global em cat_menu_config.icons_json.__featured). Sem a classe, os 3
+     itens ficam iguais aos outros. */
+  .menu-feat .nav-item--featured {
     background: linear-gradient(90deg, rgba(125, 168, 199, 0.10) 0%, transparent 100%);
     color: var(--accent-cyan);
     border-left: 3px solid var(--accent-cyan);
   }
-  .nav-item--featured:hover {
+  .menu-feat .nav-item--featured:hover {
     background: linear-gradient(90deg, rgba(125, 168, 199, 0.22) 0%, transparent 100%);
     color: var(--text-primary);
   }
-  .nav-item--featured.active {
+  .menu-feat .nav-item--featured.active {
     background: var(--accent-orange);
     color: #0e1014;
     border-color: var(--accent-orange);
     border-left: 3px solid var(--accent-orange);
   }
-  .nav-item--featured.active .nav-desc { color: rgba(14, 16, 20, 0.72); }
-  .nav-item--featured.active .nav-icon svg {
+  .menu-feat .nav-item--featured.active .nav-desc { color: rgba(14, 16, 20, 0.72); }
+  .menu-feat .nav-item--featured.active .nav-icon svg {
     stroke: #0e1014;
     filter: none;
   }
@@ -9942,16 +9947,8 @@
   }
   .operator-card .oc-prestige-badge img { border-radius: 50%; width: 100%; height: 100%; object-fit: contain; transition: filter .25s ease; }
   .operator-card .oc-pb-fallback { font-size: 13px; }
-  /* v2.59.1: ao passar o mouse no avatar, o emblema desliza pro centro e clareia */
-  .operator-card .oc-avatar-wrap:hover .oc-prestige-badge:not(.is-empty) {
-    transform: translate(-52px, -60px) scale(1.55);
-    filter: brightness(1.4) saturate(1.08);
-    box-shadow: 0 0 0 2px var(--level-orange, #FF9800), 0 0 30px rgba(255,152,0,0.8), 0 8px 22px rgba(0,0,0,0.55);
-    z-index: 6;
-  }
-  .operator-card .oc-avatar-wrap:hover .oc-prestige-badge:not(.is-empty) img {
-    filter: brightness(1.2) drop-shadow(0 0 6px rgba(255,152,0,0.85));
-  }
+  /* v3.4.0: o efeito de hover do emblema (deslizar pro centro + crescer 1.55x,
+     v2.59.1) foi REMOVIDO a pedido do Victor — o emblema fica estático. */
   /* v2.57.28: emblema de prestige SEM imagem = círculo escuro, sem aro/brilho laranja
      nem texto "P10". Enquanto a imagem da nuvem carrega (ou se não houver), fica preto. */
   .oc-prestige-badge.is-empty {
@@ -13905,7 +13902,7 @@
 
   /* ═══ v2.89.0 · Seletor de ícone do menu (aba Menu Lateral) ═══ */
   .nav-icon svg.gi-fill, .nav-icon svg.gi-fill * { fill: currentColor; stroke: none; }
-  .nav-item--featured.active .nav-icon svg.gi-fill, .nav-item--featured.active .nav-icon svg.gi-fill * { fill: #0e1014; stroke: none; }
+  .menu-feat .nav-item--featured.active .nav-icon svg.gi-fill, .menu-feat .nav-item--featured.active .nav-icon svg.gi-fill * { fill: #0e1014; stroke: none; }
   .menulat-row .menulat-icon { flex: none; width: 40px; height: 40px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: #0D121E; border: 1px solid var(--bg-row, #25304f); color: var(--accent-orange, #FF9800); cursor: pointer; transition: border-color .15s, background .15s; }
   .menulat-row .menulat-icon:hover { border-color: var(--accent-orange, #FF9800); background: rgba(255,152,0,.08); }
   .menulat-row .menulat-icon svg { width: 22px; height: 22px; fill: currentColor; stroke: none; }
@@ -13996,15 +13993,9 @@
   .maps-filter-chip.active, .amt-btn.active, .mkt-scope-btn.active,
   .lvl-empty-cta.primary, .opp-chart-view.active,
   .lp-langbtn.active { --ob-fill: var(--level-orange-bright, #FFB23E); }
-  /* v2.101.1: home-cards (EXPLORAR) enchem com o accent de cada card */
-  .home-card.hc-orange { --ob-fill: #FF9800; }
-  .home-card.hc-cyan   { --ob-fill: #58C4DC; }
-  .home-card.hc-green  { --ob-fill: #4ADE80; }
-  .home-card.hc-violet { --ob-fill: #C77DFF; }
-  .home-card.hc-blue   { --ob-fill: #AEC7E0; }
-  .home-card.hc-amber  { --ob-fill: #FFC857; }
-  .home-card.hc-coral  { --ob-fill: #F2784B; }
-  .home-card.hc-gold   { --ob-fill: #fbbf24; }
+  /* v3.4.0: o origin fill dos home-cards (v2.101.1) saiu a pedido do Victor —
+     os cards do EXPLORAR agora usam o TILT (data-no-obfill no markup +
+     .home-card no CARD_SEL do tilt). Ícone pop + seta nudge (v3.3.0) ficam. */
   /* variantes de perigo: círculo vermelho, tinta clara */
   .settings-btn.danger, .we-btn.danger, .mod-btn.reject { --ob-fill: var(--red, #E74C3C); --ob-ink: #fff; }
   /* aprovação/curtir mantêm as cores próprias */
@@ -14129,4 +14120,68 @@
   @keyframes hc-go-nudge { 50% { transform: translateX(6px); } }
   @media (prefers-reduced-motion: reduce) {
     .home-card:hover .home-card-icon svg, .home-card:hover .home-card-go { animation: none; }
+  }
+
+  /* ═══ v3.4.0 · Switches LIQUID em todos os toggles on/off ═══
+     O efeito do Liquid Toggle (21st.dev/@deepaksslibra, já usado no "Travar
+     fechado" do rail) aplicado a todos os interruptores liga/desliga do hub:
+     master-toggle, "não mostrar de novo" (wn-check), autosync e os
+     consentimentos/visibilidades do Encontrar Squad. Checkmarks de tarefa
+     (.treated-checkbox, campos "tratado") e o aceite das Regras de Conduta
+     ficam como checkbox — são checks, não switches.
+     !important nas medidas: alguns inputs têm width/height inline. */
+  .master-toggle input[type="checkbox"],
+  .wn-check input[type="checkbox"],
+  .wn-check.wn-check-muted input[type="checkbox"],
+  .opp-autosync-toggle input[type="checkbox"],
+  #sq-allow, #sq-available, #sq-fields input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 40px !important; height: 22px !important;
+    border: 1px solid var(--bg-row, #25304F); border-radius: 999px;
+    background: var(--bg-darkest, #0A0E1A);
+    position: relative; cursor: pointer; flex-shrink: 0;
+    transition: background .25s ease, border-color .25s ease;
+  }
+  .master-toggle input[type="checkbox"]::after,
+  .wn-check input[type="checkbox"]::after,
+  .opp-autosync-toggle input[type="checkbox"]::after,
+  #sq-allow::after, #sq-available::after, #sq-fields input[type="checkbox"]::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 16px; height: 16px; border-radius: 999px;
+    background: var(--text-muted, #8497B8);
+    transition: left .3s cubic-bezier(.34, 1.56, .64, 1), width .18s ease, background .25s ease;
+  }
+  /* estica "líquido" enquanto pressionas */
+  .master-toggle input[type="checkbox"]:active::after,
+  .wn-check input[type="checkbox"]:active::after,
+  .opp-autosync-toggle input[type="checkbox"]:active::after,
+  #sq-allow:active::after, #sq-available:active::after, #sq-fields input[type="checkbox"]:active::after {
+    width: 22px;
+  }
+  .master-toggle input[type="checkbox"]:checked,
+  .wn-check input[type="checkbox"]:checked,
+  .opp-autosync-toggle input[type="checkbox"]:checked,
+  #sq-allow:checked, #sq-available:checked, #sq-fields input[type="checkbox"]:checked {
+    background: rgba(255, 152, 0, 0.22);
+    border-color: rgba(255, 152, 0, 0.55);
+  }
+  .master-toggle input[type="checkbox"]:checked::after,
+  .wn-check input[type="checkbox"]:checked::after,
+  .opp-autosync-toggle input[type="checkbox"]:checked::after,
+  #sq-allow:checked::after, #sq-available:checked::after, #sq-fields input[type="checkbox"]:checked::after {
+    content: ""; left: calc(100% - 18px);
+    background: var(--accent-orange, #FF9800);
+  }
+  .master-toggle input[type="checkbox"]:checked:active::after,
+  .wn-check input[type="checkbox"]:checked:active::after,
+  .opp-autosync-toggle input[type="checkbox"]:checked:active::after,
+  #sq-allow:checked:active::after, #sq-available:checked:active::after, #sq-fields input[type="checkbox"]:checked:active::after {
+    left: calc(100% - 24px);
+  }
+  /* linha da opção "Destaque do grupo em evidência" no painel Menu Lateral */
+  .menulat-featrow { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 14px; margin-top: 10px; border: 1px solid var(--bg-row, #25304F); border-radius: 10px; background: var(--bg-darkest, #0A0E1A); }
+  @media (prefers-reduced-motion: reduce) {
+    .master-toggle input[type="checkbox"]::after, .wn-check input[type="checkbox"]::after,
+    .opp-autosync-toggle input[type="checkbox"]::after,
+    #sq-allow::after, #sq-available::after, #sq-fields input[type="checkbox"]::after { transition: none; }
   }
