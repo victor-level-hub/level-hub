@@ -14047,7 +14047,8 @@
        (svg em absolute rotacionado — a caixa de layout fica dentro dos 68px) */
     .sb-rail .sidebar:not(.sb-exp) .operator-card { display: none; }
     .sb-rail .sidebar:not(.sb-exp) .sb-vlogo { display: block; position: relative; width: 100%; height: 158px; margin: 8px 0 2px; }
-    .sb-rail .sb-vlogo svg { position: absolute; left: 50%; top: 50%; width: 148px; height: 38px; transform: translate(-50%, -50%) rotate(90deg); filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.18)); }
+    /* v3.2.2: rotação invertida (-90°) a pedido do Victor — lê de baixo pra cima */
+    .sb-rail .sb-vlogo svg { position: absolute; left: 50%; top: 50%; width: 148px; height: 38px; transform: translate(-50%, -50%) rotate(-90deg); filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.18)); }
     /* itens do menu: só o ícone no rail; rótulo/desc voltam na expansão */
     .sb-rail .sidebar .nav-item { position: relative; }
     /* v3.0.2: nowrap SÓ no título — a descrição precisa quebrar nas 2 linhas
