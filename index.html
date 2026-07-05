@@ -1349,7 +1349,8 @@
             <div class="hh-desc" data-i18n-html="home.hist.desc">Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
             <span style="display:inline-flex;align-items:center;gap:8px;flex:0 0 auto">
               <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
-              <span class="help-pop help-pop-right"><button type="button" class="help-pop-btn" aria-label="Sobre o Snapshot" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:camera}}<span data-i18n="home.snap.help.title">SNAPSHOT</span></span><span class="help-pop-body" data-i18n="home.snap.help">Grava o teu prestígio + nível ATUAL como um ponto no tempo. Cada snapshot vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL. Tira um sempre que subires de nível ou prestígio — o Hub também grava sozinho quando deteta mudanças.</span></span></span>
+              <!-- v3.4.3: help-pop-left — com o card a 1/3 (v3.4.2), o painel pra esquerda estourava o .main e era cortado; pra direita há espaço -->
+              <span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o Snapshot" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:camera}}<span data-i18n="home.snap.help.title">SNAPSHOT</span></span><span class="help-pop-body" data-i18n="home.snap.help">Grava o teu prestígio + nível ATUAL como um ponto no tempo. Cada snapshot vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL. Tira um sempre que subires de nível ou prestígio — o Hub também grava sozinho quando deteta mudanças.</span></span></span>
             </span>
           </div>
           <!-- v2.73.2: gráfico de evolução (prestígio/nível) restaurado — visível, acima dos logs fechados. -->
@@ -4834,6 +4835,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.4.3</span>
+                <span class="vh-date">5 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Tooltip do Snapshot cortado.</strong> Com o Hist&oacute;rico de Progress&atilde;o a 1/3 da largura (v3.4.2), o painel de ajuda do &ldquo;?&rdquo; &mdash; que abre para a <em>esquerda</em> (variante <code>help-pop-right</code>) &mdash; passou a estourar a &aacute;rea do conte&uacute;do e era cortado na borda. Trocado para a variante <code>help-pop-left</code>: o painel abre para a <strong>direita</strong>, onde agora h&aacute; espa&ccedil;o de sobra.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8529,7 +8539,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.4.2</strong><span class="ver-tag">Home reorganizada: o Histórico de Progressão (gráfico + Snapshot + alterações) desceu pra baixo da secção EXPLORAR e agora ocupa 1/3 da largura (100% no mobile). O EXPLORAR abre a home.</span>
+              LEVEL · <strong>v3.4.3</strong><span class="ver-tag">Fix: o tooltip do "?" do Snapshot era cortado — com o Histórico a 1/3 da largura (v3.4.2), o painel abria pra esquerda e estourava a área do conteúdo. Agora abre pra direita (variante help-pop-left), onde há espaço.</span>
             </div>
           </div>
           <div class="lvl-fcol">
