@@ -4832,6 +4832,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.4.1</span>
+                <span class="vh-date">5 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Menu lateral sem o origin fill.</strong> Os itens do menu (<code>.nav-item</code>) entraram na lista de exclus&atilde;o do efeito &mdash; o fill laranja cobria o item inteiro no hover (ex.: <em>Mapas</em>) e brigava com o hover discreto que o menu j&aacute; tem. Bot&otilde;es e seletores de filtro do resto do site continuam com o efeito normalmente.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.4.0</span>
                 <span class="vh-date">5 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8506,7 +8515,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.4.0</strong><span class="ver-tag">Pacote de refinamentos do Victor: emblema de prestige parou de crescer no hover; switches liquid em todos os toggles on/off (master, não-mostrar, autosync, Squad); cards EXPLORAR trocaram o origin fill pelo tilt 3D; logo do menu sem o fill; destaque dos 3 itens em evidência virou OPT-IN com switch na aba Menu Lateral (config global, aplica pra todos).</span>
+              LEVEL · <strong>v3.4.1</strong><span class="ver-tag">Menu lateral sem o origin fill: os itens do menu (.nav-item) saíram do efeito de encher com laranja no hover — o menu tem o seu próprio hover discreto e o fill cobria o item inteiro. Botões e filtros do resto do site continuam com o efeito.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -30066,7 +30075,9 @@ ${cbt('share.t.footer')}`;
   // nalguns render paths não são <button>) — nada de lista fechada de famílias,
   // senão botões novos ficam de fora. Escape hatch pontual: data-no-obfill.
   var SELECTORS = 'button, [role="button"], .filter-chip, .gh-chip, .maps-filter-chip, .arsenal-filter, .lp-langbtn';
-  var DENY = '[data-no-obfill]';
+  // v3.4.1: .nav-item no DENY — o menu lateral tem hover próprio (e o fill
+  // laranja cobria o item inteiro, pedido do Victor pra tirar)
+  var DENY = '[data-no-obfill], .nav-item';
 
   function host(t) {
     if (!t || !t.closest) return null;
