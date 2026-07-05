@@ -4832,6 +4832,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.2.1</span>
+                <span class="vh-date">5 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>PROS / CONS: ordena&ccedil;&atilde;o por coluna.</strong> Pedido do Victor: al&eacute;m da busca, dos chips e dos filtros por coluna, agora d&aacute; para <strong>ordenar clicando em qualquer cabe&ccedil;alho</strong> da tabela &mdash; o primeiro clique ordena de forma ascendente, o segundo inverte, e uma <strong>seta laranja</strong> marca a coluna e a dire&ccedil;&atilde;o ativas. A ordena&ccedil;&atilde;o &eacute; alfab&eacute;tica com locale PT (acentos tratados) e combina com todos os filtros j&aacute; aplicados.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.2.0</span>
                 <span class="vh-date">5 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -7868,12 +7877,16 @@
           { k: 'carta',pt: 'Carta perk',        en: 'Perk card' },
           { k: 'exp',  pt: 'O que faz',         en: 'What it does' }
         ];
-        var state = { q: '', pol: 'all', f: {} };
+        var state = { q: '', pol: 'all', f: {}, sortCol: '', sortDir: 1 };
 
         function buildHead() {
           var hr = document.getElementById('pc-headrow'), fr = document.getElementById('pc-filterrow');
           if (!hr || !fr) return;
-          hr.innerHTML = COLS.map(function (c) { return '<th>' + esc(en() ? c.en : c.pt) + '</th>'; }).join('');
+          // v3.2.1: cabeçalho clicável = ordenar pela coluna (2º clique inverte)
+          hr.innerHTML = COLS.map(function (c) {
+            var arrow = (state.sortCol === c.k) ? (state.sortDir > 0 ? ' ▲' : ' ▼') : '';
+            return '<th class="pc-sort" data-sort="' + c.k + '" title="' + (en() ? 'Sort by this column' : 'Ordenar por esta coluna') + '">' + esc(en() ? c.en : c.pt) + '<span class="pc-arrow">' + arrow + '</span></th>';
+          }).join('');
           fr.innerHTML = COLS.map(function (c) { return '<th><input type="text" class="pc-colfilter" data-col="' + c.k + '" placeholder="' + (en() ? 'filter…' : 'filtrar…') + '" value="' + esc(state.f[c.k] || '') + '"></th>'; }).join('');
         }
         function render() {
@@ -7887,6 +7900,10 @@
             if (q) { var hay = COLS.map(function (c) { return r[c.k] || ''; }).join(' ').toLowerCase(); if (hay.indexOf(q) === -1) return false; }
             return true;
           });
+          if (state.sortCol) {
+            var sc = state.sortCol, sd = state.sortDir;
+            rows.sort(function (a, b) { return String(a[sc] || '').localeCompare(String(b[sc] || ''), 'pt', { sensitivity: 'base' }) * sd; });
+          }
           var cnt = document.getElementById('pc-count');
           if (cnt) cnt.textContent = rows.length + ' / ' + DATA.length;
           tbody.innerHTML = rows.map(function (r) {
@@ -7902,6 +7919,16 @@
           else if (t.classList && t.classList.contains('pc-colfilter')) { state.f[t.getAttribute('data-col')] = t.value.trim().toLowerCase(); render(); }
         });
         document.addEventListener('click', function (e) {
+          var th = e.target.closest && e.target.closest('th.pc-sort');
+          if (th) {
+            var col = th.getAttribute('data-sort');
+            if (state.sortCol === col) { state.sortDir = -state.sortDir; }
+            else { state.sortCol = col; state.sortDir = 1; }
+            var hr = document.getElementById('pc-headrow');
+            if (hr) hr.innerHTML = ''; // reconstrói com a seta na coluna ativa
+            render();
+            return;
+          }
           var chip = e.target.closest && e.target.closest('.pc-chip');
           if (!chip) return;
           document.querySelectorAll('.pc-chip').forEach(function (c) { c.classList.toggle('active', c === chip); });
@@ -8452,7 +8479,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.2.0</strong><span class="ver-tag">Rail refinado (pedidos do Victor): logo LEVEL na VERTICAL no lugar da forma preta do avatar encolhido, hambúrguer no topo em vez da logo minúscula (affordance de ação), e switch "liquid" (21st.dev/@deepaksslibra, também no catálogo) no rodapé do menu pra TRAVAR o menu sempre fechado — travado, o hover não expande e o hambúrguer espreita o menu ao clicar; preferência guardada em localStorage.</span>
+              LEVEL · <strong>v3.2.1</strong><span class="ver-tag">PROS / CONS: ordenação por coluna — clica em qualquer cabeçalho da tabela pra ordenar por ele (2º clique inverte a direção; seta laranja marca a coluna ativa). Combina com a busca, os chips e os filtros por coluna já existentes.</span>
             </div>
           </div>
           <div class="lvl-fcol">
