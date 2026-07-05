@@ -4786,6 +4786,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.1.0</span>
+                <span class="vh-date">4 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Aba PROS / CONS &mdash; refer&ecirc;ncia dos atributos de attachment.</strong> Nova aba em Configura&ccedil;&otilde;es &rsaquo; Ferramentas (ao lado de Componentes) com a tabela dos atributos que aparecem nos cards de acess&oacute;rio do BO7, montada a partir dos <em>prints do PS5</em> do Victor (nomes truncados nos prints foram completados). Sete colunas: <strong>nome EN</strong> (verde = PRO, vermelho = CON), <strong>tradu&ccedil;&atilde;o PT-BR</strong>, <strong>attachments</strong> onde costuma aparecer, <strong>tipo</strong> (estabilidade, recuo, mobilidade&hellip;), <strong>pra quem serve / quem deve evitar</strong>, <strong>carta perk</strong> que substitui ou compensa (nomes do cat&aacute;logo real: Lightweight, Gung Ho, Danger Close) e <strong>explica&ccedil;&atilde;o</strong> do que faz. <strong>Busca por digita&ccedil;&atilde;o</strong> (filtra ao vivo), chips PROS/CONS e <strong>filtro por coluna</strong> na pr&oacute;pria tabela; repetidos deduplicados. Primeira leva com 11 atributos &mdash; a tabela cresce &agrave; medida que os pr&oacute;ximos prints chegarem.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.0.2</span>
                 <span class="vh-date">4 Jul 2026</span>
                 <span class="vh-kind">fix</span>
@@ -7678,6 +7687,110 @@
         <iframe id="componentes-frame" title="Catálogo de componentes" loading="lazy"></iframe>
       </div>
 
+      <!-- PROS / CONS (v3.1.0) — referência dos atributos de attachment do BO7.
+           Fonte: prints do PS5 do Victor (nomes truncados completados por
+           conhecimento/verificação). Dados no IIFE LevelProsCons logo abaixo —
+           adicionar linhas novas em PROSCONS_DATA (dedupe por nome+polaridade). -->
+      <div class="proscons-panel" id="proscons-panel" style="display:none">
+        <p class="componentes-intro" data-i18n-html="set.pc.intro"><strong>PROS / CONS dos attachments.</strong> Cada atributo que aparece nos cards de acessório do BO7: tradução, onde costuma aparecer, tipo, pra quem serve (ou quem deve evitar), carta perk relacionada e o que faz de verdade. Busca ao vivo + filtro por coluna.</p>
+        <div class="pc-toolbar">
+          <input type="text" id="pc-search" class="pc-search" placeholder="Pesquisar em tudo… (vai filtrando enquanto digitas)" data-i18n-attr="placeholder:set.pc.search">
+          <div class="pc-chips" role="group" aria-label="PROS / CONS">
+            <button type="button" class="pc-chip active" data-pol="all">TODOS</button>
+            <button type="button" class="pc-chip pro" data-pol="pro">PROS</button>
+            <button type="button" class="pc-chip con" data-pol="con">CONS</button>
+          </div>
+          <span class="pc-count" id="pc-count"></span>
+        </div>
+        <div class="pc-tablewrap">
+          <table class="pc-table">
+            <thead>
+              <tr id="pc-headrow"></tr>
+              <tr id="pc-filterrow"></tr>
+            </thead>
+            <tbody id="pc-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+      (function LevelProsCons() {
+        'use strict';
+        function en() { try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) { return false; } }
+        function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+        // ── DADOS ── prints do PS5 do Victor (4 Jul 2026, 1ª leva — todos PROS).
+        // Adicionar linhas novas AQUI quando vierem mais prints; dedupe por
+        // nome+polaridade. pol: 'pro' | 'con'. Nomes truncados no print foram
+        // completados ("Walking Movement Spee…" → Walking Movement Speed).
+        var DATA = [
+          { n: 'Aiming Idle Sway', pol: 'pro', pt: 'Balanço da mira parado', att: 'Coronha (stock) · grip traseiro', tipo: 'Estabilidade de mira', quem: 'Sniper e marksman; quem segura ângulo em média/longa distância. Pouco relevante pra rusher de SMG.', carta: '—', exp: 'Reduz o balanço natural da arma enquanto miras parado sem atirar — a mira "flutua" menos, facilitando o tiro de precisão.' },
+          { n: 'Aim Walking Steadiness', pol: 'pro', pt: 'Firmeza mirando em movimento', att: 'Coronha (stock)', tipo: 'Estabilidade de mira', quem: 'Quem avança mirando (push em ADS) — ARs táticas e marksman agressivo.', carta: '—', exp: 'Mantém a mira mais firme enquanto andas mirando: menos oscilação ao caminhar em ADS.' },
+          { n: 'Aiming Idle Sway Delay', pol: 'pro', pt: 'Atraso do balanço da mira', att: 'Coronha · grip traseiro', tipo: 'Estabilidade de mira', quem: 'Sniper que segura a mira esperando o pico — ganha uma janela extra 100% estável.', carta: '—', exp: 'Atrasa o momento em que o balanço da mira começa depois de mirar — a arma fica um tempo extra perfeitamente parada.' },
+          { n: 'Horizontal Recoil Control', pol: 'pro', pt: 'Controle de recuo horizontal', att: 'Bocal (muzzle) · grip vertical', tipo: 'Controle de recuo', quem: 'Armas de spray com recuo lateral errático (LMG/AR) em média/longa; menos decisivo em CQB puro.', carta: '—', exp: 'Reduz o recuo lateral (esquerda/direita) — o mais difícil de compensar no analógico; o spray fica mais "em coluna".' },
+          { n: 'Vertical Recoil Control', pol: 'pro', pt: 'Controle de recuo vertical', att: 'Bocal (compensador) · cano', tipo: 'Controle de recuo', quem: 'AR/LMG de média distância; quem faz spray sustentado.', carta: '—', exp: 'Reduz a subida da arma ao atirar — puxas menos o analógico pra baixo pra segurar a rajada.' },
+          { n: 'First Two Shot Recoil Control', pol: 'pro', pt: 'Controle de recuo dos 2 primeiros tiros', att: 'Bocal · cano', tipo: 'Controle de recuo', quem: 'Marksman/DMR e taps de AR — os dois primeiros tiros no mesmo lugar definem o TTK.', carta: '—', exp: 'Controla o coice dos DOIS primeiros disparos — crucial em armas que matam rápido quando os primeiros tiros conectam.' },
+          { n: 'Bullet Deviation', pol: 'pro', pt: 'Desvio de bala (redução)', att: 'Cano (barrel) · bocal', tipo: 'Precisão balística', quem: 'Longa distância: sniper, marksman e AR de poke. Em CQB quase não pesa.', carta: '—', exp: 'Reduz o desvio aleatório da bala em relação ao crosshair — o tiro vai onde a mira está, mesmo em rajada.' },
+          { n: 'Walking Movement Speed', pol: 'pro', pt: 'Velocidade andando', att: 'Coronha leve · grip', tipo: 'Mobilidade', quem: 'Rusher e SMG — reposicionar rápido é vida. Se és agressivo, foge de coronhas pesadas.', carta: 'Lightweight (velocidade geral)', exp: 'Aumenta a velocidade ao andar com a arma na mão (fora do sprint).' },
+          { n: 'Movement Speed', pol: 'pro', pt: 'Velocidade de movimento', att: 'Coronha leve · cano curto', tipo: 'Mobilidade', quem: 'Rusher/SMG e slayer de objetivo — mais fluidez em tudo.', carta: 'Lightweight', exp: 'Aumenta a velocidade base de movimento com a arma equipada — andar, strafe e reposicionamento mais rápidos.' },
+          { n: 'Hipfire Movement Speed', pol: 'pro', pt: 'Velocidade atirando sem mirar', att: 'Laser · grip', tipo: 'Mobilidade · tiro sem mira', quem: 'Rusher CQB que atira de hipfire colado no inimigo (SMG/shotgun).', carta: 'Gung Ho (complementa o estilo)', exp: 'Move mais rápido enquanto atiras SEM mirar — strafe agressivo em curtíssima distância.' },
+          { n: '40mm Grenades', pol: 'pro', pt: 'Granadas de 40mm', att: 'Underbarrel (lançador)', tipo: 'Underbarrel · dano em área', quem: 'Suporte/objetivo: limpar ponto e negar área. Evita se precisas do underbarrel de estabilidade.', carta: 'Danger Close (mais dano explosivo)', exp: 'Adiciona um lançador de granadas 40mm sob o cano — disparo explosivo de área com munição própria.' }
+        ];
+        window.PROSCONS_DATA = DATA;
+
+        var COLS = [
+          { k: 'n',    pt: 'Atributo (EN)',     en: 'Attribute (EN)' },
+          { k: 'pt',   pt: 'Tradução',          en: 'PT-BR' },
+          { k: 'att',  pt: 'Attachment(s)',     en: 'Attachment(s)' },
+          { k: 'tipo', pt: 'Tipo',              en: 'Type' },
+          { k: 'quem', pt: 'Pra quem / evitar', en: 'Good for / avoid' },
+          { k: 'carta',pt: 'Carta perk',        en: 'Perk card' },
+          { k: 'exp',  pt: 'O que faz',         en: 'What it does' }
+        ];
+        var state = { q: '', pol: 'all', f: {} };
+
+        function buildHead() {
+          var hr = document.getElementById('pc-headrow'), fr = document.getElementById('pc-filterrow');
+          if (!hr || !fr) return;
+          hr.innerHTML = COLS.map(function (c) { return '<th>' + esc(en() ? c.en : c.pt) + '</th>'; }).join('');
+          fr.innerHTML = COLS.map(function (c) { return '<th><input type="text" class="pc-colfilter" data-col="' + c.k + '" placeholder="' + (en() ? 'filter…' : 'filtrar…') + '" value="' + esc(state.f[c.k] || '') + '"></th>'; }).join('');
+        }
+        function render() {
+          var tbody = document.getElementById('pc-tbody'); if (!tbody) return;
+          var hr = document.getElementById('pc-headrow');
+          if (hr && !hr.children.length) buildHead();
+          var q = state.q.toLowerCase();
+          var rows = DATA.filter(function (r) {
+            if (state.pol !== 'all' && r.pol !== state.pol) return false;
+            for (var k in state.f) { var fv = state.f[k]; if (fv && String(r[k] || '').toLowerCase().indexOf(fv) === -1) return false; }
+            if (q) { var hay = COLS.map(function (c) { return r[c.k] || ''; }).join(' ').toLowerCase(); if (hay.indexOf(q) === -1) return false; }
+            return true;
+          });
+          var cnt = document.getElementById('pc-count');
+          if (cnt) cnt.textContent = rows.length + ' / ' + DATA.length;
+          tbody.innerHTML = rows.map(function (r) {
+            return '<tr>' + COLS.map(function (c) {
+              var cls = (c.k === 'n') ? ('pc-name ' + r.pol) : ('pc-' + c.k);
+              return '<td class="' + cls + '">' + esc(r[c.k] || '—') + '</td>';
+            }).join('') + '</tr>';
+          }).join('') || '<tr><td colspan="7" class="pc-empty">' + (en() ? 'Nothing matches.' : 'Nada encontrado com esses filtros.') + '</td></tr>';
+        }
+        document.addEventListener('input', function (e) {
+          var t = e.target;
+          if (t.id === 'pc-search') { state.q = t.value.trim(); render(); }
+          else if (t.classList && t.classList.contains('pc-colfilter')) { state.f[t.getAttribute('data-col')] = t.value.trim().toLowerCase(); render(); }
+        });
+        document.addEventListener('click', function (e) {
+          var chip = e.target.closest && e.target.closest('.pc-chip');
+          if (!chip) return;
+          document.querySelectorAll('.pc-chip').forEach(function (c) { c.classList.toggle('active', c === chip); });
+          state.pol = chip.getAttribute('data-pol');
+          render();
+        });
+        window.addEventListener('languagechange', function () { var h = document.getElementById('pc-headrow'); if (h) h.innerHTML = ''; render(); });
+        window.renderProsConsPanel = render;
+      })();
+      </script>
+
       <!-- IMAGE PROCESSOR PANEL (v75.06) — visível só quando tab ativa = image_processor -->
       <div class="imgproc-panel" id="imgproc-panel" style="display:none">
         <p class="imgproc-intro" data-i18n-html="imgproc.intro">
@@ -8217,7 +8330,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.0.2</strong><span class="ver-tag">Fix do menu: a descrição voltava a ser cortada na horizontal ("análise I…") — o white-space:nowrap do modo rail (v3.0.0) aplicava-se também à descrição e impedia a quebra para a 2ª linha do bloco fixo. Agora o nowrap fica só no título; a descrição quebra normal dentro das 2 linhas.</span>
+              LEVEL · <strong>v3.1.0</strong><span class="ver-tag">Nova aba PROS / CONS em Configurações ▸ Ferramentas: tabela de referência dos atributos que aparecem nos cards de acessório do BO7 (prints do PS5 do Victor) — nome EN em verde/vermelho, tradução, attachments onde aparece, tipo, pra quem serve ou evitar, carta perk relacionada e explicação. Busca ao vivo + chips PROS/CONS + filtro por coluna. 1ª leva: 11 atributos; mais prints a caminho.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -24761,6 +24874,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       { id: 'componentes', group: 'tools', i18n: 'set.tab.componentes',
         customPanel: true,
         source: function () { return []; } },
+      // ── PROS / CONS (v3.1.0) ── tabela de referência dos atributos dos
+      // attachments do BO7 (prints do PS5 do Victor) — busca + filtros ──
+      { id: 'proscons', group: 'tools', i18n: 'set.tab.proscons',
+        customPanel: true,
+        source: function () { return []; } },
       // ── OPERADOR (v75-51) ── Avatar IA + gestão do operador ──
       { id: 'avatar', group: 'operator', i18n: 'set.tab.avatar',
         customPanel: true,
@@ -24837,6 +24955,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const operator = document.getElementById('operator-panel');
       const menulat = document.getElementById('menu-lateral-panel');
       const compPanel = document.getElementById('componentes-panel');
+      const pcPanel = document.getElementById('proscons-panel');
       if (!grid) return;
       const cat = SETTINGS_CATEGORIES.find(c => c.id === settingsActiveTab);
       // v2.72.3: a barra de armazenamento de imagens (contador + "Migrar pra cloud") só interessa
@@ -24844,7 +24963,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       // é só cache. Exportar/Importar/Limpar/Sair foram removidos no v2.72.3.)
       (function () {
         var bar = document.querySelector('.settings-actions-bar');
-        if (bar) bar.style.display = (settingsActiveTab === 'avatar' || settingsActiveTab === 'componentes') ? 'none' : '';
+        if (bar) bar.style.display = (settingsActiveTab === 'avatar' || settingsActiveTab === 'componentes' || settingsActiveTab === 'proscons') ? 'none' : '';
       })();
       // v2.46.0: caixa de upload em massa — só em categorias normais (com source de itens)
       const bulkBox = document.getElementById('set-bulk-drop');
@@ -24875,6 +24994,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         if (operator) operator.style.display = 'none';
         if (menulat) menulat.style.display = 'none';
         if (compPanel) compPanel.style.display = 'none';
+        if (pcPanel) pcPanel.style.display = 'none';
         if (cat.id === 'image_processor' && imgproc) {
           imgproc.style.display = '';
           if (typeof initImageProcessor === 'function') initImageProcessor();
@@ -24906,6 +25026,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             });
             compFrame.setAttribute('src', '/componentes/?embed=1');
           }
+        } else if (cat.id === 'proscons' && pcPanel) {
+          pcPanel.style.display = '';
+          if (typeof window.renderProsConsPanel === 'function') window.renderProsConsPanel();
         }
         return;
       }
@@ -24916,6 +25039,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (operator) operator.style.display = 'none';
       if (menulat) menulat.style.display = 'none';
       if (compPanel) compPanel.style.display = 'none';
+      if (pcPanel) pcPanel.style.display = 'none';
       if (!cat) { grid.innerHTML = ''; return; }
       const items = cat.source() || [];
       const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
@@ -26246,6 +26370,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.image_processor': 'Processador de Imagem',
         'set.tab.api_keys': 'API Keys',
         'set.tab.componentes': 'Componentes',
+        'set.tab.proscons': 'PROS / CONS',
         'set.tab.streaks': 'Scorestreaks',
         'set.tab.specialties': 'Especialidades',
         'set.tab.extra_equipment': 'Equipamento extra',
@@ -26422,6 +26547,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.image_processor': 'Image Processor',
         'set.tab.api_keys': 'API Keys',
         'set.tab.componentes': 'Components',
+        'set.tab.proscons': 'PROS / CONS',
         'set.tab.streaks': 'Scorestreaks',
         'set.tab.specialties': 'Specialties',
         'set.tab.extra_equipment': 'Extra equipment',
