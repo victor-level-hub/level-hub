@@ -1287,32 +1287,7 @@
            a pedido do Victor — a navegação já existe nos cards EXPLORAR logo abaixo. -->
 
       <!-- v2.62: Histórico de progressão (movido das Configurações) -->
-      <div class="home-explore-title" data-i18n="opp.stats.section" data-reveal="fade-up">{{i:chart-line}} Histórico de progressão</div>
-      <div class="home-history" data-reveal="fade-up">
-        <div class="hh-top">
-          <div class="hh-desc" data-i18n-html="home.hist.desc">Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
-          <span style="display:inline-flex;align-items:center;gap:8px;flex:0 0 auto">
-            <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
-            <span class="help-pop help-pop-right"><button type="button" class="help-pop-btn" aria-label="Sobre o Snapshot" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:camera}}<span data-i18n="home.snap.help.title">SNAPSHOT</span></span><span class="help-pop-body" data-i18n="home.snap.help">Grava o teu prestígio + nível ATUAL como um ponto no tempo. Cada snapshot vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL. Tira um sempre que subires de nível ou prestígio — o Hub também grava sozinho quando deteta mudanças.</span></span></span>
-          </span>
-        </div>
-        <!-- v2.73.2: gráfico de evolução (prestígio/nível) restaurado — visível, acima dos logs fechados. -->
-        <div id="opp-stats-chart-wrap" style="background:var(--bg-darkest);border-radius:8px;padding:12px;min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px;margin-bottom:8px">
-          <span data-i18n="opp.stats.chart.empty">Nenhum snapshot ainda. Clica em "Snapshot" pra começar.</span>
-        </div>
-        <details class="hh-collapse">
-          <summary class="hh-collapse-head"><span data-i18n="home.hist.levelChanges">ALTERAÇÕES DE NÍVEL</span></summary>
-          <div class="hh-collapse-body">
-            <div id="opp-stats-list" style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--text-secondary);max-height:180px;overflow-y:auto"></div>
-          </div>
-        </details>
-        <details class="hh-collapse">
-          <summary class="hh-collapse-head"><span data-i18n="home.hist.changes">ALTERAÇÕES GERAIS</span></summary>
-          <div class="hh-collapse-body">
-            <div id="hist-log-list" class="hh-log"><div class="mod-empty">—</div></div>
-          </div>
-        </details>
-      </div>
+      <!-- v3.4.2: o Histórico de progressão desceu pra baixo do EXPLORAR (1/3 da largura) -->
 
       <div class="home-explore-title" data-i18n="home.explore" data-reveal="fade-up">EXPLORAR</div>
       <div class="home-explore" data-reveal-stagger data-stagger="70">
@@ -1364,6 +1339,36 @@
           <span class="home-card-desc" data-i18n="home.card.perks">Vantagens e séries pro setup completo.</span>
           <span class="home-card-go" data-i18n="home.card.go">Abrir →</span>
         </button>
+      </div>
+
+      <!-- v3.4.2: Histórico de progressão — movido pra baixo do EXPLORAR, 1/3 da largura -->
+      <div class="home-history-col">
+        <div class="home-explore-title" data-i18n="opp.stats.section" data-reveal="fade-up">{{i:chart-line}} Histórico de progressão</div>
+        <div class="home-history" data-reveal="fade-up">
+          <div class="hh-top">
+            <div class="hh-desc" data-i18n-html="home.hist.desc">Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
+            <span style="display:inline-flex;align-items:center;gap:8px;flex:0 0 auto">
+              <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
+              <span class="help-pop help-pop-right"><button type="button" class="help-pop-btn" aria-label="Sobre o Snapshot" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:camera}}<span data-i18n="home.snap.help.title">SNAPSHOT</span></span><span class="help-pop-body" data-i18n="home.snap.help">Grava o teu prestígio + nível ATUAL como um ponto no tempo. Cada snapshot vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL. Tira um sempre que subires de nível ou prestígio — o Hub também grava sozinho quando deteta mudanças.</span></span></span>
+            </span>
+          </div>
+          <!-- v2.73.2: gráfico de evolução (prestígio/nível) restaurado — visível, acima dos logs fechados. -->
+          <div id="opp-stats-chart-wrap" style="background:var(--bg-darkest);border-radius:8px;padding:12px;min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px;margin-bottom:8px">
+            <span data-i18n="opp.stats.chart.empty">Nenhum snapshot ainda. Clica em "Snapshot" pra começar.</span>
+          </div>
+          <details class="hh-collapse">
+            <summary class="hh-collapse-head"><span data-i18n="home.hist.levelChanges">ALTERAÇÕES DE NÍVEL</span></summary>
+            <div class="hh-collapse-body">
+              <div id="opp-stats-list" style="font-family:'JetBrains Mono', monospace;font-size:10.5px;color:var(--text-secondary);max-height:180px;overflow-y:auto"></div>
+            </div>
+          </details>
+          <details class="hh-collapse">
+            <summary class="hh-collapse-head"><span data-i18n="home.hist.changes">ALTERAÇÕES GERAIS</span></summary>
+            <div class="hh-collapse-body">
+              <div id="hist-log-list" class="hh-log"><div class="mod-empty">—</div></div>
+            </div>
+          </details>
+        </div>
       </div>
     </section>
 
@@ -4829,6 +4834,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.4.2</span>
+                <span class="vh-date">5 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Home: Hist&oacute;rico de Progress&atilde;o compacto, abaixo do EXPLORAR.</strong> O conjunto inteiro (t&iacute;tulo, descri&ccedil;&atilde;o + bot&atilde;o Snapshot, gr&aacute;fico de evolu&ccedil;&atilde;o com os per&iacute;odos Dia/Semana/M&ecirc;s/Ano/Tudo e os colaps&aacute;veis de Altera&ccedil;&otilde;es) foi movido para <strong>baixo da sec&ccedil;&atilde;o EXPLORAR</strong> e passou a ocupar <strong>um ter&ccedil;o da largura</strong> (m&iacute;nimo de 380px; no mobile volta a 100%). O gr&aacute;fico redimensiona sozinho para a nova largura. A home agora abre direto nos cards do EXPLORAR.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8515,7 +8529,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.4.1</strong><span class="ver-tag">Menu lateral sem o origin fill: os itens do menu (.nav-item) saíram do efeito de encher com laranja no hover — o menu tem o seu próprio hover discreto e o fill cobria o item inteiro. Botões e filtros do resto do site continuam com o efeito.</span>
+              LEVEL · <strong>v3.4.2</strong><span class="ver-tag">Home reorganizada: o Histórico de Progressão (gráfico + Snapshot + alterações) desceu pra baixo da secção EXPLORAR e agora ocupa 1/3 da largura (100% no mobile). O EXPLORAR abre a home.</span>
             </div>
           </div>
           <div class="lvl-fcol">
