@@ -150,6 +150,26 @@
   .soc.s1 { background: #58C4DC; } .soc.s2 { background: var(--orange); animation-delay: .3s; }
   .soc.s3 { background: #C77DFF; animation-delay: .6s; } .soc.s4 { background: #4ADE80; animation-delay: .9s; }
 
+  /* tooltips & hover cards */
+  .ttp { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 8px; }
+  .ttp-btn { width: 78px; height: 30px; border-radius: 9px; border: 1px solid #3a4a75; background: #161D2F; }
+  .ttp-btn.round { border-radius: 999px; }
+  .ttp-btn.small { width: 34px; height: 30px; border-radius: 9px; }
+  .ttp-tip { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 8px; background: #0A0F1A; border: 1px solid rgba(255,152,0,.55); color: var(--text); font-family: var(--mono); font-size: 10.5px; box-shadow: 0 10px 24px rgba(0,0,0,.5); animation: ttf 3s ease-in-out infinite; }
+  .ttp-tip b { position: absolute; bottom: -5px; left: 50%; width: 8px; height: 8px; margin-left: -4px; background: #0A0F1A; border-right: 1px solid rgba(255,152,0,.55); border-bottom: 1px solid rgba(255,152,0,.55); transform: rotate(45deg); }
+  .ttp-tip.alt { border-color: rgba(174,199,224,.4); }
+  .ttp-tip.alt b { border-color: rgba(174,199,224,.4); }
+  .ttp-tip.mini { padding: 5px 10px; font-size: 9.5px; }
+  .ttp-tip.img { align-items: flex-start; }
+  .ttp-img { width: 34px; height: 26px; border-radius: 5px; background: linear-gradient(160deg, #58C4DC, #C77DFF); flex: none; }
+  .ttp-lines { display: flex; flex-direction: column; gap: 5px; }
+  .ttp-lines i { display: block; height: 4px; border-radius: 3px; background: #2b3a5f; }
+  @keyframes ttf { 0%, 18% { opacity: 0; transform: translateY(5px); } 32%, 82% { opacity: 1; transform: translateY(0); } 96%, 100% { opacity: 0; transform: translateY(5px); } }
+  .ttp.side { flex-direction: row; gap: 12px; align-items: center; padding-top: 0; }
+  .ttp-av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(160deg, var(--orange), #F2784B); flex: none; }
+  .ttp-card { display: flex; gap: 9px; align-items: flex-start; padding: 11px 13px; border-radius: 10px; background: #0A0F1A; border: 1px solid #2b3a5f; box-shadow: 0 10px 24px rgba(0,0,0,.5); animation: ttf 3.4s ease-in-out infinite; }
+  .ttp-cav { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(160deg, #58C4DC, #4ADE80); flex: none; }
+
   /* navegação */
   .nvm-bar { display: flex; gap: 10px; align-items: center; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid #2b3a5f; background: #141B2D; overflow: hidden; animation: nvmc 4.4s ease-in-out infinite; }
   .nvm-bar i { flex: none; width: 26px; height: 7px; border-radius: 4px; background: #2b3a5f; }
@@ -443,6 +463,7 @@
     { id: 'botoes', name: 'Botões', color: '#FF9800' },
     { id: 'nav', name: 'Navegação', color: '#8FD3FE' },
     { id: 'icones', name: 'Ícones', color: '#F2C14E' },
+    { id: 'tooltips', name: 'Tooltips & Hover Cards', color: '#B8A9F5' },
     { id: 'fundos', name: 'Fundos', color: '#58C4DC' },
     { id: 'heros', name: 'Heros', color: '#F2784B' },
     { id: 'video', name: 'Vídeo', color: '#ff4d6d' },
@@ -481,6 +502,12 @@
     { t: 'icones', n: 'Animated Weather Icons', a: '@YadHakim', u: 'https://21st.dev/@YadHakim/components/animated-weather-icons', i: 'npx @21st-dev/cli add YadHakim/animated-weather-icons', d: 'Clima animado (mesma família: há também Cosmic, Micro Loaders e Emoji).', pv: '<div class="ico-row"><span class="ico ico-spinslow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span></div>' },
     { t: 'icones', n: 'Interactive Animated Arrow', a: '@ringlabs', u: 'https://21st.dev/@ringlabs/components/interactive-animated-arrow-icon', i: 'npx @21st-dev/cli add ringlabs/interactive-animated-arrow-icon', d: 'Seta animada interativa — boa pra CTAs tipo "Abrir →".', pv: '<div class="ico-row"><span class="ico ico-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></div>' },
     { t: 'icones', n: 'Social Icons', a: '@jatin-yadav05', u: 'https://21st.dev/@jatin-yadav05/components/social-icons', i: 'npx @21st-dev/cli add jatin-yadav05/social-icons', d: 'Pack de ícones de redes sociais — útil pra footer/pitch.', pv: '<div class="ico-row"><i class="soc s1"></i><i class="soc s2"></i><i class="soc s3"></i><i class="soc s4"></i></div>' },
+
+    { t: 'tooltips', n: 'Interfaces Tooltip', a: '@jshguo', u: 'https://21st.dev/@jshguo/components/interfaces-tooltip/left', i: 'npx @21st-dev/cli add jshguo/interfaces-tooltip', d: 'Tooltip posicional com variantes por lado (left/right/top/bottom).', pv: '<div class="ttp"><span class="ttp-tip up"><b></b>Tooltip</span><span class="ttp-btn"></span></div>' },
+    { t: 'tooltips', n: 'Tooltip (Origin UI)', a: '@originui', u: 'https://21st.dev/@originui/components/tooltip', i: 'npx @21st-dev/cli add originui/tooltip', d: 'Coleção de tooltips do Origin UI — vários estilos prontos pra copiar.', pv: '<div class="ttp"><span class="ttp-tip up alt"><b></b>Dica curta</span><span class="ttp-btn round"></span></div>' },
+    { t: 'tooltips', n: 'Tooltip with Image', a: '@originui', u: 'https://21st.dev/@originui/components/tooltip/tooltip-with-image', i: 'npx @21st-dev/cli add originui/tooltip', d: 'Variante do tooltip Origin UI com imagem no conteúdo.', pv: '<div class="ttp"><span class="ttp-tip up img"><b></b><i class="ttp-img"></i><span class="ttp-lines"><i style="width:64px"></i><i style="width:44px"></i></span></span><span class="ttp-btn"></span></div>' },
+    { t: 'tooltips', n: 'Tooltip 1', a: '@anubra266', u: 'https://21st.dev/@anubra266/components/tooltip-1', i: 'npx @21st-dev/cli add anubra266/tooltip-1', d: 'Tooltip simples e limpo.', pv: '<div class="ttp"><span class="ttp-tip up mini"><b></b>Info</span><span class="ttp-btn small"></span></div>' },
+    { t: 'tooltips', n: 'Interfaces Hover Card', a: '@jshguo', u: 'https://21st.dev/@jshguo/components/interfaces-hover-card/right', i: 'npx @21st-dev/cli add jshguo/interfaces-hover-card', d: 'Hover card posicional — cartão rico (título, descrição, meta) ao pousar o cursor.', pv: '<div class="ttp side"><span class="ttp-av"></span><span class="ttp-card"><i class="ttp-cav"></i><span class="ttp-lines"><i style="width:60px"></i><i style="width:82px"></i><i style="width:48px"></i></span></span></div>' },
 
     { t: 'fundos', n: 'The Infinite Grid', a: '@shadway', u: 'https://21st.dev/@shadway/components/the-infinite-grid', i: 'npx @21st-dev/cli add shadway/the-infinite-grid', d: 'Grelha infinita que rola em diagonal e revela-se sob o cursor.', b: 'no LEVEL Hub v2.98 + v2.100', pv: '<div class="ig"></div><div class="ig-dot"></div>' },
     { t: 'fundos', n: 'Retro Grid', a: '@magicui', u: 'https://21st.dev/@magicui/components/retro-grid', i: 'npx @21st-dev/cli add magicui/retro-grid', d: 'Grelha retro em perspetiva, deslizando para o horizonte.', pv: '<div class="rg-wrap"><div class="rg"></div><div class="rg-fade"></div></div>' },
