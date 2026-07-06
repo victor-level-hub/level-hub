@@ -935,7 +935,7 @@
             <div data-i18n="avatar.placeholder">+ FOTO</div>
           </div>
           <img id="sidebar-avatar-img" src="" alt="Operator avatar" style="display:none">
-          <div class="oa-edit-hint" data-i18n-html="avatar.editHint">{{i:camera}} Trocar foto</div>
+          <!-- v3.5.0: hint "Trocar foto" removido — cobria o emblema de prestige; gestão do avatar vive na aba AVATAR do Editar Status -->
         </div>
 
         <div class="oc-prestige-badge" aria-label="Prestige Emblem">
@@ -950,10 +950,10 @@
       <!-- v2.60: frase pessoal (citação) entre nome e estilo -->
       <div class="oc-quote" id="player-quote" style="display:none"></div>
 
-      <!-- Pílula discreta de estilo, sob o nome -->
-      <div class="oc-pstyle">
-        <span class="oc-pstyle-pill" id="player-style">—</span>
-      </div>
+      <!-- v3.5.0: broche militar do Prestige Master (o estilo de jogo saiu do card — vive no Editar Status).
+           Imagem enviada em Configurações ▸ Prestiges (prs_master_lvlNNN); sem upload → placa SVG com estrelas da faixa. -->
+      <div class="oc-broche" id="oc-broche" style="display:none" aria-label="Broche Prestige Master"></div>
+      <span class="oc-pstyle-pill" id="player-style" style="display:none" aria-hidden="true">—</span>
 
       <!-- Caixa combinada: 25% Prestígio | 75% Nível (+ barra de pips) -->
       <div class="oc-profbox">
@@ -4838,6 +4838,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.5.0</span>
+                <span class="vh-date">6 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Card do operador: era do Prestige Master (prints da PS5 do Victor).</strong> <strong>1)</strong> A partir do Prestige 11 o n&uacute;mero desaparece em todo o lado &mdash; fica s&oacute; <strong>MASTER</strong> (no Editar Status o selo substitui o campo num&eacute;rico; clicar no selo volta a editar). <strong>2)</strong> A partir do <strong>Master n&iacute;vel 100</strong>, MASTER e N&Iacute;VEL (anel, percentagem e valor) mudam de laranja para <strong>azul</strong>. <strong>3)</strong> O chip de estilo (RUSHER&hellip;) saiu do card &mdash; essa info j&aacute; vive no Editar Status; no lugar entra o <strong>broche militar do Prestige Master</strong>, que muda por faixa de n&iacute;vel (56 &middot; 100 &middot; 200 &hellip; 1000) com estrelas e upload da arte real em <strong>Configura&ccedil;&otilde;es ▸ Prestiges</strong> (11 slots novos; sem upload, placa SVG com estrelas). <strong>4)</strong> O hint &ldquo;Trocar foto&rdquo; que cobria o emblema de prestige foi removido &mdash; o <strong>Editar Status</strong> ganhou abas <strong>STATUS | AVATAR</strong>, com preview do avatar atual e acesso direto ao gestor (upload &middot; IA &middot; slots na nuvem).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.4.3</span>
                 <span class="vh-date">5 Jul 2026</span>
                 <span class="vh-kind">fix</span>
@@ -8539,7 +8548,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.4.3</strong><span class="ver-tag">Fix: o tooltip do "?" do Snapshot era cortado — com o Histórico a 1/3 da largura (v3.4.2), o painel abria pra esquerda e estourava a área do conteúdo. Agora abre pra direita (variante help-pop-left), onde há espaço.</span>
+              LEVEL · <strong>v3.5.0</strong><span class="ver-tag">Card do operador na era Master: só MASTER a partir do P11 (sem número), azul a partir do nível 100, broche militar por faixa no lugar do chip de estilo (upload em Configurações ▸ Prestiges), e Editar Status com abas STATUS | AVATAR (adeus "Trocar foto" em cima do emblema).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -8632,6 +8641,12 @@
           <button class="modal-close" data-close-modal="modal-status">×</button>
         </div>
         <div class="modal-body">
+          <!-- v3.5.0: abas STATUS | AVATAR — toda a configuração do operador centralizada aqui -->
+          <div class="status-modal-tabs">
+            <button type="button" class="smt-btn active" id="smt-btn-status" onclick="window.statusModalTab&&window.statusModalTab('status')">{{i:pencil}} Status</button>
+            <button type="button" class="smt-btn" id="smt-btn-avatar" onclick="window.statusModalTab&&window.statusModalTab('avatar')">{{i:camera}} Avatar</button>
+          </div>
+          <div id="status-pane-status">
           <div class="form-label">Nome do operador <span style="color:var(--text-muted);font-size:10px">(público no Encontrar Squad · passa por moderação)</span></div>
           <input type="text" id="status-name" class="form-input" placeholder="ex: VICTOR" maxlength="20" style="text-transform:uppercase"/>
           <div id="status-name-status" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;margin:5px 0 2px;min-height:13px"></div>
@@ -8714,6 +8729,22 @@
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-playtime" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.f.playtime">Horário</span></label>
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-location" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.vis.location">Cidade/País</span></label>
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="sq-show-quote" style="accent-color:var(--accent-orange,#ff9800)"/> <span data-i18n="squad.vis.quote">Frase pessoal</span></label>
+              </div>
+            </div>
+          </div>
+          </div><!-- /status-pane-status -->
+
+          <!-- v3.5.0: aba AVATAR — preview + acesso ao gestor completo (upload · IA · slots na nuvem) -->
+          <div id="status-pane-avatar" style="display:none">
+            <div class="spa-row">
+              <div class="spa-preview" id="spa-preview">
+                <img id="spa-img" src="" alt="Avatar atual" style="display:none">
+                <span class="spa-empty" id="spa-empty">{{i:user}}</span>
+              </div>
+              <div class="spa-info">
+                <div class="form-label" style="margin:0 0 6px">Foto do operador</div>
+                <div style="font-size:12px;color:var(--text-secondary,#9fb0c3);line-height:1.5;margin-bottom:14px">Upload, geração com IA, importação PNG e os 10 slots na nuvem vivem no gestor de avatar.</div>
+                <button type="button" class="btn-action btn-save" style="flex:0 0 auto;min-width:auto;padding:10px 18px" onclick="document.getElementById('modal-status').classList.remove('visible'); if(window.LevelEtapa7&&window.LevelEtapa7.openAvatarModal){window.LevelEtapa7.openAvatarModal();}">{{i:camera}} Abrir gestor de avatar</button>
               </div>
             </div>
           </div>
@@ -12121,7 +12152,20 @@ window.BO7_ASSETS = (function() {
       { id: 'prs_p8_drone_operator',    name: 'P8 · Drone Operator',    tier: 8 },
       { id: 'prs_p9_cradle_specialist', name: 'P9 · Cradle Specialist', tier: 9 },
       { id: 'prs_p10_death',            name: 'P10 · Death',            tier: 10 },
-      { id: 'prs_master_demon_of_war',  name: 'Master · Demon of War',  tier: 11 }
+      { id: 'prs_master_demon_of_war',  name: 'Master · Demon of War',  tier: 11 },
+      // v3.5.0: broches militares do Prestige Master por faixa de nível (prints da PS5 do Victor).
+      // Upload em Configurações ▸ Prestiges → aparecem no card do operador (oc-broche).
+      { id: 'prs_master_lvl56',   name: 'Broche Master · Nv.56',   tier: 12 },
+      { id: 'prs_master_lvl100',  name: 'Broche Master · Nv.100',  tier: 13 },
+      { id: 'prs_master_lvl200',  name: 'Broche Master · Nv.200',  tier: 14 },
+      { id: 'prs_master_lvl300',  name: 'Broche Master · Nv.300',  tier: 15 },
+      { id: 'prs_master_lvl400',  name: 'Broche Master · Nv.400',  tier: 16 },
+      { id: 'prs_master_lvl500',  name: 'Broche Master · Nv.500',  tier: 17 },
+      { id: 'prs_master_lvl600',  name: 'Broche Master · Nv.600',  tier: 18 },
+      { id: 'prs_master_lvl700',  name: 'Broche Master · Nv.700',  tier: 19 },
+      { id: 'prs_master_lvl800',  name: 'Broche Master · Nv.800',  tier: 20 },
+      { id: 'prs_master_lvl900',  name: 'Broche Master · Nv.900',  tier: 21 },
+      { id: 'prs_master_lvl1000', name: 'Broche Master · Nv.1000', tier: 22 }
     ];
     try { window.PRESTIGE_ITEMS = PRESTIGE_ITEMS; } catch (e) {}
 
@@ -12620,6 +12664,39 @@ window.BO7_ASSETS = (function() {
         sidebarTier.classList.toggle('is-master', _isMaster);
       }
 
+      // v3.5.0: a partir do MASTER nível 100, MASTER e NÍVEL ficam AZUIS (regra do Victor, prints da PS5)
+      const _opCard = document.querySelector('.operator-card');
+      if (_opCard) _opCard.classList.toggle('oc-master-blue', _isMaster && _lvl >= 100);
+
+      // v3.5.0: broche militar do Prestige Master no lugar do chip de estilo.
+      // Faixa do broche: 56-99 → 56; 100-999 → centena (100, 200, …); 1000 → 1000.
+      // Usa a imagem de Configurações ▸ Prestiges (prs_master_lvlNNN); sem upload → placa SVG com estrelas.
+      (function () {
+        const el = document.getElementById('oc-broche');
+        if (!el) return;
+        if (!_isMaster || !(_lvl >= 56)) { el.style.display = 'none'; el.innerHTML = ''; return; }
+        const bband = _lvl >= 1000 ? 1000 : (_lvl < 100 ? 56 : Math.floor(_lvl / 100) * 100);
+        const bid = 'prs_master_lvl' + bband;
+        const bimg = (typeof getUserImage === 'function') ? getUserImage(bid) : null;
+        const stars = bband === 56 ? 1 : Math.min(10, Math.round(bband / 100));
+        el.classList.toggle('is-blue', _lvl >= 100);
+        if (bimg) {
+          el.innerHTML = '<img src="' + bimg + '" alt="Broche Master ' + bband + '">' +
+            '<span class="oc-broche-stars">' + '★'.repeat(stars) + '</span>';
+        } else {
+          // Placa SVG fallback: crest militar simplificado + estrelas da faixa
+          el.innerHTML =
+            '<svg viewBox="0 0 64 40" aria-hidden="true">' +
+              '<rect x="2" y="2" width="60" height="36" rx="5" class="bshell"/>' +
+              '<path class="bcrest" d="M32 8 C28 8 25 10 24 13 L18 10 L21 17 C19 19 19 22 21 24 L27 27 L27 30 L37 30 L37 27 L43 24 C45 22 45 19 43 17 L46 10 L40 13 C39 10 36 8 32 8 Z"/>' +
+              '<circle class="beye" cx="28.5" cy="17.5" r="1.6"/><circle class="beye" cx="35.5" cy="17.5" r="1.6"/>' +
+            '</svg>' +
+            '<span class="oc-broche-stars">' + '★'.repeat(stars) + '</span>';
+        }
+        el.title = 'Prestige Master · faixa ' + bband;
+        el.style.display = '';
+      })();
+
       // v2.92.0: anel de nível — current = nível; goal = faixa (Master) ou máx (55).
       // Ex.: 68/100 = 68%. Anima do vazio até o valor ao (re)renderizar.
       (function () {
@@ -12738,6 +12815,43 @@ window.BO7_ASSETS = (function() {
       pi.classList.toggle('is-master', isMaster);
       var lvNow = parseInt(li.value, 10) || 0;
       li.classList.toggle('is-over55', lvNow > 55);
+      // v3.5.0: no MASTER o número (11) some — fica só o selo. Clique no selo revela o input pra editar.
+      var hideNum = isMaster && document.activeElement !== pi;
+      pi.style.display = hideNum ? 'none' : '';
+      var wrapEl = pi.closest ? pi.closest('.status-prestige-wrap') : null;
+      if (wrapEl) wrapEl.classList.toggle('is-master-mode', hideNum);
+      if (badge && !badge.dataset.editable) {
+        badge.dataset.editable = '1';
+        badge.style.cursor = 'pointer';
+        badge.title = 'Clique para editar o prestige';
+        badge.addEventListener('click', function () {
+          pi.style.display = '';
+          try { pi.focus(); pi.select(); } catch (e) {}
+        });
+        pi.addEventListener('blur', function () { try { window.syncStatusPL(); } catch (e) {} });
+      }
+    };
+
+    // v3.5.0: abas do modal Editar Status (STATUS | AVATAR)
+    window.statusModalTab = function (tab) {
+      var pv = { status: document.getElementById('status-pane-status'), avatar: document.getElementById('status-pane-avatar') };
+      var bt = { status: document.getElementById('smt-btn-status'), avatar: document.getElementById('smt-btn-avatar') };
+      Object.keys(pv).forEach(function (k) {
+        if (pv[k]) pv[k].style.display = (k === tab) ? '' : 'none';
+        if (bt[k]) bt[k].classList.toggle('active', k === tab);
+      });
+      // Salvar/Cancelar só fazem sentido na aba STATUS
+      var acts = document.querySelector('#modal-status .modal-actions');
+      if (acts) acts.style.display = (tab === 'status') ? '' : 'none';
+      if (tab === 'avatar') {
+        // espelha o avatar atual do card no preview
+        var src = (document.getElementById('sidebar-avatar-img') || {}).src || '';
+        var vis = src && (document.getElementById('sidebar-avatar-img') || {}).style.display !== 'none';
+        var img = document.getElementById('spa-img');
+        var emp = document.getElementById('spa-empty');
+        if (img) { img.src = vis ? src : ''; img.style.display = vis ? '' : 'none'; }
+        if (emp) emp.style.display = vis ? 'none' : '';
+      }
     };
 
     // ── Open status modal pre-filled with current data ─────────────────
@@ -12793,6 +12907,7 @@ window.BO7_ASSETS = (function() {
       })();
       await populateWeaponSelect();
       try { window.syncStatusPL(); } catch (e) {}
+      try { window.statusModalTab('status'); } catch (e) {}  // v3.5.0: abre sempre na aba STATUS
       document.getElementById('modal-status').classList.add('visible');
     }
 
