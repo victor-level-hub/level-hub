@@ -4838,6 +4838,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.6.0</span>
+                <span class="vh-date">6 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Stepper nos campos + regras finais dos broches.</strong> Os campos <strong>Prestige</strong> e <strong>Level atual</strong> do Editar Status viraram steppers <strong>&minus; / +</strong> no estilo do upvote-button (Origin UI) &mdash; clique pra ajustar, digita&ccedil;&atilde;o continua livre, limites respeitados (Prestige trava no 11 e vira o selo MASTER). Broches: n&iacute;vel <strong>56-99 usa a mesma arte do 100</strong> (confirmado nas fotos da PS5) e o slot 1000 foi removido (n&atilde;o existe no jogo) &mdash; ficam <strong>9 faixas</strong> (100 a 900).</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.5.0</span>
                 <span class="vh-date">6 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8548,7 +8557,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.5.0</strong><span class="ver-tag">Card do operador na era Master: só MASTER a partir do P11 (sem número), azul a partir do nível 100, broche militar por faixa no lugar do chip de estilo (upload em Configurações ▸ Prestiges), e Editar Status com abas STATUS | AVATAR (adeus "Trocar foto" em cima do emblema).</span>
+              LEVEL · <strong>v3.6.0</strong><span class="ver-tag">Prestige e Level com stepper −/+ (estilo upvote-button do Origin UI); broches: 56-99 usa a arte do 100 e o slot 1000 saiu (9 faixas, 100-900).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -8654,14 +8663,21 @@
           <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: end">
             <div>
               <div class="form-label">Prestige</div>
-              <div class="status-prestige-wrap">
-                <input type="number" id="status-prestige" class="form-input" min="0" max="11" placeholder="4" oninput="window.syncStatusPL&&window.syncStatusPL()"/>
+              <!-- v3.6.0: stepper estilo upvote-button (originui) — pedido do Victor -->
+              <div class="status-prestige-wrap num-stepper">
+                <button type="button" class="ns-btn" data-step-for="status-prestige" data-step="-1" aria-label="Diminuir prestige">−</button>
+                <input type="number" id="status-prestige" class="form-input ns-input" min="0" max="11" placeholder="4" oninput="window.syncStatusPL&&window.syncStatusPL()"/>
+                <button type="button" class="ns-btn" data-step-for="status-prestige" data-step="1" aria-label="Aumentar prestige">+</button>
                 <span id="status-prestige-master" class="status-master-tag" style="display:none">MASTER</span>
               </div>
             </div>
             <div>
               <div class="form-label">Level atual <span id="status-level-range" style="color:var(--text-muted);font-size:10px">(1-55)</span></div>
-              <input type="number" id="status-level" class="form-input" min="1" max="55" placeholder="35" oninput="window.syncStatusPL&&window.syncStatusPL()"/>
+              <div class="num-stepper">
+                <button type="button" class="ns-btn" data-step-for="status-level" data-step="-1" aria-label="Diminuir level">−</button>
+                <input type="number" id="status-level" class="form-input ns-input" min="1" max="55" placeholder="35" oninput="window.syncStatusPL&&window.syncStatusPL()"/>
+                <button type="button" class="ns-btn" data-step-for="status-level" data-step="1" aria-label="Aumentar level">+</button>
+              </div>
             </div>
             <div>
               <div class="form-label">Plataforma</div>
@@ -12155,17 +12171,16 @@ window.BO7_ASSETS = (function() {
       { id: 'prs_master_demon_of_war',  name: 'Master · Demon of War',  tier: 11 },
       // v3.5.0: broches militares do Prestige Master por faixa de nível (prints da PS5 do Victor).
       // Upload em Configurações ▸ Prestiges → aparecem no card do operador (oc-broche).
-      { id: 'prs_master_lvl56',   name: 'Broche Master · Nv.56',   tier: 12 },
-      { id: 'prs_master_lvl100',  name: 'Broche Master · Nv.100',  tier: 13 },
-      { id: 'prs_master_lvl200',  name: 'Broche Master · Nv.200',  tier: 14 },
-      { id: 'prs_master_lvl300',  name: 'Broche Master · Nv.300',  tier: 15 },
-      { id: 'prs_master_lvl400',  name: 'Broche Master · Nv.400',  tier: 16 },
-      { id: 'prs_master_lvl500',  name: 'Broche Master · Nv.500',  tier: 17 },
-      { id: 'prs_master_lvl600',  name: 'Broche Master · Nv.600',  tier: 18 },
-      { id: 'prs_master_lvl700',  name: 'Broche Master · Nv.700',  tier: 19 },
-      { id: 'prs_master_lvl800',  name: 'Broche Master · Nv.800',  tier: 20 },
-      { id: 'prs_master_lvl900',  name: 'Broche Master · Nv.900',  tier: 21 },
-      { id: 'prs_master_lvl1000', name: 'Broche Master · Nv.1000', tier: 22 }
+      // v3.6.0: nv.56 usa a MESMA arte do 100 (confirmado pelo Victor) e 1000 não existe no jogo.
+      { id: 'prs_master_lvl100',  name: 'Broche Master · Nv.56-100', tier: 12 },
+      { id: 'prs_master_lvl200',  name: 'Broche Master · Nv.200',  tier: 13 },
+      { id: 'prs_master_lvl300',  name: 'Broche Master · Nv.300',  tier: 14 },
+      { id: 'prs_master_lvl400',  name: 'Broche Master · Nv.400',  tier: 15 },
+      { id: 'prs_master_lvl500',  name: 'Broche Master · Nv.500',  tier: 16 },
+      { id: 'prs_master_lvl600',  name: 'Broche Master · Nv.600',  tier: 17 },
+      { id: 'prs_master_lvl700',  name: 'Broche Master · Nv.700',  tier: 18 },
+      { id: 'prs_master_lvl800',  name: 'Broche Master · Nv.800',  tier: 19 },
+      { id: 'prs_master_lvl900',  name: 'Broche Master · Nv.900',  tier: 20 }
     ];
     try { window.PRESTIGE_ITEMS = PRESTIGE_ITEMS; } catch (e) {}
 
@@ -12675,10 +12690,11 @@ window.BO7_ASSETS = (function() {
         const el = document.getElementById('oc-broche');
         if (!el) return;
         if (!_isMaster || !(_lvl >= 56)) { el.style.display = 'none'; el.innerHTML = ''; return; }
-        const bband = _lvl >= 1000 ? 1000 : (_lvl < 100 ? 56 : Math.floor(_lvl / 100) * 100);
+        // v3.6.0: 56-99 usa a arte do 100 (mesmo broche, confirmado pelo Victor); teto = 900 (1000 não existe)
+        const bband = _lvl >= 900 ? 900 : (_lvl < 100 ? 100 : Math.floor(_lvl / 100) * 100);
         const bid = 'prs_master_lvl' + bband;
         const bimg = (typeof getUserImage === 'function') ? getUserImage(bid) : null;
-        const stars = bband === 56 ? 1 : Math.min(10, Math.round(bband / 100));
+        const stars = Math.max(1, Math.min(9, Math.round(bband / 100)));
         el.classList.toggle('is-blue', _lvl >= 100);
         if (bimg) {
           el.innerHTML = '<img src="' + bimg + '" alt="Broche Master ' + bband + '">' +
@@ -12831,6 +12847,22 @@ window.BO7_ASSETS = (function() {
         pi.addEventListener('blur', function () { try { window.syncStatusPL(); } catch (e) {} });
       }
     };
+
+    // v3.6.0: steppers −/+ (estilo upvote-button do originui) nos campos Prestige e Level
+    document.addEventListener('click', function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest('.ns-btn[data-step-for]') : null;
+      if (!btn) return;
+      var input = document.getElementById(btn.getAttribute('data-step-for'));
+      if (!input) return;
+      var step = parseInt(btn.getAttribute('data-step'), 10) || 0;
+      var min = parseInt(input.getAttribute('min'), 10); if (isNaN(min)) min = 0;
+      var max = parseInt(input.getAttribute('max'), 10); if (isNaN(max)) max = 9999;
+      var v = parseInt(input.value, 10); if (isNaN(v)) v = min;
+      v = Math.max(min, Math.min(max, v + step));
+      input.value = v;
+      try { input.dispatchEvent(new Event('input', { bubbles: true })); } catch (err) {}
+      try { window.syncStatusPL(); } catch (err) {}
+    });
 
     // v3.5.0: abas do modal Editar Status (STATUS | AVATAR)
     window.statusModalTab = function (tab) {

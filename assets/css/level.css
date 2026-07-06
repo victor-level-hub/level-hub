@@ -6830,6 +6830,25 @@
     position: static; transform: none; pointer-events: auto;
     padding: 9px 16px; font-size: 11.5px;
   }
+  .status-prestige-wrap.is-master-mode .ns-btn { display: none; }
+
+  /* v3.6.0 · Stepper numérico estilo upvote-button (originui) — Prestige e Level do Editar Status */
+  .num-stepper { display: flex; align-items: stretch; gap: 0; border: 1px solid rgba(125,168,199,0.25); border-radius: 10px; overflow: hidden; background: var(--surface-sunken, #0F1422); }
+  .num-stepper .ns-btn {
+    flex: 0 0 36px; cursor: pointer; border: none; background: transparent;
+    color: var(--text-secondary, #AEC7E0); font-size: 17px; font-weight: 700; line-height: 1;
+    font-family: 'JetBrains Mono', monospace;
+    transition: background .15s ease, color .15s ease;
+  }
+  .num-stepper .ns-btn:hover { background: rgba(255,152,0,0.14); color: var(--accent-orange, #FF9800); }
+  .num-stepper .ns-btn:active { background: rgba(255,152,0,0.26); }
+  .num-stepper .ns-btn:first-child { border-right: 1px solid rgba(125,168,199,0.18); }
+  .num-stepper .ns-btn:last-of-type { border-left: 1px solid rgba(125,168,199,0.18); }
+  .num-stepper .ns-input { flex: 1 1 auto; min-width: 0; border: none !important; border-radius: 0 !important; background: transparent !important; text-align: center; box-shadow: none !important; }
+  .num-stepper .ns-input::-webkit-outer-spin-button, .num-stepper .ns-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .num-stepper .ns-input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+  /* no master-mode o selo MASTER convive com o stepper escondido */
+  .status-prestige-wrap.num-stepper.is-master-mode { border-color: var(--accent-orange, #FF9800); box-shadow: 0 0 10px rgba(255,152,0,0.25); justify-content: center; }
 
   /* v3.5.0 · Abas do modal Editar Status (STATUS | AVATAR) */
   .status-modal-tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid rgba(125,168,199,0.18); padding-bottom: 10px; }
