@@ -10071,19 +10071,14 @@
   .operator-card.oc-master-blue .oc-lvlring-pct { color: var(--accent-cyan, #3fd0ff); }
   .operator-card.oc-master-blue .oc-lvlring-val .oc-lvl-cur { color: var(--accent-cyan, #3fd0ff); }
 
-  /* v3.5.0 · Broche militar do Prestige Master (substitui o chip de estilo no card) */
-  .operator-card .oc-broche { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-bottom: 13px; }
-  .operator-card .oc-broche img { width: 52px; height: 34px; object-fit: contain; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.55)); }
-  .operator-card .oc-broche svg { width: 52px; height: 34px; }
-  .operator-card .oc-broche .bshell { fill: #141b2c; stroke: #46536b; stroke-width: 1.4; }
-  .operator-card .oc-broche .bcrest { fill: #cfd8e6; }
-  .operator-card .oc-broche .beye { fill: #141b2c; }
-  .operator-card .oc-broche-stars { display: flex; gap: 2px; align-items: center; font-size: 9px; letter-spacing: 2px; line-height: 1; color: #cfd8e6; text-shadow: 0 0 6px rgba(207,216,230,0.45); }
-  /* o icon.js troca os ★ por SVGs .lvl-icon — dimensiona pro broche */
-  .operator-card .oc-broche-stars svg { width: 10px; height: 10px; }
-  .operator-card .oc-broche.is-blue .bcrest { fill: #bfe8ff; }
-  .operator-card .oc-broche.is-blue .bshell { stroke: var(--accent-cyan, #3fd0ff); }
-  .operator-card .oc-broche.is-blue .oc-broche-stars { color: var(--accent-cyan, #3fd0ff); text-shadow: 0 0 6px rgba(63,208,255,0.5); }
+  /* v3.5.0 · Broche militar do Prestige Master (substitui o chip de estilo no card)
+     v3.7.0 · arte real (Gemini) em assets/prestige/broche-NNN.png — formato fita larga */
+  .operator-card .oc-broche { display: flex; justify-content: center; margin-bottom: 13px; }
+  .operator-card .oc-broche img {
+    width: 100%; max-width: 148px; height: auto; object-fit: contain; border-radius: 4px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+  }
+  .operator-card .oc-broche.is-blue img { filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)) drop-shadow(0 0 8px rgba(63,208,255,0.25)); }
   @media (prefers-reduced-motion: reduce) { .operator-card .operator-avatar, .operator-card .oc-prestige-badge { transition: none; } }
   @media (max-width: 900px) {
     .operator-card .oc-name { font-size: 18px; }

@@ -4838,6 +4838,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.7.0</span>
+                <span class="vh-date">6 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Broches do Prestige Master com arte REAL (gerada por IA).</strong> As 9 faixas (100&ndash;900) ganharam broches gerados pelo <strong>Gemini</strong> a partir das fotos da PS5 do Victor &mdash; placa de malha hexagonal, barras laranja e estrelas prateadas em bisel, cada faixa com o seu arranjo (o 900 tem a estrela com coroa de louros). Vivem em <code>assets/prestige/broche-NNN.png</code>; upload em Configura&ccedil;&otilde;es &#9656; Prestiges continua tendo prioridade. Faixas 100&ndash;400 s&atilde;o estimadas a partir de fotos distantes &mdash; a confirmar com fotos de perto.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.6.0</span>
                 <span class="vh-date">6 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -8557,7 +8566,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.6.0</strong><span class="ver-tag">Prestige e Level com stepper −/+ (estilo upvote-button do Origin UI); broches: 56-99 usa a arte do 100 e o slot 1000 saiu (9 faixas, 100-900).</span>
+              LEVEL · <strong>v3.7.0</strong><span class="ver-tag">Broches do Prestige Master com arte real gerada por IA (Gemini + fotos da PS5): 9 faixas com placa hexagonal, barras laranja e estrelas em bisel — o 900 com coroa de louros. Upload manual continua soberano.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -12693,22 +12702,12 @@ window.BO7_ASSETS = (function() {
         // v3.6.0: 56-99 usa a arte do 100 (mesmo broche, confirmado pelo Victor); teto = 900 (1000 não existe)
         const bband = _lvl >= 900 ? 900 : (_lvl < 100 ? 100 : Math.floor(_lvl / 100) * 100);
         const bid = 'prs_master_lvl' + bband;
-        const bimg = (typeof getUserImage === 'function') ? getUserImage(bid) : null;
-        const stars = Math.max(1, Math.min(9, Math.round(bband / 100)));
+        // v3.7.0: arte real gerada por IA (Gemini, fotos da PS5 do Victor como referência) vive
+        // em assets/prestige/broche-NNN.png; upload em Configurações ▸ Prestiges tem prioridade.
+        const bimg = ((typeof getUserImage === 'function') ? getUserImage(bid) : null)
+                  || ('assets/prestige/broche-' + bband + '.png');
         el.classList.toggle('is-blue', _lvl >= 100);
-        if (bimg) {
-          el.innerHTML = '<img src="' + bimg + '" alt="Broche Master ' + bband + '">' +
-            '<span class="oc-broche-stars">' + '★'.repeat(stars) + '</span>';
-        } else {
-          // Placa SVG fallback: crest militar simplificado + estrelas da faixa
-          el.innerHTML =
-            '<svg viewBox="0 0 64 40" aria-hidden="true">' +
-              '<rect x="2" y="2" width="60" height="36" rx="5" class="bshell"/>' +
-              '<path class="bcrest" d="M32 8 C28 8 25 10 24 13 L18 10 L21 17 C19 19 19 22 21 24 L27 27 L27 30 L37 30 L37 27 L43 24 C45 22 45 19 43 17 L46 10 L40 13 C39 10 36 8 32 8 Z"/>' +
-              '<circle class="beye" cx="28.5" cy="17.5" r="1.6"/><circle class="beye" cx="35.5" cy="17.5" r="1.6"/>' +
-            '</svg>' +
-            '<span class="oc-broche-stars">' + '★'.repeat(stars) + '</span>';
-        }
+        el.innerHTML = '<img src="' + bimg + '" alt="Broche Master ' + bband + '" onerror="this.parentNode.style.display=\'none\'">';
         el.title = 'Prestige Master · faixa ' + bband;
         el.style.display = '';
       })();
