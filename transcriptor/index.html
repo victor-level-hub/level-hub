@@ -502,10 +502,27 @@ async function transcribeViaGemini(file){
   const audio = await extractAudio(file);
   setProgress(27,"Enviando áudio…"); stage(`Enviando ${fmtBytes(audio.size)} à Google…`,"");
   const startRes = await callFn({ action:"start", mime:"audio/mpeg", size:audio.size, filename:file.name });
-  const up = await fetch(startRes.upload_url, { method:"POST",
-    headers:{ "X-Goog-Upload-Command":"upload, finalize", "X-Goog-Upload-Offset":"0" }, body: audio });
-  if(!up.ok) throw new Error("upload do áudio falhou ("+up.status+")");
-  const info = await up.json();
+  // upload em chunks VIA function (redes corporativas bloqueiam googleapis.com no browser)
+  // chunks intermediários DEVEM ser múltiplos de 8 MiB (exigência do resumable do Google)
+  const CH = 8*1024*1024;
+  let info = null;
+  for(let off=0; off<audio.size; off+=CH){
+    const last = off+CH >= audio.size;
+    const chunk = audio.slice(off, Math.min(off+CH, audio.size));
+    const { data:{ session } } = await sb.auth.getSession();
+    if(!session) throw new Error("sessão expirou — faça login de novo");
+    const r = await fetch(FN_URL, { method:"POST", headers:{
+      Authorization:"Bearer "+session.access_token, apikey:SUPABASE_ANON,
+      "Content-Type":"application/octet-stream",
+      "x-upload-url": startRes.upload_url,
+      "x-upload-offset": String(off),
+      "x-upload-final": last ? "1" : "0" }, body: chunk });
+    const jr = await r.json().catch(()=>null);
+    if(!r.ok || (jr && jr.ok === false)) throw new Error((jr && jr.error) || ("upload "+r.status));
+    if(last) info = jr;
+    setProgress(27 + (Math.min(off+CH,audio.size)/audio.size)*11, "Enviando áudio…");
+  }
+  if(!info || !info.file) throw new Error("upload não finalizou");
   let fname=info.file.name, furi=info.file.uri, state=info.file.state;
   setProgress(38,"Processando…"); stage("Google a preparar o áudio…","");
   let waited=0;
