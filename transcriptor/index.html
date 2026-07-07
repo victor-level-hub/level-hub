@@ -142,6 +142,21 @@
     margin:16px 4px 0;text-align:left}
   #loginCard{max-width:420px;margin:8vh auto 0}
   video#probe{display:none}
+
+  /* Modal de uso do Gemini (tilt leve — modais informativos) */
+  .umodal{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);
+    display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .umodal[hidden]{display:none}
+  .ubox{background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:24px 26px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.5);
+    will-change:transform;transition:transform 200ms cubic-bezier(.16,1,.3,1)}
+  .ubox h3{margin:0 0 16px;font-size:17px}
+  .urow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;
+    border-bottom:1px solid var(--border);font-size:13.5px}
+  .urow:last-of-type{border-bottom:0}
+  .urow .lab{color:var(--muted)}
+  .urow b{color:var(--primary-2);font-family:Consolas,monospace;font-size:14.5px}
+  .urow small{color:var(--muted);margin-left:7px}
 </style>
 </head>
 <body>
@@ -199,7 +214,7 @@
 
   <!-- ===================== APP ===================== -->
   <div id="app" style="display:none">
-    <div class="userbar"><span id="whoami"></span><button id="logoutBtn">Sair</button></div>
+    <div class="userbar"><span id="whoami"></span><button id="usageBtn">💰 Uso Gemini</button><button id="logoutBtn">Sair</button></div>
     <header>
       <svg class="logo" viewBox="0 0 283 147" role="img" aria-label="LEVEL"><use href="#lvl-logo"/></svg>
       <div><h1>LEVEL Transcriptor</h1></div>
@@ -316,6 +331,15 @@
   </div>
 </div>
 
+<div class="umodal" id="usageModal" hidden>
+  <div class="ubox" id="usageBox">
+    <h3>💰 Uso do Gemini · LEVEL</h3>
+    <div id="usageBody"><div class="hint">A carregar…</div></div>
+    <div class="hint" style="margin-top:14px">A Google <b>não expõe o saldo</b> da conta via API — estes são os gastos <b>estimados</b> registados pelo LEVEL (todas as funções Gemini do hub). Compara com o crédito carregado no Google AI Studio.</div>
+    <button class="openbtn" id="usageClose" style="margin-top:14px">Fechar</button>
+  </div>
+</div>
+
 <video id="probe" muted playsinline preload="auto"></video>
 
 <script>
@@ -354,9 +378,44 @@ async function callFn(payload){
     headers:{ Authorization:"Bearer "+session.access_token, apikey:SUPABASE_ANON, "Content-Type":"application/json" },
     body: JSON.stringify(payload) });
   const j = await r.json().catch(()=>({}));
-  if(!r.ok || j.ok === false) throw new Error(j.error || ("função "+r.status));
+  if(!r.ok || j.ok === false){
+    if(r.status === 546) throw new Error("a função excedeu o tempo limite (546) — tente novamente; reuniões longas são processadas em partes de 15 min");
+    throw new Error(j.error || ("função "+r.status));
+  }
   return j;
 }
+
+/* ================= modal de uso do Gemini ================= */
+const usd = v => "$"+(Number(v)||0).toFixed(2);
+$("#usageBtn").onclick = async () => {
+  $("#usageModal").hidden = false;
+  $("#usageBody").innerHTML = '<div class="hint">A carregar…</div>';
+  try{
+    const u = await callFn({ action:"usage" });
+    const rows = [
+      ["Mês atual (todo o hub)", usd(u.month.cost_usd), u.month.calls+" chamadas"],
+      ["Últimos 30 dias (todo o hub)", usd(u.last30d.cost_usd), u.last30d.calls+" chamadas"],
+      ["Transcriptor · 30 dias", usd(u.transcriptor_30d.cost_usd), u.transcriptor_30d.calls+" chamadas"],
+      ...(u.by_model||[]).map(m => ["· "+m.model, usd(m.cost_usd), ""])
+    ];
+    $("#usageBody").innerHTML = rows.map(([l,v,s]) =>
+      `<div class="urow"><span class="lab">${esc(l)}</span><span><b>${v}</b>${s?`<small>${esc(s)}</small>`:""}</span></div>`).join("");
+  }catch(e){ $("#usageBody").innerHTML = `<div class="err-msg">❌ ${esc(e.message||String(e))}</div>`; }
+};
+$("#usageClose").onclick = () => { $("#usageModal").hidden = true; };
+$("#usageModal").addEventListener("click", e => { if(e.target === $("#usageModal")) $("#usageModal").hidden = true; });
+// tilt leve no cartão do modal (receita do catálogo, máx 7°)
+(function(){ const box = $("#usageBox"); let rect=null;
+  try{ if(!matchMedia("(hover: hover) and (pointer: fine)").matches) return; }catch(e){ return; }
+  box.addEventListener("pointerenter", () => { rect = box.getBoundingClientRect(); });
+  box.addEventListener("pointermove", e => {
+    if(!rect) rect = box.getBoundingClientRect();
+    const px = Math.min(1,Math.max(0,(e.clientX-rect.left)/rect.width));
+    const py = Math.min(1,Math.max(0,(e.clientY-rect.top)/rect.height));
+    box.style.transform = `perspective(1000px) rotateX(${((0.5-py)*7).toFixed(2)}deg) rotateY(${((px-0.5)*7).toFixed(2)}deg)`;
+  });
+  box.addEventListener("pointerleave", () => { rect=null; box.style.transform=""; });
+})();
 async function refreshAuthUI(){
   const { data:{ session } } = await sb.auth.getSession();
   const logged = !!session;
@@ -474,14 +533,61 @@ async function getFFmpeg(){
                   classWorkerURL: vendor+"814.ffmpeg.js" });
   ffmpeg=ff; return ff;
 }
-async function extractAudio(file){
+// Reuniões longas são divididas em partes de 15 min — cada chamada ao Gemini
+// cabe folgada no tempo-limite da edge function (o "erro 546" de reuniões de 1h).
+const PART_SEC = 900;
+async function extractAudioParts(file){
   const ff = await getFFmpeg();
   setProgress(5,"Extraindo áudio…"); stage("Extraindo áudio do vídeo (no teu navegador)…","");
   await ff.writeFile("in", await FFmpegUtil.fetchFile(file));
   await ff.exec(["-i","in","-vn","-ac","1","-ar","16000","-b:a","32k","out.mp3"]);
-  const data = await ff.readFile("out.mp3");
+  const parts = [];
+  if((durationSec||0) > PART_SEC*1.2){
+    const n = Math.ceil(durationSec/PART_SEC);
+    for(let i=0;i<n;i++){
+      stage(`Dividindo áudio em partes… ${i+1}/${n}`,"");
+      await ff.exec(["-i","out.mp3","-ss",String(i*PART_SEC),"-t",String(PART_SEC),"-c","copy",`p${i}.mp3`]);
+      const d = await ff.readFile(`p${i}.mp3`);
+      parts.push(new Blob([d.buffer],{type:"audio/mpeg"}));
+      try{ await ff.deleteFile(`p${i}.mp3`); }catch(e){}
+    }
+  } else {
+    const d = await ff.readFile("out.mp3");
+    parts.push(new Blob([d.buffer],{type:"audio/mpeg"}));
+  }
   try{ await ff.deleteFile("in"); await ff.deleteFile("out.mp3"); }catch(e){}
-  return new Blob([data.buffer], {type:"audio/mpeg"});
+  return parts;
+}
+
+// sobe UMA parte via function (chunks múltiplos de 8 MiB) e devolve o file do Google
+async function uploadOnePart(blob, label, p0, p1){
+  const startRes = await callFn({ action:"start", mime:"audio/mpeg", size:blob.size, filename:label });
+  const CH = 8*1024*1024;
+  let info = null;
+  for(let off=0; off<blob.size; off+=CH){
+    const last = off+CH >= blob.size;
+    const chunk = blob.slice(off, Math.min(off+CH, blob.size));
+    const { data:{ session } } = await sb.auth.getSession();
+    if(!session) throw new Error("sessão expirou — faça login de novo");
+    const r = await fetch(FN_URL, { method:"POST", headers:{
+      Authorization:"Bearer "+session.access_token, apikey:SUPABASE_ANON,
+      "Content-Type":"application/octet-stream",
+      "x-upload-url": startRes.upload_url,
+      "x-upload-offset": String(off),
+      "x-upload-final": last ? "1" : "0" }, body: chunk });
+    const jr = await r.json().catch(()=>null);
+    if(!r.ok || (jr && jr.ok === false)) throw new Error((jr && jr.error) || ("upload "+r.status));
+    if(last) info = jr;
+    setProgress(p0 + (Math.min(off+CH,blob.size)/blob.size)*(p1-p0)*0.4, "Enviando áudio…");
+  }
+  if(!info || !info.file) throw new Error("upload não finalizou");
+  let f = info.file, waited = 0;
+  while(f.state === "PROCESSING" && waited < 120){
+    await new Promise(r=>setTimeout(r,3000)); waited += 3;
+    const st = await callFn({ action:"status", file_name:f.name });
+    f = { ...f, state: st.state, uri: st.uri || f.uri };
+  }
+  return f;
 }
 
 /* ================= gemini pipeline ================= */
@@ -499,44 +605,30 @@ function geminiJsonToSegs(data, totalDur){
   return segs;
 }
 async function transcribeViaGemini(file){
-  const audio = await extractAudio(file);
-  setProgress(27,"Enviando áudio…"); stage(`Enviando ${fmtBytes(audio.size)} à Google…`,"");
-  const startRes = await callFn({ action:"start", mime:"audio/mpeg", size:audio.size, filename:file.name });
-  // upload em chunks VIA function (redes corporativas bloqueiam googleapis.com no browser)
-  // chunks intermediários DEVEM ser múltiplos de 8 MiB (exigência do resumable do Google)
-  const CH = 8*1024*1024;
-  let info = null;
-  for(let off=0; off<audio.size; off+=CH){
-    const last = off+CH >= audio.size;
-    const chunk = audio.slice(off, Math.min(off+CH, audio.size));
-    const { data:{ session } } = await sb.auth.getSession();
-    if(!session) throw new Error("sessão expirou — faça login de novo");
-    const r = await fetch(FN_URL, { method:"POST", headers:{
-      Authorization:"Bearer "+session.access_token, apikey:SUPABASE_ANON,
-      "Content-Type":"application/octet-stream",
-      "x-upload-url": startRes.upload_url,
-      "x-upload-offset": String(off),
-      "x-upload-final": last ? "1" : "0" }, body: chunk });
-    const jr = await r.json().catch(()=>null);
-    if(!r.ok || (jr && jr.ok === false)) throw new Error((jr && jr.error) || ("upload "+r.status));
-    if(last) info = jr;
-    setProgress(27 + (Math.min(off+CH,audio.size)/audio.size)*11, "Enviando áudio…");
+  const parts = await extractAudioParts(file);
+  const model = $("#model").value, language = $("#language").value;
+  const allSegs = []; let lang = null, totalCost = 0;
+  for(let i=0; i<parts.length; i++){
+    const off = i*PART_SEC;
+    const label = parts.length>1 ? ` — parte ${i+1}/${parts.length}` : "";
+    const p0 = 27 + (i/parts.length)*51, p1 = 27 + ((i+1)/parts.length)*51;   // 27% → 78%
+    setProgress(p0, "Enviando áudio…"); stage(`Enviando ${fmtBytes(parts[i].size)}${label}…`,"");
+    const f = await uploadOnePart(parts[i], file.name+label, p0, p1);
+    setProgress(p0+(p1-p0)*0.45, "Gemini a transcrever…");
+    stage(`Gemini (${model}) a transcrever${label}…`, parts.length>1 ? `parte ${i+1} de ${parts.length}` : "");
+    const partDur = Math.min(PART_SEC, Math.max(1,(durationSec||PART_SEC)-off));
+    const tr = await callFn({ action:"transcribe", file_uri:f.uri, file_name:f.name,
+      mime:"audio/mpeg", language, duration_sec:partDur, model });
+    const segs = geminiJsonToSegs(tr.data, partDur);
+    for(const s of segs){ s.start += off; s.end += off; s.hms = hms(s.start); }
+    allSegs.push(...segs);
+    lang = lang || (tr.data.language_detected||"?").slice(0,2).toLowerCase();
+    totalCost += (tr.usage && tr.usage.cost_estimate_usd) || 0;
+    setProgress(p1, "Gemini a transcrever…");
   }
-  if(!info || !info.file) throw new Error("upload não finalizou");
-  let fname=info.file.name, furi=info.file.uri, state=info.file.state;
-  setProgress(38,"Processando…"); stage("Google a preparar o áudio…","");
-  let waited=0;
-  while(state==="PROCESSING" && waited<180){ await new Promise(r=>setTimeout(r,3000)); waited+=3;
-    const st=await callFn({action:"status", file_name:fname}); state=st.state; furi=st.uri||furi; }
-  const model=$("#model").value;
-  setProgress(45,"Gemini a transcrever…");
-  stage(`Gemini (${model}) a transcrever — pode levar alguns minutos…`, "resta ~"+fmtDur((durationSec||1800)/10));
-  const tr = await callFn({ action:"transcribe", file_uri:furi, file_name:fname, mime:"audio/mpeg",
-    language:$("#language").value, duration_sec:durationSec, model });
+  if(!allSegs.length) throw new Error("sem segmentos na resposta");
   setProgress(78,"Processando resultado…"); stage("Montando transcrição…","");
-  const segs = geminiJsonToSegs(tr.data, durationSec);
-  if(!segs.length) throw new Error("sem segmentos na resposta");
-  return { segs, lang:(tr.data.language_detected||"?").slice(0,2).toLowerCase(), usage:tr.usage||{} };
+  return { segs: allSegs, lang: lang||"?", usage: { cost_estimate_usd: Math.round(totalCost*10000)/10000 } };
 }
 
 /* ================= prints (client-side) ================= */
