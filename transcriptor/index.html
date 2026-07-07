@@ -465,10 +465,12 @@ async function getFFmpeg(){
   stage("Carregando motor de áudio (~30 MB, só na 1ª vez)…","");
   const ff = new FFmpegWASM.FFmpeg();
   ff.on("progress", ({progress}) => { if(progress>0&&progress<=1) setProgress(5+progress*20,"Extraindo áudio…"); });
-  // tudo same-origin (vendor/) — sem restrição de Worker nem dependência do unpkg
+  // Worker precisa ser same-origin (vendor/); o core vem do unpkg em ESM
+  // (o wasm de 32 MB estoura o limite de arquivo do deploy do Netlify).
   const vendor = new URL("vendor/", location.href).href;
-  await ff.load({ coreURL: vendor+"ffmpeg-core.js",
-                  wasmURL: vendor+"ffmpeg-core.wasm",
+  const core = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
+  await ff.load({ coreURL: core+"/ffmpeg-core.js",
+                  wasmURL: core+"/ffmpeg-core.wasm",
                   classWorkerURL: vendor+"814.ffmpeg.js" });
   ffmpeg=ff; return ff;
 }
