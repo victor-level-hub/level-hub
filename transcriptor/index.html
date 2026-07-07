@@ -7,8 +7,9 @@
 <title>LEVEL Transcriptor</title>
 <link rel="icon" type="image/svg+xml" href="../assets/logo-level-medium.svg">
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
-<script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+<!-- ffmpeg self-hosted: o worker precisa ser same-origin (e o unpkg pode ser bloqueado por proxies) -->
+<script src="vendor/ffmpeg.js"></script>
+<script src="vendor/ffmpeg-util.js"></script>
 <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
 <style>
   :root{
@@ -464,9 +465,11 @@ async function getFFmpeg(){
   stage("Carregando motor de áudio (~30 MB, só na 1ª vez)…","");
   const ff = new FFmpegWASM.FFmpeg();
   ff.on("progress", ({progress}) => { if(progress>0&&progress<=1) setProgress(5+progress*20,"Extraindo áudio…"); });
-  const base="https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
-  await ff.load({ coreURL: await FFmpegUtil.toBlobURL(base+"/ffmpeg-core.js","text/javascript"),
-                  wasmURL: await FFmpegUtil.toBlobURL(base+"/ffmpeg-core.wasm","application/wasm") });
+  // tudo same-origin (vendor/) — sem restrição de Worker nem dependência do unpkg
+  const vendor = new URL("vendor/", location.href).href;
+  await ff.load({ coreURL: vendor+"ffmpeg-core.js",
+                  wasmURL: vendor+"ffmpeg-core.wasm",
+                  classWorkerURL: vendor+"814.ffmpeg.js" });
   ffmpeg=ff; return ff;
 }
 async function extractAudio(file){
