@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>LEVEL Transcriptor</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo-level-medium.svg">
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+<script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+<script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+  :root{
+    --bg:#0d0a07; --card:#161009; --border:#2b2014; --muted:#a89a86;
+    --fg:#f3ede4; --primary:#FF9800; --primary-2:#FFB74D; --deep:#F57C00;
+    --secondary:#2b2014; --ok:#22c55e; --err:#ef4444; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#241708 0%,var(--bg) 60%);
+    color:var(--fg);font:15px/1.5 "Segoe UI",system-ui,Arial,sans-serif;min-height:100vh}
+  .wrap{max-width:720px;margin:0 auto;padding:40px 22px 60px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .logo{height:48px;width:auto;display:block;flex:none;filter:drop-shadow(0 4px 14px rgba(0,0,0,.5))}
+  h1{font-size:22px;margin:0;letter-spacing:.3px}
+  .sub{color:var(--muted);font-size:13px;margin:2px 0 26px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px;margin-bottom:18px}
+  label.fld{display:block;font-size:12px;font-weight:600;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.6px;margin:0 0 8px}
+  input[type=text],input[type=email],input[type=password],select{width:100%;background:#0f0b06;
+    border:1px solid var(--border);color:var(--fg);border-radius:10px;padding:11px 12px;
+    font-size:14px;outline:none;transition:border .15s;color-scheme:dark}
+  input:focus,select:focus{border-color:var(--primary)}
+  .row{display:flex;gap:14px}.row>div{flex:1}
+  .drop{border:1.5px dashed #4a371f;border-radius:12px;padding:26px;
+    text-align:center;cursor:pointer;transition:.15s;background:#0f0b06}
+  .drop:hover,.drop.drag{border-color:var(--primary);background:#171006}
+  .drop .big{font-size:15px;font-weight:600}.drop .small{color:var(--muted);font-size:12.5px;margin-top:4px}
+  .fileinfo{display:none;margin-top:14px;background:#0f0b06;border:1px solid var(--border);
+    border-radius:10px;padding:12px 14px;font-size:13px}
+  .fileinfo.show{display:block}
+  .fileinfo b{color:var(--fg)}.fileinfo .est{color:var(--primary-2);font-weight:700}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+  .chip{display:flex;align-items:center;gap:8px;background:#0f0b06;border:1px solid var(--border);
+    border-radius:10px;padding:9px 13px;cursor:pointer;user-select:none;font-size:13.5px;transition:.15s}
+  .chip:hover{border-color:#4a371f}
+  .chip.on{border-color:var(--primary);background:#1c1206}
+  .chip small{color:var(--muted);font-size:11px}
+  .btn{width:100%;margin-top:6px;background:linear-gradient(135deg,var(--primary),var(--deep));
+    color:#1A1206;border:0;border-radius:11px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;
+    transition:.15s;box-shadow:0 6px 18px rgba(255,152,0,.25)}
+  .btn:hover:not(:disabled){filter:brightness(1.06)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  .hint{color:var(--muted);font-size:12px;margin-top:8px}
+  .warn{background:#2a1518;border:1px solid #7f1d1d;color:#fecaca;border-radius:12px;
+    padding:14px 16px;margin-bottom:18px;font-size:13.5px;line-height:1.55;display:none}
+  .warn.show{display:block}
+  .sw{width:22px;height:22px;border-radius:6px;border:1px solid #4a371f;display:inline-block;flex:none}
+  #logoPrev{display:none;margin-top:10px;align-items:center;gap:10px}
+  #logoPrev.show{display:flex}
+  #logoPrev img{height:34px;max-width:120px;object-fit:contain;border-radius:6px;background:#0f0b06;padding:3px;border:1px solid var(--border)}
+  .xbtn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:7px;
+    width:26px;height:26px;cursor:pointer;font-size:12px;line-height:1}
+
+  /* Progress (status) */
+  #progWrap{display:none;margin-top:4px}
+  #progWrap.show{display:block}
+  .progress{width:100%;display:flex;flex-direction:column;gap:10px}
+  .statusline{display:flex;align-items:baseline;gap:9px;font-family:Consolas,"Cascadia Mono",monospace;
+    font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .statusline b{color:var(--fg);letter-spacing:.12em}
+  .bar{position:relative;height:8px;width:100%;overflow:hidden;border-radius:9999px;background:var(--secondary)}
+  .fill{height:100%;width:100%;background:linear-gradient(90deg,var(--primary),var(--primary-2));
+    border-radius:9999px;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+  .stage{color:var(--muted);font-size:13px;margin-top:10px;display:flex;justify-content:space-between}
+  .result{display:none;margin-top:16px}.result.show{display:block}
+  .flist{list-style:none;padding:0;margin:10px 0 0}
+  .flist li{background:#0f0b06;border:1px solid var(--border);border-radius:9px;padding:9px 12px;
+    margin-bottom:7px;font-size:12.5px;font-family:Consolas,monospace;color:#d8c9b0;word-break:break-all}
+  .ok-msg{color:var(--ok);font-weight:700}.err-msg{color:var(--err);font-weight:700}
+  .openbtn{margin-top:12px;background:#0f0b06;border:1px solid var(--primary);color:var(--primary-2);
+    border-radius:9px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;margin-right:8px}
+  .openbtn:hover{background:#1c1206}
+  .userbar{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-bottom:10px;
+    color:var(--muted);font-size:12.5px}
+  .userbar button{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;
+    padding:5px 12px;font-size:12px;cursor:pointer}
+
+  /* Origin fill (componentes.md · OB_FILL) */
+  .ob-host{overflow:hidden;isolation:isolate}
+  .ob-fill{position:absolute;z-index:-1;pointer-events:none;border-radius:50%;left:0;top:0;width:0;height:0;
+    background:var(--ob-fill,var(--primary));transform:translate(-50%,-50%) scale(0);
+    transition:transform .5s cubic-bezier(.16,1,.3,1)}
+  .ob-host.ob-on>.ob-fill{transform:translate(-50%,-50%) scale(1)}
+  .ob-host.ob-on,.ob-host.ob-on *:not(.ob-fill){color:var(--ob-ink,#1A1206)!important}
+  .ob-host:not(:disabled):active{transform:scale(.985)}
+  .btn{--ob-fill:#ffe6c2;--ob-ink:#1A1206}
+  .browse,.openbtn,.userbar button{--ob-fill:var(--primary);--ob-ink:#1A1206}
+  @media (prefers-reduced-motion:reduce){.ob-fill{transition:none;display:none}}
+
+  /* Infinite grid (TG_GRID) */
+  .tg-grid,.tg-reveal{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .tg-grid{background-image:linear-gradient(to right,rgba(168,154,134,.07) 1px,transparent 1px),
+      linear-gradient(to bottom,rgba(168,154,134,.07) 1px,transparent 1px);
+    background-size:56px 56px;animation:tgScroll 60s linear infinite}
+  .tg-reveal{background-image:
+      radial-gradient(240px circle at var(--tg-x,-500px) var(--tg-y,-500px),rgba(255,152,0,.10),transparent 70%),
+      linear-gradient(to right,rgba(255,183,77,.25) 1px,transparent 1px),
+      linear-gradient(to bottom,rgba(255,183,77,.25) 1px,transparent 1px);
+    background-size:auto,56px 56px,56px 56px;animation:tgScrollR 60s linear infinite;
+    -webkit-mask-image:radial-gradient(240px circle at var(--tg-x,-500px) var(--tg-y,-500px),#000 0%,transparent 72%);
+    mask-image:radial-gradient(240px circle at var(--tg-x,-500px) var(--tg-y,-500px),#000 0%,transparent 72%)}
+  @keyframes tgScroll{from{background-position:0 0}to{background-position:560px 560px}}
+  @keyframes tgScrollR{from{background-position:0 0,0 0,0 0}to{background-position:0 0,560px 560px,560px 560px}}
+  @media (prefers-reduced-motion:reduce){.tg-grid,.tg-reveal{animation:none}.tg-reveal{display:none}}
+
+  /* Liquid toggle */
+  .chip input{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+  .lq{flex:none;width:40px;height:22px;border-radius:999px;background:#3a2c17;position:relative;
+    transition:background .25s ease;box-shadow:inset 0 1px 3px rgba(0,0,0,.4)}
+  .lq-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:999px;background:#a89a86;
+    transition:left .32s cubic-bezier(.34,1.56,.64,1),width .18s ease,background .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,.45)}
+  .chip input:checked+.lq{background:var(--primary)}
+  .chip input:checked+.lq .lq-thumb{left:21px;background:#1A1206}
+  .chip:active .lq-thumb{width:23px}
+  .chip:active input:checked+.lq .lq-thumb{left:14px}
+  .browse{white-space:nowrap;background:#0f0b06;border:1px solid var(--primary);color:var(--primary-2);
+    border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;cursor:pointer}
+
+  /* Footer taped */
+  .taped-footer{position:relative;margin:44px auto 0;background:var(--card);border:1px solid var(--border);
+    border-radius:16px;padding:24px 26px 20px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .taped-footer::before,.taped-footer::after{content:"";position:absolute;top:-9px;width:62px;height:19px;
+    background:linear-gradient(180deg,rgba(255,183,77,.16),rgba(255,183,77,.08));
+    border:1px solid rgba(255,183,77,.14);box-shadow:0 2px 5px rgba(0,0,0,.2)}
+  .taped-footer::before{left:-17px;transform:rotate(-40deg)}
+  .taped-footer::after{right:-17px;transform:rotate(40deg)}
+  .ft-copy{font-family:Consolas,monospace;font-size:11.5px;letter-spacing:.14em;color:var(--muted);
+    margin:16px 4px 0;text-align:left}
+  #loginCard{max-width:420px;margin:8vh auto 0}
+  video#probe{display:none}
+</style>
+</head>
+<body>
+<div class="tg-grid" aria-hidden="true"></div>
+<div class="tg-reveal" aria-hidden="true"></div>
+
+<div class="wrap">
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="lvl-logo" viewBox="0 0 283 147" fill="none">
+    <path d="M229 24.0027L232 29.0001L142 115L51 29L53.5 24.5L142 108L229 24.0027Z" fill="#AEC7E0"/>
+    <path d="M97 2.00928C103.783 9.03828 142 48.0093 142 48.0093V2.00928H97Z" fill="#AEC7E0"/>
+    <path d="M142 48.0093L186.468 2C186.468 2 160.965 2.00928 142 2.00928V48.0093Z" fill="#FF9800"/>
+    <path d="M232 29.0001L215 0H283L232 29.0001Z" fill="#E65100"/>
+    <path d="M283 0L246 21L234 56.99L257 59H263L283 0Z" fill="#FFB74D"/>
+    <path d="M263 58.9968V130.001L283 147V0L263 58.9968Z" fill="#F57C00"/>
+    <path d="M234 57V103L257 58.9906L234 57Z" fill="#FB8C00"/>
+    <path d="M257 59L234 103.009L257 124V59Z" fill="#D84315"/>
+    <path d="M234 103L192 124H257L234 103Z" fill="#C66900"/>
+    <path d="M181 117L194.5 103H234L192 124L181 117Z" fill="#FFB74D"/>
+    <path d="M181 117L192 124L198 130L188.286 147H152.5L181 117Z" fill="#FFCC80"/>
+    <path d="M198 130L188.254 147L283 147L198 130Z" fill="#BF360C"/>
+    <path d="M263 130L198 130L283 147L263 130Z" fill="#C66900"/>
+    <path d="M263 59C256.914 59 256.914 59 256.914 59C256.914 79.4826 256.935 104.245 256.914 123.987H192L198.086 129.986C198.086 129.986 263 130.017 263 129.986V59Z" fill="#AEC7E0"/>
+    <path d="M232 29.0001L246 21L234 57L179 110L142 147V115L174.5 84L232 29.0001Z" fill="#F57C00"/>
+    <path d="M51.1346 29L37 21L49.1154 57L104.644 110L142 147V115L109.188 84L51.1346 29Z" fill="#F57C00"/>
+    <path d="M229.5 24.5L142 108V74L215 0L229.5 24.5Z" fill="#FFCC80"/>
+    <path d="M51 29L68 0H0L51 29Z" fill="#E65100"/>
+    <path d="M0 0L37 21L49 56.99L26 59H20L0 0Z" fill="#FFB74D"/>
+    <path d="M20 58.9968V130.001L0 147V0L20 58.9968Z" fill="#F57C00"/>
+    <path d="M49 57V103L26 58.9906L49 57Z" fill="#FB8C00"/>
+    <path d="M26 59L49 103.009L26 124L26 59Z" fill="#D84315"/>
+    <path d="M49 103L91 124H26L49 103Z" fill="#C66900"/>
+    <path d="M102 117L88.5 103H49L91 124L102 117Z" fill="#FFB74D"/>
+    <path d="M102 117L91 124L85 130L94.7143 147H130.5L102 117Z" fill="#FFCC80"/>
+    <path d="M85 130L94.7459 147L0 147L85 130Z" fill="#BF360C"/>
+    <path d="M20 130L85 130L0 147L20 130Z" fill="#C66900"/>
+    <path d="M20 59C26.0857 59 26.0857 59 26.0857 59C26.0857 79.4826 26.0647 104.245 26.0857 123.987H91L84.9143 129.986C84.9143 129.986 20 130.017 20 129.986V59Z" fill="#AEC7E0"/>
+    <path d="M53.5 24.5L142 108V74L68 0L53.5 24.5Z" fill="#FFCC80"/>
+  </symbol></svg>
+
+  <!-- ===================== LOGIN ===================== -->
+  <div id="loginCard" class="card">
+    <div style="text-align:center;margin-bottom:18px">
+      <svg class="logo" viewBox="0 0 283 147" style="height:56px;margin:0 auto 10px"><use href="#lvl-logo"/></svg>
+      <h1>LEVEL Transcriptor</h1>
+      <p class="sub" style="margin-bottom:0">Entre com a sua conta do LEVEL Hub.</p>
+    </div>
+    <div class="warn" id="loginErr"></div>
+    <label class="fld">E-mail</label>
+    <input type="email" id="email" autocomplete="username" />
+    <label class="fld" style="margin-top:14px">Senha</label>
+    <input type="password" id="password" autocomplete="current-password" />
+    <button class="btn" id="loginBtn" style="margin-top:20px">Entrar</button>
+    <div class="hint" style="text-align:center;margin-top:12px">A transcrição usa a conta Gemini do LEVEL — o uso fica registado no teu utilizador.</div>
+  </div>
+
+  <!-- ===================== APP ===================== -->
+  <div id="app" style="display:none">
+    <div class="userbar"><span id="whoami"></span><button id="logoutBtn">Sair</button></div>
+    <header>
+      <svg class="logo" viewBox="0 0 283 147" role="img" aria-label="LEVEL"><use href="#lvl-logo"/></svg>
+      <div><h1>LEVEL Transcriptor</h1></div>
+    </header>
+    <p class="sub">Transcrição de reuniões com Gemini — o vídeo fica no teu navegador; só o <b>áudio comprimido</b> vai à Google e é apagado ao terminar.</p>
+
+    <div class="card">
+      <label class="fld">1 · Arquivo de vídeo</label>
+      <div class="drop" id="drop">
+        <div class="big">📁 Clique para escolher um vídeo</div>
+        <div class="small">ou arraste e solte aqui — mp4, mkv, mov, webm…</div>
+      </div>
+      <input type="file" id="file" accept="video/*,audio/*" hidden />
+      <div class="fileinfo" id="fileinfo"></div>
+    </div>
+
+    <div class="card">
+      <label class="fld">2 · Saída</label>
+      <div class="chips" id="chips">
+        <label class="chip on"><input type="checkbox" value="txt" checked><span class="lq"><span class="lq-thumb"></span></span> TXT</label>
+        <label class="chip on"><input type="checkbox" value="json" checked><span class="lq"><span class="lq-thumb"></span></span> JSON</label>
+        <label class="chip on"><input type="checkbox" value="srt" checked><span class="lq"><span class="lq-thumb"></span></span> SRT</label>
+        <label class="chip"><input type="checkbox" value="vtt"><span class="lq"><span class="lq-thumb"></span></span> VTT</label>
+      </div>
+      <div class="row" style="margin-top:18px">
+        <div>
+          <label class="fld">Modelo Gemini</label>
+          <select id="model">
+            <option value="gemini-2.5-flash" selected>gemini-2.5-flash — rápido, recomendado</option>
+            <option value="gemini-2.5-pro">gemini-2.5-pro — máxima qualidade (reuniões longas podem exceder o tempo)</option>
+          </select>
+        </div>
+        <div>
+          <label class="fld">Idioma</label>
+          <select id="language">
+            <option value="auto" selected>Detectar automaticamente</option>
+            <option value="pt">Português</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="chip" style="width:100%;justify-content:flex-start;padding:12px 14px" id="printsToggleWrap">
+        <input type="checkbox" id="printsToggle"><span class="lq"><span class="lq-thumb"></span></span> <b>🖼️ Prints da reunião + documento ilustrado</b>
+        <small>frames do vídeo capturados aqui no navegador</small>
+      </label>
+      <div id="printsPanel" style="display:none;margin-top:16px">
+        <div class="row">
+          <div>
+            <label class="fld">Modo de captura</label>
+            <select id="printsMode">
+              <option value="scene" selected>Mudança de tela — ideal p/ slides</option>
+              <option value="interval">Intervalo fixo (30 s)</option>
+              <option value="keyword">Momentos da fala</option>
+            </select>
+          </div>
+          <div>
+            <label class="fld">Máx. de prints</label>
+            <input type="text" id="printsCap" value="60" inputmode="numeric" />
+          </div>
+        </div>
+        <label class="fld" style="margin-top:16px">Título do documento</label>
+        <input type="text" id="docTitle" placeholder="(se vazio, usa o nome do vídeo)" />
+        <div class="row" style="margin-top:16px">
+          <div>
+            <label class="fld">Logo do documento (opcional)</label>
+            <button type="button" class="browse" id="logoBtn" style="width:100%">🎨 Escolher logo…</button>
+            <input type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>
+            <div class="hint" style="margin-top:7px">PNG, JPG, WebP ou SVG — as cores do documento seguem a logo.</div>
+            <div id="logoPrev"><img id="logoImg" alt="logo"><span class="sw" id="sw1"></span><span class="sw" id="sw2"></span><button type="button" class="xbtn" id="logoClear">✕</button></div>
+          </div>
+          <div>
+            <label class="fld">Idiomas do documento</label>
+            <div class="chips">
+              <label class="chip on"><input type="checkbox" id="langPt" checked><span class="lq"><span class="lq-thumb"></span></span> PT</label>
+              <label class="chip"><input type="checkbox" id="langEn"><span class="lq"><span class="lq-thumb"></span></span> EN</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" id="go" disabled>🎬 Transcrever</button>
+    <div class="hint" style="text-align:center">Tudo é entregue num <b>ZIP para download</b> no fim.</div>
+
+    <div class="card" id="progWrap">
+      <div class="progress">
+        <div class="statusline"><span id="plabel">Preparando…</span><span>·</span><b id="pval">0%</b></div>
+        <div class="bar"><div class="fill" id="pfill" style="transform:translateX(-100%)"></div></div>
+      </div>
+      <div class="stage"><span id="pstage">…</span><span id="peta"></span></div>
+      <div class="result" id="result"></div>
+    </div>
+
+    <footer>
+      <div class="taped-footer">
+        <div style="display:flex;align-items:center;gap:12px">
+          <svg viewBox="0 0 283 147" style="height:26px" aria-hidden="true"><use href="#lvl-logo"/></svg>
+          <div>
+            <div style="font-weight:700;font-size:13.5px">LEVEL Transcriptor <span style="color:var(--primary-2)">· web</span></div>
+            <div style="color:var(--muted);font-size:12px">Gemini + contas do LEVEL Hub · o vídeo nunca sai do navegador</div>
+          </div>
+        </div>
+      </div>
+      <div class="ft-copy">© 2026 LEVEL · Todos os direitos reservados</div>
+    </footer>
+  </div>
+</div>
+
+<video id="probe" muted playsinline preload="auto"></video>
+
+<script>
+"use strict";
+/* ================= config ================= */
+const SUPABASE_URL = "https://cqkhqtgmolmrfgzozocr.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck";
+const FN_URL = SUPABASE_URL + "/functions/v1/transcribe-gemini";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const $ = s => document.querySelector(s);
+
+/* ================= helpers ================= */
+const hms = t => { t = Math.max(0, Math.floor(t)); return String(Math.floor(t/3600)).padStart(2,"0")+":"+String(Math.floor(t%3600/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0"); };
+const hmsFile = t => hms(t).replace(/:/g,"-");
+const srtTs = t => { const ms = Math.round((t-Math.floor(t))*1000); return hms(t)+","+String(ms).padStart(3,"0"); };
+const vttTs = t => srtTs(t).replace(",",".");
+const fmtDur = s => { s=Math.round(s); const h=s/3600|0,m=(s%3600)/60|0; return (h?h+"h ":"")+(m?m+"m ":"")+(s%60)+"s"; };
+const fmtBytes = b => { const u=["B","KB","MB","GB"]; let i=0; while(b>=1024&&i<3){b/=1024;i++} return b.toFixed(1)+" "+u[i]; };
+const esc = x => (x||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function tsToSec(ts){ if(!ts) return null; const m = String(ts).match(/^\s*(?:(\d{1,2}):)?(\d{1,3}):(\d{2})(?:[.,](\d+))?\s*$/); if(!m) return null; return (+(m[1]||0))*3600 + (+m[2])*60 + (+m[3]) + parseFloat("0."+(m[4]||"0")); }
+const spoken = s => (s.speaker ? s.speaker+": " : "") + s.text;
+
+function setProgress(pct, label){ pct=Math.max(0,Math.min(100,pct));
+  $("#pfill").style.transform = `translateX(-${100-pct}%)`;
+  $("#pval").textContent = Math.round(pct)+"%";
+  if(label) $("#plabel").textContent = label; }
+function stage(txt, eta){ $("#pstage").textContent = txt||""; $("#peta").textContent = eta||""; }
+function fail(msg){ const r=$("#result"); r.className="result show";
+  r.innerHTML = `<div class="err-msg">❌ ${esc(msg)}</div>`; stage("Erro",""); $("#go").disabled=false; }
+
+/* ================= auth ================= */
+async function callFn(payload){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(!session) throw new Error("sessão expirou — faça login de novo");
+  const r = await fetch(FN_URL, { method:"POST",
+    headers:{ Authorization:"Bearer "+session.access_token, apikey:SUPABASE_ANON, "Content-Type":"application/json" },
+    body: JSON.stringify(payload) });
+  const j = await r.json().catch(()=>({}));
+  if(!r.ok || j.ok === false) throw new Error(j.error || ("função "+r.status));
+  return j;
+}
+async function refreshAuthUI(){
+  const { data:{ session } } = await sb.auth.getSession();
+  const logged = !!session;
+  $("#loginCard").style.display = logged ? "none" : "block";
+  $("#app").style.display = logged ? "block" : "none";
+  if(logged) $("#whoami").textContent = session.user.email || "";
+}
+$("#loginBtn").onclick = async () => {
+  $("#loginErr").classList.remove("show");
+  $("#loginBtn").disabled = true; $("#loginBtn").textContent = "Entrando…";
+  const { error } = await sb.auth.signInWithPassword({ email:$("#email").value.trim(), password:$("#password").value });
+  $("#loginBtn").disabled = false; $("#loginBtn").textContent = "Entrar";
+  if(error){ const e=$("#loginErr"); e.textContent = "Falha no login: "+error.message; e.classList.add("show"); return; }
+  refreshAuthUI();
+};
+$("#password").addEventListener("keydown", e => { if(e.key==="Enter") $("#loginBtn").click(); });
+$("#logoutBtn").onclick = async () => { await sb.auth.signOut(); refreshAuthUI(); };
+refreshAuthUI();
+
+/* ================= seleção de vídeo ================= */
+let chosen=null, durationSec=0, videoURL=null;
+const drop=$("#drop"), fileInput=$("#file");
+drop.onclick = () => fileInput.click();
+drop.ondragover = e => { e.preventDefault(); drop.classList.add("drag"); };
+drop.ondragleave = () => drop.classList.remove("drag");
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove("drag"); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); };
+fileInput.onchange = () => fileInput.files[0] && handleFile(fileInput.files[0]);
+function handleFile(f){
+  chosen=f; if(videoURL) URL.revokeObjectURL(videoURL);
+  videoURL = URL.createObjectURL(f);
+  drop.querySelector(".big").textContent = "📹 "+f.name;
+  drop.querySelector(".small").textContent = "clique para trocar";
+  const v=$("#probe"); v.src=videoURL;
+  v.onloadedmetadata = () => { durationSec=v.duration||0; showInfo(); };
+  v.onerror = () => { durationSec=0; showInfo(); };
+  updateGo();
+}
+function showInfo(){
+  $("#fileinfo").classList.add("show");
+  $("#fileinfo").innerHTML = `<b>${esc(chosen.name)}</b> · ${fmtBytes(chosen.size)}` +
+    (durationSec?` · duração ${fmtDur(durationSec)}`:"") +
+    (durationSec?`<br>⏱️ Previsão total: <span class="est">~${fmtDur(60 + durationSec/8)}</span> <small style="color:var(--muted)">(extração + envio + Gemini)</small>`:"");
+}
+function selectedFormats(){ return [...document.querySelectorAll("#chips input:checked")].map(i=>i.value); }
+document.querySelectorAll(".chip input").forEach(cb => cb.addEventListener("change", () => {
+  cb.closest(".chip").classList.toggle("on", cb.checked); updateGo(); }));
+function updateGo(){ $("#go").disabled = !(chosen && selectedFormats().length); }
+
+/* ================= prints painel ================= */
+$("#printsToggle").addEventListener("change", () => {
+  $("#printsPanel").style.display = $("#printsToggle").checked ? "block" : "none"; });
+let docLogoDataURL=null, docColors=null;
+function extractPalette(img){
+  const c=document.createElement("canvas"); c.width=c.height=64;
+  const x=c.getContext("2d"); x.drawImage(img,0,0,64,64);
+  let d; try{ d=x.getImageData(0,0,64,64).data; }catch(e){ return null; }
+  const B={};
+  for(let i=0;i<d.length;i+=4){ const r=d[i],g=d[i+1],b=d[i+2],a=d[i+3];
+    if(a<128) continue; const mx=Math.max(r,g,b),mn=Math.min(r,g,b);
+    if(mx>240&&mn>220) continue; if(mx<40) continue; if(mx-mn<30) continue;
+    const k=(r>>4)+","+(g>>4)+","+(b>>4); (B[k]=B[k]||{n:0,r:0,g:0,b:0});
+    const e=B[k]; e.n++; e.r+=r; e.g+=g; e.b+=b; }
+  const S=Object.values(B).sort((a,b)=>b.n-a.n); if(!S.length) return null;
+  const avg=e=>[e.r/e.n,e.g/e.n,e.b/e.n];
+  const hex=v=>"#"+v.map(n=>Math.round(n).toString(16).padStart(2,"0")).join("");
+  const p=avg(S[0]); let acc=null;
+  for(let i=1;i<S.length;i++){ const q=avg(S[i]);
+    if(Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])>60){ acc=hex(q); break; } }
+  return { primary:hex(p), accent:acc||hex(p.map(n=>Math.min(255,n+55))) };
+}
+$("#logoBtn").onclick = () => $("#logoFile").click();
+$("#logoFile").onchange = () => { const f=$("#logoFile").files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload = () => { const img=new Image();
+    img.onload = () => { docColors=extractPalette(img); docLogoDataURL=rd.result;
+      $("#logoImg").src=rd.result; $("#logoPrev").classList.add("show");
+      $("#sw1").style.background=docColors?docColors.primary:"#FF9800";
+      $("#sw2").style.background=docColors?docColors.accent:"#FFB74D"; };
+    img.src=rd.result; };
+  rd.readAsDataURL(f); };
+$("#logoClear").onclick = () => { docLogoDataURL=null; docColors=null; $("#logoFile").value=""; $("#logoPrev").classList.remove("show"); };
+
+/* ================= ffmpeg.wasm (extração de áudio) ================= */
+let ffmpeg=null;
+async function getFFmpeg(){
+  if(ffmpeg) return ffmpeg;
+  stage("Carregando motor de áudio (~30 MB, só na 1ª vez)…","");
+  const ff = new FFmpegWASM.FFmpeg();
+  ff.on("progress", ({progress}) => { if(progress>0&&progress<=1) setProgress(5+progress*20,"Extraindo áudio…"); });
+  const base="https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
+  await ff.load({ coreURL: await FFmpegUtil.toBlobURL(base+"/ffmpeg-core.js","text/javascript"),
+                  wasmURL: await FFmpegUtil.toBlobURL(base+"/ffmpeg-core.wasm","application/wasm") });
+  ffmpeg=ff; return ff;
+}
+async function extractAudio(file){
+  const ff = await getFFmpeg();
+  setProgress(5,"Extraindo áudio…"); stage("Extraindo áudio do vídeo (no teu navegador)…","");
+  await ff.writeFile("in", await FFmpegUtil.fetchFile(file));
+  await ff.exec(["-i","in","-vn","-ac","1","-ar","16000","-b:a","32k","out.mp3"]);
+  const data = await ff.readFile("out.mp3");
+  try{ await ff.deleteFile("in"); await ff.deleteFile("out.mp3"); }catch(e){}
+  return new Blob([data.buffer], {type:"audio/mpeg"});
+}
+
+/* ================= gemini pipeline ================= */
+function geminiJsonToSegs(data, totalDur){
+  const raw=(data&&data.segments)||[]; const segs=[];
+  for(const it of raw){ const txt=(it.text||"").trim(); if(!txt) continue;
+    segs.push({ start:tsToSec(it.start_time), end:tsToSec(it.end_time),
+      speaker:(it.speaker||"").trim()||null, text:txt }); }
+  let last=0;
+  for(const s of segs){ if(s.start==null) s.start=last; s.start=Math.max(s.start,last); last=s.start; }
+  for(let i=0;i<segs.length;i++){ const s=segs[i];
+    if(s.end==null||s.end<=s.start){ const nxt=i+1<segs.length?segs[i+1].start:(totalDur||s.start+5);
+      s.end=Math.max(s.start+0.5,Math.min(nxt,s.start+30)); }
+    s.hms=hms(s.start); }
+  return segs;
+}
+async function transcribeViaGemini(file){
+  const audio = await extractAudio(file);
+  setProgress(27,"Enviando áudio…"); stage(`Enviando ${fmtBytes(audio.size)} à Google…`,"");
+  const startRes = await callFn({ action:"start", mime:"audio/mpeg", size:audio.size, filename:file.name });
+  const up = await fetch(startRes.upload_url, { method:"POST",
+    headers:{ "X-Goog-Upload-Command":"upload, finalize", "X-Goog-Upload-Offset":"0" }, body: audio });
+  if(!up.ok) throw new Error("upload do áudio falhou ("+up.status+")");
+  const info = await up.json();
+  let fname=info.file.name, furi=info.file.uri, state=info.file.state;
+  setProgress(38,"Processando…"); stage("Google a preparar o áudio…","");
+  let waited=0;
+  while(state==="PROCESSING" && waited<180){ await new Promise(r=>setTimeout(r,3000)); waited+=3;
+    const st=await callFn({action:"status", file_name:fname}); state=st.state; furi=st.uri||furi; }
+  const model=$("#model").value;
+  setProgress(45,"Gemini a transcrever…");
+  stage(`Gemini (${model}) a transcrever — pode levar alguns minutos…`, "resta ~"+fmtDur((durationSec||1800)/10));
+  const tr = await callFn({ action:"transcribe", file_uri:furi, file_name:fname, mime:"audio/mpeg",
+    language:$("#language").value, duration_sec:durationSec, model });
+  setProgress(78,"Processando resultado…"); stage("Montando transcrição…","");
+  const segs = geminiJsonToSegs(tr.data, durationSec);
+  if(!segs.length) throw new Error("sem segmentos na resposta");
+  return { segs, lang:(tr.data.language_detected||"?").slice(0,2).toLowerCase(), usage:tr.usage||{} };
+}
+
+/* ================= prints (client-side) ================= */
+const TRIGGERS=/como voc[eê]s? pode|voc[eê]s? pode[m]? ver|aqui voc|neste slide|nesse slide|na tela|compartilh|mostrar|vou mostrar|apresenta|repare|observ|perceb|olh[ae]m?|vejam?|essa p[áa]gina|esta p[áa]gina|esse diagrama|este diagrama|essa arquitetura|no slide|as you can see|you can see|on the screen|this slide|this page|this diagram/i;
+function seekTo(v,t){ return new Promise((res,rej)=>{ const to=setTimeout(()=>rej(new Error("seek timeout")),8000);
+  v.onseeked=()=>{ clearTimeout(to); res(); }; v.currentTime=Math.min(t,(v.duration||t)-0.05); }); }
+async function capturePrints(segs, onProg){
+  const mode=$("#printsMode").value, cap=Math.max(1,parseInt($("#printsCap").value)||60);
+  const v=$("#probe");
+  if(!v.duration) throw new Error("vídeo sem metadados p/ prints");
+  let times=[];
+  if(mode==="interval"){ for(let t=15;t<v.duration;t+=30) times.push(t); }
+  else if(mode==="keyword"){ let last=-99; for(const s of segs){ if(TRIGGERS.test(s.text)&&s.start-last>=8){ times.push(Math.min(s.start+2,v.duration-1)); last=s.start; } } }
+  else { // scene: amostra a cada 4s em miniatura e detecta diferença
+    const cs=document.createElement("canvas"); cs.width=64; cs.height=36;
+    const cx=cs.getContext("2d",{willReadFrequently:true});
+    let prev=null, n=0, total=Math.floor(v.duration/4);
+    for(let t=2;t<v.duration;t+=4){ await seekTo(v,t);
+      cx.drawImage(v,0,0,64,36); const d=cx.getImageData(0,0,64,36).data;
+      if(prev){ let sum=0; for(let i=0;i<d.length;i+=4){ sum+=Math.abs(d[i]-prev[i])+Math.abs(d[i+1]-prev[i+1])+Math.abs(d[i+2]-prev[i+2]); }
+        if(sum/(d.length/4)/765 > 0.06) times.push(t); }
+      prev=new Uint8ClampedArray(d); n++;
+      if(n%8===0) onProg(`Analisando o vídeo… ${hms(t)} / ${hms(v.duration)}`, n/total);
+    }
+  }
+  if(times.length>cap){ const step=times.length/cap; times=Array.from({length:cap},(_,i)=>times[Math.floor(i*step)]); }
+  const out=[]; const c=document.createElement("canvas");
+  const W=Math.min(1280,v.videoWidth||1280); const H=Math.round(W*(v.videoHeight||720)/(v.videoWidth||1280));
+  c.width=W; c.height=H; const ctx=c.getContext("2d");
+  for(let i=0;i<times.length;i++){ const t=times[i]; await seekTo(v,t);
+    ctx.drawImage(v,0,0,W,H);
+    const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));
+    out.push({ t, name:`shot_${hmsFile(t)}.jpg`, blob });
+    onProg(`Capturando prints… ${i+1}/${times.length}`, null);
+  }
+  return out;
+}
+function captionFor(t, segs){ let best=null,bd=1e9;
+  for(const s of segs){ if(s.start<=t&&t<=s.end) return s.text;
+    const d=Math.abs(s.start-t); if(d<bd){ bd=d; best=s; } }
+  return best?best.text:""; }
+
+/* ================= documento ilustrado ================= */
+function hexInk(h){ try{ const x=h.replace("#",""); const r=parseInt(x.slice(0,2),16),g=parseInt(x.slice(2,4),16),b=parseInt(x.slice(4,6),16);
+  return (r*0.299+g*0.587+b*0.114)>165 ? "#131313" : "#ffffff"; }catch(e){ return "#fff"; } }
+async function buildDoc(title, shots, captions, lang){
+  const primary=docColors?docColors.primary:"#FF9800";
+  const accent=docColors?docColors.accent:"#FFB74D";
+  const ink=hexInk(primary);
+  const t9n = lang==="en"
+    ? {doc:"Illustrated document", prints:"screenshots", by:"illustrated document generated by LEVEL Transcriptor", foot:"Generated from the automatic transcription (technical terms may contain inaccuracies). For PDF: Ctrl+P."}
+    : {doc:"Documento ilustrado", prints:"prints", by:"documento ilustrado gerado pelo LEVEL Transcriptor", foot:"Gerado a partir da transcrição automática (termos técnicos podem conter imprecisões). Para PDF: Ctrl+P."};
+  const imgs = await Promise.all(shots.map(s => new Promise(res => { const rd=new FileReader();
+    rd.onload=()=>res(rd.result); rd.readAsDataURL(s.blob); })));
+  const cards = shots.map((s,i) =>
+    `<figure class="c"><div class="iw"><img src="${imgs[i]}" alt="${hms(s.t)}"></div>
+     <figcaption><span class="ts">${hms(s.t)}</span><span class="cap">${esc(captions[s.name]||"")}</span></figcaption></figure>`).join("");
+  const logo = docLogoDataURL ? `<img class="dl" src="${docLogoDataURL}" alt="logo">` : "";
+  return `<!doctype html><html lang="${lang==="en"?"en":"pt-br"}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)} — ${t9n.doc}</title>
+<style>:root{--p:${primary};--a:${accent};--ink:${ink}}*{box-sizing:border-box}
+body{margin:0;background:#0b0f14;color:#e8edf3;font:15px/1.55 "Segoe UI",system-ui,Arial,sans-serif}
+.w{max-width:1000px;margin:0 auto;padding:40px 22px 60px}
+header{display:flex;align-items:center;gap:16px;border-bottom:2px solid var(--p);padding-bottom:18px;margin-bottom:10px}
+.dl{height:52px;width:auto}h1{font-size:24px;margin:0}
+.meta{color:#8b98a9;font-size:13px;margin:14px 0 28px}.meta b{color:var(--a)}
+.grid{display:grid;gap:22px}.c{margin:0;background:#121821;border:1px solid #1e2836;border-radius:14px;overflow:hidden}
+.iw{background:#000}.c img{display:block;width:100%;height:auto}
+figcaption{padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.ts{flex:none;background:var(--p);color:var(--ink);border-radius:6px;padding:2px 9px;font-size:12px;font-weight:700;font-family:Consolas,monospace}
+.cap{color:#c7d2de;font-size:14px}
+.foot{color:#61707f;font-size:12.5px;border-top:1px solid #1e2836;padding-top:16px;margin-top:34px}
+@media print{body{background:#fff;color:#000}.c{border-color:#ccc;break-inside:avoid}.cap{color:#000}}
+</style></head><body><div class="w"><header>${logo}<div><h1>${esc(title)}</h1></div></header>
+<p class="meta"><b>${shots.length}</b> ${t9n.prints} · ${t9n.by}</p>
+<div class="grid">${cards}</div><p class="foot">${t9n.foot}</p></div></body></html>`;
+}
+
+/* ================= run ================= */
+$("#go").onclick = async () => {
+  $("#go").disabled = true;
+  $("#progWrap").classList.add("show");
+  $("#result").className = "result"; $("#result").innerHTML = "";
+  $("#progWrap").scrollIntoView({behavior:"smooth"});
+  try{
+    setProgress(2,"Preparando…");
+    const { segs, lang, usage } = await transcribeViaGemini(chosen);
+    const base = chosen.name.replace(/\.[^.]+$/,"").replace(/[<>:"/\\|?*]/g,"_");
+    const zip = new JSZip();
+    const folder = zip.folder(base);
+    const fmts = selectedFormats();
+    if(fmts.includes("txt")) folder.file(base+".txt", segs.map(s=>`[${s.hms}] ${spoken(s)}`).join("\n")+"\n");
+    if(fmts.includes("json")) folder.file(base+".json", JSON.stringify(segs,null,1));
+    if(fmts.includes("srt")) folder.file(base+".srt", segs.map((s,i)=>`${i+1}\n${srtTs(s.start)} --> ${srtTs(s.end)}\n${spoken(s)}\n`).join("\n")+"\n");
+    if(fmts.includes("vtt")) folder.file(base+".vtt", "WEBVTT\n\n"+segs.map(s=>`${vttTs(s.start)} --> ${vttTs(s.end)}\n${spoken(s)}\n`).join("\n"));
+
+    let shots=[];
+    if($("#printsToggle").checked){
+      setProgress(80,"Prints…");
+      shots = await capturePrints(segs,(txt,frac)=>{ stage(txt,""); if(frac!=null) setProgress(80+frac*10,"Prints…"); });
+      const pf = folder.folder("prints");
+      for(const s of shots) pf.file(s.name, s.blob);
+      const capsPT = {}; shots.forEach(s => capsPT[s.name]=captionFor(s.t,segs));
+      const title = $("#docTitle").value.trim() || base;
+      if($("#langPt").checked || (!$("#langPt").checked && !$("#langEn").checked)){
+        setProgress(93,"Documento…"); stage("Montando documento (PT)…","");
+        folder.file(base+"_ilustrado_PT.html", await buildDoc(title, shots, capsPT, "pt"));
+      }
+      if($("#langEn").checked && shots.length){
+        setProgress(95,"Documento EN…"); stage("Traduzindo legendas (EN)…","");
+        let capsEN = capsPT;
+        if(lang!=="en"){ try{ const tr=await callFn({action:"translate", texts:shots.map(s=>capsPT[s.name])});
+            capsEN={}; shots.forEach((s,i)=>capsEN[s.name]=tr.texts[i]); }catch(e){} }
+        folder.file(base+"_ilustrado_EN.html", await buildDoc(title, shots, capsEN, "en"));
+      }
+    }
+    setProgress(98,"Compactando…"); stage("Gerando ZIP…","");
+    const blob = await zip.generateAsync({type:"blob"}, m => setProgress(98+m.percent*0.02,"Compactando…"));
+    const url = URL.createObjectURL(blob);
+    setProgress(100,"Concluído!");
+    stage(`${segs.length} segmentos · idioma: ${lang}` + (shots.length?` · ${shots.length} prints`:""),
+      usage.cost_estimate_usd!=null ? `custo ~$${usage.cost_estimate_usd}` : "");
+    const r=$("#result"); r.className="result show";
+    r.innerHTML = `<div class="ok-msg">✅ Transcrição concluída</div>
+      <div style="margin-top:12px"><a class="openbtn" style="display:inline-block;text-decoration:none"
+        href="${url}" download="${base}_transcricao.zip">⬇️ Baixar ZIP (${fmtBytes(blob.size)})</a></div>`;
+  }catch(err){ console.error(err); fail(err.message||String(err)); }
+  $("#go").disabled = false;
+};
+
+/* ================= efeitos (componentes.md) ================= */
+(function infiniteGrid(){ var TG_GRID=true; var red=false;
+  try{ red=matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+  if(!TG_GRID){ document.querySelectorAll(".tg-grid,.tg-reveal").forEach(el=>el.remove()); return; }
+  if(red) return;
+  document.addEventListener("pointermove", e => {
+    document.documentElement.style.setProperty("--tg-x", e.clientX+"px");
+    document.documentElement.style.setProperty("--tg-y", e.clientY+"px"); }, {passive:true});
+})();
+(function originFill(){ var OB_FILL=true; var red=false;
+  try{ red=matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+  if(!OB_FILL||red) return;
+  var SEL='button, [role="button"], a.openbtn', DENY='[data-no-obfill]';
+  function host(t){ if(!t||!t.closest) return null; var el=null;
+    try{ el=t.closest(SEL); }catch(e){} if(el){ try{ if(el.matches(DENY)) return null; }catch(e2){} } return el; }
+  function ensure(el){ if(el.__ob) return el.__ob;
+    try{ if(getComputedStyle(el).position==="static") el.style.position="relative"; }catch(e){}
+    el.classList.add("ob-host"); var f=document.createElement("i"); f.className="ob-fill";
+    f.setAttribute("aria-hidden","true"); el.appendChild(f); el.__ob=f; return f; }
+  function dia(w,h,x,y){ return Math.ceil(2*Math.max(Math.hypot(x,y),Math.hypot(w-x,y),Math.hypot(x,h-y),Math.hypot(w-x,h-y))); }
+  function on(el,cx,cy){ if(el.disabled) return; var f=ensure(el); var r=el.getBoundingClientRect();
+    if(!r.width||!r.height) return; var x=cx==null?r.width/2:cx-r.left, y=cy==null?r.height/2:cy-r.top;
+    var d=dia(r.width,r.height,x,y);
+    f.style.left=x+"px"; f.style.top=y+"px"; f.style.width=d+"px"; f.style.height=d+"px";
+    if(!el.classList.contains("ob-on")){ void f.offsetWidth; el.classList.add("ob-on"); } }
+  function off(el){ el.classList.remove("ob-on"); }
+  document.addEventListener("pointerover", e=>{ var el=host(e.target); if(!el) return;
+    if(e.relatedTarget&&el.contains(e.relatedTarget)) return; on(el,e.clientX,e.clientY); }, true);
+  document.addEventListener("pointerout", e=>{ var el=host(e.target); if(!el) return;
+    if(e.relatedTarget&&el.contains(e.relatedTarget)) return; off(el); }, true);
+  document.addEventListener("pointerdown", e=>{ var el=host(e.target); if(!el) return; on(el,e.clientX,e.clientY); }, true);
+})();
+</script>
+</body>
+</html>
