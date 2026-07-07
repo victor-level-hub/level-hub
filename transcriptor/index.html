@@ -379,7 +379,7 @@ async function callFn(payload){
     body: JSON.stringify(payload) });
   const j = await r.json().catch(()=>({}));
   if(!r.ok || j.ok === false){
-    if(r.status === 546) throw new Error("a função excedeu o tempo limite (546) — tente novamente; reuniões longas são processadas em partes de 15 min");
+    if(r.status === 546) throw new Error("a função excedeu o tempo limite (546) — tente novamente; reuniões longas são processadas em partes de 10 min");
     throw new Error(j.error || ("função "+r.status));
   }
   return j;
@@ -533,9 +533,9 @@ async function getFFmpeg(){
                   classWorkerURL: vendor+"814.ffmpeg.js" });
   ffmpeg=ff; return ff;
 }
-// Reuniões longas são divididas em partes de 15 min — cada chamada ao Gemini
+// Reuniões longas são divididas em partes de 10 min — cada chamada ao Gemini
 // cabe folgada no tempo-limite da edge function (o "erro 546" de reuniões de 1h).
-const PART_SEC = 900;
+const PART_SEC = 600;
 async function extractAudioParts(file){
   const ff = await getFFmpeg();
   setProgress(5,"Extraindo áudio…"); stage("Extraindo áudio do vídeo (no teu navegador)…","");
