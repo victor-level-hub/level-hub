@@ -236,7 +236,8 @@
           <select id="language">
             <option value="auto" selected>Detectar automaticamente</option>
             <option value="pt">Português</option>
-            <option value="en">English</option>
+            <option value="en-IN">Inglês — Índia</option>
+            <option value="en-GB">Inglês — UK</option>
             <option value="es">Español</option>
           </select>
         </div>
@@ -284,7 +285,10 @@
       </div>
     </div>
 
-    <button class="btn" id="go" disabled>🎬 Transcrever</button>
+    <div style="display:flex;gap:12px;align-items:stretch">
+      <button class="btn" id="go" disabled style="flex:1;margin-top:6px">🎬 Transcrever</button>
+      <button type="button" class="browse" id="clearBtn" style="margin-top:6px;padding:0 22px" title="Limpar a tela para uma nova transcrição">🧹 Limpar</button>
+    </div>
     <div class="hint" style="text-align:center">Tudo é entregue num <b>ZIP para download</b> no fim.</div>
 
     <div class="card" id="progWrap">
@@ -433,6 +437,25 @@ $("#logoFile").onchange = () => { const f=$("#logoFile").files[0]; if(!f) return
     img.src=rd.result; };
   rd.readAsDataURL(f); };
 $("#logoClear").onclick = () => { docLogoDataURL=null; docColors=null; $("#logoFile").value=""; $("#logoPrev").classList.remove("show"); };
+
+/* ================= limpar tela ================= */
+// Reseta o trabalho atual; preferências (formatos, modelo, idioma, toggles) ficam.
+$("#clearBtn").onclick = () => {
+  chosen=null; durationSec=0;
+  if(videoURL){ URL.revokeObjectURL(videoURL); videoURL=null; }
+  $("#probe").removeAttribute("src");
+  fileInput.value="";
+  drop.querySelector(".big").textContent = "📁 Clique para escolher um vídeo";
+  drop.querySelector(".small").textContent = "ou arraste e solte aqui — mp4, mkv, mov, webm…";
+  $("#fileinfo").classList.remove("show"); $("#fileinfo").innerHTML="";
+  $("#docTitle").value="";
+  $("#logoClear").click();
+  $("#progWrap").classList.remove("show");
+  $("#result").className="result"; $("#result").innerHTML="";
+  setProgress(0,"Preparando…"); stage("…","");
+  updateGo();
+  window.scrollTo({top:0, behavior:"smooth"});
+};
 
 /* ================= ffmpeg.wasm (extração de áudio) ================= */
 let ffmpeg=null;
