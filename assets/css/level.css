@@ -7675,7 +7675,10 @@
   .mw-cc-card .bc-name { font-size: 42px; line-height: 1.02; padding-bottom: 3px; }
   .mw-cc-card .bc-base { font-size: 13px; }
   .mw-cc-card .bc-weapon-image { width: 100%; max-width: 320px; height: 150px; }
-  .mw-cc-card .bc-analysis { max-width: none; }
+  /* v3.9.2: análise um pouco mais larga no CC (pedido do Victor). 3 classes:
+     a regra base .build-card .bc-analysis { max-width:65ch } vem DEPOIS no
+     ficheiro e vencia o antigo "max-width:none" daqui (empate de cascata). */
+  .build-card.mw-cc-card .bc-analysis { max-width: 100ch; }
   .bc-cc-cols {
     display: grid;
     grid-template-columns: 1fr 1.05fr;
@@ -7713,15 +7716,23 @@
   .bc-cc-sechint { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--text-faint); }
   .bc-cc-secrule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-subtle), transparent); }
 
-  /* v3.8.0: Loadout do Command Center — imagem GRANDE à esquerda, attachments
-     em sequência única à direita (pedido do Victor; era imagem 150px no topo
-     + 2 colunas embaixo). A imagem estica pra altura da lista (stretch). */
-  .bc-cc-loadout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; align-items: stretch; }
+  /* v3.8.0: Loadout do Command Center — imagem à esquerda, attachments em
+     sequência única à direita. v3.9.2 (pedido do Victor): caixas com LARGURA
+     CONTIDA e alinhadas à ESQUERDA (não esticam até o fim da tela); a imagem
+     exibe a arma já recortada justa (LevelWpnCrop), sem hover-zoom neste modo. */
+  .bc-cc-loadout {
+    display: grid;
+    grid-template-columns: minmax(340px, 600px) minmax(320px, 470px);
+    gap: 20px;
+    align-items: stretch;
+    justify-content: start;
+  }
   /* seletor com 3 classes: vence o .build-card .bc-weapon-image base (154x91)
      que vem DEPOIS no ficheiro e empata em especificidade com 2 classes */
-  .mw-cc-card .bc-weapon-image.bc-cc-render { width: 100%; max-width: none; height: auto; min-height: 340px; margin: 0; }
-  /* na caixa grande o zoom 1.5 do modo claro cortaria a arma — contain já basta */
-  .mw-cc-card .bc-weapon-image.bc-cc-render.bc-wpn-lighttest img.bc-wpn-img { transform: scale(1.12) !important; }
+  .mw-cc-card .bc-weapon-image.bc-cc-render { width: 100%; max-width: none; height: auto; min-height: 300px; margin: 0; cursor: default; }
+  /* v3.9.2: a imagem já vem recortada justa → NENHUM zoom de escala aqui
+     (o scale 1.18 base / 1.5 lighttest cortaria as pontas da arma). */
+  .mw-cc-card .bc-weapon-image.bc-cc-render img.bc-wpn-img { transform: none !important; }
   .bc-cc-attcol { border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden; background: rgba(15,20,34,0.40); align-self: start; }
   /* v3.8.0: análise do Le Vél sem trava de altura no CC — mostra o texto todo
      (nos cards da grade continua 6.6em com scroll). Seletor 3-classes: a regra

@@ -1588,12 +1588,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.9.1 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.9.2 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Alterar Status no histórico + hovers afinados</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O botão <strong>Snapshot</strong> do Histórico de Progressão virou <strong>"Alterar Status"</strong> e abre direto o editor do operador — mudar prestígio/nível já grava o ponto no gráfico sozinho, o passo manual era redundante. No <strong>pitch</strong>, os cards de <strong>planos</strong> ganharam o <em>hover-lift</em> do aurora-pricing (elevam e assentam suave). Os cards <strong>EXPLORAR</strong> ficaram com o tilt 3D bem mais evidente (mais ângulo + lift). E o link do <em>be-ui-tilt-card</em> no catálogo /componentes foi corrigido (dava Page Not Found).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Command Center: arma em recorte justo</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No <strong>Command Center</strong>, a foto da arma agora aparece <strong>já recortada e ampliada</strong> no frame — o mesmo tratamento que o zoom de hover fazia, aplicado direto na exibição (e o hover saiu deste modo, ficou redundante). As caixas da <strong>imagem e dos attachments</strong> deixaram de esticar até o fim da tela: largura contida, alinhadas à esquerda. E a <strong>Análise do Le Vél</strong> ficou mais larga (~50% a mais de texto por linha).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4842,6 +4842,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.9.2</span>
+                <span class="vh-date">8 Jul 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Command Center: arma em recorte justo + caixas contidas.</strong> Tr&ecirc;s ajustes do Victor sobre o layout novo: <strong>1)</strong> a foto da arma no frame grande aparecia pequena num mar de fundo &mdash; agora ela &eacute; exibida <strong>j&aacute; recortada e ampliada</strong> (o mesmo processamento de recorte-por-alfa do zoom de hover, reaproveitado via <code>LevelWpnCrop</code> com cache partilhado), e o <strong>hover-zoom saiu deste modo</strong> (ficou redundante &mdash; continua nos cards da grade e nas thumbs). O zoom de escala do frame foi zerado (cortaria as pontas do recorte). <strong>2)</strong> A imagem e a lista de attachments <strong>n&atilde;o esticam mais at&eacute; o fim da tela</strong>: larguras contidas (m&aacute;x. ~600px e ~470px) e alinhadas &agrave; esquerda. <strong>3)</strong> A <strong>An&aacute;lise do Le V&eacute;l</strong> ficou mais larga (100ch vs 65ch) &mdash; de quebra corrigiu-se o empate de cascata que impedia o alargamento antigo de funcionar.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8618,7 +8627,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.9.1</strong><span class="ver-tag">Histórico: #opp-btn-stats-snap virou "Alterar Status" ({{i:pencil}}) e abre o modal-status via click programático no btn-edit-status-sidebar (openStatusModal vive noutro IIFE); submitSnapshot segue exportado no StatsTracker pro fluxo automático; tooltip reescrito. Pitch: .lp-plan com hover-lift aurora-pricing (translateY -8px + glow, transição 380ms faz o retorno; reduced-motion off). Tilt dos .home-card (EXPLORAR): max 15° + translateY(-4px) — nos 10° genéricos não se lia em card largo/baixo. Catálogo /componentes: link do be-ui-tilt-card corrigido starc007→saurra3h (3 ficheiros + artifact republicado).</span>
+              LEVEL · <strong>v3.9.2</strong><span class="ver-tag">Command Center: imagem exibida JÁ recortada justa — processImage do hover-preview exposto como window.LevelWpnCrop e aplicado no renderCC (swap do src pra dataURL processada, cache partilhado); hover-zoom removido do .bc-cc-render (SELECTOR :not) + transform none !important no img (scale 1.18/1.5 cortaria o recorte). .bc-cc-loadout com minmax(340,600)+minmax(320,470) e justify-content:start (não estica mais até o fim). Análise: .build-card.mw-cc-card .bc-analysis max-width 100ch (o max-width:none antigo PERDIA pro 65ch base que vem depois — mais um empate de cascata).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -16005,6 +16014,17 @@ const ATTACHMENT_ICONS = {
       if (_ccSelectedId) {
         const sel = shown.find(b => b.id === _ccSelectedId);
         detailEl.innerHTML = await renderBuildCard(sel, 'cc');
+        // v3.9.2: o frame grande exibe a arma JÁ recortada justa (mesmo
+        // processamento do antigo zoom de hover, que saiu deste modo).
+        try {
+          const ccImg = detailEl.querySelector('.bc-cc-render img.bc-wpn-img');
+          if (ccImg && ccImg.src && window.LevelWpnCrop) {
+            const srcNow = ccImg.src;
+            window.LevelWpnCrop(srcNow).then(function (processed) {
+              if (processed && processed !== srcNow && ccImg.isConnected) ccImg.src = processed;
+            });
+          }
+        } catch (e) { /* silent — frame fica com a original */ }
       } else {
         detailEl.innerHTML = '<div class="lvl-empty"><div class="lvl-empty-mono">// seleciona uma build na lista</div></div>';
       }
@@ -29497,11 +29517,13 @@ ${cbt('share.t.footer')}`;
 
   var PREVIEW_ID  = 'cfg-img-preview';
   var SELECTOR    = '.option-icon img, .weapon-icon img.bo7-weapon-img, '
-                  + '.build-card .bc-weapon-image img.bc-wpn-img, '
+                  + '.build-card .bc-weapon-image:not(.bc-cc-render) img.bc-wpn-img, '
                   + '.build-info-panel .bip-img.has-img img, '
                   + '.saved-card-thumb.has-img img';
                   // v2.57.25: removido '.img-card-thumb.has-img img' — Victor não quer
                   // o zoom/hover-preview nas imagens das Configurações (mapas etc.).
+                  // v3.9.2: removido o frame grande do Command Center (.bc-cc-render) —
+                  // lá a imagem já É exibida recortada (LevelWpnCrop), hover redundante.
   var BOUND_FLAG  = 'data-cfg-preview-bound';
   var MIN_BOX_PX  = 50; // ignora perks 34x34; 50 ainda inclui saved-card-thumb 56x56
   // v2.63: popup landscape e bem ampliado (a arma é horizontal). Casa com o CSS 440×280.
@@ -29678,6 +29700,9 @@ ${cbt('share.t.footer')}`;
     p.then(function() { inflightProcess.delete(src); });
     return p;
   }
+  // v3.9.2: o Command Center usa o MESMO recorte justo pra exibir a arma
+  // direto no frame grande (sem depender do hover). Cache partilhado.
+  window.LevelWpnCrop = processImage;
 
   function positionModal(targetRect) {
     var m = ensureModal();
