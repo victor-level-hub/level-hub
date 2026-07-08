@@ -4046,6 +4046,101 @@
     background-size: 40px auto;
   }
 
+  /* ═══ v3.9.0: FUNDOS das fotos de arma — escolhidos POR CLASSE em
+     Configurações ▸ Armamento (window.LevelWeaponBg → classe wbg-* no frame).
+     !important + 3 classes: vencem o watermark !important logo abaixo.
+     .swb = swatch de preview na barra do seletor. ═══ */
+  .build-card .bc-weapon-image.wbg-holofote,
+  .img-card-thumb.wbg-holofote,
+  .set-wbg-opt .swb.wbg-holofote {
+    background-color: #0C1019 !important;
+    background-image:
+      radial-gradient(46% 34% at 50% 62%, rgba(255,152,0,0.10), transparent 72%),
+      radial-gradient(58% 72% at 50% 36%, #2B3549 0%, #161C2B 58%, #0C1019 100%) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+  }
+  .build-card .bc-weapon-image.wbg-vitrine,
+  .img-card-thumb.wbg-vitrine,
+  .set-wbg-opt .swb.wbg-vitrine {
+    position: relative;
+    background-color: #0E1320 !important;
+    background-image:
+      radial-gradient(90% 90% at 50% 45%, transparent 42%, rgba(8,11,18,0.78) 100%),
+      linear-gradient(rgba(174,199,224,0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(174,199,224,0.10) 1px, transparent 1px) !important;
+    background-size: cover, 26px 26px, 26px 26px !important;
+    background-repeat: no-repeat, repeat, repeat !important;
+    background-position: center, 0 0, 0 0 !important;
+  }
+  .build-card .bc-weapon-image.wbg-vitrine::after,
+  .img-card-thumb.wbg-vitrine::after {
+    content: ''; position: absolute; inset: 7px; pointer-events: none; z-index: 2; opacity: .7;
+    background:
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) top left    / 15px 2px,
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) top left    / 2px 15px,
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) top right   / 15px 2px,
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) top right   / 2px 15px,
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) bottom left / 15px 2px,
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) bottom left / 2px 15px,
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) bottom right/ 15px 2px,
+      linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) bottom right/ 2px 15px;
+    background-repeat: no-repeat;
+  }
+  .build-card .bc-weapon-image.wbg-hangar,
+  .img-card-thumb.wbg-hangar,
+  .set-wbg-opt .swb.wbg-hangar {
+    background-color: #0C0A09 !important;
+    background-image:
+      radial-gradient(70% 58% at 50% 0%, rgba(255,152,0,0.20), transparent 62%),
+      radial-gradient(48% 36% at 50% 66%, rgba(255,120,30,0.10), transparent 74%),
+      linear-gradient(178deg, #171310 0%, #12100E 46%, #0C0A09 100%) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+  }
+  .build-card .bc-weapon-image.wbg-aco,
+  .img-card-thumb.wbg-aco,
+  .set-wbg-opt .swb.wbg-aco {
+    background-color: #C4D0DD !important;
+    background-image:
+      linear-gradient(128deg, rgba(255,255,255,0.55) 0%, transparent 34%, rgba(120,140,165,0.28) 100%),
+      radial-gradient(72% 88% at 50% 34%, #E8EEF5 0%, #C4D0DD 56%, #97A6B8 100%) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    box-shadow: inset 0 0 40px rgba(24,34,50,0.30);
+  }
+
+  /* barra do seletor de fundo (aba Armamento) */
+  .set-wbg-bar {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 12px 14px; border: 1px solid var(--border-subtle); border-radius: 10px;
+    background: rgba(15,20,34,0.5);
+  }
+  .set-wbg-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary);
+    margin-right: 4px;
+  }
+  .set-wbg-opt {
+    display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+    padding: 5px 12px 5px 6px; border-radius: 999px;
+    border: 1px solid var(--border-subtle); background: transparent;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+  }
+  .set-wbg-opt:hover { border-color: rgba(255,152,0,0.5); color: var(--text-primary); }
+  .set-wbg-opt.active { border-color: var(--accent-orange); color: var(--accent-orange); background: rgba(255,152,0,0.08); }
+  .set-wbg-opt .swb {
+    width: 28px; height: 18px; border-radius: 4px; display: inline-block;
+    border: 1px solid rgba(174,199,224,0.25);
+    background-color: #0F1422; /* swatch do "Padrão" (fundo atual) */
+  }
+
   /* Modal de preview no hover — mostra a imagem inteira sem zoom, perto
      do cursor. Único elemento compartilhado, posicionado via JS. */
   #cfg-img-preview {
@@ -13466,6 +13561,16 @@
     #level-pitch .lp-grid-base { animation: none; }
     #level-pitch .lp-grid-reveal { display: none; }
   }
+  /* v3.9.0: com a grelha full-page atrás de tudo, as superfícies translúcidas
+     do pitch deixavam a grelha VAZAR ("cards transparentes") e o foco do
+     cursor a mexer atrás do vidro dava um piscar. Lastro opaco, só no modo
+     lp-grid (id+2 classes vence as regras base; os gradientes ficam por cima). */
+  #level-pitch.lp-grid .lp-card2,
+  #level-pitch.lp-grid .lp-card3,
+  #level-pitch.lp-grid .lp-pcard,
+  #level-pitch.lp-grid .lp-plan,
+  #level-pitch.lp-grid .lp-squad,
+  #level-pitch.lp-grid .lp-final { background-color: #10141F; }
 
   /* generic section + headings */
   #level-pitch .lp-sec { max-width: 1160px; margin: 0 auto; padding: 0 32px; }

@@ -134,8 +134,8 @@
         <svg class="lp-logo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
         <nav class="lp-nav" aria-label="Navegação">
           <a class="lp-navlink" data-pitch-scroll="lp-anchor-features" data-lp="navFeatures"></a>
-          <a class="lp-navlink" data-pitch-scroll="lp-anchor-pricing" data-lp="navPricing"></a>
           <a class="lp-navlink" data-pitch-scroll="lp-anchor-squad" data-lp="navSquad"></a>
+          <a class="lp-navlink" data-pitch-scroll="lp-anchor-pricing" data-lp="navPricing"></a>
         </nav>
         <span class="lp-langtoggle" role="group" aria-label="Idioma">
           <span class="lp-globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
@@ -687,9 +687,12 @@
       try { fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
       if (!fine) return; // grelha rola na mesma; reveal só faz sentido com rato
       root.addEventListener('pointermove', function (e) {
-        // camadas fixed → coordenadas do viewport direto, sem rect
-        root.style.setProperty('--lp-mx', e.clientX + 'px');
-        root.style.setProperty('--lp-my', e.clientY + 'px');
+        // camadas fixed → coordenadas do viewport direto, sem rect.
+        // v3.9.0: props na PRÓPRIA reveal (não no root) — no root, cada
+        // mousemove invalidava o estilo da árvore inteira e as superfícies
+        // com backdrop-filter repintavam (o "piscar" nos cards).
+        reveal.style.setProperty('--lp-mx', e.clientX + 'px');
+        reveal.style.setProperty('--lp-my', e.clientY + 'px');
         if (!root.classList.contains('lp-grid-active')) root.classList.add('lp-grid-active');
       });
       root.addEventListener('pointerleave', function () {
@@ -1582,12 +1585,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.8.1 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.9.0 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Avatar IA: BOPE fiel à referência</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A geração do preset <strong>BOPE</strong> foi corrigida: o prompt antigo <em>proibia</em> insígnias, armas e texto — por isso saía sem a boina com o brasão, sem o fuzil, sem a bandeira e sem o escrito "BOPE". Agora esses elementos são <strong>obrigatórios</strong> e o cenário urbano faz parte do personagem (não sorteia mais fundo aleatório). O modo <em>Pose do exemplo</em> também passou a <strong>copiar o equipamento da foto-exemplo</strong> em vez de o proibir. E o catálogo de personagens ficou mais enxuto: <strong>Reaper</strong> e <strong>Wind Blade</strong> saíram por enquanto (5 restantes). Na v3.8.0, o Command Center ganhou o loadout lado a lado.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fundo das fotos por classe + pitch sólido</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Em <strong>Configurações ▸ Armamento</strong>, cada aba de classe ganhou a barra <strong>"Fundo das fotos"</strong>: escolhe entre <em>Padrão, Holofote, Vitrine HUD, Hangar e Aço Polido</em> — o preview aparece na hora nos thumbs e o fundo aplica-se às fotos das armas nos cards e no Command Center (a aba TODAS aplica a todas as classes de uma vez). No <strong>pitch</strong>, os cards deixaram de ficar "transparentes" com a grelha a vazar por trás, o <em>piscar</em> no hover foi eliminado e o menu ficou na ordem certa (Features · Squad · Planos).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4836,6 +4839,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.9.0</span>
+                <span class="vh-date">8 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Fundo das fotos por classe + pitch s&oacute;lido.</strong> As 4 propostas de fundo viraram sistema: em <em>Configura&ccedil;&otilde;es &#9656; Armamento</em>, cada aba de classe tem a barra <strong>&ldquo;Fundo das fotos&rdquo;</strong> (Padr&atilde;o &middot; Holofote &middot; Vitrine HUD &middot; Hangar &middot; A&ccedil;o Polido) com preview imediato nos thumbs; a escolha aplica-se &agrave;s fotos de arma nos <strong>cards de build e no Command Center</strong> (aba TODAS = todas as classes de uma vez; sem escolha, tudo fica como era, e a escolha tem prioridade sobre o teste claro da REV-46). Fundos em CSS puro atr&aacute;s do PNG transparente &mdash; nada de reprocessar imagem. No <strong>pitch</strong>, tr&ecirc;s acertos: as superf&iacute;cies transl&uacute;cidas ganharam lastro opaco (a grelha nova vazava por tr&aacute;s &mdash; os &ldquo;cards transparentes&rdquo;); o <em>piscar</em> ao passar o rato acabou (as coordenadas do foco moviam-se na raiz da p&aacute;gina e cada mousemove repintava os cards com blur &mdash; agora vivem s&oacute; na camada do brilho); e o menu ficou na ordem real das sec&ccedil;&otilde;es (<em>Features &middot; Encontrar Squad &middot; Planos</em>).</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8594,7 +8606,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.8.1</strong><span class="ver-tag">Avatar IA: edge generate-avatar v8 — prompt do BOPE reescrito com elementos OBRIGATÓRIOS (boina preta com brasão faca-na-caveira, fuzil low-ready, bandeira do Brasil, escrito BOPE no colete; única exceção à regra no-text) + cenário urbano próprio (set OWN_SCENE, sem sorteio de fundo). POSE_MATCH_PROMPT agora copia fielmente equipamento/insígnias/arma da foto-exemplo em vez de proibir. Catálogo: reaper e wind_blade removidos do AVATAR_CHARACTERS (5 restantes; prompts ficam na edge, dormentes). Fundos das fotos de arma: 4 opções em artifact, aguardando escolha.</span>
+              LEVEL · <strong>v3.9.0</strong><span class="ver-tag">Fundos por classe: window.LevelWeaponBg (level.wbg.v1 localStorage) + barra .set-wbg-bar nas abas armament (TODAS = setAll) + classes wbg-holofote/vitrine/hangar/aco (CSS 3-classes !important vence o watermark; vitrine com cantoneiras via ::after) aplicadas no build-card (prioridade sobre o lighttest REV-46) e thumbs da config. Pitch: lastro opaco #10141F nas superfícies translúcidas em modo lp-grid (grelha vazava = "cards transparentes"), custom props do cursor movidas pro elemento reveal (root invalidava a árvore toda a cada mousemove → piscar nos cards com backdrop-filter), nav Features·Squad·Planos (ordem da página).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -15772,7 +15784,10 @@ const ATTACHMENT_ICONS = {
         : fallbackSvg;
 
       // v2.73.4: TESTE de estilo SÓ na REV-46 — fundo claro com degradê (sem watermark) + arma maior.
-      const lightTestCls = /rev[\s\-_]?46/i.test(String(baseName || '')) ? ' bc-wpn-lighttest' : '';
+      // v3.9.0: a escolha por classe (Configurações ▸ Armamento) tem PRIORIDADE;
+      // sem escolha, a REV-46 mantém o teste claro (zero regressão).
+      const _wbgCls = window.LevelWeaponBg ? window.LevelWeaponBg.cls(base && base.class) : '';
+      const lightTestCls = _wbgCls || (/rev[\s\-_]?46/i.test(String(baseName || '')) ? ' bc-wpn-lighttest' : '');
 
       const analysisText = generateBuildAnalysis(build, base);
       const ratingsHtml = renderRatingsBlock(build);
@@ -25330,6 +25345,20 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         + '<div class="settings-sub-tabs">' + subHtml + '</div>';
     }
 
+    // v3.9.0: clique nas opções da barra "Fundo das fotos" (aba Armamento).
+    // Delegado; ALL = aba TODAS (aplica a todas as classes de uma vez).
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('.set-wbg-opt');
+      if (!b || !window.LevelWeaponBg) return;
+      var bar = b.closest('.set-wbg-bar');
+      if (!bar) return;
+      var cls = bar.getAttribute('data-wbg-class') || '';
+      var val = b.getAttribute('data-wbg-val') || '';
+      if (cls === 'ALL') window.LevelWeaponBg.setAll(val);
+      else window.LevelWeaponBg.set(cls, val);
+      renderSettings();
+    });
+
     function renderSettings() {
       renderSettingsTabs();
       const grid = document.getElementById('set-grid');
@@ -25427,11 +25456,40 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const items = cat.source() || [];
       const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
       const isMapCat = cat && cat.group === 'maps';  // v2.75.0: aba de Mapas ganha botão "Adicionar" (destaque global)
-      grid.innerHTML = items.map(function (item) {
+      // v3.9.0: abas de ARMAMENTO ganham a barra "Fundo das fotos" — escolha
+      // por classe (na aba TODAS aplica a todas as classes de uma vez).
+      const isArmCat = cat && cat.group === 'armament';
+      const wbgTabClass = isArmCat ? ({
+        weapons_smg: 'SMG', weapons_ar: 'AR', weapons_sniper: 'Sniper',
+        weapons_pistol: 'Pistol', weapons_launcher: 'Launcher',
+        weapons_special: 'Special', weapons_all: 'ALL'
+      })[cat.id] || '' : '';
+      let wbgBarHtml = '';
+      if (isArmCat && window.LevelWeaponBg) {
+        const wbgCur = (function () {
+          if (wbgTabClass !== 'ALL') return window.LevelWeaponBg.get(wbgTabClass);
+          // TODAS: só marca ativa se TODAS as classes partilham o mesmo fundo
+          const vals = window.LevelWeaponBg.CLASSES.map(function (c) { return window.LevelWeaponBg.get(c); });
+          return vals.every(function (v) { return v === vals[0]; }) ? vals[0] : '__mixed__';
+        })();
+        const wbgOpts = [['', 'set.wbg.default'], ['holofote', 'set.wbg.holofote'], ['vitrine', 'set.wbg.vitrine'], ['hangar', 'set.wbg.hangar'], ['aco', 'set.wbg.aco']];
+        wbgBarHtml =
+          '<div class="set-wbg-bar" data-wbg-class="' + esc(wbgTabClass) + '">' +
+            '<span class="set-wbg-label">' + cbt('set.wbg.label') + (wbgTabClass === 'ALL' ? ' · ' + cbt('set.wbg.allClasses') : '') + '</span>' +
+            wbgOpts.map(function (o) {
+              const active = wbgCur === o[0] ? ' active' : '';
+              return '<button type="button" class="set-wbg-opt' + active + '" data-wbg-val="' + o[0] + '">' +
+                '<span class="swb' + (o[0] ? ' wbg-' + o[0] : '') + '"></span>' + cbt(o[1]) + '</button>';
+            }).join('') +
+          '</div>';
+      }
+      grid.innerHTML = wbgBarHtml + items.map(function (item) {
         const img = getUserImage(item.id);
+        // v3.9.0: preview do fundo escolhido direto nos thumbs da aba
+        const wbgThumbCls = (isArmCat && window.LevelWeaponBg) ? window.LevelWeaponBg.cls(item.class || wbgTabClass) : '';
         const thumb = img
-          ? '<div class="img-card-thumb has-img"><img src="' + esc(img) + '" alt=""></div>'
-          : '<div class="img-card-thumb"><span class="img-card-thumb-ph">' + esc(String(item.name || '?').charAt(0).toUpperCase()) + '</span></div>';
+          ? '<div class="img-card-thumb has-img' + wbgThumbCls + '"><img src="' + esc(img) + '" alt=""></div>'
+          : '<div class="img-card-thumb' + wbgThumbCls + '"><span class="img-card-thumb-ph">' + esc(String(item.name || '?').charAt(0).toUpperCase()) + '</span></div>';
         const uploadLabel = img ? cbt('set.btn.replace') : cbt('set.btn.upload');
         // v2.7.3 — cost (scorestreak) + desc (todos) opcionais
         const costBadge = (item.cost != null)
@@ -26748,7 +26806,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Estilos',
         'con.step4.subgroup.pistols': 'Pistolas', 'con.step4.subgroup.launchers': 'Launchers', 'con.step4.subgroup.specials': 'Specials',
-        'set.tab.weapons_smg': 'Armas · SMG', 'set.tab.weapons_ar': 'Armas · AR', 'set.tab.weapons_sniper': 'Armas · Sniper', 'set.tab.weapons_pistol': 'Armas · Pistolas', 'set.tab.weapons_launcher': 'Armas · Launchers', 'set.tab.weapons_special': 'Armas · Specials', 'set.tab.weapons_all': 'Armas · Todas',
+        'set.wbg.label': 'Fundo das fotos', 'set.wbg.allClasses': 'todas as classes', 'set.wbg.default': 'Padrão', 'set.wbg.holofote': 'Holofote', 'set.wbg.vitrine': 'Vitrine HUD', 'set.wbg.hangar': 'Hangar', 'set.wbg.aco': 'Aço Polido',
+      'set.tab.weapons_smg': 'Armas · SMG', 'set.tab.weapons_ar': 'Armas · AR', 'set.tab.weapons_sniper': 'Armas · Sniper', 'set.tab.weapons_pistol': 'Armas · Pistolas', 'set.tab.weapons_launcher': 'Armas · Launchers', 'set.tab.weapons_special': 'Armas · Specials', 'set.tab.weapons_all': 'Armas · Todas',
         'set.tab.prestiges': 'Prestiges',
         'set.tab.maps_all': 'Mapas · Todos',
         'set.tab.image_processor': 'Processador de Imagem',
@@ -26926,7 +26985,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.wildcards': 'Wildcards', 'set.tab.perks1': 'Perks · Slot 1', 'set.tab.perks2': 'Perks · Slot 2', 'set.tab.perks3': 'Perks · Slot 3',
         'set.tab.melee': 'Melee', 'set.tab.fieldup': 'Field Upgrade', 'set.tab.tactical': 'Tactical', 'set.tab.lethal': 'Lethal', 'set.tab.style': 'Styles',
         'con.step4.subgroup.pistols': 'Pistols', 'con.step4.subgroup.launchers': 'Launchers', 'con.step4.subgroup.specials': 'Specials',
-        'set.tab.weapons_smg': 'Weapons · SMG', 'set.tab.weapons_ar': 'Weapons · AR', 'set.tab.weapons_sniper': 'Weapons · Sniper', 'set.tab.weapons_pistol': 'Weapons · Pistols', 'set.tab.weapons_launcher': 'Weapons · Launchers', 'set.tab.weapons_special': 'Weapons · Specials', 'set.tab.weapons_all': 'Weapons · All',
+        'set.wbg.label': 'Photo background', 'set.wbg.allClasses': 'all classes', 'set.wbg.default': 'Default', 'set.wbg.holofote': 'Spotlight', 'set.wbg.vitrine': 'HUD Case', 'set.wbg.hangar': 'Hangar', 'set.wbg.aco': 'Polished Steel',
+      'set.tab.weapons_smg': 'Weapons · SMG', 'set.tab.weapons_ar': 'Weapons · AR', 'set.tab.weapons_sniper': 'Weapons · Sniper', 'set.tab.weapons_pistol':'Weapons · Pistols', 'set.tab.weapons_launcher': 'Weapons · Launchers', 'set.tab.weapons_special': 'Weapons · Specials', 'set.tab.weapons_all': 'Weapons · All',
         'set.tab.prestiges': 'Prestiges',
         'set.tab.maps_all': 'Maps · All',
         'set.tab.image_processor': 'Image Processor',
@@ -30105,6 +30165,48 @@ ${cbt('share.t.footer')}`;
   } else {
     init();
   }
+})();
+
+// ═══════════════════════════════════════════════════════════════════
+// FUNDOS DAS FOTOS DE ARMA (v3.9.0)
+// ───────────────────────────────────────────────────────────────────
+// Escolha POR CLASSE em Configurações ▸ Armamento (barra "Fundo das
+// fotos"). Persistência local (level.wbg.v1). O render dos build-cards
+// pergunta LevelWeaponBg.cls(classe) e recebe ' wbg-<opção>' (ou '' =
+// padrão atual, watermark escuro). Opções: holofote/vitrine/hangar/aco
+// (as 4 do artifact de propostas, portadas em CSS puro).
+// ═══════════════════════════════════════════════════════════════════
+(function () {
+  'use strict';
+  var KEY = 'level.wbg.v1';
+  var CLASSES = ['SMG', 'AR', 'SNIPER', 'PISTOL', 'LAUNCHER', 'SPECIAL'];
+  var OPTS = ['holofote', 'vitrine', 'hangar', 'aco'];
+  function read() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function write(m) { try { localStorage.setItem(KEY, JSON.stringify(m)); } catch (e) {} }
+  window.LevelWeaponBg = {
+    OPTS: OPTS,
+    CLASSES: CLASSES,
+    get: function (cls) {
+      var v = read()[String(cls || '').toUpperCase()] || '';
+      return OPTS.indexOf(v) >= 0 ? v : '';
+    },
+    set: function (cls, val) {
+      var m = read();
+      var k = String(cls || '').toUpperCase();
+      if (!k) return;
+      if (!val) delete m[k]; else m[k] = val;
+      write(m);
+    },
+    setAll: function (val) {
+      var m = read();
+      CLASSES.forEach(function (k) { if (!val) delete m[k]; else m[k] = val; });
+      write(m);
+    },
+    cls: function (cls) {
+      var v = this.get(cls);
+      return v ? ' wbg-' + v : '';
+    }
+  };
 })();
 
 // ═══════════════════════════════════════════════════════════════════
