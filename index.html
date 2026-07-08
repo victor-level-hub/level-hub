@@ -1582,12 +1582,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.7.1 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.8.0 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch: grelha infinita que reage ao cursor</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">A grelha tática da <strong>página de apresentação</strong> <em>rola em diagonal, infinitamente</em> — e uma segunda camada, em laranja, é <strong>revelada por um foco que segue o cursor</strong> (adaptação vanilla do componente <em>infinite-grid</em>). Na v3.7.1 o efeito passou a cobrir a <strong>página inteira</strong>: antes vivia só no hero (topo) e sumia ao rolar — agora as camadas são fixas ao viewport, atrás de todo o conteúdo, e o foco do cursor funciona em qualquer secção. Puro CSS na animação, respeita <em>reduced-motion</em>; revelação só com rato (desktop). Rollback fácil: 1 flag.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Command Center: loadout lado a lado</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O <strong>Command Center</strong> (detalhe da arma em Minhas Armas) foi reorganizado: a <strong>foto da arma agora é grande, à esquerda</strong>, e os <strong>attachments ficam à direita numa lista única</strong>, em sequência — sem as duas colunas espremidas de antes. A <strong>Análise do Le Vél</strong> também deixou de rolar numa janelinha de 4 linhas: o texto completo aparece na tela. Em ecrãs estreitos tudo volta a empilhar. Na v3.7.1, o fundo de grelha do pitch passou a cobrir a página inteira.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4836,6 +4836,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.8.0</span>
+                <span class="vh-date">8 Jul 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Command Center: loadout lado a lado + an&aacute;lise completa.</strong> No detalhe da arma (Minhas Armas &#9656; Command Center), a sec&ccedil;&atilde;o <em>Loadout</em> foi reorganizada a pedido do Victor: a <strong>foto da arma ficou grande e &agrave; esquerda</strong> (estica at&eacute; a altura da lista, m&iacute;n. 340px) e os <strong>attachments passaram para a direita numa lista &uacute;nica</strong>, em sequ&ecirc;ncia (OPTIC &rarr; FIRE MODS), no lugar das duas colunas espremidas. A <strong>An&aacute;lise do Le V&eacute;l</strong> perdeu a janelinha de 4 linhas com scroll &mdash; o texto completo aparece direto na tela. Em ecr&atilde;s &lt;1000px o layout volta a empilhar (foto em cima, lista embaixo). Detalhe t&eacute;cnico: o zoom do fundo claro (teste REV-46) caiu de 1.5&times; para 1.12&times; na caixa grande, sen&atilde;o cortava a arma.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8576,7 +8585,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.7.1</strong><span class="ver-tag">Infinite grid full-page no pitch: camadas .lp-grid-base/.lp-grid-reveal/.lp-grid-glows agora são position:fixed ao viewport, irmãs da .lp-bg na raiz #level-pitch (antes viviam no .lp-hero e o efeito sumia ao rolar — report do Victor). pointermove no root com clientX/clientY direto; .lp-hud antiga escondida no modo lp-grid. Rollback continua LP_GRID=false. Briefing title realinhado (estava parado em v2.98.1 desde 3 Jul).</span>
+              LEVEL · <strong>v3.8.0</strong><span class="ver-tag">Command Center: seção Loadout em grid 2 colunas (.bc-cc-loadout) — imagem grande à esquerda (min-height 340px, seletor 3-classes pra vencer o .bc-weapon-image base 154x91 que vem depois no CSS), attachments em lista única à direita (attRows.join, sem split em 2 colunas). Análise do Le Vél sem max-height no CC (.mw-cc-card .bc-analysis-summary). Zoom lighttest reduzido pra 1.12 na caixa grande (1.5 cortava). Fundos novos das fotos: 4 opções em artifact, aguardando escolha do Victor.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -15786,13 +15795,10 @@ const ATTACHMENT_ICONS = {
           '<span class="bc-cc-secrule"></span>' +
         '</div>';
 
-      // attachments em 2 colunas (seção Loadout)
-      const _attMid = Math.ceil(attRows.length / 2);
+      // v3.8.0: Loadout em 2 colunas — imagem GRANDE à esquerda, attachments
+      // em sequência única (uma lista só) à direita.
       const attColsHtml =
-        '<div class="bc-cc-attcols">' +
-          '<div class="bc-cc-attcol bc-attachs">' + attRows.slice(0, _attMid).join('') + '</div>' +
-          '<div class="bc-cc-attcol bc-attachs">' + attRows.slice(_attMid).join('') + '</div>' +
-        '</div>';
+        '<div class="bc-cc-attcol bc-attachs">' + attRows.join('') + '</div>';
 
       // barra de nível da arma (seção Progressão)
       const _lvlPct = (base && base.levelMax) ? Math.max(0, Math.min(100, Math.round((base.level / base.levelMax) * 100)))
@@ -15804,8 +15810,10 @@ const ATTACHMENT_ICONS = {
 
       const ccBody = isCC
         ? '<section class="bc-cc-section">' + ccSectionHead('1', 'Loadout', 'acessórios montados') +
-            '<div class="bc-weapon-image bc-cc-render' + lightTestCls + '">' + wpnImageHtml + '</div>' +
-            attColsHtml +
+            '<div class="bc-cc-loadout">' +
+              '<div class="bc-weapon-image bc-cc-render' + lightTestCls + '">' + wpnImageHtml + '</div>' +
+              attColsHtml +
+            '</div>' +
           '</section>' +
           '<section class="bc-cc-section">' + ccSectionHead('2', 'Análise do Le Vél', 'gerada por IA', '{{i:bot}}') +
             analysisHtml +

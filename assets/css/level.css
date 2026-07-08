@@ -7618,9 +7618,20 @@
   .bc-cc-sechint { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--text-faint); }
   .bc-cc-secrule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-subtle), transparent); }
 
-  .mw-cc-card .bc-cc-render { width: 100%; max-width: none; height: 150px; margin-bottom: 14px; }
-  .bc-cc-attcols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
-  .bc-cc-attcol { border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden; background: rgba(15,20,34,0.40); }
+  /* v3.8.0: Loadout do Command Center — imagem GRANDE à esquerda, attachments
+     em sequência única à direita (pedido do Victor; era imagem 150px no topo
+     + 2 colunas embaixo). A imagem estica pra altura da lista (stretch). */
+  .bc-cc-loadout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; align-items: stretch; }
+  /* seletor com 3 classes: vence o .build-card .bc-weapon-image base (154x91)
+     que vem DEPOIS no ficheiro e empata em especificidade com 2 classes */
+  .mw-cc-card .bc-weapon-image.bc-cc-render { width: 100%; max-width: none; height: auto; min-height: 340px; margin: 0; }
+  /* na caixa grande o zoom 1.5 do modo claro cortaria a arma — contain já basta */
+  .mw-cc-card .bc-weapon-image.bc-cc-render.bc-wpn-lighttest img.bc-wpn-img { transform: scale(1.12) !important; }
+  .bc-cc-attcol { border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden; background: rgba(15,20,34,0.40); align-self: start; }
+  /* v3.8.0: análise do Le Vél sem trava de altura no CC — mostra o texto todo
+     (nos cards da grade continua 6.6em com scroll). Seletor 3-classes: a regra
+     base .build-card .bc-analysis-summary vem depois no ficheiro e empataria. */
+  .build-card.mw-cc-card .bc-analysis-summary { max-height: none; overflow: visible; padding-right: 0; }
 
   .bc-cc-lvlbar { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; }
   .bc-cc-lvlbar-track { flex: 1; height: 7px; border-radius: 99px; background: rgba(8,11,18,0.5); overflow: hidden; border: 1px solid var(--border-subtle); }
@@ -7631,7 +7642,8 @@
     .mw-cc { flex-direction: column; }
     .mw-cc-side { width: 100%; position: static; max-height: 300px; }
     .bc-cc-cols { grid-template-columns: 1fr; }
-    .bc-cc-attcols { grid-template-columns: 1fr; }
+    .bc-cc-loadout { grid-template-columns: 1fr; }
+    .mw-cc-card .bc-weapon-image.bc-cc-render { min-height: 200px; }
     .mw-cc-card .bc-name { font-size: 28px; }
   }
 
