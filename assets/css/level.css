@@ -13572,6 +13572,25 @@
   #level-pitch.lp-grid .lp-squad,
   #level-pitch.lp-grid .lp-final { background-color: #10141F; }
 
+  /* v3.9.1: hover-lift dos cards de PLANOS (aurora-pricing/21st.dev) — o card
+     eleva no hover e assenta suave ao tirar o rato (a transição faz o retorno). */
+  #level-pitch .lp-plan {
+    transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 380ms ease, border-color 380ms ease;
+    will-change: transform;
+  }
+  #level-pitch .lp-plan:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255,152,0,0.32);
+    box-shadow: 0 22px 48px rgba(0,0,0,0.45), 0 0 34px rgba(255,152,0,0.10);
+  }
+  #level-pitch .lp-plan.pop:hover {
+    box-shadow: 0 22px 48px rgba(0,0,0,0.45), 0 0 54px rgba(255,152,0,0.20);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #level-pitch .lp-plan { transition: none; }
+    #level-pitch .lp-plan:hover { transform: none; }
+  }
+
   /* generic section + headings */
   #level-pitch .lp-sec { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
   #level-pitch .lp-sec-head { text-align: center; margin-bottom: 48px; }

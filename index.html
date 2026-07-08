@@ -1352,14 +1352,17 @@
           <div class="hh-top">
             <div class="hh-desc" data-i18n-html="home.hist.desc">Registra teu prestige + level atual pra ver a evolução depois. O Hub também grava sozinho as tuas alterações aqui embaixo. <span id="opp-stats-status" style="display:block;margin-top:4px;color:var(--text-muted);font-family:'JetBrains Mono', monospace;font-size:10.5px">A carregar histórico...</span></div>
             <span style="display:inline-flex;align-items:center;gap:8px;flex:0 0 auto">
-              <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:camera}} <span data-i18n="opp.stats.snap.btn2">Snapshot</span></button>
+              <!-- v3.9.1: o botão deixou de tirar snapshot manual e passou a abrir o
+                   EDITAR STATUS DO OPERADOR (pedido do Victor) — alterar o status já
+                   gera o snapshot sozinho, o botão manual era passo redundante. -->
+              <button class="lvl-empty-cta primary" type="button" id="opp-btn-stats-snap">{{i:pencil}} <span data-i18n="home.hist.alterStatus">Alterar Status</span></button>
               <!-- v3.4.3: help-pop-left — com o card a 1/3 (v3.4.2), o painel pra esquerda estourava o .main e era cortado; pra direita há espaço -->
-              <span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o Snapshot" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:camera}}<span data-i18n="home.snap.help.title">SNAPSHOT</span></span><span class="help-pop-body" data-i18n="home.snap.help">Grava o teu prestígio + nível ATUAL como um ponto no tempo. Cada snapshot vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL. Tira um sempre que subires de nível ou prestígio — o Hub também grava sozinho quando deteta mudanças.</span></span></span>
+              <span class="help-pop help-pop-left"><button type="button" class="help-pop-btn" aria-label="Sobre o histórico" aria-haspopup="true">{{i:help-circle}}</button><span class="help-pop-panel" role="tooltip"><span class="help-pop-title">{{i:chart-line}}<span data-i18n="home.snap.help.title">HISTÓRICO</span></span><span class="help-pop-body" data-i18n="home.snap.help">Alterar Status abre o editor do operador (prestígio, nível, estilo…). Cada mudança de prestígio ou nível vira um ponto no gráfico de evolução acima e uma linha em ALTERAÇÕES DE NÍVEL — o Hub grava sozinho, sem passo extra.</span></span></span>
             </span>
           </div>
           <!-- v2.73.2: gráfico de evolução (prestígio/nível) restaurado — visível, acima dos logs fechados. -->
           <div id="opp-stats-chart-wrap" style="background:var(--bg-darkest);border-radius:8px;padding:12px;min-height:140px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:11px;margin-bottom:8px">
-            <span data-i18n="opp.stats.chart.empty">Nenhum snapshot ainda. Clica em "Snapshot" pra começar.</span>
+            <span data-i18n="opp.stats.chart.empty">Nenhum registo ainda. Clica em "Alterar Status" e atualiza o teu nível pra começar.</span>
           </div>
           <details class="hh-collapse">
             <summary class="hh-collapse-head"><span data-i18n="home.hist.levelChanges">ALTERAÇÕES DE NÍVEL</span></summary>
@@ -1585,12 +1588,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.9.0 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.9.1 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Fundo das fotos por classe + pitch sólido</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Em <strong>Configurações ▸ Armamento</strong>, cada aba de classe ganhou a barra <strong>"Fundo das fotos"</strong>: escolhe entre <em>Padrão, Holofote, Vitrine HUD, Hangar e Aço Polido</em> — o preview aparece na hora nos thumbs e o fundo aplica-se às fotos das armas nos cards e no Command Center (a aba TODAS aplica a todas as classes de uma vez). No <strong>pitch</strong>, os cards deixaram de ficar "transparentes" com a grelha a vazar por trás, o <em>piscar</em> no hover foi eliminado e o menu ficou na ordem certa (Features · Squad · Planos).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Alterar Status no histórico + hovers afinados</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O botão <strong>Snapshot</strong> do Histórico de Progressão virou <strong>"Alterar Status"</strong> e abre direto o editor do operador — mudar prestígio/nível já grava o ponto no gráfico sozinho, o passo manual era redundante. No <strong>pitch</strong>, os cards de <strong>planos</strong> ganharam o <em>hover-lift</em> do aurora-pricing (elevam e assentam suave). Os cards <strong>EXPLORAR</strong> ficaram com o tilt 3D bem mais evidente (mais ângulo + lift). E o link do <em>be-ui-tilt-card</em> no catálogo /componentes foi corrigido (dava Page Not Found).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4839,6 +4842,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.9.1</span>
+                <span class="vh-date">8 Jul 2026</span>
+                <span class="vh-kind">visual</span>
+              </div>
+              <p class="vh-desc"><strong>Alterar Status no hist&oacute;rico + hovers afinados.</strong> Quatro acertos do report do Victor: <strong>1)</strong> o bot&atilde;o <em>Snapshot</em> do Hist&oacute;rico de Progress&atilde;o virou <strong>&ldquo;Alterar Status&rdquo;</strong> e abre direto o <em>Editar Status do Operador</em> &mdash; alterar prest&iacute;gio/n&iacute;vel j&aacute; grava o ponto no gr&aacute;fico automaticamente, o snapshot manual era passo redundante (tooltip e texto vazio atualizados). <strong>2)</strong> Os cards de <strong>planos do pitch</strong> ganharam o <em>hover-lift</em> do aurora-pricing: elevam 8px com brilho ao passar o rato e assentam suave ao sair. <strong>3)</strong> O <strong>tilt 3D dos cards EXPLORAR</strong> ficou evidente: eram 10&deg; gen&eacute;ricos que n&atilde;o se liam num card largo e baixo &mdash; agora 15&deg; + lift de 4px s&oacute; nesses. <strong>4)</strong> No cat&aacute;logo <em>/componentes</em>, o link do <em>be-ui-tilt-card</em> apontava para autor errado (starc007 &rarr; saurra3h, dava Page Not Found) &mdash; corrigido no site, na fonte e no espelho artifact.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8606,7 +8618,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.9.0</strong><span class="ver-tag">Fundos por classe: window.LevelWeaponBg (level.wbg.v1 localStorage) + barra .set-wbg-bar nas abas armament (TODAS = setAll) + classes wbg-holofote/vitrine/hangar/aco (CSS 3-classes !important vence o watermark; vitrine com cantoneiras via ::after) aplicadas no build-card (prioridade sobre o lighttest REV-46) e thumbs da config. Pitch: lastro opaco #10141F nas superfícies translúcidas em modo lp-grid (grelha vazava = "cards transparentes"), custom props do cursor movidas pro elemento reveal (root invalidava a árvore toda a cada mousemove → piscar nos cards com backdrop-filter), nav Features·Squad·Planos (ordem da página).</span>
+              LEVEL · <strong>v3.9.1</strong><span class="ver-tag">Histórico: #opp-btn-stats-snap virou "Alterar Status" ({{i:pencil}}) e abre o modal-status via click programático no btn-edit-status-sidebar (openStatusModal vive noutro IIFE); submitSnapshot segue exportado no StatsTracker pro fluxo automático; tooltip reescrito. Pitch: .lp-plan com hover-lift aurora-pricing (translateY -8px + glow, transição 380ms faz o retorno; reduced-motion off). Tilt dos .home-card (EXPLORAR): max 15° + translateY(-4px) — nos 10° genéricos não se lia em card largo/baixo. Catálogo /componentes: link do be-ui-tilt-card corrigido starc007→saurra3h (3 ficheiros + artifact republicado).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -19847,7 +19859,15 @@ const ATTACHMENT_ICONS = {
 
       // ── Event wiring ───────────────────────────────────────────────
       document.addEventListener('click', function (e) {
-        if (e.target.closest('#opp-btn-stats-snap')) submitSnapshot();
+        if (e.target.closest('#opp-btn-stats-snap')) {
+          // v3.9.1: o botão abre o EDITAR STATUS (o snapshot manual saiu — a
+          // alteração de status já gera o registo). Reusa o binding do botão
+          // da sidebar (openStatusModal vive noutro IIFE); submitSnapshot()
+          // fica disponível pro fluxo automático.
+          var eb = document.getElementById('btn-edit-status-sidebar');
+          if (eb) eb.click();
+          return;
+        }
         // v2.66: toggle de visualização do gráfico (dia/semana/mês/ano/tudo)
         var vBtn = e.target.closest('.opp-chart-view');
         if (vBtn) { _setChartView(vBtn.getAttribute('data-view')); return; }
@@ -30294,6 +30314,11 @@ ${cbt('share.t.footer')}`;
     glare.className = 'lvl-tilt-glare';
     glare.setAttribute('aria-hidden', 'true');
     el.appendChild(glare);
+    // v3.9.1: os EXPLORAR (.home-card) são largos e baixos — nos 10° genéricos
+    // o efeito não se lia ("não estou a ver", report do Victor). Mais ângulo
+    // + um lift sutil deixam o tilt inconfundível sem exagerar nos demais.
+    var max = el.classList.contains('home-card') ? 15 : CARD_MAX;
+    var lift = el.classList.contains('home-card') ? ' translateY(-4px)' : '';
     var rect = null;
     el.addEventListener('pointerenter', function () { rect = el.getBoundingClientRect(); });
     el.addEventListener('pointermove', function (e) {
@@ -30303,7 +30328,7 @@ ${cbt('share.t.footer')}`;
       var py = (e.clientY - rect.top) / rect.height;
       px = px < 0 ? 0 : px > 1 ? 1 : px;
       py = py < 0 ? 0 : py > 1 ? 1 : py;
-      el.style.transform = 'perspective(1000px) rotateX(' + ((0.5 - py) * CARD_MAX).toFixed(2) + 'deg) rotateY(' + ((px - 0.5) * CARD_MAX).toFixed(2) + 'deg)';
+      el.style.transform = 'perspective(1000px) rotateX(' + ((0.5 - py) * max).toFixed(2) + 'deg) rotateY(' + ((px - 0.5) * max).toFixed(2) + 'deg)' + lift;
       el.style.setProperty('--glare-x', (px * 100).toFixed(1) + '%');
       el.style.setProperty('--glare-y', (py * 100).toFixed(1) + '%');
       if (!el.classList.contains('is-tilting')) el.classList.add('is-tilting');
