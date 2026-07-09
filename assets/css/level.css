@@ -13793,8 +13793,13 @@
      ════════════════════════════════════════════════════════════════════ */
   #level-auth-gate {
     position: fixed; inset: 0; z-index: 99999;
-    display: none; align-items: center; justify-content: center;
-    padding: 84px 20px 40px; overflow-y: auto;
+    /* v3.10.2: align-items:center + card mais alto que o ecrã = topo/fundo
+       INALCANÇÁVEIS pelo scroll (report: "ficou cortado" no criar conta).
+       flex-start + margin:auto no card centra quando cabe e rola quando não.
+       padding-bottom maior: a .lag-langbar (PT/EN, fixed bottom) não cobre
+       mais o botão CRIAR CONTA quando o card encosta no fundo. */
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 84px 20px 76px; overflow-y: auto;
     font-family: var(--font-body, 'IBM Plex Sans', sans-serif);
     color: var(--text-body, #DCE5F2);
     background:
@@ -13862,6 +13867,7 @@
   /* cartão */
   #level-auth-gate .lag-card {
     position: relative; width: 100%; max-width: 420px;
+    margin: auto; /* v3.10.2: centra quando cabe; com flex-start no pai, rola inteiro quando não cabe */
     background: linear-gradient(180deg, rgba(31,40,63,0.86), rgba(26,34,54,0.92));
     border: 1px solid var(--border-subtle); border-radius: 16px;
     box-shadow: var(--shadow-lg, 0 18px 48px rgba(0,0,0,0.50)); padding: 30px 30px 28px;
@@ -13996,7 +14002,7 @@
     #level-auth-gate .lag-card { opacity: 1; transform: none; }
   }
   @media (max-width: 440px) {
-    #level-auth-gate { padding: 80px 14px 32px; }
+    #level-auth-gate { padding: 80px 14px 72px; } /* v3.10.2: fundo maior — langbar fixed não cobre o botão */
     #level-auth-gate .lag-card { padding: 24px 20px 22px; }
     #level-auth-gate .lag-grid2 { grid-template-columns: 1fr; }
   }
