@@ -4052,6 +4052,7 @@
      .swb = swatch de preview na barra do seletor. ═══ */
   .build-card .bc-weapon-image.wbg-holofote,
   .img-card-thumb.wbg-holofote,
+  #modal-build .build-photo-frame.wbg-holofote,
   .set-wbg-opt .swb.wbg-holofote {
     background-color: #0C1019 !important;
     background-image:
@@ -4063,6 +4064,7 @@
   }
   .build-card .bc-weapon-image.wbg-vitrine,
   .img-card-thumb.wbg-vitrine,
+  #modal-build .build-photo-frame.wbg-vitrine,
   .set-wbg-opt .swb.wbg-vitrine {
     position: relative;
     background-color: #0E1320 !important;
@@ -4075,7 +4077,8 @@
     background-position: center, 0 0, 0 0 !important;
   }
   .build-card .bc-weapon-image.wbg-vitrine::after,
-  .img-card-thumb.wbg-vitrine::after {
+  .img-card-thumb.wbg-vitrine::after,
+  #modal-build .build-photo-frame.wbg-vitrine::after {
     content: ''; position: absolute; inset: 7px; pointer-events: none; z-index: 2; opacity: .7;
     background:
       linear-gradient(var(--accent-orange,#FF9800), var(--accent-orange,#FF9800)) top left    / 15px 2px,
@@ -4090,6 +4093,7 @@
   }
   .build-card .bc-weapon-image.wbg-hangar,
   .img-card-thumb.wbg-hangar,
+  #modal-build .build-photo-frame.wbg-hangar,
   .set-wbg-opt .swb.wbg-hangar {
     background-color: #0C0A09 !important;
     background-image:
@@ -4102,6 +4106,7 @@
   }
   .build-card .bc-weapon-image.wbg-aco,
   .img-card-thumb.wbg-aco,
+  #modal-build .build-photo-frame.wbg-aco,
   .set-wbg-opt .swb.wbg-aco {
     background-color: #C4D0DD !important;
     background-image:
@@ -4179,13 +4184,15 @@
      !important porque as regras originais usam o shorthand `background:` (que vem depois
      no CSS e reseta o background-image); a cor-base delas é mantida, só somamos a logo. */
   .build-card .bc-weapon-image,
-  .home-weapon-frame,
-  #modal-build .build-photo-frame {
+  .home-weapon-frame {
     background-image: url('/assets/equip-watermark.svg') !important;
     background-repeat: repeat !important;
     background-size: 52px auto !important;
     background-position: center !important;
   }
+  /* v3.11.2: o frame do editor de build (modal-build) SAIU do watermark —
+     usa o mesmo fundo das Configurações (--bg-darkest liso, ou o "Fundo das
+     fotos" por classe quando o Victor escolher). Pedido do Victor. */
   @media (max-width: 560px) {
     #cfg-img-preview img, #cfg-img-preview canvas { width: 300px; height: 190px; }
   }
@@ -9184,11 +9191,15 @@
   #modal-build .build-modal-photo { flex: 0 0 220px; position: sticky; top: 0; display: flex; flex-direction: column; gap: 9px; }
   #modal-build .build-photo-frame {
     width: 220px; height: 165px; border-radius: 10px;
-    background: var(--bg-base, #0D121E); border: 1px solid var(--border);
+    /* v3.11.2: fundo igual ao thumb das Configurações (--bg-darkest liso, sem
+       watermark). Os :not preservam a escolha "Fundo das fotos" por classe. */
+    background: var(--bg-darkest, #0a1118); border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center; overflow: hidden;
     color: var(--text-muted);
   }
-  #modal-build .build-photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* v3.11.2: foto INTEIRA (contain, como nas Configurações) — antes era cover e
+     cortava; com PNG recortado o watermark vazava por trás (o que o Victor viu). */
+  #modal-build .build-photo-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
   #modal-build .build-photo-frame svg { width: 46px; height: 46px; opacity: 0.35; }
   #modal-build .build-photo-name { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 16px; color: var(--ink-100); text-align: center; min-height: 1.2em; }
   #modal-build .build-modal-form { flex: 1; min-width: 0; }

@@ -1633,12 +1633,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.11.1 · <span data-i18n="briefing.changelog.date">9 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.11.2 · <span data-i18n="briefing.changelog.date">9 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor PT/EN no canto do cartão de acesso</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O seletor de idioma <strong>PT/EN</strong> da tela de acesso flutuava no <em>fundo-centro do ecrã</em> e acabava por <strong>cobrir as Regras de Conduta</strong> no cadastro. Foi ancorado no <strong>canto superior direito do cartão</strong> (espelhando o "Voltar" à esquerda): rola junto com o cartão e não sobrepõe mais nenhum campo. Na v3.11.0, o card da Montagem Inteligente no pitch ficou pronto pra receber um demo em vídeo.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Importar arma: 3 correções</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Ao importar uma arma (QR/foto): <strong>1)</strong> os <strong>attachments</strong> detetados agora chegam ao editor — antes sumiam por um descasamento no nome do slot. <strong>2)</strong> Uma arma nova importada começa com o <strong>nível neutro</strong> (P0 · L1) pra tu preencheres, em vez de vir "Mestre 50" errado (o seed da AN-94 no catálogo também foi corrigido). <strong>3)</strong> A foto no editor perdeu o fundo de <em>marca d'água</em> e passou a usar o mesmo fundo das Configurações (liso ou o "Fundo das fotos" da classe).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4887,6 +4887,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.11.2</span>
+                <span class="vh-date">9 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Importar arma: attachments, n&iacute;vel e fundo da foto.</strong> Tr&ecirc;s correc&ccedil;&otilde;es no fluxo de importar arma (QR/foto), report do Victor. <strong>1)</strong> Os <em>attachments</em> apareciam certos na tela de aprova&ccedil;&atilde;o mas <strong>n&atilde;o chegavam ao editor</strong> &mdash; os que casavam com o cat&aacute;logo eram guardados com o nome de slot do cat&aacute;logo, que n&atilde;o batia com o mapa de slots do editor, e caíam fora; agora usam a posi&ccedil;&atilde;o onde foram detetados (a mesma que a tela mostra) e o mapa aceita varia&ccedil;&otilde;es de nome. <strong>2)</strong> Uma arma <em>nova</em> importada vinha com o n&iacute;vel errado (&ldquo;Mestre 50&rdquo;) por herdar o valor de exemplo do cat&aacute;logo &mdash; agora come&ccedil;a <strong>neutra (P0 &middot; L1)</strong> pra ser preenchida, e o registo da AN-94 no cat&aacute;logo (que estava marcado como Mestre por engano) foi corrigido. <strong>3)</strong> A foto da arma no editor tinha um fundo de <em>marca d&rsquo;&aacute;gua</em> repetida &mdash; passou a usar o <strong>mesmo fundo das Configura&ccedil;&otilde;es</strong> (escuro liso, ou o &ldquo;Fundo das fotos&rdquo; da classe), com a arma inteira sem corte.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8726,7 +8735,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.11.1</strong><span class="ver-tag">Auth gate: .lag-langbar (PT/EN) movida de position:fixed bottom-center (cobria as Regras de Conduta no cadastro) pra position:absolute top:12 right:12 DENTRO do .lag-card (espelha o .lag-back). Markup movido pra dentro do card (o card é o offset parent) → rola com o card, nunca sobre os campos. padding-bottom do gate revertido 76→40 (72→36 mobile) — a folga extra do v3.10.2 era só pro langbar fixo. Verificado no preview: langAboveFields true, mirrorsBack true.</span>
+              LEVEL · <strong>v3.11.2</strong><span class="ver-tag">Importar arma (captura/QR) ×3: (1) attachments matched guardados com slotName (SLOT_ORDER) em vez de m.attachment.slot (naming do catálogo não batia no SLOT_TYPE_TO_INDEX → nenhum entrava); injetarAttachments com _slotToIndex tolerante (case/espaços/sinónimos). (2) arma nova importada neutraliza progressão no LevelDB.weapons.put (P0/L1/master:false, levelMax 250→47) — vinha "Mestre 50" herdado do seed; seed da AN-94 no cat_default_weapons também corrigido (master→false, level_max 47). (3) #modal-build .build-photo-frame saiu do watermark → --bg-darkest + object-fit contain + honra wbg-* por classe (className setado no syncBaseTrigger).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -14395,8 +14404,12 @@ const ATTACHMENT_ICONS = {
       // v2.59: foto grande à esquerda do modal (img se houver upload; senão placeholder)
       const _pf = document.getElementById('build-photo-frame');
       const _pn = document.getElementById('build-photo-name');
-      if (_pf) _pf.innerHTML = w ? wpickThumb(w)
-        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>';
+      if (_pf) {
+        _pf.innerHTML = w ? wpickThumb(w)
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>';
+        // v3.11.2: mesmo "Fundo das fotos" por classe das Configurações
+        _pf.className = 'build-photo-frame' + (w && window.LevelWeaponBg ? window.LevelWeaponBg.cls(w.class) : '');
+      }
       if (_pn) _pn.textContent = w ? w.name : '';
       if (!w) { thumb.className = 'wpicker-thumb'; thumb.innerHTML = ''; thumb.style.removeProperty('--wc'); label.className = 'wpicker-label placeholder'; label.textContent = '— Selecione a arma —'; return; }
       thumb.className = 'wpicker-thumb has'; thumb.style.setProperty('--wc', 'var(' + (WPICK_CLASS_TOKEN[w.class] || '--accent-orange') + ')'); thumb.innerHTML = wpickThumb(w);
@@ -31364,7 +31377,10 @@ ${cbt('share.t.footer')}`;
         if (m && m.attachment && m.score >= 0.35) {
           matchedName = m.attachment.name;
           cls = m.score >= 0.75 ? '' : 'is-fuzzy';
-          matchedAttachments.push({ slot: m.attachment.slot, name: m.attachment.name });
+          // v3.11.2: usa slotName (posição SLOT_ORDER onde foi detectado, igual
+          // ao que a tela mostra) em vez de m.attachment.slot (naming do catálogo,
+          // que não batia no SLOT_TYPE_TO_INDEX → nenhum attachment entrava no editor).
+          matchedAttachments.push({ slot: slotName, name: m.attachment.name });
         }
       }
       // Sem match no catálogo (ex: catálogo desatualizado): usa o nome lido pela Vision.
@@ -31467,11 +31483,17 @@ ${cbt('share.t.footer')}`;
     // Fecha modal de aprovação
     $('modal-capture-approval').classList.remove('visible');
 
-    // Garante que a arma base existe em LevelDB.weapons
+    // Garante que a arma base existe em LevelDB.weapons.
+    // v3.11.2: arma NOVA (importada) começa NEUTRA (P0 · L1) — o nível é a
+    // progressão do jogador (que ele preenche), não o seed de exemplo do
+    // catálogo (ex.: AN-94 vinha "Mestre 50", o que o Victor viu como errado).
     if (window.LevelDB && LevelDB.weapons) {
       const exists = await LevelDB.weapons.get(data.matchedWeapon.id);
       if (!exists) {
-        await LevelDB.weapons.put({ ...data.matchedWeapon });
+        const seed = { ...data.matchedWeapon, prestige: 0, level: 1, master: false, maxed: false };
+        // seed de exemplo era Master (levelMax 250) → usa um teto de AR sensato
+        if (seed.levelMax >= 200) seed.levelMax = 47;
+        await LevelDB.weapons.put(seed);
       }
     }
 
@@ -31573,8 +31595,18 @@ ${cbt('share.t.footer')}`;
 
     const slotMap = new Map(); // slotIndex → attachment
 
+    // v3.11.2: lookup tolerante — aceita variações de naming do slot (case,
+    // espaços, sinónimos) além do mapa direto. Antes, um slot com naming do
+    // catálogo (ex.: 'sight' vs 'Optic') caía fora e o attachment sumia.
+    const _slotNorm = { optic:0, sight:0, muzzle:1, barrel:2, underbarrel:3, magazine:4, mag:4, reargrip:5, grip:5, stock:6, laser:7, firemods:8, firemod:8 };
+    function _slotToIndex(slot) {
+      if (SLOT_TYPE_TO_INDEX[slot] !== undefined) return SLOT_TYPE_TO_INDEX[slot];
+      const n = String(slot || '').trim().toLowerCase().replace(/[\s_-]+/g, '');
+      return _slotNorm[n];
+    }
+
     for (const att of matched) {
-      const slotIdx = SLOT_TYPE_TO_INDEX[att.slot];
+      const slotIdx = _slotToIndex(att.slot);
       if (slotIdx === undefined || slotIdx >= slotCount) continue;
       if (slotMap.has(slotIdx)) {
         conflitos.push(att.name);
