@@ -13802,10 +13802,10 @@
     /* v3.10.2: align-items:center + card mais alto que o ecrã = topo/fundo
        INALCANÇÁVEIS pelo scroll (report: "ficou cortado" no criar conta).
        flex-start + margin:auto no card centra quando cabe e rola quando não.
-       padding-bottom maior: a .lag-langbar (PT/EN, fixed bottom) não cobre
-       mais o botão CRIAR CONTA quando o card encosta no fundo. */
+       v3.11.1: padding-bottom voltou ao normal (40px) — a .lag-langbar saiu do
+       fundo (fixed) e foi pro canto do cartão, então não precisa da folga extra. */
     display: none; align-items: flex-start; justify-content: center;
-    padding: 84px 20px 76px; overflow-y: auto;
+    padding: 84px 20px 40px; overflow-y: auto;
     font-family: var(--font-body, 'IBM Plex Sans', sans-serif);
     color: var(--text-body, #DCE5F2);
     background:
@@ -13999,7 +13999,9 @@
   #level-auth-gate .lag-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
   /* barra de idioma (rodapé do overlay) */
-  #level-auth-gate .lag-langbar { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 110; display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: rgba(16,21,34,0.85); border: 1px solid var(--border-default); }
+  /* v3.11.1: ancorado no canto sup. direito do cartão (espelha o .lag-back à
+     esquerda) — antes era fixed no fundo-centro e cobria o conteúdo do cadastro. */
+  #level-auth-gate .lag-langbar { position: absolute; top: 12px; right: 12px; z-index: 4; display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: rgba(16,21,34,0.85); border: 1px solid var(--border-default); }
   #level-auth-gate .lag-langbar button { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; padding: 5px 13px; border-radius: 999px; border: none; cursor: pointer; background: transparent; color: var(--text-muted, #8497B8); transition: color var(--dur-fast,120ms) var(--ease-out), background var(--dur-fast,120ms) var(--ease-out); }
   #level-auth-gate .lag-langbar button.active { background: var(--level-orange, #FF9800); color: var(--action-ink, #1A1206); }
 
@@ -14008,7 +14010,7 @@
     #level-auth-gate .lag-card { opacity: 1; transform: none; }
   }
   @media (max-width: 440px) {
-    #level-auth-gate { padding: 80px 14px 72px; } /* v3.10.2: fundo maior — langbar fixed não cobre o botão */
+    #level-auth-gate { padding: 80px 14px 36px; } /* v3.11.1: langbar saiu do fundo → folga normal */
     #level-auth-gate .lag-card { padding: 24px 20px 22px; }
     #level-auth-gate .lag-grid2 { grid-template-columns: 1fr; }
   }

@@ -814,6 +814,12 @@
 <div id="level-auth-gate" role="dialog" aria-modal="true" aria-label="Acesso ao LEVEL">
   <div class="lag-card" id="lag-card">
     <button type="button" class="lag-back" onclick="LEVEL_AUTH.showGate(false)" data-i18n-attr="aria-label:auth.back" aria-label="Voltar ao site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span data-i18n="auth.back">Voltar</span></button>
+    <!-- v3.11.1: seletor PT/EN ancorado no canto do cartão (era position:fixed no
+         fundo-centro e cobria as Regras de Conduta no cadastro — report do Victor). -->
+    <div class="lag-langbar" role="group" aria-label="Idioma">
+      <button type="button" onclick="setLanguage('pt')" data-lang="pt">PT</button>
+      <button type="button" onclick="setLanguage('en')" data-lang="en">EN</button>
+    </div>
     <div class="lag-head">
       <svg class="lag-logo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><title>LEVEL</title><use href="#level-logo"></use></svg>
       <div class="lag-sub">Tactical Hub · BO7</div>
@@ -921,11 +927,6 @@
       </div>
 
     </div>
-  </div>
-
-  <div class="lag-langbar" role="group" aria-label="Idioma">
-    <button type="button" onclick="setLanguage('pt')" data-lang="pt">PT</button>
-    <button type="button" onclick="setLanguage('en')" data-lang="en">EN</button>
   </div>
 </div>
 <!-- ============ FIM LEVEL AUTH GATE ============ -->
@@ -1632,12 +1633,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.11.0 · <span data-i18n="briefing.changelog.date">9 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.11.1 · <span data-i18n="briefing.changelog.date">9 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch pronto pra demos em vídeo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O card da <strong>Montagem Inteligente</strong> na página de apresentação está pronto pra exibir um <strong>demo em vídeo</strong> (~5s, autoplay em loop, sem som) no lugar do placeholder — MP4/WebM leve, não GIF (que pesaria 5-10x). O carregamento é inteligente: <em>zero rede</em> até o card entrar no ecrã, pausa ao sair, e respeita <em>reduced-motion</em>. Enquanto o vídeo não for gravado, o placeholder de sempre fica no lugar — o site já está preparado. Falta só gravar o fluxo (~4s: escolher → IA gera → build pronta).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor PT/EN no canto do cartão de acesso</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O seletor de idioma <strong>PT/EN</strong> da tela de acesso flutuava no <em>fundo-centro do ecrã</em> e acabava por <strong>cobrir as Regras de Conduta</strong> no cadastro. Foi ancorado no <strong>canto superior direito do cartão</strong> (espelhando o "Voltar" à esquerda): rola junto com o cartão e não sobrepõe mais nenhum campo. Na v3.11.0, o card da Montagem Inteligente no pitch ficou pronto pra receber um demo em vídeo.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4886,6 +4887,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.11.1</span>
+                <span class="vh-date">9 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Seletor PT/EN no canto do cart&atilde;o de acesso.</strong> Na tela de <em>Criar Conta</em>, o seletor de idioma flutuava no fundo-centro do ecr&atilde; (era <code>position:fixed</code>) e passava por cima das <strong>Regras de Conduta</strong> &mdash; report do Victor com print. Movido para o <strong>canto superior direito do pr&oacute;prio cart&atilde;o</strong> (espelhando o bot&atilde;o &ldquo;Voltar&rdquo; do canto esquerdo): agora rola junto com o cart&atilde;o e n&atilde;o cobre mais nenhum campo, em nenhuma das telas do acesso. A folga extra que o rodap&eacute; tinha ganhado para o seletor antigo foi revertida.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8716,7 +8726,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.11.0</strong><span class="ver-tag">Pitch: infra de demos em vídeo nos cards de feature — FEATURES[].demo (base sem extensão) → video muted/loop/playsinline/preload=none no .lp-art; initDemoVideos() injeta sources (webm+mp4) só quando o card entra no viewport (IO threshold .25), loadeddata → fade-in .on por cima do placeholder, erro no último source → remove (placeholder fica; deploy seguro sem os ficheiros), pause fora do viewport, reduced-motion sem autoplay. Montagem Inteligente aponta pra assets/videos/montagem-demo.{webm,mp4} (a gravar; ffmpeg local disponível). _headers: /assets/videos/* must-revalidate.</span>
+              LEVEL · <strong>v3.11.1</strong><span class="ver-tag">Auth gate: .lag-langbar (PT/EN) movida de position:fixed bottom-center (cobria as Regras de Conduta no cadastro) pra position:absolute top:12 right:12 DENTRO do .lag-card (espelha o .lag-back). Markup movido pra dentro do card (o card é o offset parent) → rola com o card, nunca sobre os campos. padding-bottom do gate revertido 76→40 (72→36 mobile) — a folga extra do v3.10.2 era só pro langbar fixo. Verificado no preview: langAboveFields true, mirrorsBack true.</span>
             </div>
           </div>
           <div class="lvl-fcol">
