@@ -28,3 +28,8 @@
 # versionar; revalidar sempre pra um bump de categorias aplicar sem cache stale.
 /assets/gameicons.json
   Cache-Control: public, max-age=0, must-revalidate
+# v3.11.0: demos em vídeo do pitch (nome fixo, substituíveis) → revalidar a cada
+# carga, pra um vídeo novo aplicar sem cache stale (o ficheiro só baixa 1x igual;
+# revalidação é 304 barato).
+/assets/videos/*
+  Cache-Control: public, max-age=0, must-revalidate

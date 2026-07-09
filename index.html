@@ -243,7 +243,10 @@
     { icon: 'Bot', acc: 'var(--level-orange)', tier: 1,
       pt: { tag: 'Le Vél · Coach de IA', name: 'Seu coach de IA pessoal', hook: 'Um coach que aprende como você joga.', proof: 'Analisa cada build, dá um veredito honesto e sugere as trocas certas — respeitando o seu estilo (rusher, slayer, anchor). Não é dica genérica da internet; é coaching adaptado a você.' },
       en: { tag: 'Le Vél · AI Coach', name: 'Your personal AI coach', hook: 'A coach that learns how you play.', proof: 'Analyzes every build, gives an honest verdict, and suggests the right swaps — respecting your playstyle (rusher, slayer, anchor). Not generic internet advice; coaching tailored to you.' } },
-    { icon: 'Gear', acc: 'var(--class-ar)', tier: 1,
+    // v3.11.0: `demo` = base dos ficheiros de vídeo (sem extensão) — o card mostra
+    // um demo MP4/WebM em loop no lugar do placeholder QUANDO os ficheiros existirem
+    // (assets/videos/<base>.webm/.mp4). Sem ficheiros → placeholder de sempre.
+    { icon: 'Gear', acc: 'var(--class-ar)', tier: 1, demo: 'assets/videos/montagem-demo',
       pt: { tag: 'Montagem Inteligente', name: 'O loadout perfeito em segundos', hook: 'Em segundos, não em horas de tentativa-e-erro.', proof: 'A IA gera o loadout otimizado pro seu estilo, mapa e modo — em variantes paralelas: velocidade, equilíbrio e controle.' },
       en: { tag: 'Smart Build', name: 'The perfect loadout in seconds', hook: 'In seconds, not hours of trial and error.', proof: 'The AI generates the optimized loadout for your style, map and mode — in parallel variants: speed, balance and control.' } },
     { icon: 'Camera', acc: 'var(--class-smg)', tier: 1,
@@ -303,7 +306,10 @@
         '<div class="lp-hook" style="color:' + f.acc + '">“' + c.hook + '”</div>' +
         '<p class="lp-proof">' + c.proof + '</p>' +
       '</div>' +
-      '<div class="lp-row-art"><div class="lp-art" style="--acc:' + f.acc + '"><span class="lp-art-mark">' + icon(f.icon, '') + '</span><span class="lp-art-lab">' + c.tag + '</span></div></div>' +
+      '<div class="lp-row-art"><div class="lp-art" style="--acc:' + f.acc + '">' +
+        '<span class="lp-art-mark">' + icon(f.icon, '') + '</span><span class="lp-art-lab">' + c.tag + '</span>' +
+        (f.demo ? '<video class="lp-art-video" muted loop playsinline preload="none" data-lp-demo="' + f.demo + '" aria-label="' + c.tag + '"></video>' : '') +
+      '</div></div>' +
     '</div>';
   }
 
@@ -449,6 +455,44 @@
     })();
     syncToggle(lang);
     bindReveal();
+    initDemoVideos();
+  }
+
+  // ── v3.11.0: demos em VÍDEO nos cards de feature (MP4/WebM, autoplay muted
+  // loop — a receita certa; GIF pesaria 5-10x). O <video> nasce SEM sources
+  // (preload=none → zero rede no load da página). Quando o card entra no
+  // viewport: injeta webm+mp4, load() e play(). Carregou → fade-in por cima
+  // do placeholder; ficheiros não existem → remove o vídeo e o placeholder
+  // fica (deploy seguro ANTES de gravar o vídeo). Fora do viewport → pause.
+  // Reduced-motion: sem autoplay (placeholder estático).
+  function initDemoVideos() {
+    var vids = document.querySelectorAll('#level-pitch video[data-lp-demo]');
+    if (!vids.length) return;
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    if (reduce) { vids.forEach(function (v) { v.remove(); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var v = en.target;
+        if (en.isIntersecting) {
+          if (!v.__srcsLoaded) {
+            v.__srcsLoaded = true;
+            var base = v.getAttribute('data-lp-demo');
+            var s1 = document.createElement('source'); s1.src = base + '.webm'; s1.type = 'video/webm';
+            var s2 = document.createElement('source'); s2.src = base + '.mp4'; s2.type = 'video/mp4';
+            // erro no ÚLTIMO source = nenhum formato disponível → placeholder fica
+            s2.addEventListener('error', function () { try { io.unobserve(v); v.remove(); } catch (e) {} });
+            v.appendChild(s1); v.appendChild(s2);
+            v.addEventListener('loadeddata', function () { v.classList.add('on'); });
+            v.load();
+          }
+          var p = v.play(); if (p && p.catch) p.catch(function () {});
+        } else if (v.__srcsLoaded) {
+          try { v.pause(); } catch (e) {}
+        }
+      });
+    }, { threshold: 0.25 });
+    vids.forEach(function (v) { io.observe(v); });
   }
 
   // ── logo animado (monta 1× por carga; salvaguarda contra relógio congelado) ──
@@ -1588,12 +1632,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.10.2 · <span data-i18n="briefing.changelog.date">9 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.11.0 · <span data-i18n="briefing.changelog.date">9 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Criar conta não corta mais em ecrã baixo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Em janelas baixas (ou com zoom), o formulário <strong>Criar Conta</strong> ficava <em>cortado</em>: o cartão era mais alto que o ecrã e o topo/fundo ficavam inalcançáveis pelo scroll — e o seletor <strong>PT/EN</strong> ainda flutuava por cima do botão CRIAR CONTA. Corrigido: o cartão centra quando cabe e <strong>rola inteiro</strong> quando não cabe, e o rodapé ganhou folga pro seletor de idioma. Na v3.10.1, as armas novas do catálogo (AN-94, VX Compact, X9 Maverick) passaram a chegar a todos.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Pitch pronto pra demos em vídeo</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">O card da <strong>Montagem Inteligente</strong> na página de apresentação está pronto pra exibir um <strong>demo em vídeo</strong> (~5s, autoplay em loop, sem som) no lugar do placeholder — MP4/WebM leve, não GIF (que pesaria 5-10x). O carregamento é inteligente: <em>zero rede</em> até o card entrar no ecrã, pausa ao sair, e respeita <em>reduced-motion</em>. Enquanto o vídeo não for gravado, o placeholder de sempre fica no lugar — o site já está preparado. Falta só gravar o fluxo (~4s: escolher → IA gera → build pronta).</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4842,6 +4886,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.11.0</span>
+                <span class="vh-date">9 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Pitch pronto pra demos em v&iacute;deo (Montagem Inteligente).</strong> O card da Montagem Inteligente na p&aacute;gina de apresenta&ccedil;&atilde;o ganhou um <em>slot de v&iacute;deo</em>: um demo de ~5s em <strong>MP4/WebM, autoplay em loop e sem som</strong> &mdash; a receita certa pra isto (um GIF equivalente pesaria 5 a 10&times; mais e arrastaria o carregamento). Performance cuidada: o v&iacute;deo <strong>n&atilde;o gasta um byte de rede</strong> at&eacute; o card entrar no ecr&atilde; (as sources s&atilde;o injetadas na hora), pausa ao sair do viewport, faz <em>fade-in</em> suave por cima do placeholder quando carrega e respeita <code>prefers-reduced-motion</code>. E o deploy &eacute; seguro <em>antes</em> de o v&iacute;deo existir: sem os ficheiros, o placeholder de sempre fica no lugar. Pr&oacute;ximo passo: gravar o fluxo (escolher arma &rarr; IA gera &rarr; build pronta, ~4s) &mdash; a compress&atilde;o (ffmpeg, alvo &lt;1MB) fica com o Cr&aacute;udio.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8663,7 +8716,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.10.2</strong><span class="ver-tag">Auth gate: align-items center + card mais alto que o viewport = overflow inalcançável pelo scroll (flexbox clássico) — signup cortado em ecrã baixo. Fix: flex-start no #level-auth-gate + margin:auto no .lag-card (centra quando cabe, rola quando não) + padding-bottom 76px (72 no mobile) pra .lag-langbar (PT/EN, position:fixed bottom) não cobrir o CRIAR CONTA.</span>
+              LEVEL · <strong>v3.11.0</strong><span class="ver-tag">Pitch: infra de demos em vídeo nos cards de feature — FEATURES[].demo (base sem extensão) → video muted/loop/playsinline/preload=none no .lp-art; initDemoVideos() injeta sources (webm+mp4) só quando o card entra no viewport (IO threshold .25), loadeddata → fade-in .on por cima do placeholder, erro no último source → remove (placeholder fica; deploy seguro sem os ficheiros), pause fora do viewport, reduced-motion sem autoplay. Montagem Inteligente aponta pra assets/videos/montagem-demo.{webm,mp4} (a gravar; ffmpeg local disponível). _headers: /assets/videos/* must-revalidate.</span>
             </div>
           </div>
           <div class="lvl-fcol">

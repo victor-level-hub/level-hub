@@ -13642,6 +13642,12 @@
     border: 1px dashed rgba(174,199,224,0.18); background: radial-gradient(120% 100% at 0% 0%, color-mix(in oklab, var(--acc) 14%, transparent), rgba(13,18,30,0.6) 60%); }
   #level-pitch .lp-art .lp-art-mark { width: 44%; opacity: .14; color: var(--acc); }
   #level-pitch .lp-art .lp-art-lab { position: absolute; bottom: 14px; left: 16px; font-family: var(--font-mono, monospace); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint, #5F6E8C); }
+  /* v3.11.0: demo em vídeo por cima do placeholder (fade-in quando carrega) */
+  #level-pitch .lp-art .lp-art-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity 420ms ease;
+  }
+  #level-pitch .lp-art .lp-art-video.on { opacity: 1; }
 
   /* squad */
   #level-pitch .lp-squad { position: relative; overflow: hidden; border-radius: 22px; border: 1px solid rgba(174,199,224,0.14);
