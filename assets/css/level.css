@@ -7730,9 +7730,17 @@
   /* seletor com 3 classes: vence o .build-card .bc-weapon-image base (154x91)
      que vem DEPOIS no ficheiro e empata em especificidade com 2 classes */
   .mw-cc-card .bc-weapon-image.bc-cc-render { width: 100%; max-width: none; height: auto; min-height: 300px; margin: 0; cursor: default; }
-  /* v3.9.2: a imagem já vem recortada justa → NENHUM zoom de escala aqui
-     (o scale 1.18 base / 1.5 lighttest cortaria as pontas da arma). */
+  /* v3.9.3: foto INTEIRA, sem nenhum zoom — nem o scale 1.18 base, nem o 1.25
+     do hover, nem o 1.5 do teste claro (era o "zoom com o hover" do report). */
   .mw-cc-card .bc-weapon-image.bc-cc-render img.bc-wpn-img { transform: none !important; }
+  /* v3.9.3: mesmo fundo do thumb das Configurações onde a foto foi cadastrada
+     (--bg-darkest liso, sem watermark e sem o degradê claro do teste REV-46).
+     Os :not preservam a escolha "Fundo das fotos" por classe (wbg-*), que
+     continua a valer aqui quando o Victor escolher uma. */
+  .mw-cc-card .bc-weapon-image.bc-cc-render:not(.wbg-holofote):not(.wbg-vitrine):not(.wbg-hangar):not(.wbg-aco) {
+    background-color: var(--bg-darkest, #0a1118) !important;
+    background-image: none !important;
+  }
   .bc-cc-attcol { border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden; background: rgba(15,20,34,0.40); align-self: start; }
   /* v3.8.0: análise do Le Vél sem trava de altura no CC — mostra o texto todo
      (nos cards da grade continua 6.6em com scroll). Seletor 3-classes: a regra

@@ -1588,12 +1588,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.9.2 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.9.3 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Command Center: arma em recorte justo</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">No <strong>Command Center</strong>, a foto da arma agora aparece <strong>já recortada e ampliada</strong> no frame — o mesmo tratamento que o zoom de hover fazia, aplicado direto na exibição (e o hover saiu deste modo, ficou redundante). As caixas da <strong>imagem e dos attachments</strong> deixaram de esticar até o fim da tela: largura contida, alinhadas à esquerda. E a <strong>Análise do Le Vél</strong> ficou mais larga (~50% a mais de texto por linha).</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Command Center: foto inteira, sem zoom</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Acerto no frame da arma do <strong>Command Center</strong>: o recorte automático da v3.9.2 <em>cortava a arma</em> nas fotos com fundo embutido (como a REV-46) — saiu. A foto agora aparece <strong>inteira, sem nenhum zoom</strong> (nem no hover), sobre o <strong>mesmo fundo escuro liso do thumb das Configurações</strong> onde ela foi cadastrada. A escolha "Fundo das fotos" por classe continua a valer aqui quando definida.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4842,6 +4842,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.9.3</span>
+                <span class="vh-date">8 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Command Center: foto inteira, sem zoom.</strong> O recorte autom&aacute;tico da v3.9.2 funcionava bem com PNG transparente, mas nas fotos com <em>fundo embutido</em> (como a REV-46 do Victor) a detec&ccedil;&atilde;o por luminância <strong>cortava a arma</strong> &mdash; removido do frame do CC. A foto agora aparece <strong>inteira e sem nenhum zoom</strong> (o de escala 1.18/1.25 do hover j&aacute; tinha sido zerado), sobre o <strong>mesmo fundo escuro liso do thumb das Configura&ccedil;&otilde;es</strong> onde a foto foi cadastrada (sem watermark e sem o degrad&ecirc; claro do teste REV-46). A escolha <em>&ldquo;Fundo das fotos&rdquo;</em> por classe (v3.9.0) continua a valer no frame quando definida.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8627,7 +8636,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.9.2</strong><span class="ver-tag">Command Center: imagem exibida JÁ recortada justa — processImage do hover-preview exposto como window.LevelWpnCrop e aplicado no renderCC (swap do src pra dataURL processada, cache partilhado); hover-zoom removido do .bc-cc-render (SELECTOR :not) + transform none !important no img (scale 1.18/1.5 cortaria o recorte). .bc-cc-loadout com minmax(340,600)+minmax(320,470) e justify-content:start (não estica mais até o fim). Análise: .build-card.mw-cc-card .bc-analysis max-width 100ch (o max-width:none antigo PERDIA pro 65ch base que vem depois — mais um empate de cascata).</span>
+              LEVEL · <strong>v3.9.3</strong><span class="ver-tag">CC: recorte automático (LevelWpnCrop) removido do renderCC — em foto OPACA (fundo embutido, ex. REV-46) o bbox por luminância cortava a arma. Frame mostra a foto inteira (contain, transform none !important segue) sobre fundo igual ao img-card-thumb da config: --bg-darkest liso, background-image none !important com :not(.wbg-*) ×4 preservando a escolha por classe. LevelWpnCrop continua exposto (hover-preview usa). Hover-zoom já estava fora do .bc-cc-render desde v3.9.2.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -16014,17 +16023,10 @@ const ATTACHMENT_ICONS = {
       if (_ccSelectedId) {
         const sel = shown.find(b => b.id === _ccSelectedId);
         detailEl.innerHTML = await renderBuildCard(sel, 'cc');
-        // v3.9.2: o frame grande exibe a arma JÁ recortada justa (mesmo
-        // processamento do antigo zoom de hover, que saiu deste modo).
-        try {
-          const ccImg = detailEl.querySelector('.bc-cc-render img.bc-wpn-img');
-          if (ccImg && ccImg.src && window.LevelWpnCrop) {
-            const srcNow = ccImg.src;
-            window.LevelWpnCrop(srcNow).then(function (processed) {
-              if (processed && processed !== srcNow && ccImg.isConnected) ccImg.src = processed;
-            });
-          }
-        } catch (e) { /* silent — frame fica com a original */ }
+        // v3.9.3: recorte automático (LevelWpnCrop) REMOVIDO daqui — nas fotos
+        // opacas (fundo embutido, como a REV-46 do Victor) o recorte por
+        // luminância cortava a arma. O frame mostra a foto INTEIRA, como o
+        // thumb das Configurações onde ela foi cadastrada.
       } else {
         detailEl.innerHTML = '<div class="lvl-empty"><div class="lvl-empty-mono">// seleciona uma build na lista</div></div>';
       }
