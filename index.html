@@ -1588,12 +1588,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.9.3 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.10.0 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Command Center: foto inteira, sem zoom</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Acerto no frame da arma do <strong>Command Center</strong>: o recorte automático da v3.9.2 <em>cortava a arma</em> nas fotos com fundo embutido (como a REV-46) — saiu. A foto agora aparece <strong>inteira, sem nenhum zoom</strong> (nem no hover), sobre o <strong>mesmo fundo escuro liso do thumb das Configurações</strong> onde ela foi cadastrada. A escolha "Fundo das fotos" por classe continua a valer aqui quando definida.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Armas "estouradas" + fundo sincronizado</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Três acertos no Armamento: <strong>1)</strong> nos thumbs das Configurações, as armas com PNG transparente aparecem <strong>recortadas e ampliadas</strong> ("estouradas"), sem aquele mar de espaço vazio em volta — fotos opacas ficam como estão. <strong>2)</strong> O botão <strong>"Recortar fundo das imagens já salvas"</strong> voltou a funcionar: ele ignorava as fotos migradas pra nuvem (só via as locais) — depois do recorte, a arma também ganha o estouro. <strong>3)</strong> A escolha <strong>"Fundo das fotos"</strong> agora <em>viaja na tua conta</em> (sincroniza via cloud): escolhe num dispositivo, aparece nos outros após o sync.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4842,6 +4842,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.10.0</span>
+                <span class="vh-date">8 Jul 2026</span>
+                <span class="vh-kind">feature</span>
+              </div>
+              <p class="vh-desc"><strong>Armamento: armas &ldquo;estouradas&rdquo;, recorte consertado e fundo que viaja na conta.</strong> <strong>1)</strong> Nos thumbs de Configura&ccedil;&otilde;es &#9656; Armamento, as armas com PNG transparente apareciam pequenas num mar de espa&ccedil;o vazio &mdash; agora s&atilde;o exibidas <strong>recortadas e ampliadas</strong> (mesmo processamento do hover-preview, com cache; fotos opacas ficam intactas, o recorte por luminância j&aacute; tinha mordido na REV-46). <strong>2)</strong> O bot&atilde;o <em>&ldquo;Recortar fundo das imagens j&aacute; salvas&rdquo;</em> dizia &ldquo;nenhuma imagem salva&rdquo; &mdash; ele s&oacute; olhava as imagens locais e <strong>ignorava as fotos migradas pra nuvem</strong> (URLs); corrigido, e ap&oacute;s o recorte a arma ganha o estouro autom&aacute;tico. <strong>3)</strong> A escolha <em>&ldquo;Fundo das fotos&rdquo;</em> por classe deixou de ser s&oacute; deste dispositivo: <strong>sincroniza na conta</strong> (prefs no cloud, push imediato ao escolher; outro dispositivo adota no boot). Confirma&ccedil;&atilde;o pro Victor: era exatamente isso &mdash; at&eacute; esta vers&atilde;o o efeito ficava s&oacute; no navegador onde foi escolhido.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8636,7 +8645,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.9.3</strong><span class="ver-tag">CC: recorte automático (LevelWpnCrop) removido do renderCC — em foto OPACA (fundo embutido, ex. REV-46) o bbox por luminância cortava a arma. Frame mostra a foto inteira (contain, transform none !important segue) sobre fundo igual ao img-card-thumb da config: --bg-darkest liso, background-image none !important com :not(.wbg-*) ×4 preservando a escolha por classe. LevelWpnCrop continua exposto (hover-preview usa). Hover-zoom já estava fora do .bc-cc-render desde v3.9.2.</span>
+              LEVEL · <strong>v3.10.0</strong><span class="ver-tag">Armamento ×3: thumbs da config com "estouro" (pós-pass no renderSettings: _imageIsOpaque → só transparentes passam pelo LevelWpnCrop e trocam o src; opacas intactas — luminância já mordeu). Reprocesso de fundo consertado: targets via getUserImage (merge local+cloud, aceita dataURL e https) — antes só via loadUserImages local e as fotos migradas ficavam de fora. Fundo por classe SINCRONIZA na conta: prefs.weapon_bg no userPayload (hub_users.prefs, padrão whatsnew), aplicado no pull pro level.wbg.v1, push force imediato ao clicar na barra (senão o auto-pull do boot reverte).</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -18285,6 +18294,11 @@ const ATTACHMENT_ICONS = {
                               mute_all: localStorage.getItem('level.wn.muteAll') === '1'
                             };
                           } catch (e) { return null; }
+                        })(),
+                        // v3.10.0: fundo das fotos por classe (Configurações ▸
+                        // Armamento) viaja na conta — mesmo padrão do whatsnew.
+                        weapon_bg: (function () {
+                          try { return JSON.parse(localStorage.getItem('level.wbg.v1') || 'null'); } catch (e) { return null; }
                         })() },
         local_updated_at: player.updatedAt || new Date().toISOString(),
       };
@@ -18459,6 +18473,11 @@ const ATTACHMENT_ICONS = {
               if (wn.dismissed_version) localStorage.setItem('level.wn.dismissed', wn.dismissed_version);
               if (wn.mute_all) localStorage.setItem('level.wn.muteAll', '1');
             }
+          } catch (e) {}
+          // v3.10.0: aplica prefs.weapon_bg (fundo das fotos por classe) do cloud
+          try {
+            var wb = u.prefs && u.prefs.weapon_bg;
+            if (wb && typeof wb === 'object') localStorage.setItem('level.wbg.v1', JSON.stringify(wb));
           } catch (e) {}
         }
         // Weapons: matching por catalog_id (wpn_xxx vs xxx)
@@ -25399,6 +25418,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (cls === 'ALL') window.LevelWeaponBg.setAll(val);
       else window.LevelWeaponBg.set(cls, val);
       renderSettings();
+      // v3.10.0: a escolha viaja na conta (prefs.weapon_bg) — push imediato,
+      // senão o auto-pull do próximo boot reverte (mesma armadilha do perfil).
+      try {
+        if (window.CloudSync && window.CloudSync.pushAll) {
+          window.CloudSync.pushAll({ force: true }).catch(function () {});
+        }
+      } catch (e2) {}
     });
 
     function renderSettings() {
@@ -25559,6 +25585,23 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           +   '</div>'
           + '</div>';
       }).join('');
+      // v3.10.0: "estourar" as armas nos thumbs — recorta o espaço vazio em
+      // volta e amplia (LevelWpnCrop, o mesmo do hover-preview, com cache).
+      // SÓ nas imagens TRANSPARENTES (recorte por alfa é exato); fotos opacas
+      // (fundo embutido) ficam como estão — o recorte por luminância já mordeu
+      // (cortou a REV-46 no Command Center, v3.9.3).
+      if ((isArmCat || isEquipmentCategory(cat.id)) && window.LevelWpnCrop && typeof _imageIsOpaque === 'function') {
+        grid.querySelectorAll('.img-card-thumb.has-img img').forEach(function (im) {
+          var src = im.getAttribute('src');
+          if (!src) return;
+          _imageIsOpaque(src).then(function (opaque) {
+            if (opaque) return;
+            return window.LevelWpnCrop(src).then(function (p) {
+              if (p && p !== src && im.isConnected && im.getAttribute('src') === src) im.src = p;
+            });
+          }).catch(function () {});
+        });
+      }
     }
 
     function updateSettingsUsage() {
@@ -25817,21 +25860,29 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       var statusEl = document.getElementById('set-reprocess-bg-status');
       var en = (function () { try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) { return false; } })();
       var setS = function (t) { if (statusEl) statusEl.textContent = t; };
-      var imgs = loadUserImages() || {};
-      var targets = _equipmentImageIds().filter(function (id) {
-        return typeof imgs[id] === 'string' && imgs[id].indexOf('data:image') === 0;
+      // v3.10.0: usa getUserImage (merge local+CLOUD) em vez do mapa local puro —
+      // as fotos migradas pra nuvem são URLs https e ficavam de fora ("Nenhuma
+      // imagem de equipamento salva", report do Victor). Aceita dataURL e URL.
+      var targets = [];
+      _equipmentImageIds().forEach(function (id) {
+        var src = null;
+        try { src = getUserImage(id); } catch (e) {}
+        if (typeof src === 'string' && (src.indexOf('data:image') === 0 || /^https?:\/\//i.test(src))) {
+          targets.push({ id: id, src: src });
+        }
       });
       if (!targets.length) { setS(en ? 'No saved equipment images.' : 'Nenhuma imagem de equipamento salva.'); return; }
       _reprocessing = true;
       if (btn) btn.disabled = true;
       var changed = 0, skipped = 0, failed = 0, quotaHit = false;
       for (var i = 0; i < targets.length; i++) {
-        var id = targets[i];
+        var id = targets[i].id;
+        var srcI = targets[i].src;
         setS((en ? 'Processing ' : 'Processando ') + (i + 1) + '/' + targets.length + '… '
           + (en ? '(first time downloads the AI model ~80MB)' : '(1ª vez baixa o modelo de IA ~80MB)'));
         try {
-          if (!(await _imageIsOpaque(imgs[id]))) { skipped++; continue; } // já recortada
-          var blob = await (await fetch(imgs[id])).blob();
+          if (!(await _imageIsOpaque(srcI))) { skipped++; continue; } // já recortada
+          var blob = await (await fetch(srcI)).blob();
           if (blob.size > USER_IMG_MAX_BYTES) { failed++; continue; } // grande demais p/ a IA (igual ao upload)
           var cut = await window.LevelBgRemoval(blob).catch(function () { return null; });
           if (!cut) { failed++; continue; }
