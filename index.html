@@ -1588,12 +1588,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.10.0 · <span data-i18n="briefing.changelog.date">8 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.10.1 · <span data-i18n="briefing.changelog.date">9 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Armas "estouradas" + fundo sincronizado</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Três acertos no Armamento: <strong>1)</strong> nos thumbs das Configurações, as armas com PNG transparente aparecem <strong>recortadas e ampliadas</strong> ("estouradas"), sem aquele mar de espaço vazio em volta — fotos opacas ficam como estão. <strong>2)</strong> O botão <strong>"Recortar fundo das imagens já salvas"</strong> voltou a funcionar: ele ignorava as fotos migradas pra nuvem (só via as locais) — depois do recorte, a arma também ganha o estouro. <strong>3)</strong> A escolha <strong>"Fundo das fotos"</strong> agora <em>viaja na tua conta</em> (sincroniza via cloud): escolhe num dispositivo, aparece nos outros após o sync.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Armas novas do catálogo chegam a todos</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">As armas novas da temporada — <strong>AN-94, VX Compact e X9 Maverick</strong> (ARs) — agora aparecem nas <strong>Configurações ▸ Armamento</strong> (para fotos) e no <strong>+ Adicionar Arma</strong>. O bug era antigo: o Hub só baixava o catálogo de armas do servidor <em>no primeiro acesso</em> — quem já usava o Hub nunca mais recebia arma nova adicionada ao catálogo. Agora o catálogo atualiza <strong>a cada refresh</strong>, em segundo plano, sem atrasar o boot.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4842,6 +4842,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.10.1</span>
+                <span class="vh-date">9 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Armas novas do cat&aacute;logo chegam a todos (AN-94, VX Compact, X9 Maverick).</strong> O Victor pediu para inserir as 3 ARs novas no cadastro &mdash; e elas <em>j&aacute; estavam</em> na tabela <code>cat_default_weapons</code>. O problema era um bug antigo do cliente: o Hub s&oacute; baixava o cat&aacute;logo do servidor <strong>no primeiro acesso</strong> (o <code>seedIfNeeded</code> retornava cedo para usu&aacute;rio j&aacute; seedado e o fetch nunca mais rodava) &mdash; arma inserida no DB depois disso ficava invis&iacute;vel para quem j&aacute; usava o Hub. Agora o cat&aacute;logo &eacute; atualizado <strong>a cada refresh</strong>, em segundo plano: as armas novas aparecem nas Configura&ccedil;&otilde;es &#9656; Armamento (para fotos) e no <em>+ Adicionar Arma</em>. Sem mudan&ccedil;as no DB.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8645,7 +8654,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.10.0</strong><span class="ver-tag">Armamento ×3: thumbs da config com "estouro" (pós-pass no renderSettings: _imageIsOpaque → só transparentes passam pelo LevelWpnCrop e trocam o src; opacas intactas — luminância já mordeu). Reprocesso de fundo consertado: targets via getUserImage (merge local+cloud, aceita dataURL e https) — antes só via loadUserImages local e as fotos migradas ficavam de fora. Fundo por classe SINCRONIZA na conta: prefs.weapon_bg no userPayload (hub_users.prefs, padrão whatsnew), aplicado no pull pro level.wbg.v1, push force imediato ao clicar na barra (senão o auto-pull do boot reverte).</span>
+              LEVEL · <strong>v3.10.1</strong><span class="ver-tag">Catálogo de armas atualiza a cada boot: seedIfNeeded fazia early-return pra usuário seedado e fetchDefaultWeaponsFromServer NUNCA mais rodava — AN-94/VX Compact (inseridas na cat_default_weapons depois do seed do Victor) não chegavam ao cliente; X9 Maverick já estava (cache antigo). Agora o early-return dispara o fetch em fire-and-forget (DEFAULT_WEAPONS/MAPS_CATALOG atualizados in-place; _knownWeaponsSync e + Adicionar Arma veem a união fresca). Edge bootstrap-defaults confirmada sem filtro. Nenhuma mudança no DB — as 3 armas já existiam lá.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -12495,7 +12504,20 @@ window.BO7_ASSETS = (function() {
     // v75-75: agora puxa o arsenal default do servidor (cat_default_weapons).
     // Se servidor falha, usa cache local OU fallback mínimo (Sturmwolf + Peacekeeper).
     async function seedIfNeeded() {
-      if (_read(KEYS.seedFlag, false)) return false;
+      if (_read(KEYS.seedFlag, false)) {
+        // v3.10.1: usuário JÁ seedado nunca mais atualizava o catálogo default —
+        // arma nova inserida na cat_default_weapons (ex.: AN-94, VX Compact)
+        // não chegava às Configurações nem ao "+ Adicionar Arma" (o fetch só
+        // rodava no primeiro seed). Refresh em fire-and-forget: não trava o
+        // boot; DEFAULT_WEAPONS/MAPS_CATALOG são atualizados in-place e a
+        // união (_knownWeaponsSync etc.) vê o catálogo fresco ao renderizar.
+        try {
+          if (typeof fetchDefaultWeaponsFromServer === 'function') {
+            fetchDefaultWeaponsFromServer().catch(function () {});
+          }
+        } catch (e) {}
+        return false;
+      }
 
       // Tenta carregar defaults do servidor ANTES de seedear.
       // Atualiza DEFAULT_WEAPONS in-place (variável compartilhada).
