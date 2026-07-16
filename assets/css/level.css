@@ -14027,28 +14027,28 @@
   }
 
 /* ===== bloco 4/4 (extraido do index.html) ===== */
-#build-base-picker { position: relative; }
-              #build-base-picker .wpicker-trigger { width: 100%; display: flex; align-items: center; gap: 11px; padding: 8px 12px; border-radius: var(--radius-input, 8px); background: var(--surface-input, #131A2C); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 14px; cursor: pointer; text-align: left; box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)); transition: border-color .12s, box-shadow .12s; }
-              #build-base-picker .wpicker-trigger:hover { border-color: var(--border-strong, rgba(174,199,224,0.28)); }
-              #build-base-picker.open .wpicker-trigger { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)), 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45)); }
-              #build-base-picker .wpicker-thumb { flex: none; width: 34px; height: 34px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(174,199,224,0.06); border: 1px solid var(--border-subtle, rgba(174,199,224,0.10)); color: var(--text-faint, #5F6E8C); }
-              #build-base-picker .wpicker-thumb.has { border-color: color-mix(in oklab, var(--wc, var(--accent-orange)) 50%, transparent); background: color-mix(in oklab, var(--wc, var(--accent-orange)) 12%, #0D121E); color: var(--wc, var(--accent-orange)); }
-              #build-base-picker .wpicker-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-              #build-base-picker .wpicker-thumb svg { width: 18px; height: 18px; }
-              #build-base-picker .wpicker-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-              #build-base-picker .wpicker-label.placeholder { color: var(--text-placeholder, #43506E); }
-              #build-base-picker .wpicker-caret { flex: none; width: 18px; height: 18px; color: var(--text-muted, #8497B8); transition: transform .15s; }
-              #build-base-picker.open .wpicker-caret { transform: rotate(180deg); }
-              #build-base-picker .wpicker-panel { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30; max-height: 320px; overflow-y: auto; padding: 6px; border-radius: 12px; background: rgba(20,26,43,0.97); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); box-shadow: 0 18px 44px rgba(0,0,0,0.55); }
-              #build-base-picker.open .wpicker-panel { display: block; }
-              #build-base-picker .wpick-group { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint, #5F6E8C); padding: 10px 10px 5px; }
-              #build-base-picker .wpick-opt { width: 100%; display: flex; align-items: center; gap: 11px; padding: 7px 9px; border-radius: 8px; background: transparent; border: 1px solid transparent; color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 13.5px; cursor: pointer; text-align: left; }
-              #build-base-picker .wpick-opt:hover, #build-base-picker .wpick-opt.sel { background: color-mix(in oklab, var(--wc, var(--accent-orange)) 13%, transparent); border-color: color-mix(in oklab, var(--wc, var(--accent-orange)) 38%, transparent); }
-              #build-base-picker .wpick-thumb { flex: none; width: 36px; height: 36px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: color-mix(in oklab, var(--wc, var(--accent-orange)) 12%, #0D121E); border: 1px solid color-mix(in oklab, var(--wc, var(--accent-orange)) 45%, transparent); color: var(--wc, var(--accent-orange)); }
-              #build-base-picker .wpick-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-              #build-base-picker .wpick-thumb svg { width: 19px; height: 19px; }
-              #build-base-picker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-              #build-base-picker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
+.wpicker { position: relative; }
+              .wpicker .wpicker-trigger { width: 100%; display: flex; align-items: center; gap: 11px; padding: 8px 12px; border-radius: var(--radius-input, 8px); background: var(--surface-input, #131A2C); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 14px; cursor: pointer; text-align: left; box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)); transition: border-color .12s, box-shadow .12s; }
+              .wpicker .wpicker-trigger:hover { border-color: var(--border-strong, rgba(174,199,224,0.28)); }
+              .wpicker.open .wpicker-trigger { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: var(--inset-input, inset 0 1px 3px rgba(0,0,0,0.45)), 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.45)); }
+              .wpicker .wpicker-thumb { flex: none; width: 34px; height: 34px; border-radius: 7px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(174,199,224,0.06); border: 1px solid var(--border-subtle, rgba(174,199,224,0.10)); color: var(--text-faint, #5F6E8C); }
+              .wpicker .wpicker-thumb.has { border-color: color-mix(in oklab, var(--wc, var(--accent-orange)) 50%, transparent); background: color-mix(in oklab, var(--wc, var(--accent-orange)) 12%, #0D121E); color: var(--wc, var(--accent-orange)); }
+              .wpicker .wpicker-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+              .wpicker .wpicker-thumb svg { width: 18px; height: 18px; }
+              .wpicker .wpicker-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+              .wpicker .wpicker-label.placeholder { color: var(--text-placeholder, #43506E); }
+              .wpicker .wpicker-caret { flex: none; width: 18px; height: 18px; color: var(--text-muted, #8497B8); transition: transform .15s; }
+              .wpicker.open .wpicker-caret { transform: rotate(180deg); }
+              .wpicker .wpicker-panel { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30; max-height: 320px; overflow-y: auto; padding: 6px; border-radius: 12px; background: rgba(20,26,43,0.97); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); box-shadow: 0 18px 44px rgba(0,0,0,0.55); }
+              .wpicker.open .wpicker-panel { display: block; }
+              .wpicker .wpick-group { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint, #5F6E8C); padding: 10px 10px 5px; }
+              .wpicker .wpick-opt { width: 100%; display: flex; align-items: center; gap: 11px; padding: 7px 9px; border-radius: 8px; background: transparent; border: 1px solid transparent; color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 13.5px; cursor: pointer; text-align: left; }
+              .wpicker .wpick-opt:hover, .wpicker .wpick-opt.sel { background: color-mix(in oklab, var(--wc, var(--accent-orange)) 13%, transparent); border-color: color-mix(in oklab, var(--wc, var(--accent-orange)) 38%, transparent); }
+              .wpicker .wpick-thumb { flex: none; width: 45px; height: 45px; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: color-mix(in oklab, var(--wc, var(--accent-orange)) 12%, #0D121E); border: 1px solid color-mix(in oklab, var(--wc, var(--accent-orange)) 45%, transparent); color: var(--wc, var(--accent-orange)); }
+              .wpicker .wpick-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+              .wpicker .wpick-thumb svg { width: 24px; height: 24px; }
+              .wpicker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+              .wpicker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
 
   /* ═══ v2.96.0 · Pitch: hero scroll-scrub (montagem da logo dirigida pelo scroll) ═══
      Escopado em #level-pitch.lp-scrub — a classe só entra com a flag LP_SCRUB (JS).
