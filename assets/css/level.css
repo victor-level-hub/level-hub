@@ -9176,8 +9176,13 @@
 
   /* ── Build Modal ─────────────────────────────────────────────────── */
   .modal-box.modal-wide { max-width: 720px; }
+  /* v3.12.2: modal de build mais ALTO e com respiro — os blocos internos
+     ficavam agrupados e o picker em grade abria espremido. Altura mínima
+     ocupa a viewport (88vh) e as secções ganham espaçamento maior. */
+  #modal-build .modal-box { max-height: 94vh; min-height: 88vh; display: flex; flex-direction: column; overflow: hidden; }
+  #modal-build .modal-body { flex: 1; overflow-y: auto; }
   /* v2.59: foto da arma à esquerda do modal de build (aproveita o espaço lateral) */
-  #modal-build .modal-body { display: flex; gap: 20px; align-items: flex-start; }
+  #modal-build .modal-body { display: flex; gap: 24px; align-items: flex-start; padding: 26px 24px; }
   #modal-build .build-modal-photo { flex: 0 0 220px; position: sticky; top: 0; display: flex; flex-direction: column; gap: 9px; }
   #modal-build .build-photo-frame {
     width: 220px; height: 165px; border-radius: 10px;
@@ -9199,8 +9204,8 @@
     #modal-build .build-photo-frame { width: 100%; height: 175px; }
   }
   .build-modal-section {
-    margin-bottom: 18px;
-    padding-bottom: 14px;
+    margin-bottom: 26px;   /* v3.12.2: era 18px — mais respiro entre secções */
+    padding-bottom: 20px;  /* v3.12.2: era 14px */
     border-bottom: 1px dashed var(--border);
   }
   .build-modal-section:last-child { border-bottom: none; }
@@ -14038,7 +14043,7 @@
               .wpicker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
 
   /* ═══ v3.12.0 · Picker de arma base em GRADE (busca + chips com pílula deslizante + cards) ═══ */
-  .wpicker .wpicker-panel.wpk2 { max-height: 540px; padding: 12px; }
+  .wpicker .wpicker-panel.wpk2 { max-height: min(640px, 72vh); padding: 12px; }  /* v3.12.2: acompanha o modal mais alto */
   .wpk-search { width: 100%; padding: 10px 13px; border-radius: 9px; background: var(--surface-input, #131A2C); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 13.5px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
   .wpk-search::placeholder { color: var(--text-placeholder, #43506E); }
   .wpk-search:focus { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.25)); }
@@ -14046,7 +14051,7 @@
   .wpk-chip { position: relative; z-index: 1; border: none; background: transparent; color: var(--text-muted, #8497B8); font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; cursor: pointer; transition: color .18s; }
   .wpk-chip.lit { color: #16121A; font-weight: 700; }
   .wpk-pill { position: absolute; z-index: 0; left: 0; top: 0; width: 0; height: 0; border-radius: 999px; background: var(--accent-orange, #FF9800); opacity: 0; transition: left .28s cubic-bezier(.22,.61,.36,1), top .28s cubic-bezier(.22,.61,.36,1), width .28s cubic-bezier(.22,.61,.36,1), opacity .18s; pointer-events: none; }
-  .wpk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: 370px; overflow-y: auto; padding: 2px; }
+  .wpk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: min(470px, 54vh); overflow-y: auto; padding: 2px; }  /* v3.12.2: grade mais alta */
   .wpicker .wpk-grid .wpick-opt { flex-direction: column; gap: 6px; padding: 10px 8px 9px; border-radius: 11px; border: 1.5px solid var(--border-subtle, rgba(174,199,224,0.12)); background: rgba(174,199,224,0.035); text-align: center; position: relative; transition: transform .14s, border-color .14s, background .14s; }
   .wpicker .wpk-grid .wpick-opt:hover { transform: translateY(-2px); }
   .wpicker .wpk-grid .wpick-opt.sel { border-color: var(--accent-orange, #FF9800); box-shadow: 0 0 0 1.5px var(--accent-orange, #FF9800), 0 8px 22px rgba(255,152,0,0.16); }
