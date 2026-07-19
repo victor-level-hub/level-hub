@@ -14549,6 +14549,39 @@ const ATTACHMENT_ICONS = {
       _wpkApply();
     }
 
+    // ── v3.x: união catálogo + arsenal para o picker de arma base ────────
+    // O picker de "+ Adicionar Arma" precisa oferecer TODAS as armas conhecidas
+    // (catálogo do servidor DEFAULT_WEAPONS + arsenal pessoal), não só o arsenal.
+    // Senão, arma nova inserida no cat_default_weapons DEPOIS do seed (ex.: a
+    // CBRS-3) nunca aparece pra montar — só chegava às Configurações, que já
+    // usam a união (_knownWeaponsSync). Respeita tombstones (armas apagadas de
+    // propósito). Mesma ideia de _getAllKnownWeapons (captura).
+    async function _buildBaseWeaponPool() {
+      const byId = new Map();
+      let arsenal = [];
+      try { arsenal = (await LevelDB.weapons.list()) || []; } catch (e) {}
+      // Arsenal primeiro: a versão com progresso real do user vence a do catálogo.
+      for (const w of arsenal) { if (w && w.id) byId.set(w.id, w); }
+      let tombs = new Set();
+      try { tombs = new Set(JSON.parse(localStorage.getItem('level.weapons.tombstones') || '[]')); } catch (e) {}
+      const catalog = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
+      for (const w of catalog) { if (w && w.id && !byId.has(w.id) && !tombs.has(w.id)) byId.set(w.id, w); }
+      return Array.from(byId.values());
+    }
+
+    // Resolve uma arma base pelo arsenal; se não estiver lá, cai pro catálogo
+    // (DEFAULT_WEAPONS). Usado pra EXIBIR o modal de build de armas do catálogo
+    // ainda não materializadas no arsenal. A materialização (persistir no
+    // arsenal com o id canônico) acontece só no saveBuild, ao confirmar.
+    async function _resolveBaseWeapon(id) {
+      if (!id) return null;
+      let w = null;
+      try { w = await LevelDB.weapons.get(id); } catch (e) {}
+      if (w) return w;
+      const catalog = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
+      return catalog.find(x => x && x.id === id) || null;
+    }
+
     async function populateBaseDropdown() {
       const sel = document.getElementById('build-base');
       if (!sel) return;
