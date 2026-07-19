@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.12.1">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.12.2">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1619,12 +1619,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.12.1 · <span data-i18n="briefing.changelog.date">19 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.12.2 · <span data-i18n="briefing.changelog.date">19 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
           <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor de arma novo + ícones e fundos corrigidos</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Escolher arma agora é visual nos dois fluxos (<strong>Nova Arma</strong> e <strong>Montagem Inteligente</strong>): grade com as fotos, <strong>busca</strong> e filtros de classe com <strong>pílula deslizante</strong>. Os <strong>ícones dos attachments</strong> voltaram (canos com polegadas, óticas trocadas e o <strong>FANG HoverPoint ELO</strong> com ícone oficial) e a <strong>marca d'água</strong> saiu de trás das fotos transparentes. E os <strong>cards do catálogo</strong> (Configurações · Mapas) não estouram mais os botões pra fora do card.</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Escolher arma agora é visual nos dois fluxos (<strong>Nova Arma</strong> e <strong>Montagem Inteligente</strong>): grade com as fotos, <strong>busca</strong> e filtros de classe com <strong>pílula deslizante</strong>. Os <strong>ícones dos attachments</strong> voltaram (canos com polegadas, óticas trocadas e o <strong>FANG HoverPoint ELO</strong> com ícone oficial) e a <strong>marca d'água</strong> saiu de trás das fotos transparentes. E os <strong>cards do catálogo</strong> (Configurações · Mapas) não estouram mais os botões pra fora do card. <strong>E o principal: as builds não somem mais</strong> — agora sincronizam com a nuvem (backup + restore), como as armas e loadouts sempre fizeram.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4873,6 +4873,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.12.2</span>
+                <span class="vh-date">19 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Causa-raiz das builds "sumindo" + modal de build com respiro.</strong> (1) <strong>Builds no cloud sync</strong>: as builds NUNCA eram sincronizadas — <code>buildSnapshot</code> subia armas/loadouts/dificuldades mas não <code>level.builds</code>, e o <code>pullAll</code> não restaurava nada (as Edge functions sync-push/sync-pull já suportavam <code>hub_builds</code> desde o v2, só o cliente não usava). Resultado: build criada vivia só no localStorage daquele browser — troca de aparelho, Reset Arsenal ou Restaurar da nuvem = zero builds (por isso <code>hub_builds</code> estava vazio no banco). Agora o push mapeia cada build (<code>codename</code>=id local <code>bld_*</code> estável entre renomes, <code>build_code</code>, <code>game_build_code</code>, <code>attachments</code>, blob fiel em <code>stats_summary._levelLocal</code>) e o pull faz merge LWW por id respeitando <strong>tombstones</strong> (build apagada não ressuscita). Auto-backup (5min) e backup manual passam a cobrir builds. (2) <strong>Modal de build mais alto</strong> (88–94vh, corpo com scroll próprio) e secções com mais respiro — o picker em grade abre com espaço (painel 72vh, grade 54vh). (3) <strong>Mini-thumb do trigger "Arma base" removido</strong> — saía cortado e a foto grande à esquerda já mostra a arma (syncBaseTrigger com guarda defensivo). node --check OK.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8748,7 +8757,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.12.1</strong><span class="ver-tag">Fix: botões dos cards de catálogo (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.12.2</strong><span class="ver-tag">FIX RAIZ das builds sumindo: builds nunca entravam no cloud sync (buildSnapshot não mandava, pullAll não restaurava — sync-push/pull já suportavam hub_builds desde o v2). Agora: push mapeia level.builds→hub_builds (codename=id local bld_*, blob fiel em stats_summary._levelLocal) e pull faz merge LWW por id respeitando tombstones. UX: modal de build mais alto (88–94vh) com secções respirando; mini-thumb do trigger Arma Base removido (foto grande à esquerda já mostra). Base v3.12.1: Fix: botões dos cards de catálogo (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -9454,7 +9463,7 @@
             </select>
             <div class="wpicker" id="build-base-picker">
               <button type="button" class="wpicker-trigger" id="build-base-trigger" aria-haspopup="listbox" aria-expanded="false">
-                <span class="wpicker-thumb" id="build-base-trigger-thumb"></span>
+                <!-- v3.12.2: mini-thumb removido do trigger — a foto grande à esquerda já mostra a arma; o thumb 34px saía cortado -->
                 <span class="wpicker-label placeholder" id="build-base-trigger-label">— Selecione a arma —</span>
                 <svg class="wpicker-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
               </button>
@@ -14445,9 +14454,11 @@ const ATTACHMENT_ICONS = {
     function wpickCheck() { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'; }
     function syncBaseTrigger() {
       const sel = document.getElementById('build-base');
+      // v3.12.2: thumb do trigger removido (a foto grande à esquerda já cumpre o papel);
+      // guarda defensivo caso o span ainda exista em markup antigo.
       const thumb = document.getElementById('build-base-trigger-thumb');
       const label = document.getElementById('build-base-trigger-label');
-      if (!sel || !thumb || !label) return;
+      if (!sel || !label) return;
       const w = sel.value ? _pickerWeapons[sel.value] : null;
       const panel = document.getElementById('build-base-panel');
       if (panel) panel.querySelectorAll('.wpick-opt').forEach(function (o) { o.classList.toggle('sel', o.getAttribute('data-wid') === sel.value); });
@@ -14461,8 +14472,8 @@ const ATTACHMENT_ICONS = {
         _pf.className = 'build-photo-frame' + (w && window.LevelWeaponBg ? window.LevelWeaponBg.cls(w.class) : '');
       }
       if (_pn) _pn.textContent = w ? w.name : '';
-      if (!w) { thumb.className = 'wpicker-thumb'; thumb.innerHTML = ''; thumb.style.removeProperty('--wc'); label.className = 'wpicker-label placeholder'; label.textContent = '— Selecione a arma —'; return; }
-      thumb.className = 'wpicker-thumb has'; thumb.style.setProperty('--wc', 'var(' + (WPICK_CLASS_TOKEN[w.class] || '--accent-orange') + ')'); thumb.innerHTML = wpickThumb(w);
+      if (!w) { if (thumb) { thumb.className = 'wpicker-thumb'; thumb.innerHTML = ''; thumb.style.removeProperty('--wc'); } label.className = 'wpicker-label placeholder'; label.textContent = '— Selecione a arma —'; return; }
+      if (thumb) { thumb.className = 'wpicker-thumb has'; thumb.style.setProperty('--wc', 'var(' + (WPICK_CLASS_TOKEN[w.class] || '--accent-orange') + ')'); thumb.innerHTML = wpickThumb(w); }
       label.className = 'wpicker-label'; label.textContent = w.name;
     }
     function wireBasePicker() {
@@ -18543,6 +18554,13 @@ const ATTACHMENT_ICONS = {
       const strugglesLocal = window.LevelDB.struggles
         ? (await window.LevelDB.struggles.list())
         : [];
+      // v3.12.2: builds FINALMENTE entram no snapshot. Até aqui NUNCA eram
+      // sincronizadas (sync-push/sync-pull já suportavam hub_builds desde o v2,
+      // mas o cliente não mandava) — build criada vivia só no localStorage
+      // daquele browser e "sumia" ao trocar de aparelho ou resetar o arsenal.
+      const buildsLocal = (window.LevelDB.builds && window.LevelDB.builds.list)
+        ? (await window.LevelDB.builds.list())
+        : [];
 
       // Map: hub_users
       const userPayload = {
@@ -18620,10 +18638,27 @@ const ATTACHMENT_ICONS = {
         };
       });
 
+      // Map: hub_builds — natural key no servidor é 'codename' (upsertLWW).
+      // Usamos o id local (bld_*): estável entre edições (o NOME pode mudar e
+      // não pode gerar linha nova). Blob completo em stats_summary._levelLocal
+      // pra pull-back fiel — mesmo padrão dos loadouts/struggles.
+      const builds = buildsLocal.map(function (b) {
+        return {
+          codename:          b.id,
+          weapon_catalog_id: String(b.weaponBaseId || b.baseId || '').replace(/^wpn_/, '') || 'unknown',
+          build_code:        b.buildCode || null,
+          game_build_code:   b.gameBuildCode || null,
+          attachments:       Array.isArray(b.attachments) ? b.attachments : [],
+          stats_summary:     { _levelLocal: b, _schemaVersion: 1 },
+          local_updated_at:  b.updatedAt || b.createdAt || new Date().toISOString(),
+        };
+      });
+
       return {
         local_id: getOrCreateLocalId(),
         user: userPayload,
         weapons: weapons,
+        builds: builds,
         loadouts: loadouts,
         struggles: struggles,
       };
@@ -18782,6 +18817,39 @@ const ATTACHMENT_ICONS = {
             console.log('[CloudSync] Loadouts restaurados:', restored, 'de', data.loadouts.length, 'remotos');
           } catch (e) {
             console.error('[CloudSync] erro ao restaurar loadouts:', e);
+          }
+        }
+        // Builds (v3.12.2): restaura de stats_summary._levelLocal — a CAUSA das
+        // "builds sumindo": nunca eram sincronizadas, então restore/troca de
+        // aparelho voltava sempre com zero builds. Merge LWW por id local;
+        // respeita tombstones (build apagada de propósito NÃO ressuscita).
+        if (Array.isArray(data.builds) && data.builds.length) {
+          try {
+            const localList = JSON.parse(localStorage.getItem('level.builds') || '[]');
+            const tombs = new Set(
+              (window.LevelDB && window.LevelDB.builds && window.LevelDB.builds._getTombstones)
+                ? window.LevelDB.builds._getTombstones() : []
+            );
+            const byLocalId = new Map(localList.map(function (b) { return [b.id, b]; }));
+            let restored = 0;
+            for (const remote of data.builds) {
+              const blob = (remote.stats_summary && remote.stats_summary._levelLocal) ? remote.stats_summary._levelLocal : null;
+              if (!blob || !blob.id) continue;
+              if (tombs.has(blob.id)) continue; // apagada de propósito neste aparelho
+              const localExisting = byLocalId.get(blob.id);
+              const remoteTs = new Date(remote.updated_at || remote.server_updated_at || 0).getTime();
+              const localTs  = localExisting ? new Date(localExisting.updatedAt || localExisting.createdAt || 0).getTime() : 0;
+              if (localExisting && localTs >= remoteTs) continue; // LWW: local mais recente, skip
+              byLocalId.set(blob.id, blob);
+              restored++;
+            }
+            if (restored > 0) {
+              localStorage.setItem('level.builds', JSON.stringify(Array.from(byLocalId.values())));
+              try { document.dispatchEvent(new CustomEvent('level:builds-change', { detail: { op: 'pull' } })); } catch (e) {}
+            }
+            console.log('[CloudSync] Builds restauradas:', restored, 'de', data.builds.length, 'remotas');
+          } catch (e) {
+            console.error('[CloudSync] erro ao restaurar builds:', e);
           }
         }
         // Struggles (dificuldades): restaura a partir de ai_diagnosis._levelLocal
