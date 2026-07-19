@@ -8263,7 +8263,10 @@
 
   .builds-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    /* v3.12.5: era minmax(340px,1fr) — card estreito fazia as 4 abas
+       (Loadout/Análise/Avalie/Progressão) quebrarem em 2 linhas. 560px de
+       mínimo = abas numa linha só; min(...,100%) evita estourar no mobile. */
+    grid-template-columns: repeat(auto-fill, minmax(min(560px, 100%), 1fr));
     gap: 14px;
     margin-top: 8px;
   }
@@ -14065,6 +14068,12 @@
      pro picker em tela cheia ter espaço lá também. */
   #modal-smart-build .modal-box { max-height: 94vh; min-height: 80vh; display: flex; flex-direction: column; overflow: hidden; }
   #modal-smart-build .modal-body { flex: 1; overflow-y: auto; }
+  /* v3.12.5: com o picker ABERTO o modal alarga (720/760 → 1080px) — cabem
+     ~6 armas por linha em vez de 4 ("esticar mais um card de cada lado").
+     Sem transition de propósito: a pílula dos chips inicializa ~40ms após o
+     open e uma animação de largura deixaria ela na posição errada. */
+  #modal-build:has(.wpicker.open) .modal-box,
+  #modal-smart-build:has(.wpicker.open) .modal-box { max-width: min(1080px, 96vw); }
   .wpk-search { width: 100%; padding: 10px 13px; border-radius: 9px; background: var(--surface-input, #131A2C); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 13.5px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
   .wpk-search::placeholder { color: var(--text-placeholder, #43506E); }
   .wpk-search:focus { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.25)); }
