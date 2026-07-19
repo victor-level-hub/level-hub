@@ -14044,14 +14044,27 @@
 
   /* ═══ v3.12.0 · Picker de arma base em GRADE (busca + chips com pílula deslizante + cards) ═══ */
   .wpicker .wpicker-panel.wpk2 { max-height: min(640px, 72vh); padding: 12px; }  /* v3.12.2: acompanha o modal mais alto */
-  /* v3.12.3: DENTRO do modal de build, o painel do picker abre EM FLUXO —
-     empurra o conteúdo pra baixo e o corpo do modal rola natural. Como
-     dropdown absoluto ele saía CORTADO pelo rodapé (overflow do modal-body).
-     A grade perde o teto: a rolagem passa a ser do próprio modal. */
+  /* v3.12.4 (era v3.12.3 em-fluxo): DENTRO dos modais de build e Montagem
+     Inteligente, o picker aberto ocupa o MODAL INTEIRO — o dropdown ficava
+     espremido na coluna direita com a esquerda vazia (feedback do Victor).
+     Painel absoluto cobrindo o modal-body (que vira o ancestral posicionado;
+     o .wpicker vira static pra não ancorar no contêiner de 36px), fundo
+     sólido, scroll próprio. Escolheu a arma → fecha e volta ao formulário.
+     Grade sem teto: 4-5 cards por linha na largura toda. */
+  #modal-build .modal-body, #modal-smart-build .modal-body { position: relative; }
+  #modal-build .wpicker.open, #modal-smart-build .wpicker.open { position: static; }
   #modal-build .wpicker.open .wpicker-panel,
-  #modal-smart-build .wpicker.open .wpicker-panel { position: static; margin-top: 8px; max-height: none; }
+  #modal-smart-build .wpicker.open .wpicker-panel {
+    position: absolute; left: 14px; right: 14px; top: 6px; bottom: 6px;
+    margin: 0; max-height: none; z-index: 40; overflow-y: auto;
+    background: rgba(17,23,38,0.99);
+  }
   #modal-build .wpicker.open .wpk-grid,
   #modal-smart-build .wpicker.open .wpk-grid { max-height: none; overflow: visible; }
+  /* v3.12.4: o modal da Montagem Inteligente ganha a mesma altura do de build,
+     pro picker em tela cheia ter espaço lá também. */
+  #modal-smart-build .modal-box { max-height: 94vh; min-height: 80vh; display: flex; flex-direction: column; overflow: hidden; }
+  #modal-smart-build .modal-body { flex: 1; overflow-y: auto; }
   .wpk-search { width: 100%; padding: 10px 13px; border-radius: 9px; background: var(--surface-input, #131A2C); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 13.5px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
   .wpk-search::placeholder { color: var(--text-placeholder, #43506E); }
   .wpk-search:focus { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.25)); }
