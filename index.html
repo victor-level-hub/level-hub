@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.12.4">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.12.5">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1619,7 +1619,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.12.4 · <span data-i18n="briefing.changelog.date">19 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.12.5 · <span data-i18n="briefing.changelog.date">19 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4873,6 +4873,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.12.5</span>
+                <span class="vh-date">19 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Modal alarga com o picker aberto.</strong> Pedido do Victor sobre a v3.12.4: "esticar mais um card de arma de cada lado". Com o seletor de arma aberto, <code>#modal-build:has(.wpicker.open) .modal-box</code> (e o da Montagem Inteligente) passa de 720/760px pra <code>min(1080px, 96vw)</code> — a grade sobe de 4 pra <strong>~6 armas por linha</strong>. Fechou o picker → o modal volta à largura normal do formulário. Sem transition de propósito (a pílula dos chips inicializa ~40ms após o open; animação de largura a deixaria fora do lugar). <strong>Bônus:</strong> na vista <strong>Grade</strong> de Minhas Armas, o card de build alargou (<code>.builds-grid</code> minmax 340→560px) pras 4 abas <em>Loadout/Análise/Avalie/Progressão</em> caberem numa linha só (pedido do print). CSS-only + cache-bust <code>level.css?v=3.12.5</code>.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8775,7 +8784,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.12.4</strong><span class="ver-tag">Picker de arma em TELA CHEIA dentro dos modais (build + Montagem Inteligente): o painel ocupava só a coluna direita com a esquerda vazia — agora cobre o modal inteiro (4-5 armas por linha), escolheu → volta ao formulário. Montagem Inteligente ganha o modal alto também. Acumula v3.12.2 (builds no cloud sync = fix raiz das builds sumindo) e v3.12.0/1 (picker grade, ícones, watermark, cards de catálogo). Base v3.12.1: Fix: botões dos cards de catálogo (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.12.5</strong><span class="ver-tag">Picker de arma: com o seletor aberto o modal ALARGA pra 1080px (~6 armas por linha). Base v3.12.4: picker em TELA CHEIA dentro dos modais (build + Montagem Inteligente), cobrindo o modal inteiro; escolheu → volta ao formulário. Acumula v3.12.2 (builds no cloud sync = fix raiz das builds sumindo) e v3.12.0/1 (picker grade, ícones, watermark, cards de catálogo). Base v3.12.1: Fix: botões dos cards de catálogo (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
