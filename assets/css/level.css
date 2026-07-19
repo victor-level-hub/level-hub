@@ -3677,9 +3677,15 @@
     padding-top: 6px;
     border-top: 1px dashed var(--border);
   }
-  .img-card-buttons { display: flex; gap: 5px; margin-top: 4px; }
+  /* v3.12.1: os botões quebravam pra fora do card (3 botões na aba Mapas +
+     rótulos longos não encolhem abaixo do min-content). flex-wrap + basis auto
+     = quebram de linha em vez de estourar; margin-top:auto alinha a botoeira
+     no rodapé do card mesmo com descrições de alturas diferentes. */
+  .img-card-buttons { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 8px; }
   .img-card-btn {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
     background: var(--bg-row);
     border: 1px solid var(--border);
     color: var(--text-primary);
@@ -6959,6 +6965,7 @@
 
   /* Botão "Adicionar / Adicionado" (destaque global) na aba Mapas das Configurações */
   .img-card-btn.is-mymap {
+    flex: 1 1 100%;  /* v3.12.1: Adicionar/Adicionado ocupa a linha inteira; Trocar+Remover dividem a de baixo */
     background: transparent; border: 1px solid var(--accent-orange, #FF9800);
     color: var(--accent-orange, #FF9800);
   }
