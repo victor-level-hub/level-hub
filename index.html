@@ -1619,12 +1619,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.11.3 · <span data-i18n="briefing.changelog.date">10 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.12.0 · <span data-i18n="briefing.changelog.date">19 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Catálogo completo: LMG, MR, SG + Specials</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">As <strong>Configurações ▸ Armamento</strong> ganharam as classes que faltavam pra cadastrar fotos: <strong>LMG, MR (Marksman) e SG (Shotgun)</strong> — com as armas de cada uma. E o <strong>Special</strong> passou de 2 para <strong>4 armas</strong> (faltavam a GDL Havoc e a Grimhawk). No total, <strong>14 armas novas</strong> entraram no catálogo. Os nomes foram deduzidos dos ids das tuas fotos — se algum estiver errado, me avisa que corrijo.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor de arma novo + ícones e fundos corrigidos</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Escolher arma agora é visual nos dois fluxos (<strong>Nova Arma</strong> e <strong>Montagem Inteligente</strong>): grade com as fotos, <strong>busca</strong> e filtros de classe com <strong>pílula deslizante</strong>. Os <strong>ícones dos attachments</strong> voltaram (canos com polegadas, óticas trocadas e o <strong>FANG HoverPoint ELO</strong> com ícone oficial) e a <strong>marca d'água</strong> saiu de trás das fotos transparentes.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -4876,6 +4876,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.12.0</span>
+                <span class="vh-date">19 Jul 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Seletor de arma em grade (2 fluxos) + ícones de attachment + fundos sem watermark.</strong> (1) <strong>Picker em GRADE</strong> no "+ Nova Arma Montada" e na <strong>Montagem Inteligente</strong>: busca, chips de classe com pílula laranja deslizante (padrão "nav-header" do 21st.dev recriado em vanilla — transition de left/top/width, retorno ao chip ativo no mouseleave) e cards com as renders recortadas do bucket. Selects escondidos (<code>build-base</code>/<code>sb-weapon</code>) continuam a fonte de verdade. (2) <strong>Ícones de attachment</strong>: cadeia de resolução — override (FANG HoverPoint ELO com ícone oficial da Fandom, servido do bucket <code>wpncatalog</code>) → slug automático → sem prefixo de polegadas → sufixo <code>_bo7_attachment_icon</code> (S4) → fmj/overpressured → mapa legado → SVG do slot. Corrige as 142 chaves sem polegadas e as óticas com slug trocado do scrape v75.07; 91% dos 607 attachments com ícone real validado contra o CDN. (3) <strong>Watermark removido</strong> de todos os fundos de foto de arma (loadout Secundária+Melee, build-cards, Início, zoom de hover, has-treated, Processador) — a logo repetida vazava atrás das fotos transparentes novas; wbg-* por classe continua valendo. node --check OK.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.11.3</span>
                 <span class="vh-date">10 Jul 2026</span>
                 <span class="vh-kind">feature</span>
@@ -6095,7 +6104,7 @@
                 <span class="vh-date">22 Jun 2026</span>
                 <span class="vh-kind">feature</span>
               </div>
-              <p class="vh-desc"><strong>Configurações restrita ao admin.</strong> Pedido do Victor: a seção Configurações (`#section-settings` — uploads de imagem, catálogos, codenames, etc.) deve ficar só pro admin (`victor.abap@outlook.com`) por ora; algumas configs abrem a todos depois. Reaproveita o mecanismo existente (`window.LevelAdmin.isAdmin()` + `hub_users.is_admin` + classe `body.is-admin`; confirmado `is_admin=true` p/ a conta do Victor). (1) CSS: `.nav-item[data-section="settings"]{display:none}` + `body.is-admin .nav-item[...]{display:flex}` — esconde a aba pra não-admin. (2) Guard no handler de navegação: `if (target==='settings' && !LevelAdmin.isAdmin()) return` — bloqueia chegar na seção por qualquer `.nav-item`. `refreshAdminFlag` chama `applyAdminClass()` ao confirmar via DB, então a aba aparece pro admin (cache em LS nos loads seguintes). Validado node 19/19.</p>
+              <p class="vh-desc"><strong>Configurações restrita ao admin.</strong> Pedido do Victor: a seção Configurações (`#section-settings` — uploads de imagem, catálogos, codenames, etc.) deve ficar só pro admin (`<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="21574842554e530f40434051614e54554d4e4e4a0f424e4c">[email&#160;protected]</a>`) por ora; algumas configs abrem a todos depois. Reaproveita o mecanismo existente (`window.LevelAdmin.isAdmin()` + `hub_users.is_admin` + classe `body.is-admin`; confirmado `is_admin=true` p/ a conta do Victor). (1) CSS: `.nav-item[data-section="settings"]{display:none}` + `body.is-admin .nav-item[...]{display:flex}` — esconde a aba pra não-admin. (2) Guard no handler de navegação: `if (target==='settings' && !LevelAdmin.isAdmin()) return` — bloqueia chegar na seção por qualquer `.nav-item`. `refreshAdminFlag` chama `applyAdminClass()` ao confirmar via DB, então a aba aparece pro admin (cache em LS nos loads seguintes). Validado node 19/19.</p>
             </div>
 
             <div class="vh-entry">
@@ -8036,7 +8045,7 @@
           </table>
         </div>
       </div>
-      <script>
+      <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
       (function LevelProsCons() {
         'use strict';
         function en() { try { return localStorage.getItem('bo7hub_lang_v1') === 'en'; } catch (e) { return false; } }
@@ -8730,7 +8739,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.11.3</strong><span class="ver-tag">Catálogo: +14 armas em cat_default_weapons (Special gdlhavoc/grimhawk; LMG mk78/sokol545/xm325; MR krs762/m34novaline/m8a1/swordfisha1/warden308; Shotgun akita/echo12/m10breacher/sg12) sort_order 37-50, seed neutro (P0/L1/max47). Abas novas no group armament (weapons_mr/lmg/shotgun após sniper) + i18n PT/EN + wbgTabClass + LevelWeaponBg.CLASSES (MR/LMG/SHOTGUN) + WPICK_CLASS_TOKEN Shotgun/Special. GOTCHA: classe shotgun no DB = 'Shotgun' (constraint), não 'SG'; a pasta do Victor chama SG. Nomes deduzidos dos ids das fotos (catalogs/arsenal_upload/) — a confirmar.</span>
+              LEVEL · <strong>v3.12.0</strong><span class="ver-tag">Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -14273,6 +14282,13 @@ const ATTACHMENT_ICONS = {
     };
     const ATTACHMENT_ICON_BASE = 'https://assets.codmunity.gg/optimized/';
 
+    // v3.12.0: ícones que não existem no codmunity (itens de Battle Pass etc.)
+    // servidos do bucket público do Hub (Supabase Storage · wpncatalog).
+    const ATTACHMENT_ICON_OVERRIDES = {
+      'FANG HoverPoint ELO': 'https://cqkhqtgmolmrfgzozocr.supabase.co/storage/v1/object/public/wpncatalog/att_fanghoverpointelo.webp',
+      'FANG HoverPoint Elo': 'https://cqkhqtgmolmrfgzozocr.supabase.co/storage/v1/object/public/wpncatalog/att_fanghoverpointelo.webp'
+    };
+
     /**
      * Returns HTML for an attachment icon.
      * If a codmunity icon exists for `name`, returns an <img> with lazy loading
@@ -14280,16 +14296,38 @@ const ATTACHMENT_ICONS = {
      * Otherwise returns the slot SVG directly.
      */
     function getAttachmentIconHtml(name, slotType) {
-      const slug = ATTACHMENT_ICONS[name];
       const fallbackSvg = SLOT_ICONS[slotType] || SLOT_ICONS.generic;
-      if (slug) {
-        const url = ATTACHMENT_ICON_BASE + slug + '_bo7_icon.webp';
-        // onerror replaces <img> with fallback SVG; alt empty since name shown alongside
-        return '<img class="att-icon-img" src="' + url + '" alt="" loading="lazy" ' +
-               'onerror="this.outerHTML=this.dataset.fb" ' +
-               'data-fb="' + fallbackSvg.replace(/"/g, '&quot;') + '">';
+      // v3.12.0: cadeia de resolução do ícone (corrige barrels com polegadas no
+      // nome — as chaves do mapa antigo perderam o prefixo 11.5"/12.3"… — e os
+      // slugs trocados das óticas do scrape v75.07):
+      //   1) override explícito (assets fora do codmunity, ex. FANG HoverPoint ELO)
+      //   2) slug automático = nome normalizado (minúsculas, só [a-z0-9]) — padrão real do CDN
+      //   3) slug sem o prefixo de polegadas (codmunity é inconsistente nos barrels)
+      //   4) sufixo _bo7_attachment_icon (itens de Season nova)
+      //   5) fmj/overpressured genéricos (munições por calibre)
+      //   6) slug do mapa legado ATTACHMENT_ICONS
+      // O onerror encadeia os candidatos e só então cai no SVG do slot.
+      const cands = [];
+      const ov = (typeof ATTACHMENT_ICON_OVERRIDES !== 'undefined') ? ATTACHMENT_ICON_OVERRIDES[name] : null;
+      if (ov) cands.push(ov);
+      const auto = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (auto) cands.push(ATTACHMENT_ICON_BASE + auto + '_bo7_icon.webp');
+      const noInch = String(name || '').replace(/^[\d.]+\"?\s*/, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (noInch && noInch !== auto) cands.push(ATTACHMENT_ICON_BASE + noInch + '_bo7_icon.webp');
+      if (auto) cands.push(ATTACHMENT_ICON_BASE + auto + '_bo7_attachment_icon.webp');
+      if (/fmj$/i.test(name)) cands.push(ATTACHMENT_ICON_BASE + 'fmj_bo7_icon.webp');
+      if (/overpressured$/i.test(name)) cands.push(ATTACHMENT_ICON_BASE + 'overpressured_bo7_icon.webp');
+      const legacy = ATTACHMENT_ICONS[name];
+      if (legacy) {
+        const lu = ATTACHMENT_ICON_BASE + legacy + '_bo7_icon.webp';
+        if (cands.indexOf(lu) === -1) cands.push(lu);
       }
-      return fallbackSvg;
+      if (!cands.length) return fallbackSvg;
+      const rest = cands.slice(1).join('|');
+      return '<img class="att-icon-img" src="' + cands[0] + '" alt="" loading="lazy" ' +
+             'data-alt="' + rest + '" ' +
+             'onerror="var a=this.dataset.alt;if(a){var p=a.split(&quot;|&quot;);this.src=p.shift();this.dataset.alt=p.join(&quot;|&quot;);}else{this.outerHTML=this.dataset.fb;}" ' +
+             'data-fb="' + fallbackSvg.replace(/"/g, '&quot;') + '">';
     }
 
     // Slot mapping (construtor slot index → catalog slot type)
@@ -14425,63 +14463,90 @@ const ATTACHMENT_ICONS = {
       const panel = document.getElementById('build-base-panel');
       if (!trigger || !picker || !panel) return;
       _basePickerWired = true;
-      trigger.addEventListener('click', function (e) { e.stopPropagation(); const open = picker.classList.toggle('open'); trigger.setAttribute('aria-expanded', open ? 'true' : 'false'); if (open) { const s = panel.querySelector('.wpick-opt.sel'); if (s) s.scrollIntoView({ block: 'nearest' }); } });
+      trigger.addEventListener('click', function (e) { e.stopPropagation(); const open = picker.classList.toggle('open'); trigger.setAttribute('aria-expanded', open ? 'true' : 'false'); if (open) { setTimeout(function () { _wpkInitPill(); const q = document.getElementById('wpk-search'); if (q) { q.focus(); } const s = panel.querySelector('.wpick-opt.sel'); if (s) s.scrollIntoView({ block: 'nearest' }); }, 40); } });
       panel.addEventListener('click', function (e) { const opt = e.target.closest('.wpick-opt'); if (!opt) return; const id = opt.getAttribute('data-wid'); const sel = document.getElementById('build-base'); if (sel) { sel.value = id; sel.dispatchEvent(new Event('change', { bubbles: true })); } syncBaseTrigger(); picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); });
       document.addEventListener('click', function (e) { if (picker.classList.contains('open') && !picker.contains(e.target)) { picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); } });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && picker.classList.contains('open')) { picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); } });
+    }
+    // ═══ v3.12.0 · Picker em GRADE: busca + chips de classe com pílula deslizante
+    // (padrão "nav-header"/21st.dev recriado em vanilla: a pílula segue o hover via
+    // transition de left/top/width; ao sair, volta pro chip ativo) + cards. ═══
+    let _wpkActive = '*';
+    function _wpkMovePill(chip) {
+      const pill = document.getElementById('wpk-pill');
+      if (!pill || !chip) return;
+      pill.style.left = chip.offsetLeft + 'px';
+      pill.style.top = chip.offsetTop + 'px';
+      pill.style.width = chip.offsetWidth + 'px';
+      pill.style.height = chip.offsetHeight + 'px';
+      pill.style.opacity = '1';
+    }
+    function _wpkLight(chip) {
+      document.querySelectorAll('#wpk-chips .wpk-chip').forEach(function (c) { c.classList.toggle('lit', c === chip); });
+    }
+    function _wpkActiveChip() {
+      const chips = document.getElementById('wpk-chips');
+      if (!chips) return null;
+      let sel = null;
+      chips.querySelectorAll('.wpk-chip').forEach(function (c) { if (c.getAttribute('data-cl') === _wpkActive) sel = c; });
+      return sel || chips.querySelector('.wpk-chip');
+    }
+    function _wpkInitPill() { const c = _wpkActiveChip(); if (c) { _wpkMovePill(c); _wpkLight(c); } }
+    function _wpkApply() {
+      const inp = document.getElementById('wpk-search');
+      const norm = (inp && inp.value ? inp.value : '').toLowerCase().trim();
+      const grid = document.getElementById('wpk-grid');
+      if (!grid) return;
+      let shown = 0;
+      grid.querySelectorAll('.wpick-opt').forEach(function (o) {
+        const okC = (_wpkActive === '*' || o.getAttribute('data-cl') === _wpkActive);
+        const okQ = !norm || (o.getAttribute('data-nm') || '').indexOf(norm) !== -1;
+        const on = okC && okQ;
+        o.style.display = on ? '' : 'none';
+        if (on) shown++;
+      });
+      const emp = grid.querySelector('.wpk-empty');
+      if (emp) emp.style.display = shown ? 'none' : '';
+    }
+    function _wireWpk(panel) {
+      _wpkActive = '*';
+      const chips = panel.querySelector('#wpk-chips');
+      const search = panel.querySelector('#wpk-search');
+      if (!chips || !search) return;
+      chips.addEventListener('mouseover', function (e) { const c = e.target.closest('.wpk-chip'); if (c) { _wpkMovePill(c); _wpkLight(c); } });
+      chips.addEventListener('mouseleave', function () { _wpkInitPill(); });
+      chips.addEventListener('click', function (e) { const c = e.target.closest('.wpk-chip'); if (!c) return; e.stopPropagation(); _wpkActive = c.getAttribute('data-cl'); _wpkMovePill(c); _wpkLight(c); _wpkApply(); });
+      search.addEventListener('input', _wpkApply);
+      search.addEventListener('click', function (e) { e.stopPropagation(); });
     }
     function renderBasePicker(weapons) {
       const panel = document.getElementById('build-base-panel');
       if (!panel) return;
       _pickerWeapons = {};
-      let html = '', lastClass = '';
+      panel.classList.add('wpk2');
+      const classes = [];
+      weapons.forEach(function (w) { _pickerWeapons[w.id] = w; if (classes.indexOf(w.class) === -1) classes.push(w.class); });
+      let html = '<input type="text" class="wpk-search" id="wpk-search" placeholder="Buscar arma… (ex: sturm, ak, strider)" autocomplete="off">';
+      html += '<div class="wpk-chips" id="wpk-chips"><span class="wpk-pill" id="wpk-pill"></span>';
+      html += '<button type="button" class="wpk-chip lit" data-cl="*">Todas</button>';
+      classes.forEach(function (c) { html += '<button type="button" class="wpk-chip" data-cl="' + escapeHtml(c) + '">' + escapeHtml(c) + '</button>'; });
+      html += '</div><div class="wpk-grid" id="wpk-grid">';
       weapons.forEach(function (w) {
-        _pickerWeapons[w.id] = w;
-        if (w.class !== lastClass) { html += '<div class="wpick-group">' + escapeHtml(w.class) + '</div>'; lastClass = w.class; }
         const tok = WPICK_CLASS_TOKEN[w.class] || '--accent-orange';
         const hasCat = (typeof WEAPON_UNLOCKS !== 'undefined' && WEAPON_UNLOCKS[w.id]);
-        html += '<button type="button" class="wpick-opt" role="option" data-wid="' + escapeHtml(w.id) + '" style="--wc:var(' + tok + ')">' +
+        html += '<button type="button" class="wpick-opt" role="option" data-wid="' + escapeHtml(w.id) + '" data-cl="' + escapeHtml(w.class) + '" data-nm="' + escapeHtml(String(w.name || '').toLowerCase()) + '" style="--wc:var(' + tok + ')">' +
           '<span class="wpick-thumb">' + wpickThumb(w) + '</span>' +
           '<span class="wpick-name">' + escapeHtml(w.name) + '</span>' +
+          '<span class="wpk-cl">' + escapeHtml(w.class) + '</span>' +
           (hasCat ? '<span class="wpick-cat" title="Tem catálogo">' + wpickCheck() + '</span>' : '') +
           '</button>';
       });
+      html += '<div class="wpk-empty" style="display:none">Nenhuma arma encontrada.</div></div>';
       panel.innerHTML = html;
+      _wireWpk(panel);
       wireBasePicker();
       syncBaseTrigger();
-    }
-
-    // ── v3.x: união catálogo + arsenal para o picker de arma base ────────
-    // O picker de "+ Adicionar Arma" precisa oferecer TODAS as armas conhecidas
-    // (catálogo do servidor DEFAULT_WEAPONS + arsenal pessoal), não só o arsenal.
-    // Senão, arma nova inserida no cat_default_weapons DEPOIS do seed (ex.: a
-    // CBRS-3) nunca aparece pra montar — só chegava às Configurações, que já
-    // usam a união (_knownWeaponsSync). Respeita tombstones (armas apagadas de
-    // propósito). Mesma ideia de _getAllKnownWeapons (captura).
-    async function _buildBaseWeaponPool() {
-      const byId = new Map();
-      let arsenal = [];
-      try { arsenal = (await LevelDB.weapons.list()) || []; } catch (e) {}
-      // Arsenal primeiro: a versão com progresso real do user vence a do catálogo.
-      for (const w of arsenal) { if (w && w.id) byId.set(w.id, w); }
-      let tombs = new Set();
-      try { tombs = new Set(JSON.parse(localStorage.getItem('level.weapons.tombstones') || '[]')); } catch (e) {}
-      const catalog = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
-      for (const w of catalog) { if (w && w.id && !byId.has(w.id) && !tombs.has(w.id)) byId.set(w.id, w); }
-      return Array.from(byId.values());
-    }
-
-    // Resolve uma arma base pelo arsenal; se não estiver lá, cai pro catálogo
-    // (DEFAULT_WEAPONS). Usado pra EXIBIR o modal de build de armas do catálogo
-    // ainda não materializadas no arsenal. A materialização (persistir no
-    // arsenal com o id canônico) acontece só no saveBuild, ao confirmar.
-    async function _resolveBaseWeapon(id) {
-      if (!id) return null;
-      let w = null;
-      try { w = await LevelDB.weapons.get(id); } catch (e) {}
-      if (w) return w;
-      const catalog = Array.isArray(window.DEFAULT_WEAPONS) ? window.DEFAULT_WEAPONS : [];
-      return catalog.find(x => x && x.id === id) || null;
+      _wpkApply();
     }
 
     async function populateBaseDropdown() {
@@ -32344,29 +32409,88 @@ ${cbt('share.t.footer')}`;
     var trigger = $('sb-weapon-trigger'), picker = $('sb-weapon-picker'), panel = $('sb-weapon-panel');
     if (!trigger || !picker || !panel) return;
     _sbPickerWired = true;
-    trigger.addEventListener('click', function (e) { e.stopPropagation(); var open = picker.classList.toggle('open'); trigger.setAttribute('aria-expanded', open ? 'true' : 'false'); if (open) { var s = panel.querySelector('.wpick-opt.sel'); if (s) s.scrollIntoView({ block: 'nearest' }); } });
+    trigger.addEventListener('click', function (e) { e.stopPropagation(); var open = picker.classList.toggle('open'); trigger.setAttribute('aria-expanded', open ? 'true' : 'false'); if (open) { setTimeout(function () { _sbwpkInitPill(); var q = $('sbwpk-search'); if (q) q.focus(); var s = panel.querySelector('.wpick-opt.sel'); if (s) s.scrollIntoView({ block: 'nearest' }); }, 40); } });
     panel.addEventListener('click', function (e) { var opt = e.target.closest('.wpick-opt'); if (!opt) return; var id = opt.getAttribute('data-wid'); var sel = $('sb-weapon'); if (sel) { sel.value = id; sel.dispatchEvent(new Event('change', { bubbles: true })); } sbSyncWeaponTrigger(); picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); });
     document.addEventListener('click', function (e) { if (picker.classList.contains('open') && !picker.contains(e.target)) { picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); } });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && picker.classList.contains('open')) { picker.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); } });
+  }
+  // ═══ v3.12.0 · Montagem Inteligente: mesmo picker em GRADE do "+ Nova Arma
+  // Montada" (busca + chips com pílula deslizante + cards). Reusa as classes
+  // CSS .wpk-* — só os IDs são próprios (sbwpk-*) pra não colidir. ═══
+  var _sbwpkActive = '*';
+  function _sbwpkMovePill(chip) {
+    var pill = $('sbwpk-pill');
+    if (!pill || !chip) return;
+    pill.style.left = chip.offsetLeft + 'px';
+    pill.style.top = chip.offsetTop + 'px';
+    pill.style.width = chip.offsetWidth + 'px';
+    pill.style.height = chip.offsetHeight + 'px';
+    pill.style.opacity = '1';
+  }
+  function _sbwpkLight(chip) {
+    var chips = $('sbwpk-chips');
+    if (!chips) return;
+    chips.querySelectorAll('.wpk-chip').forEach(function (c) { c.classList.toggle('lit', c === chip); });
+  }
+  function _sbwpkActiveChip() {
+    var chips = $('sbwpk-chips');
+    if (!chips) return null;
+    var sel = null;
+    chips.querySelectorAll('.wpk-chip').forEach(function (c) { if (c.getAttribute('data-cl') === _sbwpkActive) sel = c; });
+    return sel || chips.querySelector('.wpk-chip');
+  }
+  function _sbwpkInitPill() { var c = _sbwpkActiveChip(); if (c) { _sbwpkMovePill(c); _sbwpkLight(c); } }
+  function _sbwpkApply() {
+    var inp = $('sbwpk-search');
+    var norm = (inp && inp.value ? inp.value : '').toLowerCase().trim();
+    var grid = $('sbwpk-grid');
+    if (!grid) return;
+    var shown = 0;
+    grid.querySelectorAll('.wpick-opt').forEach(function (o) {
+      var okC = (_sbwpkActive === '*' || o.getAttribute('data-cl') === _sbwpkActive);
+      var okQ = !norm || (o.getAttribute('data-nm') || '').indexOf(norm) !== -1;
+      var on = okC && okQ;
+      o.style.display = on ? '' : 'none';
+      if (on) shown++;
+    });
+    var emp = grid.querySelector('.wpk-empty');
+    if (emp) emp.style.display = shown ? 'none' : '';
   }
   function sbRenderWeaponPicker(weapons) {
     var panel = $('sb-weapon-panel');
     if (!panel) return;
     _sbPickerWeapons = {};
+    panel.classList.add('wpk2');
     var sorted = (weapons || []).slice().sort(function (a, b) { return String(a.class).localeCompare(String(b.class)) || String(a.name).localeCompare(String(b.name)); });
-    var html = '', lastClass = '';
+    var classes = [];
+    sorted.forEach(function (w) { _sbPickerWeapons[w.id] = w; if (classes.indexOf(w.class) === -1) classes.push(w.class); });
+    var html = '<input type="text" class="wpk-search" id="sbwpk-search" placeholder="Buscar arma… (ex: sturm, ak, strider)" autocomplete="off">';
+    html += '<div class="wpk-chips" id="sbwpk-chips"><span class="wpk-pill" id="sbwpk-pill"></span>';
+    html += '<button type="button" class="wpk-chip lit" data-cl="*">Todas</button>';
+    classes.forEach(function (c) { html += '<button type="button" class="wpk-chip" data-cl="' + esc(c) + '">' + esc(c) + '</button>'; });
+    html += '</div><div class="wpk-grid" id="sbwpk-grid">';
     sorted.forEach(function (w) {
-      _sbPickerWeapons[w.id] = w;
-      if (w.class !== lastClass) { html += '<div class="wpick-group">' + esc(w.class || '') + '</div>'; lastClass = w.class; }
       var tok = SB_WPICK_TOKEN[w.class] || '--accent-orange';
-      html += '<button type="button" class="wpick-opt" role="option" data-wid="' + esc(w.id) + '" style="--wc:var(' + tok + ')">' +
+      html += '<button type="button" class="wpick-opt" role="option" data-wid="' + esc(w.id) + '" data-cl="' + esc(w.class) + '" data-nm="' + esc(String(w.name || '').toLowerCase()) + '" style="--wc:var(' + tok + ')">' +
         '<span class="wpick-thumb">' + sbWpickThumb(w) + '</span>' +
         '<span class="wpick-name">' + esc(w.name) + '</span>' +
+        '<span class="wpk-cl">' + esc(w.class) + '</span>' +
         '</button>';
     });
+    html += '<div class="wpk-empty" style="display:none">Nenhuma arma encontrada.</div></div>';
     panel.innerHTML = html;
+    var chips = $('sbwpk-chips'), search = $('sbwpk-search');
+    if (chips && search) {
+      _sbwpkActive = '*';
+      chips.addEventListener('mouseover', function (e) { var c = e.target.closest('.wpk-chip'); if (c) { _sbwpkMovePill(c); _sbwpkLight(c); } });
+      chips.addEventListener('mouseleave', function () { _sbwpkInitPill(); });
+      chips.addEventListener('click', function (e) { var c = e.target.closest('.wpk-chip'); if (!c) return; e.stopPropagation(); _sbwpkActive = c.getAttribute('data-cl'); _sbwpkMovePill(c); _sbwpkLight(c); _sbwpkApply(); });
+      search.addEventListener('input', _sbwpkApply);
+      search.addEventListener('click', function (e) { e.stopPropagation(); });
+    }
     sbWireWeaponPicker();
     sbSyncWeaponTrigger();
+    _sbwpkApply();
   }
 
   async function getPlayer() {
