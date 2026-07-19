@@ -3990,10 +3990,8 @@
      caixa HORIZONTAL + contain (arma inteira) sobre o watermark de combate. */
   #opt-melee .lo-wcard-art {
     aspect-ratio: 16 / 10;
+    /* v3.12.0: watermark removido — vazava atrás das fotos transparentes */
     background-color: var(--bg-darkest, #0a1118);
-    background-image: url('/assets/equip-watermark.svg');
-    background-repeat: repeat;
-    background-size: 44px auto;
   }
   #opt-melee .lo-wcard-art img {
     object-fit: contain;
@@ -4004,10 +4002,8 @@
      agrupados por classe, mesma caixa horizontal + contain + fundo de combate. */
   #opt-secondary-weapon .lo-wcard-art {
     aspect-ratio: 16 / 10;
+    /* v3.12.0: watermark removido — vazava atrás das fotos transparentes */
     background-color: var(--bg-darkest, #0a1118);
-    background-image: url('/assets/equip-watermark.svg');
-    background-repeat: repeat;
-    background-size: 44px auto;
   }
   #opt-secondary-weapon .lo-wcard-art img {
     object-fit: contain;
@@ -4041,9 +4037,6 @@
   .bip-img.has-treated,
   .saved-card-thumb.has-treated {
     background-color: var(--bg-darkest, #0a1118);
-    background-image: url('/assets/equip-watermark.svg');
-    background-repeat: repeat;
-    background-size: 40px auto;
   }
 
   /* ═══ v3.9.0: FUNDOS das fotos de arma — escolhidos POR CLASSE em
@@ -4155,10 +4148,6 @@
     pointer-events: none;
     /* v2.63: fundo discreto com a logo LEVEL (em vez do preto) atrás das imagens recortadas */
     background-color: var(--bg-darkest, #0a1118);
-    background-image: url('/assets/equip-watermark.svg');
-    background-repeat: repeat;
-    background-size: 52px auto;
-    background-position: center;
     border: 1px solid var(--accent-orange, #FF9800);
     border-radius: 8px;
     padding: 6px;
@@ -4183,13 +4172,7 @@
   /* v2.63: mesmo fundo-watermark discreto nos frames que mostram a imagem do equipamento.
      !important porque as regras originais usam o shorthand `background:` (que vem depois
      no CSS e reseta o background-image); a cor-base delas é mantida, só somamos a logo. */
-  .build-card .bc-weapon-image,
-  .home-weapon-frame {
-    background-image: url('/assets/equip-watermark.svg') !important;
-    background-repeat: repeat !important;
-    background-size: 52px auto !important;
-    background-position: center !important;
-  }
+  /* v3.12.0: regra do watermark nos build-cards/Início removida */
   /* v3.11.2: o frame do editor de build (modal-build) SAIU do watermark —
      usa o mesmo fundo das Configurações (--bg-darkest liso, ou o "Fundo das
      fotos" por classe quando o Victor escolher). Pedido do Victor. */
@@ -12333,9 +12316,6 @@
   /* v2.67: preview da imagem PROCESSADA sobre o fundo de combate (logo watermark) — mostra o look final do site */
   .imgproc-preview-box.proc .imgproc-preview-img {
     background-color: var(--bg-darkest, #0a1118);
-    background-image: url('/assets/equip-watermark.svg');
-    background-repeat: repeat;
-    background-size: 46px auto;
     border-radius: 6px;
   }
   /* v2.68: indicador de item-alvo (tag do nome do arquivo) + dica */
@@ -14049,6 +14029,26 @@
               .wpicker .wpick-thumb svg { width: 24px; height: 24px; }
               .wpicker .wpick-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
               .wpicker .wpick-cat { flex: none; display: inline-flex; width: 15px; height: 15px; color: var(--status-ok, #4ade80); }
+
+  /* ═══ v3.12.0 · Picker de arma base em GRADE (busca + chips com pílula deslizante + cards) ═══ */
+  .wpicker .wpicker-panel.wpk2 { max-height: 540px; padding: 12px; }
+  .wpk-search { width: 100%; padding: 10px 13px; border-radius: 9px; background: var(--surface-input, #131A2C); border: 1px solid var(--border-default, rgba(174,199,224,0.16)); color: var(--text-body, #DCE5F2); font-family: var(--font-body, 'IBM Plex Sans', sans-serif); font-size: 13.5px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
+  .wpk-search::placeholder { color: var(--text-placeholder, #43506E); }
+  .wpk-search:focus { border-color: var(--border-focus, rgba(255,152,0,0.55)); box-shadow: 0 0 0 3px var(--focus-ring, rgba(255,152,0,0.25)); }
+  .wpk-chips { position: relative; display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%; padding: 4px; border-radius: 999px; background: rgba(174,199,224,0.05); border: 1px solid var(--border-subtle, rgba(174,199,224,0.10)); margin-bottom: 12px; }
+  .wpk-chip { position: relative; z-index: 1; border: none; background: transparent; color: var(--text-muted, #8497B8); font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; padding: 7px 13px; border-radius: 999px; cursor: pointer; transition: color .18s; }
+  .wpk-chip.lit { color: #16121A; font-weight: 700; }
+  .wpk-pill { position: absolute; z-index: 0; left: 0; top: 0; width: 0; height: 0; border-radius: 999px; background: var(--accent-orange, #FF9800); opacity: 0; transition: left .28s cubic-bezier(.22,.61,.36,1), top .28s cubic-bezier(.22,.61,.36,1), width .28s cubic-bezier(.22,.61,.36,1), opacity .18s; pointer-events: none; }
+  .wpk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: 370px; overflow-y: auto; padding: 2px; }
+  .wpicker .wpk-grid .wpick-opt { flex-direction: column; gap: 6px; padding: 10px 8px 9px; border-radius: 11px; border: 1.5px solid var(--border-subtle, rgba(174,199,224,0.12)); background: rgba(174,199,224,0.035); text-align: center; position: relative; transition: transform .14s, border-color .14s, background .14s; }
+  .wpicker .wpk-grid .wpick-opt:hover { transform: translateY(-2px); }
+  .wpicker .wpk-grid .wpick-opt.sel { border-color: var(--accent-orange, #FF9800); box-shadow: 0 0 0 1.5px var(--accent-orange, #FF9800), 0 8px 22px rgba(255,152,0,0.16); }
+  .wpicker .wpk-grid .wpick-thumb { width: 100%; height: 58px; border: none; background: transparent; }
+  .wpicker .wpk-grid .wpick-thumb img { object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.45)); }
+  .wpicker .wpk-grid .wpick-name { white-space: normal; font-size: 12px; font-weight: 600; line-height: 1.25; }
+  .wpk-cl { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint, #5F6E8C); }
+  .wpicker .wpk-grid .wpick-opt .wpick-cat { position: absolute; top: 6px; right: 7px; }
+  .wpk-empty { grid-column: 1 / -1; text-align: center; color: var(--text-faint, #5F6E8C); font-size: 12.5px; padding: 18px 0; }
 
   /* ═══ v2.96.0 · Pitch: hero scroll-scrub (montagem da logo dirigida pelo scroll) ═══
      Escopado em #level-pitch.lp-scrub — a classe só entra com a flag LP_SCRUB (JS).
