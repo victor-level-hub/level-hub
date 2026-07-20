@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.12.6">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.13.0">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1619,7 +1619,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.12.6 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.13.0 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4873,6 +4873,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.13.0</span>
+                <span class="vh-date">20 Jul 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Atualização de Conteúdo + catálogo de attachments sincronizado com o jogo.</strong> (1) Fix raiz do REV-46 (e de todas as armas): o catálogo embutido de attachments estava incompleto — agora o hub baixa no boot o catálogo completo do servidor (<code>cat_attachments</code>, sincronizado do banco do gunsmith do codmunity.gg): <strong>1.841 attachments + 36 óticas universais</strong> cobrindo as 49 armas, incluindo os itens de Battle Pass/Prestige/Desafio como o <strong>LTI Stentorian Brake</strong> (Season 4 BP) do REV-46. Óticas são universais no BO7 — aparecem em todas as armas, com a origem do desbloqueio indicada. (2) <strong>Ícones oficiais</strong> por attachment vindos direto da fonte (<code>meta.icon</code>) — acabou o slug adivinhado que trocava/perdia ícone. (3) Slot <strong>Comb</strong> (snipers/shotguns) entra no seletor de Stock. (4) Novo painel <strong>Configurações → Atualização de Conteúdo</strong>: botão <strong>Iniciar Atualização</strong> dispara a Edge Function <code>content-sync</code> que roda em <strong>background</strong> no servidor (baixa a fonte, cruza armas, grava e remove obsoletos) com <strong>barra de progresso</strong> ao vivo, <strong>data da última execução</strong> e aviso de armas novas no jogo ainda fora do hub (hoje: Flatline MK.II, H311-SAW, FG42, Gremlin, Mammoth + melees). Infra: tabela <code>content_sync_runs</code> (progresso/histórico), catálogo recarregado em memória ao fim sem F5.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8255,6 +8264,21 @@
       </script>
 
       <!-- IMAGE PROCESSOR PANEL (v75.06) — visível só quando tab ativa = image_processor -->
+<!-- v3.13.0 · ATUALIZAÇÃO DE CONTEÚDO — sync do catálogo (attachments/óticas) com o jogo -->
+      <div class="csync-panel" id="content-sync-panel" style="display:none">
+        <div class="csync-title">ATUALIZAÇÃO DE CONTEÚDO</div>
+        <div class="csync-sub">Varre a fonte (codmunity.gg — banco do gunsmith do BO7) e atualiza o catálogo do Hub: attachments de todas as armas, níveis de desbloqueio e as óticas universais. Roda em segundo plano no servidor; o Hub recarrega o catálogo sozinho ao terminar.</div>
+        <div class="csync-status">
+          <span>Última atualização: <strong id="csync-last">—</strong></span>
+          <span class="csync-counts" id="csync-counts"></span>
+        </div>
+        <div class="csync-progress-wrap" id="csync-progress-wrap" style="display:none">
+          <div class="csync-progress"><div class="csync-progress-fill" id="csync-progress-fill" style="width:0%"></div></div>
+          <div class="csync-step" id="csync-step">—</div>
+        </div>
+        <button type="button" class="btn-action csync-btn" id="csync-run">Iniciar Atualização</button>
+        <div class="csync-msg" id="csync-msg"></div>
+      </div>
       <div class="imgproc-panel" id="imgproc-panel" style="display:none">
         <p class="imgproc-intro" data-i18n-html="imgproc.intro">
           <strong>Processador de Imagem.</strong> Remove o fundo automaticamente (IA roda no seu navegador, sem servidor) e redimensiona pra qualquer tamanho. Útil pra fotos de armas, emblemas, mapas — qualquer imagem que você vá subir no Hub.
@@ -8793,7 +8817,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.12.6</strong><span class="ver-tag">Hunter's Instinct removido do catálogo de perks (não existe mais no BO7 — conferido no jogo pelo Victor). Catálogo visual completo via bucket: armas, attachments, field upgrades, scorestreaks, specialties, perks, lethals e tacticals com arte oficial. Base v3.12.5: modal alarga com picker aberto (1080px, ~6 armas/linha); picker em tela cheia nos modais; builds no cloud sync (fix raiz). (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.13.0</strong><span class="ver-tag">Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -13512,6 +13536,287 @@ window.BO7_ASSETS = (function() {
     });
 
     window.LevelEtapa4B = { renderWeaponUnlocksPanel };
+
+    // ═════════════════════════════════════════════════════════════════
+    // v3.13.0 — CATÁLOGO DE ATTACHMENTS DO SERVIDOR (cat_attachments)
+    // O catálogo embutido (WEAPON_UNLOCKS) vira fallback: no boot, o hub
+    // baixa o catálogo completo sincronizado do codmunity.gg (1,8k+ linhas,
+    // TODAS as armas + óticas universais + ícones oficiais) e sobrescreve
+    // WEAPON_UNLOCKS em memória. Fix raiz do REV-46 com OPTIC capado e do
+    // LTI Stentorian Brake sumido (Season 4 Battle Pass).
+    // ═════════════════════════════════════════════════════════════════
+    (function serverCatalog() {
+      var SB = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+      var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+      var HDRS = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY };
+
+      function normName(s) {
+        return String(s || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase().replace(/[^a-z0-9]+/g, '');
+      }
+
+      async function fetchAllRows() {
+        var out = [], off = 0, page = 1000;
+        for (;;) {
+          var r = await fetch(SB + '/rest/v1/cat_attachments?select=id,name,slot,weapon_id,unlock_level,meta&order=id.asc&limit=' + page + '&offset=' + off, { headers: HDRS });
+          if (!r.ok) throw new Error('cat_attachments HTTP ' + r.status);
+          var rows = await r.json();
+          out = out.concat(rows);
+          if (rows.length < page) break;
+          off += page;
+        }
+        return out;
+      }
+
+      async function applyServerCatalog(rows) {
+        if (typeof WEAPON_UNLOCKS === 'undefined') return 0;
+        // nomes das armas do hub (pra casar via_weapon das óticas)
+        var widByNorm = {};
+        try {
+          var wpns = await LevelDB.weapons.list();
+          (wpns || []).forEach(function (w) { widByNorm[normName(w.name)] = w.id; });
+        } catch (e) { /* segue sem match de via_weapon */ }
+
+        var optics = [], byWeapon = {};
+        rows.forEach(function (r) {
+          if (!r.weapon_id) { optics.push(r); return; }
+          (byWeapon[r.weapon_id] = byWeapon[r.weapon_id] || []).push(r);
+        });
+
+        // ícones oficiais por nome (consumido pelo getAttachmentIconHtml)
+        var iconMap = window.__ATT_ICON_BY_NAME = window.__ATT_ICON_BY_NAME || {};
+        rows.forEach(function (r) {
+          var ic = r.meta && r.meta.icon;
+          if (ic && !iconMap[r.name]) iconMap[r.name] = ic;
+        });
+
+        var today = new Date().toISOString().slice(0, 10);
+        var applied = 0;
+        Object.keys(byWeapon).forEach(function (wid) {
+          var prev = WEAPON_UNLOCKS[wid];
+          var prevByName = {};
+          if (prev && prev.attachments) prev.attachments.forEach(function (a) { prevByName[normName(a.name)] = a; });
+
+          var atts = byWeapon[wid].map(function (r) {
+            var old = prevByName[normName(r.name)] || {};
+            var m = r.meta || {};
+            var a = {
+              name: r.name,
+              label: m.label || old.label || '',
+              unlockLevel: (r.unlock_level != null) ? r.unlock_level : null,
+              slot: r.slot
+            };
+            if (r.unlock_level == null) a.special = m.unlock_via || old.special || 'Especial';
+            if (old.stats) a.stats = old.stats; // stats só existem no embutido — preserva
+            return a;
+          });
+
+          // óticas universais entram em TODAS as armas
+          optics.forEach(function (o) {
+            var m = o.meta || {};
+            var viaWid = m.via_weapon ? widByNorm[normName(m.via_weapon)] : null;
+            var a = { name: o.name, label: m.label || '', slot: 'Optic' };
+            if (viaWid === wid && m.via_level != null) {
+              a.unlockLevel = m.via_level;             // esta arma é quem destrava
+            } else {
+              a.unlockLevel = null;
+              a.special = m.unlock_via ? m.unlock_via :
+                ('Universal' + (m.via_weapon ? ' · via ' + m.via_weapon + (m.via_level != null ? ' L' + m.via_level : '') : ''));
+            }
+            var old = prevByName[normName(o.name)];
+            if (old && old.stats) a.stats = old.stats;
+            atts.push(a);
+          });
+
+          atts.sort(function (x, y) {
+            var a = (x.unlockLevel == null) ? 999 : x.unlockLevel;
+            var b = (y.unlockLevel == null) ? 999 : y.unlockLevel;
+            return a - b;
+          });
+
+          WEAPON_UNLOCKS[wid] = {
+            catalogVersion: 4,
+            lastUpdated: today,
+            source: 'codmunity.gg (sync automático)',
+            sourceUpdated: today,
+            attachments: atts
+          };
+          applied++;
+        });
+        return applied;
+      }
+
+      window.__reloadServerCatalog = async function () {
+        var rows = await fetchAllRows();
+        var n = await applyServerCatalog(rows);
+        try { await renderWeaponUnlocksPanel(); } catch (e) {}
+        window.__serverCatalogInfo = { weapons: n, rows: rows.length, at: new Date().toISOString() };
+        return window.__serverCatalogInfo;
+      };
+
+      // boot: não bloqueia o resto do app; se falhar, fica o catálogo embutido
+      window.__reloadServerCatalog().then(function (info) {
+        console.log('[LEVEL] catálogo do servidor aplicado:', info.rows, 'linhas /', info.weapons, 'armas');
+      }).catch(function (e) {
+        console.warn('[LEVEL] catálogo do servidor indisponível, usando embutido:', e);
+      });
+    })();
+  })();
+
+  // ═══════════════════════════════════════════════════════════════════
+  // v3.13.0 — ATUALIZAÇÃO DE CONTEÚDO (Configurações → botão "Iniciar
+  // Atualização"). Dispara a Edge Function content-sync (roda em
+  // BACKGROUND no servidor), faz polling do progresso em
+  // content_sync_runs e mostra barra + data da última execução.
+  // ═══════════════════════════════════════════════════════════════════
+  (function contentSyncPanel() {
+    'use strict';
+    var SB = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+    var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+    var HDRS = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY };
+    var pollTimer = null;
+
+    function el(id) { return document.getElementById(id); }
+
+    function fmtDate(iso) {
+      if (!iso) return 'nunca';
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+               ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      } catch (e) { return String(iso); }
+    }
+
+    function fmtCounts(c) {
+      if (!c) return '';
+      var parts = [];
+      if (c.attachments != null) parts.push(c.attachments + ' attachments');
+      if (c.optics != null) parts.push(c.optics + ' óticas');
+      if (c.weapons_covered != null) parts.push(c.weapons_covered + ' armas cobertas');
+      if (c.removed_stale) parts.push(c.removed_stale + ' removidos');
+      return parts.join(' · ');
+    }
+
+    async function fetchLastRun() {
+      try {
+        var r = await fetch(SB + '/rest/v1/content_sync_runs?select=*&order=started_at.desc&limit=1', { headers: HDRS });
+        if (!r.ok) return null;
+        var a = await r.json();
+        return a[0] || null;
+      } catch (e) { return null; }
+    }
+
+    async function fetchRun(id) {
+      try {
+        var r = await fetch(SB + '/rest/v1/content_sync_runs?select=*&id=eq.' + id, { headers: HDRS });
+        if (!r.ok) return null;
+        var a = await r.json();
+        return a[0] || null;
+      } catch (e) { return null; }
+    }
+
+    function applyRunToUI(run, opts) {
+      opts = opts || {};
+      var lastEl = el('csync-last'), countsEl = el('csync-counts'),
+          wrap = el('csync-progress-wrap'), fill = el('csync-progress-fill'),
+          stepEl = el('csync-step'), btn = el('csync-run'), msg = el('csync-msg');
+      if (!lastEl) return;
+
+      if (!run) {
+        lastEl.textContent = 'nunca';
+        if (countsEl) countsEl.textContent = '';
+        if (wrap) wrap.style.display = 'none';
+        if (btn) { btn.disabled = false; btn.textContent = 'Iniciar Atualização'; }
+        return;
+      }
+
+      if (run.status === 'running') {
+        if (wrap) wrap.style.display = '';
+        var pct = Math.max(2, Math.min(100, run.progress || 0));
+        if (fill) fill.style.width = pct + '%';
+        if (stepEl) stepEl.textContent = (run.step || '…') + ' — ' + pct + '%';
+        if (btn) { btn.disabled = true; btn.textContent = 'Atualizando…'; }
+        lastEl.textContent = 'em andamento…';
+        return;
+      }
+
+      // done / error
+      if (wrap && !opts.keepBar) wrap.style.display = 'none';
+      if (btn) { btn.disabled = false; btn.textContent = 'Iniciar Atualização'; }
+      lastEl.textContent = fmtDate(run.finished_at || run.started_at);
+
+      if (run.status === 'done') {
+        if (countsEl) countsEl.textContent = fmtCounts(run.counts);
+        if (msg) {
+          var nw = run.counts && run.counts.weapons_new_in_game;
+          var html = '';
+          if (opts.justFinished) html += '<div class="csync-ok">Catálogo sincronizado e recarregado — os modais já usam a lista nova, sem precisar de F5.</div>';
+          if (nw && nw.length) {
+            html += '<div class="csync-warn">Armas no jogo que ainda não estão no hub (' + nw.length + '): <strong>' +
+                    nw.map(function (s) { return String(s).replace(/</g, '&lt;'); }).join(', ') +
+                    '</strong>. Cadastro delas é manual (precisa de classe, níveis e foto).</div>';
+          }
+          msg.innerHTML = html;
+        }
+      } else if (run.status === 'error') {
+        if (msg) msg.innerHTML = '<div class="csync-err">Falhou: ' + String(run.error || 'erro desconhecido').replace(/</g, '&lt;') + '</div>';
+      }
+    }
+
+    function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+
+    function pollRun(id) {
+      stopPolling();
+      pollTimer = setInterval(async function () {
+        var run = await fetchRun(id);
+        if (!run) return;
+        if (run.status === 'running') { applyRunToUI(run); return; }
+        stopPolling();
+        if (run.status === 'done') {
+          // recarrega o catálogo em memória (WEAPON_UNLOCKS + ícones)
+          try { if (window.__reloadServerCatalog) await window.__reloadServerCatalog(); } catch (e) {}
+          applyRunToUI(run, { justFinished: true });
+        } else {
+          applyRunToUI(run);
+        }
+      }, 1500);
+    }
+
+    async function startRun() {
+      var btn = el('csync-run'), msg = el('csync-msg'),
+          wrap = el('csync-progress-wrap'), fill = el('csync-progress-fill'), stepEl = el('csync-step');
+      if (btn) { btn.disabled = true; btn.textContent = 'Atualizando…'; }
+      if (msg) msg.innerHTML = '';
+      if (wrap) wrap.style.display = '';
+      if (fill) fill.style.width = '2%';
+      if (stepEl) stepEl.textContent = 'Chamando o servidor…';
+      try {
+        var r = await fetch(SB + '/functions/v1/content-sync', {
+          method: 'POST',
+          headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+          body: '{}'
+        });
+        var body = await r.json().catch(function () { return {}; });
+        if (!r.ok || !body.run_id) throw new Error(body.error || ('HTTP ' + r.status));
+        pollRun(body.run_id);
+      } catch (e) {
+        if (msg) msg.innerHTML = '<div class="csync-err">Não consegui iniciar: ' + String(e && e.message || e).replace(/</g, '&lt;') + '</div>';
+        if (wrap) wrap.style.display = 'none';
+        if (btn) { btn.disabled = false; btn.textContent = 'Iniciar Atualização'; }
+      }
+    }
+
+    // chamado pelo renderSettings() quando a categoria abre
+    window.renderContentSyncPanel = async function () {
+      var run = await fetchLastRun();
+      applyRunToUI(run);
+      if (run && run.status === 'running') pollRun(run.id);
+      else stopPolling();
+    };
+
+    document.addEventListener('click', function (e) {
+      if (e.target && e.target.id === 'csync-run' && !e.target.disabled) startRun();
+    });
   })();
 
   // ═══════════════════════════════════════════════════════════════════
@@ -14364,6 +14669,10 @@ const ATTACHMENT_ICONS = {
       const cands = [];
       const ov = (typeof ATTACHMENT_ICON_OVERRIDES !== 'undefined') ? ATTACHMENT_ICON_OVERRIDES[name] : null;
       if (ov) cands.push(ov);
+      // v3.13.0: ícone oficial vindo do catálogo do servidor (cat_attachments.meta.icon)
+      // — resolve os ícones errados/faltando sem depender de slug adivinhado.
+      const srvIcon = (window.__ATT_ICON_BY_NAME && window.__ATT_ICON_BY_NAME[name]) || null;
+      if (srvIcon && cands.indexOf(srvIcon) === -1) cands.push(srvIcon);
       const auto = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
       if (auto) cands.push(ATTACHMENT_ICON_BASE + auto + '_bo7_icon.webp');
       const noInch = String(name || '').replace(/^[\d.]+\"?\s*/, '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -14394,7 +14703,7 @@ const ATTACHMENT_ICONS = {
       3: ['Underbarrel'],
       4: ['Magazine'],
       5: ['Rear Grip'],
-      6: ['Stock'],
+      6: ['Stock', 'Comb'],  // v3.13.0: 'Comb' (snipers/shotguns) entra no slot de Stock
       7: ['Laser'],
       8: ['Fire Mods']
     };
@@ -25710,6 +26019,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       { id: 'api_keys', group: 'tools', i18n: 'set.tab.api_keys',
         customPanel: true,
         source: function () { return []; } },
+      // ── ATUALIZAÇÃO DE CONTEÚDO (v3.13.0) ── sync do catálogo com o jogo ──
+      { id: 'content_sync', group: 'tools', i18n: 'set.tab.content_sync',
+        customPanel: true,
+        source: function () { return []; } },
       // ── COMPONENTES (v2.103.0) ── catálogo dos componentes UI favoritos:
       // a página /componentes (link oculto do site) entra num iframe (mesma
       // ilha publicada — fonte única, zero conflito de CSS com o hub) ──
@@ -25819,6 +26132,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const menulat = document.getElementById('menu-lateral-panel');
       const compPanel = document.getElementById('componentes-panel');
       const pcPanel = document.getElementById('proscons-panel');
+      const csyncPanel = document.getElementById('content-sync-panel');  // v3.13.0
       if (!grid) return;
       const cat = SETTINGS_CATEGORIES.find(c => c.id === settingsActiveTab);
       // v2.72.3: a barra de armazenamento de imagens (contador + "Migrar pra cloud") só interessa
@@ -25858,7 +26172,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         if (menulat) menulat.style.display = 'none';
         if (compPanel) compPanel.style.display = 'none';
         if (pcPanel) pcPanel.style.display = 'none';
-        if (cat.id === 'image_processor' && imgproc) {
+        if (csyncPanel) csyncPanel.style.display = 'none';  // v3.13.0
+        if (cat.id === 'content_sync' && csyncPanel) {
+          csyncPanel.style.display = '';
+          if (typeof window.renderContentSyncPanel === 'function') window.renderContentSyncPanel();
+        } else if (cat.id === 'image_processor' && imgproc) {
           imgproc.style.display = '';
           if (typeof initImageProcessor === 'function') initImageProcessor();
         } else if (cat.id === 'api_keys' && apikeys) {
@@ -25903,6 +26221,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       if (menulat) menulat.style.display = 'none';
       if (compPanel) compPanel.style.display = 'none';
       if (pcPanel) pcPanel.style.display = 'none';
+      if (csyncPanel) csyncPanel.style.display = 'none';  // v3.13.0
       if (!cat) { grid.innerHTML = ''; return; }
       const items = cat.source() || [];
       const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
@@ -27289,6 +27608,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.maps_all': 'Mapas · Todos',
         'set.tab.image_processor': 'Processador de Imagem',
         'set.tab.api_keys': 'API Keys',
+        'set.tab.content_sync': 'Atualização de Conteúdo',
         'set.tab.componentes': 'Componentes',
         'set.tab.proscons': 'PROS / CONS',
         'set.tab.streaks': 'Scorestreaks',
@@ -27468,6 +27788,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         'set.tab.maps_all': 'Maps · All',
         'set.tab.image_processor': 'Image Processor',
         'set.tab.api_keys': 'API Keys',
+        'set.tab.content_sync': 'Content Sync',
         'set.tab.componentes': 'Components',
         'set.tab.proscons': 'PROS / CONS',
         'set.tab.streaks': 'Scorestreaks',
