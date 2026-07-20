@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.12.5">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.12.6">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1619,7 +1619,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.12.5 · <span data-i18n="briefing.changelog.date">19 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.12.6 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4873,6 +4873,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.12.6</span>
+                <span class="vh-date">20 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Hunter's Instinct removido + catálogo visual completo.</strong> (1) O perk <strong>Hunter's Instinct</strong> (slot 2) saiu do catálogo do Construtor — o Victor conferiu no jogo e ele não existe mais no BO7 (removido de <code>DATA.perks</code> e <code>DATA_EN</code>). (2) Fora do deploy (só bucket + <code>cat_default_images</code>, 19-20/Jul): arte oficial pra <strong>12 Field Upgrades</strong> (renders Arsenal recortados), <strong>24 Scorestreaks</strong> (ícones HUD oficiais; LGM do catálogo = LDBR no jogo), <strong>6 Specialties</strong> (emblemas, incl. híbridas), <strong>25 Perks</strong> (badges coloridos por categoria) e <strong>16 equipamentos</strong> Lethal/Tactical (renders Arsenal recortados — substituem as fotos de TV; "Thermite" no BO7 chama Thermo Grenade). Fonte: API do Fandom + recorte BiRefNet. (3) <strong>Throwing Knife e Drill Charge removidas</strong> do catálogo Lethal — Victor confirmou no jogo que não existem no BO7 (a pista veio do wiki: zero arquivos BO7 pra ambas). (4) Thumb dos dropdowns do Construtor (Field Upgrade/Tactical/Lethal) <strong>dobrado</strong>: <code>.combo-img</code> 40→80px com <code>contain</code> (o <code>cover</code> cortava o render).</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8784,7 +8793,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.12.5</strong><span class="ver-tag">Picker de arma: com o seletor aberto o modal ALARGA pra 1080px (~6 armas por linha). Base v3.12.4: picker em TELA CHEIA dentro dos modais (build + Montagem Inteligente), cobrindo o modal inteiro; escolheu → volta ao formulário. Acumula v3.12.2 (builds no cloud sync = fix raiz das builds sumindo) e v3.12.0/1 (picker grade, ícones, watermark, cards de catálogo). Base v3.12.1: Fix: botões dos cards de catálogo (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.12.6</strong><span class="ver-tag">Hunter's Instinct removido do catálogo de perks (não existe mais no BO7 — conferido no jogo pelo Victor). Catálogo visual completo via bucket: armas, attachments, field upgrades, scorestreaks, specialties, perks, lethals e tacticals com arte oficial. Base v3.12.5: modal alarga com picker aberto (1080px, ~6 armas/linha); picker em tela cheia nos modais; builds no cloud sync (fix raiz). (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -24264,7 +24273,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         { id: 'scavenger',       name: 'Scavenger',         slot: 2, cat: 'enforcer',   desc: 'recupera munição e equipamento de inimigos eliminados' },
         { id: 'assassin',        name: 'Assassin',          slot: 2, cat: 'enforcer',   desc: 'inimigos em killstreak ficam marcados e largam Bounty Packs ao morrer' },
         { id: 'close_shave',     name: 'Close Shave',       slot: 2, cat: 'enforcer',   desc: 'usa o golpe corpo-a-corpo dedicado automaticamente ao dar coronhada' },
-        { id: 'hunter_instinct', name: "Hunter's Instinct", slot: 2, cat: 'enforcer',   desc: 'eliminar um inimigo marca a direção do próximo mais próximo no minimapa' },
+        // v3.12.6: Hunter's Instinct REMOVIDO — Victor confirmou no jogo que não existe mais no BO7
         { id: 'vigilance',       name: 'Vigilance',         slot: 2, cat: 'recon',      desc: 'avisa quando você aparece no minimapa inimigo · imune a CUAV e Scrambler' },
         { id: 'blast_link',      name: 'Blast Link',        slot: 2, cat: 'recon',      desc: 'seu dano explosivo marca inimigos no minimapa · estende o benefício à equipa' },
         { id: 'engineer',        name: 'Engineer',          slot: 2, cat: 'recon',      desc: 'vê equipamento e scorestreaks inimigos através de paredes' },
@@ -24334,11 +24343,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       lethal: [
         { id: 'frag', name: 'Frag', desc: 'cookable · explode no ar' },
         { id: 'semtex', name: 'Semtex', desc: 'aderente · explode em segundos' },
-        { id: 'throwing_knife', name: 'Throwing Knife', desc: 'faca arremesso · 1-hit' },
+        // v3.12.6: Throwing Knife removida — Victor confirmou que não existe no BO7
         { id: 'thermite', name: 'Thermite', desc: 'fogo persistente · negação de área' },
         { id: 'c4', name: 'C4', desc: 'detonação remota' },
         { id: 'combat_axe', name: 'Combat Axe', desc: 'machado arremesso' },
-        { id: 'drill_charge', name: 'Drill Charge', desc: 'fura paredes' },
+        // v3.12.6: Drill Charge removida — Victor confirmou que não existe no BO7
         { id: 'molotov', name: 'Molotov', desc: 'fogo de área' }
       ]
     };
@@ -24447,7 +24456,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         scavenger:       { name: 'Scavenger', desc: 'resupply ammo and equipment from eliminated enemies' },
         assassin:        { name: 'Assassin', desc: 'killstreaking enemies are marked and drop Bounty Packs on death' },
         close_shave:     { name: 'Close Shave', desc: 'auto-uses your dedicated melee attack when you weapon-butt' },
-        hunter_instinct: { name: "Hunter's Instinct", desc: 'eliminating an enemy marks the direction of the next closest one' },
+        // v3.12.6: hunter_instinct removido (não existe mais no BO7)
         vigilance:       { name: 'Vigilance', desc: 'warns when you appear on the enemy minimap · immune to CUAV and Scrambler' },
         blast_link:      { name: 'Blast Link', desc: 'your explosive damage marks enemies on the minimap · extends to the team' },
         engineer:        { name: 'Engineer', desc: 'see enemy equipment and scorestreaks through walls' },
@@ -24485,11 +24494,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       lethal: {
         frag:           { name: 'Frag', desc: 'cookable \u00b7 airburst' },
         semtex:         { name: 'Semtex', desc: 'sticky \u00b7 explodes in seconds' },
-        throwing_knife: { name: 'Throwing Knife', desc: 'throwing knife \u00b7 1-hit' },
+        // v3.12.6: throwing_knife removida (não existe no BO7)
         thermite:       { name: 'Thermite', desc: 'persistent fire \u00b7 area denial' },
         c4:             { name: 'C4', desc: 'remote detonation' },
         combat_axe:     { name: 'Combat Axe', desc: 'throwing axe' },
-        drill_charge:   { name: 'Drill Charge', desc: 'drills through walls' },
+        // v3.12.6: drill_charge removida (não existe no BO7)
         molotov:        { name: 'Molotov', desc: 'area fire' }
       }
     };
