@@ -14478,3 +14478,84 @@
   .home-history-col { width: 33.33%; min-width: 380px; margin-top: 28px; }
   .home-history-col .home-history { width: 100%; }
   @media (max-width: 900px) { .home-history-col { width: 100%; min-width: 0; } }
+
+  /* ═══ v3.13.0 · ATUALIZAÇÃO DE CONTEÚDO (Configurações → Content Sync) ═══ */
+  .csync-panel {
+    background: var(--card-bg, #161D33);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-top: 12px;
+    max-width: 640px;
+  }
+  .csync-title {
+    font-family: 'IBM Plex Sans', 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-orange);
+    margin-bottom: 8px;
+  }
+  .csync-sub {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .csync-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    align-items: baseline;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+  .csync-status strong { color: var(--text-primary); }
+  .csync-counts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .csync-progress-wrap { margin-bottom: 14px; }
+  .csync-progress {
+    height: 10px;
+    background: var(--bg-darkest, #0B0F1E);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .csync-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-orange), #ffb054);
+    transition: width 0.6s ease;
+  }
+  .csync-step {
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  .csync-btn { min-width: 220px; }
+  .csync-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .csync-msg { margin-top: 14px; font-size: 12px; line-height: 1.55; }
+  .csync-msg .csync-ok {
+    background: rgba(74, 222, 128, 0.08);
+    border-left: 3px solid #4ade80;
+    padding: 10px 14px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+  .csync-msg .csync-warn {
+    background: rgba(251, 191, 36, 0.08);
+    border-left: 3px solid #fbbf24;
+    padding: 10px 14px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+  .csync-msg .csync-err {
+    background: rgba(248, 113, 113, 0.08);
+    border-left: 3px solid #f87171;
+    padding: 10px 14px;
+    color: var(--text-secondary);
+  }
