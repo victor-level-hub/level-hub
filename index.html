@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.13.1">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.14.0">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1619,7 +1619,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.13.1 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.14.0 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4873,6 +4873,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.14.0</span>
+                <span class="vh-date">20 Jul 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Attachments incompatíveis + ordem do gunsmith + fixes do modal de build.</strong> (1) <strong>Incompatibilidades</strong> (dados em <code>cat_attachments.meta.blocks</code>, regras no content-sync v3): barrel com supressor integrado bloqueia o <strong>Muzzle</strong> (MK35 ISR — 14" MFS Nightfall), Akimbo/Dual Wield bloqueia a <strong>ótica</strong> (9 armas). No Construtor: slot bloqueado ganha <strong>cadeado</strong> ("Bloqueado por X"); abrir o seletor mostra aviso vermelho estilo jogo ("equipar aqui remove o X automaticamente") e equipar faz a troca com toast — nas duas direções, igual ao gunsmith. (2) <strong>Análise IA</strong>: payload ganha <code>blocked_slots</code>, candidatos de slot bloqueado saem da lista, prompt do Gemini ganhou a regra R8 (proibido sugerir slot bloqueado — era o bug do Le Vél sugerindo Muzzle com o barrel integrado equipado) e o servidor dropa sugestão que violar (analyze-build v7). (3) <strong>Óticas em SHORT / MEDIUM / LONG RANGE</strong> na ordem das famílias do gunsmith (ELO → Mini Reflex → Reflex → Holo → … → 2x/3x/4x → … → Scopes), travadas por último no grupo; nos demais slots, ordem de desbloqueio com <strong>especiais (Prestige/BP/Desafio) por último</strong>. (4) <strong>Fix</strong>: editar uma build não perde mais o <strong>BUILD CODE</strong> (a validação exigia formato "S07-…" e descartava o resto em silêncio) nem o <strong>LEVEL</strong> (mudar o prestige forçava level 1 e ignorava o digitado). (5) Barrel do MK35 corrigido <strong>19"→14"</strong> (fonte estava errada; NAME_OVERRIDES preserva). Fora do deploy: builds do Victor migradas, ícone do FANG (v3.13.1) preservado pelo sync.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8826,7 +8835,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.13.1</strong><span class="ver-tag">Busca ao vivo no seletor de attachments (filtra por nome/tipo/desbloqueio enquanto digita) + ícone oficial do FANG HoverPoint ELO corrigido (bucket + override no sync). Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.14.0</strong><span class="ver-tag">Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -13622,6 +13631,7 @@ window.BO7_ASSETS = (function() {
             };
             if (r.unlock_level == null) a.special = m.unlock_via || old.special || 'Especial';
             if (old.stats) a.stats = old.stats; // stats só existem no embutido — preserva
+            if (m.blocks && m.blocks.length) a.blocks = m.blocks; // v3.14.0: slots que este attachment bloqueia
             return a;
           });
 
@@ -13639,6 +13649,7 @@ window.BO7_ASSETS = (function() {
             }
             var old = prevByName[normName(o.name)];
             if (old && old.stats) a.stats = old.stats;
+            if (m.blocks && m.blocks.length) a.blocks = m.blocks; // v3.14.0
             atts.push(a);
           });
 
@@ -14961,6 +14972,29 @@ const ATTACHMENT_ICONS = {
       return catalog.find(x => x && x.id === id) || null;
     }
 
+    // v3.14.0 — Bloqueio de slots: alguns attachments impedem o uso de outro
+    // slot (barrel com supressor integrado → sem Muzzle; Akimbo → sem ótica).
+    // A informação vem do catálogo do servidor (cat_attachments.meta.blocks →
+    // a.blocks no WEAPON_UNLOCKS). Retorna { slotIndex: {byName, bySlot} }.
+    function _blockedSlotMap(catalog) {
+      const map = {};
+      if (!catalog || !catalog.attachments) return map;
+      for (let j = 0; j < FIXED_SLOT_COUNT; j++) {
+        const nm = modalState.attachments[j];
+        if (!nm) continue;
+        const entry = catalog.attachments.find(a => a.name === nm);
+        if (!entry || !entry.blocks || !entry.blocks.length) continue;
+        for (let i = 0; i < FIXED_SLOT_COUNT; i++) {
+          if (i === j) continue;
+          const filt = SLOT_FILTERS[i] || [];
+          if (entry.blocks.some(b => filt.indexOf(b) >= 0)) {
+            map[i] = { byName: entry.name, bySlot: entry.slot, byIndex: j };
+          }
+        }
+      }
+      return map;
+    }
+
     async function populateBaseDropdown() {
       const sel = document.getElementById('build-base');
       if (!sel) return;
@@ -15032,12 +15066,17 @@ const ATTACHMENT_ICONS = {
       const catalog = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[modalState.baseId] : null;
       const weaponLevel = parseInt(plLevel.value, 10) || 0;
 
+      // v3.14.0: mapa de slots BLOQUEADOS pelos attachments equipados
+      // (ex.: barrel com supressor integrado bloqueia o Muzzle; Akimbo bloqueia a ótica)
+      const blockedMap = _blockedSlotMap(catalog);
+
       const rows = [];
       for (let i = 0; i < FIXED_SLOT_COUNT; i++) {
         const slotFilter = SLOT_FILTERS[i];
         const slotLabel = SLOT_LABELS[i] || 'Extra ' + (i+1);
         const slotType = (slotFilter && slotFilter[0]) || 'generic';
         const currentName = modalState.attachments[i] || '';
+        const blockedBy = blockedMap[i] || null;
 
         // Build slot button — opens chooser
         let btnInner;
@@ -15080,6 +15119,13 @@ const ATTACHMENT_ICONS = {
             '<span class="att-equipped-name" data-glossary-skip>' + escapeHtml(currentName) + '</span>' +
             '<span></span>' +
             '<span class="att-chooser-arrow">▸</span>';
+        } else if (blockedBy) {
+          // v3.14.0: slot bloqueado por outro attachment — cadeado + quem bloqueia
+          btnInner =
+            '<span class="att-slot-icon">{{i:lock}}</span>' +
+            '<span class="att-equipped-name att-blocked-name">Bloqueado por ' + escapeHtml(blockedBy.byName) + '</span>' +
+            '<span></span>' +
+            '<span class="att-chooser-arrow">▸</span>';
         } else {
           btnInner =
             '<span class="att-slot-icon">' + SLOT_ICONS[slotType] + '</span>' +
@@ -15088,7 +15134,7 @@ const ATTACHMENT_ICONS = {
             '<span class="att-chooser-arrow">▸</span>';
         }
 
-        const btnClass = 'att-chooser-btn' + (currentName ? ' is-equipped' : ' is-empty');
+        const btnClass = 'att-chooser-btn' + (currentName ? ' is-equipped' : ' is-empty') + (blockedBy ? ' is-blocked' : '');
         // v75-95: stats agora vão DENTRO do row, não fora — visual mais limpo
         const statsInside = statsHtml ? statsHtml.replace('<div class="att-stats"', '<div class="att-stats att-stats-inline"') : '';
         const btnHtml = '<button type="button" class="' + btnClass + '" data-att-chooser-slot="' + i + '">' + btnInner + '</button>';
@@ -15129,6 +15175,9 @@ const ATTACHMENT_ICONS = {
       chooserState.query = '';
       const searchInp = document.getElementById('att-chooser-search');
       if (searchInp) searchInp.value = '';
+      // v3.14.0: este slot está bloqueado por outro attachment equipado?
+      const _cat = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[modalState.baseId] : null;
+      chooserState.blockedBy = _blockedSlotMap(_cat)[slotIndex] || null;
 
       // Header info
       const titleEl = document.getElementById('att-chooser-title');
@@ -15236,6 +15285,14 @@ const ATTACHMENT_ICONS = {
       };
 
       let html = '';
+      // v3.14.0: aviso em destaque (igual ao jogo — "Incompatible Attachments")
+      // quando um attachment equipado é incompatível com este slot.
+      if (chooserState.blockedBy) {
+        html += '<div class="att-blocked-notice">' +
+                  '<span class="icon">{{i:alert-triangle}}</span>' +
+                  '<span><strong>Attachments incompatíveis.</strong> Equipar um attachment deste slot <strong>remove automaticamente</strong> o <strong>' + escapeHtml(chooserState.blockedBy.byName) + '</strong> (' + escapeHtml(chooserState.blockedBy.bySlot) + ') — os dois não podem ser usados juntos no jogo.</span>' +
+                '</div>';
+      }
       // Planning notice — only shown when there are locked items in this slot
       if (locked.length) {
         html += '<div class="att-planning-notice">' +
@@ -15245,25 +15302,112 @@ const ATTACHMENT_ICONS = {
                   'Use pra montar builds futuras.</span>' +
                 '</div>';
       }
-      if (unlocked.length) {
-        html += '<div class="att-chooser-group-label unlocked">{{i:check}} Destravados (' + unlocked.length + ')</div>';
-        html += unlocked.map(a => renderItem(a, 'L' + a.unlockLevel, 'unlocked', null)).join('');
-      }
-      if (special.length) {
-        html += '<div class="att-chooser-group-label special">{{i:star}} Especiais (' + special.length + ')</div>';
-        html += special.map(a => renderItem(a, '{{i:star}}', 'special', 'special')).join('');
-      }
-      if (locked.length) {
-        html += '<div class="att-chooser-group-label locked">{{i:lock}} Travados (' + locked.length + ')</div>';
-        html += locked.map(a => renderItem(a, 'L' + a.unlockLevel, 'locked', 'locked')).join('');
+      const renderOne = (a) => {
+        if (a.unlockLevel == null) return renderItem(a, '{{i:star}}', 'special', 'special');
+        if (a.unlockLevel > weaponLevel) return renderItem(a, 'L' + a.unlockLevel, 'locked', 'locked');
+        return renderItem(a, 'L' + a.unlockLevel, 'unlocked', null);
+      };
+
+      if (slotType === 'Optic') {
+        // v3.14.0: OPTIC igual ao jogo — agrupado por SHORT / MEDIUM / LONG
+        // RANGE, na ordem do catálogo (famílias: ELO → Mini Reflex → Reflex →
+        // Holo → … → 2x/3x/4x → … → Zoom/Sniper/Thermal Scope), com os
+        // travados/prestige por último dentro de cada grupo.
+        const groups = { SHORT: [], MEDIUM: [], LONG: [] };
+        matching.forEach(a => { groups[_opticRangeOf(a)].push(a); });
+        const gLabels = { SHORT: 'SHORT RANGE', MEDIUM: 'MEDIUM RANGE', LONG: 'LONG RANGE' };
+        ['SHORT', 'MEDIUM', 'LONG'].forEach(g => {
+          const arr = groups[g];
+          if (!arr.length) return;
+          arr.sort((x, y) => _opticOrderKey(x) - _opticOrderKey(y) ||
+                             String(x.label || x.name).localeCompare(String(y.label || y.name)));
+          // travados por nível (acima do level da arma) vão pro fim do grupo
+          const avail = arr.filter(a => !(a.unlockLevel != null && a.unlockLevel > weaponLevel));
+          const lock2 = arr.filter(a => a.unlockLevel != null && a.unlockLevel > weaponLevel);
+          html += '<div class="att-chooser-group-label unlocked">{{i:crosshair}} ' + gLabels[g] + ' (' + arr.length + ')</div>';
+          html += avail.map(renderOne).join('') + lock2.map(renderOne).join('');
+        });
+      } else {
+        // v3.14.0: ordem do jogo — destravados por nível, depois travados por
+        // nível, e os especiais (Prestige / Battle Pass / Desafio) POR ÚLTIMO.
+        if (unlocked.length) {
+          html += '<div class="att-chooser-group-label unlocked">{{i:check}} Destravados (' + unlocked.length + ')</div>';
+          html += unlocked.map(a => renderItem(a, 'L' + a.unlockLevel, 'unlocked', null)).join('');
+        }
+        if (locked.length) {
+          html += '<div class="att-chooser-group-label locked">{{i:lock}} Travados (' + locked.length + ')</div>';
+          html += locked.map(a => renderItem(a, 'L' + a.unlockLevel, 'locked', 'locked')).join('');
+        }
+        if (special.length) {
+          html += '<div class="att-chooser-group-label special">{{i:star}} Especiais (' + special.length + ')</div>';
+          html += special.map(a => renderItem(a, '{{i:star}}', 'special', 'special')).join('');
+        }
       }
       listEl.innerHTML = html;
+    }
+
+    // v3.14.0 — Classificação das óticas em SHORT/MEDIUM/LONG RANGE (igual ao
+    // jogo), inferida do label oficial do catálogo (ex.: "Mini Reflex 03",
+    // "4x-01 Optic", "Sniper Scope", "Thermal Sight" vs "Thermal Scope").
+    function _opticRangeOf(a) {
+      const l = (String(a.label || '') + ' ' + String(a.name || '')).toLowerCase();
+      if (/dual zoom|variable zoom|sniper scope|thermal scope|[6-9]x/.test(l)) return 'LONG';
+      if (/\b2x|\b3x|\b4x|hybrid 02|thermal sight/.test(l)) return 'MEDIUM';
+      return 'SHORT';
+    }
+    // Ordem das famílias dentro de cada grupo (reproduz a ordem do gunsmith).
+    const _OPTIC_FAMILY_ORDER = [
+      'elo', 'mini reflex', 'reflex', 'holo sight', 'holo range', 'thermal holographic', 'hybrid 01',
+      'target finder', 'millimeter scanner',
+      '2x', '3x', '4x', 'hybrid 02', 'thermal sight',
+      'dual zoom', 'variable zoom', 'sniper scope', 'thermal scope'
+    ];
+    function _opticOrderKey(a) {
+      const l = String(a.label || a.name || '').toLowerCase();
+      for (let i = 0; i < _OPTIC_FAMILY_ORDER.length; i++) {
+        if (l.indexOf(_OPTIC_FAMILY_ORDER[i]) >= 0) return i;
+      }
+      return 99;
     }
 
     function equipSelectedAttachment() {
       if (chooserState.slotIndex < 0) return;
       if (!chooserState.selectedName) return;
+      // v3.14.0: igual ao jogo — equipar num slot "bloqueado" REMOVE o
+      // attachment incompatível (ex.: escolher um Muzzle remove o barrel
+      // com supressor integrado). Aviso via toast.
+      if (chooserState.blockedBy && chooserState.blockedBy.byIndex != null) {
+        const bi = chooserState.blockedBy.byIndex;
+        if (modalState.attachments[bi]) {
+          const removedB = modalState.attachments[bi];
+          modalState.attachments[bi] = '';
+          if (typeof showToast === 'function') {
+            showToast('"' + removedB + '" removido — incompatível com ' + chooserState.selectedName + '.', 'info');
+          }
+        }
+      }
       modalState.attachments[chooserState.slotIndex] = chooserState.selectedName;
+
+      // v3.14.0: se o item equipado BLOQUEIA outros slots, limpa o que estiver
+      // lá (igual ao jogo: escolher o barrel integrado remove o muzzle) e avisa.
+      try {
+        const cat = (typeof WEAPON_UNLOCKS !== 'undefined') ? WEAPON_UNLOCKS[chooserState.baseId] : null;
+        const entry = cat && cat.attachments ? cat.attachments.find(a => a.name === chooserState.selectedName) : null;
+        if (entry && entry.blocks && entry.blocks.length) {
+          for (let i = 0; i < FIXED_SLOT_COUNT; i++) {
+            if (i === chooserState.slotIndex) continue;
+            const filt = SLOT_FILTERS[i] || [];
+            if (entry.blocks.some(b => filt.indexOf(b) >= 0) && modalState.attachments[i]) {
+              const removed = modalState.attachments[i];
+              modalState.attachments[i] = '';
+              if (typeof showToast === 'function') {
+                showToast('"' + removed + '" removido — ' + (SLOT_LABELS[i] || 'slot') + ' fica bloqueado com ' + entry.name + '.', 'info');
+              }
+            }
+          }
+        }
+      } catch (e) { /* best-effort */ }
+
       document.getElementById('modal-att-chooser').classList.remove('visible');
       renderModalDynamicParts(); // re-render build modal slot button + stats
     }
@@ -15278,6 +15422,8 @@ const ATTACHMENT_ICONS = {
       }
       const item = e.target.closest('.att-chooser-item');
       if (item) {
+        // v3.14.0: slot com attachment incompatível equipado — PODE selecionar
+        // (igual ao jogo: equipar aqui REMOVE o incompatível — aviso no topo).
         // All items selectable — locked ones equip too, for planning future builds.
         // The lock warning is shown via the badge and the planning notice at top.
         chooserState.selectedName = item.dataset.attName || '';
@@ -15610,6 +15756,24 @@ const ATTACHMENT_ICONS = {
         }
       }
 
+      // v3.14.0: slots BLOQUEADOS pelos attachments equipados (ex.: barrel com
+      // supressor integrado bloqueia o Muzzle; Akimbo bloqueia a ótica).
+      // Candidatos desses slots saem da lista e a IA recebe blocked_slots —
+      // pra nunca sugerir um attachment impossível de equipar junto.
+      const blockedSlotNames = [];
+      const blockedSlotsInfo = [];
+      for (const nm of equippedNames) {
+        const att = catalog.attachments.find(a => a.name === nm);
+        if (att && att.blocks && att.blocks.length) {
+          for (const b of att.blocks) {
+            if (blockedSlotNames.indexOf(b) < 0) {
+              blockedSlotNames.push(b);
+              blockedSlotsInfo.push({ slot: b, by: att.name, by_slot: att.slot || '' });
+            }
+          }
+        }
+      }
+
       // ── Classifica strengths/weaknesses ──
       const strengthsText = [];
       const weaknessesText = [];
@@ -15675,6 +15839,7 @@ const ATTACHMENT_ICONS = {
         for (const att of catalog.attachments) {
           if (equippedNamesNorm.indexOf(_normalizeAttName(att.name)) >= 0) continue;
           if (att.unlockLevel != null && att.unlockLevel > weaponLevel) continue;
+          if (blockedSlotNames.indexOf(att.slot) >= 0) continue;  // v3.14.0: slot bloqueado — impossível equipar
           if (!att.stats) continue;
           let score = 0;
           for (const s of (cfg.positiveImproves || [])) {
@@ -15719,7 +15884,8 @@ const ATTACHMENT_ICONS = {
         weaknessKeys: weaknessKeys,
         styleHint: styleHint,
         candidatesByWeakness: candidatesByWeakness,
-        perksPool: perksPool
+        perksPool: perksPool,
+        blockedSlots: blockedSlotsInfo  // v3.14.0
       };
     }
 
@@ -15967,6 +16133,7 @@ const ATTACHMENT_ICONS = {
         weaknesses: ctx.weaknessKeys.map(k => ({ key: k, label: DIM_LABELS[k] || k, text: ctx.weaknessesText[ctx.weaknessKeys.indexOf(k)] || '' })),
         candidates_by_weakness: ctx.candidatesByWeakness,
         perks_pool: ctx.perksPool,
+        blocked_slots: ctx.blockedSlots || [],  // v3.14.0 — slots bloqueados por attachment equipado (IA não pode sugerir nada neles)
         style_hint: playerProfile.style,   // v2.18: estilo FIXO do perfil (nao inferido da build) - evita objetivo que se move
         player_profile: playerProfile,        // NOVO — contexto do operador
         active_struggles: activeStruggles,    // NOVO — dificuldades cadastradas
@@ -17074,15 +17241,12 @@ const ATTACHMENT_ICONS = {
       const isMaster = prestigeValue === 'master';
       const newPrestige = isMaster ? 2 : (parseInt(prestigeValue, 10) || 0);
       const newLevel = parseInt(document.getElementById('build-level').value, 10) || 1;
-      // If prestige changed (and not entering master), reset level to 1
+      // v3.14.0: o level DIGITADO é sempre respeitado. Antes, se o prestige
+      // escolhido fosse diferente do registrado na arma, o save forçava level=1
+      // e descartava o que o user digitou — era isso que fazia a build "perder
+      // o nível" ao reabrir pra editar (P2 L25 virava P2 L1).
       let finalLevel = newLevel;
       const wasMaster = !!base.master;
-      if (!isMaster && wasMaster) {
-        // Leaving Master tier: reset levelMax to a sensible default
-        finalLevel = 1;
-      } else if (!isMaster && newPrestige !== base.prestige) {
-        finalLevel = 1;
-      }
       // Master: level cap 250; otherwise restore original levelMax (or current if not master before)
       const originalLevelMax = wasMaster ? 38 : (base.levelMax || 0);
       const finalLevelMax = isMaster ? 250 : originalLevelMax;
@@ -17107,8 +17271,12 @@ const ATTACHMENT_ICONS = {
       // Then: save the build
       // v75-95: lê gameBuildCode (BO7) do input, valida formato, salva apenas se passa
       const gameCodeRaw = (document.getElementById('build-game-code')?.value || '').trim().toUpperCase();
-      const GAME_CODE_RX = /^S07-[A-Z0-9]{4,6}-[A-Z0-9]{4,6}-[A-Z0-9]{4,6}$/i;
-      const gameBuildCode = gameCodeRaw && GAME_CODE_RX.test(gameCodeRaw) ? gameCodeRaw : null;
+      // v3.14.0: validação frouxa — o formato dos codes do BO7 varia (o RX
+      // antigo exigia "S07-…" e DESCARTAVA silenciosamente qualquer outro
+      // formato, sumindo com o BUILD CODE ao reabrir a build pra editar).
+      // Agora salva o que foi digitado: maiúsculas, só [A-Z0-9-], mínimo 4.
+      const gameCodeClean = gameCodeRaw.replace(/[^A-Z0-9-]/g, '');
+      const gameBuildCode = gameCodeClean.length >= 4 ? gameCodeClean : null;
 
       const payload = {
         name,
