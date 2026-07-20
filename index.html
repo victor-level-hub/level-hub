@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.13.0">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.13.1">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1619,7 +1619,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.13.0 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.13.1 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4873,6 +4873,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.13.1</span>
+                <span class="vh-date">20 Jul 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Busca ao vivo no seletor de attachments + ícone do FANG corrigido.</strong> (1) Campo de <strong>busca</strong> no topo do Attachment Chooser: filtra a lista <em>enquanto digita</em>, por nome, tipo (label), slot e origem do desbloqueio (ex.: "battle pass"); zera a cada abertura, foco automático, aviso quando nada casa. (2) <strong>FANG HoverPoint ELO</strong>: o asset do bucket (<code>att_fanghoverpointelo.webp</code>) tinha um render de RIFLE no lugar da ótica — trocado pelo ícone oficial do Arsenal (Fandom, 256px); a fonte codmunity também está quebrada pra ele (URL com <code>_bo7_bo7</code> duplicado), então o <code>content-sync</code> v2 ganhou <code>ICON_OVERRIDES</code> pra preservar o ícone corrigido em toda atualização futura.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8817,7 +8826,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.13.0</strong><span class="ver-tag">Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.13.1</strong><span class="ver-tag">Busca ao vivo no seletor de attachments (filtra por nome/tipo/desbloqueio enquanto digita) + ícone oficial do FANG HoverPoint ELO corrigido (bucket + override no sync). Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -9588,6 +9597,11 @@
           <div class="att-chooser-header-info">
             <span>// <span id="att-chooser-weapon-name">Arma</span></span>
             <span>Nível da arma · <strong id="att-chooser-weapon-level">—</strong></span>
+          </div>
+          <!-- v3.13.1: busca ao vivo — filtra a lista enquanto digita -->
+          <div class="att-chooser-search-wrap">
+            <span class="att-chooser-search-icon">{{i:search}}</span>
+            <input type="text" id="att-chooser-search" class="att-chooser-search" placeholder="Buscar attachment… (nome, tipo, desbloqueio)" autocomplete="off">
           </div>
           <div class="att-chooser-list" id="att-chooser-list">
             <!-- populated by JS -->
@@ -15111,6 +15125,10 @@ const ATTACHMENT_ICONS = {
       chooserState.slotLabel = SLOT_LABELS[slotIndex] || 'Extra ' + (slotIndex+1);
       chooserState.baseId = modalState.baseId;
       chooserState.selectedName = modalState.attachments[slotIndex] || '';
+      // v3.13.1: zera a busca a cada abertura
+      chooserState.query = '';
+      const searchInp = document.getElementById('att-chooser-search');
+      if (searchInp) searchInp.value = '';
 
       // Header info
       const titleEl = document.getElementById('att-chooser-title');
@@ -15120,8 +15138,10 @@ const ATTACHMENT_ICONS = {
       const wpnLvlEl = document.getElementById('att-chooser-weapon-level');
       const weaponLevel = parseInt(document.getElementById('build-level').value, 10) || base.level || 0;
       if (wpnLvlEl) wpnLvlEl.textContent = weaponLevel + ' / ' + (base.levelMax || '—');
+      chooserState.weaponLevel = weaponLevel;  // v3.13.1: guardado pro re-render da busca
 
       renderAttChooserList(weaponLevel);
+      if (searchInp) setTimeout(function(){ try { searchInp.focus(); } catch(e){} }, 80);
 
       const equipBtn = document.getElementById('btn-att-equip');
       if (equipBtn) equipBtn.disabled = !chooserState.selectedName;
@@ -15159,8 +15179,21 @@ const ATTACHMENT_ICONS = {
         return;
       }
 
-      const matching = catalog.attachments.filter(a => slotFilter.indexOf(a.slot) >= 0);
+      // v3.13.1: busca ao vivo — filtra por nome, label, slot e origem do desbloqueio
+      const q = String(chooserState.query || '').trim().toLowerCase();
+      const allInSlot = catalog.attachments.filter(a => slotFilter.indexOf(a.slot) >= 0);
+      const matching = !q ? allInSlot : allInSlot.filter(a =>
+        (a.name + ' ' + (a.label || '') + ' ' + (a.special || '') + ' ' + a.slot).toLowerCase().indexOf(q) >= 0);
       chooserState.catalogSnapshot = matching;
+
+      if (!matching.length && q && allInSlot.length) {
+        listEl.innerHTML =
+          '<div class="att-chooser-empty">' +
+            '<p>Nada com <strong>"' + escapeHtml(chooserState.query) + '"</strong> neste slot (' + allInSlot.length + ' no total).</p>' +
+            '<p>Apague a busca pra ver a lista completa.</p>' +
+          '</div>';
+        return;
+      }
       const unlocked = matching.filter(a => a.unlockLevel != null && a.unlockLevel <= weaponLevel).slice().sort((a,b) => a.unlockLevel - b.unlockLevel);
       const locked   = matching.filter(a => a.unlockLevel != null && a.unlockLevel >  weaponLevel).slice().sort((a,b) => a.unlockLevel - b.unlockLevel);
       const special  = matching.filter(a => a.unlockLevel == null);
@@ -15256,6 +15289,14 @@ const ATTACHMENT_ICONS = {
       if (e.target.id === 'btn-att-equip') {
         equipSelectedAttachment();
         return;
+      }
+    });
+
+    // v3.13.1: busca ao vivo no chooser — re-renderiza a lista a cada tecla
+    document.addEventListener('input', (e) => {
+      if (e.target && e.target.id === 'att-chooser-search') {
+        chooserState.query = e.target.value;
+        renderAttChooserList(chooserState.weaponLevel || 0);
       }
     });
 
