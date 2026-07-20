@@ -14589,3 +14589,41 @@
   }
   .att-chooser-search:focus { border-color: var(--accent-orange); }
   .att-chooser-search::placeholder { color: var(--text-muted); }
+
+  /* ═══ v3.14.0 · Bloqueio de slots (attachment que bloqueia outro slot) ═══ */
+  .att-blocked-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    background: rgba(248,113,113,0.08);
+    border: 1px solid rgba(248,113,113,0.45);
+    border-left: 3px solid #f87171;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+  .att-blocked-notice .icon {
+    color: #f87171;
+    font-size: 16px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .att-blocked-notice strong { color: #f87171; letter-spacing: 0.5px; }
+  /* botão do slot bloqueado no modal de build */
+  .att-chooser-btn.is-blocked {
+    opacity: 0.75;
+    border-color: rgba(248,113,113,0.45);
+    background: rgba(248,113,113,0.05);
+  }
+  .att-chooser-btn.is-blocked .att-slot-icon { color: #f87171; }
+  .att-chooser-btn.is-blocked .att-blocked-name {
+    color: #f87171;
+    font-size: 12px;
+  }
+  /* v3.14.0: itens continuam selecionáveis (igual ao jogo — equipar remove
+     o incompatível); o aviso vermelho no topo explica a troca automática. */
