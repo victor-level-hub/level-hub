@@ -14632,3 +14632,107 @@
   }
   /* v3.14.0: itens continuam selecionáveis (igual ao jogo — equipar remove
      o incompatível); o aviso vermelho no topo explica a troca automática. */
+
+  /* ═══ v3.15.0 · Análise de Jogo ao Vivo (Início) ═══ */
+  .lga-title { margin-top: 6px; }
+  .lga-wrap { display: flex; flex-direction: column; gap: 14px; margin-bottom: 34px; }
+  .lga-recorder {
+    background: rgba(31,40,63,0.34);
+    border: 1px solid var(--border-default);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow-md);
+  }
+  .lga-rec-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .lga-rec-main { flex: 1; min-width: 220px; }
+  .lga-rec-title {
+    font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 14px;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-100);
+  }
+  .lga-rec-sub { font-size: 12px; color: var(--text-muted); line-height: 1.5; flex: 1; min-width: 240px; }
+  .lga-chrono { font-family: 'JetBrains Mono', monospace; font-size: 30px; color: var(--accent-orange); letter-spacing: 0.06em; }
+  .lga-btn {
+    font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.05em; border: none; cursor: pointer; padding: 13px 22px; border-radius: 10px;
+    transition: filter 0.15s ease;
+  }
+  .lga-btn:hover { filter: brightness(1.12); }
+  .lga-btn-start { background: var(--accent-orange); color: #14100A; }
+  .lga-btn-stop  { background: #DC2626; color: #fff; }
+  .lga-btn-play  { background: #1E293B; color: var(--ink-100); border: 1px solid var(--border-default); margin-top: 12px; }
+  .lga-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .lga-dot-rec  { background: #EF4444; box-shadow: 0 0 12px rgba(239,68,68,0.8); animation: lgaPulse 1.1s infinite; }
+  .lga-dot-proc { background: var(--accent-orange); box-shadow: 0 0 12px rgba(255,152,0,0.7); animation: lgaPulse 1.4s infinite; }
+  .lga-dot-wait { background: #64748B; animation: lgaPulse 1.4s infinite; }
+  @keyframes lgaPulse { 50% { opacity: 0.35; } }
+  .lga-bar { height: 8px; border-radius: 4px; background: rgba(15,20,34,0.8); margin-top: 8px; overflow: hidden; }
+  .lga-bar-fill { display: block; height: 100%; background: linear-gradient(90deg, var(--accent-orange), #FFC857); transition: width 0.6s ease; }
+  .lga-pct { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--accent-orange); }
+
+  .lga-games { display: flex; flex-direction: column; gap: 10px; }
+  .lga-card {
+    background: rgba(15,20,34,0.55); border: 1px solid var(--border-subtle);
+    border-radius: 12px; overflow: hidden;
+  }
+  .lga-card.open { border-color: rgba(255,152,0,0.5); }
+  .lga-card-err { border-color: rgba(239,68,68,0.4); padding-bottom: 10px; }
+  .lga-card-err .lga-rec-sub { padding: 0 16px; }
+  .lga-card-head { display: flex; align-items: center; gap: 14px; padding: 12px 16px; cursor: pointer; }
+  .lga-card-head:hover { background: var(--surface-raised); }
+  .lga-card-wpn { width: 84px; height: 40px; object-fit: contain; flex-shrink: 0; }
+  .lga-card-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .lga-card-title {
+    font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 15px;
+    text-transform: uppercase; color: var(--ink-100);
+  }
+  .lga-card-mode { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+  .lga-card-meta { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-muted); }
+  .lga-badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+    padding: 4px 9px; border-radius: 6px; background: #1E293B; color: var(--text-secondary); flex-shrink: 0;
+  }
+  .lga-badge-v { background: rgba(74,222,128,0.14); color: #4ADE80; }
+  .lga-badge-d { background: rgba(239,68,68,0.14); color: #F87171; }
+  .lga-x { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; padding: 4px 6px; }
+  .lga-x:hover { color: #F87171; }
+
+  .lga-detail { border-top: 1px solid var(--border-subtle); }
+  .lga-tabs { display: flex; flex-wrap: wrap; gap: 2px; padding: 10px 14px 0; }
+  .lga-tab {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.05em;
+    background: none; border: none; border-bottom: 2px solid transparent;
+    color: var(--text-muted); padding: 8px 10px; cursor: pointer;
+  }
+  .lga-tab.active { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
+  .lga-body { padding: 14px 18px 18px; }
+  .lga-meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .lga-meta-grid > div { display: flex; flex-direction: column; gap: 2px; }
+  .lga-meta-grid span { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-muted); letter-spacing: 0.06em; }
+  .lga-meta-grid b { font-family: 'Chakra Petch', sans-serif; font-size: 14px; color: var(--ink-100); }
+  .lga-att-list { display: flex; flex-direction: column; gap: 6px; }
+  .lga-att-row { display: flex; align-items: center; gap: 10px; background: rgba(31,40,63,0.4); border-radius: 8px; padding: 7px 10px; }
+  .lga-att-slot { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-muted); width: 90px; flex-shrink: 0; }
+  .lga-att-ic img, .lga-att-ic svg { width: 42px; height: 22px; object-fit: contain; }
+  .lga-att-name { font-size: 13px; color: var(--text-primary); }
+  .lga-chips, .lga-l-row > div { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lga-chip {
+    display: inline-flex; align-items: center; gap: 7px; background: rgba(31,40,63,0.5);
+    border: 1px solid var(--border-subtle); border-radius: 8px; padding: 6px 11px;
+    font-size: 12.5px; color: var(--text-primary);
+  }
+  .lga-chip img { width: 26px; height: 26px; object-fit: contain; }
+  .lga-l-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .lga-l-row > span { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-muted); width: 110px; flex-shrink: 0; padding-top: 8px; }
+  .lga-eval p { font-size: 13.5px; line-height: 1.65; color: var(--text-primary); margin: 0 0 10px; }
+  .lga-sub-h { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--accent-orange); margin: 14px 0 6px; }
+  .lga-hl { margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-primary); }
+  .lga-hl li { margin-bottom: 4px; }
+  .lga-tl-row { display: flex; gap: 10px; font-size: 12.5px; color: var(--text-primary); padding: 3px 0; }
+  .lga-tl-row span { font-family: 'JetBrains Mono', monospace; color: var(--accent-orange); width: 44px; flex-shrink: 0; }
+  .lga-mk { display: flex; gap: 12px; align-items: flex-start; background: rgba(31,40,63,0.4); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 11px 13px; margin-bottom: 8px; cursor: pointer; }
+  .lga-mk.added { opacity: 0.55; }
+  .lga-mk input { margin-top: 3px; accent-color: var(--accent-orange); }
+  .lga-mk-title { font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--ink-100); }
+  .lga-mk-why { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-top: 3px; }
+  .lga-sev { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #F87171; background: rgba(239,68,68,0.12); border-radius: 4px; padding: 2px 6px; margin-left: 6px; }
+  .lga-sev-ok { color: #4ADE80; background: rgba(74,222,128,0.12); }
