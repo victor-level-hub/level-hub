@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.14.0">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.14.1">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1619,7 +1619,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.14.0 · <span data-i18n="briefing.changelog.date">20 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.14.1 · <span data-i18n="briefing.changelog.date">21 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4873,6 +4873,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.14.1</span>
+                <span class="vh-date">21 Jul 2026</span>
+                <span class="vh-kind">fix</span>
+              </div>
+              <p class="vh-desc"><strong>Fix: lista do Arsenal (Command Center) esmagava builds no topo.</strong> Com 12+ builds a sidebar estoura a altura e vira scroll — mas os itens que você já tinha <em>hoverado</em> apareciam esmagados/sobrepostos no topo (Sturmwolf/ODISSEU/ENCELADUS), enquanto o resto ficava normal. Causa: o efeito de hover dos botões (origin-button) adiciona <code>.ob-host</code> = <code>overflow:hidden</code>, o que zera o min-height automático do item flex — na coluna com falta de espaço, o <code>flex-shrink:1</code> padrão esmagava <em>só</em> os botões decorados. Fix: <code>.mw-cc-item { flex-shrink: 0 }</code> — a lista rola, nada encolhe.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8835,7 +8844,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.14.0</strong><span class="ver-tag">Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.14.1</strong><span class="ver-tag">Fix da lista do Arsenal (Command Center): itens já hoverados eram esmagados/sobrepostos no topo quando a lista estourava com 12+ builds (.ob-host = overflow:hidden zerava o min-height do flex; agora .mw-cc-item tem flex-shrink:0 — a lista rola, nada encolhe). Cache-bust level.css?v=3.14.1. Base v3.14.0: Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
