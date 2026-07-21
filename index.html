@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.14.1">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.15.0">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1338,6 +1338,13 @@
       <!-- v2.62: Histórico de progressão (movido das Configurações) -->
       <!-- v3.4.2: o Histórico de progressão desceu pra baixo do EXPLORAR (1/3 da largura) -->
 
+      <!-- ═══ v3.15.0 · ANÁLISE DE JOGO AO VIVO (gravador + últimos jogos) ═══ -->
+      <div class="home-explore-title lga-title">ANÁLISE DE JOGO AO VIVO</div>
+      <div class="lga-wrap" id="lga-wrap">
+        <div class="lga-recorder" id="lga-recorder"><div class="lvl-empty-mono" style="padding:14px">// carregando…</div></div>
+        <div class="lga-games" id="lga-games"></div>
+      </div>
+
       <div class="home-explore-title" data-i18n="home.explore" data-reveal="fade-up">EXPLORAR</div>
       <div class="home-explore" data-reveal-stagger data-stagger="70">
         <button data-no-obfill class="home-card hc-orange" type="button" data-home-goto="constructor">
@@ -1619,7 +1626,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.14.1 · <span data-i18n="briefing.changelog.date">21 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.15.0 · <span data-i18n="briefing.changelog.date">21 Jul 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4873,6 +4880,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.15.0</span>
+                <span class="vh-date">21 Jul 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Análise de Jogo ao Vivo — grava, analisa e avalia a partida com 1 clique.</strong> Nova seção no Início (antes do EXPLORAR): botão <strong>COMEÇAR A ANALISAR O JOGO</strong> abre o chiaki-ng e liga a gravação do Windows sozinho (assistente local via protocolo <code>level-rec://</code> — instalação única em <code>C:\level-hub\tools\level-rec\install.bat</code>); no fim, <strong>FINALIZAR ANÁLISE</strong> para a gravação, sobe o vídeo direto pro <strong>Gemini</strong> (o arquivo NÃO ocupa a nuvem do hub — fica só no PC) e o Le Vél analisa a jogabilidade quadro a quadro. O hub mostra <strong>cronômetro</strong> durante a gravação e depois <strong>cada etapa com porcentagem</strong> (upload → processamento → análise). Os <strong>3 últimos jogos</strong> ficam em cards com 5 abas: Partida (rever vídeo no PC, mapa, data, duração, arma com imagem), Arma & Attachments (casados com o build do teu arsenal, com ícones), Loadout (perks/lethal/tactical/streaks com imagens do catálogo), Avaliação (texto do Le Vél + destaques + linha do tempo) e <strong>Melhorias</strong> — com caixa de seleção pra mandar os erros direto pra <strong>Evolução</strong>. Servidor: Edge Function <code>rec-agent</code> + tabela <code>game_recordings</code> (RLS por dono).</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8844,7 +8860,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.14.1</strong><span class="ver-tag">Fix da lista do Arsenal (Command Center): itens já hoverados eram esmagados/sobrepostos no topo quando a lista estourava com 12+ builds (.ob-host = overflow:hidden zerava o min-height do flex; agora .mw-cc-item tem flex-shrink:0 — a lista rola, nada encolhe). Cache-bust level.css?v=3.14.1. Base v3.14.0: Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.15.0</strong><span class="ver-tag">Análise de Jogo ao Vivo: gravador 1-clique no Início (assistente local level-rec:// abre o chiaki-ng + Game Bar), cronômetro, progresso por etapa, análise de jogabilidade quadro a quadro via Gemini (vídeo fica só no PC), 3 últimos jogos em cards com 5 abas (partida/arma/loadout/avaliação/melhorias) e envio dos erros selecionados pra Evolução. Edge Function rec-agent + tabela game_recordings. Cache-bust level.css?v=3.15.0. Base v3.14.1: Fix da lista do Arsenal (Command Center): itens já hoverados eram esmagados/sobrepostos no topo quando a lista estourava com 12+ builds (.ob-host = overflow:hidden zerava o min-height do flex; agora .mw-cc-item tem flex-shrink:0 — a lista rola, nada encolhe). Cache-bust level.css?v=3.14.1. Base v3.14.0: Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -25631,6 +25647,11 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       try { window.addEventListener('level-auth-ready', function () { tries = 0; attempt(); }); } catch (e) {}
     })();
 
+    // v3.15.0: ponte pro módulo Análise de Jogo ao Vivo (script separado)
+    window.__LVL_BRIDGE = {
+      attIcon: function (n, s) { try { return getAttachmentIconHtml(n, s); } catch (e) { return ''; } },
+      userImg: function (id) { try { return getUserImage(id); } catch (e) { return null; } }
+    };
     function getUserImage(itemId) {
       if (!itemId) return null;
       // 1. Tenta cloud cache primeiro
@@ -37537,6 +37558,327 @@ ${cbt('share.t.footer')}`;
   function boot(){ setTimeout(render, 1700); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
   document.addEventListener('click', function(e){ var n = e.target.closest && e.target.closest('.nav-item[data-section="home"]'); if (n) setTimeout(render, 300); });
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// v3.15.0 · ANÁLISE DE JOGO AO VIVO — gravador 1-clique + análise Gemini
+// Fluxo: [COMEÇAR] → level-rec:start (assistente local abre o chiaki e
+// liga o Game Bar) → joga → [FINALIZAR] → level-rec:stop (assistente
+// para, sobe o vídeo direto pro Gemini e dispara a análise). O hub só
+// acompanha a linha game_recordings (progresso por etapa) e exibe tudo.
+// ═══════════════════════════════════════════════════════════════════
+(function liveGameAnalysis() {
+  const SB = 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+  const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxa2hxdGdtb2xtcmZnem96b2NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTEwODksImV4cCI6MjA5MzcyNzA4OX0.ets0bgps9n5F4orIAd96iY6bj9R5VgumtgNCm-ui-ck';
+  const SLOT_LABELS = ['ÓTICA', 'MUZZLE', 'BARREL', 'UNDERBARREL', 'MAGAZINE', 'REAR GRIP', 'STOCK', 'LASER', 'FIRE MODS'];
+  const SLOT_TYPES = ['Optic', 'Muzzle', 'Barrel', 'Underbarrel', 'Magazine', 'Rear Grip', 'Stock', 'Laser', 'Fire Mods'];
+
+  let rows = [], openId = null, openTab = 0, pending = null, catImgs = null, pollT = null, chronoT = null, addedMk = {};
+
+  const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const $ = id => document.getElementById(id);
+
+  async function token() {
+    try {
+      const c = await window.LEVEL_AUTH.getClient();
+      const s = await c.auth.getSession();
+      return s && s.data && s.data.session ? s.data.session.access_token : null;
+    } catch (e) { return null; }
+  }
+
+  async function fetchRows() {
+    const t = await token();
+    if (!t) return null;
+    try {
+      const r = await fetch(SB + '/rest/v1/game_recordings?select=*&order=created_at.desc&limit=8', {
+        headers: { apikey: ANON, Authorization: 'Bearer ' + t }
+      });
+      return r.ok ? await r.json() : null;
+    } catch (e) { return null; }
+  }
+
+  async function delRow(id) {
+    const t = await token();
+    if (!t) return;
+    await fetch(SB + '/rest/v1/game_recordings?id=eq.' + id, {
+      method: 'DELETE', headers: { apikey: ANON, Authorization: 'Bearer ' + t }
+    });
+  }
+
+  async function catImages() {
+    if (catImgs) return catImgs;
+    try {
+      const r = await fetch(SB + '/rest/v1/cat_default_images?select=item_id,data_url', { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } });
+      const list = r.ok ? await r.json() : [];
+      catImgs = list.map(x => ({ k: norm(x.item_id), url: x.data_url }));
+    } catch (e) { catImgs = []; }
+    return catImgs;
+  }
+
+  function itemChip(name, imgs) {
+    if (!name) return '';
+    const k = norm(name);
+    let url = null;
+    if (imgs && k.length > 3) {
+      const hit = imgs.find(x => x.k.indexOf(k) >= 0 || k.indexOf(x.k.replace(/^(perk|streak|lt|fu)_/, '')) >= 0);
+      if (hit) url = hit.url;
+    }
+    return '<span class="lga-chip">' + (url ? '<img src="' + url + '" alt="" loading="lazy">' : '') + esc(name) + '</span>';
+  }
+
+  function fmtDur(s) {
+    if (s == null) return '—';
+    const m = Math.floor(s / 60), ss = s % 60;
+    return m + ':' + String(ss).padStart(2, '0');
+  }
+  function fmtChrono(ms) {
+    const t = Math.max(0, Math.floor(ms / 1000));
+    return String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0');
+  }
+
+  async function matchBuild(row) {
+    try {
+      const weapons = (await LevelDB.weapons.list()) || [];
+      const builds = (await LevelDB.builds.list()) || [];
+      const wn = norm(row.weapon_name);
+      let w = wn ? weapons.find(x => norm(x.name) === wn) || weapons.find(x => wn && (norm(x.name).indexOf(wn) >= 0 || wn.indexOf(norm(x.name)) >= 0)) : null;
+      if (!w) return null;
+      const b = builds.filter(x => x.weaponBaseId === w.id).sort((a, c) => String(c.updatedAt || c.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || '')))[0];
+      return b ? { weapon: w, build: b } : { weapon: w, build: null };
+    } catch (e) { return null; }
+  }
+
+  // ── Gravador ──────────────────────────────────────────────────────
+  function renderRecorder() {
+    const el = $('lga-recorder');
+    if (!el) return;
+    const active = rows.find(r => r.status === 'recording' || r.status === 'uploading' || r.status === 'processing');
+    clearInterval(chronoT);
+
+    if (pending === 'start' && !(active && active.status === 'recording')) {
+      el.innerHTML = '<div class="lga-rec-row"><span class="lga-dot lga-dot-wait"></span><div><div class="lga-rec-title">Abrindo o chiaki-ng e iniciando a gravação…</div><div class="lga-rec-sub">Se nada acontecer em ~15s, confere se o assistente foi instalado (C:\\level-hub\\tools\\level-rec\\install.bat).</div></div></div>';
+      return;
+    }
+    if (!active) {
+      el.innerHTML =
+        '<div class="lga-rec-row">' +
+          '<button type="button" class="lga-btn lga-btn-start" id="lga-start">▶&nbsp; COMEÇAR A ANALISAR O JOGO</button>' +
+          '<div class="lga-rec-sub">Abre o chiaki-ng, liga a gravação (Game Bar) e registra a sessão. No fim da partida, clica em FINALIZAR — o resto (upload + análise do Le Vél via Gemini) é automático.</div>' +
+        '</div>';
+      const b = $('lga-start');
+      if (b) b.onclick = () => { pending = 'start'; renderRecorder(); location.href = 'level-rec:start'; setTimeout(poll, 4000); };
+      return;
+    }
+    if (active.status === 'recording') {
+      pending = null;
+      const t0 = new Date(active.started_at).getTime();
+      el.innerHTML =
+        '<div class="lga-rec-row">' +
+          '<span class="lga-dot lga-dot-rec"></span>' +
+          '<div class="lga-rec-main"><div class="lga-rec-title">GRAVANDO A PARTIDA</div><div class="lga-chrono" id="lga-chrono">00:00</div></div>' +
+          '<button type="button" class="lga-btn lga-btn-stop" id="lga-stop">■&nbsp; FINALIZAR ANÁLISE</button>' +
+        '</div>';
+      const tick = () => { const c = $('lga-chrono'); if (c) c.textContent = fmtChrono(Date.now() - t0); };
+      tick(); chronoT = setInterval(tick, 1000);
+      const b = $('lga-stop');
+      if (b) b.onclick = () => { pending = 'stop'; b.disabled = true; b.textContent = 'Finalizando…'; location.href = 'level-rec:stop'; setTimeout(poll, 3000); };
+      return;
+    }
+    // uploading | processing
+    pending = null;
+    const pct = Math.max(0, Math.min(100, active.progress || 0));
+    el.innerHTML =
+      '<div class="lga-rec-row">' +
+        '<span class="lga-dot lga-dot-proc"></span>' +
+        '<div class="lga-rec-main">' +
+          '<div class="lga-rec-title">' + esc(active.step || 'Processando…') + '</div>' +
+          '<div class="lga-bar"><span class="lga-bar-fill" style="width:' + pct + '%"></span></div>' +
+        '</div>' +
+        '<span class="lga-pct">' + pct + '%</span>' +
+      '</div>';
+  }
+
+  // ── Cards dos últimos jogos ───────────────────────────────────────
+  async function renderGames() {
+    const el = $('lga-games');
+    if (!el) return;
+    const done = rows.filter(r => r.status === 'done' || r.status === 'error').slice(0, 3);
+    if (!done.length) {
+      el.innerHTML = '<div class="lvl-empty-mono" style="padding:10px 2px">// nenhum jogo analisado ainda — grava a primeira partida!</div>';
+      return;
+    }
+    const imgs = await catImages();
+    const parts = [];
+    for (const r of done) {
+      if (r.status === 'error') {
+        parts.push('<div class="lga-card lga-card-err"><div class="lga-card-head"><span class="lga-badge lga-badge-d">ERRO</span><span class="lga-card-title">Análise falhou</span><button type="button" class="lga-x" data-lga-del="' + r.id + '">✕</button></div><div class="lga-rec-sub">' + esc(r.error || r.step || '') + '</div></div>');
+        continue;
+      }
+      const d = new Date(r.started_at);
+      const dt = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) + ' · ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const mb = await matchBuild(r);
+      const wimg = mb && mb.weapon && window.__LVL_BRIDGE ? window.__LVL_BRIDGE.userImg(mb.weapon.id) : null;
+      const resBadge = r.result === 'vitoria' ? '<span class="lga-badge lga-badge-v">VITÓRIA</span>'
+        : r.result === 'derrota' ? '<span class="lga-badge lga-badge-d">DERROTA</span>'
+        : '<span class="lga-badge">' + esc(r.result || '—') + '</span>';
+      const isOpen = openId === r.id;
+      parts.push(
+        '<div class="lga-card' + (isOpen ? ' open' : '') + '">' +
+          '<div class="lga-card-head" data-lga-open="' + r.id + '">' +
+            (wimg ? '<img class="lga-card-wpn" src="' + wimg + '" alt="">' : '') +
+            '<div class="lga-card-mid">' +
+              '<span class="lga-card-title">' + esc(r.map || 'Mapa ?') + ' <span class="lga-card-mode">' + esc(r.mode || '') + '</span></span>' +
+              '<span class="lga-card-meta">' + dt + ' · ' + fmtDur(r.duration_s) + ' · ' + esc(r.blueprint_name || r.weapon_name || '') +
+                (r.elims != null ? ' · ' + r.elims + '/' + r.deaths + ' (' + (r.ratio != null ? r.ratio : '—') + ')' : '') + '</span>' +
+            '</div>' + resBadge +
+            '<button type="button" class="lga-x" data-lga-del="' + r.id + '" title="Apagar análise">✕</button>' +
+          '</div>' +
+          (isOpen ? renderDetail(r, mb, imgs) : '') +
+        '</div>');
+    }
+    el.innerHTML = parts.join('');
+  }
+
+  function renderDetail(r, mb, imgs) {
+    const a = r.analysis || {};
+    const tabs = ['PARTIDA', 'ARMA & ATTACHMENTS', 'LOADOUT', 'AVALIAÇÃO', 'MELHORIAS'];
+    let body = '';
+
+    if (openTab === 0) {
+      const sc = (r.score_us != null) ? (r.score_us + ' × ' + r.score_them) : '—';
+      body =
+        '<div class="lga-meta-grid">' +
+          '<div><span>MAPA</span><b>' + esc(r.map || '—') + '</b></div>' +
+          '<div><span>MODO</span><b>' + esc(r.mode || '—') + '</b></div>' +
+          '<div><span>DATA</span><b>' + new Date(r.started_at).toLocaleDateString('pt-BR') + '</b></div>' +
+          '<div><span>HORA</span><b>' + new Date(r.started_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '</b></div>' +
+          '<div><span>DURAÇÃO</span><b>' + fmtDur(r.duration_s) + '</b></div>' +
+          '<div><span>PLACAR</span><b>' + sc + '</b></div>' +
+          '<div><span>ELIM / MORTES</span><b>' + (r.elims != null ? r.elims + ' / ' + r.deaths : '—') + '</b></div>' +
+          '<div><span>ARMA PRINCIPAL</span><b>' + esc(r.weapon_name || r.blueprint_name || '—') + '</b></div>' +
+        '</div>' +
+        (r.video_path ? '<button type="button" class="lga-btn lga-btn-play" data-lga-play="' + esc(r.video_path) + '">▶&nbsp; REVER O VÍDEO (abre no PC)</button>' : '');
+    } else if (openTab === 1) {
+      if (mb && mb.build && Array.isArray(mb.build.attachments)) {
+        const rowsHtml = mb.build.attachments.map((n, i) => {
+          if (!n) return '';
+          const ic = window.__LVL_BRIDGE ? window.__LVL_BRIDGE.attIcon(n, SLOT_TYPES[i]) : '';
+          return '<div class="lga-att-row"><span class="lga-att-slot">' + SLOT_LABELS[i] + '</span><span class="lga-att-ic">' + ic + '</span><span class="lga-att-name">' + esc(n) + '</span></div>';
+        }).join('');
+        body = '<div class="lga-rec-sub" style="margin-bottom:8px">Build do teu arsenal: <b>' + esc(mb.build.name || mb.build.buildName || '') + '</b> (' + esc(mb.weapon.name) + ')</div><div class="lga-att-list">' + rowsHtml + '</div>';
+      } else if (a.loadout && a.loadout.attachments_seen && a.loadout.attachments_seen.length) {
+        body = '<div class="lga-chips">' + a.loadout.attachments_seen.map(x => itemChip(x, imgs)).join('') + '</div>';
+      } else {
+        body = '<div class="lvl-empty-mono">// não deu pra casar a arma com um build do teu arsenal</div>';
+      }
+    } else if (openTab === 2) {
+      const L = a.loadout || {};
+      const sec = [];
+      if (L.secondary) sec.push('<div class="lga-l-row"><span>SECUNDÁRIA</span><div>' + itemChip(L.secondary, imgs) + '</div></div>');
+      if (L.perks && L.perks.length) sec.push('<div class="lga-l-row"><span>PERKS</span><div>' + L.perks.map(x => itemChip(x, imgs)).join('') + '</div></div>');
+      if (L.lethal) sec.push('<div class="lga-l-row"><span>LETHAL</span><div>' + itemChip(L.lethal, imgs) + '</div></div>');
+      if (L.tactical) sec.push('<div class="lga-l-row"><span>TACTICAL</span><div>' + itemChip(L.tactical, imgs) + '</div></div>');
+      if (L.field_upgrade) sec.push('<div class="lga-l-row"><span>FIELD UPGRADE</span><div>' + itemChip(L.field_upgrade, imgs) + '</div></div>');
+      if (L.scorestreaks && L.scorestreaks.length) sec.push('<div class="lga-l-row"><span>SCORESTREAKS</span><div>' + L.scorestreaks.map(x => itemChip(x, imgs)).join('') + '</div></div>');
+      body = sec.length ? sec.join('') : '<div class="lvl-empty-mono">// o vídeo não mostrou o resto do loadout (só aparece no menu de classes)</div>';
+    } else if (openTab === 3) {
+      const ev = String(a.evaluation || '').split(/\n\n+/).map(p => '<p>' + esc(p) + '</p>').join('');
+      const hl = (a.highlights || []).map(h => '<li>' + esc(h) + '</li>').join('');
+      const tl = (a.timeline || []).map(t => '<div class="lga-tl-row"><span>' + esc(t.t) + '</span>' + esc(t.event) + '</div>').join('');
+      body = '<div class="lga-eval">' + ev + '</div>' +
+        (hl ? '<div class="lga-sub-h">DESTAQUES</div><ul class="lga-hl">' + hl + '</ul>' : '') +
+        (tl ? '<div class="lga-sub-h">LINHA DO TEMPO</div><div class="lga-tl">' + tl + '</div>' : '');
+    } else {
+      const mks = a.mistakes || [];
+      if (!mks.length) {
+        body = '<div class="lvl-empty-mono">// nenhum erro relevante identificado — GG!</div>';
+      } else {
+        body = mks.map((m, i) => {
+          const added = addedMk[r.id + ':' + i];
+          return '<label class="lga-mk' + (added ? ' added' : '') + '">' +
+            '<input type="checkbox" data-lga-mk="' + i + '"' + (added ? ' disabled' : (m.severity >= 3 ? ' checked' : '')) + '>' +
+            '<div><div class="lga-mk-title">' + esc(m.title) + ' <span class="lga-sev">SEV ' + esc(m.severity) + '</span>' + (added ? ' <span class="lga-sev lga-sev-ok">NA EVOLUÇÃO ✓</span>' : '') + '</div>' +
+            '<div class="lga-mk-why">' + esc(m.why) + '</div></div></label>';
+        }).join('') +
+        '<button type="button" class="lga-btn lga-btn-start" data-lga-addmk="' + r.id + '" style="margin-top:10px">＋&nbsp; ADICIONAR SELECIONADOS À EVOLUÇÃO</button>';
+      }
+    }
+
+    return '<div class="lga-detail">' +
+      '<div class="lga-tabs">' + tabs.map((t, i) => '<button type="button" class="lga-tab' + (i === openTab ? ' active' : '') + '" data-lga-tab="' + i + '">' + t + '</button>').join('') + '</div>' +
+      '<div class="lga-body">' + body + '</div></div>';
+  }
+
+  // ── Ações (delegação) ─────────────────────────────────────────────
+  document.addEventListener('click', async (e) => {
+    const open = e.target.closest('[data-lga-open]');
+    if (open && !e.target.closest('.lga-x')) {
+      const id = open.dataset.lgaOpen;
+      openTab = 0; openId = (openId === id) ? null : id;
+      renderGames();
+      return;
+    }
+    const tab = e.target.closest('[data-lga-tab]');
+    if (tab) { openTab = parseInt(tab.dataset.lgaTab, 10) || 0; renderGames(); return; }
+    const del = e.target.closest('[data-lga-del]');
+    if (del) {
+      if (confirm('Apagar esta análise? (o vídeo continua no PC)')) {
+        await delRow(del.dataset.lgaDel);
+        rows = rows.filter(r => r.id !== del.dataset.lgaDel);
+        renderGames(); renderRecorder();
+      }
+      return;
+    }
+    const play = e.target.closest('[data-lga-play]');
+    if (play) { location.href = 'level-rec:play?file=' + encodeURIComponent(play.dataset.lgaPlay); return; }
+    const addmk = e.target.closest('[data-lga-addmk]');
+    if (addmk) {
+      const r = rows.find(x => x.id === addmk.dataset.lgaAddmk);
+      if (!r || !r.analysis) return;
+      const card = addmk.closest('.lga-body');
+      const checks = card ? card.querySelectorAll('input[data-lga-mk]:checked:not(:disabled)') : [];
+      let n = 0;
+      for (const c of checks) {
+        const m = (r.analysis.mistakes || [])[parseInt(c.dataset.lgaMk, 10)];
+        if (!m) continue;
+        await LevelDB.struggles.createCustom({
+          userInput: 'Análise ao vivo — ' + (r.map || '?') + ' · ' + new Date(r.started_at).toLocaleDateString('pt-BR'),
+          title: m.title, icon: 'target', why: m.why, tips: m.tips || []
+        });
+        addedMk[r.id + ':' + c.dataset.lgaMk] = true;
+        n++;
+      }
+      if (n) {
+        try { await window.CloudSync.pushAll(); } catch (err) {}
+        if (typeof showToast === 'function') showToast(n + ' ponto(s) adicionados à Evolução', 'success');
+      }
+      renderGames();
+      return;
+    }
+  });
+
+  // ── Poll ──────────────────────────────────────────────────────────
+  async function poll() {
+    const got = await fetchRows();
+    if (got) { rows = got; renderRecorder(); renderGames(); }
+    else if (!rows.length) {
+      const el = $('lga-recorder');
+      if (el) el.innerHTML = '<div class="lga-rec-sub" style="padding:10px">Entra na tua conta pra usar a Análise de Jogo ao Vivo.</div>';
+    }
+  }
+  function schedule() {
+    clearInterval(pollT);
+    pollT = setInterval(() => {
+      if (document.hidden) return;
+      const active = rows.find(r => ['recording', 'uploading', 'processing'].includes(r.status));
+      if (active || pending || document.querySelector('#section-home.active')) poll();
+    }, 4000);
+  }
+  function boot() { setTimeout(() => { poll(); schedule(); }, 1800); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 </body>
