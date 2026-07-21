@@ -7596,6 +7596,11 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    /* v3.14.1: NUNCA encolher na lista (coluna flex). O efeito de hover
+       (origin-button) adiciona .ob-host = overflow:hidden ao botão, o que
+       zera o min-height automático do flex — com 12+ builds a lista estoura
+       e SÓ os botões já "hoverados" eram esmagados/sobrepostos no topo. */
+    flex-shrink: 0;
     background: rgba(15,20,34,0.55);
     border: 1px solid var(--border-subtle);
     border-radius: 10px;
