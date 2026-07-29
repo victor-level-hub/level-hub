@@ -379,7 +379,10 @@ async function callFn(payload){
     body: JSON.stringify(payload) });
   const j = await r.json().catch(()=>({}));
   if(!r.ok || j.ok === false){
-    if(r.status === 546) throw new Error("a função excedeu o tempo limite (546) — tente novamente; reuniões longas são processadas em partes de 10 min");
+    if(r.status === 546){
+      const e = new Error("a função excedeu o tempo limite (546)");
+      e.timeout = true; throw e;
+    }
     throw new Error(j.error || ("função "+r.status));
   }
   return j;
@@ -518,12 +521,15 @@ $("#clearBtn").onclick = () => {
 };
 
 /* ================= ffmpeg.wasm (extração de áudio) ================= */
-let ffmpeg=null;
+let ffmpeg=null, ffReporting=false;
 async function getFFmpeg(){
   if(ffmpeg) return ffmpeg;
   stage("Carregando motor de áudio (~30 MB, só na 1ª vez)…","");
   const ff = new FFmpegWASM.FFmpeg();
-  ff.on("progress", ({progress}) => { if(progress>0&&progress<=1) setProgress(5+progress*20,"Extraindo áudio…"); });
+  // Só reporta a extração inicial: os cortes de trecho são rápidos e puxariam
+  // a barra de volta para os 5–25%.
+  ff.on("progress", ({progress}) => {
+    if(ffReporting && progress>0 && progress<=1) setProgress(5+progress*20,"Extraindo áudio…"); });
   // Worker precisa ser same-origin (vendor/); o core vem do unpkg em ESM
   // (o wasm de 32 MB estoura o limite de arquivo do deploy do Netlify).
   const vendor = new URL("vendor/", location.href).href;
@@ -533,30 +539,36 @@ async function getFFmpeg(){
                   classWorkerURL: vendor+"814.ffmpeg.js" });
   ffmpeg=ff; return ff;
 }
-// Reuniões longas são divididas em partes de 10 min — cada chamada ao Gemini
-// cabe folgada no tempo-limite da edge function (o "erro 546" de reuniões de 1h).
+// Reuniões longas são divididas em partes de 10 min. O mp3 completo fica no FS do
+// ffmpeg durante todo o trabalho: se uma parte estourar o tempo-limite da edge
+// function (o "erro 546"), ela é cortada ao meio e reenviada, sem perder o resto.
 const PART_SEC = 600;
-async function extractAudioParts(file){
+const MIN_PART_SEC = 120;   // abaixo disto não vale a pena continuar a dividir
+async function extractAudio(file){
   const ff = await getFFmpeg();
   setProgress(5,"Extraindo áudio…"); stage("Extraindo áudio do vídeo (no teu navegador)…","");
   await ff.writeFile("in", await FFmpegUtil.fetchFile(file));
-  await ff.exec(["-i","in","-vn","-ac","1","-ar","16000","-b:a","32k","out.mp3"]);
-  const parts = [];
-  if((durationSec||0) > PART_SEC*1.2){
-    const n = Math.ceil(durationSec/PART_SEC);
-    for(let i=0;i<n;i++){
-      stage(`Dividindo áudio em partes… ${i+1}/${n}`,"");
-      await ff.exec(["-i","out.mp3","-ss",String(i*PART_SEC),"-t",String(PART_SEC),"-c","copy",`p${i}.mp3`]);
-      const d = await ff.readFile(`p${i}.mp3`);
-      parts.push(new Blob([d.buffer],{type:"audio/mpeg"}));
-      try{ await ff.deleteFile(`p${i}.mp3`); }catch(e){}
-    }
-  } else {
+  ffReporting = true;
+  try{ await ff.exec(["-i","in","-vn","-ac","1","-ar","16000","-b:a","32k","out.mp3"]); }
+  finally{ ffReporting = false; }
+  try{ await ff.deleteFile("in"); }catch(e){}
+  // Se o <video> não leu os metadados (mkv/codec raro), estima a duração pelo
+  // tamanho do mp3 (CBR 32 kbps) — o split nunca pode deixar de acontecer.
+  if(!(durationSec > 0)){
     const d = await ff.readFile("out.mp3");
-    parts.push(new Blob([d.buffer],{type:"audio/mpeg"}));
+    durationSec = d.byteLength*8/32000;
   }
-  try{ await ff.deleteFile("in"); await ff.deleteFile("out.mp3"); }catch(e){}
-  return parts;
+}
+async function cutPart(off, len){
+  const ff = await getFFmpeg();
+  if(len == null){
+    const d = await ff.readFile("out.mp3");
+    return new Blob([d.buffer],{type:"audio/mpeg"});
+  }
+  await ff.exec(["-i","out.mp3","-ss",String(off),"-t",String(len),"-c","copy","cut.mp3"]);
+  const d = await ff.readFile("cut.mp3");
+  try{ await ff.deleteFile("cut.mp3"); }catch(e){}
+  return new Blob([d.buffer],{type:"audio/mpeg"});
 }
 
 // sobe UMA parte via function (chunks múltiplos de 8 MiB) e devolve o file do Google
@@ -605,28 +617,58 @@ function geminiJsonToSegs(data, totalDur){
   return segs;
 }
 async function transcribeViaGemini(file){
-  const parts = await extractAudioParts(file);
+  await extractAudio(file);
   const model = $("#model").value, language = $("#language").value;
-  const allSegs = []; let lang = null, totalCost = 0;
-  for(let i=0; i<parts.length; i++){
-    const off = i*PART_SEC;
-    const label = parts.length>1 ? ` — parte ${i+1}/${parts.length}` : "";
-    const p0 = 27 + (i/parts.length)*51, p1 = 27 + ((i+1)/parts.length)*51;   // 27% → 78%
-    setProgress(p0, "Enviando áudio…"); stage(`Enviando ${fmtBytes(parts[i].size)}${label}…`,"");
-    const f = await uploadOnePart(parts[i], file.name+label, p0, p1);
-    setProgress(p0+(p1-p0)*0.45, "Gemini a transcrever…");
-    stage(`Gemini (${model}) a transcrever${label}…`, parts.length>1 ? `parte ${i+1} de ${parts.length}` : "");
-    const partDur = Math.min(PART_SEC, Math.max(1,(durationSec||PART_SEC)-off));
-    const tr = await callFn({ action:"transcribe", file_uri:f.uri, file_name:f.name,
-      mime:"audio/mpeg", language, duration_sec:partDur, model });
-    const segs = geminiJsonToSegs(tr.data, partDur);
-    for(const s of segs){ s.start += off; s.end += off; s.hms = hms(s.start); }
-    allSegs.push(...segs);
-    lang = lang || (tr.data.language_detected||"?").slice(0,2).toLowerCase();
-    totalCost += (tr.usage && tr.usage.cost_estimate_usd) || 0;
-    setProgress(p1, "Gemini a transcrever…");
+  const totalDur = Math.max(1, durationSec || PART_SEC);
+  const split = totalDur > PART_SEC*1.2;
+
+  // Fila de trechos a transcrever; cresce se algum estourar o tempo-limite.
+  const queue = [];
+  if(!split) queue.push({ off:0, len:null, dur: totalDur, tries:0 });
+  else for(let off=0; off<totalDur; off+=PART_SEC)
+    queue.push({ off, len: Math.min(PART_SEC, totalDur-off), dur: Math.min(PART_SEC, totalDur-off), tries:0 });
+
+  const allSegs = []; let lang = null, totalCost = 0, doneDur = 0;
+  while(queue.length){
+    const job = queue.shift();
+    const label = split ? ` — ${hms(job.off)}–${hms(job.off+job.dur)}` : "";
+    const p0 = 27 + (doneDur/totalDur)*51;                 // 27% → 78%
+    const p1 = 27 + ((doneDur+job.dur)/totalDur)*51;
+    const eta = split ? `faltam ${fmtDur(totalDur-doneDur)} de áudio` : "";
+    try{
+      const blob = await cutPart(job.off, job.len);
+      setProgress(p0, "Enviando áudio…"); stage(`Enviando ${fmtBytes(blob.size)}${label}…`, eta);
+      const f = await uploadOnePart(blob, file.name+label, p0, p1);
+      setProgress(p0+(p1-p0)*0.45, "Gemini a transcrever…");
+      stage(`Gemini (${model}) a transcrever${label}…`, eta);
+      const tr = await callFn({ action:"transcribe", file_uri:f.uri, file_name:f.name,
+        mime:"audio/mpeg", language, duration_sec:job.dur, model });
+      const segs = geminiJsonToSegs(tr.data, job.dur);
+      for(const s of segs){ s.start += job.off; s.end += job.off; s.hms = hms(s.start); }
+      allSegs.push(...segs);
+      lang = lang || (tr.data.language_detected||"?").slice(0,2).toLowerCase();
+      totalCost += (tr.usage && tr.usage.cost_estimate_usd) || 0;
+      doneDur += job.dur;
+      setProgress(p1, "Gemini a transcrever…");
+    }catch(e){
+      if(!e.timeout) throw e;
+      if(job.dur >= MIN_PART_SEC*2){
+        // Trecho denso demais para os 150s da função: corta ao meio e repete.
+        const half = Math.round(job.dur/2);
+        stage(`Trecho pesado — dividindo em 2 e repetindo${label}…`, eta);
+        queue.unshift({ off:job.off, len:half, dur:half, tries:0 },
+                      { off:job.off+half, len:job.dur-half, dur:job.dur-half, tries:0 });
+      } else if(job.tries < 2){
+        stage(`Tempo-limite — repetindo${label}…`, eta);
+        queue.unshift({ ...job, tries: job.tries+1 });
+      } else {
+        throw new Error(`o trecho ${hms(job.off)}–${hms(job.off+job.dur)} excedeu o tempo limite mesmo dividido — tente novamente`);
+      }
+    }
   }
+  try{ const ff = await getFFmpeg(); await ff.deleteFile("out.mp3"); }catch(e){}
   if(!allSegs.length) throw new Error("sem segmentos na resposta");
+  allSegs.sort((a,b) => a.start - b.start);
   setProgress(78,"Processando resultado…"); stage("Montando transcrição…","");
   return { segs: allSegs, lang: lang||"?", usage: { cost_estimate_usd: Math.round(totalCost*10000)/10000 } };
 }
