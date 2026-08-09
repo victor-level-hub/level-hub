@@ -466,10 +466,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '29 Jun 2026',
+    'briefing.changelog.date':  '9 Ago 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Eventos de meio de temporada no Painel do Dia',
-    'briefing.changelog.summary':  'O Painel do Dia agora mostra os eventos ativos da <strong>Temporada 4 Recarregada</strong> — Passe Nick Cage, Summer of Action, o novo mapa Zombies Kowakujō, os Desafios Semanais e a Operação Mata-Rei — cada um com imagem, recompensa e contagem. Tudo verificado nas fontes oficiais.',
+    'briefing.changelog.headline': 'Botão ATRIBUTOS no Arsenal — glossário de atributos de arma',
+    'briefing.changelog.summary':  'Novo botão <strong>ATRIBUTOS</strong> no Arsenal. Abre o glossário dos <strong>25 atributos de arma</strong> do BO7 com tradução, o que cada um melhora, e prioridade que muda entre <strong>RUSHER CQB</strong> e <strong>ANCORAGEM</strong>. Inclui a regra de leitura do Gunsmith — quais números você quer baixos, quais quer altos, e quais rótulos do jogo enganam.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2185,10 +2185,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Jun 29, 2026',
+    'briefing.changelog.date':  'Aug 9, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Mid-season events in the Daily Panel',
-    'briefing.changelog.summary':  'The Daily Panel now shows <strong>Season 4 Reloaded</strong>’s active events — the Nick Cage Pass, Summer of Action, the new Kowakujō Zombies map, the Weekly Challenges and Operation King Killer — each with art, reward and a countdown. All verified against official sources.',
+    'briefing.changelog.headline': 'New ATTRIBUTES button in the Arsenal — weapon attribute glossary',
+    'briefing.changelog.summary':  'New <strong>ATTRIBUTES</strong> button in the Arsenal. Opens a glossary of all <strong>25 BO7 weapon attributes</strong> with plain-language descriptions and priority tags that switch between <strong>RUSHER CQB</strong> and <strong>ANCHOR</strong> profiles. Includes the Gunsmith reading rules — which numbers you want low, which you want high, and which in-game labels mislead.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)

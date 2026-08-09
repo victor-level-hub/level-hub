@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.15.0">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.16.0">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1626,12 +1626,12 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.15.0 · <span data-i18n="briefing.changelog.date">21 Jul 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.16.0 · <span data-i18n="briefing.changelog.date">9 Ago 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
-          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Seletor de arma novo + ícones e fundos corrigidos</div>
-          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Escolher arma agora é visual nos dois fluxos (<strong>Nova Arma</strong> e <strong>Montagem Inteligente</strong>): grade com as fotos, <strong>busca</strong> e filtros de classe com <strong>pílula deslizante</strong>. Os <strong>ícones dos attachments</strong> voltaram (canos com polegadas, óticas trocadas e o <strong>FANG HoverPoint ELO</strong> com ícone oficial) e a <strong>marca d'água</strong> saiu de trás das fotos transparentes. E os <strong>cards do catálogo</strong> (Configurações · Mapas) não estouram mais os botões pra fora do card. <strong>E o principal: as builds não somem mais</strong> — agora sincronizam com a nuvem (backup + restore), como as armas e loadouts sempre fizeram.</div>
+          <div class="briefing-changelog-headline" data-i18n="briefing.changelog.headline">Botão ATRIBUTOS no Arsenal — glossário de atributos de arma</div>
+          <div class="briefing-changelog-summary" data-i18n-html="briefing.changelog.summary">Novo botão <strong>ATRIBUTOS</strong> no Arsenal. Abre o glossário dos <strong>25 atributos de arma</strong> do BO7 com tradução, o que cada um melhora, e prioridade que muda entre <strong>RUSHER CQB</strong> e <strong>ANCORAGEM</strong>. Inclui a regra de leitura do Gunsmith — quais números você quer baixos, quais quer altos, e quais rótulos do jogo enganam.</div>
           <button class="changelog-history-link" data-open-modal="modal-version-history" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
             <span data-i18n="briefing.changelog.historyLink">Histórico de Versões</span>
@@ -1655,6 +1655,8 @@
           <span data-i18n="mw.stats.total">Total builds:</span> <strong id="mw-total">0</strong>
           <span data-i18n="mw.stats.perBase">· Por arma base:</span> <strong id="mw-bases">0</strong>
         </div>
+        <!-- v3.16.0: glossário de atributos de arma (sem data-i18n nesta entrega — dívida registrada) -->
+        <button class="arsenal-filter" type="button" id="btn-atributos" data-open-modal="modal-atributos" aria-haspopup="dialog" style="margin-left:auto">{{i:list-checks}} Atributos</button>
       </div>
 
       <!-- Filters + Add -->
@@ -4883,6 +4885,15 @@
 
             <div class="vh-entry">
               <div class="vh-entry-head">
+                <span class="vh-ver">v3.16.0</span>
+                <span class="vh-date">9 Ago 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Botão ATRIBUTOS no Arsenal — glossário dos atributos de arma.</strong> Novo botão na barra de status do Arsenal abre o glossário dos <strong>25 atributos</strong> do Gunsmith do BO7 (Firepower · Accuracy · Mobility · Handling): nome EN, tradução PT, o que cada um melhora em 1 linha, e <strong>tag de prioridade que muda com o perfil</strong> — RUSHER CQB (compra <em>tempo</em>: Sprint To Fire, ADS Speed, Flinch, Hipfire) × ANCORAGEM (compra <em>precisão</em>: Flinch, Pellet Spread, First Shot Recoil, Sway). Faixa fixa com a <strong>regra de leitura</strong> (ms e graus = menor é melhor; m/s e rpm = maior é melhor; exceção Sway Delay; Recoil Control e Flinch Resistance medem o problema, não a resistência). Busca por nome EN/PT, seções colapsáveis, tags condicionais (SÓ SHOTGUN · SNIPER/MARKSMAN · SEMIAUTO) e nota do dano por zona (fora das 4 barras). Fonte: print verificado da Akita (09/Ago/2026). Dívida registrada: i18n EN do modal e variação por arma com valores reais da build.</p>
+            </div>
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
                 <span class="vh-ver">v3.15.0</span>
                 <span class="vh-date">21 Jul 2026</span>
                 <span class="vh-kind">feat</span>
@@ -7236,6 +7247,34 @@
     </div>
 
     <!-- =================================================================== -->
+    <!-- MODAL: ATRIBUTOS DE ARMA — glossário BO7 (v3.16.0)                  -->
+    <!-- Sem data-i18n nesta entrega (dívida registrada no roadmap).         -->
+    <!-- =================================================================== -->
+    <div class="modal-overlay" id="modal-atributos">
+      <div class="modal-box modal-tilt attr-modal" role="dialog" aria-modal="true" aria-labelledby="attr-modal-title">
+        <div class="modal-header">
+          <div class="modal-title" id="attr-modal-title">{{i:list-checks}} Atributos de Arma · BO7</div>
+          <button class="modal-close" data-close-modal="modal-atributos">×</button>
+        </div>
+        <div class="attr-toolbar">
+          <div class="attr-profile-toggle" role="group" aria-label="Perfil de jogo">
+            <button class="arsenal-filter active" type="button" data-attr-profile="rusher">Rusher CQB</button>
+            <button class="arsenal-filter" type="button" data-attr-profile="anchor">Ancoragem</button>
+          </div>
+          <input type="text" class="attr-search" id="attr-search" placeholder="Buscar atributo (EN ou PT)..." autocomplete="off">
+        </div>
+        <div class="attr-rule">
+          Valores em <strong>ms</strong> e <strong>graus</strong>: menor é melhor. Valores em <strong>m/s</strong> e <strong>rpm</strong>: maior é melhor.
+          Exceção: <strong>Aiming Idle Sway Delay</strong> — maior é melhor.<br>
+          Cuidado: <em>Recoil Control</em> e <em>Flinch Resistance</em> medem o problema, não a resistência. Confia na cor, não no nome.
+        </div>
+        <div class="modal-body attr-body" id="attr-body">
+          <!-- seções renderizadas por JS a partir de LVL_ATTR_GLOSSARY -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
     <!-- MODAL: SAVE                                                         -->
     <!-- =================================================================== -->
     <div class="modal-overlay" id="modal-save">
@@ -8860,7 +8899,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.15.0</strong><span class="ver-tag">Análise de Jogo ao Vivo: gravador 1-clique no Início (assistente local level-rec:// abre o chiaki-ng + Game Bar), cronômetro, progresso por etapa, análise de jogabilidade quadro a quadro via Gemini (vídeo fica só no PC), 3 últimos jogos em cards com 5 abas (partida/arma/loadout/avaliação/melhorias) e envio dos erros selecionados pra Evolução. Edge Function rec-agent + tabela game_recordings. Cache-bust level.css?v=3.15.0. Base v3.14.1: Fix da lista do Arsenal (Command Center): itens já hoverados eram esmagados/sobrepostos no topo quando a lista estourava com 12+ builds (.ob-host = overflow:hidden zerava o min-height do flex; agora .mw-cc-item tem flex-shrink:0 — a lista rola, nada encolhe). Cache-bust level.css?v=3.14.1. Base v3.14.0: Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.16.0</strong><span class="ver-tag">Modal ATRIBUTOS no Arsenal: botão na barra de status abre o glossário dos 25 atributos de arma do Gunsmith (nome EN, tradução PT, o que cada um melhora) com tag de prioridade que muda entre os perfis RUSHER CQB e ANCORAGEM, regra de leitura fixa (ms/graus = menor melhor; m/s/rpm = maior melhor; rótulos enganosos), busca EN/PT, 4 seções colapsáveis (Firepower/Accuracy/Mobility/Handling), tags condicionais (SÓ SHOTGUN · SNIPER/MARKSMAN · SEMIAUTO) e nota de dano por zona. Fonte: print verificado da Akita 09/Ago/2026. Dívida: i18n EN do modal + variação por arma. Cache-bust level.css?v=3.16.0. Base v3.15.0: Análise de Jogo ao Vivo: gravador 1-clique no Início (assistente local level-rec:// abre o chiaki-ng + Game Bar), cronômetro, progresso por etapa, análise de jogabilidade quadro a quadro via Gemini (vídeo fica só no PC), 3 últimos jogos em cards com 5 abas (partida/arma/loadout/avaliação/melhorias) e envio dos erros selecionados pra Evolução. Edge Function rec-agent + tabela game_recordings. Cache-bust level.css?v=3.15.0. Base v3.14.1: Fix da lista do Arsenal (Command Center): itens já hoverados eram esmagados/sobrepostos no topo quando a lista estourava com 12+ builds (.ob-host = overflow:hidden zerava o min-height do flex; agora .mw-cc-item tem flex-shrink:0 — a lista rola, nada encolhe). Cache-bust level.css?v=3.14.1. Base v3.14.0: Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -37879,6 +37918,222 @@ ${cbt('share.t.footer')}`;
   }
   function boot() { setTimeout(() => { poll(); schedule(); }, 1800); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// ATRIBUTOS DE ARMA — glossário do Gunsmith BO7 (v3.16.0)
+// ───────────────────────────────────────────────────────────────────
+// Fonte: LEVEL_ATRIBUTOS_ARMA.md (print verificado da Akita, 09/Ago/2026).
+// 25 atributos nas 4 barras (Firepower/Accuracy/Mobility/Handling).
+// Toggle de perfil recolore SÓ as tags de prioridade (rusher × anchor).
+// Sem i18n EN nesta entrega (dívida registrada). Sem fetch — array local.
+// ═══════════════════════════════════════════════════════════════════
+(function () {
+  'use strict';
+
+  var LVL_ATTR_GLOSSARY = [
+    // ── FIREPOWER ──
+    { id: 'fire_rate', en: 'Fire Rate', pt: 'Cadência de tiro', group: 'firepower',
+      desc: 'Tiros por minuto (rpm): mais alto = menos tempo entre disparos e TTK (tempo para eliminar) menor.',
+      only: null, prio: { rusher: 'critico', anchor: 'critico' } },
+    { id: 'bullet_velocity', en: 'Bullet Velocity', pt: 'Velocidade do projétil', group: 'firepower',
+      desc: 'Velocidade da bala (m/s): mais alto = menos correção em alvo móvel. Só importa a partir de ~25 m.',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } },
+
+    // ── ACCURACY ──
+    { id: 'hipfire_spread', en: 'Hipfire Max Spread', pt: 'Dispersão máxima sem mirar', group: 'accuracy',
+      desc: 'Abertura do cone de tiro em hipfire (graus): menor = tiros agrupados sem usar a óptica.',
+      only: null, prio: { rusher: 'critico', anchor: 'critico' } },
+    { id: 'jump_hipfire_spread', en: 'Jump Hipfire Max Spread', pt: 'Dispersão sem mirar pulando', group: 'accuracy',
+      desc: 'O mesmo cone, durante o pulo: menor = jump-shot (atirar pulando) confiável.',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } },
+    { id: 'slide_hipfire_spread', en: 'Slide Hipfire Max Spread', pt: 'Dispersão sem mirar deslizando', group: 'accuracy',
+      desc: 'O mesmo cone, durante o slide: menor = slide entrando em corredor com tiro que acerta.',
+      only: null, prio: { rusher: 'importante', anchor: 'opcional' } },
+    { id: 'ads_pellet_spread', en: 'ADS Pellet Spread', pt: 'Dispersão dos pellets mirando', group: 'accuracy',
+      desc: 'Agrupamento do chumbo em ADS (mirar pela óptica): menor = mais pellets no alvo = mais dano por tiro.',
+      only: 'SÓ SHOTGUN', prio: { rusher: 'opcional', anchor: 'critico' } },
+    { id: 'first_shot_recoil', en: 'First Shot Recoil Scale', pt: 'Multiplicador de recuo do 1º tiro', group: 'accuracy',
+      desc: 'Fração do recuo total aplicada no primeiro disparo: menor = primeiro tiro fiel à mira. Decisivo em duelo curto.',
+      only: null, prio: { rusher: 'importante', anchor: 'critico' } },
+    { id: 'recoil_gun_kick', en: 'Recoil Gun Kick', pt: 'Coice da arma', group: 'accuracy',
+      desc: 'Salto visual da arma ao disparar (°/s): menor = mira volta ao alvo mais rápido.',
+      only: null, prio: { rusher: 'opcional', anchor: 'importante' } },
+    { id: 'h_recoil', en: 'Horizontal Recoil Control', pt: 'Recuo horizontal', group: 'accuracy',
+      desc: 'Deriva lateral do recuo (°/s): menor = padrão de tiro mais previsível.',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } },
+    { id: 'v_recoil', en: 'Vertical Recoil Control', pt: 'Recuo vertical', group: 'accuracy',
+      desc: 'Subida da mira ao disparar (°/s): menor = rajada longa que sobe menos.',
+      only: null, prio: { rusher: 'opcional', anchor: 'importante' } },
+    { id: 'kick_reset', en: 'Kick Reset Speed', pt: 'Recentragem após o coice', group: 'accuracy',
+      desc: 'Tempo até a mira voltar sozinha à posição original (ms): menor = semiautos encadeados sem correção manual.',
+      only: 'SEMIAUTO', prio: { rusher: 'opcional', anchor: 'opcional' } },
+    { id: 'idle_sway', en: 'Aiming Idle Sway', pt: 'Balanço da mira parada', group: 'accuracy',
+      desc: 'Oscilação natural da mira ao ficar mirando sem atirar (°/s): menor = ângulo segurado com precisão.',
+      only: 'SNIPER / MARKSMAN', prio: { rusher: 'opcional', anchor: 'critico' } },
+    { id: 'idle_sway_delay', en: 'Aiming Idle Sway Delay', pt: 'Atraso até o balanço começar', group: 'accuracy',
+      desc: 'Tempo de mira antes do sway começar (ms): MAIOR é melhor aqui — mais tempo de mira estável.',
+      only: 'SNIPER / MARKSMAN', prio: { rusher: 'opcional', anchor: 'critico' } },
+    { id: 'flinch', en: 'Flinch Resistance', pt: 'Resistência ao flinch', group: 'accuracy',
+      desc: 'Quanto a mira salta ao levar dano: menor = mantém o alvo depois de ser atingido. É o "atiro primeiro mas morro".',
+      only: null, prio: { rusher: 'critico', anchor: 'critico' } },
+
+    // ── MOBILITY ──
+    { id: 'move_speed', en: 'Movement Speed', pt: 'Velocidade de movimento', group: 'mobility',
+      desc: 'Andar normal (m/s): maior = rotação e reposicionamento mais rápidos.',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } },
+    { id: 'crouch_speed', en: 'Crouch Movement Speed', pt: 'Velocidade agachado', group: 'mobility',
+      desc: 'Deslocamento agachado (m/s): maior = reposicionar sem se expor.',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } },
+    { id: 'sprint_speed', en: 'Sprinting Movement Speed', pt: 'Velocidade em corrida', group: 'mobility',
+      desc: 'Sprint (m/s): maior = chega antes ao ponto e atravessa espaço aberto com menos exposição.',
+      only: null, prio: { rusher: 'importante', anchor: 'opcional' } },
+    { id: 'ads_move_speed', en: 'ADS Movement Speed', pt: 'Velocidade mirando', group: 'mobility',
+      desc: 'Andar com a arma na cara (m/s): maior = strafe shooting (atirar movendo lateral) eficaz e mais difícil de acertar.',
+      only: null, prio: { rusher: 'importante', anchor: 'opcional' } },
+
+    // ── HANDLING ──
+    { id: 'reload', en: 'Reload Quickness', pt: 'Velocidade de recarga', group: 'handling',
+      desc: 'Tempo total de recarga (ms): menor = menos tempo vulnerável.',
+      only: null, prio: { rusher: 'opcional', anchor: 'importante' } },
+    { id: 'ads_speed', en: 'Aim Down Sight Speed', pt: 'Tempo para mirar', group: 'handling',
+      desc: 'Tempo da arma subir ao olho (ms): menor = ganha o duelo de reação. O número mais importante do CQB.',
+      only: null, prio: { rusher: 'critico', anchor: 'opcional' } },
+    { id: 'jump_ads', en: 'Jump Aim Down Sight Speed', pt: 'Tempo para mirar pulando', group: 'handling',
+      desc: 'O mesmo, durante o pulo (ms).',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } },
+    { id: 'sprint_to_fire', en: 'Sprint To Fire Speed', pt: 'Tempo de corrida para tiro', group: 'handling',
+      desc: 'Entre parar de correr e conseguir disparar (ms): menor = dobra a esquina correndo e já atira. Métrica-mãe do rusher.',
+      only: null, prio: { rusher: 'critico', anchor: 'opcional' } },
+    { id: 'slide_to_fire', en: 'Slide To Fire Speed', pt: 'Tempo de slide para tiro', group: 'handling',
+      desc: 'O mesmo, saindo de um slide (ms).',
+      only: null, prio: { rusher: 'critico', anchor: 'opcional' } },
+    { id: 'dive_to_fire', en: 'Dive To Fire Speed', pt: 'Tempo de mergulho para tiro', group: 'handling',
+      desc: 'O mesmo, saindo de um dive (mergulho ao chão) (ms).',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } },
+    { id: 'jump_sprint_to_fire', en: 'Jump Sprint To Fire Speed', pt: 'Tempo de pulo em corrida para tiro', group: 'handling',
+      desc: 'O mesmo, pulando durante o sprint (ms).',
+      only: null, prio: { rusher: 'opcional', anchor: 'opcional' } }
+  ];
+
+  var GROUPS = [
+    { key: 'firepower', en: 'FIREPOWER', pt: 'Poder de fogo' },
+    { key: 'accuracy',  en: 'ACCURACY',  pt: 'Precisão' },
+    { key: 'mobility',  en: 'MOBILITY',  pt: 'Mobilidade' },
+    { key: 'handling',  en: 'HANDLING',  pt: 'Manejo' }
+  ];
+  var PRIO_LABEL = { critico: 'CRÍTICO', importante: 'IMPORTANTE', opcional: 'OPCIONAL' };
+
+  var state = { profile: 'rusher', q: '', collapsed: {} };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function matches(item) {
+    if (!state.q) return true;
+    var q = state.q.toLowerCase();
+    return item.en.toLowerCase().indexOf(q) >= 0 || item.pt.toLowerCase().indexOf(q) >= 0;
+  }
+
+  var CHEVRON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+
+  function render() {
+    var body = document.getElementById('attr-body');
+    if (!body) return;
+    var html = '';
+    var totalVisible = 0;
+    for (var g = 0; g < GROUPS.length; g++) {
+      var grp = GROUPS[g];
+      var items = LVL_ATTR_GLOSSARY.filter(function (it) { return it.group === grp.key && matches(it); });
+      if (!items.length) continue;
+      totalVisible += items.length;
+      // busca ativa força a seção aberta (senão o resultado fica escondido)
+      var isCollapsed = !state.q && !!state.collapsed[grp.key];
+      html += '<div class="attr-section' + (isCollapsed ? ' collapsed' : '') + '" data-attr-group="' + grp.key + '">';
+      html += '<button type="button" class="attr-section-head" aria-expanded="' + (!isCollapsed) + '">';
+      html += '<span class="attr-section-title">' + grp.en + ' <span class="attr-section-pt">· ' + esc(grp.pt) + '</span></span>';
+      html += '<span class="attr-count">' + items.length + '</span>' + CHEVRON;
+      html += '</button><div class="attr-rows">';
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        var p = it.prio[state.profile] || 'opcional';
+        html += '<div class="attr-row">';
+        html += '<span class="attr-en">' + esc(it.en) + '</span>';
+        html += '<span class="attr-pt">' + esc(it.pt) + '</span>';
+        html += '<span class="attr-desc">' + esc(it.desc) + '</span>';
+        html += '<span class="attr-tags"><span class="attr-tag ' + p + '">' + PRIO_LABEL[p] + '</span>';
+        if (it.only) html += '<span class="attr-only">' + esc(it.only) + '</span>';
+        html += '</span></div>';
+      }
+      html += '</div></div>';
+    }
+    if (!totalVisible) {
+      html = '<div class="attr-empty">Nenhum atributo bate com "' + esc(state.q) + '".</div>';
+    } else {
+      html += '<div class="attr-note"><strong>Fora do glossário — dano por zona:</strong> a distribuição de dano (Damage Distribution) fica no painel central do Gunsmith, não nestas 4 barras. Números iguais em todas as zonas = arma sem multiplicador de headshot — a pré-mira correta passa a ser centro de massa.</div>';
+    }
+    body.innerHTML = html;
+  }
+
+  function wire() {
+    var overlay = document.getElementById('modal-atributos');
+    if (!overlay) return;
+
+    // abrir: o handler genérico [data-open-modal] já adiciona .visible;
+    // aqui só garantimos o render na primeira abertura (e nas seguintes)
+    document.addEventListener('click', function (e) {
+      var openBtn = e.target.closest ? e.target.closest('[data-open-modal="modal-atributos"]') : null;
+      if (openBtn) render();
+    });
+
+    // fechar por clique no backdrop (o X já fecha via [data-close-modal])
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) overlay.classList.remove('visible');
+    });
+
+    // fechar por ESC
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('visible')) overlay.classList.remove('visible');
+    });
+
+    // toggle de perfil — recolore SÓ as tags (o texto não muda)
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-attr-profile]') : null;
+      if (!btn) return;
+      state.profile = btn.dataset.attrProfile;
+      var all = overlay.querySelectorAll('[data-attr-profile]');
+      for (var i = 0; i < all.length; i++) all[i].classList.toggle('active', all[i] === btn);
+      render();
+    });
+
+    // colapsar/expandir seção
+    overlay.addEventListener('click', function (e) {
+      var head = e.target.closest ? e.target.closest('.attr-section-head') : null;
+      if (!head) return;
+      var section = head.closest('.attr-section');
+      var key = section && section.dataset.attrGroup;
+      if (!key) return;
+      state.collapsed[key] = !state.collapsed[key];
+      section.classList.toggle('collapsed', state.collapsed[key]);
+      head.setAttribute('aria-expanded', String(!state.collapsed[key]));
+    });
+
+    // busca por nome EN ou PT
+    var search = document.getElementById('attr-search');
+    if (search) search.addEventListener('input', function () {
+      state.q = search.value.trim();
+      render();
+    });
+
+    render();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
 })();
 </script>
 </body>
