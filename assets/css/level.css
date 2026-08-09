@@ -9120,6 +9120,129 @@
   }
   .build-card .bc-att-val { color: var(--text-primary); font-weight: 500; font-size: 13px; line-height: 1.35; word-break: break-word; }
   .build-card .bc-att.empty .bc-att-val { color: #5F6E8C; font-style: italic; font-weight: 400; }
+
+  /* ─── v3.17.0 · Ficha Técnica (números reais lidos no Gunsmith do jogo) ───
+     Mesma linguagem do spec-sheet dos acessórios: sunken + zebra + mono. */
+  .build-card .bc-gs { margin: 10px 0 0; }
+  .build-card .bc-gs-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+  .build-card .bc-gs-meta strong { color: var(--accent-orange); font-weight: 600; }
+  .build-card .bc-gs-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .build-card .bc-gs-chips span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 4px 9px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .build-card .bc-gs-chips span i {
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .build-card .bc-gs-group {
+    background: var(--surface-sunken);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .build-card .bc-gs-group-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    background: rgba(174, 199, 224, 0.05);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 6px 12px;
+  }
+  .build-card .bc-gs-group-head small { color: var(--text-muted); font-weight: 400; letter-spacing: 0.04em; }
+  .build-card .bc-gs-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 10px;
+    align-items: baseline;
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .build-card .bc-gs-row:nth-child(odd) { background: rgba(174, 199, 224, 0.022); }
+  .build-card .bc-gs-k {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    min-width: 0;
+    word-break: break-word;
+  }
+  .build-card .bc-gs-v {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .build-card .bc-gs-v em {
+    font-style: normal;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-left: 4px;
+  }
+  .build-card .bc-gs-delta {
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 46px;
+    text-align: right;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .build-card .bc-gs-delta.gs-good { color: #4ADE80; }
+  .build-card .bc-gs-delta.gs-bad  { color: #E74C3C; }
+  .build-card .bc-gs-src {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .build-card .bc-gs-empty {
+    background: var(--surface-sunken);
+    border: 1px dashed var(--border-default);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .build-card .bc-gs-empty-t {
+    font-family: 'Chakra Petch', 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+  }
+  .build-card .bc-gs-empty-d {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
   .build-card .bc-updated {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;

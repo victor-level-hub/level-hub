@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/level.css?v=3.16.0">
+<link rel="stylesheet" href="/assets/css/level.css?v=3.17.0">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="level-logo" viewBox="0 0 703 180"><g id="logo-level-flaten">
@@ -1626,7 +1626,7 @@
           <div class="briefing-stats-head">
             <div>
               <div class="briefing-stats-label" data-i18n="briefing.changelog.label">O QUE MUDOU NESTA VERSÃO</div>
-              <div class="briefing-stats-title briefing-changelog-title">v3.16.0 · <span data-i18n="briefing.changelog.date">9 Ago 2026</span></div>
+              <div class="briefing-stats-title briefing-changelog-title">v3.17.0 · <span data-i18n="briefing.changelog.date">9 Ago 2026</span></div>
             </div>
             <div class="briefing-changelog-pill" data-i18n="briefing.changelog.pill">novo</div>
           </div>
@@ -4882,6 +4882,15 @@
         </div>
         <div class="modal-body">
           <div class="vh-list">
+
+            <div class="vh-entry">
+              <div class="vh-entry-head">
+                <span class="vh-ver">v3.17.0</span>
+                <span class="vh-date">9 Ago 2026</span>
+                <span class="vh-kind">feat</span>
+              </div>
+              <p class="vh-desc"><strong>Ficha T&eacute;cnica no card de arma.</strong> Cada build ganhou uma aba <em>Ficha T&eacute;cnica</em> (na vista Grade) e uma <em>se&ccedil;&atilde;o 5</em> (no Command Center) com os <strong>n&uacute;meros reais lidos no Gunsmith do jogo</strong>, n&atilde;o estimativas: <strong>Firepower</strong> (cad&ecirc;ncia, velocidade do proj&eacute;til), <strong>Accuracy</strong> (dispers&atilde;o de hipfire parado/pulando/deslizando/mergulhando, recuo horizontal e vertical, first shot recoil, sway, flinch), <strong>Mobility</strong> (velocidades andando, agachado, correndo e em ADS) e <strong>Handling</strong> (recarga, ADS, sprint/slide/dive-to-fire) &mdash; linha a linha, com o <strong>delta %</strong> da build em verde ou vermelho segundo a polaridade correta de cada atributo (ms, graus e recuo: <em>menor &eacute; melhor</em>; m/s, rpm e Sway Delay: <em>maior &eacute; melhor</em>). Mais os chips de <em>pente / pentes / proj&eacute;teis</em>, o dano por zona e a tabela de <strong>dano por dist&acirc;ncia</strong>. Backend: nova tabela <code>hub_weapon_game_stats</code> (1 row por operador &times; arma, RLS por <code>auth.uid</code>) deliberadamente <strong>fora do payload do sync</strong> &mdash; o cliente s&oacute; l&ecirc;, para um backup do navegador nunca apagar uma captura do jogo. Primeira carga com <strong>9 armas capturadas ao vivo no PS5</strong> via chiaki-ng (VST &middot; REV-46 &middot; Peacekeeper MK1 &middot; Akita &middot; FG42 &middot; MK35 ISR &middot; RK-9 &middot; CBRS-3 &middot; Sturmwolf 45), com a FG42 adicionada ao arsenal e os levels sincronizados com o jogo. D&iacute;vida registrada: i18n EN dos r&oacute;tulos da ficha e captura autom&aacute;tica das armas restantes.</p>
+            </div>
 
             <div class="vh-entry">
               <div class="vh-entry-head">
@@ -8899,7 +8908,7 @@
             <svg class="lvl-flogo" viewBox="0 0 703 180" role="img" aria-label="LEVEL" focusable="false"><use href="#level-logo"></use></svg>
             <p class="lvl-ftagline" data-i18n="footer.tagline">Companion tático para Call of Duty: Black Ops 7 — loadouts, mapas, treino de mira e comunidade.</p>
             <div class="footer-version">
-              LEVEL · <strong>v3.16.0</strong><span class="ver-tag">Modal ATRIBUTOS no Arsenal: botão na barra de status abre o glossário dos 25 atributos de arma do Gunsmith (nome EN, tradução PT, o que cada um melhora) com tag de prioridade que muda entre os perfis RUSHER CQB e ANCORAGEM, regra de leitura fixa (ms/graus = menor melhor; m/s/rpm = maior melhor; rótulos enganosos), busca EN/PT, 4 seções colapsáveis (Firepower/Accuracy/Mobility/Handling), tags condicionais (SÓ SHOTGUN · SNIPER/MARKSMAN · SEMIAUTO) e nota de dano por zona. Fonte: print verificado da Akita 09/Ago/2026. Dívida: i18n EN do modal + variação por arma. Cache-bust level.css?v=3.16.0. Base v3.15.0: Análise de Jogo ao Vivo: gravador 1-clique no Início (assistente local level-rec:// abre o chiaki-ng + Game Bar), cronômetro, progresso por etapa, análise de jogabilidade quadro a quadro via Gemini (vídeo fica só no PC), 3 últimos jogos em cards com 5 abas (partida/arma/loadout/avaliação/melhorias) e envio dos erros selecionados pra Evolução. Edge Function rec-agent + tabela game_recordings. Cache-bust level.css?v=3.15.0. Base v3.14.1: Fix da lista do Arsenal (Command Center): itens já hoverados eram esmagados/sobrepostos no topo quando a lista estourava com 12+ builds (.ob-host = overflow:hidden zerava o min-height do flex; agora .mw-cc-item tem flex-shrink:0 — a lista rola, nada encolhe). Cache-bust level.css?v=3.14.1. Base v3.14.0: Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
+              LEVEL · <strong>v3.17.0</strong><span class="ver-tag">Ficha Técnica no card de arma: nova aba (e seção 5 no Command Center) com os números REAIS lidos no Gunsmith do jogo — Firepower, Accuracy, Mobility, Handling linha a linha, com o delta % pintado em verde/vermelho pela polaridade certa (ms/graus/recuo = menor é melhor; m/s, rpm e Sway Delay = maior é melhor), chips de pente/pentes/projéteis, dano por zona e a tabela de dano por distância. Nova tabela Supabase hub_weapon_game_stats (1 row por operador × arma, RLS por auth.uid, fora do payload do sync — o cliente só lê). Primeira carga: 9 armas capturadas no PS5 via chiaki-ng (VST, REV-46, Peacekeeper MK1, Akita, FG42, MK35 ISR, RK-9, CBRS-3, Sturmwolf 45) + FG42 adicionada ao arsenal e levels sincronizados com o jogo. Cache-bust level.css?v=3.17.0. Base v3.16.0: Modal ATRIBUTOS no Arsenal: botão na barra de status abre o glossário dos 25 atributos de arma do Gunsmith (nome EN, tradução PT, o que cada um melhora) com tag de prioridade que muda entre os perfis RUSHER CQB e ANCORAGEM, regra de leitura fixa (ms/graus = menor melhor; m/s/rpm = maior melhor; rótulos enganosos), busca EN/PT, 4 seções colapsáveis (Firepower/Accuracy/Mobility/Handling), tags condicionais (SÓ SHOTGUN · SNIPER/MARKSMAN · SEMIAUTO) e nota de dano por zona. Fonte: print verificado da Akita 09/Ago/2026. Dívida: i18n EN do modal + variação por arma. Cache-bust level.css?v=3.16.0. Base v3.15.0: Análise de Jogo ao Vivo: gravador 1-clique no Início (assistente local level-rec:// abre o chiaki-ng + Game Bar), cronômetro, progresso por etapa, análise de jogabilidade quadro a quadro via Gemini (vídeo fica só no PC), 3 últimos jogos em cards com 5 abas (partida/arma/loadout/avaliação/melhorias) e envio dos erros selecionados pra Evolução. Edge Function rec-agent + tabela game_recordings. Cache-bust level.css?v=3.15.0. Base v3.14.1: Fix da lista do Arsenal (Command Center): itens já hoverados eram esmagados/sobrepostos no topo quando a lista estourava com 12+ builds (.ob-host = overflow:hidden zerava o min-height do flex; agora .mw-cc-item tem flex-shrink:0 — a lista rola, nada encolhe). Cache-bust level.css?v=3.14.1. Base v3.14.0: Attachments incompatíveis (igual ao jogo): barrel com supressor integrado bloqueia o Muzzle, Akimbo bloqueia a ótica — cadeado no slot, aviso no seletor, equipar remove o incompatível, e a análise IA sabe dos bloqueios. Óticas agrupadas em SHORT/MEDIUM/LONG RANGE na ordem do gunsmith; especiais (Prestige/BP) por último. Fixes: editar build não perde mais BUILD CODE nem LEVEL; barrel do MK35 corrigido pra 14". Base v3.13.1: busca ao vivo no seletor. Base v3.13.0 — Atualização de Conteúdo: catálogo de attachments 100% sincronizado com o jogo via codmunity.gg (1,8k+ attachments, 36 óticas universais, ícones oficiais — fix do OPTIC capado do REV-46 e do LTI Stentorian Brake sumido). Novo painel em Configurações com botão "Iniciar Atualização" (Edge Function em background + barra de progresso + data da última execução). Base v3.12.6: Hunter's Instinct/Throwing Knife/Drill Charge removidos; catálogo visual completo via bucket. (Configurações · Mapas etc.) estouravam pra fora do card — .img-card-buttons agora quebra linha (flex-wrap, basis auto), Adicionar/Adicionado ocupa a linha inteira e a botoeira alinha no rodapé do card (margin-top:auto). Cache-bust level.css?v=3.12.1. Base v3.12.0: Picker de arma em GRADE (busca + chips de classe com pílula deslizante, padrão nav-header/21st.dev em vanilla) nos DOIS fluxos: "+ Nova Arma Montada" (renderBasePicker/wireBasePicker + helpers _wpk*) e Montagem Inteligente (sbRenderWeaponPicker + _sbwpk*, IDs próprios, mesmas classes CSS .wpk-*). Contratos preservados (selects escondidos build-base/sb-weapon + syncs). Ícones de attachment: cadeia override→slug automático→sem polegadas→sufixo S4→fmj/overpressured→mapa legado→SVG (onerror encadeado); FANG HoverPoint ELO com ícone oficial (Fandom) do bucket wpncatalog. Watermark da logo removido de TODOS os fundos de foto (loadout secundária/melee, build-cards, Início, zoom, has-treated, Processador) — vazava atrás das fotos transparentes. CSS: bloco .wpk-* novo em level.css.</span>
             </div>
           </div>
           <div class="lvl-fcol">
@@ -16652,7 +16661,167 @@ const ATTACHMENT_ICONS = {
       '</div>';
     }
 
+    // ── v3.17.0 · FICHA TÉCNICA (stats REAIS capturados no Gunsmith do jogo) ──────
+    // Fonte: tabela `hub_weapon_game_stats` (Supabase), 1 row por operador × arma.
+    // NÃO passa pelo sync (o cliente nunca escreve nela) — é preenchida pela captura
+    // do jogo (PS Remote Play / chiaki-ng) ou pelo admin. Leitura direta via REST com
+    // o JWT do Auth (RLS filtra pelo auth.uid do operador).
+    const WeaponGameStats = (function () {
+      let _cache = null;
+      let _pending = null;
+      function _norm(id) { return String(id || '').replace(/^wpn_/, '').toLowerCase(); }
+      async function _headers() {
+        const anon = window.LEVEL_SUPABASE_ANON_KEY || '';
+        let token = null;
+        try {
+          if (window.LEVEL_AUTH && window.LEVEL_AUTH.getClient) {
+            const c = await window.LEVEL_AUTH.getClient();
+            const sess = await c.auth.getSession();
+            token = sess && sess.data && sess.data.session ? sess.data.session.access_token : null;
+          }
+        } catch (e) {}
+        if (!token) return null;
+        return { 'Authorization': 'Bearer ' + token, 'apikey': anon };
+      }
+      async function load(force) {
+        if (_cache && !force) return _cache;
+        if (_pending) return _pending;
+        _pending = (async function () {
+          const map = {};
+          try {
+            const h = await _headers();
+            if (h) {
+              const baseUrl = window.LEVEL_SUPABASE_URL || 'https://cqkhqtgmolmrfgzozocr.supabase.co';
+              const url = baseUrl + '/rest/v1/hub_weapon_game_stats' +
+                '?select=weapon_catalog_id,weapon_name,weapon_class,build_name,build_code,fire_modes,loadout_name,stats,captured_at';
+              const r = await fetch(url, { headers: h });
+              if (r.ok) {
+                const rows = await r.json();
+                (rows || []).forEach(function (row) { map[_norm(row.weapon_catalog_id)] = row; });
+              }
+            }
+          } catch (e) {}
+          _cache = map;
+          _pending = null;
+          return map;
+        })();
+        return _pending;
+      }
+      function get(weaponId) { return (_cache || {})[_norm(weaponId)] || null; }
+      function count() { return Object.keys(_cache || {}).length; }
+      return { load: load, get: get, count: count };
+    })();
+    try { window.LevelWeaponGameStats = WeaponGameStats; } catch (e) {}
+
+    // Polaridade: em que atributos um número MENOR é melhor (o jogo pinta assim).
+    // Ex.: recuo, dispersão (spread), tempo de ADS em ms → menor = melhor.
+    const _GS_LOWER_IS_BETTER = /(spread|recoil|kick|sway$|flinch|reload|speed$|scale)/i;
+    // Exceções: são "quanto maior melhor" apesar de casarem acima.
+    const _GS_HIGHER_IS_BETTER = /(movement speed|sway delay|fire rate|bullet velocity)/i;
+
+    function _gsDeltaClass(label, d) {
+      if (d == null || d === 0) return '';
+      const lower = _GS_HIGHER_IS_BETTER.test(label) ? false : _GS_LOWER_IS_BETTER.test(label);
+      const good = lower ? (d < 0) : (d > 0);
+      return good ? ' gs-good' : ' gs-bad';
+    }
+    function _gsNum(v) {
+      if (v == null) return '—';
+      if (typeof v !== 'number') return String(v);
+      return (Math.abs(v % 1) > 0.0001) ? String(v) : String(Math.round(v));
+    }
+
+    // Monta o HTML da ficha técnica de uma arma base (ou o estado vazio).
+    function buildGameStatsHtml(base) {
+      const row = base ? WeaponGameStats.get(base.id) : null;
+      if (!row || !row.stats || !Array.isArray(row.stats.groups) || !row.stats.groups.length) {
+        return '<div class="bc-gs bc-gs-empty">' +
+          '<div class="bc-gs-empty-t">Sem ficha técnica capturada</div>' +
+          '<div class="bc-gs-empty-d">Os números reais desta arma aparecem aqui depois de capturar a tela do Gunsmith no jogo (Importar Build ▸ Adicionar via PS Remote Play).</div>' +
+        '</div>';
+      }
+      const st = row.stats;
+      let html = '';
+
+      const metaBits = [];
+      if (row.build_name)  metaBits.push('<strong>' + escapeHtml(row.build_name) + '</strong>');
+      if (row.build_code)  metaBits.push(escapeHtml(row.build_code));
+      if (row.fire_modes)  metaBits.push(escapeHtml(row.fire_modes));
+      if (metaBits.length) html += '<div class="bc-gs-meta">' + metaBits.join(' · ') + '</div>';
+
+      const mag = st.magazine || {};
+      const magBits = [];
+      if (mag.mag_size != null)     magBits.push('<span><i>Pente</i>' + _gsNum(mag.mag_size) + '</span>');
+      if (mag.mags != null)         magBits.push('<span><i>Pentes</i>' + _gsNum(mag.mags) + '</span>');
+      if (mag.pellet_count != null) magBits.push('<span><i>Projéteis</i>' + _gsNum(mag.pellet_count) + '</span>');
+      if (magBits.length) html += '<div class="bc-gs-chips">' + magBits.join('') + '</div>';
+
+      st.groups.forEach(function (g) {
+        const rows = Array.isArray(g.rows) ? g.rows : [];
+        if (!rows.length) return;
+        html += '<div class="bc-gs-group">' +
+          '<div class="bc-gs-group-head">' + escapeHtml(g.label || g.key || '') + '</div>';
+        rows.forEach(function (r) {
+          const label = String(r.label || '');
+          const d = (typeof r.d === 'number') ? r.d : null;
+          const deltaHtml = (d == null) ? ''
+            : '<span class="bc-gs-delta' + _gsDeltaClass(label, d) + '">' + (d > 0 ? '+' : '') + d + '%</span>';
+          html += '<div class="bc-gs-row">' +
+            '<span class="bc-gs-k">' + escapeHtml(label) + '</span>' +
+            '<span class="bc-gs-v">' + _gsNum(r.v) + (r.u ? '<em>' + escapeHtml(r.u) + '</em>' : '') + '</span>' +
+            deltaHtml +
+          '</div>';
+        });
+        html += '</div>';
+      });
+
+      const dmg = st.damage || {};
+      if (dmg.body != null || (Array.isArray(dmg.ranges) && dmg.ranges.length)) {
+        html += '<div class="bc-gs-group">' +
+          '<div class="bc-gs-group-head">DANO' + (dmg.per_pellet ? ' <small>(por projétil)</small>' : '') + '</div>';
+        const _hsRedundant = (dmg.headshot != null && dmg.body != null &&
+          dmg.headshot === dmg.body && (!dmg.head_multiplier || dmg.head_multiplier === 1));
+        if (dmg.headshot != null && !_hsRedundant) {
+          html += '<div class="bc-gs-row">' +
+            '<span class="bc-gs-k">Cabeça</span>' +
+            '<span class="bc-gs-v">' + _gsNum(dmg.headshot) +
+              (dmg.head_multiplier && dmg.head_multiplier !== 1 ? '<em>×' + dmg.head_multiplier + '</em>' : '') + '</span>' +
+            (typeof dmg.head_delta === 'number'
+              ? '<span class="bc-gs-delta gs-good">+' + dmg.head_delta + '%</span>' : '') +
+          '</div>';
+        }
+        if (dmg.body != null) {
+          html += '<div class="bc-gs-row">' +
+            '<span class="bc-gs-k">Corpo</span>' +
+            '<span class="bc-gs-v">' + _gsNum(dmg.body) + '</span>' +
+            (typeof dmg.body_delta === 'number'
+              ? '<span class="bc-gs-delta gs-good">+' + dmg.body_delta + '%</span>' : '') +
+          '</div>';
+        }
+        (dmg.ranges || []).forEach(function (rg) {
+          const to = (rg.to == null) ? '∞' : rg.to;
+          html += '<div class="bc-gs-row">' +
+            '<span class="bc-gs-k">' + _gsNum(rg.from) + '–' + to + ' m</span>' +
+            '<span class="bc-gs-v">' + _gsNum(rg.dmg) + '<em>dano</em></span>' +
+          '</div>';
+        });
+        html += '</div>';
+      }
+
+      let when = '';
+      try {
+        when = row.captured_at
+          ? new Date(row.captured_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
+          : '';
+      } catch (e) {}
+      html += '<div class="bc-gs-src">valores lidos direto do jogo' + (when ? ' · ' + when : '') +
+        (row.loadout_name ? ' · ' + escapeHtml(row.loadout_name) : '') + '</div>';
+
+      return '<div class="bc-gs">' + html + '</div>';
+    }
+
     async function renderBuildCard(build, mode) {
+      await WeaponGameStats.load();
       const base = await LevelDB.weapons.get(build.weaponBaseId);
       const baseName = base ? base.name : '(arma deletada)';
       const baseClass = base ? base.class : '?';
@@ -16765,6 +16934,9 @@ const ATTACHMENT_ICONS = {
           '<section class="bc-cc-section">' + ccSectionHead('4', 'Progressão', 'o que falta desbloquear nesta arma', '{{i:trending-up}}') +
             lvlBarHtml +
             buildUnlockPlanHtml(build, base) +
+          '</section>' +
+          '<section class="bc-cc-section">' + ccSectionHead('5', 'Ficha Técnica', 'números reais lidos no Gunsmith do jogo', '{{i:bar-chart-3}}') +
+            buildGameStatsHtml(base) +
           '</section>'
         : '';
 
@@ -16775,6 +16947,7 @@ const ATTACHMENT_ICONS = {
             '<button class="bc-tab' + tabActive('analysis') + '" data-bc-tab="analysis" type="button" role="tab" aria-selected="' + tabSelected('analysis') + '">{{i:message-circle}} Nossa Análise</button>' +
             '<button class="bc-tab' + tabActive('rating') + '" data-bc-tab="rating" type="button" role="tab" aria-selected="' + tabSelected('rating') + '">{{i:star}} Avalie</button>' +
             '<button class="bc-tab' + tabActive('progression') + '" data-bc-tab="progression" type="button" role="tab" aria-selected="' + tabSelected('progression') + '">{{i:trending-up}} Progressão</button>' +
+            '<button class="bc-tab' + tabActive('gamestats') + '" data-bc-tab="gamestats" type="button" role="tab" aria-selected="' + tabSelected('gamestats') + '">{{i:bar-chart-3}} Ficha Técnica</button>' +
           '</div>';
 
       const panelsHtml = isCC ? ''
@@ -16790,6 +16963,9 @@ const ATTACHMENT_ICONS = {
           '</div>' +
           '<div class="bc-tab-panel' + panelActive('progression') + '" data-bc-panel="progression" role="tabpanel">' +
             buildUnlockPlanHtml(build, base) +
+          '</div>' +
+          '<div class="bc-tab-panel' + panelActive('gamestats') + '" data-bc-panel="gamestats" role="tabpanel">' +
+            buildGameStatsHtml(base) +
           '</div>';
 
       // v2.28.1: bcc-<classe> na raiz alimenta o top edge 2px na cor da classe (CSS ::before)
@@ -25299,7 +25475,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       }
       var GRIP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
 
-      // ── v2.89.0 · seletor de ícone (game-icons, lazy) ──
+      // ── v3.17.0 · seletor de ícone (game-icons, lazy) ──
       function strokePrevHtml(sec) {
         var b = document.querySelector('.nav-item[data-section="' + sec + '"]'); if (!b) return '';
         var span = b.querySelector('.nav-icon'); if (!span) return '';

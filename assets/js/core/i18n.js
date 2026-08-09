@@ -468,8 +468,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
     'briefing.changelog.date':  '9 Ago 2026',
     'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Botão ATRIBUTOS no Arsenal — glossário de atributos de arma',
-    'briefing.changelog.summary':  'Novo botão <strong>ATRIBUTOS</strong> no Arsenal. Abre o glossário dos <strong>25 atributos de arma</strong> do BO7 com tradução, o que cada um melhora, e prioridade que muda entre <strong>RUSHER CQB</strong> e <strong>ANCORAGEM</strong>. Inclui a regra de leitura do Gunsmith — quais números você quer baixos, quais quer altos, e quais rótulos do jogo enganam.',
+    'briefing.changelog.headline': 'Ficha Técnica no card de arma — os números reais do Gunsmith',
+    'briefing.changelog.summary':  'Cada build agora tem uma aba <strong>Ficha Técnica</strong> com os <strong>números reais lidos no Gunsmith do jogo</strong> — Firepower, Accuracy, Mobility e Handling linha a linha, com o <strong>delta %</strong> em verde ou vermelho pela polaridade certa de cada atributo, mais pente, dano por zona e dano por distância. Estreia com <strong>9 armas capturadas ao vivo no PS5</strong>.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2187,8 +2187,8 @@ window.I18N = {
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
     'briefing.changelog.date':  'Aug 9, 2026',
     'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'New ATTRIBUTES button in the Arsenal — weapon attribute glossary',
-    'briefing.changelog.summary':  'New <strong>ATTRIBUTES</strong> button in the Arsenal. Opens a glossary of all <strong>25 BO7 weapon attributes</strong> with plain-language descriptions and priority tags that switch between <strong>RUSHER CQB</strong> and <strong>ANCHOR</strong> profiles. Includes the Gunsmith reading rules — which numbers you want low, which you want high, and which in-game labels mislead.',
+    'briefing.changelog.headline': 'Tech Sheet on the weapon card — the real Gunsmith numbers',
+    'briefing.changelog.summary':  'Every build now has a <strong>Tech Sheet</strong> tab with the <strong>real numbers read from the in-game Gunsmith</strong> — Firepower, Accuracy, Mobility and Handling row by row, with the <strong>% delta</strong> coloured green or red using each attribute&rsquo;s correct polarity, plus magazine, damage by body zone and damage by range. Ships with <strong>9 weapons captured live on PS5</strong>.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
