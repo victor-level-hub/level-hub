@@ -157,6 +157,14 @@
   .urow .lab{color:var(--muted)}
   .urow b{color:var(--primary-2);font-family:Consolas,monospace;font-size:14.5px}
   .urow small{color:var(--muted);margin-left:7px}
+  /* Bloco de falhas: erros de auth custam $0, por isso não apareciam em lado
+     nenhum no painel de custos — foi assim que uma chave morta passou uma noite
+     despercebida. */
+  .ufail{margin-top:14px;padding:11px 13px;border-radius:9px;font-size:12.5px;line-height:1.55}
+  .ufail.bad{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.4);color:var(--err)}
+  .ufail.good{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.3);color:var(--ok)}
+  .ufail b{font-family:Consolas,monospace}
+  .ufail .det{display:block;margin-top:5px;color:var(--muted);font-family:Consolas,monospace;font-size:11.5px}
 </style>
 </head>
 <body>
@@ -390,6 +398,25 @@ async function callFn(payload){
 
 /* ================= modal de uso do Gemini ================= */
 const usd = v => "$"+(Number(v)||0).toFixed(2);
+// "há 3 h", "há 2 dias" — para situar a última falha sem obrigar a ler timestamps
+function haQuanto(iso){
+  const t = Date.parse(iso); if(!isFinite(t)) return "";
+  const s = Math.max(0, (Date.now()-t)/1000);
+  if(s < 90) return "agora mesmo";
+  if(s < 5400) return "há "+Math.round(s/60)+" min";
+  if(s < 172800) return "há "+Math.round(s/3600)+" h";
+  return "há "+Math.round(s/86400)+" dias";
+}
+// Traduz os códigos do tracker (partilhados com a analyze-build) para causa provável
+const FAIL_HINT = {
+  AI_AUTH:         "chave do Gemini rejeitada — revogada, restrita, ou API desativada no projeto",
+  AI_RATE_LIMITED: "limite de chamadas ou quota atingido",
+  AI_BAD_REQUEST:  "pedido inválido",
+  AI_NOT_FOUND:    "recurso não encontrado (ficheiro expirado?)",
+  AI_UPSTREAM:     "erro do lado da Google",
+  AI_EMPTY:        "o Gemini respondeu sem segmentos",
+  PARSE_ERROR:     "resposta em formato inesperado",
+};
 $("#usageBtn").onclick = async () => {
   $("#usageModal").hidden = false;
   $("#usageBody").innerHTML = '<div class="hint">A carregar…</div>';
@@ -401,8 +428,29 @@ $("#usageBtn").onclick = async () => {
       ["Transcriptor · 30 dias", usd(u.transcriptor_30d.cost_usd), u.transcriptor_30d.calls+" chamadas"],
       ...(u.by_model||[]).map(m => ["· "+m.model, usd(m.cost_usd), ""])
     ];
-    $("#usageBody").innerHTML = rows.map(([l,v,s]) =>
+    let html = rows.map(([l,v,s]) =>
       `<div class="urow"><span class="lab">${esc(l)}</span><span><b>${v}</b>${s?`<small>${esc(s)}</small>`:""}</span></div>`).join("");
+
+    // Saúde: uma chamada falhada custa $0 e não aparece nos números acima.
+    const f = u.failures;
+    if(f){
+      if(f.last30d > 0){
+        const base = String(f.last_code||"").split(":")[0];   // "AI_AUTH:start" → "AI_AUTH"
+        const etapa = String(f.last_code||"").split(":")[1];
+        const hint = FAIL_HINT[base] || "";
+        html += `<div class="ufail bad">⚠️ <b>${f.last24h}</b> falha${f.last24h===1?"":"s"} nas últimas 24 h`
+              + ` · <b>${f.last30d}</b> em 30 dias`
+              + `<span class="det">último: ${esc(f.last_code||"?")}`
+              + (f.last_function?` · ${esc(f.last_function)}`:"")
+              + (etapa?` · etapa ${esc(etapa)}`:"")
+              + (f.last_at?` · ${esc(haQuanto(f.last_at))}`:"")
+              + (hint?`<br>${esc(hint)}`:"")
+              + `</span></div>`;
+      } else {
+        html += `<div class="ufail good">✅ Sem falhas nos últimos 30 dias.</div>`;
+      }
+    }
+    $("#usageBody").innerHTML = html;
   }catch(e){ $("#usageBody").innerHTML = `<div class="err-msg">❌ ${esc(e.message||String(e))}</div>`; }
 };
 $("#usageClose").onclick = () => { $("#usageModal").hidden = true; };
