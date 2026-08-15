@@ -74,7 +74,7 @@ const PASSEIOS = {
     --navh:62px;
   }
   @media (prefers-color-scheme:dark){
-    :root{
+    :root:not([data-tema="claro"]){
       --bg:#171009; --surface:#221910; --ink:#f4ead9; --muted:#b5a288; --line:#392c1c;
       --brand:#e58053; --brand-soft:#372014; --cal:#fffdf8;
       --olive:#adc172; --olive-soft:#242b14;
@@ -85,6 +85,17 @@ const PASSEIOS = {
       --terra:#251c11; --terra-line:#41321f; --mar:#101a21; --rio:#2c4353;
       --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 28px rgba(0,0,0,.38);
     }
+  }
+  :root[data-tema="escuro"]{
+      --bg:#171009; --surface:#221910; --ink:#f4ead9; --muted:#b5a288; --line:#392c1c;
+      --brand:#e58053; --brand-soft:#372014; --cal:#fffdf8;
+      --olive:#adc172; --olive-soft:#242b14;
+      --azul:#82bad6; --azul-soft:#152632;
+      --warn:#e3a558; --warn-soft:#2f2210;
+      --danger:#ee9078; --danger-soft:#341811;
+      --r1:#82bad6; --r2:#adc172; --r3:#e0985a;
+      --terra:#251c11; --terra-line:#41321f; --mar:#101a21; --rio:#2c4353;
+      --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 28px rgba(0,0,0,.38);
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -119,11 +130,58 @@ const PASSEIOS = {
   nav a{flex:0 0 auto;text-decoration:none;color:var(--muted);font-family:var(--display);font-weight:600;font-size:14px;
     padding:11px 14px;border-radius:999px;border:1px solid transparent;white-space:nowrap;transition:background .15s,color .15s}
   nav a:hover{color:var(--ink);background:var(--surface);border-color:var(--line)}
-  nav a[aria-current]{background:var(--brand);color:var(--cal);border-color:var(--brand)}
-  #btn-hoje{flex:0 0 auto;position:sticky;right:0;margin-left:auto;cursor:pointer;
-    font-family:var(--display);font-weight:600;font-size:13.5px;padding:11px 14px;border-radius:999px;
-    border:1.5px solid var(--brand);color:var(--brand);background:var(--bg);white-space:nowrap;box-shadow:-10px 0 12px var(--bg)}
-  #btn-hoje[aria-pressed="true"]{background:var(--brand);color:var(--cal)}
+  nav a[aria-current]{color:var(--cal)}
+  nav .wrap{position:relative}
+  .lamp{position:absolute;top:9px;left:0;width:0;height:44px;border-radius:999px;background:var(--brand);z-index:0;pointer-events:none;
+    transition:transform .45s cubic-bezier(.3,1.35,.35,1),width .45s cubic-bezier(.3,1.35,.35,1)}
+  .lamp::before{content:"";position:absolute;top:-9.5px;left:50%;translate:-50% 0;width:58%;height:4px;border-radius:99px;background:var(--brand);
+    box-shadow:0 3px 14px 3px color-mix(in srgb,var(--brand) 60%,transparent),0 6px 26px 8px color-mix(in srgb,var(--brand) 28%,transparent)}
+  .lamp.sem-anim{transition:none}
+  nav a{position:relative;z-index:1}
+  #btn-tema{flex:0 0 auto;position:sticky;right:0;margin-left:auto;cursor:pointer;height:44px;width:62px;background:transparent;border:0;padding:6px 2px;box-shadow:-10px 0 12px var(--bg)}
+  #btn-tema .trk{position:relative;display:flex;align-items:center;justify-content:space-between;width:58px;height:32px;border-radius:999px;
+    border:1.5px solid var(--line);background:var(--surface);padding:0 7px;font-size:11px;color:var(--muted);line-height:1}
+  #btn-tema .trk::before{content:"\2600"}
+  #btn-tema .trk::after{content:"\263E"}
+  #btn-tema .thb{position:absolute;left:3px;top:50%;translate:0 -50%;width:24px;height:24px;border-radius:999px;background:var(--warn);
+    transition:left .35s cubic-bezier(.3,1.6,.4,1),width .18s ease,background .3s ease}
+  #btn-tema:active .thb{width:31px}
+  #btn-tema[aria-pressed="true"] .thb{left:29px;background:var(--azul)}
+  #btn-tema[aria-pressed="true"]:active .thb{left:22px}
+  .ticker{background:var(--danger-soft);color:var(--danger);border-bottom:1px solid var(--line);overflow:hidden}
+  .ticker-in{display:inline-flex;align-items:center;gap:28px;padding:9px 14px 9px 0;white-space:nowrap;will-change:transform;
+    font-family:var(--display);font-weight:600;font-size:13px;animation:ticker 34s linear infinite}
+  .ticker-in i{font-style:normal;opacity:.5}
+  .ticker:hover .ticker-in{animation-play-state:paused}
+  @keyframes ticker{to{transform:translateX(-50%)}}
+  #fab-hoje{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:41;min-height:48px;padding:0 20px;
+    border-radius:999px;border:0;background:var(--brand);color:var(--cal);font-family:var(--display);font-weight:800;font-size:14.5px;
+    letter-spacing:.02em;box-shadow:0 6px 18px color-mix(in srgb,var(--brand) 45%,transparent),var(--shadow);cursor:pointer}
+  #fab-hoje[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+  .pre{opacity:0;translate:0 16px}
+  :is(.card,.callout,.faixa,details,.prog-sec,.diarow,.tl){transition:opacity .55s ease,translate .55s ease,transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+  @media(hover:hover){
+    .card:hover,details:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--brand) 42%,var(--line));
+      box-shadow:0 4px 10px rgba(36,26,16,.08),0 16px 36px rgba(36,26,16,.12)}
+  }
+  .shine{background:linear-gradient(108deg,#fff 42%,#ffd9c2 50%,#fff 58%);background-size:240% 100%;background-position:120% 0;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:shine 7.5s ease-in-out 1.2s infinite}
+  @keyframes shine{0%{background-position:120% 0}55%{background-position:-60% 0}100%{background-position:-60% 0}}
+  #chip-dia b{display:inline-block;animation:rolo .55s cubic-bezier(.2,1.25,.3,1) .3s backwards}
+  @keyframes rolo{from{opacity:0;transform:translateY(.65em)}}
+  nav{transition:transform .3s ease}
+  nav.oculta{transform:translateY(-100%)}
+  .btn[target]::after{content:"\2192";display:inline-block;margin-left:8px;transition:translate .2s ease}
+  @media(hover:hover){.btn[target]:hover::after{translate:4px 0}}
+  .fotos-casa picture{display:block;position:relative;border-radius:10px;transition:transform .18s ease;will-change:transform}
+  .fotos-casa .glare{position:absolute;inset:0;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .2s;
+    background:radial-gradient(220px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.34),transparent 62%)}
+  body.paginas main > section{display:none}
+  body.paginas main > section.ativa{display:block;animation:secIn .28s ease}
+  body.paginas .faixa{display:none}
+  body.paginas .faixa.ativa{display:block}
+  @keyframes secIn{from{opacity:0;translate:0 10px}}
 
   main{padding:8px 14px 60px}
   section{margin:34px 0 0;scroll-margin-top:calc(var(--navh) + 12px)}
@@ -190,7 +248,7 @@ const PASSEIOS = {
     border:solid var(--cal);border-width:0 2.5px 2.5px 0;transform:rotate(43deg)}
   .pack input:checked + span{text-decoration:line-through;color:var(--muted)}
   .pack .note{display:block;font-size:12.5px;color:var(--muted);text-decoration:none!important;margin-top:1px}
-  .crit{border-left:3px solid var(--danger);padding-left:10px;margin-left:-13px}
+  .pack li.crit{border-left:3px solid var(--danger);padding-left:10px;margin-left:-13px}
   .counter{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:6px;font-family:var(--display)}
   .meter{height:5px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:12px}
   .meter i{display:block;height:100%;width:0;border-radius:99px;background:var(--olive);transition:width .3s ease}
@@ -221,8 +279,6 @@ const PASSEIOS = {
     transform:rotate(45deg) translateY(-2px);transition:transform .2s}
   details[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
   details .body{padding:0 15px 14px;font-size:14.5px}
-  details[open] .body{animation:abrir .22s ease}
-  @keyframes abrir{from{opacity:0;translate:0 -5px}}
   .dist{font-family:var(--display);font-size:12px;font-weight:600;color:var(--brand);white-space:nowrap;
     background:var(--brand-soft);border-radius:999px;padding:4px 9px;margin-left:auto}
   summary .tag{margin:0}
@@ -309,7 +365,7 @@ const PASSEIOS = {
 
   /* painel modo hoje */
   #painel-hoje{display:none}
-  body.modo-hoje main > section, body.modo-hoje .faixa{display:none}
+  body.modo-hoje main > section, body.modo-hoje main > section.ativa, body.modo-hoje .faixa, body.modo-hoje .faixa.ativa{display:none}
   body.modo-hoje #painel-hoje{display:block;margin-top:16px}
   #painel-hoje .data{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.01em;margin:4px 0 2px}
   #painel-hoje .dia{grid-auto-columns:unset}
@@ -317,7 +373,7 @@ const PASSEIOS = {
   footer{border-top:1px solid var(--line);margin-top:44px;padding:20px 14px 34px;color:var(--muted);font-size:13px}
   footer p{text-wrap:pretty}
 
-  #topo{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:40;width:48px;height:48px;
+  #topo{position:fixed;right:14px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:40;width:48px;height:48px;
     border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:19px;
     box-shadow:var(--shadow);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s;font-family:var(--display)}
   #topo.on{opacity:1;pointer-events:auto}
@@ -325,9 +381,10 @@ const PASSEIOS = {
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
     html{scroll-behavior:auto}
+    .ticker-in{white-space:normal;animation:none}
   }
   @media print{
-    nav,#topo,.filtros,.mapa-ctl,.faixa,#btn-hoje,.btnrow{display:none!important}
+    nav,#topo,#fab-hoje,.ticker,.filtros,.mapa-ctl,.faixa,.btnrow{display:none!important}
     body{background:#fff;color:#000}
     header.hero{height:auto;border:0}
     .hero picture,.hero .veu{display:none}
@@ -337,6 +394,8 @@ const PASSEIOS = {
     .card,details{box-shadow:none;break-inside:avoid}
     details:not([open]) .body{display:block}
     summary::after{display:none}
+    .pre{opacity:1!important;translate:none!important}
+    main > section{display:block!important}
     .diarow{grid-auto-flow:row;grid-template-columns:repeat(3,1fr);overflow:visible}
   }
 </style>
@@ -346,13 +405,13 @@ const PASSEIOS = {
 
 <header class="hero">
   <picture>
-    <source srcset="assets/baena/hero-piscina.webp" type="image/webp">
-    <img src="assets/baena/hero-piscina.jpg" width="1200" height="640" fetchpriority="high"
-      alt="A casa San Marcos em Baena: moradia vermelha com torre-mirador, pérgula de vinha e piscina em primeiro plano, sob céu limpo">
+    <source srcset="assets/baena/hero-olival.webp" type="image/webp">
+    <img src="assets/baena/hero-olival.jpg" width="1200" height="673" fetchpriority="high"
+      alt="A casa San Marcos vista de longe: moradia vermelha com torre-mirador, encaixada entre oliveiras e ciprestes, com a encosta calcária atrás">
   </picture>
   <div class="veu"></div>
   <div class="wrap">
-    <h1>Viagem a Baena</h1>
+    <h1><span class="shine">Viagem a Baena</span></h1>
     <p class="sub">Pinhal Novo → Baena (Córdoba, Andaluzia) · casa San Marcos, no olival · Victor &amp; Beatriz</p>
     <div class="chips">
       <span class="chip chip-hoje" id="chip-dia">16–23 ago</span>
@@ -376,9 +435,17 @@ const PASSEIOS = {
     <a href="#mala-b">Mala Beatriz</a>
     <a href="#carro">Carro</a>
     <a href="#docs">Documentos</a>
-    <button id="btn-hoje" aria-pressed="false">Modo hoje</button>
+    <button id="btn-tema" type="button" aria-pressed="false" aria-label="Alternar tema claro/escuro" title="Alternar claro/escuro"><span class="trk"><i class="thb"></i></span></button>
   </div>
 </nav>
+
+<div class="ticker" role="note" aria-label="Avisos do dia">
+  <div class="ticker-in">
+    <span>Domingo: trovoadas fortes possíveis no interior — confirmar AEMET antes de sair</span><i>·</i>
+    <span>Chegar a Baena antes das 18h — pico do regresso DGT das 18h às 23h</span><i>·</i>
+    <span>Avisar o anfitrião a 1 hora da chegada — encontro a 10 min da casa</span><i>·</i>
+  </div>
+</div>
 
 <main class="wrap">
 
@@ -568,6 +635,11 @@ const PASSEIOS = {
 <section id="carga">
   <h2><span class="dot"></span>Plano de carregamento</h2>
   <p class="lead">O e-3008 aceita cerca de 160 kW em corrente contínua. Com 38–40 °C, contar com <b>20–30% mais consumo</b> e potência de carga reduzida no fim da curva.</p>
+
+  <div class="callout ok">
+    <b>⚡ O carro é o Peugeot e-3008</b>
+    Os <b>Superchargers Tesla</b> que aparecem no plano são <b>postos de carregamento, não o carro</b>. Em Portugal e Espanha estão <b>abertos a outras marcas</b>, com tomada CCS — o e-3008 carrega lá normalmente, bastando ter a app Tesla instalada com o cartão configurado. São dos postos mais fiáveis e mais bem localizados da rota, por isso vale a pena não os ignorar.
+  </div>
 
   <div class="grid two">
     <div class="card">
@@ -1183,6 +1255,7 @@ const PASSEIOS = {
   </div>
 </footer>
 
+<button id="fab-hoje" aria-pressed="false" type="button">Hoje</button>
 <button id="topo" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
 
 <script>
@@ -1232,22 +1305,29 @@ const PASSEIOS = {
   /* ---------- Nav: scroll-spy ---------- */
   var navEl = $('nav .wrap');
   var links = $$('nav a');
+  var lamp = document.createElement('span'); lamp.className = 'lamp sem-anim'; lamp.setAttribute('aria-hidden','true');
+  navEl.prepend(lamp);
+  function moveLamp(a){ lamp.style.width = a.offsetWidth + 'px'; lamp.style.transform = 'translateX(' + a.offsetLeft + 'px)'; }
   var secs = links.map(function(a){ return $(a.getAttribute('href')); });
   var navH = $('nav').offsetHeight || 62;
   document.documentElement.style.setProperty('--navh', navH + 'px');
   var ticking = false;
   function spy(){
     ticking = false;
+    revela();
+    if(document.body.classList.contains('paginas')) return;
     var y = window.scrollY + navH + 90, atual = 0;
     for(var i=0;i<secs.length;i++){ if(secs[i] && secs[i].offsetTop <= y) atual = i; }
     links.forEach(function(a,i){
-      if(i===atual){ if(!a.hasAttribute('aria-current')){ a.setAttribute('aria-current','true');
+      if(i===atual){ moveLamp(a); if(!a.hasAttribute('aria-current')){ a.setAttribute('aria-current','true');
         navEl.scrollTo({left: a.offsetLeft - navEl.clientWidth/2 + a.offsetWidth/2, behavior:'smooth'}); } }
       else a.removeAttribute('aria-current');
     });
   }
-  window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(spy); } }, {passive:true});
+  window.addEventListener('scroll', function(){ revela(); if(!ticking){ ticking=true; requestAnimationFrame(spy); } }, {passive:true});
   spy();
+  requestAnimationFrame(function(){ lamp.classList.remove('sem-anim'); });
+  window.addEventListener('resize', function(){ requestAnimationFrame(spy); }, {passive:true});
 
   /* ---------- Projeção e utilidades do mapa ---------- */
   var LON0=-9.35, LAT0=39.15, KX=Math.cos(37.95*Math.PI/180), S=93.9;
@@ -1407,6 +1487,7 @@ const PASSEIOS = {
           var alvo = document.getElementById(d[3]); if(!alvo) return;
           alvo.open = true;
           location.hash = '#' + d[3];
+          mostraPorHash();
         });
       })(n);
     }
@@ -1429,6 +1510,7 @@ const PASSEIOS = {
         var vivos = $$('details', g).some(function(d){ return d.style.display!=='none'; });
         $('.sub-h', g).style.display = vivos ? '' : 'none';
       });
+      revela();
     });
   });
 
@@ -1449,7 +1531,7 @@ const PASSEIOS = {
   }
 
   /* ---------- Modo hoje ---------- */
-  var btnH = $('#btn-hoje'), painel = $('#painel-hoje');
+  var btnH = $('#fab-hoje'), painel = $('#painel-hoje');
   function fmtData(d){
     var s = d.toLocaleDateString('pt-PT', {weekday:'long', day:'numeric', month:'long'});
     return s.charAt(0).toUpperCase()+s.slice(1);
@@ -1462,7 +1544,8 @@ const PASSEIOS = {
     if(dcard){
       html += '<div class="dia ' + dcard.className.replace('dia','').trim() + '" style="max-width:280px;margin-top:8px">' + dcard.innerHTML + '</div>';
     } else if(hoje<INI){
-      html += '<p>A viagem começa a 16 de agosto — faltam <b>' + Math.round((INI-hoje)/864e5) + '</b> dias.</p>';
+      var nf = Math.round((INI-hoje)/864e5);
+      html += '<p>A viagem começa a 16 de agosto — ' + (nf===1 ? 'é <b>amanhã, às 09:00</b>.' : 'faltam <b>' + nf + '</b> dias.') + '</p>';
     } else {
       html += '<p>A viagem terminou a 23 de agosto. Boas memórias de Baena.</p>';
     }
@@ -1488,10 +1571,13 @@ const PASSEIOS = {
   function desligaHoje(){
     document.body.classList.remove('modo-hoje');
     btnH.setAttribute('aria-pressed','false');
+    btnH.textContent = 'Hoje';
+    revela();
   }
   btnH.addEventListener('click', function(){
     var on = document.body.classList.toggle('modo-hoje');
     btnH.setAttribute('aria-pressed', on?'true':'false');
+    btnH.textContent = on ? 'Tudo' : 'Hoje';
     if(on){ montaPainel(); window.scrollTo({top:0, behavior:'auto'}); }
   });
   links.forEach(function(a){ a.addEventListener('click', desligaHoje); });
@@ -1502,6 +1588,126 @@ const PASSEIOS = {
     topo.classList.toggle('on', window.scrollY > 700);
   }, {passive:true});
   topo.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  /* tema manual (só nesta sessão — sem armazenamento) */
+  var btnT = $('#btn-tema');
+  function temaAtual(){
+    var f = document.documentElement.getAttribute('data-tema');
+    if(f) return f;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro';
+  }
+  function pintaTema(){ if(btnT) btnT.setAttribute('aria-pressed', temaAtual()==='escuro' ? 'true' : 'false'); }
+  if(btnT){ btnT.addEventListener('click', function(){
+    document.documentElement.setAttribute('data-tema', temaAtual()==='escuro' ? 'claro' : 'escuro');
+    pintaTema();
+  }); pintaTema(); }
+  /* ticker em loop contínuo */
+  var tk = $('.ticker-in');
+  if(tk) tk.innerHTML += tk.innerHTML;
+  /* revelar ao rolar */
+  var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pendentes;
+  function revela(){
+    if(!pendentes || !pendentes.length) return;
+    var lim = window.innerHeight * 0.93;
+    for(var i = pendentes.length - 1; i >= 0; i--){
+      if(pendentes[i].getBoundingClientRect().top < lim){ pendentes[i].classList.remove('pre'); pendentes.splice(i, 1); }
+    }
+  }
+  if(!reduz){
+    pendentes = $$('.card,.callout,.faixa,details,.prog-sec,.diarow,.tl');
+    pendentes.forEach(function(x){ x.classList.add('pre'); });
+    revela();
+  }
+  /* acordeão com abertura suave */
+  $$('details').forEach(function(d){
+    var s = $('summary', d), b = $('.body', d);
+    if(!s || !b || reduz || !b.animate) return;
+    s.addEventListener('click', function(e){
+      e.preventDefault();
+      b.getAnimations().forEach(function(an){ an.cancel(); });
+      if(d.open){
+        var h = b.offsetHeight; b.style.overflow = 'hidden';
+        var an1 = b.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0}],{duration:220,easing:'ease'});
+        var fecha = function(){ b.style.overflow = ''; d.open = false; };
+        an1.onfinish = fecha; an1.oncancel = fecha;
+        setTimeout(fecha, 330);
+      } else {
+        d.open = true;
+        var h2 = b.offsetHeight; b.style.overflow = 'hidden';
+        var an2 = b.animate([{height:'0px',opacity:0},{height:h2+'px',opacity:1}],{duration:280,easing:'ease'});
+        var abre = function(){ b.style.overflow = ''; revela(); };
+        an2.onfinish = abre; an2.oncancel = abre;
+        setTimeout(abre, 390);
+      }
+    });
+  });
+
+  /* nav flutuante: esconde a descer, reaparece a subir */
+  var navBar = $('nav'), lastY = window.scrollY;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if(y > lastY + 6 && y > 300) navBar.classList.add('oculta');
+    else if(y < lastY - 6 || y <= 120) navBar.classList.remove('oculta');
+    lastY = y;
+  }, {passive:true});
+  /* tilt + glare nas fotos da casa (só rato fino) */
+  if(!reduz && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    $$('.fotos-casa picture').forEach(function(p){
+      var g = document.createElement('span'); g.className = 'glare'; p.appendChild(g);
+      p.addEventListener('pointermove', function(e){
+        var r = p.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        p.style.transform = 'perspective(600px) rotateX(' + ((py - .5) * -8).toFixed(2) + 'deg) rotateY(' + ((px - .5) * 8).toFixed(2) + 'deg)';
+        g.style.setProperty('--gx', (px * 100) + '%'); g.style.setProperty('--gy', (py * 100) + '%');
+        g.style.opacity = 1;
+      });
+      p.addEventListener('pointerleave', function(){ p.style.transform = ''; g.style.opacity = 0; });
+    });
+  }
+
+  /* uma página por tema — a nav troca de secção em vez de rolar */
+  document.body.classList.add('paginas');
+  var faixas = $$('.faixa');
+  function mostra(id, semScroll){
+    var alvo = document.getElementById(id);
+    if(!alvo || alvo.tagName !== 'SECTION') return;
+    $$('main > section').forEach(function(s){ s.classList.toggle('ativa', s === alvo); });
+    faixas.forEach(function(fx){
+      var n = fx.nextElementSibling;
+      while(n && n.tagName !== 'SECTION') n = n.nextElementSibling;
+      fx.classList.toggle('ativa', n === alvo);
+    });
+    links.forEach(function(a2){
+      if(a2.getAttribute('href') === '#' + id){
+        a2.setAttribute('aria-current','true'); moveLamp(a2);
+        navEl.scrollTo({left: a2.offsetLeft - navEl.clientWidth/2 + a2.offsetWidth/2, behavior:'smooth'});
+      } else a2.removeAttribute('aria-current');
+    });
+    navBar.classList.remove('oculta');
+    if(!semScroll){
+      var t = alvo.getBoundingClientRect().top + window.scrollY - navBar.offsetHeight - 10;
+      window.scrollTo({top: Math.min(window.scrollY, Math.max(0, t)), behavior:'auto'});
+    }
+    revela();
+  }
+  function mostraPorHash(){
+    var h = location.hash.slice(1); if(!h) return;
+    var el = document.getElementById(h); if(!el) return;
+    var sec = el.tagName === 'SECTION' ? el : (el.closest ? el.closest('section') : null);
+    if(!sec || !sec.id) return;
+    mostra(sec.id, el !== sec);
+    if(el !== sec){
+      if(el.tagName === 'DETAILS') el.open = true;
+      setTimeout(function(){
+        window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - navBar.offsetHeight - 12, behavior:'auto'});
+      }, 30);
+    }
+  }
+  window.addEventListener('hashchange', mostraPorHash);
+  mostra('hoje', true);
+  if(location.hash) mostraPorHash();
+
 })();
 </script>
 </body>
