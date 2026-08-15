@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Viagem a Baena · 15–23 Ago 2026</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Guia da viagem a Baena, Andaluzia - rotas, carregamento eletrico, previsao do tempo, passeios e listas de mala.">
+<meta name="theme-color" content="#b4471f" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17130f" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Viagem a Baena &middot; 15&ndash;23 Ago 2026">
+<meta property="og:description" content="Rotas, carregamento, tempo, passeios e listas de mala.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8C%B4%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#faf6f0; --surface:#ffffff; --ink:#241d17; --muted:#6f6257;
+    --line:#e6dccf; --brand:#b4471f; --brand-soft:#fbeee7;
+    --olive:#5b6b3a; --olive-soft:#eef1e5;
+    --sky:#2b6b8f; --sky-soft:#e6f0f5;
+    --warn:#a8641b; --warn-soft:#fdf0dd;
+    --danger:#98301f; --danger-soft:#fbe9e6;
+    --radius:14px; --shadow:0 1px 2px rgba(36,29,23,.06),0 8px 24px rgba(36,29,23,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#17130f; --surface:#211b16; --ink:#f2ece4; --muted:#a89a8c;
+      --line:#332a22; --brand:#e8825a; --brand-soft:#33211a;
+      --olive:#9db56b; --olive-soft:#232a1a;
+      --sky:#7bbcdd; --sky-soft:#17242b;
+      --warn:#e0a558; --warn-soft:#2c2113;
+      --danger:#e8887a; --danger-soft:#2e1a17;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding-bottom:env(safe-area-inset-bottom)}
+  a{color:var(--brand)}
+  header.hero{padding:28px 18px 20px;background:
+     radial-gradient(120% 100% at 0% 0%, var(--brand-soft) 0%, transparent 60%),
+     radial-gradient(120% 100% at 100% 0%, var(--olive-soft) 0%, transparent 55%);
+     border-bottom:1px solid var(--line)}
+  .wrap{max-width:980px;margin:0 auto}
+  h1{margin:0 0 4px;font-size:clamp(24px,5.4vw,34px);letter-spacing:-.02em;line-height:1.15}
+  .sub{color:var(--muted);font-size:15px;margin:0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{background:var(--surface);border:1px solid var(--line);border-radius:999px;
+    padding:6px 12px;font-size:13px;font-weight:600;box-shadow:var(--shadow)}
+  .chip b{color:var(--brand)}
+  nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav a{flex:0 0 auto;text-decoration:none;color:var(--muted);font-size:14px;font-weight:600;
+    padding:7px 13px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+  nav a:hover,nav a:focus{color:var(--ink);background:var(--surface);border-color:var(--line)}
+  main{padding:8px 14px 60px}
+  section{margin:30px 0 0;scroll-margin-top:64px}
+  h2{font-size:20px;margin:0 0 4px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);flex:0 0 auto}
+  .lead{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 16px 14px;box-shadow:var(--shadow);margin-bottom:14px}
+  .card h3{margin:0 0 2px;font-size:17px;letter-spacing:-.01em}
+  .card .meta{color:var(--muted);font-size:13.5px;margin:0 0 10px}
+  .grid{display:grid;gap:14px}
+  @media(min-width:720px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:3px 9px;border-radius:999px;margin:0 6px 6px 0}
+  .t-best{background:var(--olive-soft);color:var(--olive)}
+  .t-alt{background:var(--sky-soft);color:var(--sky)}
+  .t-warn{background:var(--warn-soft);color:var(--warn)}
+  .t-no{background:var(--danger-soft);color:var(--danger)}
+  ul.pro,ul.con{margin:6px 0 10px;padding-left:0;list-style:none}
+  ul.pro li,ul.con li{position:relative;padding-left:24px;margin:5px 0;font-size:14.5px}
+  ul.pro li::before{content:"+";position:absolute;left:6px;top:-1px;color:var(--olive);font-weight:800}
+  ul.con li::before{content:"−";position:absolute;left:6px;top:-1px;color:var(--danger);font-weight:800}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:4px 0 2px}
+  th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  tbody tr:last-child td{border-bottom:0}
+  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .hot{color:var(--danger);font-weight:700}
+  .mild{color:var(--olive);font-weight:700}
+  .callout{border-left:3px solid var(--brand);background:var(--brand-soft);padding:12px 14px;
+    border-radius:0 10px 10px 0;font-size:14.5px;margin:12px 0}
+  .callout.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .callout.danger{border-color:var(--danger);background:var(--danger-soft)}
+  .callout.ok{border-color:var(--olive);background:var(--olive-soft)}
+  .callout b{display:block;margin-bottom:2px}
+  .steps{list-style:none;padding:0;margin:8px 0 0;counter-reset:s}
+  .steps li{counter-increment:s;position:relative;padding:8px 0 8px 40px;border-bottom:1px dashed var(--line);font-size:14.5px}
+  .steps li:last-child{border-bottom:0}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;
+    background:var(--brand);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+  .pack{list-style:none;padding:0;margin:0}
+  .pack li{display:flex;gap:11px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .pack li:last-child{border-bottom:0}
+  .pack input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:21px;height:21px;margin-top:2px;
+    border:2px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer;position:relative;transition:.15s}
+  .pack input:checked{background:var(--olive);border-color:var(--olive)}
+  .pack input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
+    border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(43deg)}
+  .pack input:checked + span{text-decoration:line-through;color:var(--muted)}
+  .pack .note{display:block;font-size:12.5px;color:var(--muted);text-decoration:none!important}
+  .crit{border-left:3px solid var(--danger);padding-left:9px;margin-left:-12px}
+  .counter{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:10px}
+  .kv{list-style:none;padding:0;margin:0;font-size:14.5px}
+  .kv li{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .kv li:last-child{border-bottom:0}
+  .kv span:first-child{color:var(--muted)}
+  .kv span:last-child{font-weight:600;text-align:right}
+  details{border:1px solid var(--line);border-radius:12px;padding:0;background:var(--surface);margin-bottom:10px;box-shadow:var(--shadow)}
+  summary{cursor:pointer;padding:13px 15px;font-weight:700;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"▾";color:var(--muted);font-size:13px;transition:.2s}
+  details[open] summary::after{transform:rotate(180deg)}
+  details .body{padding:0 15px 15px;font-size:14.5px}
+  .dist{font-size:12.5px;font-weight:700;color:var(--brand);white-space:nowrap}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:20px 14px 34px;color:var(--muted);font-size:13px}
+  .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .btn{display:inline-block;text-decoration:none;font-size:13.5px;font-weight:700;padding:8px 13px;
+    border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  @media print{nav,.btnrow{display:none}body{background:#fff}details{break-inside:avoid}details:not([open]) .body{display:block}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Viagem a Baena</h1>
+    <p class="sub">Pinhal Novo → Baena (Córdoba, Andaluzia) · 15 a 23 de agosto de 2026</p>
+    <div class="chips">
+      <span class="chip">🚗 Carro elétrico</span>
+      <span class="chip">⚡ 100% elétrico</span>
+      <span class="chip">🌡️ <b>36–38 °C</b> nos 1.ºs dias</span>
+      <span class="chip">🛣️ 530–640 km</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#hoje">Hoje</a>
+    <a href="#rotas">Rotas</a>
+    <a href="#carga">Carregar</a>
+    <a href="#tempo">Tempo</a>
+    <a href="#passeios">Passeios</a>
+    <a href="#agenda">Festas</a>
+    <a href="#mala">Mala</a>
+    <a href="#criancas">Crianças</a>
+    <a href="#docs">Documentos</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ===================== HOJE ===================== -->
+<section id="hoje">
+  <h2><span class="dot"></span>Antes de arrancar</h2>
+  <p class="lead">Quatro coisas a confirmar hoje, 15 de agosto, antes de sair de Pinhal Novo.</p>
+
+  <div class="callout danger">
+    <b>⚠️ Incêndio de Niebla (Huelva)</b>
+    Arderam ~31 000 ha e a 14/08 continuavam cortadas estradas secundárias em Huelva (A-493, HU-…) e em Sevilha (SE-538, SE-6400, junto a El Madroño). A A-49 não foi dada como cortada, mas o perímetro toca as rotas do sul. <b>Verificar em <a href="https://www.dgt.es/conoce-el-estado-del-trafico/" target="_blank" rel="noopener">dgt.es</a> antes de partir.</b>
+  </div>
+
+  <div class="callout warn">
+    <b>⛈️ Trovoada em Baena hoje, 14h–22h</b>
+    Aviso amarelo da AEMET para a Campiña e Subbética cordobesas — 90% de probabilidade, possibilidade de granizo e rajadas fortes. Também aviso amarelo de calor (38 °C, 13h–21h). Chegar antes disso, ou contar com um último troço molhado.
+  </div>
+
+  <div class="callout">
+    <b>🚦 Operação "15 de agosto" da DGT</b>
+    Prevê-se 1 178 100 deslocações na Andaluzia entre sexta às 15h e domingo à noite. A-4 e A-49 estão entre as vias mais carregadas. No regresso (domingo, 23), evitar a tarde.
+  </div>
+
+  <div class="card">
+    <h3>Checklist de 5 minutos</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span>App <b>Tesla</b> instalada e com cartão configurado <span class="note">Vários dos melhores carregadores da rota são Superchargers abertos a outras marcas</span></span></li>
+      <li><input type="checkbox"><span>App <b>Zunder</b>, <b>Ionity</b> e <b>Electromaps</b> / <b>ABRP</b> instaladas</span></li>
+      <li><input type="checkbox"><span>Identificador <b>Via Verde</b> no carro</span></li>
+      <li><input type="checkbox"><span>Documentos do carro e seguro <span class="note">Se for alugado ou em leasing, levar a autorização de circulação em Espanha e o contacto de assistência em viagem</span></span></li>
+      <li><input type="checkbox"><span>Bateria a <b>100%</b> à saída e pressão dos pneus verificada <span class="note">Asfalto a 50 °C é agressivo</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== ROTAS ===================== -->
+<section id="rotas">
+  <h2><span class="dot"></span>Três rotas até Baena</h2>
+  <p class="lead">Badajoz e Mérida já conhecem — por isso a rota clássica desce para terceiro lugar e as duas primeiras passam por sítios novos.</p>
+
+  <!-- ROTA 1 -->
+  <div class="card">
+    <span class="tag t-best">Recomendada</span><span class="tag t-alt">Tudo autoestrada</span>
+    <h3>Rota 1 · Algarve &amp; Huelva</h3>
+    <p class="meta">A2 → A22 Via do Infante → ponte de Ayamonte → A-49 Huelva → Sevilha → A-4 Écija → Baena<br>
+    <b>≈ 615 km · 6h00–6h30</b> de condução (≈ 8h com paragens)</p>
+    <ul class="pro">
+      <li><b>95% em autoestrada</b> — o percurso mais descansado, com criança a bordo</li>
+      <li><b>A22 é gratuita desde 1 de janeiro de 2025</b> — as portagens do Algarve acabaram</li>
+      <li>A melhor rede de carregamento das três: Alcácer 400 kW, Almodôvar Ionity, Tesla em Loulé e <b>Tesla Benacazón mesmo em cima da A-49</b></li>
+      <li>Paisagem e paragens novas: Ayamonte, Huelva e os Lugares Colombinos (La Rábida, Palos, Moguer)</li>
+      <li>Em Espanha, <b>zero portagens</b> (A-49 e A-4 são autovías gratuitas)</li>
+    </ul>
+    <ul class="con">
+      <li>É a mais longa: ~85 km a mais do que a rota do Alentejo</li>
+      <li>Passa perto do perímetro do incêndio de Niebla — confirmar a A-49 na DGT</li>
+      <li>A2 sentido sul a 15 de agosto tem picos de manhã</li>
+    </ul>
+    <div class="callout ok"><b>Melhor paragem</b>Huelva / La Rábida ao início da tarde, ou simplesmente uma parada longa em Sevilha ao fim do dia.</div>
+  </div>
+
+  <!-- ROTA 2 -->
+  <div class="card">
+    <span class="tag t-alt">Mais curta</span><span class="tag t-warn">Vazio de carga de 160 km</span>
+    <h3>Rota 2 · Alentejo &amp; Serra de Aracena</h3>
+    <p class="meta">A2 → IP8 Beja → Serpa → fronteira de Vila Verde de Ficalho → N-433 Aracena → Sevilha → A-4 → Baena<br>
+    <b>≈ 530 km · 5h30–6h00</b> de condução</p>
+    <ul class="pro">
+      <li><b>A mais curta em km</b> e a mais bonita — atravessa a Sierra de Aracena, Reserva da Biosfera</li>
+      <li><b>Aracena</b> é a melhor paragem de todas as rotas: a Gruta de las Maravillas é fresca e encanta uma criança de 6 anos</li>
+      <li>A ~700 m de altitude, a serra é vários graus mais fresca do que a campiña</li>
+      <li>Jabugo, Almonaster la Real, Cortegana e Galaroza mesmo em cima da estrada</li>
+    </ul>
+    <ul class="con">
+      <li><b>Sem carregamento rápido fiável entre Beja e Sevilha (~160 km)</b> — tem de sair de Aljustrel bem carregado</li>
+      <li>O IP8 <b>não</b> é todo autoestrada: de Beja a Ficalho é a N-260, 1x1, e atravessa Serpa</li>
+      <li>A N-433 espanhola é sinuosa, com camiões e sinistralidade relevante — ~2h para 160 km</li>
+      <li>El Madroño, na zona da N-433, esteve afetado pelo incêndio</li>
+    </ul>
+    <div class="callout warn"><b>Regra de ouro</b>Só fazer esta rota com ≥ 60% de bateria à saída de Aljustrel, e com ar condicionado a puxar num dia de 38 °C, arredondar para 70%.</div>
+  </div>
+
+  <!-- ROTA 3 -->
+  <div class="card">
+    <span class="tag t-warn">Já conhecem</span>
+    <h3>Rota 3 · Clássica por Badajoz e Mérida</h3>
+    <p class="meta">A2 → A6 Elvas/Caia → Badajoz → A-5 Mérida → A-66 Zafra → Sevilha → A-4 → Baena<br>
+    <b>≈ 637 km · 6h30–7h00</b> de condução</p>
+    <ul class="pro">
+      <li><b>De longe a melhor rede de carregamento:</b> Estremoz (Ionity 350 kW) e sobretudo <b>Mérida</b> — Zunder 360 kW com 16 tomadas, dois Superchargers Tesla de 250 kW e um Ionity 350 kW</li>
+      <li>Autoestrada praticamente do princípio ao fim</li>
+      <li>Se quiserem uma novidade nesta rota, <b>Zafra</b> ("Sevilla la Chica") é uma paragem de 2h que não conhecem: Alcázar dos Duques de Feria, hoje Parador, com pátio de mármore</li>
+    </ul>
+    <ul class="con">
+      <li><b>Badajoz e Mérida já conhecem</b> — o principal atrativo da rota deixa de contar</li>
+      <li>A mais longa das três e a que atravessa a Extremadura no pico do calor</li>
+      <li>Portagens portuguesas mais caras: ~17,00–17,50 € só até ao Caia</li>
+      <li>Zafra tem carregamento fraco — se carregar, carregar em Mérida</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <b>Ideia: ir por uma e voltar por outra</b>
+    Ir pela <b>Rota 1 (Algarve)</b>, mais descansada e com melhor carga, e no regresso a 23 fazer a <b>Rota 2 (Aracena)</b>, parando na Gruta de las Maravillas a meio do caminho. Vêem tudo o que é novo e nunca repetem paisagem.
+  </div>
+</section>
+
+<!-- ===================== CARGA ===================== -->
+<section id="carga">
+  <h2><span class="dot"></span>Plano de carregamento</h2>
+  <p class="lead">O e-3008 aceita cerca de 160 kW em corrente contínua. Com 38–40 °C, contar com <b>20–30% mais consumo</b> e potência de carga reduzida no fim da curva.</p>
+
+  <div class="grid two">
+    <div class="card">
+      <h3>Rota 1 · Algarve</h3>
+      <ol class="steps">
+        <li><b>Alcácer do Sal</b> (A2) — hub Galp até 400 kW</li>
+        <li><b>Almodôvar</b> (A2, km 193) — Ionity até 350 kW</li>
+        <li><i>ou</i> <b>Loulé / Alcantarilha</b> — Tesla Supercharger 150–250 kW</li>
+        <li><b>Benacazón</b> (A-49, 25 km a oeste de Sevilha) — Tesla, mesmo em cima da rota</li>
+        <li><b>Córdoba</b> ou <b>La Carlota</b> antes de descer para Baena</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Rota 2 · Aracena</h3>
+      <ol class="steps">
+        <li><b>Aljustrel</b> (A2, km 148) — Galp/Via Verde até 400 kW. <b>Carregar a fundo aqui.</b></li>
+        <li>Atravessar Ficalho e a N-433 <b>sem carregar</b> — 160 km sem posto fiável</li>
+        <li><b>Sevilha</b> — Zunder Alcalá de Guadaíra 360 kW (saída para a A-4) ou Bormujos 360 kW</li>
+        <li><b>Córdoba</b> — Tesla Supercharger 250 kW, se precisar</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Rota 3 · Badajoz / Mérida</h3>
+    <ol class="steps">
+      <li><b>Estremoz</b> (A6) — Ionity/Cepsa até 350 kW, 24h</li>
+      <li><b>Mérida</b> — Zunder 360 kW (16 tomadas), Tesla 250 kW ×2, Ionity 350 kW. O melhor hub de toda a viagem</li>
+      <li>Saltar <b>Zafra</b> (fraco); se necessário, Zunder em <b>Monesterio</b></li>
+      <li><b>Sevilha</b> — Zunder Alcalá de Guadaíra 360 kW</li>
+      <li><b>Córdoba</b> — Tesla 250 kW</li>
+    </ol>
+  </div>
+
+  <div class="callout danger">
+    <b>⚡ Baena não tem carregamento rápido</b>
+    Só existem tomadas Type 2 (AC lento): "Baena 30" na Avenida Cervantes e o parque El Juncal. O DC rápido mais próximo confirmado é <b>Monturque / El Cañuelo (A-45, ~40 km, TotalEnergies 100 kW)</b> e, com toda a segurança, o <b>Supercharger de Córdoba (~62 km, 250 kW)</b>. Chegar a Baena com autonomia e confirmar se o alojamento tem tomada para carregar de noite.
+  </div>
+
+  <div class="card">
+    <h3>Portagens</h3>
+    <ul class="kv">
+      <li><span>A22 Via do Infante (Algarve)</span><span>Gratuita desde 2025</span></li>
+      <li><span>A2 Lisboa → Algarve completo</span><span>≈ 23,80 €</span></li>
+      <li><span>A2/A6 Pinhal Novo → Caia</span><span>≈ 17,00–17,50 €</span></li>
+      <li><span>Espanha (A-49, A-4, A-5, A-66, A-45)</span><span>Todas gratuitas</span></li>
+    </ul>
+    <p class="meta" style="margin-top:8px">Em Espanha só as autopistas <b>AP-</b> cobram portagem. Nenhuma aparece nestas rotas — não é preciso Via-T.</p>
+  </div>
+</section>
+
+<!-- ===================== TEMPO ===================== -->
+<section id="tempo">
+  <h2><span class="dot"></span>Previsão do tempo em Baena</h2>
+  <p class="lead">AEMET, boletim de 15/08 às 09h05. Cobertura oficial até dia 21; os dias 22 e 23 são só modelo (±3 °C).</p>
+
+  <div class="card">
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Dia</th><th>Máx</th><th>Mín</th><th>UV</th><th>Chuva</th><th>Notas</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sáb 15</b></td><td class="hot">36 °C</td><td>23 °C</td><td>8</td><td><b>90%</b></td><td>Trovoada 14h–22h, possível granizo</td></tr>
+          <tr><td><b>Dom 16</b></td><td class="hot">36 °C</td><td>22 °C</td><td>8</td><td>15%</td><td>Intervalos nublados</td></tr>
+          <tr><td><b>Seg 17</b></td><td class="hot">38 °C</td><td>22 °C</td><td>8</td><td>15%</td><td>Sensação térmica ~41 °C</td></tr>
+          <tr><td><b>Ter 18</b></td><td class="hot">38 °C</td><td>21 °C</td><td>9</td><td>10%</td><td>Calima — céu esbranquiçado</td></tr>
+          <tr><td><b>Qua 19</b></td><td class="mild">32 °C</td><td>20 °C</td><td>8</td><td>20%</td><td>Entra ar mais fresco</td></tr>
+          <tr><td><b>Qui 20</b></td><td class="mild">30 °C</td><td>17 °C</td><td>—</td><td>35%</td><td>O dia mais agradável</td></tr>
+          <tr><td><b>Sex 21</b></td><td class="mild">33 °C</td><td>18 °C</td><td>—</td><td>25%</td><td>Noites frescas</td></tr>
+          <tr><td>Sáb 22*</td><td>~33 °C</td><td>~20 °C</td><td>~8</td><td>&lt;10%</td><td>Só modelo</td></tr>
+          <tr><td>Dom 23*</td><td>~33 °C</td><td>~21 °C</td><td>~8</td><td>&lt;10%</td><td>Só modelo · dia de regresso</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid two">
+    <div class="callout warn">
+      <b>☀️ UV 8 a 9 — "muito alto" a "extremo"</b>
+      Queimadura em pele desprotegida em 10 a 15 minutos entre as 12h e as 17h. Protetor 50+, chapéu e sombra não são opcionais, sobretudo para as crianças.
+    </div>
+    <div class="callout">
+      <b>🌙 Noites tropicais até dia 18</b>
+      Mínimas de 21–23 °C nos primeiros quatro dias: sem ar condicionado, a casa não arrefece. A partir de 19 melhora muito (17–20 °C). Truque local: persianas fechadas o dia todo, abrir tudo depois das 23h.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Pinhal Novo nos dias de viagem</h3>
+    <ul class="kv">
+      <li><span>Sáb 15 (partida)</span><span>31,5 °C · sem chuva · UV 7,5</span></li>
+      <li><span>Dom 23 (regresso)*</span><span>~29 °C · 11% chuva</span></li>
+    </ul>
+    <p class="meta" style="margin-top:8px">Pinhal Novo é interior — conte com 32–34 °C à tarde, 2–3 °C acima da estação de Setúbal. *Dia 23 é modelo, o IPMA só publica 5 dias.</p>
+  </div>
+</section>
+
+<!-- ===================== PASSEIOS ===================== -->
+<section id="passeios">
+  <h2><span class="dot"></span>Passeios a partir de Baena</h2>
+  <p class="lead">Distâncias e tempos aproximados, de carro, a partir do centro de Baena. Toque para abrir cada um.</p>
+
+  <h3 style="font-size:15px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin:18px 0 10px">Até 40 km · saídas de meio dia</h3>
+
+  <details open><summary>Zuheros <span class="dist">13 km · 16 min</span></summary><div class="body">
+    <p><b>Cueva de los Murciélagos</b> — gruta com arte rupestre neolítica, interior a 14–17 °C. O melhor plano para um dia de 38 °C. <b>Reserva obrigatória:</b> turismo@zuheros.es ou 957 69 45 45. Verão: qua a dom, às 11h00, 12h30 e 17h30. 8 € adulto, 6,50 € dos 6 aos 12 anos.</p>
+    <p><b>Atenção com crianças:</b> o percurso tem 415 m e cerca de 700 degraus, até 65 m de profundidade. Uma criança de 6 anos ativa consegue, mas é exigente. Levar casaco.</p>
+    <p>Também: castelo de Zuheros no penhasco, museu arqueológico e uma das aldeias brancas mais bonitas de Espanha. <b>Feira da Virgen de los Remedios, 12–16 de agosto.</b></p>
+  </div></details>
+
+  <details><summary>Luque e a Via Verde <span class="dist">9 km · 12 min</span></summary><div class="body">
+    <p>Antiga linha do "comboio do azeite" convertida em percurso plano, sem trânsito, com túneis iluminados e viadutos. <b>O melhor passeio local com uma criança de 6 anos.</b> Troço Doña Mencía → Zuheros → Luque, ~13 km, com antigas estações transformadas em restaurantes.</p>
+    <p>Aluguer de bicicletas com cadeiras e atrelados no Centro Cicloturista Subbética, em Doña Mencía (13 km). Reservar em agosto. Fazer ao amanhecer ou depois das 19h.</p>
+  </div></details>
+
+  <details><summary>Cabra · Fuente del Río <span class="dist">26 km · 29 min</span></summary><div class="body">
+    <p><b>Parque de la Fuente del Río</b> — nascente, ribeira, sombra de plátanos, zona de merendas. Gratuito, e é o plano "fresco" mais simples e mais barato de toda a comarca.</p>
+    <p>Subindo 13 km de estrada de montanha, o <b>Santuário da Virgen de la Sierra</b> a 1 200 m — vários graus mais fresco e com vista imensa. Também o museu "Cabra Jurásica", geoparque UNESCO.</p>
+  </div></details>
+
+  <details><summary>Priego de Córdoba <span class="dist">31 km · 34 min</span></summary><div class="body">
+    <p><b>Fuente del Rey</b> — 139 bicas de água, monumental. As crianças brincam à volta e refresca de verdade. O <b>Barrio de la Villa</b> é um labirinto branco cheio de flores, e o <b>Balcón del Adarve</b> tem a melhor vista da Subbética. Sem reserva.</p>
+  </div></details>
+
+  <details><summary>Torreparedones <span class="dist">26 km · 38 min</span></summary><div class="body">
+    <p>Cidade ibero-romana escavada no próprio concelho de Baena: fórum, termas, muralhas e santuário ibérico. Visitas guiadas normalmente aos fins de semana e feriados, 10h00–12h30, com reserva em torreparedones.es.</p>
+    <p><b>Sem sombra nenhuma</b> — só de manhã cedo. Há <b>veladas astronómicas de verão</b>, que são o plano ideal com crianças: à noite e fresco.</p>
+  </div></details>
+
+  <details><summary>Castro del Río · Espejo · Doña Mencía <span class="dist">13–26 km</span></summary><div class="body">
+    <p>Três paragens curtas de 1 a 2 horas, todas na <b>Ruta del Califato</b>. Castro del Río tem o casco amuralhado e a antiga prisão onde a tradição diz ter estado Cervantes; Espejo tem o castelo dos Duques de Osuna no alto da colina; Doña Mencía é a base da Via Verde e das adegas Montilla-Moriles.</p>
+  </div></details>
+
+  <h3 style="font-size:15px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin:22px 0 10px">40 a 100 km · saídas de um dia</h3>
+
+  <details open><summary>Córdoba <span class="dist">62 km · 47 min</span></summary><div class="body">
+    <p><b>Mesquita-Catedral</b> — imprescindível. Verão: seg–sáb 10h–19h; dom 08h30–11h30 e 15h–19h. 15 € adulto, 8 € dos 10 aos 14, <b>grátis até aos 9 anos</b>. <b>Entrada gratuita de seg a sáb, das 08h30 às 09h30</b> (visita individual, em silêncio). Comprar online.</p>
+    <p><b>Alcázar de los Reyes Cristianos</b> — jardins cheios de água, ótimo com criança. Também o <b>Zoo de Córdoba</b> e o Jardim Botânico.</p>
+    <p><b>Medina Azahara</b> (69 km) — cidade palatina califal. Verão: ter–sáb 09h–14h <b>e 19h–24h</b> (visitas nocturnas). Lançadeira obrigatória, ~2,50–3 €.</p>
+    <p><b>Estratégia de calor:</b> Córdoba passa dos 40 °C em agosto. Chegar às 8h30, ver a Mesquita na hora gratuita, almoçar e sair — ou fazer só a visita nocturna "El Alma de Córdoba".</p>
+  </div></details>
+
+  <details open><summary>Lago de Iznájar · praia de Valdearenas <span class="dist">62 km · 1 h</span></summary><div class="body">
+    <p><b>É "o mar" da província de Córdoba.</b> Praia de areia no maior embalse da Andaluzia, com zona balnear, chuveiros, bar e sombras. Entrada de água suave — perfeita para os mais pequenos.</p>
+    <p>Aluguer de <b>caiaques e paddle surf</b> (reservar ao fim de semana). A aldeia de Iznájar no alto tem castelo, o Patio de las Comedias e dos melhores miradouros da Andaluzia.</p>
+    <p>Sombra natural é escassa: levar chapéu de sol / toldo.</p>
+  </div></details>
+
+  <details><summary>Rute · Museu do Chocolate <span class="dist">50 km · 52 min</span></summary><div class="body">
+    <p>Esculturas gigantes de chocolate, num espaço interior e climatizado. <b>O plano de calor mais garantido com uma criança de 6 anos.</b> Na mesma vila, o Museu do Anis (destilaria histórica), o do Presunto e o do Azeite, e o miradouro sobre o embalse de Iznájar.</p>
+  </div></details>
+
+  <details><summary>Almedinilla · FESTUM romano <span class="dist">40 km · 41 min</span></summary><div class="body">
+    <p><b>Jornadas Iberorromanas, 12 a 16 de agosto</b> — mesmo no início da estadia. Cardo Romano com tabernas e oficinas de artesanato, <b>combates de gladiadores no dia 16 de manhã</b>, e <b>"Ludi Romani" a 15 de agosto: oficinas infantis gratuitas</b> de mosaico e cerâmica ibérica.</p>
+    <p>Fora do festival: Villa Romana de El Ruedo e o poblado íbero do Cerro de la Cruz. Os banquetes romanos exigem reserva (45–65 €).</p>
+  </div></details>
+
+  <details><summary>Alcalá la Real · Fortaleza de la Mota <span class="dist">49 km · 38 min</span></summary><div class="body">
+    <p>Enorme conjunto amuralhado com igreja abacial e cidade medieval escavada. Tem a experiência infantil <b>"Marco Topo"</b>, um jogo de pistas pela cidade feito para crianças — muda completamente a visita com crianças. Pouca sombra: ir cedo.</p>
+  </div></details>
+
+  <details><summary>Jaén · Banhos Árabes <span class="dist">66 km · 51 min</span></summary><div class="body">
+    <p>Os <b>maiores banhos árabes de Espanha</b>, subterrâneos e frescos — outro bom plano de calor. Mais o Castillo de Santa Catalina, com vista sobre o mar de oliveiras, e a catedral renascentista de Vandelvira.</p>
+  </div></details>
+
+  <details><summary>Antequera · dólmenes e El Torcal <span class="dist">86 km · 1 h 15</span></summary><div class="body">
+    <p><b>Dólmenes de Menga, Viera e El Romeral</b> — Património Mundial UNESCO, entrada gratuita para cidadãos da UE.</p>
+    <p><b>El Torcal</b> (102 km) — labirinto de rochas cársicas a 1 200 m, tipicamente 6 a 8 °C mais fresco. Entrada gratuita; a "ruta verde" tem só 1,5 km e é acessível a uma criança, mas o piso é irregular: <b>calçado fechado obrigatório</b>. Em dias de grande afluência há lançadeira (~2 €).</p>
+    <p><b>Real Feria de Agosto, 19 a 23 de agosto:</b> dia 19 é dia infantil com preços reduzidos nas atrações e "horas sem ruído" das 20h30 às 22h30.</p>
+  </div></details>
+
+  <details><summary>Aquasierra · parque aquático mais próximo <span class="dist">84 km · 1 h</span></summary><div class="body">
+    <p>Villafranca de Córdoba. Aberto <b>todos os dias das 11h30 às 20h00 até 31 de agosto</b>. Tarifas por altura. Tel. 957 190 699.</p>
+  </div></details>
+
+  <h3 style="font-size:15px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin:22px 0 10px">100 a 200 km · dia inteiro ou dormida</h3>
+
+  <details><summary>Granada · Alhambra <span class="dist">103 km · 1 h 35</span></summary><div class="body">
+    <p><b>Reserva crítica.</b> Só em tickets.alhambra-patronato.es. Agosto esgota com semanas de antecedência — se ainda não têm bilhete, verificar hoje. 22,27 € geral; <b>menores de 12 anos entram grátis, mas o bilhete tem de ser emitido no mesmo momento que os dos adultos</b>. Bilhetes nominativos: levar documentos de identificação de todos.</p>
+    <p>Os <b>jardins do Generalife</b>, cheios de água, são a melhor parte com uma criança. Visita completa ~3h a pé. Há visita nocturna dos Palácios Nazaríes, ter–sáb 22h–23h30, 12,73 €.</p>
+  </div></details>
+
+  <details><summary>Nerja · gruta + praia <span class="dist">188 km · 2 h 20</span></summary><div class="body">
+    <p><b>A melhor combinação para um dia de calor extremo:</b> a Cueva de Nerja de manhã (passadiço amplo, muito mais fácil que a de Zuheros — verão 09h30–19h00, todos os dias, comprar online) e a <b>praia de Burriana</b> à tarde. Frigiliana, aldeia branca, a 10 minutos.</p>
+  </div></details>
+
+  <details><summary>Setenil de las Bodegas &amp; Ronda <span class="dist">153–164 km · 2 h 20–2 h 30</span></summary><div class="body">
+    <p><b>Setenil</b> — casas escavadas debaixo da rocha, com o penhasco a servir de telhado. Visualmente mágico para uma criança e com sombra natural. <b>Ronda</b>, a 20 minutos, tem o Puente Nuevo sobre o Tajo de 100 m e a praça de touros mais antiga de Espanha.</p>
+    <p>São o portal da <b>Ruta de los Pueblos Blancos</b>. Só compensa com uma dormida.</p>
+  </div></details>
+
+  <details><summary>Málaga <span class="dist">129 km · 1 h 45</span></summary><div class="body">
+    <p>Alcazaba, Teatro Romano e Gibralfaro; Museu Picasso e Centre Pompidou (interiores climatizados); praia da Malagueta.</p>
+    <p><b>Feria de Málaga, 15 a 22 de agosto.</b> A <b>feira de dia</b>, no centro histórico das ~12h às 18h, é gratuita e muito animada — mais adequada a crianças do que a feira de noite. Nota: a cidade enche, estacionar é difícil.</p>
+  </div></details>
+
+  <details><summary>Sevilha · Isla Mágica <span class="dist">183 km · 2 h 15</span></summary><div class="body">
+    <p><b>Isla Mágica + Agua Mágica</b> — parque temático e parque aquático, ideal para 6 anos. O Real Alcázar esgota em agosto: comprar online. A Plaza de España tem barcos a remos no canal, que as crianças adoram.</p>
+    <p>Aviso: Sevilha em agosto chega aos 42–44 °C. Ou parque aquático, ou cidade em modo nocturno.</p>
+  </div></details>
+
+  <details><summary>Sierra de Cazorla · rio Borosa <span class="dist">165–186 km · 2 h 15–2 h 50</span></summary><div class="body">
+    <p>Trilho junto à água com passadiços sobre o rio (o troço até à Cerrada de Elías, ~4 km, é o ideal com crianças), o Parque Cinegético do Collado del Almendral para ver veados e cabras montesas, e a nascente do Guadalquivir. Dia inteiro, idealmente com uma dormida. Verificar restrições por risco de incêndio.</p>
+  </div></details>
+
+  <details><summary>Caminito del Rey <span class="dist">126 km · 2 h</span> <span class="tag t-no" style="margin:0">Proibido</span></summary><div class="body">
+    <p><b>Não é possível com crianças:</b> o regulamento oficial proíbe o acesso a menores de 8 anos. Sem exceções.</p>
+    <p><b>Alternativa na mesma zona:</b> os embalses de El Chorro e Ardales — a <b>Playa de Ardales</b>, no Embalse del Conde de Guadalhorce, tem zona balnear de água doce com sombra de pinhal.</p>
+  </div></details>
+
+  <div class="callout ok">
+    <b>🗺️ A Ruta del Califato passa mesmo por Baena</b>
+    O itinerário histórico Córdoba → Granada segue Espejo, Castro del Río, <b>Baena</b>, Luque, Zuheros, Priego / Alcalá la Real, Moclín, Granada. Quase tudo o que está aqui em cima faz parte dela — dá para fazer por troços, saindo de casa todos os dias.
+  </div>
+</section>
+
+<!-- ===================== AGENDA ===================== -->
+<section id="agenda">
+  <h2><span class="dot"></span>Festas durante a estadia</h2>
+  <p class="lead">Em Andaluzia, as ferias só ganham vida depois das 21h — e é a melhor forma de sair de casa sem apanhar 38 °C.</p>
+  <div class="card">
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Evento</th><th>Datas</th><th>Onde</th><th>Distância</th></tr></thead>
+        <tbody>
+          <tr><td><b>Feria de Agosto</b> (Virgen de los Remedios)</td><td>12–16 ago</td><td>Zuheros</td><td>13 km</td></tr>
+          <tr><td><b>Feria Real</b> · fiesta acuática familiar</td><td>14–17 ago</td><td>Carcabuey</td><td>33 km</td></tr>
+          <tr><td><b>FESTUM</b> · gladiadores e oficinas infantis</td><td>12–16 ago</td><td>Almedinilla</td><td>40 km</td></tr>
+          <tr><td><b>Feria de Málaga</b></td><td>15–22 ago</td><td>Málaga</td><td>129 km</td></tr>
+          <tr><td><b>Real Feria de Agosto</b> · dia infantil a 19</td><td>19–23 ago</td><td>Antequera</td><td>86 km</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="meta" style="margin-top:10px">Baena não tem feira em agosto — a Feria Real é na primeira semana de outubro. Em Carcabuey o fogo de artifício foi cancelado em 2026 por risco de incêndio; é provável que outras vilas façam o mesmo.</p>
+  </div>
+  <div class="callout"><b>Programa municipal "Baena Experience"</b>Inclui caiaque e paddle surf no embalse de Albendín (~10 km), festas aquáticas e banhos nocturnos na piscina municipal — sextas em Baena, quintas em Albendín. Inscrições pelas redes sociais da Juventud de Baena.</div>
+</section>
+
+<!-- ===================== MALA ===================== -->
+<section id="mala">
+  <h2><span class="dot"></span>Mala · adultos</h2>
+  <p class="lead">Nove dias, 30 a 38 °C de dia e noites entre 17 e 23 °C. Toque para riscar.</p>
+
+  <div class="card">
+    <h3>🔴 Não pode faltar</h3>
+    <ul class="pack">
+      <li class="crit"><input type="checkbox"><span><b>Cartão de cidadão ou passaporte</b></span></li>
+      <li class="crit"><input type="checkbox"><span><b>Carta de condução</b>, para quem for conduzir</span></li>
+      <li class="crit"><input type="checkbox"><span><b>Documentos do carro e seguro</b> <span class="note">Se for alugado ou em leasing, levar a autorização de circulação em Espanha e o contacto de assistência em viagem</span></span></li>
+      <li><input type="checkbox"><span><b>Cartão Europeu de Seguro de Doença</b> <span class="note">Dá acesso ao serviço público de saúde espanhol. Pede-se online na Segurança Social Direta, é gratuito.</span></span></li>
+      <li><input type="checkbox"><span>Cartões bancários + <b>algum dinheiro em numerário</b> <span class="note">Muitas piscinas municipais, bares de aldeia e o parque de Iznájar ainda são só a dinheiro</span></span></li>
+      <li><input type="checkbox"><span>Reserva do alojamento offline + contacto do anfitrião</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>⚡ Se o carro for elétrico</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span><b>Cabo Type 2</b> (modo 3) <span class="note">Essencial: em Baena só há AC lento. Sem cabo, não se carrega.</span></span></li>
+      <li><input type="checkbox"><span>Cabo de emergência schuko, se o carro trouxer</span></li>
+      <li><input type="checkbox"><span>Cartões RFID de carregamento (MOBI.E, Galp, Iberdrola…)</span></li>
+      <li><input type="checkbox"><span>Apps instaladas e com pagamento: <b>Tesla, Zunder, Ionity, Electromaps, ABRP</b> <span class="note">Vários dos melhores postos da rota são Superchargers abertos a outras marcas</span></span></li>
+      <li><input type="checkbox"><span>Adaptador de tomada / extensão, para carregar de noite no alojamento</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🚗 Obrigatório em Espanha</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span>Colete refletor e triângulo de sinalização</span></li>
+      <li><input type="checkbox"><span>Pressão dos pneus verificada antes de sair <span class="note">Asfalto a 50 °C é agressivo</span></span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>👕 Roupa · 9 dias</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span>7 a 8 t-shirts / polos leves, algodão ou linho</span></li>
+      <li><input type="checkbox"><span>2 a 3 calções + 1 par de calças leves <span class="note">Para jantares e para as ferias à noite</span></span></li>
+      <li><input type="checkbox"><span>1 camisa de manga comprida leve <span class="note">Protege do sol melhor do que protetor, em Torreparedones ou no Torcal</span></span></li>
+      <li><input type="checkbox"><span><b>Casaco fino ou fleece</b> <span class="note">Mesmo em agosto: a gruta de Zuheros está a 14–17 °C, e a partir de dia 20 as noites descem a 17 °C</span></span></li>
+      <li><input type="checkbox"><span>2 fatos ou calções de banho</span></li>
+      <li><input type="checkbox"><span>Roupa interior e meias para 9 dias</span></li>
+      <li><input type="checkbox"><span>Pijama leve</span></li>
+      <li><input type="checkbox"><span><b>Ténis ou sapato fechado</b> <span class="note">Obrigatório em El Torcal e recomendado nas grutas e em Torreparedones</span></span></li>
+      <li><input type="checkbox"><span>Sandálias + chinelos de piscina</span></li>
+      <li><input type="checkbox"><span><b>Chapéu ou boné</b> e óculos de sol</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🧴 Saúde e higiene</h3>
+    <ul class="pack">
+      <li class="crit"><input type="checkbox"><span><b>Repelente de insetos</b> <span class="note">Com DEET ou icaridina. As noites de janela aberta e o embalse de Iznájar pedem-no.</span></span></li>
+      <li><input type="checkbox"><span><b>Protetor solar 50+</b> — pelo menos dois frascos <span class="note">Com UV 8–9 gasta-se muito mais depressa do que se pensa</span></span></li>
+      <li><input type="checkbox"><span>After-sun ou creme com aloé</span></li>
+      <li><input type="checkbox"><span>Medicação habitual, para 9 dias + margem</span></li>
+      <li><input type="checkbox"><span>Analgésico, antipirético, anti-histamínico, sais de reidratação <span class="note">Os sais de reidratação valem ouro num dia de 38 °C</span></span></li>
+      <li><input type="checkbox"><span>Pensos rápidos, desinfetante, pinça <span class="note">Para carraças, se forem ao campo ou à serra</span></span></li>
+      <li><input type="checkbox"><span>Creme para picadas / after-bite</span></li>
+      <li><input type="checkbox"><span>Necessaire habitual + gel de banho e champô <span class="note">O alojamento pode não ter</span></span></li>
+      <li><input type="checkbox"><span>Toalha de praia grande × 2</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🔌 Tecnologia</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span>Carregadores de telemóvel + <b>cabos a mais</b></span></li>
+      <li><input type="checkbox"><span><b>Powerbank</b> <span class="note">Dias longos fora com GPS e apps a consumir bateria</span></span></li>
+      <li><input type="checkbox"><span>Suporte de telemóvel para o carro + carregador de isqueiro</span></li>
+      <li><input type="checkbox"><span>Máquina fotográfica e cartões</span></li>
+      <li><input type="checkbox"><span>Coluna bluetooth pequena</span></li>
+      <li><input type="checkbox"><span>Mapas offline do Google Maps para a Andaluzia <span class="note">A serra da Subbética tem zonas sem rede</span></span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🚙 Para a viagem em si</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span><b>Água</b> — várias garrafas grandes, e uma arca térmica pequena <span class="note">Não é opcional a 38 °C. Uma avaria sem sombra às 15h é perigosa.</span></span></li>
+      <li><input type="checkbox"><span>Fruta, frutos secos e snacks para o carro</span></li>
+      <li><input type="checkbox"><span><b>Guarda-sol para o para-brisas</b> e sombreadores laterais <span class="note">Os laterais são para quem vai atrás — o sol de lado em 6 horas de estrada é brutal</span></span></li>
+      <li><input type="checkbox"><span>Toalhitas e sacos do lixo para o carro</span></li>
+      <li><input type="checkbox"><span>Saco de compras dobrável</span></li>
+      <li><input type="checkbox"><span>Rolo de papel de cozinha</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>💡 Talvez não seja preciso, mas se couber…</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span><b>Ventoinha USB pequena ou de secretária</b> <span class="note">Se o alojamento só tiver ar condicionado na sala, salva as quatro primeiras noites tropicais</span></span></li>
+      <li><input type="checkbox"><span>Mosquiteiro ou difusor anti-mosquitos</span></li>
+      <li><input type="checkbox"><span><b>Lanterna frontal</b> <span class="note">Para as veladas astronómicas em Torreparedones</span></span></li>
+      <li><input type="checkbox"><span>Binóculos <span class="note">Laguna de Zóñar, Cazorla, ou só as vistas do Balcón del Adarve</span></span></li>
+      <li><input type="checkbox"><span>Toalha de microfibra que seca depressa</span></li>
+      <li><input type="checkbox"><span>Termos ou garrafa isotérmica</span></li>
+      <li><input type="checkbox"><span>Corda de estender / molas <span class="note">Com este calor, a roupa seca em duas horas</span></span></li>
+      <li><input type="checkbox"><span>Detergente de roupa em cápsulas</span></li>
+      <li><input type="checkbox"><span>Ficha múltipla / extensão pequena</span></li>
+      <li><input type="checkbox"><span>Livro ou e-reader, para as horas de sesta forçada entre as 14h e as 18h</span></li>
+      <li><input type="checkbox"><span>Baralho de cartas ou um jogo pequeno</span></li>
+      <li><input type="checkbox"><span>Saco de roupa suja separado</span></li>
+      <li><input type="checkbox"><span>Um garrafão de 5 L de água no carro <span class="note">Reserva, e serve para lavar pés cheios de areia à saída de Iznájar</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== CRIANCAS ===================== -->
+<section id="criancas">
+  <h2><span class="dot"></span>Mala · crianças</h2>
+  <p class="lead">Para quem leva miúdos. Nove dias de sol forte, piscina e lago — a prioridade é sol, água e conforto no carro.</p>
+
+  <div class="card">
+    <h3>🔴 Documentos — tratar antes de sair</h3>
+    <ul class="pack">
+      <li class="crit"><input type="checkbox"><span><b>Cartão de cidadão e/ou passaporte da criança</b> <span class="note">Confirmar validade. É nominativo e necessário para bilhetes como os da Alhambra.</span></span></li>
+      <li class="crit"><input type="checkbox"><span><b>Autorização de viagem</b>, se a criança não viajar com ambos os progenitores <span class="note">Documento assinado por quem fica, a autorizar a saída do país. Nem sempre é pedido dentro do espaço Schengen, mas se for pedido e não existir é um problema sério — idealmente com assinatura reconhecida.</span></span></li>
+      <li><input type="checkbox"><span>Cartão Europeu de Seguro de Doença da criança</span></li>
+      <li><input type="checkbox"><span>Contactos de dois adultos escritos em papel, na mochila dela <span class="note">Caso se separem numa feira ou num monumento cheio</span></span></li>
+      <li><input type="checkbox"><span>Boletim de vacinas ou número de utente, em foto no telemóvel</span></li>
+      <li><input type="checkbox"><span>Medicação dela, com a posologia escrita</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🏊 Piscina e lago</h3>
+    <ul class="pack">
+      <li class="crit"><input type="checkbox"><span><b>Bóia de piscina</b> <span class="note">Vai dar muito uso: piscinas municipais, praia de Valdearenas em Iznájar, Aquasierra. Se for insuflável grande, levar a bomba.</span></span></li>
+      <li><input type="checkbox"><span>Braçadeiras ou colete de flutuação <span class="note">Mais seguro que a bóia em água aberta — no embalse de Iznájar o fundo desce</span></span></li>
+      <li><input type="checkbox"><span>3 fatos de banho <span class="note">Com piscina todos os dias, dois nunca chegam</span></span></li>
+      <li><input type="checkbox"><span><b>Fato de banho com proteção UV</b> / t-shirt de licra <span class="note">Com UV 9, é a melhor proteção que existe para ombros e costas</span></span></li>
+      <li><input type="checkbox"><span>Óculos de natação</span></li>
+      <li><input type="checkbox"><span>Toalha de praia + poncho-toalha com capuz <span class="note">O poncho é ótimo para trocar de roupa à beira do lago</span></span></li>
+      <li><input type="checkbox"><span>Chinelos de piscina / sapatilhas de água <span class="note">O chão do lago tem pedras e o piso das piscinas queima</span></span></li>
+      <li><input type="checkbox"><span>Baldes e pás <span class="note">Valdearenas é praia de areia a sério</span></span></li>
+      <li><input type="checkbox"><span>Saco impermeável para a roupa molhada</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>👗 Roupa</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span>8 a 9 t-shirts leves + 2 de manga comprida fina <span class="note">A de manga comprida é proteção solar, não é frio</span></span></li>
+      <li><input type="checkbox"><span>5 calções + 3 vestidos ou saias leves</span></li>
+      <li><input type="checkbox"><span>1 par de calças ou leggings <span class="note">Para a gruta e para as noites a partir de dia 20</span></span></li>
+      <li><input type="checkbox"><span><b>Casaco / camisola</b> <span class="note">Indispensável na Cueva de los Murciélagos (14–17 °C) e no Torcal</span></span></li>
+      <li><input type="checkbox"><span>Roupa interior para 9 dias + 2 pijamas leves</span></li>
+      <li><input type="checkbox"><span><b>Ténis fechados</b> <span class="note">Obrigatórios em El Torcal, e muito melhores nos 700 degraus da gruta de Zuheros</span></span></li>
+      <li><input type="checkbox"><span>Sandálias confortáveis + chinelos</span></li>
+      <li><input type="checkbox"><span><b>Chapéu de abas largas</b> — melhor que boné <span class="note">Protege orelhas e nuca</span></span></li>
+      <li><input type="checkbox"><span>Óculos de sol de criança</span></li>
+      <li><input type="checkbox"><span>Uma muda "de sair" para as ferias à noite</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🧴 Saúde e cuidado</h3>
+    <ul class="pack">
+      <li class="crit"><input type="checkbox"><span><b>Repelente próprio para crianças</b> <span class="note">Fórmula infantil, não a de adulto — concentração adequada à idade. Aplicar ao fim da tarde.</span></span></li>
+      <li><input type="checkbox"><span><b>Protetor solar 50+ infantil</b>, dois frascos <span class="note">Reaplicar de duas em duas horas e sempre depois da água. Com UV 9 a pele queima em 10 minutos.</span></span></li>
+      <li><input type="checkbox"><span>Stick de protetor para cara e lábios</span></li>
+      <li><input type="checkbox"><span>After-sun infantil / gel de aloé</span></li>
+      <li><input type="checkbox"><span>Paracetamol e ibuprofeno infantis, na dose certa para a idade</span></li>
+      <li><input type="checkbox"><span>Sais de reidratação pediátricos <span class="note">A desidratação numa criança pequena com 38 °C instala-se muito depressa</span></span></li>
+      <li><input type="checkbox"><span>Creme para picadas, pensos rápidos coloridos</span></li>
+      <li><input type="checkbox"><span>Termómetro</span></li>
+      <li><input type="checkbox"><span>Escova de dentes, pasta infantil, escova de cabelo, elásticos</span></li>
+      <li><input type="checkbox"><span>Toalhitas húmidas — muitas</span></li>
+      <li><input type="checkbox"><span>Comprimidos para o enjoo do carro, se costumar enjoar <span class="note">A N-433 e as estradas da Subbética são sinuosas</span></span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🧸 Conforto e entretenimento</h3>
+    <ul class="pack">
+      <li><input type="checkbox"><span><b>O peluche / boneco de dormir</b> <span class="note">O único item verdadeiramente insubstituível de toda esta lista</span></span></li>
+      <li><input type="checkbox"><span>Almofada de pescoço e uma manta fina para o carro</span></li>
+      <li><input type="checkbox"><span><b>Garrafa de água própria</b>, de preferência térmica</span></li>
+      <li><input type="checkbox"><span>Tablet carregado com filmes <b>descarregados offline</b> + auscultadores infantis</span></li>
+      <li><input type="checkbox"><span>Livros, livro de atividades, autocolantes</span></li>
+      <li><input type="checkbox"><span>Lápis de cor e um caderno <span class="note">Um "diário de viagem" ocupa muito tempo de sesta forçada</span></span></li>
+      <li><input type="checkbox"><span>Um jogo de tabuleiro pequeno ou cartas</span></li>
+      <li><input type="checkbox"><span>Mochila pequena só dela, para os passeios</span></li>
+      <li><input type="checkbox"><span>Snacks de que goste, para o carro e para as filas</span></li>
+      <li><input type="checkbox"><span>Um brinquedo novo, guardado para o troço mais longo da viagem</span></li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <b>☀️ Regra dos dias de 38 °C</b>
+    Fora de casa até às 12h, dentro entre as 14h e as 18h, e outra vez fora depois das 19h. Em Andaluzia é assim que se vive em agosto — e com crianças não é um conselho, é uma necessidade. Nunca deixar ninguém dentro do carro parado.
+  </div>
+</section>
+
+<!-- ===================== DOCS ===================== -->
+<section id="docs">
+  <h2><span class="dot"></span>Reservas por ordem de urgência</h2>
+  <div class="card">
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Local</th><th>Reserva</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td><b>Alhambra</b>, Granada</td><td class="hot">Imprescindível</td><td>Só em tickets.alhambra-patronato.es. Agosto esgota. &lt;12 anos grátis mas o bilhete tem de sair junto com os dos adultos. Nominativo.</td></tr>
+          <tr><td><b>Real Alcázar</b>, Sevilha</td><td class="hot">Imprescindível</td><td>Esgota em agosto</td></tr>
+          <tr><td><b>Cueva de los Murciélagos</b>, Zuheros</td><td class="hot">Obrigatória</td><td>turismo@zuheros.es · 957 69 45 45 · qua–dom, 11h/12h30/17h30</td></tr>
+          <tr><td><b>Mesquita-Catedral</b>, Córdoba</td><td>Muito recomendada</td><td>Ou usar a entrada gratuita seg–sáb, 08h30–09h30</td></tr>
+          <tr><td><b>Cueva de Nerja</b></td><td>Online, mais barato</td><td>Verão 09h30–19h00, todos os dias</td></tr>
+          <tr><td><b>Medina Azahara</b></td><td>Guiadas e nocturnas</td><td>Lançadeira obrigatória ~2,50–3 €</td></tr>
+          <tr><td><b>Torreparedones</b></td><td>Recomendada</td><td>torreparedones.es · fins de semana e feriados, 10h–12h30</td></tr>
+          <tr><td><b>Bicicletas</b>, Doña Mencía</td><td>Recomendada</td><td>Centro Cicloturista Subbética · com cadeiras e atrelados</td></tr>
+          <tr><td><b>Caiaques</b>, Iznájar</td><td>Ao fim de semana</td><td>Estación Náutica Lago de Andalucía</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="btnrow">
+    <a class="btn primary" href="https://www.dgt.es/conoce-el-estado-del-trafico/" target="_blank" rel="noopener">Trânsito DGT (Espanha)</a>
+    <a class="btn" href="https://servicos.infraestruturasdeportugal.pt/" target="_blank" rel="noopener">Estradas Portugal</a>
+    <a class="btn" href="https://www.aemet.es/es/eltiempo/prediccion/avisos" target="_blank" rel="noopener">Avisos AEMET</a>
+    <a class="btn" href="https://www.electromaps.com/en/charging-stations/spain/cordoba/baena" target="_blank" rel="noopener">Carregadores Baena</a>
+    <a class="btn" href="https://tickets.alhambra-patronato.es/" target="_blank" rel="noopener">Bilhetes Alhambra</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Hub da viagem a Baena</b> · construído a 15 de agosto de 2026.</p>
+    <p>Previsão AEMET de 15/08 às 09h05 (oficial até dia 21). Distâncias e tempos aproximados. Localizações e potências de carregadores verificadas em fontes públicas — <b>confirmar sempre em ABRP, Electromaps ou PlugShare antes e durante a viagem</b>, a rede espanhola muda depressa. Horários e preços de monumentos devem ser reconfirmados na véspera.</p>
+    <p style="margin-top:16px"><a href="/" style="font-weight:700">&larr; Voltar ao LEVEL</a></p>
+    <p>Fontes: AEMET · IPMA · DGT · Tesla · Zunder · Ionity · Electromaps · Consorcio Ciudad Monumental · Patronato de la Alhambra · Ayuntamiento de Baena · Turismo de Zuheros · Torreparedones · OpenStreetMap.</p>
+  </div>
+</footer>
+
+<script>
+  // Contador de itens por cartão (em memória, sem armazenamento)
+  document.querySelectorAll('.card').forEach(function(card){
+    var boxes = card.querySelectorAll('.pack input[type=checkbox]');
+    if(!boxes.length) return;
+    var c = document.createElement('div');
+    c.className = 'counter';
+    card.appendChild(c);
+    function upd(){
+      var done = card.querySelectorAll('.pack input:checked').length;
+      c.textContent = done + ' de ' + boxes.length + ' arrumado' + (done===1?'':'s');
+    }
+    boxes.forEach(function(b){ b.addEventListener('change', upd); });
+    upd();
+  });
+</script>
+</body>
+</html>
