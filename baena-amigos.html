@@ -138,16 +138,6 @@ const PASSEIOS = {
     box-shadow:0 3px 14px 3px color-mix(in srgb,var(--brand) 60%,transparent),0 6px 26px 8px color-mix(in srgb,var(--brand) 28%,transparent)}
   .lamp.sem-anim{transition:none}
   nav a{position:relative;z-index:1}
-  #btn-tema{flex:0 0 auto;position:sticky;right:0;margin-left:auto;cursor:pointer;height:44px;width:62px;background:transparent;border:0;padding:6px 2px;box-shadow:-10px 0 12px var(--bg)}
-  #btn-tema .trk{position:relative;display:flex;align-items:center;justify-content:space-between;width:58px;height:32px;border-radius:999px;
-    border:1.5px solid var(--line);background:var(--surface);padding:0 7px;font-size:11px;color:var(--muted);line-height:1}
-  #btn-tema .trk::before{content:"\2600"}
-  #btn-tema .trk::after{content:"\263E"}
-  #btn-tema .thb{position:absolute;left:3px;top:50%;translate:0 -50%;width:24px;height:24px;border-radius:999px;background:var(--warn);
-    transition:left .35s cubic-bezier(.3,1.6,.4,1),width .18s ease,background .3s ease}
-  #btn-tema:active .thb{width:31px}
-  #btn-tema[aria-pressed="true"] .thb{left:29px;background:var(--azul)}
-  #btn-tema[aria-pressed="true"]:active .thb{left:22px}
   .ticker{background:var(--danger-soft);color:var(--danger);border-bottom:1px solid var(--line);overflow:hidden}
   .ticker-in{display:inline-flex;align-items:center;gap:28px;padding:9px 14px 9px 0;white-space:nowrap;will-change:transform;
     font-family:var(--display);font-weight:600;font-size:13px;animation:ticker 34s linear infinite}
@@ -434,7 +424,6 @@ const PASSEIOS = {
     <a href="#mala">Mala</a>
     <a href="#criancas">Crianças</a>
     <a href="#docs">Documentos</a>
-    <button id="btn-tema" type="button" aria-pressed="false" aria-label="Alternar tema claro/escuro" title="Alternar claro/escuro"><span class="trk"><i class="thb"></i></span></button>
   </div>
 </nav>
 
@@ -1554,17 +1543,6 @@ const PASSEIOS = {
   topo.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
 
   /* tema manual (só nesta sessão — sem armazenamento) */
-  var btnT = $('#btn-tema');
-  function temaAtual(){
-    var f = document.documentElement.getAttribute('data-tema');
-    if(f) return f;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro';
-  }
-  function pintaTema(){ if(btnT) btnT.setAttribute('aria-pressed', temaAtual()==='escuro' ? 'true' : 'false'); }
-  if(btnT){ btnT.addEventListener('click', function(){
-    document.documentElement.setAttribute('data-tema', temaAtual()==='escuro' ? 'claro' : 'escuro');
-    pintaTema();
-  }); pintaTema(); }
   /* ticker em loop contínuo */
   var tk = $('.ticker-in');
   if(tk) tk.innerHTML += tk.innerHTML;
