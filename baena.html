@@ -168,7 +168,8 @@ const PASSEIOS = {
   .callout.warn{border-color:var(--warn);background:var(--warn-soft)}
   .callout.danger{border-color:var(--danger);background:var(--danger-soft)}
   .callout.ok{border-color:var(--olive);background:var(--olive-soft)}
-  .callout b{display:block;margin-bottom:2px;font-family:var(--display);font-weight:600;font-size:15px}
+  .callout b{font-weight:600}
+  .callout>b:first-child{display:block;margin-bottom:2px;font-family:var(--display);font-weight:600;font-size:15px}
 
   /* stepper vertical */
   .steps{list-style:none;padding:0;margin:8px 0 0;counter-reset:s}
@@ -276,9 +277,9 @@ const PASSEIOS = {
 
   /* agenda — linha temporal */
   .tl{position:relative;margin-top:4px}
-  .tl-head{display:grid;grid-template-columns:repeat(9,1fr);font-family:var(--display);font-size:11.5px;font-weight:600;
+  .tl-head{display:grid;grid-template-columns:repeat(8,1fr);font-family:var(--display);font-size:11.5px;font-weight:600;
     color:var(--muted);text-align:center;border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:8px}
-  .tl-body{display:grid;grid-template-columns:repeat(9,1fr);grid-auto-rows:44px;row-gap:7px;position:relative}
+  .tl-body{display:grid;grid-template-columns:repeat(8,1fr);grid-auto-rows:44px;row-gap:7px;position:relative}
   .ev{border-radius:9px;padding:4px 8px;font-size:11.5px;line-height:1.25;overflow:hidden;align-self:center;height:40px;
     display:flex;flex-direction:column;justify-content:center;white-space:nowrap;position:relative}
   .ev b{font-family:var(--display);font-weight:600;font-size:12px;overflow:hidden;text-overflow:ellipsis}
@@ -354,7 +355,7 @@ const PASSEIOS = {
     <h1>Viagem a Baena</h1>
     <p class="sub">Pinhal Novo → Baena (Córdoba, Andaluzia) · casa San Marcos, no olival · Victor &amp; Beatriz</p>
     <div class="chips">
-      <span class="chip chip-hoje" id="chip-dia">15–23 ago</span>
+      <span class="chip chip-hoje" id="chip-dia">16–23 ago</span>
       <span class="chip">e-3008 · <b>CF-75-IG</b></span>
       <span class="chip"><b>36–38 °C</b> nos 1.ºs dias</span>
       <span class="chip"><b>530–640</b> km</span>
@@ -386,21 +387,30 @@ const PASSEIOS = {
 <!-- ===================== HOJE ===================== -->
 <section id="hoje">
   <h2><span class="dot"></span>Antes de arrancar</h2>
-  <p class="lead">Quatro coisas a confirmar hoje, 15 de agosto, antes de sair de Pinhal Novo.</p>
+  <p class="lead">Partida <b>domingo, 16 de agosto, às 09:00</b>. Quatro coisas a confirmar na manhã de domingo, antes de sair de Pinhal Novo.</p>
 
-  <div class="callout danger">
-    <b>⚠️ Incêndio de Niebla (Huelva)</b>
-    Arderam ~31 000 ha e a 14/08 continuavam cortadas estradas secundárias em Huelva (A-493, HU-…) e em Sevilha (SE-538, SE-6400, junto a El Madroño). A A-49 não foi dada como cortada, mas o perímetro toca as rotas do sul. <b>Verificar em <a href="https://www.dgt.es/conoce-el-estado-del-trafico/" target="_blank" rel="noopener">dgt.es</a> antes de partir.</b>
+  <div class="callout ok">
+    <b>🚗 A manhã de domingo está boa para conduzir</b>
+    Pinhal Novo às 09:00: <b>~26 °C, céu limpo, 0% de chuva</b>, vento fraco e sem nevoeiro. Em Portugal o trânsito de domingo carrega no <b>sentido norte</b> (regresso do Algarve, entre as 15h e as 22h) — vão ao contrário da onda. A partir do meio-dia sobe para 31 °C, já no Alentejo.
   </div>
 
   <div class="callout warn">
-    <b>⛈️ Trovoada em Baena hoje, 14h–22h</b>
-    Aviso amarelo da AEMET para a Campiña e Subbética cordobesas — 90% de probabilidade, possibilidade de granizo e rajadas fortes. Também aviso amarelo de calor (38 °C, 13h–21h). Chegar antes disso, ou contar com um último troço molhado.
+    <b>🚦 Chegar a Baena antes das 18:00</b>
+    O dispositivo da DGT vai até <b>domingo às 24:00</b> e o pico do regresso em Espanha é das <b>18h às 23h</b>, com os pontos negros em Sevilha, Málaga e Granada. Saindo às 09:00, com ~6h30 de condução mais paragens, a chegada dá por volta das <b>17h–18h</b>. Vias sinalizadas na Andaluzia: A-4, A-44, A-45, A-49, A-66, A-7 e A-92.
   </div>
 
-  <div class="callout">
-    <b>🚦 Operação "15 de agosto" da DGT</b>
-    Prevê-se 1 178 100 deslocações na Andaluzia entre sexta às 15h e domingo à noite. A-4 e A-49 estão entre as vias mais carregadas. No regresso (domingo, 23), evitar a tarde.
+  <div class="callout warn">
+    <b>🔥 Incêndio de Niebla (Huelva) — a melhorar</b>
+    Mais de <b>38 000 ha</b> ardidos, mas entrou em <b>capacidade de extinção</b> a 15/08, sem evolução em nenhuma frente. <b>A A-49 não consta como cortada</b> e está operacional. Continuam cortadas cerca de <b>11 estradas secundárias</b> (HU-5104, HU-4103, SE-538, SE-6400…) e a A-493 com restrições. <b>Não sair da A-49 para nacionais</b> entre Zalamea la Real e El Castillo de las Guardas — há fumo e cortes.
+  </div>
+
+  <div class="callout danger">
+    <b>⛈️ Avisos de domingo: confirmar de manhã</b>
+    A 15/08 a AEMET ainda <b>não tinha publicado avisos</b> para a Subbética no dia 16, mas o mapa nacional marca domingo como "peligro importante", com nota de <b>aguaceiros e trovoadas fortes no interior peninsular</b>. O padrão dos últimos dias tem sido calor de manhã e trovoada a partir das 14h. Em Portugal há <b>aviso amarelo de tempo quente para Setúbal</b>, de domingo às 10h a segunda às 19h.
+    <div class="btnrow">
+      <a class="btn primary" href="https://www.dgt.es/conoce-el-estado-del-trafico/" target="_blank" rel="noopener">Trânsito DGT</a>
+      <a class="btn" href="https://www.aemet.es/es/eltiempo/prediccion/avisos" target="_blank" rel="noopener">Avisos AEMET</a>
+    </div>
   </div>
 
   <div class="card">
@@ -423,7 +433,7 @@ const PASSEIOS = {
 
   <div class="callout danger">
     <b>📍 Avisar o anfitrião a 1 hora de Baena</b>
-    Quando faltar <b>cerca de 1 hora</b> para chegar, mandar mensagem pelo Airbnb. Ele vai ter connosco a um ponto de encontro a <b>10 minutos da casa</b> e acompanha-nos até lá.
+    Quando faltar <b>cerca de 1 hora</b> para chegar, mandar mensagem pelo Airbnb. Saindo às 09:00, isso dá por volta das <b>16h–17h</b> de domingo. Ele vai ter connosco a um ponto de encontro a <b>10 minutos da casa</b> e acompanha-nos até lá.
     <div class="btnrow">
       <a class="btn primary" href="https://maps.app.goo.gl/cXgz2e9ea7H98LjK7" target="_blank" rel="noopener">Ponto de encontro</a>
       <a class="btn" href="https://maps.app.goo.gl/ktUQmMfu5Rej8w3d7" target="_blank" rel="noopener">Contentores do lixo</a>
@@ -503,7 +513,7 @@ const PASSEIOS = {
     <ul class="con">
       <li>É a mais longa: ~85 km a mais do que a rota do Alentejo</li>
       <li>Passa perto do perímetro do incêndio de Niebla — confirmar a A-49 na DGT</li>
-      <li>A2 sentido sul a 15 de agosto tem picos de manhã</li>
+      <li>Domingo de manhã no sentido sul é tranquilo — o aperto é no sentido norte, à tarde</li>
     </ul>
     <div class="callout ok"><b>Melhor paragem</b>Huelva / La Rábida ao início da tarde, ou simplesmente uma parada longa em Sevilha ao fim do dia.</div>
   </div>
@@ -620,20 +630,14 @@ const PASSEIOS = {
 <!-- ===================== TEMPO ===================== -->
 <section id="tempo">
   <h2><span class="dot"></span>Previsão do tempo em Baena</h2>
-  <p class="lead">AEMET, boletim de 15/08 às 09h05. Cobertura oficial até dia 21; os dias 22 e 23 são só modelo (±3 °C). Deslize para ver os nove dias.</p>
+  <p class="lead">AEMET, boletim de 15/08. Cobertura oficial até dia 21; os dias 22 e 23 são só tendência de modelo (±3 °C). Deslize para ver os oito dias.</p>
 
   <div class="diarow" id="dias">
-    <div class="dia q36" data-d="2026-08-15" data-max="36" data-min="23" data-uv="8" data-chuva="90%" data-nota="Trovoada 14h–22h, possível granizo">
-      <span class="wd">Sáb</span><span class="num">15</span>
-      <span class="max">36°</span><span class="min">mín 23°</span>
-      <span class="pills"><span class="pill p-uv alto">UV 8</span><span class="pill p-ch">90% chuva</span></span>
-      <span class="nota">Trovoada 14h–22h, possível granizo</span>
-    </div>
-    <div class="dia q36" data-d="2026-08-16" data-max="36" data-min="22" data-uv="8" data-chuva="15%" data-nota="Intervalos nublados">
+    <div class="dia q36" data-d="2026-08-16" data-max="36" data-min="22" data-uv="8" data-chuva="10%" data-nota="Dia da viagem · nuvens altas">
       <span class="wd">Dom</span><span class="num">16</span>
       <span class="max">36°</span><span class="min">mín 22°</span>
       <span class="pills"><span class="pill p-uv alto">UV 8</span></span>
-      <span class="nota">Intervalos nublados · 15% chuva</span>
+      <span class="nota">Dia da viagem · nuvens altas · 10% chuva</span>
     </div>
     <div class="dia q38" data-d="2026-08-17" data-max="38" data-min="22" data-uv="8" data-chuva="15%" data-nota="Sensação térmica ~41 °C">
       <span class="wd">Seg</span><span class="num">17</span>
@@ -665,17 +669,17 @@ const PASSEIOS = {
       <span class="pills"><span class="pill p-ch">25%</span></span>
       <span class="nota">Noites frescas</span>
     </div>
-    <div class="dia q33 modelo" data-d="2026-08-22" data-max="~33" data-min="~20" data-uv="~8" data-chuva="<10%" data-nota="Só modelo">
+    <div class="dia q33 modelo" data-d="2026-08-22" data-max="~33" data-min="~20" data-uv="~8" data-chuva="<10%" data-nota="Só tendência">
       <span class="wd">Sáb</span><span class="num">22*</span>
       <span class="max">~33°</span><span class="min">mín ~20°</span>
       <span class="pills"><span class="pill p-uv">UV ~8</span></span>
       <span class="nota">Só modelo · &lt;10% chuva</span>
     </div>
-    <div class="dia q33 modelo" data-d="2026-08-23" data-max="~33" data-min="~21" data-uv="~8" data-chuva="<10%" data-nota="Só modelo · dia de regresso">
+    <div class="dia q33 modelo" data-d="2026-08-23" data-max="~33" data-min="~21" data-uv="~8" data-chuva="<10%" data-nota="Tendência · dia de regresso">
       <span class="wd">Dom</span><span class="num">23*</span>
       <span class="max">~33°</span><span class="min">mín ~21°</span>
       <span class="pills"><span class="pill p-uv">UV ~8</span></span>
-      <span class="nota">Só modelo · dia de regresso</span>
+      <span class="nota">Tendência · dia de regresso</span>
     </div>
   </div>
 
@@ -850,15 +854,29 @@ const PASSEIOS = {
   <div class="card">
     <div class="tl" id="tl">
       <div class="tl-head">
-        <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
+        <span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
       </div>
       <div class="tl-body">
-        <div class="ev c1 desde" style="grid-column:1/3" data-de="2026-08-12" data-ate="2026-08-16" data-nome="Feria de Agosto" data-onde="Zuheros" data-km="13"><b>Zuheros · Feria</b><small>desde dia 12 · 13 km</small></div>
-        <div class="ev c2 desde" style="grid-column:1/4" data-de="2026-08-14" data-ate="2026-08-17" data-nome="Feria Real · fiesta acuática familiar" data-onde="Carcabuey" data-km="33"><b>Carcabuey · Feria Real</b><small>fiesta acuática · 33 km</small></div>
-        <div class="ev c3 desde" style="grid-column:1/3" data-de="2026-08-12" data-ate="2026-08-16" data-nome="FESTUM · gladiadores e oficinas infantis" data-onde="Almedinilla" data-km="40"><b>FESTUM · Almedinilla</b><small>gladiadores · 40 km</small></div>
-        <div class="ev c4" style="grid-column:1/9" data-de="2026-08-15" data-ate="2026-08-22" data-nome="Feria de Málaga" data-onde="Málaga" data-km="129"><b>Feria de Málaga</b><small>15–22 · feira de dia p/ crianças · 129 km</small></div>
-        <div class="ev c1" style="grid-column:5/10" data-de="2026-08-19" data-ate="2026-08-23" data-nome="Real Feria de Agosto · dia infantil a 19" data-onde="Antequera" data-km="86"><b>Antequera · Real Feria</b><small>dia infantil a 19 · 86 km</small></div>
+        <div class="ev c1 desde" style="grid-column:1/2" data-de="2026-08-12" data-ate="2026-08-16" data-nome="Feria de Agosto" data-onde="Zuheros" data-km="13"><b>Zuheros · Feria</b><small>último dia · fecha 22h15 · 13 km</small></div>
+        <div class="ev c2 desde" style="grid-column:1/3" data-de="2026-08-14" data-ate="2026-08-17" data-nome="Feria Real · fiesta acuática familiar" data-onde="Carcabuey" data-km="33"><b>Carcabuey · Feria Real</b><small>fiesta acuática · 33 km</small></div>
+        <div class="ev c3 desde" style="grid-column:1/2" data-de="2026-08-12" data-ate="2026-08-16" data-nome="FESTUM · gladiadores e oficinas infantis" data-onde="Almedinilla" data-km="40"><b>FESTUM · Almedinilla</b><small>último dia · peça 21h30 · 45 km</small></div>
+        <div class="ev c4" style="grid-column:1/8" data-de="2026-08-15" data-ate="2026-08-22" data-nome="Feria de Málaga" data-onde="Málaga" data-km="129"><b>Feria de Málaga</b><small>15–22 · feira de dia p/ crianças · 129 km</small></div>
+        <div class="ev c3" style="grid-column:8/9" data-de="2026-08-23" data-ate="2026-08-28" data-nome="Feria de San Bartolomé" data-onde="Luque" data-km="15"><b>Luque · San Bartolomé</b><small>começa no dia do regresso · 15 km</small></div>
+        <div class="ev c1" style="grid-column:4/9" data-de="2026-08-19" data-ate="2026-08-23" data-nome="Real Feria de Agosto · dia infantil a 19" data-onde="Antequera" data-km="86"><b>Antequera · Real Feria</b><small>dia infantil a 19 · drones · 86 km</small></div>
       </div>
+    </div>
+    <div class="tbl-scroll" style="margin-top:14px">
+      <table>
+        <thead><tr><th>Festa</th><th>Datas</th><th>Distância</th></tr></thead>
+        <tbody>
+          <tr><td><b>Zuheros</b> · Feria da Virgen de los Remedios<br><span class="note">Chegam ao último dia — encerra às 22h15</span></td><td>13–16 ago</td><td>13 km</td></tr>
+          <tr><td><b>Almedinilla</b> · FESTUM, jornadas iberorromanas<br><span class="note">Último dia — peça de encerramento às 21h30</span></td><td>12–16 ago</td><td>45 km</td></tr>
+          <tr><td><b>Carcabuey</b> · Feria Real<br><span class="note">Ainda apanham domingo e segunda</span></td><td>14–17 ago</td><td>33 km</td></tr>
+          <tr><td><b>Málaga</b> · Feria<br><span class="note">Feira de dia no centro, gratuita, melhor com crianças</span></td><td>15–22 ago</td><td>129 km</td></tr>
+          <tr><td><b>Antequera</b> · Real Feria de Agosto<br><span class="note">Dia 19 é dia infantil; este ano com drones em vez de fogo de artifício</span></td><td>19–23 ago</td><td>86 km</td></tr>
+          <tr><td><b>Luque</b> · Feria de San Bartolomé<br><span class="note">Começa no dia do regresso — não chegam a apanhar</span></td><td>23–28 ago</td><td>15 km</td></tr>
+        </tbody>
+      </table>
     </div>
     <p class="meta" style="margin-top:12px">Baena não tem feira em agosto — a Feria Real é na primeira semana de outubro. Em Carcabuey o fogo de artifício foi cancelado em 2026 por risco de incêndio; é provável que outras vilas façam o mesmo.</p>
   </div>
@@ -1157,8 +1175,8 @@ const PASSEIOS = {
 
 <footer>
   <div class="wrap">
-    <p><b>Hub da viagem a Baena</b> · construído a 15 de agosto de 2026.</p>
-    <p>Previsão AEMET de 15/08 às 09h05 (oficial até dia 21). Distâncias e tempos aproximados. Localizações e potências de carregadores verificadas em fontes públicas — <b>confirmar sempre em ABRP, Electromaps ou PlugShare antes e durante a viagem</b>, a rede espanhola muda depressa. Horários e preços de monumentos devem ser reconfirmados na véspera.</p>
+    <p><b>Hub da viagem a Baena</b> · construído a 15 de agosto de 2026, para uma partida a 16.</p>
+    <p>Previsão AEMET de 15/08 (oficial até dia 21). Distâncias e tempos aproximados. Localizações e potências de carregadores verificadas em fontes públicas — <b>confirmar sempre em ABRP, Electromaps ou PlugShare antes e durante a viagem</b>, a rede espanhola muda depressa. Horários e preços de monumentos devem ser reconfirmados na véspera.</p>
     <p>Fotos da casa: anúncio "San Marcos" no Airbnb (ligação na secção de reservas).</p>
     <p style="margin-top:16px"><a href="/" style="font-weight:700">&larr; Voltar ao LEVEL</a></p>
     <p>Fontes: AEMET · IPMA · DGT · Tesla · Zunder · Ionity · Electromaps · Consorcio Ciudad Monumental · Patronato de la Alhambra · Ayuntamiento de Baena · Turismo de Zuheros · Torreparedones · OpenStreetMap.</p>
@@ -1415,18 +1433,18 @@ const PASSEIOS = {
   });
 
   /* ---------- Datas: chip do hero, cartão de hoje, linha na agenda ---------- */
-  var INI = new Date(2026,7,15), FIM = new Date(2026,7,23);
+  var INI = new Date(2026,7,16), FIM = new Date(2026,7,23);
   var hoje = new Date(); hoje.setHours(0,0,0,0);
   var chip = $('#chip-dia');
   var diaN = Math.round((hoje - INI)/864e5) + 1;
-  if(hoje < INI){ chip.innerHTML = 'Faltam <b>' + Math.round((INI-hoje)/864e5) + '</b> dias'; }
-  else if(hoje <= FIM){ chip.innerHTML = 'Dia <b>' + diaN + '</b> de 9'; }
+  if(hoje < INI){ var nd = Math.round((INI-hoje)/864e5); chip.innerHTML = nd===1 ? 'Amanhã, <b>09:00</b>' : ('Faltam <b>' + nd + '</b> dias'); }
+  else if(hoje <= FIM){ chip.innerHTML = 'Dia <b>' + diaN + '</b> de 8'; }
   var iso = hoje.getFullYear()+'-'+String(hoje.getMonth()+1).padStart(2,'0')+'-'+String(hoje.getDate()).padStart(2,'0');
   $$('#dias .dia').forEach(function(d){ if(d.getAttribute('data-d')===iso) d.classList.add('hoje-dia'); });
-  if(diaN>=1 && diaN<=9){
+  if(diaN>=1 && diaN<=8){
     var linha = document.createElement('div');
     linha.className='tl-hoje';
-    linha.style.left = 'calc(' + ((diaN-0.5)/9*100) + '% - 1px)';
+    linha.style.left = 'calc(' + ((diaN-0.5)/8*100) + '% - 1px)';
     $('#tl .tl-body').appendChild(linha);
   }
 
@@ -1444,7 +1462,7 @@ const PASSEIOS = {
     if(dcard){
       html += '<div class="dia ' + dcard.className.replace('dia','').trim() + '" style="max-width:280px;margin-top:8px">' + dcard.innerHTML + '</div>';
     } else if(hoje<INI){
-      html += '<p>A viagem começa a 15 de agosto — faltam <b>' + Math.round((INI-hoje)/864e5) + '</b> dias.</p>';
+      html += '<p>A viagem começa a 16 de agosto — faltam <b>' + Math.round((INI-hoje)/864e5) + '</b> dias.</p>';
     } else {
       html += '<p>A viagem terminou a 23 de agosto. Boas memórias de Baena.</p>';
     }
