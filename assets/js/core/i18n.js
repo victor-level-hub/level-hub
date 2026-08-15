@@ -466,10 +466,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Histórico de Versões',
     'vh.title': 'Histórico de Versões',
     'vh.legacyNote': '<strong>Histórico anterior a v2.0.0 (esquema v75-XX):</strong><br>As versões v1 a v75-100 usavam o esquema de patches sequenciais. As notas detalhadas de cada deploy estão nas descrições dos commits no GitHub (victor-level-hub/level-hub) e serão importadas aqui em breve.',
-    'briefing.changelog.date':  '9 Ago 2026',
-    'briefing.changelog.pill':  'novo',
-    'briefing.changelog.headline': 'Ficha Técnica no card de arma — os números reais do Gunsmith',
-    'briefing.changelog.summary':  'Cada build agora tem uma aba <strong>Ficha Técnica</strong> com os <strong>números reais lidos no Gunsmith do jogo</strong> — Firepower, Accuracy, Mobility e Handling linha a linha, com o <strong>delta %</strong> em verde ou vermelho pela polaridade certa de cada atributo, mais pente, dano por zona e dano por distância. Estreia com <strong>9 armas capturadas ao vivo no PS5</strong>.',
+    'briefing.changelog.date':  '15 Ago 2026',
+    'briefing.changelog.pill':  'visual',
+    'briefing.changelog.headline': 'Favicon novo — a palmeira da viagem',
+    'briefing.changelog.summary':  'O ícone do Hub no separador do browser e no ecrã inicial do telemóvel passou a ser a <strong>palmeira</strong>, o mesmo das páginas da viagem <strong>/baena</strong> e <strong>/baena-amigos</strong>. Alteração puramente visual, sem impacto em nenhuma funcionalidade.',
 
 
     // EVENTOS · TEMPORADA ATUAL (v2.21.0)
@@ -2185,10 +2185,10 @@ window.I18N = {
     'briefing.changelog.historyLink': 'Version History',
     'vh.title': 'Version History',
     'vh.legacyNote': '<strong>History before v2.0.0 (v75-XX scheme):</strong><br>Versions v1 through v75-100 used the sequential patch scheme. The detailed notes for each deploy live in the commit descriptions on GitHub (victor-level-hub/level-hub) and will be imported here soon.',
-    'briefing.changelog.date':  'Aug 9, 2026',
-    'briefing.changelog.pill':  'new',
-    'briefing.changelog.headline': 'Tech Sheet on the weapon card — the real Gunsmith numbers',
-    'briefing.changelog.summary':  'Every build now has a <strong>Tech Sheet</strong> tab with the <strong>real numbers read from the in-game Gunsmith</strong> — Firepower, Accuracy, Mobility and Handling row by row, with the <strong>% delta</strong> coloured green or red using each attribute&rsquo;s correct polarity, plus magazine, damage by body zone and damage by range. Ships with <strong>9 weapons captured live on PS5</strong>.',
+    'briefing.changelog.date':  'Aug 15, 2026',
+    'briefing.changelog.pill':  'visual',
+    'briefing.changelog.headline': 'New favicon — the trip palm tree',
+    'briefing.changelog.summary':  'The Hub icon in the browser tab and on the phone home screen is now the <strong>palm tree</strong>, matching the trip pages <strong>/baena</strong> and <strong>/baena-amigos</strong>. Purely visual change, no impact on any feature.',
 
 
     // EVENTS · CURRENT SEASON (v2.21.0)
