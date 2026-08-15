@@ -108,6 +108,12 @@
   .pack .note{display:block;font-size:12.5px;color:var(--muted);text-decoration:none!important}
   .crit{border-left:3px solid var(--danger);padding-left:9px;margin-left:-12px}
   .counter{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:10px}
+  ul.has{list-style:none;padding:0;margin:0}
+  ul.has li{position:relative;padding:7px 0 7px 28px;border-bottom:1px solid var(--line);font-size:15px}
+  ul.has li:last-child{border-bottom:0}
+  ul.has li::before{content:"";position:absolute;left:4px;top:13px;width:11px;height:6px;
+    border:solid var(--olive);border-width:0 0 2.5px 2.5px;transform:rotate(-45deg)}
+  ul.has b{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
   .kv{list-style:none;padding:0;margin:0;font-size:14.5px}
   .kv li{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line)}
   .kv li:last-child{border-bottom:0}
@@ -146,6 +152,7 @@
 <nav>
   <div class="wrap">
     <a href="#hoje">Hoje</a>
+    <a href="#casa">Chegada</a>
     <a href="#rotas">Rotas</a>
     <a href="#carga">Carregar</a>
     <a href="#tempo">Tempo</a>
@@ -183,12 +190,67 @@
   <div class="card">
     <h3>Checklist de 5 minutos</h3>
     <ul class="pack">
+      <li class="crit"><input type="checkbox"><span><b>Avisar o anfitrião a 1 hora de chegar</b> <span class="note">Ele vem ter connosco a um ponto a 10 min da casa — ver a secção Chegada</span></span></li>
       <li><input type="checkbox"><span>App <b>Tesla</b> instalada e com cartão configurado <span class="note">Vários dos melhores carregadores da rota são Superchargers abertos a outras marcas</span></span></li>
       <li><input type="checkbox"><span>App <b>Zunder</b>, <b>Ionity</b> e <b>Electromaps</b> / <b>ABRP</b> instaladas</span></li>
       <li><input type="checkbox"><span>Identificador <b>Via Verde</b> no carro (confirmar se o contrato Leasys inclui)</span></li>
       <li><input type="checkbox"><span>Documento da <b>DAV / matrícula</b> e comprovativo de autorização da Leasys para circular em Espanha</span></li>
       <li><input type="checkbox"><span>Bateria a <b>100%</b> à saída e pressão dos pneus verificada <span class="note">Asfalto a 50 °C é agressivo</span></span></li>
     </ul>
+  </div>
+</section>
+
+<!-- ===================== CASA ===================== -->
+<section id="casa">
+  <h2><span class="dot"></span>Chegada e casa</h2>
+  <p class="lead">Informação do anfitrião. A primeira coisa é a mais importante — não se chega à casa sozinho.</p>
+
+  <div class="callout danger">
+    <b>📍 Avisar o anfitrião a 1 hora de Baena</b>
+    Quando faltar <b>cerca de 1 hora</b> para chegar, mandar mensagem pelo Airbnb. Ele vai ter connosco a um ponto de encontro a <b>10 minutos da casa</b> e acompanha-nos até lá.
+    <div class="btnrow">
+      <a class="btn primary" href="https://maps.app.goo.gl/cXgz2e9ea7H98LjK7" target="_blank" rel="noopener">Ponto de encontro →</a>
+    </div>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <h3>A casa já tem</h3>
+      <ul class="has">
+        <li><span>Lençóis e toalhas</span></li>
+        <li><span>Gel de banho e sabonete de mãos<b>Só para os primeiros dias — repor depois</b></span></li>
+        <li><span>Papel higiénico<b>Também só para os primeiros dias</b></span></li>
+        <li><span>Máquina de café italiana<b>Cafeteira de pressão, para o fogão</b></span></li>
+        <li><span>Máquina de café de cápsulas</span></li>
+        <li><span>Churrasqueira a carvão</span></li>
+        <li><span>Máquina de lavar louça</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🛒 Levar ou comprar à chegada</h3>
+      <ul class="pack">
+        <li class="crit"><input type="checkbox"><span><b>Cápsulas de café</b> <span class="note">Perguntar ao anfitrião qual é o sistema antes de comprar — Nespresso, Dolce Gusto e Delta não são compatíveis entre si</span></span></li>
+        <li><input type="checkbox"><span><b>Café moído</b> para a máquina italiana <span class="note">Moagem para cafeteira, não expresso fino</span></span></li>
+        <li><input type="checkbox"><span><b>Carvão e acendalhas</b> para o churrasco</span></li>
+        <li><input type="checkbox"><span><b>Pastilhas para a máquina de lavar louça</b> + abrilhantador e sal</span></li>
+        <li><input type="checkbox"><span>Papel higiénico e gel de banho para o resto da semana <span class="note">Só há para os primeiros dias</span></span></li>
+        <li><input type="checkbox"><span>Sacos do lixo</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>♻️ Lixo</h3>
+    <p class="meta">O anfitrião indicou onde ficam os contentores.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://maps.app.goo.gl/ktUQmMfu5Rej8w3d7" target="_blank" rel="noopener">Contentores do lixo →</a>
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <b>💬 Dúvidas</b>
+    O anfitrião disse expressamente para escrever à vontade, antes ou durante a estadia.
   </div>
 </section>
 
@@ -561,8 +623,8 @@
       <li><input type="checkbox"><span>Analgésico, antipirético, anti-histamínico, sais de reidratação <span class="note">Os sais de reidratação valem ouro num dia de 38 °C</span></span></li>
       <li><input type="checkbox"><span>Pensos rápidos, desinfetante, pinça <span class="note">Para carraças, se forem para o campo ou a serra</span></span></li>
       <li><input type="checkbox"><span>Creme para picadas / after-bite</span></li>
-      <li><input type="checkbox"><span>Necessaire habitual + gel de banho e champô <span class="note">O Airbnb pode não ter</span></span></li>
-      <li><input type="checkbox"><span>Toalha de praia grande × 2</span></li>
+      <li><input type="checkbox"><span>Necessaire habitual e champô <span class="note">A casa tem gel de banho e sabonete de mãos, mas só para os primeiros dias</span></span></li>
+      <li><input type="checkbox"><span>Toalha de praia grande × 2 <span class="note">As toalhas de banho são fornecidas pela casa</span></span></li>
     </ul>
   </div>
 
