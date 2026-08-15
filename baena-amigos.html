@@ -6,150 +6,363 @@
 <title>Viagem a Baena · 15–23 Ago 2026</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Guia da viagem a Baena, Andaluzia - rotas, carregamento eletrico, previsao do tempo, passeios e listas de mala.">
-<meta name="theme-color" content="#b4471f" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17130f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f1e6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171009" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="Viagem a Baena &middot; 15&ndash;23 Ago 2026">
 <meta property="og:description" content="Rotas, carregamento, tempo, passeios e listas de mala.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8C%B4%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2724%27 fill=%27%23a8401c%27/%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2721%27 fill=%27%23f7f1e6%27/%3E%3C/svg%3E">
+
+<script>
+/* ============================================================
+   COORDENADAS [lat, lon] — resolvidas via Nominatim / Photon (OSM), ago 2026.
+   Corrigir à mão aqui se algum ponto estiver mal; o mapa redesenha sozinho.
+   ============================================================ */
+const GEO = {
+  "Pinhal Novo":[38.6301,-8.9128], "Alcácer do Sal":[38.3730,-8.5123], "Grândola":[38.1766,-8.5670],
+  "Aljustrel":[37.8903,-8.1964],   "Beja":[38.0154,-7.8650],           "Serpa":[37.9437,-7.5967],
+  "Vila Verde de Ficalho":[37.9472,-7.3004], "Almodôvar":[37.5116,-8.0603],
+  "Castro Marim":[37.2179,-7.4457],"Ayamonte":[37.2158,-7.4060],       "Loulé":[37.1400,-8.0233],
+  "Huelva":[37.2576,-6.9485],      "Benacazón":[37.3544,-6.1961],      "Aracena":[37.8949,-6.5624],
+  "Santa Olalla del Cala":[37.9067,-6.2293], "Estremoz":[38.8433,-7.5869], "Elvas":[38.8806,-7.1637],
+  "Badajoz":[38.8782,-6.9701],     "Mérida":[38.9175,-6.3444],         "Zafra":[38.4253,-6.4194],
+  "Monesterio":[38.0876,-6.2733],  "Sevilha":[37.3886,-5.9953],
+  "Alcalá de Guadaíra":[37.3398,-5.8408], "Bormujos":[37.3716,-6.0713],
+  "Écija":[37.5406,-5.0796],       "La Carlota":[37.6746,-4.9325],     "Córdoba":[37.8846,-4.7760],
+  "Monturque":[37.4733,-4.5815],   "Baena":[37.6173,-4.3244]
+};
+/* As três rotas, pelos waypoints do brief (a linha desenhada segue esta ordem) */
+const ROTAS = [
+  {n:1, nome:"Algarve", via:["Pinhal Novo","Alcácer do Sal","Almodôvar","Castro Marim","Ayamonte","Huelva","Benacazón","Sevilha","Écija","Baena"]},
+  {n:2, nome:"Aracena", via:["Pinhal Novo","Grândola","Aljustrel","Beja","Serpa","Vila Verde de Ficalho","Aracena","Santa Olalla del Cala","Sevilha","Écija","Baena"]},
+  {n:3, nome:"Badajoz", via:["Pinhal Novo","Estremoz","Elvas","Badajoz","Mérida","Zafra","Monesterio","Sevilha","Écija","Baena"]}
+];
+/* Carregamento rápido (marcador ⚡ no mapa) */
+const CARREGADORES = ["Alcácer do Sal","Aljustrel","Almodôvar","Estremoz","Loulé","Mérida","Monesterio","Benacazón","Alcalá de Guadaíra","Bormujos","La Carlota","Córdoba","Monturque"];
+/* Passeios: [lat, lon, km de carro a partir de Baena, id do <details>]
+   km = distância de estrada indicada na secção passeios (Castro del Río/Espejo/D. Mencía: estimados dentro do intervalo 13–26). */
+const PASSEIOS = {
+  "Luque":[37.5587,-4.2786,9,"d-luque"],          "Zuheros":[37.5434,-4.3149,13,"d-zuheros"],
+  "Doña Mencía":[37.5546,-4.3574,13,"d-castro"],  "Castro del Río":[37.6912,-4.4827,20,"d-castro"],
+  "Espejo":[37.6789,-4.5538,26,"d-castro"],       "Cabra":[37.4718,-4.4336,26,"d-cabra"],
+  "Torreparedones":[37.7544,-4.3726,26,"d-torreparedones"], "Priego de Córdoba":[37.4384,-4.1980,31,"d-priego"],
+  "Almedinilla":[37.4405,-4.0961,40,"d-almedinilla"], "Alcalá la Real":[37.4620,-3.9224,49,"d-alcala"],
+  "Rute":[37.3253,-4.3700,50,"d-rute"],           "Córdoba":[37.8846,-4.7760,62,"d-cordoba"],
+  "Iznájar":[37.2573,-4.3077,62,"d-iznajar"],     "Jaén":[37.7729,-3.7883,66,"d-jaen"],
+  "Aquasierra":[37.9505,-4.5534,84,"d-aquasierra"], "Antequera":[37.0184,-4.5597,86,"d-antequera"],
+  "Granada":[37.1735,-3.5995,103,"d-granada"],    "Caminito":[36.8782,-4.8468,126,"d-caminito"],
+  "Málaga":[36.7648,-4.4422,129,"d-malaga"],      "Setenil":[36.8622,-5.1787,153,"d-setenil"],
+  "Ronda":[36.7421,-5.1666,164,"d-setenil"],      "Sevilha·Isla Mágica":[37.3886,-5.9953,183,"d-sevilha"],
+  "Cazorla":[37.9129,-3.0039,186,"d-cazorla"],    "Nerja":[36.7469,-3.8790,188,"d-nerja"]
+};
+</script>
+
 <style>
+  @font-face{font-family:'Gabarito';src:url('assets/baena/gabarito-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Gabarito';src:url('assets/baena/gabarito-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
   :root{
-    --bg:#faf6f0; --surface:#ffffff; --ink:#241d17; --muted:#6f6257;
-    --line:#e6dccf; --brand:#b4471f; --brand-soft:#fbeee7;
-    --olive:#5b6b3a; --olive-soft:#eef1e5;
-    --sky:#2b6b8f; --sky-soft:#e6f0f5;
-    --warn:#a8641b; --warn-soft:#fdf0dd;
-    --danger:#98301f; --danger-soft:#fbe9e6;
-    --radius:14px; --shadow:0 1px 2px rgba(36,29,23,.06),0 8px 24px rgba(36,29,23,.06);
+    --bg:#f7f1e6; --surface:#fffdf8; --ink:#241a10; --muted:#6f5f4c; --line:#e6dac5;
+    --brand:#a8401c; --brand-soft:#f6e6dc; --cal:#fffdf8;
+    --olive:#57692f; --olive-soft:#ebeed9;
+    --azul:#20607f; --azul-soft:#e2edf3;
+    --warn:#96570e; --warn-soft:#f7e8cd;
+    --danger:#8f2a17; --danger-soft:#f8e2da;
+    --r1:#20607f; --r2:#57692f; --r3:#b0621d;
+    --terra:#efe5cf; --terra-line:#d9cbae; --mar:#dfeaf0; --rio:#b5cfdd;
+    --radius:16px; --shadow:0 1px 2px rgba(36,26,16,.05),0 10px 28px rgba(36,26,16,.07);
+    --display:'Gabarito',ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --navh:62px;
   }
   @media (prefers-color-scheme:dark){
     :root{
-      --bg:#17130f; --surface:#211b16; --ink:#f2ece4; --muted:#a89a8c;
-      --line:#332a22; --brand:#e8825a; --brand-soft:#33211a;
-      --olive:#9db56b; --olive-soft:#232a1a;
-      --sky:#7bbcdd; --sky-soft:#17242b;
-      --warn:#e0a558; --warn-soft:#2c2113;
-      --danger:#e8887a; --danger-soft:#2e1a17;
-      --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+      --bg:#171009; --surface:#221910; --ink:#f4ead9; --muted:#b5a288; --line:#392c1c;
+      --brand:#e58053; --brand-soft:#372014; --cal:#fffdf8;
+      --olive:#adc172; --olive-soft:#242b14;
+      --azul:#82bad6; --azul-soft:#152632;
+      --warn:#e3a558; --warn-soft:#2f2210;
+      --danger:#ee9078; --danger-soft:#341811;
+      --r1:#82bad6; --r2:#adc172; --r3:#e0985a;
+      --terra:#251c11; --terra-line:#41321f; --mar:#101a21; --rio:#2c4353;
+      --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 28px rgba(0,0,0,.38);
     }
   }
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
   body{margin:0;background:var(--bg);color:var(--ink);
-    font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    font:16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
     padding-bottom:env(safe-area-inset-bottom)}
   a{color:var(--brand)}
-  header.hero{padding:28px 18px 20px;background:
-     radial-gradient(120% 100% at 0% 0%, var(--brand-soft) 0%, transparent 60%),
-     radial-gradient(120% 100% at 100% 0%, var(--olive-soft) 0%, transparent 55%);
-     border-bottom:1px solid var(--line)}
+  a:hover{color:var(--danger)}
+  :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+  .skip{position:absolute;left:-9999px;top:0;background:var(--brand);color:var(--cal);padding:10px 16px;z-index:99;border-radius:0 0 10px 0;font-weight:700}
+  .skip:focus{left:0}
   .wrap{max-width:980px;margin:0 auto}
-  h1{margin:0 0 4px;font-size:clamp(24px,5.4vw,34px);letter-spacing:-.02em;line-height:1.15}
-  .sub{color:var(--muted);font-size:15px;margin:0}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .chip{background:var(--surface);border:1px solid var(--line);border-radius:999px;
-    padding:6px 12px;font-size:13px;font-weight:600;box-shadow:var(--shadow)}
-  .chip b{color:var(--brand)}
-  nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
-    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;scrollbar-width:none}
+
+  /* ---------- HERO ---------- */
+  header.hero{position:relative;height:clamp(238px,60vw,332px);overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero picture,.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+  .hero .veu{position:absolute;inset:0;background:linear-gradient(182deg,rgba(24,13,5,.16) 30%,rgba(24,13,5,.72) 88%)}
+  .hero .wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+  .hero h1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(30px,7.6vw,44px);line-height:1.02;letter-spacing:-.015em;color:#fff;text-shadow:0 1px 14px rgba(20,10,4,.45)}
+  .hero .sub{margin:5px 0 0;color:#f3e7d8;font-size:14.5px;font-weight:500;text-shadow:0 1px 8px rgba(20,10,4,.5)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .chip{background:rgba(20,11,5,.58);border:1px solid rgba(255,250,240,.26);border-radius:999px;color:#fff;white-space:nowrap;
+    padding:6px 12px;font-size:12.5px;font-weight:600;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+  .chip b{font-family:var(--display);font-weight:800;letter-spacing:.01em}
+  .chip.chip-hoje{background:var(--brand);border-color:transparent}
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:9px 12px;scrollbar-width:none;align-items:center}
   nav .wrap::-webkit-scrollbar{display:none}
-  nav a{flex:0 0 auto;text-decoration:none;color:var(--muted);font-size:14px;font-weight:600;
-    padding:7px 13px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
-  nav a:hover,nav a:focus{color:var(--ink);background:var(--surface);border-color:var(--line)}
+  nav a{flex:0 0 auto;text-decoration:none;color:var(--muted);font-family:var(--display);font-weight:600;font-size:14px;
+    padding:11px 14px;border-radius:999px;border:1px solid transparent;white-space:nowrap;transition:background .15s,color .15s}
+  nav a:hover{color:var(--ink);background:var(--surface);border-color:var(--line)}
+  nav a[aria-current]{background:var(--brand);color:var(--cal);border-color:var(--brand)}
+  #btn-hoje{flex:0 0 auto;position:sticky;right:0;margin-left:auto;cursor:pointer;
+    font-family:var(--display);font-weight:600;font-size:13.5px;padding:11px 14px;border-radius:999px;
+    border:1.5px solid var(--brand);color:var(--brand);background:var(--bg);white-space:nowrap;box-shadow:-10px 0 12px var(--bg)}
+  #btn-hoje[aria-pressed="true"]{background:var(--brand);color:var(--cal)}
+
   main{padding:8px 14px 60px}
-  section{margin:30px 0 0;scroll-margin-top:64px}
-  h2{font-size:20px;margin:0 0 4px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
-  h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--brand);flex:0 0 auto}
-  .lead{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+  section{margin:34px 0 0;scroll-margin-top:calc(var(--navh) + 12px)}
+  h2{font-family:var(--display);font-weight:600;font-size:22.5px;margin:0 0 4px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+  h2 .dot{width:10px;height:10px;border-radius:50%;background:var(--brand);flex:0 0 auto}
+  .lead{color:var(--muted);font-size:14.5px;margin:0 0 14px;text-wrap:pretty}
+
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
     padding:16px 16px 14px;box-shadow:var(--shadow);margin-bottom:14px}
-  .card h3{margin:0 0 2px;font-size:17px;letter-spacing:-.01em}
+  .card h3{margin:0 0 2px;font-family:var(--display);font-weight:600;font-size:17.5px;letter-spacing:-.005em}
   .card .meta{color:var(--muted);font-size:13.5px;margin:0 0 10px}
   .grid{display:grid;gap:14px}
-  @media(min-width:720px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}}
-  .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-    padding:3px 9px;border-radius:999px;margin:0 6px 6px 0}
+  @media(min-width:720px){.grid.two{grid-template-columns:1fr 1fr}}
+
+  .tag{display:inline-block;font-family:var(--display);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;margin:0 6px 8px 0}
   .t-best{background:var(--olive-soft);color:var(--olive)}
-  .t-alt{background:var(--sky-soft);color:var(--sky)}
+  .t-alt{background:var(--azul-soft);color:var(--azul)}
   .t-warn{background:var(--warn-soft);color:var(--warn)}
   .t-no{background:var(--danger-soft);color:var(--danger)}
+
   ul.pro,ul.con{margin:6px 0 10px;padding-left:0;list-style:none}
   ul.pro li,ul.con li{position:relative;padding-left:24px;margin:5px 0;font-size:14.5px}
-  ul.pro li::before{content:"+";position:absolute;left:6px;top:-1px;color:var(--olive);font-weight:800}
-  ul.con li::before{content:"−";position:absolute;left:6px;top:-1px;color:var(--danger);font-weight:800}
+  ul.pro li::before{content:"+";position:absolute;left:5px;top:-1px;color:var(--olive);font-weight:800}
+  ul.con li::before{content:"−";position:absolute;left:5px;top:-1px;color:var(--danger);font-weight:800}
+
   table{width:100%;border-collapse:collapse;font-size:14px;margin:4px 0 2px}
-  th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  th,td{text-align:left;padding:9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
   tbody tr:last-child td{border-bottom:0}
   .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .hot{color:var(--danger);font-weight:700}
-  .mild{color:var(--olive);font-weight:700}
-  .callout{border-left:3px solid var(--brand);background:var(--brand-soft);padding:12px 14px;
-    border-radius:0 10px 10px 0;font-size:14.5px;margin:12px 0}
+
+  .badge{display:inline-block;font-family:var(--display);font-weight:600;font-size:11.5px;letter-spacing:.04em;
+    padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .b-imp{background:var(--danger-soft);color:var(--danger)}
+  .b-rec{background:var(--warn-soft);color:var(--warn)}
+  .b-ok{background:var(--olive-soft);color:var(--olive)}
+  .b-info{background:var(--azul-soft);color:var(--azul)}
+
+  .callout{border-left:4px solid var(--brand);background:var(--brand-soft);padding:12px 14px;
+    border-radius:0 12px 12px 0;font-size:14.5px;margin:12px 0;text-wrap:pretty}
   .callout.warn{border-color:var(--warn);background:var(--warn-soft)}
   .callout.danger{border-color:var(--danger);background:var(--danger-soft)}
   .callout.ok{border-color:var(--olive);background:var(--olive-soft)}
-  .callout b{display:block;margin-bottom:2px}
+  .callout b{display:block;margin-bottom:2px;font-family:var(--display);font-weight:600;font-size:15px}
+
+  /* stepper vertical */
   .steps{list-style:none;padding:0;margin:8px 0 0;counter-reset:s}
-  .steps li{counter-increment:s;position:relative;padding:8px 0 8px 40px;border-bottom:1px dashed var(--line);font-size:14.5px}
-  .steps li:last-child{border-bottom:0}
-  .steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;
-    background:var(--brand);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+  .steps li{counter-increment:s;position:relative;padding:9px 0 12px 42px;font-size:14.5px}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:28px;height:28px;border-radius:50%;z-index:1;
+    background:var(--brand);color:var(--cal);font-family:var(--display);font-size:13.5px;font-weight:800;display:grid;place-items:center}
+  .steps li::after{content:"";position:absolute;left:13px;top:37px;bottom:-4px;width:2px;background:var(--line)}
+  .steps li:last-child::after{display:none}
+
+  /* checklists */
   .pack{list-style:none;padding:0;margin:0}
-  .pack li{display:flex;gap:11px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .pack li{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;cursor:pointer}
   .pack li:last-child{border-bottom:0}
-  .pack input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:21px;height:21px;margin-top:2px;
-    border:2px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer;position:relative;transition:.15s}
+  .pack input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:24px;height:24px;margin:1px 0 0;
+    border:2px solid var(--terra-line);border-radius:50%;background:var(--surface);cursor:pointer;position:relative;transition:background .15s,border-color .15s}
   .pack input:checked{background:var(--olive);border-color:var(--olive)}
-  .pack input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;
-    border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(43deg)}
+  .pack input:checked::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:11px;
+    border:solid var(--cal);border-width:0 2.5px 2.5px 0;transform:rotate(43deg)}
   .pack input:checked + span{text-decoration:line-through;color:var(--muted)}
-  .pack .note{display:block;font-size:12.5px;color:var(--muted);text-decoration:none!important}
-  .crit{border-left:3px solid var(--danger);padding-left:9px;margin-left:-12px}
-  .counter{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:10px}
+  .pack .note{display:block;font-size:12.5px;color:var(--muted);text-decoration:none!important;margin-top:1px}
+  .crit{border-left:3px solid var(--danger);padding-left:10px;margin-left:-13px}
+  .counter{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:6px;font-family:var(--display)}
+  .meter{height:5px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:12px}
+  .meter i{display:block;height:100%;width:0;border-radius:99px;background:var(--olive);transition:width .3s ease}
+  .prog-sec{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;padding:10px 14px;margin:0 0 14px;box-shadow:var(--shadow)}
+  .prog-sec .meter{flex:1;margin:0;height:7px}
+  .prog-sec b{font-family:var(--display);font-weight:800;font-size:14px;white-space:nowrap}
+
   ul.has{list-style:none;padding:0;margin:0}
-  ul.has li{position:relative;padding:7px 0 7px 28px;border-bottom:1px solid var(--line);font-size:15px}
+  ul.has li{position:relative;padding:9px 0 9px 28px;border-bottom:1px solid var(--line);font-size:15px}
   ul.has li:last-child{border-bottom:0}
-  ul.has li::before{content:"";position:absolute;left:4px;top:13px;width:11px;height:6px;
+  ul.has li::before{content:"";position:absolute;left:4px;top:15px;width:11px;height:6px;
     border:solid var(--olive);border-width:0 0 2.5px 2.5px;transform:rotate(-45deg)}
-  ul.has b{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
+  ul.has b{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:1px}
   .kv{list-style:none;padding:0;margin:0;font-size:14.5px}
-  .kv li{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .kv li{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line)}
   .kv li:last-child{border-bottom:0}
   .kv span:first-child{color:var(--muted)}
   .kv span:last-child{font-weight:600;text-align:right}
-  details{border:1px solid var(--line);border-radius:12px;padding:0;background:var(--surface);margin-bottom:10px;box-shadow:var(--shadow)}
-  summary{cursor:pointer;padding:13px 15px;font-weight:700;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+
+  /* acordeão passeios */
+  details{border:1px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:10px;box-shadow:var(--shadow)}
+  details[open]{border-color:color-mix(in srgb,var(--brand) 45%,var(--line))}
+  summary{cursor:pointer;padding:14px 15px;font-family:var(--display);font-weight:600;font-size:15.5px;list-style:none;
+    display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:48px}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"▾";color:var(--muted);font-size:13px;transition:.2s}
-  details[open] summary::after{transform:rotate(180deg)}
-  details .body{padding:0 15px 15px;font-size:14.5px}
-  .dist{font-size:12.5px;font-weight:700;color:var(--brand);white-space:nowrap}
-  footer{border-top:1px solid var(--line);margin-top:40px;padding:20px 14px 34px;color:var(--muted);font-size:13px}
+  summary::after{content:"";flex:0 0 auto;width:9px;height:9px;border:solid var(--muted);border-width:0 2px 2px 0;
+    transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+  details[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
+  details .body{padding:0 15px 14px;font-size:14.5px}
+  details[open] .body{animation:abrir .22s ease}
+  @keyframes abrir{from{opacity:0;translate:0 -5px}}
+  .dist{font-family:var(--display);font-size:12px;font-weight:600;color:var(--brand);white-space:nowrap;
+    background:var(--brand-soft);border-radius:999px;padding:4px 9px;margin-left:auto}
+  summary .tag{margin:0}
+  .sub-h{font-family:var(--display);font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+  .sub-h::after{content:"";flex:1;height:1px;background:var(--line)}
+  .sub-h .gd{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+
+  /* filtros passeios */
+  .filtros{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+  .filtros::-webkit-scrollbar{display:none}
+  .filtros button{flex:0 0 auto;cursor:pointer;font-family:var(--display);font-weight:600;font-size:13.5px;
+    padding:10px 14px;min-height:44px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+  .filtros button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+  /* mapa rotas */
+  .mapa-ctl{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 10px}
+  .mapa-ctl button{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13.5px;min-height:44px;
+    padding:9px 13px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--muted);
+    display:inline-flex;align-items:center;gap:7px}
+  .mapa-ctl button .sw{width:14px;height:5px;border-radius:3px;display:inline-block}
+  .mapa-ctl button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:var(--bg);box-shadow:inset 0 0 0 1px var(--ink)}
+  #mapa-svg svg{display:block;width:100%;height:auto;border-radius:12px;background:var(--mar)}
+  .legenda{display:flex;flex-wrap:wrap;gap:5px 16px;margin-top:10px;font-size:12.5px;color:var(--muted)}
+  .legenda span{display:inline-flex;align-items:center;gap:6px}
+  .legenda i{font-style:normal;display:inline-block}
+  .rcard{border-left:4px solid var(--line);transition:opacity .2s}
+  .rcard.rota1{border-left-color:var(--r1)}
+  .rcard.rota2{border-left-color:var(--r2)}
+  .rcard.rota3{border-left-color:var(--r3)}
+  #rotas[data-rota="1"] .rcard:not(.rota1),#rotas[data-rota="2"] .rcard:not(.rota2),#rotas[data-rota="3"] .rcard:not(.rota3){opacity:.42}
+
+  /* tempo — cartões de dia */
+  .diarow{display:grid;grid-auto-flow:column;grid-auto-columns:122px;gap:10px;overflow-x:auto;
+    scroll-snap-type:x proximity;padding:2px 2px 10px;-webkit-overflow-scrolling:touch}
+  .dia{scroll-snap-align:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:11px 12px 12px;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:2px}
+  .dia::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--heat,var(--line))}
+  .dia.q38{--heat:var(--danger)} .dia.q36{--heat:color-mix(in srgb,var(--danger) 72%,var(--warn))}
+  .dia.q33{--heat:var(--warn)}  .dia.q30{--heat:var(--olive)}
+  .dia .wd{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .dia .num{font-family:var(--display);font-weight:800;font-size:22px;line-height:1}
+  .dia .max{font-family:var(--display);font-weight:800;font-size:27px;line-height:1.05;color:var(--heat,var(--ink));margin-top:4px}
+  .dia .min{font-size:12.5px;color:var(--muted)}
+  .dia .pills{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+  .dia .pill{font-family:var(--display);font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:99px}
+  .dia .p-uv{background:var(--warn-soft);color:var(--warn)}
+  .dia .p-uv.alto{background:var(--danger-soft);color:var(--danger)}
+  .dia .p-ch{background:var(--azul-soft);color:var(--azul)}
+  .dia .nota{font-size:11.5px;line-height:1.35;color:var(--muted);margin-top:6px;text-wrap:pretty}
+  .dia.hoje-dia{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand),var(--shadow)}
+  .dia.modelo{border-style:dashed}
+
+  /* agenda — linha temporal */
+  .tl{position:relative;margin-top:4px}
+  .tl-head{display:grid;grid-template-columns:repeat(9,1fr);font-family:var(--display);font-size:11.5px;font-weight:600;
+    color:var(--muted);text-align:center;border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:8px}
+  .tl-body{display:grid;grid-template-columns:repeat(9,1fr);grid-auto-rows:44px;row-gap:7px;position:relative}
+  .ev{border-radius:9px;padding:4px 8px;font-size:11.5px;line-height:1.25;overflow:hidden;align-self:center;height:40px;
+    display:flex;flex-direction:column;justify-content:center;white-space:nowrap;position:relative}
+  .ev b{font-family:var(--display);font-weight:600;font-size:12px;overflow:hidden;text-overflow:ellipsis}
+  .ev small{opacity:.85;overflow:hidden;text-overflow:ellipsis;font-size:10.5px}
+  .ev.c1{background:var(--olive-soft);color:var(--olive)}
+  .ev.c2{background:var(--azul-soft);color:var(--azul)}
+  .ev.c3{background:var(--warn-soft);color:var(--warn)}
+  .ev.c4{background:var(--brand-soft);color:var(--brand)}
+  .ev.desde::before{content:"◂";position:absolute;left:2px;top:50%;translate:0 -50%;font-size:9px;opacity:.7}
+  .ev.desde{padding-left:12px}
+  .tl-hoje{position:absolute;top:-6px;bottom:0;width:2px;background:var(--brand);z-index:2;border-radius:2px}
+  .tl-hoje::before{content:"hoje";position:absolute;top:-14px;left:50%;translate:-50% 0;font-family:var(--display);
+    font-size:9.5px;font-weight:600;color:var(--brand);letter-spacing:.05em}
+
+  /* faixas fotográficas */
+  .faixa{margin:34px calc(50% - 50vw) 0;position:relative;height:clamp(120px,22vw,160px);overflow:hidden;
+    border-block:1px solid var(--line)}
+  .faixa img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* casa / docs */
+  .fotos-casa{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 12px}
+  .fotos-casa img{width:100%;height:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;display:block;border:1px solid var(--line)}
   .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .btn{display:inline-block;text-decoration:none;font-size:13.5px;font-weight:700;padding:8px 13px;
-    border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
-  .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
-  @media print{nav,.btnrow{display:none}body{background:#fff}details{break-inside:avoid}details:not([open]) .body{display:block}}
+  .btn{display:inline-flex;align-items:center;text-decoration:none;font-family:var(--display);font-size:13.5px;font-weight:600;
+    padding:11px 15px;min-height:44px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:var(--cal)}
+
+  /* painel modo hoje */
+  #painel-hoje{display:none}
+  body.modo-hoje main > section, body.modo-hoje .faixa{display:none}
+  body.modo-hoje #painel-hoje{display:block;margin-top:16px}
+  #painel-hoje .data{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.01em;margin:4px 0 2px}
+  #painel-hoje .dia{grid-auto-columns:unset}
+
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:20px 14px 34px;color:var(--muted);font-size:13px}
+  footer p{text-wrap:pretty}
+
+  #topo{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:40;width:48px;height:48px;
+    border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:19px;
+    box-shadow:var(--shadow);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s;font-family:var(--display)}
+  #topo.on{opacity:1;pointer-events:auto}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+  @media print{
+    nav,#topo,.filtros,.mapa-ctl,.faixa,#btn-hoje,.btnrow{display:none!important}
+    body{background:#fff;color:#000}
+    header.hero{height:auto;border:0}
+    .hero picture,.hero .veu{display:none}
+    .hero .wrap{position:static;padding:0 0 10px}
+    .hero h1,.hero .sub{color:#000;text-shadow:none}
+    .chip{color:#000;border-color:#999;background:#fff}
+    .card,details{box-shadow:none;break-inside:avoid}
+    details:not([open]) .body{display:block}
+    summary::after{display:none}
+    .diarow{grid-auto-flow:row;grid-template-columns:repeat(3,1fr);overflow:visible}
+  }
 </style>
 </head>
 <body>
+<a class="skip" href="#hoje">Saltar para o conteúdo</a>
 
 <header class="hero">
+  <picture>
+    <source srcset="assets/baena/hero-piscina.webp" type="image/webp">
+    <img src="assets/baena/hero-piscina.jpg" width="1200" height="640" fetchpriority="high"
+      alt="A casa San Marcos em Baena: moradia vermelha com torre-mirador, pérgula de vinha e piscina em primeiro plano, sob céu limpo">
+  </picture>
+  <div class="veu"></div>
   <div class="wrap">
     <h1>Viagem a Baena</h1>
-    <p class="sub">Pinhal Novo → Baena (Córdoba, Andaluzia) · 15 a 23 de agosto de 2026</p>
+    <p class="sub">Pinhal Novo → Baena (Córdoba, Andaluzia) · casa San Marcos, no olival</p>
     <div class="chips">
-      <span class="chip">🚗 Carro elétrico</span>
-      <span class="chip">⚡ 100% elétrico</span>
-      <span class="chip">🌡️ <b>36–38 °C</b> nos 1.ºs dias</span>
-      <span class="chip">🛣️ 530–640 km</span>
+      <span class="chip chip-hoje" id="chip-dia">15–23 ago</span>
+      <span class="chip">100% elétrico</span>
+      <span class="chip"><b>36–38 °C</b> nos 1.ºs dias</span>
+      <span class="chip"><b>530–640</b> km</span>
     </div>
   </div>
 </header>
 
-<nav>
+<nav aria-label="Secções do guia">
   <div class="wrap">
     <a href="#hoje">Hoje</a>
     <a href="#casa">Chegada</a>
@@ -161,10 +374,13 @@
     <a href="#mala">Mala</a>
     <a href="#criancas">Crianças</a>
     <a href="#docs">Documentos</a>
+    <button id="btn-hoje" aria-pressed="false">Modo hoje</button>
   </div>
 </nav>
 
 <main class="wrap">
+
+<div id="painel-hoje" aria-live="polite"></div>
 
 <!-- ===================== HOJE ===================== -->
 <section id="hoje">
@@ -188,8 +404,8 @@
 
   <div class="card">
     <h3>Checklist de 5 minutos</h3>
+    <ul class="pack"><li class="crit"><input type="checkbox"><span><b>Avisar o anfitrião a 1 hora de chegar</b> <span class="note">Ele vem ter connosco a um ponto a 10 min da casa — ver a secção Chegada</span></span></li></ul>
     <ul class="pack">
-      <li class="crit"><input type="checkbox"><span><b>Avisar o anfitrião a 1 hora de chegar</b> <span class="note">Ele vem ter connosco a um ponto a 10 min da casa — ver a secção Chegada</span></span></li>
       <li><input type="checkbox"><span>App <b>Tesla</b> instalada e com cartão configurado <span class="note">Vários dos melhores carregadores da rota são Superchargers abertos a outras marcas</span></span></li>
       <li><input type="checkbox"><span>App <b>Zunder</b>, <b>Ionity</b> e <b>Electromaps</b> / <b>ABRP</b> instaladas</span></li>
       <li><input type="checkbox"><span>Identificador <b>Via Verde</b> no carro</span></li>
@@ -208,7 +424,8 @@
     <b>📍 Avisar o anfitrião a 1 hora de Baena</b>
     Quando faltar <b>cerca de 1 hora</b> para chegar, mandar mensagem pelo Airbnb. Ele vai ter connosco a um ponto de encontro a <b>10 minutos da casa</b> e acompanha-nos até lá.
     <div class="btnrow">
-      <a class="btn primary" href="https://maps.app.goo.gl/cXgz2e9ea7H98LjK7" target="_blank" rel="noopener">Ponto de encontro →</a>
+      <a class="btn primary" href="https://maps.app.goo.gl/cXgz2e9ea7H98LjK7" target="_blank" rel="noopener">Ponto de encontro</a>
+      <a class="btn" href="https://maps.app.goo.gl/ktUQmMfu5Rej8w3d7" target="_blank" rel="noopener">Contentores do lixo</a>
     </div>
   </div>
 
@@ -227,7 +444,7 @@
     </div>
 
     <div class="card">
-      <h3>🛒 Levar ou comprar à chegada</h3>
+      <h3>Levar ou comprar à chegada</h3>
       <ul class="pack">
         <li class="crit"><input type="checkbox"><span><b>Cápsulas de café</b> <span class="note">Perguntar ao anfitrião qual é o sistema antes de comprar — Nespresso, Dolce Gusto e Delta não são compatíveis entre si</span></span></li>
         <li><input type="checkbox"><span><b>Café moído</b> para a máquina italiana <span class="note">Moagem para cafeteira, não expresso fino</span></span></li>
@@ -239,17 +456,9 @@
     </div>
   </div>
 
-  <div class="card">
-    <h3>♻️ Lixo</h3>
-    <p class="meta">O anfitrião indicou onde ficam os contentores.</p>
-    <div class="btnrow">
-      <a class="btn" href="https://maps.app.goo.gl/ktUQmMfu5Rej8w3d7" target="_blank" rel="noopener">Contentores do lixo →</a>
-    </div>
-  </div>
-
   <div class="callout ok">
     <b>💬 Dúvidas</b>
-    O anfitrião disse expressamente para escrever à vontade, antes ou durante a estadia.
+    O anfitrião disse expressamente para escrever à vontade pelo Airbnb, antes ou durante a estadia.
   </div>
 </section>
 
@@ -258,8 +467,27 @@
   <h2><span class="dot"></span>Três rotas até Baena</h2>
   <p class="lead">Badajoz e Mérida já conhecem — por isso a rota clássica desce para terceiro lugar e as duas primeiras passam por sítios novos.</p>
 
-  <!-- ROTA 1 -->
   <div class="card">
+    <div class="mapa-ctl" role="group" aria-label="Escolher rota no mapa">
+      <button data-rota="0" aria-pressed="true">Todas</button>
+      <button data-rota="1" aria-pressed="false"><span class="sw" style="background:var(--r1)"></span>1 · Algarve</button>
+      <button data-rota="2" aria-pressed="false"><span class="sw" style="background:var(--r2)"></span>2 · Aracena</button>
+      <button data-rota="3" aria-pressed="false"><span class="sw" style="background:var(--r3)"></span>3 · Badajoz</button>
+    </div>
+    <div id="mapa-svg" role="img" aria-label="Mapa esquemático do sudoeste da Península Ibérica com as três rotas de Pinhal Novo a Baena e os pontos de carregamento rápido"></div>
+    <noscript><p class="meta">O mapa precisa de JavaScript; as rotas estão descritas nos cartões abaixo.</p></noscript>
+    <div class="legenda">
+      <span><i style="width:16px;height:5px;border-radius:3px;background:var(--r1)"></i>Rota 1</span>
+      <span><i style="width:16px;height:5px;border-radius:3px;background:var(--r2)"></i>Rota 2</span>
+      <span><i style="width:16px;height:5px;border-radius:3px;background:var(--r3)"></i>Rota 3</span>
+      <span><i style="width:9px;height:9px;border-radius:50%;border:2px solid var(--muted)"></i>Paragem</span>
+      <span><i style="width:11px;height:11px;border-radius:3px;background:var(--warn);clip-path:polygon(55% 0,15% 60%,45% 60%,40% 100%,85% 38%,52% 38%)"></i>Carregador rápido</span>
+    </div>
+    <p class="meta" style="margin:8px 0 0">Diagrama esquemático — posições reais (OSM), estradas simplificadas. Distâncias nos cartões.</p>
+  </div>
+
+  <!-- ROTA 1 -->
+  <div class="card rcard rota1">
     <span class="tag t-best">Recomendada</span><span class="tag t-alt">Tudo autoestrada</span>
     <h3>Rota 1 · Algarve &amp; Huelva</h3>
     <p class="meta">A2 → A22 Via do Infante → ponte de Ayamonte → A-49 Huelva → Sevilha → A-4 Écija → Baena<br>
@@ -280,7 +508,7 @@
   </div>
 
   <!-- ROTA 2 -->
-  <div class="card">
+  <div class="card rcard rota2">
     <span class="tag t-alt">Mais curta</span><span class="tag t-warn">Vazio de carga de 160 km</span>
     <h3>Rota 2 · Alentejo &amp; Serra de Aracena</h3>
     <p class="meta">A2 → IP8 Beja → Serpa → fronteira de Vila Verde de Ficalho → N-433 Aracena → Sevilha → A-4 → Baena<br>
@@ -301,7 +529,7 @@
   </div>
 
   <!-- ROTA 3 -->
-  <div class="card">
+  <div class="card rcard rota3">
     <span class="tag t-warn">Já conhecem</span>
     <h3>Rota 3 · Clássica por Badajoz e Mérida</h3>
     <p class="meta">A2 → A6 Elvas/Caia → Badajoz → A-5 Mérida → A-66 Zafra → Sevilha → A-4 → Baena<br>
@@ -380,27 +608,73 @@
   </div>
 </section>
 
+<div class="faixa">
+  <picture>
+    <source srcset="assets/baena/faixa-olival.webp" type="image/webp">
+    <img src="assets/baena/faixa-olival.jpg" width="1200" height="414" loading="lazy"
+      alt="A casa vista de longe, rodeada pelo mar de oliveiras da campiña de Baena">
+  </picture>
+</div>
+
 <!-- ===================== TEMPO ===================== -->
 <section id="tempo">
   <h2><span class="dot"></span>Previsão do tempo em Baena</h2>
-  <p class="lead">AEMET, boletim de 15/08 às 09h05. Cobertura oficial até dia 21; os dias 22 e 23 são só modelo (±3 °C).</p>
+  <p class="lead">AEMET, boletim de 15/08 às 09h05. Cobertura oficial até dia 21; os dias 22 e 23 são só modelo (±3 °C). Deslize para ver os nove dias.</p>
 
-  <div class="card">
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>Dia</th><th>Máx</th><th>Mín</th><th>UV</th><th>Chuva</th><th>Notas</th></tr></thead>
-        <tbody>
-          <tr><td><b>Sáb 15</b></td><td class="hot">36 °C</td><td>23 °C</td><td>8</td><td><b>90%</b></td><td>Trovoada 14h–22h, possível granizo</td></tr>
-          <tr><td><b>Dom 16</b></td><td class="hot">36 °C</td><td>22 °C</td><td>8</td><td>15%</td><td>Intervalos nublados</td></tr>
-          <tr><td><b>Seg 17</b></td><td class="hot">38 °C</td><td>22 °C</td><td>8</td><td>15%</td><td>Sensação térmica ~41 °C</td></tr>
-          <tr><td><b>Ter 18</b></td><td class="hot">38 °C</td><td>21 °C</td><td>9</td><td>10%</td><td>Calima — céu esbranquiçado</td></tr>
-          <tr><td><b>Qua 19</b></td><td class="mild">32 °C</td><td>20 °C</td><td>8</td><td>20%</td><td>Entra ar mais fresco</td></tr>
-          <tr><td><b>Qui 20</b></td><td class="mild">30 °C</td><td>17 °C</td><td>—</td><td>35%</td><td>O dia mais agradável</td></tr>
-          <tr><td><b>Sex 21</b></td><td class="mild">33 °C</td><td>18 °C</td><td>—</td><td>25%</td><td>Noites frescas</td></tr>
-          <tr><td>Sáb 22*</td><td>~33 °C</td><td>~20 °C</td><td>~8</td><td>&lt;10%</td><td>Só modelo</td></tr>
-          <tr><td>Dom 23*</td><td>~33 °C</td><td>~21 °C</td><td>~8</td><td>&lt;10%</td><td>Só modelo · dia de regresso</td></tr>
-        </tbody>
-      </table>
+  <div class="diarow" id="dias">
+    <div class="dia q36" data-d="2026-08-15" data-max="36" data-min="23" data-uv="8" data-chuva="90%" data-nota="Trovoada 14h–22h, possível granizo">
+      <span class="wd">Sáb</span><span class="num">15</span>
+      <span class="max">36°</span><span class="min">mín 23°</span>
+      <span class="pills"><span class="pill p-uv alto">UV 8</span><span class="pill p-ch">90% chuva</span></span>
+      <span class="nota">Trovoada 14h–22h, possível granizo</span>
+    </div>
+    <div class="dia q36" data-d="2026-08-16" data-max="36" data-min="22" data-uv="8" data-chuva="15%" data-nota="Intervalos nublados">
+      <span class="wd">Dom</span><span class="num">16</span>
+      <span class="max">36°</span><span class="min">mín 22°</span>
+      <span class="pills"><span class="pill p-uv alto">UV 8</span></span>
+      <span class="nota">Intervalos nublados · 15% chuva</span>
+    </div>
+    <div class="dia q38" data-d="2026-08-17" data-max="38" data-min="22" data-uv="8" data-chuva="15%" data-nota="Sensação térmica ~41 °C">
+      <span class="wd">Seg</span><span class="num">17</span>
+      <span class="max">38°</span><span class="min">mín 22°</span>
+      <span class="pills"><span class="pill p-uv alto">UV 8</span></span>
+      <span class="nota">Sensação térmica ~41 °C</span>
+    </div>
+    <div class="dia q38" data-d="2026-08-18" data-max="38" data-min="21" data-uv="9" data-chuva="10%" data-nota="Calima — céu esbranquiçado">
+      <span class="wd">Ter</span><span class="num">18</span>
+      <span class="max">38°</span><span class="min">mín 21°</span>
+      <span class="pills"><span class="pill p-uv alto">UV 9</span></span>
+      <span class="nota">Calima — céu esbranquiçado</span>
+    </div>
+    <div class="dia q30" data-d="2026-08-19" data-max="32" data-min="20" data-uv="8" data-chuva="20%" data-nota="Entra ar mais fresco">
+      <span class="wd">Qua</span><span class="num">19</span>
+      <span class="max">32°</span><span class="min">mín 20°</span>
+      <span class="pills"><span class="pill p-uv alto">UV 8</span><span class="pill p-ch">20%</span></span>
+      <span class="nota">Entra ar mais fresco</span>
+    </div>
+    <div class="dia q30" data-d="2026-08-20" data-max="30" data-min="17" data-uv="" data-chuva="35%" data-nota="O dia mais agradável">
+      <span class="wd">Qui</span><span class="num">20</span>
+      <span class="max">30°</span><span class="min">mín 17°</span>
+      <span class="pills"><span class="pill p-ch">35% chuva</span></span>
+      <span class="nota">O dia mais agradável</span>
+    </div>
+    <div class="dia q33" data-d="2026-08-21" data-max="33" data-min="18" data-uv="" data-chuva="25%" data-nota="Noites frescas">
+      <span class="wd">Sex</span><span class="num">21</span>
+      <span class="max">33°</span><span class="min">mín 18°</span>
+      <span class="pills"><span class="pill p-ch">25%</span></span>
+      <span class="nota">Noites frescas</span>
+    </div>
+    <div class="dia q33 modelo" data-d="2026-08-22" data-max="~33" data-min="~20" data-uv="~8" data-chuva="<10%" data-nota="Só modelo">
+      <span class="wd">Sáb</span><span class="num">22*</span>
+      <span class="max">~33°</span><span class="min">mín ~20°</span>
+      <span class="pills"><span class="pill p-uv">UV ~8</span></span>
+      <span class="nota">Só modelo · &lt;10% chuva</span>
+    </div>
+    <div class="dia q33 modelo" data-d="2026-08-23" data-max="~33" data-min="~21" data-uv="~8" data-chuva="<10%" data-nota="Só modelo · dia de regresso">
+      <span class="wd">Dom</span><span class="num">23*</span>
+      <span class="max">~33°</span><span class="min">mín ~21°</span>
+      <span class="pills"><span class="pill p-uv">UV ~8</span></span>
+      <span class="nota">Só modelo · dia de regresso</span>
     </div>
   </div>
 
@@ -428,115 +702,138 @@
 <!-- ===================== PASSEIOS ===================== -->
 <section id="passeios">
   <h2><span class="dot"></span>Passeios a partir de Baena</h2>
-  <p class="lead">Distâncias e tempos aproximados, de carro, a partir do centro de Baena. Toque para abrir cada um.</p>
+  <p class="lead">Distâncias e tempos aproximados, de carro, a partir do centro de Baena. Toque num ponto do mapa ou num cartão para abrir.</p>
 
-  <h3 style="font-size:15px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin:18px 0 10px">Até 40 km · saídas de meio dia</h3>
+  <div class="card">
+    <div id="mapa-aneis" role="img" aria-label="Mapa radial com Baena ao centro e os destinos de passeio posicionados por direção e distância, com anéis de 40, 100 e 200 km"></div>
+    <div class="legenda">
+      <span><i style="width:9px;height:9px;border-radius:50%;background:var(--olive)"></i>até 40 km</span>
+      <span><i style="width:9px;height:9px;border-radius:50%;background:var(--azul)"></i>40–100 km</span>
+      <span><i style="width:9px;height:9px;border-radius:50%;background:var(--brand)"></i>100–200 km</span>
+    </div>
+  </div>
 
-  <details open><summary>Zuheros <span class="dist">13 km · 16 min</span></summary><div class="body">
+  <div class="filtros" role="group" aria-label="Filtrar passeios">
+    <button data-f="all" aria-pressed="true">Todos</button>
+    <button data-f="crianca" aria-pressed="false">Com criança</button>
+    <button data-f="fresco" aria-pressed="false">É fresco</button>
+    <button data-f="agua" aria-pressed="false">Água</button>
+    <button data-f="reserva" aria-pressed="false">Precisa de reserva</button>
+  </div>
+
+  <div class="grupo">
+  <h3 class="sub-h"><span class="gd" style="background:var(--olive)"></span>Até 40 km · saídas de meio dia</h3>
+
+  <details open id="d-zuheros" data-t="crianca fresco reserva"><summary>Zuheros <span class="dist">13 km · 16 min</span></summary><div class="body">
     <p><b>Cueva de los Murciélagos</b> — gruta com arte rupestre neolítica, interior a 14–17 °C. O melhor plano para um dia de 38 °C. <b>Reserva obrigatória:</b> turismo@zuheros.es ou 957 69 45 45. Verão: qua a dom, às 11h00, 12h30 e 17h30. 8 € adulto, 6,50 € dos 6 aos 12 anos.</p>
     <p><b>Atenção com crianças:</b> o percurso tem 415 m e cerca de 700 degraus, até 65 m de profundidade. Uma criança de 6 anos ativa consegue, mas é exigente. Levar casaco.</p>
     <p>Também: castelo de Zuheros no penhasco, museu arqueológico e uma das aldeias brancas mais bonitas de Espanha. <b>Feira da Virgen de los Remedios, 12–16 de agosto.</b></p>
   </div></details>
 
-  <details><summary>Luque e a Via Verde <span class="dist">9 km · 12 min</span></summary><div class="body">
+  <details id="d-luque" data-t="crianca"><summary>Luque e a Via Verde <span class="dist">9 km · 12 min</span></summary><div class="body">
     <p>Antiga linha do "comboio do azeite" convertida em percurso plano, sem trânsito, com túneis iluminados e viadutos. <b>O melhor passeio local com uma criança de 6 anos.</b> Troço Doña Mencía → Zuheros → Luque, ~13 km, com antigas estações transformadas em restaurantes.</p>
     <p>Aluguer de bicicletas com cadeiras e atrelados no Centro Cicloturista Subbética, em Doña Mencía (13 km). Reservar em agosto. Fazer ao amanhecer ou depois das 19h.</p>
   </div></details>
 
-  <details><summary>Cabra · Fuente del Río <span class="dist">26 km · 29 min</span></summary><div class="body">
+  <details id="d-cabra" data-t="crianca fresco agua"><summary>Cabra · Fuente del Río <span class="dist">26 km · 29 min</span></summary><div class="body">
     <p><b>Parque de la Fuente del Río</b> — nascente, ribeira, sombra de plátanos, zona de merendas. Gratuito, e é o plano "fresco" mais simples e mais barato de toda a comarca.</p>
     <p>Subindo 13 km de estrada de montanha, o <b>Santuário da Virgen de la Sierra</b> a 1 200 m — vários graus mais fresco e com vista imensa. Também o museu "Cabra Jurásica", geoparque UNESCO.</p>
   </div></details>
 
-  <details><summary>Priego de Córdoba <span class="dist">31 km · 34 min</span></summary><div class="body">
+  <details id="d-priego" data-t="crianca agua"><summary>Priego de Córdoba <span class="dist">31 km · 34 min</span></summary><div class="body">
     <p><b>Fuente del Rey</b> — 139 bicas de água, monumental. As crianças brincam à volta e refresca de verdade. O <b>Barrio de la Villa</b> é um labirinto branco cheio de flores, e o <b>Balcón del Adarve</b> tem a melhor vista da Subbética. Sem reserva.</p>
   </div></details>
 
-  <details><summary>Torreparedones <span class="dist">26 km · 38 min</span></summary><div class="body">
+  <details id="d-torreparedones" data-t="crianca reserva"><summary>Torreparedones <span class="dist">26 km · 38 min</span></summary><div class="body">
     <p>Cidade ibero-romana escavada no próprio concelho de Baena: fórum, termas, muralhas e santuário ibérico. Visitas guiadas normalmente aos fins de semana e feriados, 10h00–12h30, com reserva em torreparedones.es.</p>
     <p><b>Sem sombra nenhuma</b> — só de manhã cedo. Há <b>veladas astronómicas de verão</b>, que são o plano ideal com crianças: à noite e fresco.</p>
   </div></details>
 
-  <details><summary>Castro del Río · Espejo · Doña Mencía <span class="dist">13–26 km</span></summary><div class="body">
+  <details id="d-castro" data-t="crianca"><summary>Castro del Río · Espejo · Doña Mencía <span class="dist">13–26 km</span></summary><div class="body">
     <p>Três paragens curtas de 1 a 2 horas, todas na <b>Ruta del Califato</b>. Castro del Río tem o casco amuralhado e a antiga prisão onde a tradição diz ter estado Cervantes; Espejo tem o castelo dos Duques de Osuna no alto da colina; Doña Mencía é a base da Via Verde e das adegas Montilla-Moriles.</p>
   </div></details>
+  </div>
 
-  <h3 style="font-size:15px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin:22px 0 10px">40 a 100 km · saídas de um dia</h3>
+  <div class="grupo">
+  <h3 class="sub-h"><span class="gd" style="background:var(--azul)"></span>40 a 100 km · saídas de um dia</h3>
 
-  <details open><summary>Córdoba <span class="dist">62 km · 47 min</span></summary><div class="body">
+  <details open id="d-cordoba" data-t="crianca reserva"><summary>Córdoba <span class="dist">62 km · 47 min</span></summary><div class="body">
     <p><b>Mesquita-Catedral</b> — imprescindível. Verão: seg–sáb 10h–19h; dom 08h30–11h30 e 15h–19h. 15 € adulto, 8 € dos 10 aos 14, <b>grátis até aos 9 anos</b>. <b>Entrada gratuita de seg a sáb, das 08h30 às 09h30</b> (visita individual, em silêncio). Comprar online.</p>
     <p><b>Alcázar de los Reyes Cristianos</b> — jardins cheios de água, ótimo com criança. Também o <b>Zoo de Córdoba</b> e o Jardim Botânico.</p>
     <p><b>Medina Azahara</b> (69 km) — cidade palatina califal. Verão: ter–sáb 09h–14h <b>e 19h–24h</b> (visitas nocturnas). Lançadeira obrigatória, ~2,50–3 €.</p>
     <p><b>Estratégia de calor:</b> Córdoba passa dos 40 °C em agosto. Chegar às 8h30, ver a Mesquita na hora gratuita, almoçar e sair — ou fazer só a visita nocturna "El Alma de Córdoba".</p>
   </div></details>
 
-  <details open><summary>Lago de Iznájar · praia de Valdearenas <span class="dist">62 km · 1 h</span></summary><div class="body">
+  <details open id="d-iznajar" data-t="crianca agua reserva"><summary>Lago de Iznájar · praia de Valdearenas <span class="dist">62 km · 1 h</span></summary><div class="body">
     <p><b>É "o mar" da província de Córdoba.</b> Praia de areia no maior embalse da Andaluzia, com zona balnear, chuveiros, bar e sombras. Entrada de água suave — perfeita para os mais pequenos.</p>
     <p>Aluguer de <b>caiaques e paddle surf</b> (reservar ao fim de semana). A aldeia de Iznájar no alto tem castelo, o Patio de las Comedias e dos melhores miradouros da Andaluzia.</p>
     <p>Sombra natural é escassa: levar chapéu de sol / toldo.</p>
   </div></details>
 
-  <details><summary>Rute · Museu do Chocolate <span class="dist">50 km · 52 min</span></summary><div class="body">
+  <details id="d-rute" data-t="crianca fresco"><summary>Rute · Museu do Chocolate <span class="dist">50 km · 52 min</span></summary><div class="body">
     <p>Esculturas gigantes de chocolate, num espaço interior e climatizado. <b>O plano de calor mais garantido com uma criança de 6 anos.</b> Na mesma vila, o Museu do Anis (destilaria histórica), o do Presunto e o do Azeite, e o miradouro sobre o embalse de Iznájar.</p>
   </div></details>
 
-  <details><summary>Almedinilla · FESTUM romano <span class="dist">40 km · 41 min</span></summary><div class="body">
+  <details id="d-almedinilla" data-t="crianca"><summary>Almedinilla · FESTUM romano <span class="dist">40 km · 41 min</span></summary><div class="body">
     <p><b>Jornadas Iberorromanas, 12 a 16 de agosto</b> — mesmo no início da estadia. Cardo Romano com tabernas e oficinas de artesanato, <b>combates de gladiadores no dia 16 de manhã</b>, e <b>"Ludi Romani" a 15 de agosto: oficinas infantis gratuitas</b> de mosaico e cerâmica ibérica.</p>
     <p>Fora do festival: Villa Romana de El Ruedo e o poblado íbero do Cerro de la Cruz. Os banquetes romanos exigem reserva (45–65 €).</p>
   </div></details>
 
-  <details><summary>Alcalá la Real · Fortaleza de la Mota <span class="dist">49 km · 38 min</span></summary><div class="body">
+  <details id="d-alcala" data-t="crianca"><summary>Alcalá la Real · Fortaleza de la Mota <span class="dist">49 km · 38 min</span></summary><div class="body">
     <p>Enorme conjunto amuralhado com igreja abacial e cidade medieval escavada. Tem a experiência infantil <b>"Marco Topo"</b>, um jogo de pistas pela cidade feito para crianças — muda completamente a visita com crianças. Pouca sombra: ir cedo.</p>
   </div></details>
 
-  <details><summary>Jaén · Banhos Árabes <span class="dist">66 km · 51 min</span></summary><div class="body">
+  <details id="d-jaen" data-t="crianca fresco"><summary>Jaén · Banhos Árabes <span class="dist">66 km · 51 min</span></summary><div class="body">
     <p>Os <b>maiores banhos árabes de Espanha</b>, subterrâneos e frescos — outro bom plano de calor. Mais o Castillo de Santa Catalina, com vista sobre o mar de oliveiras, e a catedral renascentista de Vandelvira.</p>
   </div></details>
 
-  <details><summary>Antequera · dólmenes e El Torcal <span class="dist">86 km · 1 h 15</span></summary><div class="body">
+  <details id="d-antequera" data-t="crianca fresco"><summary>Antequera · dólmenes e El Torcal <span class="dist">86 km · 1 h 15</span></summary><div class="body">
     <p><b>Dólmenes de Menga, Viera e El Romeral</b> — Património Mundial UNESCO, entrada gratuita para cidadãos da UE.</p>
     <p><b>El Torcal</b> (102 km) — labirinto de rochas cársicas a 1 200 m, tipicamente 6 a 8 °C mais fresco. Entrada gratuita; a "ruta verde" tem só 1,5 km e é acessível a uma criança, mas o piso é irregular: <b>calçado fechado obrigatório</b>. Em dias de grande afluência há lançadeira (~2 €).</p>
     <p><b>Real Feria de Agosto, 19 a 23 de agosto:</b> dia 19 é dia infantil com preços reduzidos nas atrações e "horas sem ruído" das 20h30 às 22h30.</p>
   </div></details>
 
-  <details><summary>Aquasierra · parque aquático mais próximo <span class="dist">84 km · 1 h</span></summary><div class="body">
+  <details id="d-aquasierra" data-t="crianca agua"><summary>Aquasierra · parque aquático mais próximo <span class="dist">84 km · 1 h</span></summary><div class="body">
     <p>Villafranca de Córdoba. Aberto <b>todos os dias das 11h30 às 20h00 até 31 de agosto</b>. Tarifas por altura. Tel. 957 190 699.</p>
   </div></details>
+  </div>
 
-  <h3 style="font-size:15px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin:22px 0 10px">100 a 200 km · dia inteiro ou dormida</h3>
+  <div class="grupo">
+  <h3 class="sub-h"><span class="gd" style="background:var(--brand)"></span>100 a 200 km · dia inteiro ou dormida</h3>
 
-  <details><summary>Granada · Alhambra <span class="dist">103 km · 1 h 35</span></summary><div class="body">
+  <details id="d-granada" data-t="crianca reserva"><summary>Granada · Alhambra <span class="dist">103 km · 1 h 35</span></summary><div class="body">
     <p><b>Reserva crítica.</b> Só em tickets.alhambra-patronato.es. Agosto esgota com semanas de antecedência — se ainda não têm bilhete, verificar hoje. 22,27 € geral; <b>menores de 12 anos entram grátis, mas o bilhete tem de ser emitido no mesmo momento que os dos adultos</b>. Bilhetes nominativos: levar documentos de identificação de todos.</p>
     <p>Os <b>jardins do Generalife</b>, cheios de água, são a melhor parte com uma criança. Visita completa ~3h a pé. Há visita nocturna dos Palácios Nazaríes, ter–sáb 22h–23h30, 12,73 €.</p>
   </div></details>
 
-  <details><summary>Nerja · gruta + praia <span class="dist">188 km · 2 h 20</span></summary><div class="body">
+  <details id="d-nerja" data-t="crianca fresco agua reserva"><summary>Nerja · gruta + praia <span class="dist">188 km · 2 h 20</span></summary><div class="body">
     <p><b>A melhor combinação para um dia de calor extremo:</b> a Cueva de Nerja de manhã (passadiço amplo, muito mais fácil que a de Zuheros — verão 09h30–19h00, todos os dias, comprar online) e a <b>praia de Burriana</b> à tarde. Frigiliana, aldeia branca, a 10 minutos.</p>
   </div></details>
 
-  <details><summary>Setenil de las Bodegas &amp; Ronda <span class="dist">153–164 km · 2 h 20–2 h 30</span></summary><div class="body">
+  <details id="d-setenil" data-t="crianca fresco"><summary>Setenil de las Bodegas &amp; Ronda <span class="dist">153–164 km · 2 h 20–2 h 30</span></summary><div class="body">
     <p><b>Setenil</b> — casas escavadas debaixo da rocha, com o penhasco a servir de telhado. Visualmente mágico para uma criança e com sombra natural. <b>Ronda</b>, a 20 minutos, tem o Puente Nuevo sobre o Tajo de 100 m e a praça de touros mais antiga de Espanha.</p>
     <p>São o portal da <b>Ruta de los Pueblos Blancos</b>. Só compensa com uma dormida.</p>
   </div></details>
 
-  <details><summary>Málaga <span class="dist">129 km · 1 h 45</span></summary><div class="body">
+  <details id="d-malaga" data-t="crianca agua"><summary>Málaga <span class="dist">129 km · 1 h 45</span></summary><div class="body">
     <p>Alcazaba, Teatro Romano e Gibralfaro; Museu Picasso e Centre Pompidou (interiores climatizados); praia da Malagueta.</p>
     <p><b>Feria de Málaga, 15 a 22 de agosto.</b> A <b>feira de dia</b>, no centro histórico das ~12h às 18h, é gratuita e muito animada — mais adequada a crianças do que a feira de noite. Nota: a cidade enche, estacionar é difícil.</p>
   </div></details>
 
-  <details><summary>Sevilha · Isla Mágica <span class="dist">183 km · 2 h 15</span></summary><div class="body">
+  <details id="d-sevilha" data-t="crianca agua reserva"><summary>Sevilha · Isla Mágica <span class="dist">183 km · 2 h 15</span></summary><div class="body">
     <p><b>Isla Mágica + Agua Mágica</b> — parque temático e parque aquático, ideal para 6 anos. O Real Alcázar esgota em agosto: comprar online. A Plaza de España tem barcos a remos no canal, que as crianças adoram.</p>
     <p>Aviso: Sevilha em agosto chega aos 42–44 °C. Ou parque aquático, ou cidade em modo nocturno.</p>
   </div></details>
 
-  <details><summary>Sierra de Cazorla · rio Borosa <span class="dist">165–186 km · 2 h 15–2 h 50</span></summary><div class="body">
+  <details id="d-cazorla" data-t="crianca agua"><summary>Sierra de Cazorla · rio Borosa <span class="dist">165–186 km · 2 h 15–2 h 50</span></summary><div class="body">
     <p>Trilho junto à água com passadiços sobre o rio (o troço até à Cerrada de Elías, ~4 km, é o ideal com crianças), o Parque Cinegético do Collado del Almendral para ver veados e cabras montesas, e a nascente do Guadalquivir. Dia inteiro, idealmente com uma dormida. Verificar restrições por risco de incêndio.</p>
   </div></details>
 
-  <details><summary>Caminito del Rey <span class="dist">126 km · 2 h</span> <span class="tag t-no" style="margin:0">Proibido</span></summary><div class="body">
+  <details id="d-caminito" data-t="agua"><summary>Caminito del Rey <span class="dist">126 km · 2 h</span> <span class="tag t-no" style="margin:0 0 0 8px">Proibido</span></summary><div class="body">
     <p><b>Não é possível com crianças:</b> o regulamento oficial proíbe o acesso a menores de 8 anos. Sem exceções.</p>
     <p><b>Alternativa na mesma zona:</b> os embalses de El Chorro e Ardales — a <b>Playa de Ardales</b>, no Embalse del Conde de Guadalhorce, tem zona balnear de água doce com sombra de pinhal.</p>
   </div></details>
+  </div>
 
   <div class="callout ok">
     <b>🗺️ A Ruta del Califato passa mesmo por Baena</b>
@@ -548,28 +845,39 @@
 <section id="agenda">
   <h2><span class="dot"></span>Festas durante a estadia</h2>
   <p class="lead">Em Andaluzia, as ferias só ganham vida depois das 21h — e é a melhor forma de sair de casa sem apanhar 38 °C.</p>
+
   <div class="card">
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>Evento</th><th>Datas</th><th>Onde</th><th>Distância</th></tr></thead>
-        <tbody>
-          <tr><td><b>Feria de Agosto</b> (Virgen de los Remedios)</td><td>12–16 ago</td><td>Zuheros</td><td>13 km</td></tr>
-          <tr><td><b>Feria Real</b> · fiesta acuática familiar</td><td>14–17 ago</td><td>Carcabuey</td><td>33 km</td></tr>
-          <tr><td><b>FESTUM</b> · gladiadores e oficinas infantis</td><td>12–16 ago</td><td>Almedinilla</td><td>40 km</td></tr>
-          <tr><td><b>Feria de Málaga</b></td><td>15–22 ago</td><td>Málaga</td><td>129 km</td></tr>
-          <tr><td><b>Real Feria de Agosto</b> · dia infantil a 19</td><td>19–23 ago</td><td>Antequera</td><td>86 km</td></tr>
-        </tbody>
-      </table>
+    <div class="tl" id="tl">
+      <div class="tl-head">
+        <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
+      </div>
+      <div class="tl-body">
+        <div class="ev c1 desde" style="grid-column:1/3" data-de="2026-08-12" data-ate="2026-08-16" data-nome="Feria de Agosto" data-onde="Zuheros" data-km="13"><b>Zuheros · Feria</b><small>desde dia 12 · 13 km</small></div>
+        <div class="ev c2 desde" style="grid-column:1/4" data-de="2026-08-14" data-ate="2026-08-17" data-nome="Feria Real · fiesta acuática familiar" data-onde="Carcabuey" data-km="33"><b>Carcabuey · Feria Real</b><small>fiesta acuática · 33 km</small></div>
+        <div class="ev c3 desde" style="grid-column:1/3" data-de="2026-08-12" data-ate="2026-08-16" data-nome="FESTUM · gladiadores e oficinas infantis" data-onde="Almedinilla" data-km="40"><b>FESTUM · Almedinilla</b><small>gladiadores · 40 km</small></div>
+        <div class="ev c4" style="grid-column:1/9" data-de="2026-08-15" data-ate="2026-08-22" data-nome="Feria de Málaga" data-onde="Málaga" data-km="129"><b>Feria de Málaga</b><small>15–22 · feira de dia p/ crianças · 129 km</small></div>
+        <div class="ev c1" style="grid-column:5/10" data-de="2026-08-19" data-ate="2026-08-23" data-nome="Real Feria de Agosto · dia infantil a 19" data-onde="Antequera" data-km="86"><b>Antequera · Real Feria</b><small>dia infantil a 19 · 86 km</small></div>
+      </div>
     </div>
-    <p class="meta" style="margin-top:10px">Baena não tem feira em agosto — a Feria Real é na primeira semana de outubro. Em Carcabuey o fogo de artifício foi cancelado em 2026 por risco de incêndio; é provável que outras vilas façam o mesmo.</p>
+    <p class="meta" style="margin-top:12px">Baena não tem feira em agosto — a Feria Real é na primeira semana de outubro. Em Carcabuey o fogo de artifício foi cancelado em 2026 por risco de incêndio; é provável que outras vilas façam o mesmo.</p>
   </div>
+
   <div class="callout"><b>Programa municipal "Baena Experience"</b>Inclui caiaque e paddle surf no embalse de Albendín (~10 km), festas aquáticas e banhos nocturnos na piscina municipal — sextas em Baena, quintas em Albendín. Inscrições pelas redes sociais da Juventud de Baena.</div>
 </section>
+
+<div class="faixa">
+  <picture>
+    <source srcset="assets/baena/faixa-patio.webp" type="image/webp">
+    <img src="assets/baena/faixa-patio.jpg" width="1200" height="414" loading="lazy"
+      alt="Pátio da casa: parede terracota, janelas de arcos ferradura e mesa com toalha de renda">
+  </picture>
+</div>
 
 <!-- ===================== MALA ===================== -->
 <section id="mala">
   <h2><span class="dot"></span>Mala · adultos</h2>
   <p class="lead">Nove dias, 30 a 38 °C de dia e noites entre 17 e 23 °C. Toque para riscar.</p>
+  <div class="prog-sec" data-prog="mala"><b>0 de 0</b><div class="meter"><i></i></div></div>
 
   <div class="card">
     <h3>🔴 Não pode faltar</h3>
@@ -681,6 +989,7 @@
 <section id="criancas">
   <h2><span class="dot"></span>Mala · crianças</h2>
   <p class="lead">Para quem leva miúdos. Nove dias de sol forte, piscina e lago — a prioridade é sol, água e conforto no carro.</p>
+  <div class="prog-sec" data-prog="criancas"><b>0 de 0</b><div class="meter"><i></i></div></div>
 
   <div class="card">
     <h3>🔴 Documentos — tratar antes de sair</h3>
@@ -772,15 +1081,15 @@
       <table>
         <thead><tr><th>Local</th><th>Reserva</th><th>Nota</th></tr></thead>
         <tbody>
-          <tr><td><b>Alhambra</b>, Granada</td><td class="hot">Imprescindível</td><td>Só em tickets.alhambra-patronato.es. Agosto esgota. &lt;12 anos grátis mas o bilhete tem de sair junto com os dos adultos. Nominativo.</td></tr>
-          <tr><td><b>Real Alcázar</b>, Sevilha</td><td class="hot">Imprescindível</td><td>Esgota em agosto</td></tr>
-          <tr><td><b>Cueva de los Murciélagos</b>, Zuheros</td><td class="hot">Obrigatória</td><td>turismo@zuheros.es · 957 69 45 45 · qua–dom, 11h/12h30/17h30</td></tr>
-          <tr><td><b>Mesquita-Catedral</b>, Córdoba</td><td>Muito recomendada</td><td>Ou usar a entrada gratuita seg–sáb, 08h30–09h30</td></tr>
-          <tr><td><b>Cueva de Nerja</b></td><td>Online, mais barato</td><td>Verão 09h30–19h00, todos os dias</td></tr>
-          <tr><td><b>Medina Azahara</b></td><td>Guiadas e nocturnas</td><td>Lançadeira obrigatória ~2,50–3 €</td></tr>
-          <tr><td><b>Torreparedones</b></td><td>Recomendada</td><td>torreparedones.es · fins de semana e feriados, 10h–12h30</td></tr>
-          <tr><td><b>Bicicletas</b>, Doña Mencía</td><td>Recomendada</td><td>Centro Cicloturista Subbética · com cadeiras e atrelados</td></tr>
-          <tr><td><b>Caiaques</b>, Iznájar</td><td>Ao fim de semana</td><td>Estación Náutica Lago de Andalucía</td></tr>
+          <tr><td><b>Alhambra</b>, Granada</td><td><span class="badge b-imp">Imprescindível</span></td><td>Só em tickets.alhambra-patronato.es. Agosto esgota. &lt;12 anos grátis mas o bilhete tem de sair junto com os dos adultos. Nominativo.</td></tr>
+          <tr><td><b>Real Alcázar</b>, Sevilha</td><td><span class="badge b-imp">Imprescindível</span></td><td>Esgota em agosto</td></tr>
+          <tr><td><b>Cueva de los Murciélagos</b>, Zuheros</td><td><span class="badge b-imp">Obrigatória</span></td><td>turismo@zuheros.es · 957 69 45 45 · qua–dom, 11h/12h30/17h30</td></tr>
+          <tr><td><b>Mesquita-Catedral</b>, Córdoba</td><td><span class="badge b-rec">Muito recomendada</span></td><td>Ou usar a entrada gratuita seg–sáb, 08h30–09h30</td></tr>
+          <tr><td><b>Cueva de Nerja</b></td><td><span class="badge b-info">Online, mais barato</span></td><td>Verão 09h30–19h00, todos os dias</td></tr>
+          <tr><td><b>Medina Azahara</b></td><td><span class="badge b-info">Guiadas e nocturnas</span></td><td>Lançadeira obrigatória ~2,50–3 €</td></tr>
+          <tr><td><b>Torreparedones</b></td><td><span class="badge b-ok">Recomendada</span></td><td>torreparedones.es · fins de semana e feriados, 10h–12h30</td></tr>
+          <tr><td><b>Bicicletas</b>, Doña Mencía</td><td><span class="badge b-ok">Recomendada</span></td><td>Centro Cicloturista Subbética · com cadeiras e atrelados</td></tr>
+          <tr><td><b>Caiaques</b>, Iznájar</td><td><span class="badge b-ok">Ao fim de semana</span></td><td>Estación Náutica Lago de Andalucía</td></tr>
         </tbody>
       </table>
     </div>
@@ -792,6 +1101,20 @@
     <a class="btn" href="https://www.electromaps.com/en/charging-stations/spain/cordoba/baena" target="_blank" rel="noopener">Carregadores Baena</a>
     <a class="btn" href="https://tickets.alhambra-patronato.es/" target="_blank" rel="noopener">Bilhetes Alhambra</a>
   </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>Onde vamos ficar · San Marcos</h3>
+    <p class="meta">Casa inteira no meio do olival, a menos de 1 km de Baena · 6 quartos, cada um com casa de banho · piscina aberta todo o ano · dois terraços e churrasqueira</p>
+    <div class="fotos-casa">
+      <picture><source srcset="assets/baena/casa-piscina-tarde.webp" type="image/webp"><img src="assets/baena/casa-piscina-tarde.jpg" width="640" height="359" loading="lazy" alt="Piscina da casa ao entardecer, com a fachada refletida na água"></picture>
+      <picture><source srcset="assets/baena/casa-patio.webp" type="image/webp"><img src="assets/baena/casa-patio.jpg" width="640" height="359" loading="lazy" alt="Pátio de entrada com arcos em ferradura e mesa posta à sombra"></picture>
+      <picture><source srcset="assets/baena/casa-sala.webp" type="image/webp"><img src="assets/baena/casa-sala.jpg" width="640" height="359" loading="lazy" alt="Sala de estar com lareira e mesa de jantar"></picture>
+      <picture><source srcset="assets/baena/casa-olival.webp" type="image/webp"><img src="assets/baena/casa-olival.jpg" width="640" height="359" loading="lazy" alt="A casa e a sua torre entre oliveiras, na encosta"></picture>
+    </div>
+    <div class="btnrow" style="margin-top:0">
+      <a class="btn" href="https://www.airbnb.pt/rooms/11732880" target="_blank" rel="noopener">Ver a listagem no Airbnb</a>
+    </div>
+  </div>
 </section>
 
 </main>
@@ -800,26 +1123,332 @@
   <div class="wrap">
     <p><b>Hub da viagem a Baena</b> · construído a 15 de agosto de 2026.</p>
     <p>Previsão AEMET de 15/08 às 09h05 (oficial até dia 21). Distâncias e tempos aproximados. Localizações e potências de carregadores verificadas em fontes públicas — <b>confirmar sempre em ABRP, Electromaps ou PlugShare antes e durante a viagem</b>, a rede espanhola muda depressa. Horários e preços de monumentos devem ser reconfirmados na véspera.</p>
+    <p>Fotos da casa: anúncio "San Marcos" no Airbnb (ligação na secção de reservas).</p>
     <p style="margin-top:16px"><a href="/" style="font-weight:700">&larr; Voltar ao LEVEL</a></p>
     <p>Fontes: AEMET · IPMA · DGT · Tesla · Zunder · Ionity · Electromaps · Consorcio Ciudad Monumental · Patronato de la Alhambra · Ayuntamiento de Baena · Turismo de Zuheros · Torreparedones · OpenStreetMap.</p>
   </div>
 </footer>
 
+<button id="topo" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+
 <script>
-  // Contador de itens por cartão (em memória, sem armazenamento)
-  document.querySelectorAll('.card').forEach(function(card){
-    var boxes = card.querySelectorAll('.pack input[type=checkbox]');
+(function(){
+  var $ = function(s,c){ return (c||document).querySelector(s); };
+  var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+
+  /* ---------- Contadores + barras por cartão (em memória, sem armazenamento) ---------- */
+  var progSec = {};
+  $$('.card').forEach(function(card){
+    var boxes = $$('.pack input[type=checkbox]', card);
     if(!boxes.length) return;
-    var c = document.createElement('div');
-    c.className = 'counter';
-    card.appendChild(c);
+    var m = document.createElement('div'); m.className='meter'; m.innerHTML='<i></i>';
+    var c = document.createElement('div'); c.className='counter';
+    card.appendChild(m); card.appendChild(c);
     function upd(){
-      var done = card.querySelectorAll('.pack input:checked').length;
+      var done = $$('.pack input:checked', card).length;
       c.textContent = done + ' de ' + boxes.length + ' arrumado' + (done===1?'':'s');
+      m.firstChild.style.width = (100*done/boxes.length) + '%';
+      var sec = card.closest('section');
+      if(sec && progSec[sec.id]) progSec[sec.id]();
     }
     boxes.forEach(function(b){ b.addEventListener('change', upd); });
     upd();
   });
+  /* barra global por secção de mala */
+  $$('.prog-sec').forEach(function(p){
+    var sec = p.closest('section');
+    var label = $('b', p), bar = $('.meter i', p);
+    progSec[sec.id] = function(){
+      var all = $$('.pack input[type=checkbox]', sec), done = $$('.pack input:checked', sec);
+      label.textContent = done.length + ' de ' + all.length;
+      bar.style.width = (100*done.length/Math.max(1,all.length)) + '%';
+    };
+    progSec[sec.id]();
+  });
+  /* linha inteira toca/risca */
+  $$('.pack li').forEach(function(li){
+    li.addEventListener('click', function(e){
+      if(e.target.closest('input,a')) return;
+      var i = $('input', li); if(!i) return;
+      i.checked = !i.checked;
+      i.dispatchEvent(new Event('change', {bubbles:true}));
+    });
+  });
+
+  /* ---------- Nav: scroll-spy ---------- */
+  var navEl = $('nav .wrap');
+  var links = $$('nav a');
+  var secs = links.map(function(a){ return $(a.getAttribute('href')); });
+  var navH = $('nav').offsetHeight || 62;
+  document.documentElement.style.setProperty('--navh', navH + 'px');
+  var ticking = false;
+  function spy(){
+    ticking = false;
+    var y = window.scrollY + navH + 90, atual = 0;
+    for(var i=0;i<secs.length;i++){ if(secs[i] && secs[i].offsetTop <= y) atual = i; }
+    links.forEach(function(a,i){
+      if(i===atual){ if(!a.hasAttribute('aria-current')){ a.setAttribute('aria-current','true');
+        navEl.scrollTo({left: a.offsetLeft - navEl.clientWidth/2 + a.offsetWidth/2, behavior:'smooth'}); } }
+      else a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(spy); } }, {passive:true});
+  spy();
+
+  /* ---------- Projeção e utilidades do mapa ---------- */
+  var LON0=-9.35, LAT0=39.15, KX=Math.cos(37.95*Math.PI/180), S=93.9;
+  function P(ll){ return [ (ll[1]-LON0)*KX*S, (LAT0-ll[0])*S ]; }
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag, at, parent){
+    var e = document.createElementNS(NS, tag);
+    for(var k in at) e.setAttribute(k, at[k]);
+    if(parent) parent.appendChild(e);
+    return e;
+  }
+  function suave(pts){ /* catmull-rom -> bezier */
+    if(pts.length<3) return 'M'+pts.map(function(p){return p.join(' ');}).join(' L');
+    var d='M'+pts[0][0]+' '+pts[0][1];
+    for(var i=0;i<pts.length-1;i++){
+      var p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||p2;
+      d+='C'+(p1[0]+(p2[0]-p0[0])/6)+' '+(p1[1]+(p2[1]-p0[1])/6)+' '
+          +(p2[0]-(p3[0]-p1[0])/6)+' '+(p2[1]-(p3[1]-p1[1])/6)+' '+p2[0]+' '+p2[1];
+    }
+    return d;
+  }
+  function afasta(pts, d){ /* offset perpendicular simples */
+    return pts.map(function(p,i){
+      var a=pts[i-1]||p, b=pts[i+1]||p, dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy)||1;
+      return [p[0]-dy/L*d, p[1]+dx/L*d];
+    });
+  }
+  var RAIO = 'M3.7 0 L0.6 4.3 H2.9 L2.2 7.6 L5.6 3.1 H3.2 Z'; /* raio ~6x8 */
+
+  /* ---------- Mapa das rotas ---------- */
+  (function(){
+    var box = $('#mapa-svg'); if(!box) return;
+    var svg = el('svg', {viewBox:'0 0 400 224', 'aria-hidden':'true'});
+    box.appendChild(svg);
+    /* terra */
+    var costa = [[39.15,-9.35],[38.72,-9.35],[38.65,-9.23],[38.55,-9.19],[38.44,-9.11],[38.48,-8.92],[38.39,-8.79],[38.05,-8.84],[37.92,-8.88],[37.55,-8.83],[37.32,-8.87],[37.02,-8.99],[37.05,-8.65],[37.10,-8.45],[37.05,-8.10],[37.01,-7.93],[37.10,-7.68],[37.17,-7.42],[37.21,-7.18],[37.24,-6.99],[37.06,-6.72],[36.93,-6.45],[36.82,-6.37]];
+    var terra = costa.map(P);
+    terra.push(P([36.82,-3.95]), P([39.15,-3.95]));
+    el('path', {d:'M'+terra.map(function(p){return p.join(' ');}).join(' L')+' Z', fill:'var(--terra)', stroke:'var(--terra-line)', 'stroke-width':1}, svg);
+    /* rio guadalquivir */
+    var rio=[[37.88,-4.78],[37.68,-5.10],[37.59,-5.33],[37.47,-5.65],[37.39,-5.99],[37.22,-6.05],[37.05,-6.20],[36.90,-6.32],[36.82,-6.37]];
+    el('path', {d:suave(rio.map(P)), fill:'none', stroke:'var(--rio)', 'stroke-width':1.4, 'stroke-linecap':'round'}, svg);
+    /* fronteira */
+    var front=[[37.17,-7.41],[37.55,-7.51],[37.95,-7.27],[38.20,-7.13],[38.62,-7.13],[38.88,-7.00],[39.15,-6.98]];
+    el('path', {d:'M'+front.map(P).map(function(p){return p.join(' ');}).join(' L'), fill:'none', stroke:'var(--terra-line)', 'stroke-width':1, 'stroke-dasharray':'3 4'}, svg);
+    /* etiquetas de país e mar */
+    function rotulo(t, ll, at){
+      var a = {x:P(ll)[0], y:P(ll)[1], 'font-size':9, fill:'var(--muted)', 'letter-spacing':'.22em', 'font-weight':600, 'text-anchor':'middle', 'font-family':'Gabarito,sans-serif'};
+      for(var k in (at||{})) a[k]=at[k];
+      var e = el('text', a, svg); e.textContent = t; return e;
+    }
+    rotulo('PORTUGAL', [37.55,-8.62]); rotulo('ESPANHA', [38.52,-5.35]);
+    rotulo('Oceano Atlântico', [36.98,-8.35], {'letter-spacing':'.06em','font-style':'italic','font-weight':400,'font-size':8.5,fill:'var(--azul)'});
+    /* rotas */
+    var gR = {};
+    ROTAS.forEach(function(r, idx){
+      var pts = r.via.map(function(n){ return P(GEO[n]); });
+      var off = afasta(pts, (idx-1)*2.3);
+      var g = el('g', {'data-r':r.n}, svg);
+      el('path', {d:suave(off), fill:'none', stroke:'var(--r'+r.n+')', 'stroke-width':3, 'stroke-linecap':'round', 'stroke-linejoin':'round', opacity:.9}, g);
+      gR[r.n]=g;
+    });
+    /* paragens (pontos) */
+    var vistos = {};
+    ROTAS.forEach(function(r){ r.via.forEach(function(n){
+      if(vistos[n]) return; vistos[n]=1;
+      var p = P(GEO[n]);
+      var c = el('circle', {cx:p[0], cy:p[1], r:2.7, fill:'var(--surface)', stroke:'var(--muted)', 'stroke-width':1.6}, svg);
+      el('title', {}, c).textContent = n;
+    });});
+    /* carregadores */
+    var NUD = {"Bormujos":[-7,-3], "Alcalá de Guadaíra":[6,5], "Córdoba":[0,-6], "La Carlota":[-2,6], "Monturque":[3,5], "Loulé":[0,5], "Monesterio":[5,0], "Mérida":[4,-4], "Estremoz":[-5,-4], "Alcácer do Sal":[-6,-3], "Aljustrel":[-6,2], "Almodôvar":[-7,0], "Benacazón":[-2,-7]};
+    CARREGADORES.forEach(function(n){
+      var p = P(GEO[n]), nd = NUD[n]||[0,0];
+      var g = el('g', {transform:'translate('+(p[0]-4.5+nd[0])+' '+(p[1]-4.5+nd[1])+')'}, svg);
+      el('rect', {x:0, y:0, width:9.4, height:9.4, rx:2.4, fill:'var(--warn)'}, g);
+      el('path', {d:RAIO, transform:'translate(1.7 1)', fill:'var(--cal)'}, g);
+      el('title', {}, g).textContent = n + ' · carregamento rápido';
+    });
+    /* origem e destino */
+    var o = P(GEO['Pinhal Novo']);
+    el('circle', {cx:o[0], cy:o[1], r:4.6, fill:'none', stroke:'var(--ink)', 'stroke-width':1.7}, svg);
+    el('circle', {cx:o[0], cy:o[1], r:1.8, fill:'var(--ink)'}, svg);
+    var b = P(GEO['Baena']);
+    el('circle', {cx:b[0], cy:b[1], r:5.2, fill:'var(--brand)'}, svg);
+    el('circle', {cx:b[0], cy:b[1], r:1.9, fill:'var(--cal)'}, svg);
+    /* nomes de cidades */
+    var ETI = {
+      "Pinhal Novo":[7,-5,'start'], "Almodôvar":[3,12,'start'], "Loulé":[8,4,'start'], "Huelva":[0,13,'middle'],
+      "Beja":[0,-8,'middle'], "Aracena":[-2,-8,'middle'], "Estremoz":[-8,2,'end'], "Badajoz":[-3,-7,'middle'],
+      "Mérida":[8,0,'start'], "Zafra":[8,3,'start'], "Sevilha":[-8,4,'end'], "Écija":[2,-8,'middle'],
+      "Córdoba":[7,-3,'start'], "Baena":[0,-10,'middle']
+    };
+    for(var n in ETI){
+      var p2 = P(GEO[n]), e2 = ETI[n];
+      var t = el('text', {x:p2[0]+e2[0], y:p2[1]+e2[1], 'font-size':(n==='Baena'?11.5:9.5), 'font-weight':n==='Baena'?800:600,
+        fill:n==='Baena'?'var(--brand)':'var(--ink)', 'text-anchor':e2[2], 'font-family':'Gabarito,sans-serif',
+        stroke:'var(--terra)', 'stroke-width':2.6, 'paint-order':'stroke'}, svg);
+      t.textContent = n;
+    }
+    /* seletor de rota */
+    var secR = $('#rotas');
+    $$('.mapa-ctl button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var r = btn.getAttribute('data-rota');
+        $$('.mapa-ctl button').forEach(function(x){ x.setAttribute('aria-pressed', x===btn ? 'true':'false'); });
+        if(r==='0'){ secR.removeAttribute('data-rota'); } else { secR.setAttribute('data-rota', r); }
+        for(var k in gR){ gR[k].style.opacity = (r==='0'||r===String(k)) ? 1 : .14; }
+      });
+    });
+  })();
+
+  /* ---------- Mapa de anéis (passeios) ---------- */
+  (function(){
+    var box = $('#mapa-aneis'); if(!box) return;
+    var W=360, H=340, cx=180, cy=170, RM=150, KM=210;
+    var svg = el('svg', {viewBox:'0 0 '+W+' '+H, 'aria-hidden':'true'});
+    svg.style.background='var(--surface)'; box.appendChild(svg);
+    function rd(km){ return Math.sqrt(km/KM)*RM; }
+    [40,100,200].forEach(function(km){
+      el('circle', {cx:cx, cy:cy, r:rd(km), fill:'none', stroke:'var(--line)', 'stroke-width':1, 'stroke-dasharray': km===200?'':'2 4'}, svg);
+      var rr = rd(km)*0.7071;
+      var t = el('text', {x:cx-rr+2, y:cy-rr-3, 'font-size':8.5, fill:'var(--muted)', 'font-family':'Gabarito,sans-serif','font-weight':600,
+        stroke:'var(--surface)', 'stroke-width':2.2, 'paint-order':'stroke'}, svg);
+      t.textContent = km+' km';
+    });
+    var bll = GEO['Baena'];
+    function pos(ll, km){
+      var f1=bll[0]*Math.PI/180, f2=ll[0]*Math.PI/180, dl=(ll[1]-bll[1])*Math.PI/180;
+      var br = Math.atan2(Math.sin(dl)*Math.cos(f2), Math.cos(f1)*Math.sin(f2)-Math.sin(f1)*Math.cos(f2)*Math.cos(dl));
+      var r = rd(km);
+      return [cx + r*Math.sin(br), cy - r*Math.cos(br)];
+    }
+    /* [dx, dy, anchor] por nome — ajustar à mão se algum rótulo colidir */
+    var CURTO = {"Priego de Córdoba":"Priego"};
+    var LB = {
+      "Luque":[6,-4,'start'], "Zuheros":[7,6,'start'], "Doña Mencía":[-7,4,'end'], "Cabra":[-6,8,'end'],
+      "Castro del Río":[2,-7,'middle'], "Espejo":[-7,5,'end'], "Torreparedones":[0,-9,'middle'],
+      "Priego de Córdoba":[-7,6,'end'], "Almedinilla":[6,9,'start'], "Rute":[-7,2,'end'],
+      "Alcalá la Real":[7,-4,'start'], "Iznájar":[7,7,'start'], "Córdoba":[-7,-2,'end'], "Jaén":[6,-3,'start'],
+      "Aquasierra":[7,-2,'start'], "Antequera":[-7,0,'end'], "Granada":[7,2,'start'], "Caminito":[0,13,'middle'],
+      "Málaga":[0,13,'middle'], "Setenil":[-7,-5,'end'], "Ronda":[-7,2,'end'], "Sevilha·Isla Mágica":[7,-2,'start'],
+      "Cazorla":[-4,-8,'end'], "Nerja":[0,13,'middle']
+    };
+    for(var n in PASSEIOS){
+      (function(n){
+        var d = PASSEIOS[n], p = pos([d[0],d[1]], d[2]);
+        var cor = d[2]<=40 ? 'var(--olive)' : d[2]<=100 ? 'var(--azul)' : 'var(--brand)';
+        var g = el('g', {cursor:'pointer', 'data-alvo':d[3]}, svg);
+        el('circle', {cx:p[0], cy:p[1], r:4.4, fill:cor, stroke:'var(--surface)', 'stroke-width':1.4}, g);
+        var lb = LB[n]||[6,3,'start'];
+        var t = el('text', {x:p[0]+lb[0], y:p[1]+lb[1]+3, 'font-size':9, 'font-weight':600, fill:'var(--ink)',
+          'text-anchor':lb[2], 'font-family':'Gabarito,sans-serif', stroke:'var(--surface)', 'stroke-width':2.4, 'paint-order':'stroke'}, g);
+        t.textContent = (CURTO[n] || n.split('·')[0]).trim();
+        el('title', {}, g).textContent = n + ' · ' + d[2] + ' km';
+        g.addEventListener('click', function(){
+          var alvo = document.getElementById(d[3]); if(!alvo) return;
+          alvo.open = true;
+          location.hash = '#' + d[3];
+        });
+      })(n);
+    }
+    /* Baena ao centro */
+    el('rect', {x:cx-4.5, y:cy-4.5, width:9, height:9, rx:2.5, fill:'var(--brand)', transform:'rotate(45 '+cx+' '+cy+')'}, svg);
+    var tb = el('text', {x:cx, y:cy-9, 'font-size':10.5, 'font-weight':800, fill:'var(--brand)', 'text-anchor':'middle',
+      'font-family':'Gabarito,sans-serif', stroke:'var(--surface)', 'stroke-width':2.6, 'paint-order':'stroke'}, svg);
+    tb.textContent='Baena';
+  })();
+
+  /* ---------- Filtros dos passeios ---------- */
+  $$('.filtros button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var f = btn.getAttribute('data-f');
+      $$('.filtros button').forEach(function(x){ x.setAttribute('aria-pressed', x===btn?'true':'false'); });
+      $$('#passeios details').forEach(function(d){
+        d.style.display = (f==='all' || (d.getAttribute('data-t')||'').split(' ').indexOf(f)>=0) ? '' : 'none';
+      });
+      $$('#passeios .grupo').forEach(function(g){
+        var vivos = $$('details', g).some(function(d){ return d.style.display!=='none'; });
+        $('.sub-h', g).style.display = vivos ? '' : 'none';
+      });
+    });
+  });
+
+  /* ---------- Datas: chip do hero, cartão de hoje, linha na agenda ---------- */
+  var INI = new Date(2026,7,15), FIM = new Date(2026,7,23);
+  var hoje = new Date(); hoje.setHours(0,0,0,0);
+  var chip = $('#chip-dia');
+  var diaN = Math.round((hoje - INI)/864e5) + 1;
+  if(hoje < INI){ chip.innerHTML = 'Faltam <b>' + Math.round((INI-hoje)/864e5) + '</b> dias'; }
+  else if(hoje <= FIM){ chip.innerHTML = 'Dia <b>' + diaN + '</b> de 9'; }
+  var iso = hoje.getFullYear()+'-'+String(hoje.getMonth()+1).padStart(2,'0')+'-'+String(hoje.getDate()).padStart(2,'0');
+  $$('#dias .dia').forEach(function(d){ if(d.getAttribute('data-d')===iso) d.classList.add('hoje-dia'); });
+  if(diaN>=1 && diaN<=9){
+    var linha = document.createElement('div');
+    linha.className='tl-hoje';
+    linha.style.left = 'calc(' + ((diaN-0.5)/9*100) + '% - 1px)';
+    $('#tl .tl-body').appendChild(linha);
+  }
+
+  /* ---------- Modo hoje ---------- */
+  var btnH = $('#btn-hoje'), painel = $('#painel-hoje');
+  function fmtData(d){
+    var s = d.toLocaleDateString('pt-PT', {weekday:'long', day:'numeric', month:'long'});
+    return s.charAt(0).toUpperCase()+s.slice(1);
+  }
+  function montaPainel(){
+    var html = '<div class="card">';
+    html += '<p class="lead" style="margin:0">Modo hoje — só o essencial do dia.</p>';
+    html += '<p class="data">' + fmtData(hoje) + (diaN>=1&&diaN<=9 ? ' · dia ' + diaN + ' de 9' : '') + '</p>';
+    var dcard = $$('#dias .dia').filter(function(d){ return d.getAttribute('data-d')===iso; })[0];
+    if(dcard){
+      html += '<div class="dia ' + dcard.className.replace('dia','').trim() + '" style="max-width:280px;margin-top:8px">' + dcard.innerHTML + '</div>';
+    } else if(hoje<INI){
+      html += '<p>A viagem começa a 15 de agosto — faltam <b>' + Math.round((INI-hoje)/864e5) + '</b> dias.</p>';
+    } else {
+      html += '<p>A viagem terminou a 23 de agosto. Boas memórias de Baena.</p>';
+    }
+    var ativas = $$('#tl .ev').filter(function(e){
+      return e.getAttribute('data-de') <= iso && iso <= e.getAttribute('data-ate');
+    });
+    html += '<h3 style="margin-top:16px">Festas a decorrer hoje</h3>';
+    if(ativas.length){
+      html += '<ul class="kv">' + ativas.map(function(e){
+        return '<li><span>' + e.getAttribute('data-nome') + '</span><span>' + e.getAttribute('data-onde') + ' · ' + e.getAttribute('data-km') + ' km</span></li>';
+      }).join('') + '</ul>';
+      html += '<p class="meta" style="margin-top:8px">Em Andaluzia as ferias ganham vida depois das 21h.</p>';
+    } else {
+      html += '<p class="meta">Nenhuma festa nas redondezas hoje.</p>';
+    }
+    html += '<div class="btnrow"><a class="btn primary" href="https://www.dgt.es/conoce-el-estado-del-trafico/" target="_blank" rel="noopener">Trânsito DGT</a>'
+         + '<a class="btn" href="https://www.aemet.es/es/eltiempo/prediccion/avisos" target="_blank" rel="noopener">Avisos AEMET</a>'
+         + '<button class="btn" id="sair-hoje" type="button">Ver o guia completo</button></div>';
+    html += '</div>';
+    painel.innerHTML = html;
+    var sh = $('#sair-hoje'); if(sh) sh.addEventListener('click', desligaHoje);
+  }
+  function desligaHoje(){
+    document.body.classList.remove('modo-hoje');
+    btnH.setAttribute('aria-pressed','false');
+  }
+  btnH.addEventListener('click', function(){
+    var on = document.body.classList.toggle('modo-hoje');
+    btnH.setAttribute('aria-pressed', on?'true':'false');
+    if(on){ montaPainel(); window.scrollTo({top:0, behavior:'auto'}); }
+  });
+  links.forEach(function(a){ a.addEventListener('click', desligaHoje); });
+
+  /* ---------- Voltar ao topo ---------- */
+  var topo = $('#topo');
+  window.addEventListener('scroll', function(){
+    topo.classList.toggle('on', window.scrollY > 700);
+  }, {passive:true});
+  topo.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+})();
 </script>
 </body>
 </html>
