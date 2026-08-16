@@ -416,7 +416,7 @@ const PASSEIOS = {
   <div class="wrap">
     <a href="#hoje">Hoje</a>
     <a href="#casa">Chegada</a>
-    <a href="#rotas">Rotas</a>
+    <a href="#rotas">Rota</a>
     <a href="#carga">Carregar</a>
     <a href="#tempo">Tempo</a>
     <a href="#passeios">Passeios</a>
@@ -531,96 +531,30 @@ const PASSEIOS = {
 
 <!-- ===================== ROTAS ===================== -->
 <section id="rotas">
-  <h2><span class="dot"></span>Três rotas até Baena</h2>
-  <p class="lead">Badajoz e Mérida já conhecem — por isso a rota clássica desce para terceiro lugar e as duas primeiras passam por sítios novos.</p>
+  <h2><span class="dot"></span>A rota</h2>
+  <p class="lead">Só a rota que estamos mesmo a fazer. As alternativas foram retiradas para não baralhar a meio da viagem.</p>
 
   <div class="card">
-    <div class="mapa-ctl" role="group" aria-label="Escolher rota no mapa">
-      <button data-rota="0" aria-pressed="true">Todas</button>
-      <button data-rota="1" aria-pressed="false"><span class="sw" style="background:var(--r1)"></span>1 · Algarve</button>
-      <button data-rota="2" aria-pressed="false"><span class="sw" style="background:var(--r2)"></span>2 · Aracena</button>
-      <button data-rota="3" aria-pressed="false"><span class="sw" style="background:var(--r3)"></span>3 · Badajoz</button>
+    <h3>Pinhal Novo → Baena</h3>
+    <p class="meta"><b>≈ 600 km · chegada prevista 18h53</b> · portagens ~15 € em Portugal, zero em Espanha</p>
+    <ol class="steps">
+      <li><b>A2 → A6</b> — Montemor, Évora, <b>Estremoz</b>, até à fronteira do Caia</li>
+      <li><b>Badajoz → A-5 → Mérida</b></li>
+      <li><b>Travessia do interior da Extremadura</b>, pela zona do Embalse de Alange, a caminho de Córdoba — <b>sem descer a Sevilha</b></li>
+      <li><b>Córdoba → Baena</b>, os últimos ~63 km pela N-432</li>
+    </ol>
+    <div class="callout ok" style="margin-bottom:0">
+      <b>Porque não por Sevilha</b>
+      A alternativa pela A-92 via Sevilha dava <b>22 minutos a mais</b> e apanhava em cheio os pontos negros do regresso de domingo. Esta corta pelo interior.
     </div>
-    <div id="mapa-svg" role="img" aria-label="Mapa esquemático do sudoeste da Península Ibérica com as três rotas de Pinhal Novo a Baena e os pontos de carregamento rápido"></div>
-    <noscript><p class="meta">O mapa precisa de JavaScript; as rotas estão descritas nos cartões abaixo.</p></noscript>
-    <div class="legenda">
-      <span><i style="width:16px;height:5px;border-radius:3px;background:var(--r1)"></i>Rota 1</span>
-      <span><i style="width:16px;height:5px;border-radius:3px;background:var(--r2)"></i>Rota 2</span>
-      <span><i style="width:16px;height:5px;border-radius:3px;background:var(--r3)"></i>Rota 3</span>
-      <span><i style="width:9px;height:9px;border-radius:50%;border:2px solid var(--muted)"></i>Paragem</span>
-      <span><i style="width:11px;height:11px;border-radius:3px;background:var(--warn);clip-path:polygon(55% 0,15% 60%,45% 60%,40% 100%,85% 38%,52% 38%)"></i>Carregador rápido</span>
-    </div>
-    <p class="meta" style="margin:8px 0 0">Diagrama esquemático — posições reais (OSM), estradas simplificadas. Distâncias nos cartões.</p>
   </div>
 
-  <!-- ROTA 1 -->
-  <div class="card rcard rota1">
-    <span class="tag t-best">Recomendada</span><span class="tag t-alt">Tudo autoestrada</span>
-    <h3>Rota 1 · Algarve &amp; Huelva</h3>
-    <p class="meta">A2 → A22 Via do Infante → ponte de Ayamonte → A-49 Huelva → Sevilha → A-4 Écija → Baena<br>
-    <b>≈ 615 km · 6h00–6h30</b> de condução (≈ 8h com paragens)</p>
-    <ul class="pro">
-      <li><b>95% em autoestrada</b> — o percurso mais descansado, com criança a bordo</li>
-      <li><b>A22 é gratuita desde 1 de janeiro de 2025</b> — as portagens do Algarve acabaram</li>
-      <li>A melhor rede de carregamento das três: Alcácer 400 kW, Almodôvar Ionity, Tesla em Loulé e <b>Tesla Benacazón mesmo em cima da A-49</b></li>
-      <li>Paisagem e paragens novas: Ayamonte, Huelva e os Lugares Colombinos (La Rábida, Palos, Moguer)</li>
-      <li>Em Espanha, <b>zero portagens</b> (A-49 e A-4 são autovías gratuitas)</li>
-    </ul>
-    <ul class="con">
-      <li>É a mais longa: ~85 km a mais do que a rota do Alentejo</li>
-      <li>Passa perto do perímetro do incêndio de Niebla — confirmar a A-49 na DGT</li>
-      <li>Domingo de manhã no sentido sul é tranquilo — o aperto é no sentido norte, à tarde</li>
-    </ul>
-    <div class="callout ok"><b>Melhor paragem</b>Huelva / La Rábida ao início da tarde, ou simplesmente uma parada longa em Sevilha ao fim do dia.</div>
-  </div>
-
-  <!-- ROTA 2 -->
-  <div class="card rcard rota2">
-    <span class="tag t-alt">Mais curta</span><span class="tag t-warn">Vazio de carga de 160 km</span>
-    <h3>Rota 2 · Alentejo &amp; Serra de Aracena</h3>
-    <p class="meta">A2 → IP8 Beja → Serpa → fronteira de Vila Verde de Ficalho → N-433 Aracena → Sevilha → A-4 → Baena<br>
-    <b>≈ 530 km · 5h30–6h00</b> de condução</p>
-    <ul class="pro">
-      <li><b>A mais curta em km</b> e a mais bonita — atravessa a Sierra de Aracena, Reserva da Biosfera</li>
-      <li><b>Aracena</b> é a melhor paragem de todas as rotas: a Gruta de las Maravillas é fresca e encanta uma criança de 6 anos</li>
-      <li>A ~700 m de altitude, a serra é vários graus mais fresca do que a campiña</li>
-      <li>Jabugo, Almonaster la Real, Cortegana e Galaroza mesmo em cima da estrada</li>
-    </ul>
-    <ul class="con">
-      <li><b>Sem carregamento rápido fiável entre Beja e Sevilha (~160 km)</b> — tem de sair de Aljustrel bem carregado</li>
-      <li>O IP8 <b>não</b> é todo autoestrada: de Beja a Ficalho é a N-260, 1x1, e atravessa Serpa</li>
-      <li>A N-433 espanhola é sinuosa, com camiões e sinistralidade relevante — ~2h para 160 km</li>
-      <li>El Madroño, na zona da N-433, esteve afetado pelo incêndio</li>
-    </ul>
-    <div class="callout warn"><b>Regra de ouro</b>Só fazer esta rota com ≥ 60% de bateria à saída de Aljustrel, e com ar condicionado a puxar num dia de 38 °C, arredondar para 70%.</div>
-  </div>
-
-  <!-- ROTA 3 -->
-  <div class="card rcard rota3">
-    <span class="tag t-best">É esta que estamos a fazer</span><span class="tag t-warn">Já conhecem</span>
-    <h3>Rota 3 · Clássica por Badajoz e Mérida</h3>
-    <p class="meta">A2 → A6 Elvas/Caia → Badajoz → A-5 Mérida → A-66 Zafra → <b>N-432</b> → Córdoba → Baena<br><b>Variante em uso:</b> em vez de descer a Sevilha, corta-se pela N-432 desde a Extremadura — ~600 km.<br>
-    <b>≈ 637 km · 6h30–7h00</b> de condução</p>
-    <ul class="pro">
-      <li><b>De longe a melhor rede de carregamento:</b> Estremoz (Ionity 350 kW) e sobretudo <b>Mérida</b> — Zunder 360 kW com 16 tomadas, dois Superchargers Tesla de 250 kW e um Ionity 350 kW</li>
-      <li>Autoestrada praticamente do princípio ao fim</li>
-      <li>Se quiserem uma novidade nesta rota, <b>Zafra</b> ("Sevilla la Chica") é uma paragem de 2h que não conhecem: Alcázar dos Duques de Feria, hoje Parador, com pátio de mármore</li>
-    </ul>
-    <ul class="con">
-      <li><b>Badajoz e Mérida já conhecem</b> — o principal atrativo da rota deixa de contar</li>
-      <li>A mais longa das três e a que atravessa a Extremadura no pico do calor</li>
-      <li>Portagens portuguesas mais caras: ~17,00–17,50 € só até ao Caia</li>
-      <li>Zafra tem carregamento fraco — se carregar, carregar em Mérida</li>
-    </ul>
-  </div>
-
-  <div class="callout">
-    <b>Ideia: ir por uma e voltar por outra</b>
-    Ir pela <b>Rota 1 (Algarve)</b>, mais descansada e com melhor carga, e no regresso a 23 fazer a <b>Rota 2 (Aracena)</b>, parando na Gruta de las Maravillas a meio do caminho. Vêem tudo o que é novo e nunca repetem paisagem.
+  <div class="callout warn">
+    <b>⚠️ O que isto custa em carregamento</b>
+    Ao cortar pelo interior, entre <b>Mérida e Córdoba</b> não há rede fiável — é a zona mais fraca de toda a viagem e não conseguimos confirmar que carregadores rápidos lá existem. Traduz-se numa regra só: <b>sair de Mérida com 100%</b>.
   </div>
 </section>
 
-<!-- ===================== CARGA ===================== -->
 <section id="carga">
   <h2><span class="dot"></span>Plano de carregamento</h2>
   <p class="lead">O e-3008 aceita cerca de 160 kW em corrente contínua e tem ~73 kWh utilizáveis. Com 38–40 °C, contar com <b>20–30% mais consumo</b> e potência de carga reduzida no fim da curva.</p>
@@ -632,8 +566,8 @@ const PASSEIOS = {
 
 
   <div class="callout danger">
-    <b>🚗 Rota em curso — domingo 16, saída às 09:00</b>
-    A rota real acabou por ser a <b>clássica com uma variante</b>: A6 → Caia → Badajoz → <b>Mérida</b> → A-66 sul (Solana de los Barros, Almendralejo, Zafra) → <b>N-432</b> → Córdoba → Baena. Cerca de <b>600 km</b>, com chegada prevista para as <b>18h53</b>. Não se desce a Sevilha: corta-se pela N-432 desde a Extremadura.
+    <b>⚡ Estado agora — 57% de bateria</b>
+    57% de 73 kWh são <b>~41,6 kWh</b>, ou seja <b>~204 km</b> a 4,9 km/kWh. Não chega a Mérida sem parar. <b>Estremoz deixou de ser opcional.</b>
   </div>
 
   <div class="grid two">
@@ -642,7 +576,8 @@ const PASSEIOS = {
       <ul class="kv">
         <li><span>Consumo medido</span><span>4,9 km/kWh</span></li>
         <li><span>Bateria à saída</span><span>80% ≈ 58 kWh</span></li>
-        <li><span>Autonomia à saída</span><span>≈ 285 km</span></li>
+        <li><span>Bateria agora</span><span>57% ≈ 42 kWh</span></li>
+        <li><span>Autonomia agora</span><span>≈ 204 km</span></li>
         <li><span>Autonomia com 100%</span><span>≈ 358 km</span></li>
         <li><span>Distância total</span><span>≈ 600 km</span></li>
       </ul>
@@ -654,14 +589,14 @@ const PASSEIOS = {
       <ol class="steps">
         <li><b>Estremoz</b> (A6, áreas de serviço) — Ionity até 350 kW, 24h. <b>Carregar até 80–90%.</b> Sem esta paragem chega-se a Mérida com 5%.</li>
         <li><b>Mérida</b> — Zunder 360 kW com 16 tomadas, dois Superchargers Tesla de 250 kW e um Ionity de 350 kW. <b>Carregar até 100%.</b> É a última rede a sério antes de Baena.</li>
-        <li><b>Córdoba</b> — Supercharger Tesla 250 kW. De Mérida a Córdoba pela N-432 são ~265 km, ou seja ~54 kWh: chega-se com uns 25%. Dá para seguir direto, mas com este calor vale a pena o top-up para os últimos 63 km.</li>
+        <li><b>Córdoba</b> — Supercharger Tesla 250 kW. A travessia Mérida → Córdoba pelo interior anda pelos <b>250 a 270 km</b>, ou seja ~55 kWh: chega-se com uns 25%. Vale o top-up antes dos últimos 63 km, até porque <b>Baena não tem carregamento rápido</b>.</li>
       </ol>
     </div>
   </div>
 
   <div class="callout warn">
-    <b>⚠️ O troço da N-432 é a incógnita</b>
-    Entre a Extremadura e Córdoba a N-432 é <b>estrada nacional de faixa única</b> e <b>não confirmámos que carregadores rápidos existem</b> em Zafra, Llerena, Azuaga, Fuente Obejuna ou Espiel. Por isso a regra é simples: <b>sair de Mérida com 100%</b> e não contar com nada pelo caminho. Verificar na app Electromaps ou ABRP antes de sair de Mérida.
+    <b>⚠️ A travessia Mérida → Córdoba é a incógnita</b>
+    É interior, por estradas nacionais, e <b>não confirmámos que carregadores rápidos existem</b> pelo caminho. A regra é simples: <b>sair de Mérida com 100%</b> e não contar com nada até Córdoba. Vale a pena espreitar a Electromaps ou a ABRP enquanto se carrega em Mérida.
   </div>
 
   <div class="grid two">
